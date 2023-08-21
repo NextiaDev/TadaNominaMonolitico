@@ -1,0 +1,196 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelIncidencias
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Nueva Incidencia</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Captura datos Incidencias</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("IdPeriodoNomina", ViewData["pIdPeriodoNomina"])
+                    
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })                        
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdEmpleado, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.IdEmpleado, Model.LEmpleados, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdEmpleado, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">                            
+
+                            @Html.LabelFor(model => model.IdConcepto, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.IdConcepto, Model.LConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdConcepto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2 Cantidad", @style = "Display:none" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control Cantidad", @style = "Display:none" } })
+                                @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger Cantidad" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            
+                            @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2 Monto", @style = "Display:none" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control Monto", @style = "Display:none" } })
+                                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger Monto" })
+                            </div>
+                            
+
+                            
+                            @Html.LabelFor(model => model.MontoEsquema, htmlAttributes: new { @class = "control-label col-md-2 Monto", @style = "Display:none" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.MontoEsquema, new { htmlAttributes = new { @class = "form-control Monto", @style = "Display:none" } })
+                                @Html.ValidationMessageFor(model => model.MontoEsquema, "", new { @class = "text-danger Monto", @style = "Display:none" })
+                            </div>
+                            
+                            </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaIncio, htmlAttributes: new { @class = "control-label col-md-2 Cantidad", @style = "Display:none" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FechaIncio, new { htmlAttributes = new { @class = "calendar form-control Cantidad", @style = "Display:none" } })
+                                
+                            </div>
+                            @Html.LabelFor(model => model.FechaFinal, htmlAttributes: new { @class = "control-label col-md-2 Cantidad", @style = "Display:none" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FechaFinal, new { htmlAttributes = new { @class = "calendar form-control Cantidad", @style = "Display:none" } })
+                                
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Folio, htmlAttributes: new { @class = "control-label col-md-2 Cantidad", @style = "Display:none" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Folio, new { htmlAttributes = new { @class = "form-control Cantidad", @style = "Display:none" } })
+                                @Html.ValidationMessageFor(model => model.Folio, "", new { @class = "text-danger Cantidad", @style = "Display:none" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @if (Model.Mensaje != null)
+                                {
+                                    if (Model.validacion)
+                                    {
+                                        <div class="alert alert-info">
+                                            @Model.Mensaje
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-danger">
+                                            @Model.Mensaje
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="panel-footer" style="text-align:right">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+
+                                    
+                                    <input type="submit" value="Guardar" class="btn btn-primary btn-sm" />
+                                    
+                                    @Html.ActionLink("Nueva", "Create", new { pIdPeriodoNomina = ViewBag.Periodo }, htmlAttributes: new { @class = "btn btn-dark btn-sm _Load" })
+                                    @Html.ActionLink("Regresar", "Index", new { pIdPeriodoNomina = ViewBag.Periodo }, htmlAttributes: new { @class = "btn btn-info btn-sm _Back" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+    $(function () {
+        $("#IdConcepto").change(function () {
+            var IdPeriodos = $("#IdConcepto").val();
+            var url = "@Url.Action("ObtenTipoDato", "Incidencias")";
+            $.ajax({
+                type: "GET",
+                url: url,
+                datatype: "json",
+                data: { "Id": IdPeriodos },
+                success: function (TipoDato) {
+                    eval(TipoDato);
+                    var valor = TipoDato.TipoDato;
+                    if (valor == "Cantidades" || TipoDato.MultiplicaDT == "SI") {
+                        $(".Monto").fadeOut(1000);
+                        $(".Cantidad").fadeIn(1000);
+                    }
+                    else {
+                        $(".Monto").fadeIn(1000);
+                        $(".Cantidad").fadeOut(1000);
+                    }
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+    });
+
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, "DD.MM.YYYY", true).isValid();
+            }
+        });
+
+
+
+    </script>
+
+@section Scripts{
+    
+    }
+
+
+
+

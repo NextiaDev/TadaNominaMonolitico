@@ -1,0 +1,636 @@
+Fecha,Hora,ID,Nombre,Dispositivo,Ubicacion
+15/11/2017,12:14:23 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+15/11/2017,06:20:41 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+15/11/2017,06:20:45 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+15/11/2017,06:33:23 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+15/11/2017,07:03:32 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+15/11/2017,07:03:36 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+15/11/2017,07:06:53 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+15/11/2017,07:07:22 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+15/11/2017,07:49:45 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+15/11/2017,07:53:50 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+15/11/2017,08:12:05 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+15/11/2017,08:25:51 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+15/11/2017,08:36:26 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+15/11/2017,08:38:00 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+15/11/2017,08:38:04 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+15/11/2017,08:39:32 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+15/11/2017,08:41:39 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+15/11/2017,08:52:02 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+15/11/2017,08:52:11 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+15/11/2017,08:55:03 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+15/11/2017,08:58:54 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+15/11/2017,09:03:47 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+15/11/2017,09:06:30 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+15/11/2017,09:10:02 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+15/11/2017,09:15:05 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+15/11/2017,09:36:20 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+15/11/2017,09:45:09 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+15/11/2017,09:56:26 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+15/11/2017,11:13:22 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+15/11/2017,02:10:47 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+15/11/2017,02:11:03 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+15/11/2017,02:12:16 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+15/11/2017,02:12:22 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+15/11/2017,04:16:05 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+15/11/2017,04:16:10 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+15/11/2017,04:19:49 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+15/11/2017,04:19:53 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+15/11/2017,04:32:35 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+15/11/2017,05:13:45 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+15/11/2017,05:16:55 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+15/11/2017,06:03:08 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+15/11/2017,06:04:50 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+15/11/2017,06:05:25 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+15/11/2017,06:05:32 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+15/11/2017,06:10:39 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+15/11/2017,06:17:24 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+15/11/2017,06:22:05 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+15/11/2017,06:25:33 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+15/11/2017,06:40:23 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+15/11/2017,06:40:40 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+15/11/2017,07:05:37 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+15/11/2017,07:05:42 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+15/11/2017,07:06:02 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+15/11/2017,07:07:52 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+15/11/2017,07:14:37 p. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+15/11/2017,07:42:57 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+15/11/2017,07:43:27 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+15/11/2017,07:50:10 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+15/11/2017,08:06:06 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+15/11/2017,08:06:52 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+15/11/2017,08:26:44 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+15/11/2017,10:08:28 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+15/11/2017,10:08:33 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+15/11/2017,10:16:24 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+15/11/2017,10:16:30 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+16/11/2017,12:21:00 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+16/11/2017,06:13:47 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+16/11/2017,06:23:01 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+16/11/2017,06:23:05 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+16/11/2017,07:22:56 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+16/11/2017,07:23:00 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+16/11/2017,07:51:44 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+16/11/2017,07:54:10 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+16/11/2017,08:03:08 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+16/11/2017,08:08:20 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+16/11/2017,08:15:21 a. m.,2053,Vanessa Olguin,Salida,Inmobiliaria
+16/11/2017,08:24:05 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+16/11/2017,08:31:19 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+16/11/2017,08:34:32 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+16/11/2017,08:36:35 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+16/11/2017,08:43:18 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+16/11/2017,08:51:00 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+16/11/2017,08:53:10 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+16/11/2017,08:53:15 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+16/11/2017,08:53:17 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+16/11/2017,09:03:58 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+16/11/2017,09:05:02 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+16/11/2017,09:05:08 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+16/11/2017,09:08:32 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+16/11/2017,09:15:41 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+16/11/2017,09:43:30 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+16/11/2017,09:43:59 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+16/11/2017,09:44:09 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+16/11/2017,09:57:51 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+16/11/2017,11:12:54 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+16/11/2017,02:10:16 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+16/11/2017,02:10:21 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+16/11/2017,02:11:44 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+16/11/2017,02:11:49 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+16/11/2017,03:06:33 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+16/11/2017,04:25:01 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+16/11/2017,04:25:09 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+16/11/2017,04:30:03 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+16/11/2017,04:32:46 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+16/11/2017,04:32:51 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+16/11/2017,05:07:13 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+16/11/2017,05:32:09 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+16/11/2017,06:02:19 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+16/11/2017,06:04:43 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+16/11/2017,06:11:40 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+16/11/2017,06:12:30 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+16/11/2017,06:12:44 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+16/11/2017,06:13:18 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+16/11/2017,06:22:22 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+16/11/2017,06:28:24 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+16/11/2017,06:39:42 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+16/11/2017,06:40:12 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+16/11/2017,06:45:54 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+16/11/2017,06:52:53 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+16/11/2017,07:04:21 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+16/11/2017,07:08:04 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+16/11/2017,07:10:40 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+16/11/2017,07:20:04 p. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+16/11/2017,07:24:56 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+16/11/2017,07:28:06 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+16/11/2017,07:28:11 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+16/11/2017,07:55:11 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+16/11/2017,08:30:45 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+16/11/2017,08:47:29 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+16/11/2017,10:10:23 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+16/11/2017,10:10:28 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+16/11/2017,10:23:30 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+16/11/2017,10:23:35 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+16/11/2017,11:10:18 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+17/11/2017,06:28:11 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+17/11/2017,06:28:15 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+17/11/2017,06:30:31 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+17/11/2017,07:08:53 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+17/11/2017,07:08:58 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+17/11/2017,07:39:29 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+17/11/2017,07:42:10 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+17/11/2017,07:44:38 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+17/11/2017,08:27:55 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+17/11/2017,08:29:12 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+17/11/2017,08:34:15 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+17/11/2017,08:48:46 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+17/11/2017,08:51:51 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+17/11/2017,08:55:05 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+17/11/2017,08:57:58 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+17/11/2017,08:59:46 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+17/11/2017,08:59:51 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+17/11/2017,08:59:56 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+17/11/2017,09:05:07 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+17/11/2017,09:09:15 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+17/11/2017,09:09:38 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+17/11/2017,09:12:35 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+17/11/2017,09:12:42 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+17/11/2017,09:28:30 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+17/11/2017,09:28:34 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+17/11/2017,09:37:14 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+17/11/2017,09:43:29 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+17/11/2017,09:48:09 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+17/11/2017,10:08:26 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+17/11/2017,11:10:55 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+17/11/2017,02:08:54 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+17/11/2017,02:09:00 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+17/11/2017,02:14:12 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+17/11/2017,02:14:17 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+17/11/2017,02:29:36 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+17/11/2017,04:17:08 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+17/11/2017,04:17:12 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+17/11/2017,04:26:26 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+17/11/2017,04:26:30 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+17/11/2017,04:33:49 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+17/11/2017,05:02:55 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+17/11/2017,06:05:03 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+17/11/2017,06:06:57 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+17/11/2017,06:09:22 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+17/11/2017,06:09:26 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+17/11/2017,06:09:42 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+17/11/2017,06:11:08 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+17/11/2017,06:20:39 p. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+17/11/2017,06:21:35 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+17/11/2017,06:32:34 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+17/11/2017,06:34:50 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+17/11/2017,06:38:03 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+17/11/2017,06:40:16 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+17/11/2017,07:01:16 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+17/11/2017,07:03:18 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+17/11/2017,07:07:58 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+17/11/2017,07:08:03 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+17/11/2017,07:37:45 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+17/11/2017,07:50:39 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+17/11/2017,08:01:03 p. m.,2065,Israel Noblecia,Salida,Inmobiliaria
+17/11/2017,10:07:15 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+17/11/2017,10:07:20 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+17/11/2017,10:12:32 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+17/11/2017,10:12:38 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+17/11/2017,10:42:35 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+17/11/2017,11:31:57 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+18/11/2017,06:19:29 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+18/11/2017,07:47:02 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+18/11/2017,07:47:07 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+18/11/2017,08:02:39 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+18/11/2017,08:02:43 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+18/11/2017,08:02:48 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+18/11/2017,08:51:16 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+18/11/2017,09:15:39 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+18/11/2017,10:16:15 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+18/11/2017,11:33:02 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+18/11/2017,01:27:54 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+18/11/2017,02:04:17 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+18/11/2017,02:04:23 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+18/11/2017,02:22:18 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+18/11/2017,02:22:23 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+18/11/2017,02:22:36 p. m.,2065,Israel Noblecia,Salida,Inmobiliaria
+18/11/2017,02:47:46 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+18/11/2017,03:54:37 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+18/11/2017,03:54:42 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+18/11/2017,08:12:06 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+18/11/2017,08:12:12 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+18/11/2017,08:14:54 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+19/11/2017,11:47:17 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+19/11/2017,07:08:52 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+20/11/2017,10:33:11 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+20/11/2017,10:44:10 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+20/11/2017,11:59:43 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+20/11/2017,12:04:25 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+21/11/2017,06:40:04 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+21/11/2017,06:40:10 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+21/11/2017,07:03:51 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+21/11/2017,07:04:13 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+21/11/2017,07:14:50 a. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+21/11/2017,07:14:58 a. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+21/11/2017,07:38:30 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+21/11/2017,08:09:59 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+21/11/2017,08:30:02 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+21/11/2017,08:37:59 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+21/11/2017,08:38:03 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+21/11/2017,08:45:46 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+21/11/2017,08:47:23 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+21/11/2017,08:47:30 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+21/11/2017,08:50:04 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+21/11/2017,08:50:10 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+21/11/2017,08:56:45 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+21/11/2017,09:00:37 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+21/11/2017,09:03:23 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+21/11/2017,09:03:28 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+21/11/2017,09:09:25 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+21/11/2017,09:10:17 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+21/11/2017,09:12:28 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+21/11/2017,09:16:09 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+21/11/2017,09:21:23 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+21/11/2017,10:00:03 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+21/11/2017,11:06:59 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+21/11/2017,01:57:06 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+21/11/2017,01:57:11 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+21/11/2017,03:02:20 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+21/11/2017,04:04:44 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+21/11/2017,04:04:49 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+21/11/2017,04:08:45 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+21/11/2017,04:08:49 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+21/11/2017,04:08:53 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+21/11/2017,05:09:39 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+21/11/2017,05:45:53 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+21/11/2017,06:01:49 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+21/11/2017,06:04:17 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+21/11/2017,06:05:54 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+21/11/2017,06:06:13 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+21/11/2017,06:07:36 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+21/11/2017,06:07:41 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+21/11/2017,06:10:48 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+21/11/2017,06:13:06 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+21/11/2017,06:25:59 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+21/11/2017,06:26:28 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+21/11/2017,06:40:20 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+21/11/2017,06:41:53 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+21/11/2017,06:45:59 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+21/11/2017,07:04:14 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+21/11/2017,07:04:19 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+21/11/2017,07:11:45 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+21/11/2017,07:35:55 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+21/11/2017,07:50:24 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+21/11/2017,08:03:32 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+21/11/2017,08:24:23 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+21/11/2017,10:12:50 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+21/11/2017,10:12:55 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+21/11/2017,10:17:19 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+21/11/2017,10:17:23 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+21/11/2017,11:40:06 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+22/11/2017,06:10:29 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+22/11/2017,06:10:34 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+22/11/2017,07:28:34 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+22/11/2017,07:28:39 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+22/11/2017,07:28:43 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+22/11/2017,07:38:59 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+22/11/2017,07:51:54 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+22/11/2017,07:55:21 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+22/11/2017,08:09:57 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+22/11/2017,08:21:35 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+22/11/2017,08:26:00 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+22/11/2017,08:26:16 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+22/11/2017,08:26:20 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+22/11/2017,08:29:49 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+22/11/2017,08:40:08 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+22/11/2017,08:42:25 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+22/11/2017,09:03:21 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+22/11/2017,09:10:18 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+22/11/2017,09:12:53 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+22/11/2017,09:13:59 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+22/11/2017,09:14:50 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+22/11/2017,09:15:29 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+22/11/2017,09:18:29 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+22/11/2017,09:18:35 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+22/11/2017,09:18:40 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+22/11/2017,09:41:22 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+22/11/2017,10:28:34 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+22/11/2017,10:32:23 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+22/11/2017,11:56:20 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+22/11/2017,02:13:04 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+22/11/2017,02:13:09 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+22/11/2017,02:14:49 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+22/11/2017,02:14:55 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+22/11/2017,02:30:31 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+22/11/2017,04:17:02 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+22/11/2017,04:17:07 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+22/11/2017,04:19:09 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+22/11/2017,04:19:13 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+22/11/2017,04:37:40 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+22/11/2017,05:07:00 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+22/11/2017,05:15:41 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+22/11/2017,05:55:44 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+22/11/2017,06:02:48 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+22/11/2017,06:03:17 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+22/11/2017,06:09:44 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+22/11/2017,06:14:36 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+22/11/2017,06:14:41 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+22/11/2017,06:16:10 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+22/11/2017,06:29:09 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+22/11/2017,06:36:34 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+22/11/2017,07:14:23 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+22/11/2017,07:18:26 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+22/11/2017,07:27:51 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+22/11/2017,07:37:30 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+22/11/2017,07:41:07 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+22/11/2017,07:59:02 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+22/11/2017,07:59:06 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+22/11/2017,08:00:29 p. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+22/11/2017,08:07:25 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+22/11/2017,08:11:53 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+22/11/2017,08:30:50 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+22/11/2017,08:56:27 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+22/11/2017,10:10:09 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+22/11/2017,10:10:15 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+22/11/2017,10:12:37 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+22/11/2017,10:12:42 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+23/11/2017,12:21:14 a. m.,2161,Francisco Gonzalez,Salida,Inmobiliaria
+23/11/2017,06:23:35 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+23/11/2017,06:23:40 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+23/11/2017,06:34:55 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+23/11/2017,06:52:34 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+23/11/2017,06:52:39 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+23/11/2017,06:52:43 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+23/11/2017,07:51:38 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+23/11/2017,08:14:32 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+23/11/2017,08:18:00 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+23/11/2017,08:26:23 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+23/11/2017,08:26:57 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+23/11/2017,08:27:05 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+23/11/2017,08:30:18 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+23/11/2017,08:38:00 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+23/11/2017,08:50:06 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+23/11/2017,09:02:21 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+23/11/2017,09:02:26 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+23/11/2017,09:04:43 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+23/11/2017,09:09:49 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+23/11/2017,09:09:59 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+23/11/2017,09:11:51 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+23/11/2017,09:12:18 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+23/11/2017,09:12:43 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+23/11/2017,09:24:57 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+23/11/2017,09:25:01 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+23/11/2017,09:27:13 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+23/11/2017,09:32:10 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+23/11/2017,09:42:08 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+23/11/2017,11:14:01 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+23/11/2017,12:04:20 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+23/11/2017,12:04:25 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+23/11/2017,12:36:23 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+23/11/2017,12:36:28 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+23/11/2017,02:31:13 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+23/11/2017,04:13:20 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+23/11/2017,04:13:25 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+23/11/2017,04:16:33 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+23/11/2017,04:16:43 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+23/11/2017,04:40:16 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+23/11/2017,05:03:55 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+23/11/2017,05:57:53 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+23/11/2017,06:03:07 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+23/11/2017,06:10:07 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+23/11/2017,06:13:08 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+23/11/2017,06:22:11 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+23/11/2017,06:22:16 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+23/11/2017,06:22:36 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+23/11/2017,06:24:06 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+23/11/2017,06:24:24 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+23/11/2017,06:38:17 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+23/11/2017,06:43:36 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+23/11/2017,06:56:58 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+23/11/2017,07:01:13 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+23/11/2017,07:07:22 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+23/11/2017,07:12:04 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+23/11/2017,07:21:25 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+23/11/2017,07:22:02 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+23/11/2017,07:22:06 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+23/11/2017,07:27:25 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+23/11/2017,08:25:36 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+23/11/2017,10:08:34 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+23/11/2017,10:08:40 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+23/11/2017,10:12:49 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+23/11/2017,10:12:56 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+24/11/2017,12:01:49 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+24/11/2017,06:26:04 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+24/11/2017,06:26:08 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+24/11/2017,07:01:56 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+24/11/2017,07:02:01 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+24/11/2017,07:02:05 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+24/11/2017,07:26:23 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+24/11/2017,07:37:14 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+24/11/2017,07:44:20 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+24/11/2017,08:15:05 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+24/11/2017,08:29:04 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+24/11/2017,08:29:17 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+24/11/2017,08:35:23 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+24/11/2017,08:36:18 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+24/11/2017,08:36:25 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+24/11/2017,08:38:29 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+24/11/2017,08:38:34 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+24/11/2017,08:41:26 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+24/11/2017,08:52:25 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+24/11/2017,08:52:34 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+24/11/2017,09:05:37 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+24/11/2017,09:07:42 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+24/11/2017,09:11:18 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+24/11/2017,09:30:31 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+24/11/2017,09:41:58 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+24/11/2017,09:47:33 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+24/11/2017,09:57:49 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+24/11/2017,11:11:23 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+24/11/2017,11:20:13 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+24/11/2017,12:10:48 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+24/11/2017,12:10:53 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+24/11/2017,02:12:23 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+24/11/2017,02:12:28 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+24/11/2017,04:15:32 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+24/11/2017,04:15:36 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+24/11/2017,04:40:10 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+24/11/2017,05:06:59 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+24/11/2017,06:03:40 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+24/11/2017,06:09:38 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+24/11/2017,06:10:14 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+24/11/2017,06:10:17 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+24/11/2017,06:11:30 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+24/11/2017,06:11:59 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+24/11/2017,06:13:40 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+24/11/2017,06:24:24 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+24/11/2017,06:24:29 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+24/11/2017,06:45:09 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+24/11/2017,06:56:24 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+24/11/2017,07:00:55 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+24/11/2017,07:04:13 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+24/11/2017,07:12:08 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+24/11/2017,07:12:13 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+24/11/2017,07:36:39 p. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+24/11/2017,07:56:55 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+24/11/2017,08:11:41 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+24/11/2017,08:50:16 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+24/11/2017,10:06:04 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+24/11/2017,10:06:10 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+24/11/2017,10:14:20 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+24/11/2017,10:14:44 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+24/11/2017,10:14:50 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+25/11/2017,07:27:01 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+25/11/2017,07:58:44 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+25/11/2017,07:58:52 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+25/11/2017,07:59:02 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+25/11/2017,08:05:05 a. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+25/11/2017,08:05:10 a. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+25/11/2017,09:13:15 a. m.,2065,Israel Noblecia,Salida,Inmobiliaria
+25/11/2017,02:09:39 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+25/11/2017,02:20:56 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+25/11/2017,02:21:01 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+25/11/2017,02:51:07 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+25/11/2017,05:16:16 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+25/11/2017,06:24:13 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+25/11/2017,08:04:47 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+25/11/2017,08:04:53 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+25/11/2017,08:07:17 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+25/11/2017,08:07:23 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+25/11/2017,08:23:04 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+25/11/2017,08:23:09 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+25/11/2017,09:46:08 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+26/11/2017,08:35:34 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+26/11/2017,06:18:58 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+27/11/2017,06:27:49 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+27/11/2017,06:27:53 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+27/11/2017,07:32:11 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+27/11/2017,07:39:46 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+27/11/2017,07:43:12 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+27/11/2017,08:12:54 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+27/11/2017,08:12:58 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+27/11/2017,08:22:34 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+27/11/2017,08:24:39 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+27/11/2017,08:25:11 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+27/11/2017,08:25:19 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+27/11/2017,08:43:13 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+27/11/2017,08:45:24 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+27/11/2017,08:45:29 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+27/11/2017,08:45:45 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+27/11/2017,08:49:11 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+27/11/2017,08:49:16 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+27/11/2017,08:49:23 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+27/11/2017,08:54:12 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+27/11/2017,08:55:56 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+27/11/2017,09:04:45 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+27/11/2017,09:09:05 a. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+27/11/2017,09:13:56 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+27/11/2017,09:16:13 a. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+27/11/2017,09:23:01 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+27/11/2017,09:27:54 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+27/11/2017,09:35:40 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+27/11/2017,09:41:54 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+27/11/2017,10:09:13 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+27/11/2017,01:07:46 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+27/11/2017,02:10:19 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+27/11/2017,02:10:26 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+27/11/2017,02:10:46 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+27/11/2017,02:10:51 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+27/11/2017,03:49:24 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+27/11/2017,04:07:45 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+27/11/2017,04:07:49 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+27/11/2017,04:17:40 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+27/11/2017,04:17:44 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+27/11/2017,04:40:07 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+27/11/2017,05:05:48 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+27/11/2017,06:08:00 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+27/11/2017,06:10:26 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+27/11/2017,06:16:24 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+27/11/2017,06:18:50 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+27/11/2017,06:20:35 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+27/11/2017,06:20:41 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+27/11/2017,06:34:47 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+27/11/2017,06:36:49 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+27/11/2017,06:37:27 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+27/11/2017,06:41:12 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+27/11/2017,07:03:37 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+27/11/2017,07:24:53 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+27/11/2017,07:25:05 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+27/11/2017,07:39:35 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+27/11/2017,07:44:47 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+27/11/2017,07:52:29 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+27/11/2017,07:56:09 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+27/11/2017,08:06:11 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+27/11/2017,08:36:34 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+27/11/2017,08:52:23 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+27/11/2017,08:59:16 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+27/11/2017,10:10:17 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+27/11/2017,10:10:23 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+27/11/2017,10:19:39 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+27/11/2017,10:19:44 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+28/11/2017,12:02:23 a. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+28/11/2017,06:25:25 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+28/11/2017,06:25:29 a. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+28/11/2017,07:09:52 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+28/11/2017,07:09:56 a. m.,2156,David Bravo,Entrada,Inmobiliaria
+28/11/2017,07:28:05 a. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+28/11/2017,07:39:24 a. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+28/11/2017,08:03:34 a. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+28/11/2017,08:08:38 a. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+28/11/2017,08:24:53 a. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+28/11/2017,08:34:53 a. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+28/11/2017,08:39:29 a. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+28/11/2017,08:41:27 a. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+28/11/2017,08:41:35 a. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+28/11/2017,08:46:15 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+28/11/2017,08:46:20 a. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+28/11/2017,08:52:43 a. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+28/11/2017,08:54:03 a. m.,2080,Benito Merino,Entrada,Inmobiliaria
+28/11/2017,08:59:54 a. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+28/11/2017,09:07:56 a. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+28/11/2017,09:13:13 a. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+28/11/2017,09:27:46 a. m.,2001,Rosa Maria Aguario,Salida,Inmobiliaria
+28/11/2017,09:45:30 a. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+28/11/2017,09:55:02 a. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+28/11/2017,10:00:51 a. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+28/11/2017,11:04:31 a. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+28/11/2017,11:24:05 a. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+28/11/2017,01:37:37 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+28/11/2017,02:08:20 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+28/11/2017,02:08:26 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+28/11/2017,02:14:10 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+28/11/2017,02:14:16 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+28/11/2017,03:59:57 p. m.,2161,Francisco Gonzalez,Entrada,Inmobiliaria
+28/11/2017,04:06:54 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+28/11/2017,04:06:58 p. m.,2156,David Bravo,Entrada,Inmobiliaria
+28/11/2017,04:10:59 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+28/11/2017,04:11:04 p. m.,2049,Raul Soriano,Entrada,Inmobiliaria
+28/11/2017,04:36:01 p. m.,2048,Juan Manuel Cruz,Entrada,Inmobiliaria
+28/11/2017,05:08:02 p. m.,2136,Vanessa Ruelas,Entrada,Inmobiliaria
+28/11/2017,05:28:33 p. m.,2053,Vanessa Olguin,Entrada,Inmobiliaria
+28/11/2017,06:00:11 p. m.,2028,Javier Barragan,Entrada,Inmobiliaria
+28/11/2017,06:02:15 p. m.,2009,Arturo Garibaldi,Entrada,Inmobiliaria
+28/11/2017,06:10:34 p. m.,2001,Rosa Maria Aguario,Entrada,Inmobiliaria
+28/11/2017,06:16:41 p. m.,2002,Miriam Aguilar,Salida,Inmobiliaria
+28/11/2017,06:16:47 p. m.,2002,Miriam Aguilar,Entrada,Inmobiliaria
+28/11/2017,06:34:06 p. m.,2003,Benjamin Arce,Entrada,Inmobiliaria
+28/11/2017,06:36:18 p. m.,2045,Miguel Isidro,Entrada,Inmobiliaria
+28/11/2017,06:43:00 p. m.,2206,Antonio Velazquez,Entrada,Inmobiliaria
+28/11/2017,06:43:41 p. m.,2145,Rocio Estrada,Entrada,Inmobiliaria
+28/11/2017,06:44:32 p. m.,2204,Leonardo Gonzalez,Entrada,Inmobiliaria
+28/11/2017,06:47:00 p. m.,2010,Miguel Angel Gaytan,Entrada,Inmobiliaria
+28/11/2017,06:54:41 p. m.,2205,Alicia Olvera,Entrada,Inmobiliaria
+28/11/2017,07:06:16 p. m.,2137,Aide Tavera,Entrada,Inmobiliaria
+28/11/2017,07:38:23 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+28/11/2017,07:42:53 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+28/11/2017,07:42:57 p. m.,2071,Juan Manuel Juarez,Entrada,Inmobiliaria
+28/11/2017,07:47:42 p. m.,2181,Ulises Paniagua,Entrada,Inmobiliaria
+28/11/2017,07:50:57 p. m.,2056,Fernando Estrada,Entrada,Inmobiliaria
+28/11/2017,07:54:43 p. m.,2080,Benito Merino,Entrada,Inmobiliaria
+28/11/2017,07:59:26 p. m.,2020,Jorge Venegas,Entrada,Inmobiliaria
+28/11/2017,08:02:16 p. m.,2065,Israel Noblecia,Entrada,Inmobiliaria
+28/11/2017,10:10:07 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+28/11/2017,10:10:12 p. m.,2111,Francisco Zamudio,Entrada,Inmobiliaria
+28/11/2017,10:14:20 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria
+28/11/2017,10:14:26 p. m.,2157,Rodrigo Gutierrez,Entrada,Inmobiliaria

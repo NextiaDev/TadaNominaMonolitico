@@ -1,0 +1,77 @@
+﻿@model TadaNomina.Models.ViewModels.MovimientosIMSS.mMovimientosProcesados
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string mensaje = ViewBag.Mensaje;
+}
+
+<div id="page-head">
+    @if (mensaje != null)
+    {
+        <div class="alert alert-warning">
+            <button class="close" data-dismiss="alert">
+                <i class="pci-cross pci-circle"></i>
+            </button>
+            <strong>Advertencia:</strong>
+            No existen movimientos en el perido seleccionado
+        </div>
+    }
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Movimientos procesados</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">B&uacute;squeda</h3>
+            </div>
+
+            <div class="panel-body">
+                @using (Html.BeginForm("ListadoMovimientos", "MovimientosProcesados", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col-sm-8 col-md-offset-2">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.tipomov, htmlAttributes: new { @class = "control-label" })
+                                <div>
+                                    @Html.DropDownListFor(model => model.tipomov, Model.ListaTipoMov, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.tipomov, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-8 col-md-offset-2">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.fecha1, htmlAttributes: new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.fecha1, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-8 col-md-offset-2">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.fecha2, htmlAttributes: new { @class = "control-label" })
+                                <div>
+                                    @Html.EditorFor(model => model.fecha2, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="text-right">
+                            <button class="btn btn-primary" type="submit">Consultar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

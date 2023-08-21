@@ -1,0 +1,244 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using TadaNomina.Models.ClassCore;
+using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels;
+using TadaNomina.Models.ViewModels.Catalogos;
+
+namespace TadaNomina.Controllers.Administracion
+{
+    public class UnidadesNegocioController : BaseController
+    {
+        // GET: UnidadesNegocio
+        /// <summary>
+        /// Acción que muestra las unidades de negocio.
+        /// </summary>
+        /// <returns>Regresa la vista con las unidades de negocio.</returns>
+        public ActionResult Index()
+        {   
+            int IdCliente = 0;
+            try { IdCliente = (int)Session["sIdCliente"]; } catch { return RedirectToAction("Index", "Default"); }
+                
+            ClassUnidadesNegocio unidad = new ClassUnidadesNegocio();
+            List<vUnidadesNegocio> lunidades = new List<vUnidadesNegocio>();
+            lunidades = unidad.getUnidadesnegocio(IdCliente);
+
+            return View(lunidades);
+            
+        }
+
+        // GET: UnidadesNegocio/Details/5
+        /// <summary>
+        /// Acción que muestra el detalle de una unidad de negocio.
+        /// </summary>
+        /// <param name="id">Recibe el identificador de la unidad negocio.</param>
+        /// <returns>Regresa la vista con el detalle de la unidad negocio.</returns>
+        public ActionResult Details(int id)
+        {
+            ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+
+            List<SelectListItem> listTipoNomina = new List<SelectListItem>();
+            List<SelectListItem> listConfiguracionSueldos = LlenaListConfiguracionSueldos();
+            ModelUnidadesNegocio model = clsUnidad.GetModelUnidadesNegocioById(id);
+            List<ModelTipoNomina> _tipoNomina = new List<ModelTipoNomina>();
+            _tipoNomina = clsUnidad.getTipoNomina();
+
+            _tipoNomina.ForEach(x => { listTipoNomina.Add(new SelectListItem { Text = x.TipoNomina, Value = x.IdTipoNomina.ToString() }); });
+
+            model.TipoNomina = listTipoNomina;
+            model.LConfiguracionSueldos = listConfiguracionSueldos;
+
+            return PartialView(model);
+        }
+
+        // GET: UnidadesNegocio/Create
+        /// <summary>
+        /// Acción que genera una unidad de negocio nueva.
+        /// </summary>
+        /// <returns>Regresa la vista con el modelo de la unidad negocio.</returns>
+        public ActionResult Create()
+        {
+            List<SelectListItem> listTipoNomina = new List<SelectListItem>();
+            List<SelectListItem> listConfiguracionSueldos = LlenaListConfiguracionSueldos();
+            ModelUnidadesNegocio model = new ModelUnidadesNegocio();
+            ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+            List<ModelTipoNomina> _tipoNomina = new List<ModelTipoNomina>();
+            _tipoNomina = clsUnidad.getTipoNomina();
+
+            _tipoNomina.ForEach(x => { listTipoNomina.Add(new SelectListItem { Text = x.TipoNomina, Value = x.IdTipoNomina.ToString() }); });
+
+            model.TipoNomina = listTipoNomina;
+            model.LConfiguracionSueldos = listConfiguracionSueldos;
+
+            return View(model);
+        }
+
+        // POST: UnidadesNegocio/Create
+        /// <summary>
+        /// Acción que guarda la unidad negocio nueva.
+        /// </summary>
+        /// <param name="collection">Recibe el modelo de la unidad negocio.</param>
+        /// <returns>Regresa la vista de las unidades de negocio.</returns>
+        [HttpPost]
+        public ActionResult Create(ModelUnidadesNegocio collection)
+        {
+            try
+            {
+                
+                if (ModelState.IsValid)
+                {
+                    ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+                    int idUsuario = (int)Session["sIdUsuario"];
+                    int IdCliente = (int)Session["sIdCliente"];
+                    clsUnidad.AddUnidadNegocio(collection, idUsuario, IdCliente);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    List<SelectListItem> listTipoNomina = new List<SelectListItem>();
+                    List<SelectListItem> listConfiguracionSueldos = LlenaListConfiguracionSueldos();
+                    ModelUnidadesNegocio model = new ModelUnidadesNegocio();
+                    ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+                    List<ModelTipoNomina> _tipoNomina = new List<ModelTipoNomina>();
+                    _tipoNomina = clsUnidad.getTipoNomina();
+
+                    _tipoNomina.ForEach(x => { listTipoNomina.Add(new SelectListItem { Text = x.TipoNomina, Value = x.IdTipoNomina.ToString() }); });
+
+                    model.TipoNomina = listTipoNomina;
+                    model.LConfiguracionSueldos = listConfiguracionSueldos;
+
+                    return View(model);
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: UnidadesNegocio/Edit/5
+        /// <summary>
+        /// Acción que modifica la unidad de negocio.
+        /// </summary>
+        /// <param name="id">Recibe el identificador de la unidad de negocio.</param>
+        /// <returns>Regresa la vista con el modelo de unidades de negocio.</returns>
+        public ActionResult Edit(int id)
+        {
+            ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+
+            List<SelectListItem> listTipoNomina = new List<SelectListItem>();
+            List<SelectListItem> listConfiguracionSueldos = LlenaListConfiguracionSueldos();
+            ModelUnidadesNegocio model = clsUnidad.GetModelUnidadesNegocioById(id);
+            List<ModelTipoNomina> _tipoNomina = new List<ModelTipoNomina>();
+            _tipoNomina = clsUnidad.getTipoNomina();
+            _tipoNomina.ForEach(x => { listTipoNomina.Add(new SelectListItem { Text = x.TipoNomina, Value = x.IdTipoNomina.ToString() }); });
+                        
+            model.TipoNomina = listTipoNomina;
+            model.LConfiguracionSueldos = listConfiguracionSueldos;
+            return View(model);
+        }
+
+        // POST: UnidadesNegocio/Edit/5
+        /// <summary>
+        /// Acción que guarda la unidad de negocio modificada.
+        /// </summary>
+        /// <param name="id">Recibe el identificador de la unidad negocio.</param>
+        /// <param name="collection">Recibe el modelo de la unidad negocio.</param>
+        /// <returns>Regresa la vista con las unidades de negocio.</returns>
+        [HttpPost]
+        public ActionResult Edit(int id, ModelUnidadesNegocio collection)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int idUsuario = (int)Session["sIdUsuario"];
+                    ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+                    clsUnidad.UpdateUnidadNegocio(id, collection, idUsuario);
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    List<SelectListItem> listTipoNomina = new List<SelectListItem>();
+                    List<SelectListItem> listConfiguracionSueldos = LlenaListConfiguracionSueldos();
+                    ModelUnidadesNegocio model = new ModelUnidadesNegocio();
+                    ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+                    List<ModelTipoNomina> _tipoNomina = new List<ModelTipoNomina>();
+                    _tipoNomina = clsUnidad.getTipoNomina();
+                    _tipoNomina.ForEach(x => { listTipoNomina.Add(new SelectListItem { Text = x.TipoNomina, Value = x.IdTipoNomina.ToString() }); });
+
+                    model.TipoNomina = listTipoNomina;
+
+                    return View(model);
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: UnidadesNegocio/Delete/5
+        /// <summary>
+        /// Acción que elimina una unidad de negocio.
+        /// </summary>
+        /// <param name="id">Recibe el identificador de la unidad negocio.</param>
+        /// <returns>Regresa la vista con la unidad de negocio a eliminar.</returns>
+        public ActionResult Delete(int id)
+        {
+            ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+
+            List<SelectListItem> listTipoNomina = new List<SelectListItem>();
+            ModelUnidadesNegocio model = clsUnidad.GetModelUnidadesNegocioById(id);
+            List<ModelTipoNomina> _tipoNomina = new List<ModelTipoNomina>();
+            _tipoNomina = clsUnidad.getTipoNomina();
+
+            _tipoNomina.ForEach(x => { listTipoNomina.Add(new SelectListItem { Text = x.TipoNomina, Value = x.IdTipoNomina.ToString() }); });
+
+            model.TipoNomina = listTipoNomina;
+            return PartialView(model);
+        }
+
+        // POST: UnidadesNegocio/Delete/5
+        /// <summary>
+        /// Acción que confirma la eliminación de la unidad de negocio.
+        /// </summary>
+        /// <param name="id">Recibe el identificador de la unidad de negocio.</param>
+        /// <param name="collection">Representa una colección de claves.</param>
+        /// <returns>Regresa la vista de las unidades de negocio.</returns>
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                int idUsuario = (int)Session["sIdUsuario"];
+                ClassUnidadesNegocio clsUnidadNegocio = new ClassUnidadesNegocio();
+                clsUnidadNegocio.DeleteUnidadNegocio(id, idUsuario);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        /// <summary>
+        /// Acción que lista la configuración de sueldos.
+        /// </summary>
+        /// <returns>Regresa la vista con la lista de configuración de sueldos.</returns>
+        private static List<SelectListItem> LlenaListConfiguracionSueldos()
+        {
+            List<SelectListItem> listConfiguracionSueldos = new List<SelectListItem>();
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Brutos", Value = "Brutos" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos)", Value = "Netos(Impuestos)" });
+            //listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos e Incidencias)", Value = "Netos(Impuestos e Incidencias)" });
+            return listConfiguracionSueldos;
+        }
+    }
+}

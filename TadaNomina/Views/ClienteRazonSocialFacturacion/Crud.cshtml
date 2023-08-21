@@ -1,0 +1,75 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ModelClienteRazonSocialFacturacion
+@{
+    ViewBag.Title = "Crud";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    List<SelectListItem> listaGrupoFacturacion = (List<SelectListItem>)ViewBag.lista;
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Razón Social</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div class="col-lg-6 col-lg-offset-2">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                @if (@ViewBag.IdClienteRazonSocialFacturacion == 0)
+                {<h3 class="panel-title">Capturar Razón Social de Facturación</h3>}
+                else
+                { <h3 class="panel-title">Editar Razón Social de Facturación</h3>}
+                <hr />
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Crud", "ClienteRazonSocialFacturacion", FormMethod.Post))
+                {<br /><br />
+                       <div class="form-horizontal">
+                           <input type="hidden" id="IdClienteRazonSocialFacturacion" name="IdClienteRazonSocialFacturacion" value="@ViewBag.IdClienteRazonSocialFacturacion" />
+
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Razón Social:</label>
+                               <div class="col-md-9">
+                                   @Html.TextBoxFor(x => x.RazonSocial, null, new { @class = "form-control", @maxlength = "200", @id = "RazonSocial", @name = "RazonSocial" })
+                                   @Html.ValidationMessageFor(x => x.RazonSocial, "", new { @class = "text-danger" })
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="control-label col-md-3">RFC:</label>
+                               <div class="col-md-9">
+                                   @Html.TextBoxFor(x => x.RFC, null, new { @class = "form-control", @maxlength = "15" })
+                                   @Html.ValidationMessageFor(x => x.RFC, "", new { @class = "text-danger" })
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Correo del cliente:</label>
+                               <div class="col-md-9">
+                                   @Html.TextBoxFor(x => x.Correo, null, new { @class = "form-control", @maxlength = "150" })
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="control-label col-md-3">Grupo de Facturación:</label>
+                               <div class="col-md-9">
+                                   @Html.DropDownList("IdGrupoFacturacion", listaGrupoFacturacion, null, new { @class = "form-control", @id = "IdGrupoFacturacion", @name = "IdGrupoFacturacion" })
+                                   @Html.ValidationMessageFor(x => x.IdGrupoFacturacion, "", new { @class = "text-danger" })
+                               </div>
+                           </div>
+                       </div>
+
+                    <div class="panel-footer text-right">
+                        <a class="btn btn-info btn-sm _Back" href="~/ClienteRazonSocialFacturacion/Index">Regresar</a>
+                        &nbsp;
+                        @if (@ViewBag.IdClienteRazonSocialFacturacion == 0)
+                        {<button class="btn btn-primary btn-sm" type="submit">Registrar</button> }
+                        else
+                        { <button class="btn btn-primary btn-sm" type="submit">Actualizar</button>}
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

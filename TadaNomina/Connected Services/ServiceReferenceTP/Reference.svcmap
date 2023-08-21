@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="6bd120ab-3898-4390-8578-13d48e428446" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="TurboPacWs.wsdl" MetadataType="Wsdl" ID="0a346ae3-f6e1-4c19-b5b7-e17a67111904" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?wsdl" />
+    <MetadataFile FileName="TurboPacWs3.xsd" MetadataType="Schema" ID="427352f0-d320-40ae-b26c-b9ae72b5353e" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd1" />
+    <MetadataFile FileName="TurboPacWs2.xsd" MetadataType="Schema" ID="819cda2b-af0a-4b20-b9ac-1cc954e54600" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd0" />
+    <MetadataFile FileName="TurboPacWs1.xsd" MetadataType="Schema" ID="a7d21724-a6bf-443a-9fa7-6e84a12a2358" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd3" />
+    <MetadataFile FileName="TurboPacWs.xsd" MetadataType="Schema" ID="bf711da5-9646-4a19-9718-92d5864a0244" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd2" />
+    <MetadataFile FileName="TurboPacWs1.wsdl" MetadataType="Wsdl" ID="732fe0b4-0354-4293-8627-e6e8d7f18c17" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="TurboPacWs.disco" MetadataType="Disco" ID="643f4ec3-4682-434b-a113-1021699167cf" SourceId="1" SourceUrl="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

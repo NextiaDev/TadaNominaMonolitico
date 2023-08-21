@@ -1,0 +1,157 @@
+﻿@model TadaNomina.Models.ViewModels.CFDI.ModelTimbradoNomina
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text text-overflow">Creación de Archivos XML de Nómina</h1>
+    </div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Periodos Disponibles.</h3>
+            </div>
+           <div id="rutaEliminar" style="display:none"></div>
+          
+           <div class="panel-body">
+
+               @using (Html.BeginForm())
+               {
+                  
+                       @Html.AntiForgeryToken()
+
+                       <div class="form-horizontal">
+                           <hr />
+                           @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                           <div class="form-group">
+                               @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-4" })
+                               <div class="col-md-8">
+                                   @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control", id = "IdPeriodoNomina" })
+                                   @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
+                               </div>
+                           </div>
+
+                           @if (Model.MensajeContador != null)
+                           {
+                           <div class="alert alert-mint">
+                               <div class="text-center">
+                                   <h5 style="color:white">
+                                       <span class="fa fa-info-circle fa-2x" style="color:white"></span>
+                                   </h5>
+                               </div>
+                               <ul>
+                                   <li id="MensajeContador">@Model.MensajeContador </li>
+                                   <li id="MensajeRegistrosNomina">@Model.RegistrosNomina </li>
+                                   <li id="MensajeRegistrosTimbrados">@Model.RegistrosYaTimbrados </li>
+                               </ul>
+                           </div>
+                           }
+                       </div>
+                       <br /><br />
+                       <div class="form-group">
+                           <div class="col-md-12">
+                               @if (Model.Mensaje != null)
+                               {
+                                   if (Model.validacion)
+                                   {
+                                       <div class="alert alert-info">
+                                           @Model.Mensaje
+                                           <br />
+                                       </div>
+                                   }
+                                   else
+                                   {
+                                       <div class="alert alert-danger">
+                                           @Model.Mensaje
+                                       </div>
+                                   }
+                               }
+                           </div>
+
+                       </div>
+                       <br />
+
+                       <div class="panel-footer">
+                           <div class="form-group" style="text-align:right">
+                               <a href="#" id="generarXML" data-id="@Model.IdPeriodoNomina" class="btn btn-primary btn-sm"><span class="fa fa-upload"></span> Generar Archivos XML</a>
+                               <a href="@Url.Action("DescargaXMLPrevio", new { Model.IdPeriodoNomina })" id="_descargaXML" class="btn btn-dark btn-sm"><span class="fa fa-file-code-o"></span> Descargar Archivos XML</a>
+                               <a href="@Url.Action("DescargaCFDIPrevio", new { Model.IdPeriodoNomina })" class="btn btn-danger btn-sm"><span class="fa fa-file-pdf-o"></span> Descargar CFDI Previo</a>
+                               <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalEliminarArchivos"><span class="fa fa-trash"></span>Eliminar Archivos</button>
+                               @*<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalDetalleErrores">Detalle de Errores</button>*@
+                           </div>
+                       </div>
+                   }
+                  
+               </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModalDetalleErrores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Errores de Timbrado</h4>
+                </div>
+                <div class="modal-body">
+                    @if (Model.errores != null)
+                    {
+                        foreach (var item in Model.errores)
+                        {
+                            <table class="table table-condensed table-hover table-sm">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            Referencia: @Html.DisplayFor(x => item.Referencia)
+                                        </th>
+                                        <th>
+                                            Descripción: @Html.DisplayFor(x => item.Descripcion)
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No hay informacion.</div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModalEliminarArchivos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Eliminar Archivos XML</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Esta seguro que desea eliminar los archivos XML para este periodo?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="_Eliminar" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/generaXML.js"></script>
+}

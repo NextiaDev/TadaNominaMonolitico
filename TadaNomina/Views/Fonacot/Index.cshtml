@@ -1,0 +1,102 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Nominas.ModelFonacot>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Créditos Fonacot</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Créditos Fonacot activos
+            </h3>
+        </div>
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br /><br />
+
+            <table id="demo-dt-selection" class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClaveEmp)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NombrePatrona)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NombreEmpleado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumeroCredito)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NoTrabajadorFonacot)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RetencionMensual)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CuotasPagadas)
+                        </th>
+
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClaveEmp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombrePatrona)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreEmpleado)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumeroCredito)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoTrabajadorFonacot)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RetencionMensual)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CuotasPagadas)
+                        </td>
+
+
+                        <td>
+                            <a href="#" class="anchorDetail" data-id="@item.IdCreditoFonacot" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |
+                            <a href="#" class="anchorDelete" data-id="@item.IdCreditoFonacot" rel="tooltip" , title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Core/CreditosFonacot.js"></script>

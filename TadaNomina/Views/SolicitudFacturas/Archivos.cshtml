@@ -1,0 +1,86 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ModelSolicitudFacturas
+@{
+    ViewBag.Title = "Archivos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Solicitud de Facturas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div class="col-lg-6 col-lg-offset-2">
+    <div id="page-content">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Archivos Disponibles</h3>
+            </div>
+            <div class="panel-body">
+                <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Archivo</th>
+                            <th>Descargar</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Factura PDF</td>
+                            <td>@if (Model.FacturaPDF != null) { @Html.ActionLink(" ", "Download", "SolicitudFacturas", new { Arch = @Model.FacturaPDF }, new { @class = "btn btn-mint  btn-icon fa fa-cloud-download fa-1x load" })}</td>
+
+                        </tr>
+                        <tr>
+                            <td class="text-center">2</td>
+                            <td>Factura XML</td>
+                            <td>@if (Model.FacturaXML != null)
+                            {@Html.ActionLink(" ", "Download", "SolicitudFacturas", new { Arch = @Model.FacturaXML }, new { @class = "btn btn-mint  btn-icon fa fa-cloud-download fa-1x load" })}</td>
+
+
+                        </tr>
+                        <tr>
+                            <td class="text-center">3</td>
+                            <td>REP PDF</td>
+                            <td>@if (Model.REP_PDF != null)
+                            {@Html.ActionLink(" ", "Download", "SolicitudFacturas", new { Arch = @Model.REP_PDF }, new { @class = "btn btn-mint  btn-icon fa fa-cloud-download fa-1x load" })}</td>
+
+
+                        </tr>
+                        <tr>
+                            <td class="text-center">4</td>
+                            <td>REP XML</td>
+                            <td>@if (Model.REP_XML != null)
+                            {@Html.ActionLink(" ", "Download", "SolicitudFacturas", new { Arch = @Model.REP_XML }, new { @class = "btn btn-mint  btn-icon fa fa-cloud-download fa-1x load" })}</td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-right">
+                    @if (Model.IdEstatus == 4)
+                    {<a class="btn btn-info btn-sm _Back" href="~/SolicitudFacturas/SFinalizadas">Regresar</a>}
+                    else
+                    {
+                        <a class="btn btn-info btn-sm _Back" href="~/SolicitudFacturas/Index">Regresar</a>
+                    }
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    
+
+</div>
+

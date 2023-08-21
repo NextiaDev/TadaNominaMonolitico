@@ -1,0 +1,80 @@
+﻿@using TadaNomina.Models.ViewModels.Nominas@model ModelAusentismos
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Ausentismo</h4>
+</div>
+<div class="modal-body">
+    @Html.HiddenFor(model => model.IdAusentismo)
+
+    <label> Esta seguro que desea eliminar el siguiente Ausentismo?</label>
+    <br />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Folio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Folio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-footer">
+            <div class="form-actions no-color">
+                <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                <span class="input-group-default btn btn-danger" onclick="GuardarAusen()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script>
+    function GuardarAusen() {
+        var idAusentimos = $("#IdAusentismo").val();
+
+        console.log(idAusentimos);
+        $.ajax({
+            type: "POST",
+            url: "Ausen/DeleteAusen",
+            data: { idAusentimos },
+            dataType: "json",
+            success: function (result) {
+                if (result == "OK") {
+                    mensajeAlerta("Atencion!", "Este folio se elimino, pero ya contenia un registro ", "danger", "jelly", "fadeOut", 2100);
+
+                }
+                else {
+                    mensajeAlerta("Atencion!", "Se elimina registro de forma correcta ", "info", "jelly", "fadeOut", 2100);
+                }
+
+                setTimeout(redirigir, 2500);
+            },
+            error: function (er) {
+                mensajeAlerta("Atencion!", er, "danger", "jelly", "fadeOut", 2100);
+            }
+        });     
+
+        function redirigir() {
+            window.location.reload();
+        }
+
+
+    }
+
+</script>

@@ -1,0 +1,47 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelSubsidioEmpleoSat
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle Subsidio Empleo Sat</h4>
+</div>
+
+<div class="modal-body">
+
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTipoNomina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdTipoNomina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimiteInferior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimiteInferior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimiteSuperior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimiteSuperior)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+        </div>
+    </div>
+</p>
+

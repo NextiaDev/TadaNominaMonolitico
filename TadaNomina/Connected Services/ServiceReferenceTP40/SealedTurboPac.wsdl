@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="SealedTurboPac" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Tp.OneToOneCFDI40" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ISealedTurboPac_SealedCFDI40_InputMessage">
+    <wsdl:part name="parameters" element="tns:SealedCFDI40" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_SealedCFDI40_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SealedCFDI40Response" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_SealedRetencion_InputMessage">
+    <wsdl:part name="parameters" element="tns:SealedRetencion" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_SealedRetencion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SealedRetencionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateXMLCFDI40_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateXMLCFDI40" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateXMLCFDI40_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateXMLCFDI40Response" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateXMLRET20_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateXMLRET20" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateXMLRET20_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateXMLRET20Response" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateStructRET_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateStructRET" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateStructRET_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateStructRETResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateStructCFDI_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateStructCFDI" />
+  </wsdl:message>
+  <wsdl:message name="ISealedTurboPac_ValidateStructCFDI_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidateStructCFDIResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ISealedTurboPac">
+    <wsdl:operation name="SealedCFDI40">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISealedTurboPac/SealedCFDI40" message="tns:ISealedTurboPac_SealedCFDI40_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISealedTurboPac/SealedCFDI40Response" message="tns:ISealedTurboPac_SealedCFDI40_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SealedRetencion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISealedTurboPac/SealedRetencion" message="tns:ISealedTurboPac_SealedRetencion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISealedTurboPac/SealedRetencionResponse" message="tns:ISealedTurboPac_SealedRetencion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateXMLCFDI40">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateXMLCFDI40" message="tns:ISealedTurboPac_ValidateXMLCFDI40_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateXMLCFDI40Response" message="tns:ISealedTurboPac_ValidateXMLCFDI40_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateXMLRET20">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateXMLRET20" message="tns:ISealedTurboPac_ValidateXMLRET20_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateXMLRET20Response" message="tns:ISealedTurboPac_ValidateXMLRET20_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateStructRET">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateStructRET" message="tns:ISealedTurboPac_ValidateStructRET_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateStructRETResponse" message="tns:ISealedTurboPac_ValidateStructRET_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateStructCFDI">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateStructCFDI" message="tns:ISealedTurboPac_ValidateStructCFDI_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISealedTurboPac/ValidateStructCFDIResponse" message="tns:ISealedTurboPac_ValidateStructCFDI_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ISealedTurboPac" type="tns:ISealedTurboPac">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SealedCFDI40">
+      <soap:operation soapAction="http://tempuri.org/ISealedTurboPac/SealedCFDI40" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SealedRetencion">
+      <soap:operation soapAction="http://tempuri.org/ISealedTurboPac/SealedRetencion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateXMLCFDI40">
+      <soap:operation soapAction="http://tempuri.org/ISealedTurboPac/ValidateXMLCFDI40" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateXMLRET20">
+      <soap:operation soapAction="http://tempuri.org/ISealedTurboPac/ValidateXMLRET20" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateStructRET">
+      <soap:operation soapAction="http://tempuri.org/ISealedTurboPac/ValidateStructRET" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateStructCFDI">
+      <soap:operation soapAction="http://tempuri.org/ISealedTurboPac/ValidateStructCFDI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SealedTurboPac">
+    <wsdl:port name="BasicHttpBinding_ISealedTurboPac" binding="tns:BasicHttpBinding_ISealedTurboPac">
+      <soap:address location="http://66.85.140.10:8050/SealedTurboPac.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

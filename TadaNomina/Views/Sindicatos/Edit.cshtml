@@ -1,0 +1,61 @@
+﻿@model TadaNomina.Models.ViewModels.ModelSindicatos
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text text-overflow">Editar Sindicato</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Capturar Datos</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.NombreSindicato, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div>
+                            @Html.TextBoxFor(p => p.NombreSindicato, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessage("NombreSindicato", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.NombreCorto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div>
+                            @Html.TextBoxFor(p => p.NombreCorto, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessage("NombreSindicato", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.Grupo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div>
+                            @Html.TextBoxFor(p => p.Grupo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessage("NombreSindicato", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <div class="form-group">
+                            <div class="panel-footer" style="text-align:right">
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-default btn-sm _Back" })
+                                <input type="submit" value="Actualizar" class="btn btn-primary btn-sm _Aceptar" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+﻿@model TadaNomina.Models.ViewModels.CFDI.ModelCSD
+
+@{
+    ViewBag.Title = "CargarSellos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Registro Patronal</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-8 col-md-offset-2">
+    <div id="page-content ">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Carga CSD(<span class="text-muted">Certificado de Sello Digital</span>)</h3>
+            </div>
+
+            <div class="panel-body">
+
+
+                @using (Html.BeginForm("CargarSellos", "CargaCertificados", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ArchivoCer, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.ArchivoCer, new { type = "file", @class = "inputfile"  })
+                                @Html.ValidationMessageFor(model => model.ArchivoCer, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ArchivoKey, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.ArchivoKey, new { type = "file", @class = "inputfile"  })
+                                @Html.ValidationMessageFor(model => model.ArchivoKey, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.pass, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.pass, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.pass, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="text-right">
+                                <input type="submit" value="Cargar" class="btn btn-primary _Aceptar" />
+                                @Html.ActionLink("Regresar", "Index", null, new { @class="btn btn-info _Back"})
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

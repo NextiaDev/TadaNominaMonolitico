@@ -1,0 +1,103 @@
+﻿@model List<TadaNomina.Models.DB.sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string mensaje = ViewBag.Mensaje;
+}
+
+<div id="page-head">
+    @if (mensaje != null)
+    {
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert">
+                <i class="pci-cross pci-circle"></i>
+            </button>
+            <strong>Error:</strong>
+            @mensaje
+        </div>
+    }
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Envío de Movimientos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-body">
+            @if (Model.Count > 0)
+            {
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Listado de colaboradores por enviar
+                    </h4>
+                </div>
+                <hr />
+                <table id="demo-dt-selection" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Identificador colaborador</th>
+                            <th>Nombre del colaborador</th>
+                            <th>IMSS</th>
+                            <th>RFC</th>
+                            <th>Puesto</th>
+                            <th>SD</th>
+                            <th>SDI</th>
+                            <th>Nombre patrona</th>
+                            <th>Registro patronal</th>
+                            <th>Tipo movimiento</th>
+                            <th>Fecha aplicaci&oacute;n</th>
+                            <th>Motivo baja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.IdentificadorEmpleado</td>
+                                <td>@item.NombreEmpleado</td>
+                                <td>@item.Imss</td>
+                                <td>@item.Rfc</td>
+                                <td>@item.Puesto</td>
+                                <td>@item.SD</td>
+                                <td>@item.SDI</td>
+                                <td>@item.NombrePatrona</td>
+                                <td>@item.RegistroPatronal</td>
+                                <td>@item.TipoMovimiento</td>
+                                <td>@item.FechaAplicacionIMSS</td>
+                                @if (item.MotivoBaja.Length == 1)
+                                {
+                                    <td>@item.MotivoBaja</td>
+                                }
+                                else
+                                {
+                                    <td>NA</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-footer text-right">
+                            <a href="~/EnvioMovimientos/EnviarMov" class="btn btn-primary _Load">Enviar</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="cls-container" style="background-color:white">
+                    <div class="cls-content">
+                        <h1 class="error-code text-muted">
+                            <i class="fa ti-face-smile"></i>
+                        </h1>
+                        <p class="h4 text-uppercase text-bold">No tiene movimientos por enviar</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

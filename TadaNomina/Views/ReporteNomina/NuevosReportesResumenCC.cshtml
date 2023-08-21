@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "NuevosReportesResumenCC";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet">
+
+
+
+</head>
+<center id="page-content">
+    <span class="border border-primary"></span>
+    <center">
+        <div class="panel panel-body text-left">
+            <div class="panel-heading">
+            </div>
+            <hr />
+            <div class="panel-body">
+                <p>
+                    @using (Html.BeginForm("NuevosReportesResumenCC", "ReporteNomina", FormMethod.Post))
+                    {
+                        <input type="hidden" name="GridHtml" />
+
+                        <button class="btn btn-mint" type="submit" id="btnSubmit"> <span class=" fa fa-file-excel-o fa-lg  load"></span>  Descargar</button>
+
+                    }
+                </p>
+
+                <br /><br />
+                <div id="Contenido">
+                    @Html.Raw(@ViewBag.readHTML)
+                </div>
+                <br />
+                <br />
+                <br />
+
+
+
+            </div>
+        </div>
+</center>
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("#btnSubmit").click(function () {
+                const gridQueQuiero = $("#Contenido").html()
+                console.log(gridQueQuiero);
+
+                $("input[name='GridHtml']").val(gridQueQuiero);
+            });
+        });</script>
+}

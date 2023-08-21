@@ -1,0 +1,80 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelCentroCostos
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Eliminar Centro de Costos</h4>
+</div>
+<div class="modal-body">
+
+    @if (Model.ValidaEmpleado != null)
+    {
+        if (Model.ValidaEmpleado == 0)
+        {
+            <label>Sucedió algo inesperado, favor de intentarlo más tarde.</label>
+        }
+        else
+        {
+            <label>El Puesto seleccionado no se puede eliminar ya que aún está relacionado con colaboradores activos.</label>
+        }
+        <br />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Clave)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Clave)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CentroCostos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CentroCostos)
+            </dd>
+
+        </dl>
+        <div class="modal-footer">
+            <div class="form-actions no-color">
+                <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <label> ¿Está seguro que desea eliminar el siguiente Centro de Costos?</label>
+        <br />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Clave)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Clave)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CentroCostos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CentroCostos)
+            </dd>
+
+        </dl>
+
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        }
+
+    }
+</div>

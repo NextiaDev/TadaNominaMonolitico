@@ -1,0 +1,305 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelPiramidacion
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Piramidación de Conceptos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.Periodo</h3>
+            </div>
+            <div class="panel-body">
+                <br />
+                @Html.HiddenFor(x => x.IdPeriodoNomina)
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="@Url.Action("SeleccionarPeriodo")" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar</a>
+                        <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalCargarLayout"><span class="fa fa-file-excel-o"></span> Cargar Layout</a>
+                        <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalElimiarTodo"><span class="fa fa-trash"></span> Eliminar Todo</a>
+                        &nbsp;&nbsp;
+                        <input id="check-SMO" class="toggle-switch" type="checkbox" checked>
+                        <label for="check-SMO">Considerar SMO</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-2 text-right">
+                            Concepto:
+                        </div>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(x => x.IdConcepto, Model.lConceptos, new { @class = "form-control", @id = "IdConcepto" })
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <br /><br />
+                <div class="row">
+                    <input type="hidden" id="IdEmpleado_" />
+                    <div class="col-md-3">
+                        <div class="input-group mar-btm">
+                            <input class="form-control text-box single-line" id="_ClaveEmpleado" autocomplete="off" placeholder="Clave Empleado" type="text" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="ClaveEmpleado" data-valmsg-replace="true"></span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-mint" id="btnBuscarEmp"><span class="fa fa-search"></span> Buscar</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="hidden" id="_sd" />
+                        <input type="text" class="form-control" id="_datosEmp" readonly placeholder="Datos del empleado" />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mar-btm">
+                            <input class="form-control text-box single-line" id="_importe" autocomplete="off" placeholder="$0.00" type="text" />
+                            <span class="field-validation-valid text-danger" data-valmsg-for="ClaveEmpleado" data-valmsg-replace="true"></span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-danger" id="btnAgregar"><span class="fa fa-refresh"></span> Calcular</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+               
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="number" class="form-control" placeholder="TOTAL DE PERCEPCIONES" id="_tp_cap" />
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" class="form-control" placeholder="ISR" id="_isr_cap" />
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <button class="btn btn-danger" id="btnAgregar_cap" ><span class="fa fa-check"></span> Validar</button>
+                        </div>
+                    </div>
+                    <br />
+                
+                <div id="result"></div>
+
+                <hr />
+                <br />
+                @if (Model.Calculos.Count > 0)
+                {
+                    <table class="table table-hover table-bordered">
+                        <tr>
+                            <th>Cve.</th>
+                            <th>Nombre</th>
+                            <th>Concepto</th>
+                            <th>Importe</th>
+                            <th>Bruto</th>
+                            <th>Impuesto</th>
+                            <th></th>
+                        </tr>
+                        @foreach (var item in Model.Calculos)
+                        {
+                            <tr>
+                                <td>@item.ClaveEmpleado</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Concepto</td>
+                                <td>@string.Format("{0:C2}", item.Importe)</td>
+                                <td>@string.Format("{0:C2}", item.Neto)</td>
+                                <td>@string.Format("{0:C2}", item.ISR_Cobrar)</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm btnDetalle" data-id="@item.IdConceptoPiramido"><span class="fa fa-list"></span></button>
+                                    <button class="btn btn-danger btn-sm btnEliminar" data-id="@item.IdConceptoPiramido" data-text="@item.Concepto" data-decimal="@item.Importe"><span class="fa fa-trash"></span></button>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info"><span class="fa fa-info-circle"></span> No se han agregado calculos para este periodo.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id='modalCargarLayout' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Cargar Layout</h4>
+            </div>
+
+            <div class="modal-body">
+                <hr />
+                <div class="alert alert-info"><span class="fa fa-info-circle"></span> Para poder cargar el archivo se debe guardar en formato CSV(delimitado por comas).</div>
+                <div class="row">
+                    <div class="col-md-3 text-right">
+                        Layout:
+                    </div>
+                    <div class="col-md-9">
+                        <a href="~/Formatos/LayoutPiramidados.xlsx" class="btn btn-dark btn-block"><span class="fa fa-download"></span> Descarga Formato</a>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 text-right">Archivo (.csv):</div>
+                    <div class="col-md-9">
+                        <input type="file" id="filePiramidados" class="form-control" />
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="button" id="cargarLayout" value="Cargar Archivo" class="btn btn-success btn-sm _Aceptar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='modalElimiarTodo' class='modal fade'>
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Todo</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row text-center">
+                    ¿Esta seguro que desea eliminar todos los calculos para el periodo @Model.Periodo?
+                </div>
+                <br />
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="button" id="eliminarTodo" value="Eliminar Todo" class="btn btn-danger btn-sm _Aceptar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='modalElimiar' class='modal fade'>
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Calculo</h4>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="_IdEliminar" />
+                <div class="row text-center">
+                    ¿Esta seguro que desea eliminar el calculo: <label id="lblCalculoElim"></label>?
+                </div>
+                <br />
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="button" id="eliminar" value="Eliminar" class="btn btn-danger btn-sm _Aceptar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='modalDetalle' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Detalle Calculo</h4>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="_id" />
+                <div class="row">
+                    <div class="col-md-3 text-right">Cve. Emp.:</div>
+                    <div class="col-md-9">
+                        <label id="lblCveEmp"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Nombre:</div>
+                    <div class="col-md-9">
+                        <label id="lblNombre"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Concepto:</div>
+                    <div class="col-md-9">
+                        <label id="lblConcepto"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Dias Pago:</div>
+                    <div class="col-md-9">
+                        <label id="lbldPago"></label>
+                    </div>
+                    <div class="col-md-3 text-right">SD:</div>
+                    <div class="col-md-9">
+                        <label id="lblSD"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Sueldo Mensual:</div>
+                    <div class="col-md-9">
+                        <label id="lblSMB"></label>
+                    </div>
+                    <div class="col-md-3 text-right">ISR SM:</div>
+                    <div class="col-md-9">
+                        <label id="lblISRSM"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Sueldo Neto:</div>
+                    <div class="col-md-9">
+                        <label id="lblSMN"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Importe:</div>
+                    <div class="col-md-9">
+                        <label id="lblImporte"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Sueldo + Importe:</div>
+                    <div class="col-md-9">
+                        <label id="lblsmni"></label>
+                    </div>
+                    <div class="col-md-3 text-right">ISR Total:</div>
+                    <div class="col-md-9">
+                        <label id="lblIsrT"></label>
+                    </div>
+                    <div class="col-md-3 text-right">ISR Ret:</div>
+                    <div class="col-md-9">
+                        <label id="lblIsrRet"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Total Percepciones:</div>
+                    <div class="col-md-9">
+                        <label id="lblTP"></label>
+                    </div>
+                    <div class="col-md-3 text-right">Tipo Calculo:</div>
+                    <div class="col-md-9">
+                        <label id="lblTC"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/piramdar.js"></script>
+}

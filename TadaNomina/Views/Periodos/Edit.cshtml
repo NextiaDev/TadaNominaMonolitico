@@ -1,0 +1,393 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelPeriodoNomina
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string FlagChecador = ViewBag.BanderaRelojChecador;
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Editar Periodo</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Captura Datos Periodo.</h3>
+            </div>
+
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.IdPeriodoNomina)
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.UnidaNegocio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UnidaNegocio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.UnidaNegocio, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.Periodo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.TipoNomina, Model.LTipoNomina, "Elegir...", htmlAttributes: new { @class = "form-control", id= "TipoNominaS" })
+                                @Html.ValidationMessageFor(model => model.TipoNomina, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "calendar form-control", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = " calendar form-control", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+
+                        @if (FlagChecador == "SI")
+                        {
+                            <div class="form-group" id="rc" hidden>
+                                @Html.LabelFor(model => model.FechaInicioChecador, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.FechaInicioChecador, new { htmlAttributes = new { @class = "calendar form-control required", @autocomplete = "off", id = "FechaInicioC" } })
+                                </div>
+                                @Html.LabelFor(model => model.FechaFinChecador, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.FechaFinChecador, new { htmlAttributes = new { @class = "calendar form-control required", @autocomplete = "off", id = "FechaFinC", onchange = "ValidaFechas(this.value)" } })
+                                </div>
+                            </div>
+                        }
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AjusteImpuestos, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.AjusteImpuestos, Model.LAjuste, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AjusteImpuestos, "", new { @class = "text-danger" })
+                        </div>
+                        <div  id="AjusteAnualc" style="display: none;">
+                            @Html.LabelFor(model => model.AjusteAnual, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.CheckBoxFor(model => model.AjusteAnual)
+                            </div>
+                        </div>
+
+                        <div id="TablaDiaria_" >
+                            @Html.LabelFor(model => model.TablaIDiaria, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.CheckBoxFor(model => model.TablaIDiaria)
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PeriodoAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.PeriodoAjuste, Model.LPAjuste, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PeriodoAjuste, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                <input value="Limpiar" type="button" id="btnLimpiar" class="btn btn-default" rel="tooltip" title="Limpiar controles de ajuste." />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdsPeriodosAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.IdsPeriodosAjuste, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.IdsPeriodosAjuste, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.PeriodosAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.PeriodosAjuste, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
+                                @Html.ValidationMessageFor(model => model.PeriodosAjuste, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group" id="PtuRegP" style="display: none;">
+                            @Html.LabelFor(model => model.IdRegistroPatronal_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.IdRegistroPatronal_PTU, Model.listRegistrosPatronalesCliente, "Elegir..", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdRegistroPatronal_PTU, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group" id="fechasPtu" style="display: none;">
+                            @Html.LabelFor(model => model.Monto_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Monto_PTU, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Monto_PTU, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Año_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Año_PTU, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Año_PTU, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OmitirDescuentosFijos, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.CheckBoxFor(model => model.OmitirDescuentosFijos)
+                            </div>
+                        </div>
+                        <br />
+                        <div class="panel-footer">
+                            <div class="form-group" style="text-align:right">
+                                <input type="submit" value="Actualizar" class="btn btn-primary btn-sm _Aceptar" />
+                                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-info btn-sm _Back" })
+                            </div>
+                        </div>
+                        @ViewBag.Mensaje
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        var Tipo = $("#TipoNomina").val();
+        var Ajuste = $("#AjusteImpuestos").val();
+        elementdos = document.getElementById("fechasPtu");
+        element = document.getElementById("AjusteAnualc");
+        elementdosds = document.getElementById("PtuRegP");
+        tabla = document.getElementById("TablaDiaria");
+
+
+        console.log(Ajuste);
+
+        if (Ajuste == "SI") {
+            element.style.display = 'block';
+            tabla.style.display = 'none';
+
+
+        }
+        else {
+            element.style.display = 'none';
+            tabla.style.display = 'block';
+
+        }
+
+
+
+        if (Tipo == "PTU") {
+            elementdos.style.display = 'block';
+            elementdosds.style.display = 'block';
+        }
+        else {
+            elementdos.style.display = 'none';
+            elementdosds.style.display = 'none';
+
+        }
+
+
+
+
+
+
+    }
+
+    $(function () {
+        $("#TipoNomina").change(function () {
+            elementdos = document.getElementById("fechasPtu");
+            elementdosds = document.getElementById("PtuRegP");
+
+            var Tipo = $("#TipoNomina").val();
+            if (Tipo == "PTU") {
+                elementdos.style.display = 'block';
+                elementdosds.style.display = 'block';
+            }
+            else {
+                elementdos.style.display = 'none';
+                elementdosds.style.display = 'none';
+
+            }
+
+
+
+
+            console.log(PTU);
+        });
+    });
+
+
+    $(function () {
+        $("#AjusteImpuestos").change(function () {
+            var Ajuste = $("#AjusteImpuestos").val();
+            element = document.getElementById("AjusteAnualc");
+            tabla = document.getElementById("TablaDiaria");
+
+
+            if (Ajuste == "SI") {
+                element.style.display = 'block';
+                tabla.style.display = 'none';
+
+
+            }
+            else {
+                element.style.display = 'none';
+                tabla.style.display = 'block';
+
+
+            }
+
+
+            console.log(Ajuste);
+        });
+    });
+
+
+    $(function () {
+        $("#AjusteImpuestos").change(function () {
+            var Ajuste = $("#AjusteImpuestos").val();
+            element = document.getElementById("AjusteAnualc");
+
+            if (Ajuste == "SI") {
+                element.style.display = 'block';
+
+
+            }
+            else {
+                element.style.display = 'none';
+
+            }
+
+
+            console.log(Ajuste);
+        });
+    });
+
+
+    $(function () {
+        $("#PeriodoAjuste").change(function () {
+            var Periodos = $("#PeriodoAjuste").val() + ",";
+            var valorActual = $("#IdsPeriodosAjuste").val();
+            var valorFinal = valorActual + Periodos;
+
+            var PeriodosDesc = $("#PeriodoAjuste option:selected").text() + ",";
+            var valorActualDesc = $("#PeriodosAjuste").val();
+            var valorFinalDesc = PeriodosDesc + valorActualDesc;
+
+            $("#IdsPeriodosAjuste").val(valorFinal);
+            $("#PeriodosAjuste").val(valorFinalDesc);
+        });
+    });
+
+    $(function () {
+        $("#btnLimpiar").click(function () {
+            $("#IdsPeriodosAjuste").val("");
+            $("#PeriodosAjuste").val("");
+        });
+    });
+
+    $(document).ready(function () {
+
+        if ($('#TipoNominaS').val() == "Nomina") {
+            $('#rc').show();
+        }
+
+    });
+
+    $('#TipoNominaS').change(function () {
+        if ($('#TipoNominaS').val() == "Nomina") {
+            $('#rc').show();
+        }
+        else {
+            $('#FechaInicioC').val('');
+            $('#FechaFinC').val('');
+            $('#rc').hide();
+        }
+    });
+
+    function ValidaFechas() {
+        var inicio = $("#FechaInicioC").val();
+        var fin = $("#FechaFinC").val();
+        var r = 0;
+        //Bandera año
+        var bAnio = false;
+        //Fecha fin individual por D,M,A
+        var diaF = fin.substring(0, 2);
+        var mesF = fin.substring(3, 5);
+        var anioF = fin.substring(6, 10);
+
+        //Fecha inicio individual por D,M,A
+        var diaI = inicio.substring(0, 2);
+        var mesI = inicio.substring(3, 5);
+        var anioI = inicio.substring(6, 10);
+
+        //Valida años
+        if (anioF < anioI) {
+            alert("Fecha de inicio debe ser menor a la fecha final");
+            r = 1;
+        }
+        else if (anioF > anioI) {
+        }
+        else if (anioF = anioI) {
+            //Valida meses
+            if (mesF < mesI) {
+                alert("Fecha de inicio debe ser menor a la fecha final");
+                r = 1;
+            }
+            //Valida dias
+            if (mesF == mesI && diaF < diaI) {
+                alert("Fecha de inicio debe ser menor a la fecha final");
+                r = 1;
+            }
+            //Valor a regresar 1 = inconsistencia, 0 = ok
+        }
+        //Valor a regresar 1 = inconsistencia, 0 = ok
+        return r;
+    }
+
+    $('#FechaFinC').change(function () {
+        var r = ValidaFechas();
+        if (r == 1) {
+            $('#FechaFinC').val("");
+        }
+    })
+
+    $('#FechaInicioC').change(function () {
+        var r = ValidaFechas();
+        if (r == 1) {
+            $('#FechaInicioC').val("");
+        }
+    })
+</script>

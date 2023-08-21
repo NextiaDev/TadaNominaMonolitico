@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Nominas.ModelPeriodoNomina>
+
+@{
+    ViewBag.Title = "NominasAcumuladas";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<h2>NominasAcumuladas</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdUnidadNegocio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnidaNegocio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Periodo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoNomina)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AjusteImpuestos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdPeriodoAjuste)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PeriodoAjuste)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdsPeriodosAjuste)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PeriodosAjuste)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.timbradosPeriodo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdUnidadNegocio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnidaNegocio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Periodo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoNomina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AjusteImpuestos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdPeriodoAjuste)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeriodoAjuste)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdsPeriodosAjuste)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeriodosAjuste)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observaciones)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timbradosPeriodo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdPeriodoNomina }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdPeriodoNomina }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdPeriodoNomina })
+        </td>
+    </tr>
+}
+
+</table>

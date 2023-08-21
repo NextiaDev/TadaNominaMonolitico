@@ -1,0 +1,92 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.CosteosModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Editar Costeo</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Modificar</h3>
+            </div>
+
+            <div class="panel-body">
+                <br />
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <br />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.tipoNomina, Model.LTipoNomina, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.tipoNomina, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.tipoEsquema, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.tipoEsquema, Model.LEsquema, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.tipoEsquema, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.dividirPatronal, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.dividirPatronal, Model.RegistroP, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.dividirPatronal, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.separadoPor, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.separadoPor, Model.ObtenerCosteo, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.separadoPor, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.agruparPorDescripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.agruparPorDescripcion, Model.CostearporDesc, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.agruparPorDescripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+
+                        <br />
+
+                    </div>
+                    <br />
+                    <div class="panel-footer">
+                        <div class="form-group" style="text-align:right">
+                            <input type="submit" value="Guardar" class="btn btn-primary btn-sm _Aceptar" />
+                            @Html.ActionLink("Regresar a lIsta", "ConfiguracionCosteo", null, new { @class = "btn btn-info btn-sm _Back" })
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

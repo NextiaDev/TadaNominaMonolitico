@@ -1,0 +1,164 @@
+﻿@model TadaNomina.Models.ViewModels.Dispersion.ModelDispersa
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Dispersión STP</h1>
+    </div>
+</div>
+
+<div class="col-md-8 col-md-offset-2">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Dispersión de Nómina
+                </h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("Index", "Dispersa", "POST"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        <div class="row">
+                            @foreach (var item in Model.Saldos)
+                            {
+                                if (item.saldo > 0)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="panel panel-mint panel-colorful">
+                                            <div class="pad-all text-center">
+                                                <p><strong>@item.registroPatronal.NombrePatrona</strong></p>
+                                                <span class="text-2x text-thin">@string.Format("{0:C2}", item.saldo)</span>
+                                                <p>Saldo Disponible</p>
+
+                                                <i class="fa fa-usd fa-lg"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-4">
+                                        <div class="panel panel-warning panel-colorful">
+                                            <div class="pad-all text-center">
+                                                <p><strong>@item.registroPatronal.NombrePatrona</strong></p>
+                                                <span class="text-2x text-thin">@string.Format("{0:C2}", item.saldo)</span>
+                                                <p>Saldo Disponible</p>
+
+                                                <i class="fa fa-usd fa-lg"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+
+
+                        <div class="panel panel-info panel-colorful">
+                            <div class="pad-all text-center">
+                                <span class="text-2x text-thin">@string.Format("{0:C2}", Model.TotalDispersar)</span>
+                                <p>Monto Total a Dispersar</p>
+                                <i class="fa fa-exclamation fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="panel panel-primary panel-colorful">
+                            <div class="pad-all text-center">
+                                <span class="text-2x text-thin">@Model.TotalMovimientos</span>
+                                <p>Total de Movimientos</p>
+                                <i class="fa fa-refresh fa-lg"></i>
+                            </div>
+                        </div>
+                        @if (@Model.ListEmpleadosSinCuenta.Count() > 0)
+                        {
+                        <div class="panel panel-danger panel-colorful">
+                            <div class="pad-all text-center">
+                                <span class="text-2x text-thin">@Model.ListEmpleadosSinCuenta.Count()</span>
+                                <p>Total de Movimientos</p>
+                                <i class="fa fa-refresh fa-lg"></i>
+                            </div>
+                        </div>
+                        }
+                        <br />
+                        <br />
+                        <div class="panel panel-default panel-colorful">
+                            <div class="pad-all text-center">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.IdPeriodo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.IdPeriodo, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IdPeriodo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="Ver" class="btn btn-mint btn-block" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <hr />
+                        
+                    </div>
+                }
+            <div class="panel-footer">
+                <div class="form-group text-right">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" data-toggle="modal" data-target="#_dispersar" value="Dispersar" class="btn btn-primary" />
+                        <input type="button" value="Descargar CEP" class="btn btn-warning" />
+                    </div>
+                    <br />
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="_dispersar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Dispersar</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-mint">
+                    <span class="fa fa-info-circle"></span>
+                    Ingrese sus credenciales...
+                </div>
+
+                <div class="control-group">
+                    <input type="text" class="form-control" autocomplete="new-password" placeholder="Usuario" />
+                </div>
+                <br />
+                <div class="control-group">
+                    <input type="password" class="form-control" autocomplete="new-password" placeholder="Contraseña" />
+                </div>
+                <br />
+                <div class="control-group">
+                    <input type="password" class="form-control" autocomplete="new-password" placeholder="Token" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-mint" data-dismiss="modal" type="button">Dispersar</button>
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

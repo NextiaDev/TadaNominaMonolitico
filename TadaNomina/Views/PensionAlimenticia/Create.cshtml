@@ -1,0 +1,126 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelPensionAlimenticia
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Pensiones Alimenticias</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h3 class="panel-title">Caputar Datos.</h3>
+            </div>
+            <div class="panel-body">
+                <hr />
+
+                <div class="form-group row m-b-15">
+                    @Html.LabelFor(model => model.ClaveEmp, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ClaveEmp, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ClaveEmp, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-1">
+                        <button id="btnBuscar" class="btn btn-dark"><span class="fa fa-search"></span> Buscar</button>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group row m-b-15">
+                    @Html.LabelFor(model => model.Empleado, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Empleado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.rfc, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.rfc, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Empleado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    @Html.HiddenFor(x => x.IdEmpleado);
+
+                    <div class="form-group row m-b-15">
+                        @Html.LabelFor(model => model.lTipo, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.TipoPension, Model.lTipo, "Elegir...", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.lTipo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row m-b-15">
+                        @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.ValorEsq, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.ValorEsq, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.ValorEsq, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row m-b-15">
+                        @Html.LabelFor(model => model.NombreBeneficiario, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.NombreBeneficiario, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.NombreBeneficiario, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-b-15">
+                        <div class="col-md-12">
+                            @if (Model.Mensaje != null)
+                            {
+                                if (Model.Validacion)
+                                {
+                                    <div class="alert alert-info">
+                                        @Model.Mensaje
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        @Model.Mensaje
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="text-right">
+                            <input type="submit" value="Create" class="btn btn-primary btn-sm" />
+                            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm _Back" })
+                        </div>
+                    </div>
+
+                }
+
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/busquedaEmp.js"></script>
+}

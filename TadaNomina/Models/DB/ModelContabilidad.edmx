@@ -1,0 +1,2283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TadaContabilidadModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ArchivoAltaCuentas">
+          <Key>
+            <PropertyRef Name="IdArchivoAltas" />
+          </Key>
+          <Property Name="IdArchivoAltas" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="Ruta" Type="nvarchar" MaxLength="500" />
+          <Property Name="Observaciones" Type="text" />
+          <Property Name="ObservacionesTesoreria" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdRechazo" Type="int" />
+          <Property Name="FechaRechazo" Type="datetime" />
+          <Property Name="IdFinaliza" Type="int" />
+          <Property Name="FechaFinaliza" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ClienteRazonSocialFacturacion">
+          <Key>
+            <PropertyRef Name="IdClienteRazonSocialFacturacion" />
+          </Key>
+          <Property Name="IdClienteRazonSocialFacturacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="RazonSocial" Type="nvarchar" MaxLength="200" />
+          <Property Name="RFC" Type="nvarchar" MaxLength="15" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="150" />
+          <Property Name="IdGrupoFacturacion" Type="int" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="Idcaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ConceptosFacturacion">
+          <Key>
+            <PropertyRef Name="IdConceptoFacturacion" />
+          </Key>
+          <Property Name="IdConceptoFacturacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFacturadora" Type="int" />
+          <Property Name="DescripcionClaveSat" Type="nvarchar" MaxLength="500" />
+          <Property Name="Concepto" Type="nvarchar" MaxLength="500" />
+          <Property Name="ClaveSat" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Costeos">
+          <Key>
+            <PropertyRef Name="IdCosteo" />
+          </Key>
+          <Property Name="IdCosteo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="150" />
+          <Property Name="CuotaFija" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TipoNomina" Type="nvarchar" MaxLength="10" />
+          <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="DividirPatronal" Type="nvarchar" MaxLength="5" />
+          <Property Name="SeparadoPor" Type="nvarchar" MaxLength="50" />
+          <Property Name="AgruparPorDescripcion" Type="int" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Costeos_Conceptos">
+          <Key>
+            <PropertyRef Name="IdCosteosConcepto" />
+          </Key>
+          <Property Name="IdCosteosConcepto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCosteo" Type="int" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="250" />
+          <Property Name="TipoDatoFacturacion" Type="nvarchar" MaxLength="50" />
+          <Property Name="Observaciones" Type="text" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="Visible" Type="nvarchar" MaxLength="5" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Costeos_Conceptos_Configuracion">
+          <Key>
+            <PropertyRef Name="IdCosteoConceptoConfiguracion" />
+          </Key>
+          <Property Name="IdCosteoConceptoConfiguracion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="IdCosteosConcepto" Type="int" />
+          <Property Name="Concepto" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Operador" Type="nvarchar" MaxLength="2" />
+          <Property Name="TipoConcepto" Type="nvarchar" MaxLength="50" />
+          <Property Name="DescripcionValor" Type="nvarchar" MaxLength="150" />
+          <Property Name="Valor" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="OperadorGral" Type="nvarchar" MaxLength="2" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Costeos_Fondeos">
+          <Key>
+            <PropertyRef Name="IdOtroConcepto" />
+          </Key>
+          <Property Name="IdOtroConcepto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="IdCosteo" Type="int" />
+          <Property Name="IdPatrona" Type="int" />
+          <Property Name="IdDivision" Type="int" />
+          <Property Name="Esquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Importe" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Conceptos" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Costeos_Movimientos">
+          <Key>
+            <PropertyRef Name="IdCosteosMovimiento" />
+          </Key>
+          <Property Name="IdCosteosMovimiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="int" />
+          <Property Name="Esquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="TipoMovimiento" Type="nvarchar" MaxLength="50" />
+          <Property Name="MovimientoAfecta" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdMovimientoAfecta" Type="int" />
+          <Property Name="IdCosteo" Type="int" />
+          <Property Name="IdPatrona" Type="int" />
+          <Property Name="IdDivision" Type="int" />
+          <Property Name="IdConcepto" Type="int" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="250" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Facturadoras">
+          <Key>
+            <PropertyRef Name="IdFacturadora" />
+          </Key>
+          <Property Name="IdFacturadora" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdBanco" Type="int" />
+          <Property Name="IdBanco2" Type="int" />
+          <Property Name="Facturadora" Type="nvarchar" MaxLength="150" />
+          <Property Name="Domicilio" Type="nvarchar" MaxLength="150" />
+          <Property Name="RFC" Type="nvarchar" MaxLength="50" />
+          <Property Name="Observaciones" Type="text" />
+          <Property Name="FechaIncioOperacion" Type="date" />
+          <Property Name="ClaveFacturadora" Type="nvarchar" MaxLength="10" />
+          <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="FacturacionMensual" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FacturacionAnual" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UsuarioMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="PasswordMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="PuertoMail" Type="int" />
+          <Property Name="HostMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Facturadoras_Grupos">
+          <Key>
+            <PropertyRef Name="IdFacturadorasGrupos" />
+          </Key>
+          <Property Name="IdFacturadorasGrupos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFacturadora" Type="int" Nullable="false" />
+          <Property Name="IdGrupoFacturacion" Type="int" Nullable="false" />
+          <Property Name="IdEstatus" Type="int" Nullable="false" />
+          <Property Name="IdCaptura" Type="int" Nullable="false" />
+          <Property Name="FechaCaptura" Type="datetime" Nullable="false" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FacturasContabilidad">
+          <Key>
+            <PropertyRef Name="IdFacturasContabilidad" />
+          </Key>
+          <Property Name="IdFacturasContabilidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="IdClienteRazonSocialFacturacion" Type="int" />
+          <Property Name="MetodoPago" Type="nchar" MaxLength="3" />
+          <Property Name="UsoCFDI" Type="nchar" MaxLength="3" />
+          <Property Name="FormaPago" Type="nvarchar" MaxLength="15" />
+          <Property Name="Periodo" Type="nvarchar" MaxLength="500" />
+          <Property Name="Importe" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPercepcionesTradicional" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPercepcionesEsquema" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HonorarioMaquila" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Otros" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoFavor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAplicado" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdEmpresaFacturadora" Type="int" />
+          <Property Name="IdConceptoFacturacion" Type="int" />
+          <Property Name="Costeo_HTML" Type="text" />
+          <Property Name="Costeo_Json" Type="text" />
+          <Property Name="Costeo_HTML_Original" Type="text" />
+          <Property Name="Costeo_Json_Original" Type="text" />
+          <Property Name="CodigoBusqueda" Type="nvarchar" MaxLength="255" />
+          <Property Name="AdjuntarComprobante" Type="nvarchar" MaxLength="150" />
+          <Property Name="AdjuntarComprobanteTesoreria" Type="nvarchar" MaxLength="255" />
+          <Property Name="ArchivoBancos" Type="nvarchar" MaxLength="150" />
+          <Property Name="ArchivoBancosTesoreria" Type="nvarchar" MaxLength="150" />
+          <Property Name="FechaComprobantePago" Type="datetime" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FacturaPDF" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacturaXML" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaEnvioFactura" Type="datetime" />
+          <Property Name="FechaFactura" Type="nvarchar" MaxLength="50" />
+          <Property Name="FolioFactura" Type="nvarchar" MaxLength="50" />
+          <Property Name="REP_PDF" Type="nvarchar" MaxLength="500" />
+          <Property Name="REP_XML" Type="nvarchar" MaxLength="500" />
+          <Property Name="CargaFactura" Type="int" />
+          <Property Name="CargaREP" Type="int" />
+          <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdEstatusTesoreria" Type="int" />
+          <Property Name="IdAdjuntoFactura" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModificacion" Type="int" />
+          <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="IdCancelacion" Type="int" />
+          <Property Name="MotivoCancelacion" Type="text" />
+          <Property Name="IdCancelacionTesoreria" Type="int" />
+          <Property Name="IdFinalizacionTesoreria" Type="int" />
+          <Property Name="FechaSolicitudTesoreria" Type="datetime" />
+          <Property Name="FechaCancelacionTesoreria" Type="datetime" />
+          <Property Name="FechaFinalizacionTesoreria" Type="datetime" />
+          <Property Name="ObservacionesContabilidad" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ObservacionesRep" Type="text" />
+          <Property Name="ObservacionesParaTesoreria" Type="nvarchar" MaxLength="2000" />
+          <Property Name="ObservacionesTesoreria" Type="nvarchar" MaxLength="2000" />
+          <Property Name="CmprobanteDispersion" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdRegistroPatronal" Type="int" />
+          <Property Name="NombrePatrona" Type="nvarchar" MaxLength="2000" />
+          <Property Name="IdSindicato" Type="int" />
+          <Property Name="NombreSindicato" Type="nvarchar" MaxLength="200" />
+          <Property Name="FechaPago" Type="datetime" />
+          <Property Name="ComprobanteAutorizacion" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdMotivoRechazoTesoreria" Type="int" />
+          <Property Name="OtroMotivoRechazoTesoreria" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="GruposFacturacion">
+          <Key>
+            <PropertyRef Name="IdGrupoFacturacion" />
+          </Key>
+          <Property Name="IdGrupoFacturacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="IdEstatus" Type="int" Nullable="false" />
+          <Property Name="IdCaptura" Type="int" Nullable="false" />
+          <Property Name="FechaCaptura" Type="datetime" Nullable="false" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PagosAdicionales">
+          <Key>
+            <PropertyRef Name="IdPagoAdicional" />
+          </Key>
+          <Property Name="IdPagoAdicional" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="Archivo" Type="nvarchar" MaxLength="500" />
+          <Property Name="ObservacionesNomina" Type="text" />
+          <Property Name="ObservacionesTesoreria" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdRechaza" Type="int" />
+          <Property Name="FechaRechaza" Type="datetime" />
+          <Property Name="IdFinaliza" Type="int" />
+          <Property Name="FechaFinaliza" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SolicitudCheque">
+          <Key>
+            <PropertyRef Name="IdSolicitudCheque" />
+          </Key>
+          <Property Name="IdSolicitudCheque" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="int" />
+          <Property Name="rutaArchivo" Type="nvarchar" MaxLength="500" />
+          <Property Name="ObservacionesNominista" Type="text" />
+          <Property Name="ObservacionesTesoreria" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdFinaliza" Type="int" />
+          <Property Name="FechaFinaliza" Type="datetime" />
+          <Property Name="IdRechaza" Type="int" />
+          <Property Name="FechaRechaza" Type="datetime" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.v_Costeos_ClienteGrupo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="v_Costeos_ClienteGrupo">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+            <PropertyRef Name="IdGrupoFacturacion" />
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="IdGrupoFacturacion" Type="int" Nullable="false" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IdEstatus" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.v_Costeos_Grupos_Facturadoras' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="v_Costeos_Grupos_Facturadoras">
+          <Key>
+            <PropertyRef Name="IdGrupoFacturacion" />
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Observaciones" />
+            <PropertyRef Name="IdFacturadora" />
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdGrupoFacturacion" Type="int" Nullable="false" />
+          <Property Name="Grupo" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Facturadora" Type="nvarchar" MaxLength="150" />
+          <Property Name="IdFacturadora" Type="int" Nullable="false" />
+          <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.v_saldosclientes' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="v_saldosclientes">
+          <Key>
+            <PropertyRef Name="IdFacturadora" />
+          </Key>
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="Facturadora" Type="nvarchar" MaxLength="150" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdFacturadora" Type="int" Nullable="false" />
+          <Property Name="Saldo" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.v_Tesoreria_PagosAdicionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="v_Tesoreria_PagosAdicionales">
+          <Key>
+            <PropertyRef Name="IdPagoAdicional" />
+            <PropertyRef Name="UnidadNegocio" />
+          </Key>
+          <Property Name="IdPagoAdicional" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="Archivo" Type="nvarchar" MaxLength="500" />
+          <Property Name="ObservacionesNomina" Type="text" />
+          <Property Name="ObservacionesTesoreria" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdRechaza" Type="int" />
+          <Property Name="FechaRechaza" Type="datetime" />
+          <Property Name="IdFinaliza" Type="int" />
+          <Property Name="FechaFinaliza" Type="datetime" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UsuarioCaptura" Type="nvarchar" MaxLength="101" />
+          <Property Name="UsuarioRechaza" Type="nvarchar" MaxLength="101" />
+          <Property Name="UsuarioFinaliza" Type="nvarchar" MaxLength="101" />
+          <Property Name="estatus" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.v_Tesoreria_Solicitud' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="v_Tesoreria_Solicitud">
+          <Key>
+            <PropertyRef Name="IdFacturasContabilidad" />
+            <PropertyRef Name="UnidadNegocio" />
+            <PropertyRef Name="Comprobante" />
+          </Key>
+          <Property Name="IdFacturasContabilidad" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="FechaFactura" Type="nvarchar" MaxLength="50" />
+          <Property Name="Periodo" Type="varchar" MaxLength="500" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdEmpresaFacturadora" Type="int" />
+          <Property Name="IdConceptoFacturacion" Type="int" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FacturaPDF" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacturaXML" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaEnvioFactura" Type="datetime" />
+          <Property Name="IdAdjuntoFactura" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdCancelacion" Type="int" />
+          <Property Name="MotivoCancelacion" Type="text" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdFacturadora" Type="int" />
+          <Property Name="Facturadora" Type="nvarchar" MaxLength="150" />
+          <Property Name="RFC" Type="nvarchar" MaxLength="50" />
+          <Property Name="Concepto" Type="nvarchar" MaxLength="500" />
+          <Property Name="ClaveSat" Type="nvarchar" MaxLength="50" />
+          <Property Name="DescripcionClaveSat" Type="nvarchar" MaxLength="500" />
+          <Property Name="AdjuntarComprobante" Type="nvarchar" MaxLength="150" />
+          <Property Name="UsoCFDI" Type="nchar" MaxLength="3" />
+          <Property Name="MetodoPago" Type="nchar" MaxLength="3" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="FormaPago" Type="nvarchar" MaxLength="15" />
+          <Property Name="IdClienteRazonSocialFacturacion" Type="int" />
+          <Property Name="RazonSocialCliente" Type="nvarchar" MaxLength="200" />
+          <Property Name="REP_PDF" Type="nvarchar" MaxLength="500" />
+          <Property Name="REP_XML" Type="nvarchar" MaxLength="500" />
+          <Property Name="CargaFactura" Type="int" />
+          <Property Name="CargaREP" Type="int" />
+          <Property Name="ObservacionesContabilidad" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RFC_Receptor" Type="nvarchar" MaxLength="15" />
+          <Property Name="PeriodosEnFactura" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaComprobantePago" Type="datetime" />
+          <Property Name="Comprobante" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="SaldoFavor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAplicado" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Costeo_HTML" Type="text" />
+          <Property Name="Estatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="ObservacionesTesoreria" Type="nvarchar" MaxLength="2000" />
+          <Property Name="ObservacionesParaTesoreria" Type="nvarchar" MaxLength="2000" />
+          <Property Name="IdEstatusTesoreria" Type="int" />
+          <Property Name="EstatusTesoreria" Type="nvarchar" MaxLength="50" />
+          <Property Name="FechaSolicitudTesoreria" Type="datetime" />
+          <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdCancelacionTesoreria" Type="int" />
+          <Property Name="IdFinalizacionTesoreria" Type="int" />
+          <Property Name="FechaCancelacionTesoreria" Type="datetime" />
+          <Property Name="FechaFinalizacionTesoreria" Type="datetime" />
+          <Property Name="ArchivoBancos" Type="nvarchar" MaxLength="150" />
+          <Property Name="CmprobanteDispersion" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdRegistroPatronal" Type="int" />
+          <Property Name="NombrePatrona" Type="nvarchar" MaxLength="2000" />
+          <Property Name="IdSindicato" Type="int" />
+          <Property Name="NombreSindicato" Type="nvarchar" MaxLength="200" />
+          <Property Name="FechaPago" Type="datetime" />
+          <Property Name="ComprobanteAutorizacion" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdMotivoRechazoTesoreria" Type="int" />
+          <Property Name="MotivoRechazo" Type="nvarchar" MaxLength="150" />
+          <Property Name="OtroMotivoRechazoTesoreria" Type="nvarchar" MaxLength="500" />
+          <Property Name="AdjuntarComprobanteTesoreria" Type="nvarchar" MaxLength="255" />
+          <Property Name="ArchivoBancosTesoreria" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.v_Tesoreria_SolicitudCheque' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="v_Tesoreria_SolicitudCheque">
+          <Key>
+            <PropertyRef Name="IdSolicitudCheque" />
+            <PropertyRef Name="UnidadNegocio" />
+            <PropertyRef Name="Periodo" />
+            <PropertyRef Name="FechaInicio" />
+            <PropertyRef Name="FechaFin" />
+            <PropertyRef Name="IdCliente" />
+            <PropertyRef Name="IdUnidadNegocio" />
+          </Key>
+          <Property Name="IdSolicitudCheque" Type="int" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="int" />
+          <Property Name="rutaArchivo" Type="nvarchar" MaxLength="500" />
+          <Property Name="ObservacionesNominista" Type="text" />
+          <Property Name="ObservacionesTesoreria" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdFinaliza" Type="int" />
+          <Property Name="FechaFinaliza" Type="datetime" />
+          <Property Name="IdRechaza" Type="int" />
+          <Property Name="FechaRechaza" Type="datetime" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Periodo" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="FechaInicio" Type="date" Nullable="false" />
+          <Property Name="FechaFin" Type="date" Nullable="false" />
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+          <Property Name="IdUnidadNegocio" Type="int" Nullable="false" />
+          <Property Name="UsuarioCaptura" Type="nvarchar" MaxLength="101" />
+          <Property Name="UsuarioFinaliza" Type="nvarchar" MaxLength="101" />
+          <Property Name="UsuarioRechaza" Type="nvarchar" MaxLength="101" />
+          <Property Name="Estatus" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.vCosteos_Fondeos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vCosteos_Fondeos">
+          <Key>
+            <PropertyRef Name="IdOtroConcepto" />
+          </Key>
+          <Property Name="IdOtroConcepto" Type="int" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="IdCosteo" Type="int" />
+          <Property Name="IdPatrona" Type="int" />
+          <Property Name="IdDivision" Type="int" />
+          <Property Name="Esquema" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Importe" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Conceptos" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+          <Property Name="Expr1" Type="nvarchar" MaxLength="150" />
+          <Property Name="TipoNomina" Type="nvarchar" MaxLength="10" />
+          <Property Name="DividirPatronal" Type="nvarchar" MaxLength="5" />
+          <Property Name="SeparadoPor" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.vSolicitudFactura' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vSolicitudFactura">
+          <Key>
+            <PropertyRef Name="IdFacturasContabilidad" />
+            <PropertyRef Name="UnidadNegocio" />
+            <PropertyRef Name="Comprobante" />
+          </Key>
+          <Property Name="IdFacturasContabilidad" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="FechaFactura" Type="nvarchar" MaxLength="50" />
+          <Property Name="Periodo" Type="varchar" MaxLength="500" />
+          <Property Name="Subtotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdEmpresaFacturadora" Type="int" />
+          <Property Name="IdConceptoFacturacion" Type="int" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="1000" />
+          <Property Name="FacturaPDF" Type="nvarchar" MaxLength="500" />
+          <Property Name="FacturaXML" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaEnvioFactura" Type="datetime" />
+          <Property Name="IdAdjuntoFactura" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdCancelacion" Type="int" />
+          <Property Name="MotivoCancelacion" Type="text" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdFacturadora" Type="int" />
+          <Property Name="Facturadora" Type="nvarchar" MaxLength="150" />
+          <Property Name="RFC" Type="nvarchar" MaxLength="50" />
+          <Property Name="Concepto" Type="nvarchar" MaxLength="500" />
+          <Property Name="ClaveSat" Type="nvarchar" MaxLength="50" />
+          <Property Name="DescripcionClaveSat" Type="nvarchar" MaxLength="500" />
+          <Property Name="AdjuntarComprobante" Type="nvarchar" MaxLength="150" />
+          <Property Name="UsoCFDI" Type="nchar" MaxLength="3" />
+          <Property Name="MetodoPago" Type="nchar" MaxLength="3" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="FormaPago" Type="nvarchar" MaxLength="15" />
+          <Property Name="IdClienteRazonSocialFacturacion" Type="int" />
+          <Property Name="RazonSocialCliente" Type="nvarchar" MaxLength="200" />
+          <Property Name="REP_PDF" Type="nvarchar" MaxLength="500" />
+          <Property Name="REP_XML" Type="nvarchar" MaxLength="500" />
+          <Property Name="CargaFactura" Type="int" />
+          <Property Name="CargaREP" Type="int" />
+          <Property Name="ObservacionesContabilidad" Type="nvarchar" MaxLength="1000" />
+          <Property Name="RFC_Receptor" Type="nvarchar" MaxLength="15" />
+          <Property Name="PeriodosEnFactura" Type="nvarchar" MaxLength="500" />
+          <Property Name="FechaComprobantePago" Type="datetime" />
+          <Property Name="Comprobante" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="SaldoFavor" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAplicado" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NTotal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Costeo_HTML" Type="text" />
+          <Property Name="Estatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="ArchivoBancos" Type="nvarchar" MaxLength="150" />
+          <Property Name="Expr1" Type="int" />
+          <Property Name="Periodos" Type="nvarchar" MaxLength="500" />
+          <Property Name="TotalPercepcionesTradicional" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPercepcionesEsquema" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Otros" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ObservacionesRep" Type="text" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaContabilidad.dbo.vw_ArchivosAltaCuentas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vw_ArchivosAltaCuentas">
+          <Key>
+            <PropertyRef Name="IdArchivoAltas" />
+          </Key>
+          <Property Name="IdArchivoAltas" Type="int" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="IdUnidadNegocio" Type="int" />
+          <Property Name="Ruta" Type="nvarchar" MaxLength="500" />
+          <Property Name="Observaciones" Type="text" />
+          <Property Name="ObservacionesTesoreria" Type="text" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdRechazo" Type="int" />
+          <Property Name="FechaRechazo" Type="datetime" />
+          <Property Name="IdFinaliza" Type="int" />
+          <Property Name="FechaFinaliza" Type="datetime" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" />
+          <Property Name="UsuarioCaptura" Type="nvarchar" MaxLength="101" />
+          <Property Name="UsuarioRechazo" Type="nvarchar" MaxLength="101" />
+          <Property Name="UsuarioFinaliza" Type="nvarchar" MaxLength="101" />
+          <Property Name="Estatus" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="SP_InsertaSaldosCosteo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCaptura" Type="int" Mode="In" />
+          <Parameter Name="IdCliente" Type="int" Mode="In" />
+          <Parameter Name="IdUnidadnegocio" Type="int" Mode="In" />
+          <Parameter Name="IdFacturadora" Type="int" Mode="In" />
+          <Parameter Name="Importe" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_SaldosClientesDetalle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCliente" Type="int" Mode="In" />
+          <Parameter Name="IdFacturadora" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_SaldosPorClientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ValidaMontoFacturados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCaptura" Type="int" Mode="In" />
+          <Parameter Name="IdCliente" Type="int" Mode="In" />
+          <Parameter Name="IdFacturadora" Type="int" Mode="In" />
+          <Parameter Name="idcosteo" Type="int" Mode="In" />
+          <Parameter Name="Importe" Type="decimal" Mode="In" />
+          <Parameter Name="Texto" Type="varchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="TadaContabilidadModelStoreContainer">
+          <EntitySet Name="ArchivoAltaCuentas" EntityType="Self.ArchivoAltaCuentas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClienteRazonSocialFacturacion" EntityType="Self.ClienteRazonSocialFacturacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConceptosFacturacion" EntityType="Self.ConceptosFacturacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costeos" EntityType="Self.Costeos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costeos_Conceptos" EntityType="Self.Costeos_Conceptos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costeos_Conceptos_Configuracion" EntityType="Self.Costeos_Conceptos_Configuracion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costeos_Fondeos" EntityType="Self.Costeos_Fondeos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costeos_Movimientos" EntityType="Self.Costeos_Movimientos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facturadoras" EntityType="Self.Facturadoras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facturadoras_Grupos" EntityType="Self.Facturadoras_Grupos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacturasContabilidad" EntityType="Self.FacturasContabilidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GruposFacturacion" EntityType="Self.GruposFacturacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PagosAdicionales" EntityType="Self.PagosAdicionales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SolicitudCheque" EntityType="Self.SolicitudCheque" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="v_Costeos_ClienteGrupo" EntityType="Self.v_Costeos_ClienteGrupo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Costeos_ClienteGrupo].[IdCliente] AS [IdCliente], 
+    [v_Costeos_ClienteGrupo].[Cliente] AS [Cliente], 
+    [v_Costeos_ClienteGrupo].[IdGrupoFacturacion] AS [IdGrupoFacturacion], 
+    [v_Costeos_ClienteGrupo].[Grupo] AS [Grupo], 
+    [v_Costeos_ClienteGrupo].[IdEstatus] AS [IdEstatus]
+    FROM [dbo].[v_Costeos_ClienteGrupo] AS [v_Costeos_ClienteGrupo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Costeos_Grupos_Facturadoras" EntityType="Self.v_Costeos_Grupos_Facturadoras" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Costeos_Grupos_Facturadoras].[IdGrupoFacturacion] AS [IdGrupoFacturacion], 
+    [v_Costeos_Grupos_Facturadoras].[Grupo] AS [Grupo], 
+    [v_Costeos_Grupos_Facturadoras].[Observaciones] AS [Observaciones], 
+    [v_Costeos_Grupos_Facturadoras].[Facturadora] AS [Facturadora], 
+    [v_Costeos_Grupos_Facturadoras].[IdFacturadora] AS [IdFacturadora], 
+    [v_Costeos_Grupos_Facturadoras].[TipoEsquema] AS [TipoEsquema], 
+    [v_Costeos_Grupos_Facturadoras].[IdEstatus] AS [IdEstatus]
+    FROM [dbo].[v_Costeos_Grupos_Facturadoras] AS [v_Costeos_Grupos_Facturadoras]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_saldosclientes" EntityType="Self.v_saldosclientes" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_saldosclientes].[Cliente] AS [Cliente], 
+    [v_saldosclientes].[Facturadora] AS [Facturadora], 
+    [v_saldosclientes].[IdCliente] AS [IdCliente], 
+    [v_saldosclientes].[IdFacturadora] AS [IdFacturadora], 
+    [v_saldosclientes].[Saldo] AS [Saldo]
+    FROM [dbo].[v_saldosclientes] AS [v_saldosclientes]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Tesoreria_PagosAdicionales" EntityType="Self.v_Tesoreria_PagosAdicionales" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Tesoreria_PagosAdicionales].[IdPagoAdicional] AS [IdPagoAdicional], 
+    [v_Tesoreria_PagosAdicionales].[IdCliente] AS [IdCliente], 
+    [v_Tesoreria_PagosAdicionales].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [v_Tesoreria_PagosAdicionales].[Archivo] AS [Archivo], 
+    [v_Tesoreria_PagosAdicionales].[ObservacionesNomina] AS [ObservacionesNomina], 
+    [v_Tesoreria_PagosAdicionales].[ObservacionesTesoreria] AS [ObservacionesTesoreria], 
+    [v_Tesoreria_PagosAdicionales].[IdEstatus] AS [IdEstatus], 
+    [v_Tesoreria_PagosAdicionales].[IdCaptura] AS [IdCaptura], 
+    [v_Tesoreria_PagosAdicionales].[FechaCaptura] AS [FechaCaptura], 
+    [v_Tesoreria_PagosAdicionales].[IdRechaza] AS [IdRechaza], 
+    [v_Tesoreria_PagosAdicionales].[FechaRechaza] AS [FechaRechaza], 
+    [v_Tesoreria_PagosAdicionales].[IdFinaliza] AS [IdFinaliza], 
+    [v_Tesoreria_PagosAdicionales].[FechaFinaliza] AS [FechaFinaliza], 
+    [v_Tesoreria_PagosAdicionales].[Cliente] AS [Cliente], 
+    [v_Tesoreria_PagosAdicionales].[UnidadNegocio] AS [UnidadNegocio], 
+    [v_Tesoreria_PagosAdicionales].[UsuarioCaptura] AS [UsuarioCaptura], 
+    [v_Tesoreria_PagosAdicionales].[UsuarioRechaza] AS [UsuarioRechaza], 
+    [v_Tesoreria_PagosAdicionales].[UsuarioFinaliza] AS [UsuarioFinaliza], 
+    [v_Tesoreria_PagosAdicionales].[estatus] AS [estatus]
+    FROM [dbo].[v_Tesoreria_PagosAdicionales] AS [v_Tesoreria_PagosAdicionales]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Tesoreria_Solicitud" EntityType="Self.v_Tesoreria_Solicitud" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Tesoreria_Solicitud].[IdFacturasContabilidad] AS [IdFacturasContabilidad], 
+    [v_Tesoreria_Solicitud].[IdCliente] AS [IdCliente], 
+    [v_Tesoreria_Solicitud].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [v_Tesoreria_Solicitud].[FechaFactura] AS [FechaFactura], 
+    [v_Tesoreria_Solicitud].[Periodo] AS [Periodo], 
+    [v_Tesoreria_Solicitud].[Subtotal] AS [Subtotal], 
+    [v_Tesoreria_Solicitud].[IVA] AS [IVA], 
+    [v_Tesoreria_Solicitud].[Total] AS [Total], 
+    [v_Tesoreria_Solicitud].[IdEmpresaFacturadora] AS [IdEmpresaFacturadora], 
+    [v_Tesoreria_Solicitud].[IdConceptoFacturacion] AS [IdConceptoFacturacion], 
+    [v_Tesoreria_Solicitud].[Observaciones] AS [Observaciones], 
+    [v_Tesoreria_Solicitud].[FacturaPDF] AS [FacturaPDF], 
+    [v_Tesoreria_Solicitud].[FacturaXML] AS [FacturaXML], 
+    [v_Tesoreria_Solicitud].[FechaEnvioFactura] AS [FechaEnvioFactura], 
+    [v_Tesoreria_Solicitud].[IdAdjuntoFactura] AS [IdAdjuntoFactura], 
+    [v_Tesoreria_Solicitud].[IdCaptura] AS [IdCaptura], 
+    [v_Tesoreria_Solicitud].[FechaCaptura] AS [FechaCaptura], 
+    [v_Tesoreria_Solicitud].[IdCancelacion] AS [IdCancelacion], 
+    [v_Tesoreria_Solicitud].[MotivoCancelacion] AS [MotivoCancelacion], 
+    [v_Tesoreria_Solicitud].[Cliente] AS [Cliente], 
+    [v_Tesoreria_Solicitud].[UnidadNegocio] AS [UnidadNegocio], 
+    [v_Tesoreria_Solicitud].[IdFacturadora] AS [IdFacturadora], 
+    [v_Tesoreria_Solicitud].[Facturadora] AS [Facturadora], 
+    [v_Tesoreria_Solicitud].[RFC] AS [RFC], 
+    [v_Tesoreria_Solicitud].[Concepto] AS [Concepto], 
+    [v_Tesoreria_Solicitud].[ClaveSat] AS [ClaveSat], 
+    [v_Tesoreria_Solicitud].[DescripcionClaveSat] AS [DescripcionClaveSat], 
+    [v_Tesoreria_Solicitud].[AdjuntarComprobante] AS [AdjuntarComprobante], 
+    [v_Tesoreria_Solicitud].[UsoCFDI] AS [UsoCFDI], 
+    [v_Tesoreria_Solicitud].[MetodoPago] AS [MetodoPago], 
+    [v_Tesoreria_Solicitud].[Nombre] AS [Nombre], 
+    [v_Tesoreria_Solicitud].[ApellidoPaterno] AS [ApellidoPaterno], 
+    [v_Tesoreria_Solicitud].[ApellidoMaterno] AS [ApellidoMaterno], 
+    [v_Tesoreria_Solicitud].[IdEstatus] AS [IdEstatus], 
+    [v_Tesoreria_Solicitud].[FormaPago] AS [FormaPago], 
+    [v_Tesoreria_Solicitud].[IdClienteRazonSocialFacturacion] AS [IdClienteRazonSocialFacturacion], 
+    [v_Tesoreria_Solicitud].[RazonSocialCliente] AS [RazonSocialCliente], 
+    [v_Tesoreria_Solicitud].[REP_PDF] AS [REP_PDF], 
+    [v_Tesoreria_Solicitud].[REP_XML] AS [REP_XML], 
+    [v_Tesoreria_Solicitud].[CargaFactura] AS [CargaFactura], 
+    [v_Tesoreria_Solicitud].[CargaREP] AS [CargaREP], 
+    [v_Tesoreria_Solicitud].[ObservacionesContabilidad] AS [ObservacionesContabilidad], 
+    [v_Tesoreria_Solicitud].[RFC_Receptor] AS [RFC_Receptor], 
+    [v_Tesoreria_Solicitud].[PeriodosEnFactura] AS [PeriodosEnFactura], 
+    [v_Tesoreria_Solicitud].[FechaComprobantePago] AS [FechaComprobantePago], 
+    [v_Tesoreria_Solicitud].[Comprobante] AS [Comprobante], 
+    [v_Tesoreria_Solicitud].[SaldoFavor] AS [SaldoFavor], 
+    [v_Tesoreria_Solicitud].[SaldoAplicado] AS [SaldoAplicado], 
+    [v_Tesoreria_Solicitud].[NTotal] AS [NTotal], 
+    [v_Tesoreria_Solicitud].[Costeo_HTML] AS [Costeo_HTML], 
+    [v_Tesoreria_Solicitud].[Estatus] AS [Estatus], 
+    [v_Tesoreria_Solicitud].[ObservacionesTesoreria] AS [ObservacionesTesoreria], 
+    [v_Tesoreria_Solicitud].[ObservacionesParaTesoreria] AS [ObservacionesParaTesoreria], 
+    [v_Tesoreria_Solicitud].[IdEstatusTesoreria] AS [IdEstatusTesoreria], 
+    [v_Tesoreria_Solicitud].[EstatusTesoreria] AS [EstatusTesoreria], 
+    [v_Tesoreria_Solicitud].[FechaSolicitudTesoreria] AS [FechaSolicitudTesoreria], 
+    [v_Tesoreria_Solicitud].[TipoEsquema] AS [TipoEsquema], 
+    [v_Tesoreria_Solicitud].[IdCancelacionTesoreria] AS [IdCancelacionTesoreria], 
+    [v_Tesoreria_Solicitud].[IdFinalizacionTesoreria] AS [IdFinalizacionTesoreria], 
+    [v_Tesoreria_Solicitud].[FechaCancelacionTesoreria] AS [FechaCancelacionTesoreria], 
+    [v_Tesoreria_Solicitud].[FechaFinalizacionTesoreria] AS [FechaFinalizacionTesoreria], 
+    [v_Tesoreria_Solicitud].[ArchivoBancos] AS [ArchivoBancos], 
+    [v_Tesoreria_Solicitud].[CmprobanteDispersion] AS [CmprobanteDispersion], 
+    [v_Tesoreria_Solicitud].[IdRegistroPatronal] AS [IdRegistroPatronal], 
+    [v_Tesoreria_Solicitud].[NombrePatrona] AS [NombrePatrona], 
+    [v_Tesoreria_Solicitud].[IdSindicato] AS [IdSindicato], 
+    [v_Tesoreria_Solicitud].[NombreSindicato] AS [NombreSindicato], 
+    [v_Tesoreria_Solicitud].[FechaPago] AS [FechaPago], 
+    [v_Tesoreria_Solicitud].[ComprobanteAutorizacion] AS [ComprobanteAutorizacion], 
+    [v_Tesoreria_Solicitud].[IdMotivoRechazoTesoreria] AS [IdMotivoRechazoTesoreria], 
+    [v_Tesoreria_Solicitud].[MotivoRechazo] AS [MotivoRechazo], 
+    [v_Tesoreria_Solicitud].[OtroMotivoRechazoTesoreria] AS [OtroMotivoRechazoTesoreria], 
+    [v_Tesoreria_Solicitud].[AdjuntarComprobanteTesoreria] AS [AdjuntarComprobanteTesoreria], 
+    [v_Tesoreria_Solicitud].[ArchivoBancosTesoreria] AS [ArchivoBancosTesoreria]
+    FROM [dbo].[v_Tesoreria_Solicitud] AS [v_Tesoreria_Solicitud]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="v_Tesoreria_SolicitudCheque" EntityType="Self.v_Tesoreria_SolicitudCheque" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_Tesoreria_SolicitudCheque].[IdSolicitudCheque] AS [IdSolicitudCheque], 
+    [v_Tesoreria_SolicitudCheque].[IdPeriodoNomina] AS [IdPeriodoNomina], 
+    [v_Tesoreria_SolicitudCheque].[rutaArchivo] AS [rutaArchivo], 
+    [v_Tesoreria_SolicitudCheque].[ObservacionesNominista] AS [ObservacionesNominista], 
+    [v_Tesoreria_SolicitudCheque].[ObservacionesTesoreria] AS [ObservacionesTesoreria], 
+    [v_Tesoreria_SolicitudCheque].[IdEstatus] AS [IdEstatus], 
+    [v_Tesoreria_SolicitudCheque].[IdCaptura] AS [IdCaptura], 
+    [v_Tesoreria_SolicitudCheque].[FechaCaptura] AS [FechaCaptura], 
+    [v_Tesoreria_SolicitudCheque].[IdFinaliza] AS [IdFinaliza], 
+    [v_Tesoreria_SolicitudCheque].[FechaFinaliza] AS [FechaFinaliza], 
+    [v_Tesoreria_SolicitudCheque].[IdRechaza] AS [IdRechaza], 
+    [v_Tesoreria_SolicitudCheque].[FechaRechaza] AS [FechaRechaza], 
+    [v_Tesoreria_SolicitudCheque].[Cliente] AS [Cliente], 
+    [v_Tesoreria_SolicitudCheque].[UnidadNegocio] AS [UnidadNegocio], 
+    [v_Tesoreria_SolicitudCheque].[Periodo] AS [Periodo], 
+    [v_Tesoreria_SolicitudCheque].[FechaInicio] AS [FechaInicio], 
+    [v_Tesoreria_SolicitudCheque].[FechaFin] AS [FechaFin], 
+    [v_Tesoreria_SolicitudCheque].[IdCliente] AS [IdCliente], 
+    [v_Tesoreria_SolicitudCheque].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [v_Tesoreria_SolicitudCheque].[UsuarioCaptura] AS [UsuarioCaptura], 
+    [v_Tesoreria_SolicitudCheque].[UsuarioFinaliza] AS [UsuarioFinaliza], 
+    [v_Tesoreria_SolicitudCheque].[UsuarioRechaza] AS [UsuarioRechaza], 
+    [v_Tesoreria_SolicitudCheque].[Estatus] AS [Estatus]
+    FROM [dbo].[v_Tesoreria_SolicitudCheque] AS [v_Tesoreria_SolicitudCheque]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vCosteos_Fondeos" EntityType="Self.vCosteos_Fondeos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vCosteos_Fondeos].[IdOtroConcepto] AS [IdOtroConcepto], 
+    [vCosteos_Fondeos].[IdPeriodoNomina] AS [IdPeriodoNomina], 
+    [vCosteos_Fondeos].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [vCosteos_Fondeos].[IdCosteo] AS [IdCosteo], 
+    [vCosteos_Fondeos].[IdPatrona] AS [IdPatrona], 
+    [vCosteos_Fondeos].[IdDivision] AS [IdDivision], 
+    [vCosteos_Fondeos].[Esquema] AS [Esquema], 
+    [vCosteos_Fondeos].[Descripcion] AS [Descripcion], 
+    [vCosteos_Fondeos].[Importe] AS [Importe], 
+    [vCosteos_Fondeos].[Conceptos] AS [Conceptos], 
+    [vCosteos_Fondeos].[IdEstatus] AS [IdEstatus], 
+    [vCosteos_Fondeos].[IdCaptura] AS [IdCaptura], 
+    [vCosteos_Fondeos].[FechaCaptura] AS [FechaCaptura], 
+    [vCosteos_Fondeos].[IdModifica] AS [IdModifica], 
+    [vCosteos_Fondeos].[FechaModifica] AS [FechaModifica], 
+    [vCosteos_Fondeos].[Expr1] AS [Expr1], 
+    [vCosteos_Fondeos].[TipoNomina] AS [TipoNomina], 
+    [vCosteos_Fondeos].[DividirPatronal] AS [DividirPatronal], 
+    [vCosteos_Fondeos].[SeparadoPor] AS [SeparadoPor]
+    FROM [dbo].[vCosteos_Fondeos] AS [vCosteos_Fondeos]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vSolicitudFactura" EntityType="Self.vSolicitudFactura" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vSolicitudFactura].[IdFacturasContabilidad] AS [IdFacturasContabilidad], 
+    [vSolicitudFactura].[IdCliente] AS [IdCliente], 
+    [vSolicitudFactura].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [vSolicitudFactura].[FechaFactura] AS [FechaFactura], 
+    [vSolicitudFactura].[Periodo] AS [Periodo], 
+    [vSolicitudFactura].[Subtotal] AS [Subtotal], 
+    [vSolicitudFactura].[IVA] AS [IVA], 
+    [vSolicitudFactura].[Total] AS [Total], 
+    [vSolicitudFactura].[IdEmpresaFacturadora] AS [IdEmpresaFacturadora], 
+    [vSolicitudFactura].[IdConceptoFacturacion] AS [IdConceptoFacturacion], 
+    [vSolicitudFactura].[Observaciones] AS [Observaciones], 
+    [vSolicitudFactura].[FacturaPDF] AS [FacturaPDF], 
+    [vSolicitudFactura].[FacturaXML] AS [FacturaXML], 
+    [vSolicitudFactura].[FechaEnvioFactura] AS [FechaEnvioFactura], 
+    [vSolicitudFactura].[IdAdjuntoFactura] AS [IdAdjuntoFactura], 
+    [vSolicitudFactura].[IdCaptura] AS [IdCaptura], 
+    [vSolicitudFactura].[FechaCaptura] AS [FechaCaptura], 
+    [vSolicitudFactura].[IdCancelacion] AS [IdCancelacion], 
+    [vSolicitudFactura].[MotivoCancelacion] AS [MotivoCancelacion], 
+    [vSolicitudFactura].[Cliente] AS [Cliente], 
+    [vSolicitudFactura].[UnidadNegocio] AS [UnidadNegocio], 
+    [vSolicitudFactura].[IdFacturadora] AS [IdFacturadora], 
+    [vSolicitudFactura].[Facturadora] AS [Facturadora], 
+    [vSolicitudFactura].[RFC] AS [RFC], 
+    [vSolicitudFactura].[Concepto] AS [Concepto], 
+    [vSolicitudFactura].[ClaveSat] AS [ClaveSat], 
+    [vSolicitudFactura].[DescripcionClaveSat] AS [DescripcionClaveSat], 
+    [vSolicitudFactura].[AdjuntarComprobante] AS [AdjuntarComprobante], 
+    [vSolicitudFactura].[UsoCFDI] AS [UsoCFDI], 
+    [vSolicitudFactura].[MetodoPago] AS [MetodoPago], 
+    [vSolicitudFactura].[Nombre] AS [Nombre], 
+    [vSolicitudFactura].[ApellidoPaterno] AS [ApellidoPaterno], 
+    [vSolicitudFactura].[ApellidoMaterno] AS [ApellidoMaterno], 
+    [vSolicitudFactura].[IdEstatus] AS [IdEstatus], 
+    [vSolicitudFactura].[FormaPago] AS [FormaPago], 
+    [vSolicitudFactura].[IdClienteRazonSocialFacturacion] AS [IdClienteRazonSocialFacturacion], 
+    [vSolicitudFactura].[RazonSocialCliente] AS [RazonSocialCliente], 
+    [vSolicitudFactura].[REP_PDF] AS [REP_PDF], 
+    [vSolicitudFactura].[REP_XML] AS [REP_XML], 
+    [vSolicitudFactura].[CargaFactura] AS [CargaFactura], 
+    [vSolicitudFactura].[CargaREP] AS [CargaREP], 
+    [vSolicitudFactura].[ObservacionesContabilidad] AS [ObservacionesContabilidad], 
+    [vSolicitudFactura].[RFC_Receptor] AS [RFC_Receptor], 
+    [vSolicitudFactura].[PeriodosEnFactura] AS [PeriodosEnFactura], 
+    [vSolicitudFactura].[FechaComprobantePago] AS [FechaComprobantePago], 
+    [vSolicitudFactura].[Comprobante] AS [Comprobante], 
+    [vSolicitudFactura].[SaldoFavor] AS [SaldoFavor], 
+    [vSolicitudFactura].[SaldoAplicado] AS [SaldoAplicado], 
+    [vSolicitudFactura].[NTotal] AS [NTotal], 
+    [vSolicitudFactura].[Costeo_HTML] AS [Costeo_HTML], 
+    [vSolicitudFactura].[Estatus] AS [Estatus], 
+    [vSolicitudFactura].[ArchivoBancos] AS [ArchivoBancos], 
+    [vSolicitudFactura].[Expr1] AS [Expr1], 
+    [vSolicitudFactura].[Periodos] AS [Periodos], 
+    [vSolicitudFactura].[TotalPercepcionesTradicional] AS [TotalPercepcionesTradicional], 
+    [vSolicitudFactura].[TotalPercepcionesEsquema] AS [TotalPercepcionesEsquema], 
+    [vSolicitudFactura].[Total_Patron] AS [Total_Patron], 
+    [vSolicitudFactura].[ISN] AS [ISN], 
+    [vSolicitudFactura].[Honorario] AS [Honorario], 
+    [vSolicitudFactura].[Otros] AS [Otros], 
+    [vSolicitudFactura].[ObservacionesRep] AS [ObservacionesRep]
+    FROM [dbo].[vSolicitudFactura] AS [vSolicitudFactura]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_ArchivosAltaCuentas" EntityType="Self.vw_ArchivosAltaCuentas" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_ArchivosAltaCuentas].[IdArchivoAltas] AS [IdArchivoAltas], 
+    [vw_ArchivosAltaCuentas].[IdCliente] AS [IdCliente], 
+    [vw_ArchivosAltaCuentas].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [vw_ArchivosAltaCuentas].[Ruta] AS [Ruta], 
+    [vw_ArchivosAltaCuentas].[Observaciones] AS [Observaciones], 
+    [vw_ArchivosAltaCuentas].[ObservacionesTesoreria] AS [ObservacionesTesoreria], 
+    [vw_ArchivosAltaCuentas].[IdEstatus] AS [IdEstatus], 
+    [vw_ArchivosAltaCuentas].[IdCaptura] AS [IdCaptura], 
+    [vw_ArchivosAltaCuentas].[FechaCaptura] AS [FechaCaptura], 
+    [vw_ArchivosAltaCuentas].[IdRechazo] AS [IdRechazo], 
+    [vw_ArchivosAltaCuentas].[FechaRechazo] AS [FechaRechazo], 
+    [vw_ArchivosAltaCuentas].[IdFinaliza] AS [IdFinaliza], 
+    [vw_ArchivosAltaCuentas].[FechaFinaliza] AS [FechaFinaliza], 
+    [vw_ArchivosAltaCuentas].[Cliente] AS [Cliente], 
+    [vw_ArchivosAltaCuentas].[UnidadNegocio] AS [UnidadNegocio], 
+    [vw_ArchivosAltaCuentas].[UsuarioCaptura] AS [UsuarioCaptura], 
+    [vw_ArchivosAltaCuentas].[UsuarioRechazo] AS [UsuarioRechazo], 
+    [vw_ArchivosAltaCuentas].[UsuarioFinaliza] AS [UsuarioFinaliza], 
+    [vw_ArchivosAltaCuentas].[Estatus] AS [Estatus]
+    FROM [dbo].[vw_ArchivosAltaCuentas] AS [vw_ArchivosAltaCuentas]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TadaContabilidadModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Costeos">
+          <Key>
+            <PropertyRef Name="IdCosteo" />
+          </Key>
+          <Property Name="IdCosteo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TipoNomina" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DividirPatronal" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="SeparadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AgruparPorDescripcion" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Costeos_Conceptos">
+          <Key>
+            <PropertyRef Name="IdCosteosConcepto" />
+          </Key>
+          <Property Name="IdCosteosConcepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCosteo" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDatoFacturacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="Visible" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Costeos_Conceptos_Configuracion">
+          <Key>
+            <PropertyRef Name="IdCosteoConceptoConfiguracion" />
+          </Key>
+          <Property Name="IdCosteoConceptoConfiguracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="IdCosteosConcepto" Type="Int32" />
+          <Property Name="Concepto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Operador" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="TipoConcepto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DescripcionValor" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Valor" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="OperadorGral" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Costeos_Movimientos">
+          <Key>
+            <PropertyRef Name="IdCosteosMovimiento" />
+          </Key>
+          <Property Name="IdCosteosMovimiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="Esquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoMovimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MovimientoAfecta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdMovimientoAfecta" Type="Int32" />
+          <Property Name="IdCosteo" Type="Int32" />
+          <Property Name="IdPatrona" Type="Int32" />
+          <Property Name="IdDivision" Type="Int32" />
+          <Property Name="IdConcepto" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="TadaContabilidadEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Costeos" EntityType="Self.Costeos" />
+          <EntitySet Name="Costeos_Conceptos" EntityType="Self.Costeos_Conceptos" />
+          <EntitySet Name="Costeos_Conceptos_Configuracion" EntityType="Self.Costeos_Conceptos_Configuracion" />
+          <EntitySet Name="Costeos_Movimientos" EntityType="Self.Costeos_Movimientos" />
+          <EntitySet Name="ClienteRazonSocialFacturacion" EntityType="TadaContabilidadModel.ClienteRazonSocialFacturacion" />
+          <EntitySet Name="ConceptosFacturacion" EntityType="TadaContabilidadModel.ConceptosFacturacion" />
+          <EntitySet Name="Facturadoras" EntityType="TadaContabilidadModel.Facturadoras" />
+          <EntitySet Name="GruposFacturacion" EntityType="TadaContabilidadModel.GruposFacturacion" />
+          <EntitySet Name="v_Costeos_ClienteGrupo" EntityType="TadaContabilidadModel.v_Costeos_ClienteGrupo" />
+          <EntitySet Name="Facturadoras_Grupos" EntityType="TadaContabilidadModel.Facturadoras_Grupos" />
+          <EntitySet Name="v_Costeos_Grupos_Facturadoras" EntityType="TadaContabilidadModel.v_Costeos_Grupos_Facturadoras" />
+          <EntitySet Name="Costeos_Fondeos" EntityType="TadaContabilidadModel.Costeos_Fondeos" />
+          <EntitySet Name="vCosteos_Fondeos" EntityType="TadaContabilidadModel.vCosteos_Fondeos" />
+          <EntitySet Name="ArchivoAltaCuentas" EntityType="TadaContabilidadModel.ArchivoAltaCuentas" />
+          <EntitySet Name="vw_ArchivosAltaCuentas" EntityType="TadaContabilidadModel.vw_ArchivosAltaCuentas" />
+          <EntitySet Name="SolicitudCheque" EntityType="TadaContabilidadModel.SolicitudCheque" />
+          <EntitySet Name="v_Tesoreria_SolicitudCheque" EntityType="TadaContabilidadModel.v_Tesoreria_SolicitudCheque" />
+          <EntitySet Name="PagosAdicionales" EntityType="TadaContabilidadModel.PagosAdicionales" />
+          <EntitySet Name="v_Tesoreria_PagosAdicionales" EntityType="TadaContabilidadModel.v_Tesoreria_PagosAdicionales" />
+          <FunctionImport Name="SP_InsertaSaldosCosteo">
+            <Parameter Name="IdCaptura" Mode="In" Type="Int32" />
+            <Parameter Name="IdCliente" Mode="In" Type="Int32" />
+            <Parameter Name="IdUnidadnegocio" Mode="In" Type="Int32" />
+            <Parameter Name="IdFacturadora" Mode="In" Type="Int32" />
+            <Parameter Name="Importe" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="v_saldosclientes" EntityType="TadaContabilidadModel.v_saldosclientes" />
+          <FunctionImport Name="SP_ValidaMontoFacturados">
+            <Parameter Name="IdCaptura" Mode="In" Type="Int32" />
+            <Parameter Name="IdCliente" Mode="In" Type="Int32" />
+            <Parameter Name="IdFacturadora" Mode="In" Type="Int32" />
+            <Parameter Name="idcosteo" Mode="In" Type="Int32" />
+            <Parameter Name="Importe" Mode="In" Type="Decimal" />
+            <Parameter Name="Texto" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vSolicitudFactura" EntityType="TadaContabilidadModel.vSolicitudFactura" />
+          <EntitySet Name="FacturasContabilidad" EntityType="TadaContabilidadModel.FacturasContabilidad" />
+          <EntitySet Name="v_Tesoreria_Solicitud" EntityType="TadaContabilidadModel.v_Tesoreria_Solicitud" />
+          <FunctionImport Name="sp_SaldosClientesDetalle" ReturnType="Collection(TadaContabilidadModel.sp_SaldosClientesDetalle_Result)">
+            <Parameter Name="IdCliente" Mode="In" Type="Int32" />
+            <Parameter Name="IdFacturadora" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SaldosPorClientes" ReturnType="Collection(TadaContabilidadModel.sp_SaldosPorClientes_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="ClienteRazonSocialFacturacion">
+          <Key>
+            <PropertyRef Name="IdClienteRazonSocialFacturacion" />
+          </Key>
+          <Property Name="IdClienteRazonSocialFacturacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="RazonSocial" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdGrupoFacturacion" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="Idcaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ConceptosFacturacion">
+          <Key>
+            <PropertyRef Name="IdConceptoFacturacion" />
+          </Key>
+          <Property Name="IdConceptoFacturacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFacturadora" Type="Int32" />
+          <Property Name="DescripcionClaveSat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveSat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Facturadoras">
+          <Key>
+            <PropertyRef Name="IdFacturadora" />
+          </Key>
+          <Property Name="IdFacturadora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdBanco" Type="Int32" />
+          <Property Name="IdBanco2" Type="Int32" />
+          <Property Name="Facturadora" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Domicilio" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RFC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaIncioOperacion" Type="DateTime" Precision="0" />
+          <Property Name="ClaveFacturadora" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FacturacionMensual" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FacturacionAnual" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UsuarioMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PuertoMail" Type="Int32" />
+          <Property Name="HostMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="GruposFacturacion">
+          <Key>
+            <PropertyRef Name="IdGrupoFacturacion" />
+          </Key>
+          <Property Name="IdGrupoFacturacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" Nullable="false" />
+          <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="v_Costeos_ClienteGrupo">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+            <PropertyRef Name="IdGrupoFacturacion" />
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IdGrupoFacturacion" Type="Int32" Nullable="false" />
+          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Facturadoras_Grupos">
+          <Key>
+            <PropertyRef Name="IdFacturadorasGrupos" />
+          </Key>
+          <Property Name="IdFacturadorasGrupos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFacturadora" Type="Int32" Nullable="false" />
+          <Property Name="IdGrupoFacturacion" Type="Int32" Nullable="false" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" Nullable="false" />
+          <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="v_Costeos_Grupos_Facturadoras">
+          <Key>
+            <PropertyRef Name="IdGrupoFacturacion" />
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Observaciones" />
+            <PropertyRef Name="IdFacturadora" />
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdGrupoFacturacion" Type="Int32" Nullable="false" />
+          <Property Name="Grupo" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="Facturadora" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdFacturadora" Type="Int32" Nullable="false" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Costeos_Fondeos">
+          <Key>
+            <PropertyRef Name="IdOtroConcepto" />
+          </Key>
+          <Property Name="IdOtroConcepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="IdCosteo" Type="Int32" />
+          <Property Name="IdPatrona" Type="Int32" />
+          <Property Name="IdDivision" Type="Int32" />
+          <Property Name="Esquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Importe" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Conceptos" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vCosteos_Fondeos">
+          <Key>
+            <PropertyRef Name="IdOtroConcepto" />
+          </Key>
+          <Property Name="IdOtroConcepto" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="IdCosteo" Type="Int32" />
+          <Property Name="IdPatrona" Type="Int32" />
+          <Property Name="IdDivision" Type="Int32" />
+          <Property Name="Esquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Importe" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Conceptos" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="Expr1" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TipoNomina" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DividirPatronal" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="SeparadoPor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ArchivoAltaCuentas">
+          <Key>
+            <PropertyRef Name="IdArchivoAltas" />
+          </Key>
+          <Property Name="IdArchivoAltas" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="Ruta" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdRechazo" Type="Int32" />
+          <Property Name="FechaRechazo" Type="DateTime" Precision="3" />
+          <Property Name="IdFinaliza" Type="Int32" />
+          <Property Name="FechaFinaliza" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vw_ArchivosAltaCuentas">
+          <Key>
+            <PropertyRef Name="IdArchivoAltas" />
+          </Key>
+          <Property Name="IdArchivoAltas" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="Ruta" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdRechazo" Type="Int32" />
+          <Property Name="FechaRechazo" Type="DateTime" Precision="3" />
+          <Property Name="IdFinaliza" Type="Int32" />
+          <Property Name="FechaFinaliza" Type="DateTime" Precision="3" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadNegocio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioCaptura" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioRechazo" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioFinaliza" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SolicitudCheque">
+          <Key>
+            <PropertyRef Name="IdSolicitudCheque" />
+          </Key>
+          <Property Name="IdSolicitudCheque" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="rutaArchivo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesNominista" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdFinaliza" Type="Int32" />
+          <Property Name="FechaFinaliza" Type="DateTime" Precision="3" />
+          <Property Name="IdRechaza" Type="Int32" />
+          <Property Name="FechaRechaza" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="v_Tesoreria_SolicitudCheque">
+          <Key>
+            <PropertyRef Name="IdSolicitudCheque" />
+            <PropertyRef Name="UnidadNegocio" />
+            <PropertyRef Name="Periodo" />
+            <PropertyRef Name="FechaInicio" />
+            <PropertyRef Name="FechaFin" />
+            <PropertyRef Name="IdCliente" />
+            <PropertyRef Name="IdUnidadNegocio" />
+          </Key>
+          <Property Name="IdSolicitudCheque" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="rutaArchivo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesNominista" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdFinaliza" Type="Int32" />
+          <Property Name="FechaFinaliza" Type="DateTime" Precision="3" />
+          <Property Name="IdRechaza" Type="Int32" />
+          <Property Name="FechaRechaza" Type="DateTime" Precision="3" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Periodo" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioCaptura" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioFinaliza" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioRechaza" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PagosAdicionales">
+          <Key>
+            <PropertyRef Name="IdPagoAdicional" />
+          </Key>
+          <Property Name="IdPagoAdicional" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="Archivo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesNomina" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdRechaza" Type="Int32" />
+          <Property Name="FechaRechaza" Type="DateTime" Precision="3" />
+          <Property Name="IdFinaliza" Type="Int32" />
+          <Property Name="FechaFinaliza" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="v_Tesoreria_PagosAdicionales">
+          <Key>
+            <PropertyRef Name="IdPagoAdicional" />
+            <PropertyRef Name="UnidadNegocio" />
+          </Key>
+          <Property Name="IdPagoAdicional" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="Archivo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesNomina" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdRechaza" Type="Int32" />
+          <Property Name="FechaRechaza" Type="DateTime" Precision="3" />
+          <Property Name="IdFinaliza" Type="Int32" />
+          <Property Name="FechaFinaliza" Type="DateTime" Precision="3" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioCaptura" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioRechaza" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioFinaliza" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="v_saldosclientes">
+          <Key>
+            <PropertyRef Name="IdFacturadora" />
+          </Key>
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Facturadora" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdFacturadora" Type="Int32" Nullable="false" />
+          <Property Name="Saldo" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="vSolicitudFactura">
+          <Key>
+            <PropertyRef Name="IdFacturasContabilidad" />
+            <PropertyRef Name="UnidadNegocio" />
+            <PropertyRef Name="Comprobante" />
+          </Key>
+          <Property Name="IdFacturasContabilidad" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="FechaFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Periodo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Subtotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdEmpresaFacturadora" Type="Int32" />
+          <Property Name="IdConceptoFacturacion" Type="Int32" />
+          <Property Name="Observaciones" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FacturaPDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacturaXML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaEnvioFactura" Type="DateTime" Precision="3" />
+          <Property Name="IdAdjuntoFactura" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdCancelacion" Type="Int32" />
+          <Property Name="MotivoCancelacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdFacturadora" Type="Int32" />
+          <Property Name="Facturadora" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RFC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveSat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DescripcionClaveSat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdjuntarComprobante" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UsoCFDI" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="MetodoPago" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="FormaPago" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="IdClienteRazonSocialFacturacion" Type="Int32" />
+          <Property Name="RazonSocialCliente" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="REP_PDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="REP_XML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CargaFactura" Type="Int32" />
+          <Property Name="CargaREP" Type="Int32" />
+          <Property Name="ObservacionesContabilidad" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RFC_Receptor" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="PeriodosEnFactura" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaComprobantePago" Type="DateTime" Precision="3" />
+          <Property Name="Comprobante" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="SaldoFavor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAplicado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Costeo_HTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ArchivoBancos" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Expr1" Type="Int32" />
+          <Property Name="Periodos" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TotalPercepcionesTradicional" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPercepcionesEsquema" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Otros" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ObservacionesRep" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FacturasContabilidad">
+          <Key>
+            <PropertyRef Name="IdFacturasContabilidad" />
+          </Key>
+          <Property Name="IdFacturasContabilidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="IdClienteRazonSocialFacturacion" Type="Int32" />
+          <Property Name="MetodoPago" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="UsoCFDI" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="FormaPago" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Periodo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Importe" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPercepcionesTradicional" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPercepcionesEsquema" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HonorarioMaquila" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Otros" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subtotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoFavor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAplicado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdEmpresaFacturadora" Type="Int32" />
+          <Property Name="IdConceptoFacturacion" Type="Int32" />
+          <Property Name="Costeo_HTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Costeo_Json" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Costeo_HTML_Original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Costeo_Json_Original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoBusqueda" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AdjuntarComprobante" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ArchivoBancos" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FechaComprobantePago" Type="DateTime" Precision="3" />
+          <Property Name="Observaciones" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FacturaPDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacturaXML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaEnvioFactura" Type="DateTime" Precision="3" />
+          <Property Name="FechaFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FolioFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="REP_PDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="REP_XML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CargaFactura" Type="Int32" />
+          <Property Name="CargaREP" Type="Int32" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdEstatusTesoreria" Type="Int32" />
+          <Property Name="IdAdjuntoFactura" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="IdCancelacion" Type="Int32" />
+          <Property Name="MotivoCancelacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IdCancelacionTesoreria" Type="Int32" />
+          <Property Name="IdFinalizacionTesoreria" Type="Int32" />
+          <Property Name="FechaSolicitudTesoreria" Type="DateTime" Precision="3" />
+          <Property Name="FechaCancelacionTesoreria" Type="DateTime" Precision="3" />
+          <Property Name="FechaFinalizacionTesoreria" Type="DateTime" Precision="3" />
+          <Property Name="ObservacionesContabilidad" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesRep" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObservacionesParaTesoreria" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CmprobanteDispersion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="NombrePatrona" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="NombreSindicato" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FechaPago" Type="DateTime" Precision="3" />
+          <Property Name="ComprobanteAutorizacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdjuntarComprobanteTesoreria" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ArchivoBancosTesoreria" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdMotivoRechazoTesoreria" Type="Int32" />
+          <Property Name="OtroMotivoRechazoTesoreria" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="v_Tesoreria_Solicitud">
+          <Key>
+            <PropertyRef Name="IdFacturasContabilidad" />
+            <PropertyRef Name="UnidadNegocio" />
+            <PropertyRef Name="Comprobante" />
+          </Key>
+          <Property Name="IdFacturasContabilidad" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="FechaFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Periodo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Subtotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdEmpresaFacturadora" Type="Int32" />
+          <Property Name="IdConceptoFacturacion" Type="Int32" />
+          <Property Name="Observaciones" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="FacturaPDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FacturaXML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaEnvioFactura" Type="DateTime" Precision="3" />
+          <Property Name="IdAdjuntoFactura" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdCancelacion" Type="Int32" />
+          <Property Name="MotivoCancelacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdFacturadora" Type="Int32" />
+          <Property Name="Facturadora" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RFC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveSat" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DescripcionClaveSat" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdjuntarComprobante" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UsoCFDI" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="MetodoPago" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="FormaPago" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="IdClienteRazonSocialFacturacion" Type="Int32" />
+          <Property Name="RazonSocialCliente" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="REP_PDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="REP_XML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CargaFactura" Type="Int32" />
+          <Property Name="CargaREP" Type="Int32" />
+          <Property Name="ObservacionesContabilidad" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="RFC_Receptor" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="PeriodosEnFactura" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FechaComprobantePago" Type="DateTime" Precision="3" />
+          <Property Name="Comprobante" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="SaldoFavor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAplicado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Costeo_HTML" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesTesoreria" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ObservacionesParaTesoreria" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatusTesoreria" Type="Int32" />
+          <Property Name="EstatusTesoreria" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaSolicitudTesoreria" Type="DateTime" Precision="3" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdCancelacionTesoreria" Type="Int32" />
+          <Property Name="IdFinalizacionTesoreria" Type="Int32" />
+          <Property Name="FechaCancelacionTesoreria" Type="DateTime" Precision="3" />
+          <Property Name="FechaFinalizacionTesoreria" Type="DateTime" Precision="3" />
+          <Property Name="ArchivoBancos" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CmprobanteDispersion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="NombrePatrona" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="NombreSindicato" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FechaPago" Type="DateTime" Precision="3" />
+          <Property Name="ComprobanteAutorizacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdMotivoRechazoTesoreria" Type="Int32" />
+          <Property Name="MotivoRechazo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="OtroMotivoRechazoTesoreria" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AdjuntarComprobanteTesoreria" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ArchivoBancosTesoreria" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="sp_SaldosClientesDetalle_Result">
+          <Property Type="Int32" Name="IdCliente" Nullable="true" />
+          <Property Type="Int32" Name="IdFacturadora" Nullable="false" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Facturadora" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="Importe" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="TipoMovimiento" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="FechaCaptura" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_SaldosPorClientes_Result">
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Facturadora" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="IdCliente" Nullable="true" />
+          <Property Type="Int32" Name="IdFacturadora" Nullable="false" />
+          <Property Type="Decimal" Name="Saldo" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TadaContabilidadModelStoreContainer" CdmEntityContainer="TadaContabilidadEntities">
+          <EntitySetMapping Name="Costeos">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Costeos">
+              <MappingFragment StoreEntitySet="Costeos">
+                <ScalarProperty Name="IdCosteo" ColumnName="IdCosteo" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
+                <ScalarProperty Name="TipoNomina" ColumnName="TipoNomina" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="DividirPatronal" ColumnName="DividirPatronal" />
+                <ScalarProperty Name="SeparadoPor" ColumnName="SeparadoPor" />
+                <ScalarProperty Name="AgruparPorDescripcion" ColumnName="AgruparPorDescripcion" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Costeos_Conceptos">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Costeos_Conceptos">
+              <MappingFragment StoreEntitySet="Costeos_Conceptos">
+                <ScalarProperty Name="IdCosteosConcepto" ColumnName="IdCosteosConcepto" />
+                <ScalarProperty Name="IdCosteo" ColumnName="IdCosteo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="TipoDatoFacturacion" ColumnName="TipoDatoFacturacion" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="Visible" ColumnName="Visible" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Costeos_Conceptos_Configuracion">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Costeos_Conceptos_Configuracion">
+              <MappingFragment StoreEntitySet="Costeos_Conceptos_Configuracion">
+                <ScalarProperty Name="IdCosteoConceptoConfiguracion" ColumnName="IdCosteoConceptoConfiguracion" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCosteosConcepto" ColumnName="IdCosteosConcepto" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Operador" ColumnName="Operador" />
+                <ScalarProperty Name="TipoConcepto" ColumnName="TipoConcepto" />
+                <ScalarProperty Name="DescripcionValor" ColumnName="DescripcionValor" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="OperadorGral" ColumnName="OperadorGral" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Costeos_Movimientos">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Costeos_Movimientos">
+              <MappingFragment StoreEntitySet="Costeos_Movimientos">
+                <ScalarProperty Name="IdCosteosMovimiento" ColumnName="IdCosteosMovimiento" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="Esquema" ColumnName="Esquema" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="MovimientoAfecta" ColumnName="MovimientoAfecta" />
+                <ScalarProperty Name="IdMovimientoAfecta" ColumnName="IdMovimientoAfecta" />
+                <ScalarProperty Name="IdCosteo" ColumnName="IdCosteo" />
+                <ScalarProperty Name="IdPatrona" ColumnName="IdPatrona" />
+                <ScalarProperty Name="IdDivision" ColumnName="IdDivision" />
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClienteRazonSocialFacturacion">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.ClienteRazonSocialFacturacion">
+              <MappingFragment StoreEntitySet="ClienteRazonSocialFacturacion">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="Idcaptura" ColumnName="Idcaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdGrupoFacturacion" ColumnName="IdGrupoFacturacion" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdClienteRazonSocialFacturacion" ColumnName="IdClienteRazonSocialFacturacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConceptosFacturacion">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.ConceptosFacturacion">
+              <MappingFragment StoreEntitySet="ConceptosFacturacion">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ClaveSat" ColumnName="ClaveSat" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="DescripcionClaveSat" ColumnName="DescripcionClaveSat" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="IdConceptoFacturacion" ColumnName="IdConceptoFacturacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturadoras">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Facturadoras">
+              <MappingFragment StoreEntitySet="Facturadoras">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="HostMail" ColumnName="HostMail" />
+                <ScalarProperty Name="PuertoMail" ColumnName="PuertoMail" />
+                <ScalarProperty Name="PasswordMail" ColumnName="PasswordMail" />
+                <ScalarProperty Name="UsuarioMail" ColumnName="UsuarioMail" />
+                <ScalarProperty Name="FacturacionAnual" ColumnName="FacturacionAnual" />
+                <ScalarProperty Name="FacturacionMensual" ColumnName="FacturacionMensual" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="ClaveFacturadora" ColumnName="ClaveFacturadora" />
+                <ScalarProperty Name="FechaIncioOperacion" ColumnName="FechaIncioOperacion" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="IdBanco2" ColumnName="IdBanco2" />
+                <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GruposFacturacion">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.GruposFacturacion">
+              <MappingFragment StoreEntitySet="GruposFacturacion">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="IdGrupoFacturacion" ColumnName="IdGrupoFacturacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Costeos_ClienteGrupo">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.v_Costeos_ClienteGrupo">
+              <MappingFragment StoreEntitySet="v_Costeos_ClienteGrupo">
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="IdGrupoFacturacion" ColumnName="IdGrupoFacturacion" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturadoras_Grupos">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Facturadoras_Grupos">
+              <MappingFragment StoreEntitySet="Facturadoras_Grupos">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdGrupoFacturacion" ColumnName="IdGrupoFacturacion" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="IdFacturadorasGrupos" ColumnName="IdFacturadorasGrupos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Costeos_Grupos_Facturadoras">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.v_Costeos_Grupos_Facturadoras">
+              <MappingFragment StoreEntitySet="v_Costeos_Grupos_Facturadoras">
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="IdGrupoFacturacion" ColumnName="IdGrupoFacturacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Costeos_Fondeos">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.Costeos_Fondeos">
+              <MappingFragment StoreEntitySet="Costeos_Fondeos">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Conceptos" ColumnName="Conceptos" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Esquema" ColumnName="Esquema" />
+                <ScalarProperty Name="IdDivision" ColumnName="IdDivision" />
+                <ScalarProperty Name="IdPatrona" ColumnName="IdPatrona" />
+                <ScalarProperty Name="IdCosteo" ColumnName="IdCosteo" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdOtroConcepto" ColumnName="IdOtroConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vCosteos_Fondeos">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.vCosteos_Fondeos">
+              <MappingFragment StoreEntitySet="vCosteos_Fondeos">
+                <ScalarProperty Name="SeparadoPor" ColumnName="SeparadoPor" />
+                <ScalarProperty Name="DividirPatronal" ColumnName="DividirPatronal" />
+                <ScalarProperty Name="TipoNomina" ColumnName="TipoNomina" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Conceptos" ColumnName="Conceptos" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Esquema" ColumnName="Esquema" />
+                <ScalarProperty Name="IdDivision" ColumnName="IdDivision" />
+                <ScalarProperty Name="IdPatrona" ColumnName="IdPatrona" />
+                <ScalarProperty Name="IdCosteo" ColumnName="IdCosteo" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdOtroConcepto" ColumnName="IdOtroConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArchivoAltaCuentas">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.ArchivoAltaCuentas">
+              <MappingFragment StoreEntitySet="ArchivoAltaCuentas">
+                <ScalarProperty Name="FechaFinaliza" ColumnName="FechaFinaliza" />
+                <ScalarProperty Name="IdFinaliza" ColumnName="IdFinaliza" />
+                <ScalarProperty Name="FechaRechazo" ColumnName="FechaRechazo" />
+                <ScalarProperty Name="IdRechazo" ColumnName="IdRechazo" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Ruta" ColumnName="Ruta" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdArchivoAltas" ColumnName="IdArchivoAltas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_ArchivosAltaCuentas">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.vw_ArchivosAltaCuentas">
+              <MappingFragment StoreEntitySet="vw_ArchivosAltaCuentas">
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="UsuarioFinaliza" ColumnName="UsuarioFinaliza" />
+                <ScalarProperty Name="UsuarioRechazo" ColumnName="UsuarioRechazo" />
+                <ScalarProperty Name="UsuarioCaptura" ColumnName="UsuarioCaptura" />
+                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="FechaFinaliza" ColumnName="FechaFinaliza" />
+                <ScalarProperty Name="IdFinaliza" ColumnName="IdFinaliza" />
+                <ScalarProperty Name="FechaRechazo" ColumnName="FechaRechazo" />
+                <ScalarProperty Name="IdRechazo" ColumnName="IdRechazo" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Ruta" ColumnName="Ruta" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdArchivoAltas" ColumnName="IdArchivoAltas" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SolicitudCheque">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.SolicitudCheque">
+              <MappingFragment StoreEntitySet="SolicitudCheque">
+                <ScalarProperty Name="FechaRechaza" ColumnName="FechaRechaza" />
+                <ScalarProperty Name="IdRechaza" ColumnName="IdRechaza" />
+                <ScalarProperty Name="FechaFinaliza" ColumnName="FechaFinaliza" />
+                <ScalarProperty Name="IdFinaliza" ColumnName="IdFinaliza" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="ObservacionesNominista" ColumnName="ObservacionesNominista" />
+                <ScalarProperty Name="rutaArchivo" ColumnName="rutaArchivo" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdSolicitudCheque" ColumnName="IdSolicitudCheque" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Tesoreria_SolicitudCheque">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.v_Tesoreria_SolicitudCheque">
+              <MappingFragment StoreEntitySet="v_Tesoreria_SolicitudCheque">
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="UsuarioRechaza" ColumnName="UsuarioRechaza" />
+                <ScalarProperty Name="UsuarioFinaliza" ColumnName="UsuarioFinaliza" />
+                <ScalarProperty Name="UsuarioCaptura" ColumnName="UsuarioCaptura" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="FechaRechaza" ColumnName="FechaRechaza" />
+                <ScalarProperty Name="IdRechaza" ColumnName="IdRechaza" />
+                <ScalarProperty Name="FechaFinaliza" ColumnName="FechaFinaliza" />
+                <ScalarProperty Name="IdFinaliza" ColumnName="IdFinaliza" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="ObservacionesNominista" ColumnName="ObservacionesNominista" />
+                <ScalarProperty Name="rutaArchivo" ColumnName="rutaArchivo" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdSolicitudCheque" ColumnName="IdSolicitudCheque" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PagosAdicionales">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.PagosAdicionales">
+              <MappingFragment StoreEntitySet="PagosAdicionales">
+                <ScalarProperty Name="FechaFinaliza" ColumnName="FechaFinaliza" />
+                <ScalarProperty Name="IdFinaliza" ColumnName="IdFinaliza" />
+                <ScalarProperty Name="FechaRechaza" ColumnName="FechaRechaza" />
+                <ScalarProperty Name="IdRechaza" ColumnName="IdRechaza" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="ObservacionesNomina" ColumnName="ObservacionesNomina" />
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdPagoAdicional" ColumnName="IdPagoAdicional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Tesoreria_PagosAdicionales">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.v_Tesoreria_PagosAdicionales">
+              <MappingFragment StoreEntitySet="v_Tesoreria_PagosAdicionales">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="UsuarioFinaliza" ColumnName="UsuarioFinaliza" />
+                <ScalarProperty Name="UsuarioRechaza" ColumnName="UsuarioRechaza" />
+                <ScalarProperty Name="UsuarioCaptura" ColumnName="UsuarioCaptura" />
+                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="FechaFinaliza" ColumnName="FechaFinaliza" />
+                <ScalarProperty Name="IdFinaliza" ColumnName="IdFinaliza" />
+                <ScalarProperty Name="FechaRechaza" ColumnName="FechaRechaza" />
+                <ScalarProperty Name="IdRechaza" ColumnName="IdRechaza" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="ObservacionesNomina" ColumnName="ObservacionesNomina" />
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdPagoAdicional" ColumnName="IdPagoAdicional" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_InsertaSaldosCosteo" FunctionName="TadaContabilidadModel.Store.SP_InsertaSaldosCosteo" />
+          <EntitySetMapping Name="v_saldosclientes">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.v_saldosclientes">
+              <MappingFragment StoreEntitySet="v_saldosclientes">
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_ValidaMontoFacturados" FunctionName="TadaContabilidadModel.Store.SP_ValidaMontoFacturados" />
+          <EntitySetMapping Name="vSolicitudFactura">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.vSolicitudFactura">
+              <MappingFragment StoreEntitySet="vSolicitudFactura">
+                <ScalarProperty Name="ObservacionesRep" ColumnName="ObservacionesRep" />
+                <ScalarProperty Name="Otros" ColumnName="Otros" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="ISN" ColumnName="ISN" />
+                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
+                <ScalarProperty Name="TotalPercepcionesEsquema" ColumnName="TotalPercepcionesEsquema" />
+                <ScalarProperty Name="TotalPercepcionesTradicional" ColumnName="TotalPercepcionesTradicional" />
+                <ScalarProperty Name="Periodos" ColumnName="Periodos" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="ArchivoBancos" ColumnName="ArchivoBancos" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Costeo_HTML" ColumnName="Costeo_HTML" />
+                <ScalarProperty Name="NTotal" ColumnName="NTotal" />
+                <ScalarProperty Name="SaldoAplicado" ColumnName="SaldoAplicado" />
+                <ScalarProperty Name="SaldoFavor" ColumnName="SaldoFavor" />
+                <ScalarProperty Name="Comprobante" ColumnName="Comprobante" />
+                <ScalarProperty Name="FechaComprobantePago" ColumnName="FechaComprobantePago" />
+                <ScalarProperty Name="PeriodosEnFactura" ColumnName="PeriodosEnFactura" />
+                <ScalarProperty Name="RFC_Receptor" ColumnName="RFC_Receptor" />
+                <ScalarProperty Name="ObservacionesContabilidad" ColumnName="ObservacionesContabilidad" />
+                <ScalarProperty Name="CargaREP" ColumnName="CargaREP" />
+                <ScalarProperty Name="CargaFactura" ColumnName="CargaFactura" />
+                <ScalarProperty Name="REP_XML" ColumnName="REP_XML" />
+                <ScalarProperty Name="REP_PDF" ColumnName="REP_PDF" />
+                <ScalarProperty Name="RazonSocialCliente" ColumnName="RazonSocialCliente" />
+                <ScalarProperty Name="IdClienteRazonSocialFacturacion" ColumnName="IdClienteRazonSocialFacturacion" />
+                <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="MetodoPago" ColumnName="MetodoPago" />
+                <ScalarProperty Name="UsoCFDI" ColumnName="UsoCFDI" />
+                <ScalarProperty Name="AdjuntarComprobante" ColumnName="AdjuntarComprobante" />
+                <ScalarProperty Name="DescripcionClaveSat" ColumnName="DescripcionClaveSat" />
+                <ScalarProperty Name="ClaveSat" ColumnName="ClaveSat" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="MotivoCancelacion" ColumnName="MotivoCancelacion" />
+                <ScalarProperty Name="IdCancelacion" ColumnName="IdCancelacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdAdjuntoFactura" ColumnName="IdAdjuntoFactura" />
+                <ScalarProperty Name="FechaEnvioFactura" ColumnName="FechaEnvioFactura" />
+                <ScalarProperty Name="FacturaXML" ColumnName="FacturaXML" />
+                <ScalarProperty Name="FacturaPDF" ColumnName="FacturaPDF" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="IdConceptoFacturacion" ColumnName="IdConceptoFacturacion" />
+                <ScalarProperty Name="IdEmpresaFacturadora" ColumnName="IdEmpresaFacturadora" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacturasContabilidad">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.FacturasContabilidad">
+              <MappingFragment StoreEntitySet="FacturasContabilidad">
+                <ScalarProperty Name="OtroMotivoRechazoTesoreria" ColumnName="OtroMotivoRechazoTesoreria" />
+                <ScalarProperty Name="IdMotivoRechazoTesoreria" ColumnName="IdMotivoRechazoTesoreria" />
+                <ScalarProperty Name="ArchivoBancosTesoreria" ColumnName="ArchivoBancosTesoreria" />
+                <ScalarProperty Name="AdjuntarComprobanteTesoreria" ColumnName="AdjuntarComprobanteTesoreria" />
+                <ScalarProperty Name="ComprobanteAutorizacion" ColumnName="ComprobanteAutorizacion" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="NombreSindicato" ColumnName="NombreSindicato" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="CmprobanteDispersion" ColumnName="CmprobanteDispersion" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="ObservacionesParaTesoreria" ColumnName="ObservacionesParaTesoreria" />
+                <ScalarProperty Name="ObservacionesRep" ColumnName="ObservacionesRep" />
+                <ScalarProperty Name="ObservacionesContabilidad" ColumnName="ObservacionesContabilidad" />
+                <ScalarProperty Name="FechaFinalizacionTesoreria" ColumnName="FechaFinalizacionTesoreria" />
+                <ScalarProperty Name="FechaCancelacionTesoreria" ColumnName="FechaCancelacionTesoreria" />
+                <ScalarProperty Name="FechaSolicitudTesoreria" ColumnName="FechaSolicitudTesoreria" />
+                <ScalarProperty Name="IdFinalizacionTesoreria" ColumnName="IdFinalizacionTesoreria" />
+                <ScalarProperty Name="IdCancelacionTesoreria" ColumnName="IdCancelacionTesoreria" />
+                <ScalarProperty Name="MotivoCancelacion" ColumnName="MotivoCancelacion" />
+                <ScalarProperty Name="IdCancelacion" ColumnName="IdCancelacion" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdAdjuntoFactura" ColumnName="IdAdjuntoFactura" />
+                <ScalarProperty Name="IdEstatusTesoreria" ColumnName="IdEstatusTesoreria" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="CargaREP" ColumnName="CargaREP" />
+                <ScalarProperty Name="CargaFactura" ColumnName="CargaFactura" />
+                <ScalarProperty Name="REP_XML" ColumnName="REP_XML" />
+                <ScalarProperty Name="REP_PDF" ColumnName="REP_PDF" />
+                <ScalarProperty Name="FolioFactura" ColumnName="FolioFactura" />
+                <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
+                <ScalarProperty Name="FechaEnvioFactura" ColumnName="FechaEnvioFactura" />
+                <ScalarProperty Name="FacturaXML" ColumnName="FacturaXML" />
+                <ScalarProperty Name="FacturaPDF" ColumnName="FacturaPDF" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="FechaComprobantePago" ColumnName="FechaComprobantePago" />
+                <ScalarProperty Name="ArchivoBancos" ColumnName="ArchivoBancos" />
+                <ScalarProperty Name="AdjuntarComprobante" ColumnName="AdjuntarComprobante" />
+                <ScalarProperty Name="CodigoBusqueda" ColumnName="CodigoBusqueda" />
+                <ScalarProperty Name="Costeo_Json_Original" ColumnName="Costeo_Json_Original" />
+                <ScalarProperty Name="Costeo_HTML_Original" ColumnName="Costeo_HTML_Original" />
+                <ScalarProperty Name="Costeo_Json" ColumnName="Costeo_Json" />
+                <ScalarProperty Name="Costeo_HTML" ColumnName="Costeo_HTML" />
+                <ScalarProperty Name="IdConceptoFacturacion" ColumnName="IdConceptoFacturacion" />
+                <ScalarProperty Name="IdEmpresaFacturadora" ColumnName="IdEmpresaFacturadora" />
+                <ScalarProperty Name="NTotal" ColumnName="NTotal" />
+                <ScalarProperty Name="SaldoAplicado" ColumnName="SaldoAplicado" />
+                <ScalarProperty Name="SaldoFavor" ColumnName="SaldoFavor" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Otros" ColumnName="Otros" />
+                <ScalarProperty Name="HonorarioMaquila" ColumnName="HonorarioMaquila" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="ISN" ColumnName="ISN" />
+                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
+                <ScalarProperty Name="TotalPercepcionesEsquema" ColumnName="TotalPercepcionesEsquema" />
+                <ScalarProperty Name="TotalPercepcionesTradicional" ColumnName="TotalPercepcionesTradicional" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+                <ScalarProperty Name="UsoCFDI" ColumnName="UsoCFDI" />
+                <ScalarProperty Name="MetodoPago" ColumnName="MetodoPago" />
+                <ScalarProperty Name="IdClienteRazonSocialFacturacion" ColumnName="IdClienteRazonSocialFacturacion" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_Tesoreria_Solicitud">
+            <EntityTypeMapping TypeName="TadaContabilidadModel.v_Tesoreria_Solicitud">
+              <MappingFragment StoreEntitySet="v_Tesoreria_Solicitud">
+                <ScalarProperty Name="ArchivoBancosTesoreria" ColumnName="ArchivoBancosTesoreria" />
+                <ScalarProperty Name="AdjuntarComprobanteTesoreria" ColumnName="AdjuntarComprobanteTesoreria" />
+                <ScalarProperty Name="OtroMotivoRechazoTesoreria" ColumnName="OtroMotivoRechazoTesoreria" />
+                <ScalarProperty Name="MotivoRechazo" ColumnName="MotivoRechazo" />
+                <ScalarProperty Name="IdMotivoRechazoTesoreria" ColumnName="IdMotivoRechazoTesoreria" />
+                <ScalarProperty Name="ComprobanteAutorizacion" ColumnName="ComprobanteAutorizacion" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="NombreSindicato" ColumnName="NombreSindicato" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="CmprobanteDispersion" ColumnName="CmprobanteDispersion" />
+                <ScalarProperty Name="ArchivoBancos" ColumnName="ArchivoBancos" />
+                <ScalarProperty Name="FechaFinalizacionTesoreria" ColumnName="FechaFinalizacionTesoreria" />
+                <ScalarProperty Name="FechaCancelacionTesoreria" ColumnName="FechaCancelacionTesoreria" />
+                <ScalarProperty Name="IdFinalizacionTesoreria" ColumnName="IdFinalizacionTesoreria" />
+                <ScalarProperty Name="IdCancelacionTesoreria" ColumnName="IdCancelacionTesoreria" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="FechaSolicitudTesoreria" ColumnName="FechaSolicitudTesoreria" />
+                <ScalarProperty Name="EstatusTesoreria" ColumnName="EstatusTesoreria" />
+                <ScalarProperty Name="IdEstatusTesoreria" ColumnName="IdEstatusTesoreria" />
+                <ScalarProperty Name="ObservacionesParaTesoreria" ColumnName="ObservacionesParaTesoreria" />
+                <ScalarProperty Name="ObservacionesTesoreria" ColumnName="ObservacionesTesoreria" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Costeo_HTML" ColumnName="Costeo_HTML" />
+                <ScalarProperty Name="NTotal" ColumnName="NTotal" />
+                <ScalarProperty Name="SaldoAplicado" ColumnName="SaldoAplicado" />
+                <ScalarProperty Name="SaldoFavor" ColumnName="SaldoFavor" />
+                <ScalarProperty Name="Comprobante" ColumnName="Comprobante" />
+                <ScalarProperty Name="FechaComprobantePago" ColumnName="FechaComprobantePago" />
+                <ScalarProperty Name="PeriodosEnFactura" ColumnName="PeriodosEnFactura" />
+                <ScalarProperty Name="RFC_Receptor" ColumnName="RFC_Receptor" />
+                <ScalarProperty Name="ObservacionesContabilidad" ColumnName="ObservacionesContabilidad" />
+                <ScalarProperty Name="CargaREP" ColumnName="CargaREP" />
+                <ScalarProperty Name="CargaFactura" ColumnName="CargaFactura" />
+                <ScalarProperty Name="REP_XML" ColumnName="REP_XML" />
+                <ScalarProperty Name="REP_PDF" ColumnName="REP_PDF" />
+                <ScalarProperty Name="RazonSocialCliente" ColumnName="RazonSocialCliente" />
+                <ScalarProperty Name="IdClienteRazonSocialFacturacion" ColumnName="IdClienteRazonSocialFacturacion" />
+                <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="MetodoPago" ColumnName="MetodoPago" />
+                <ScalarProperty Name="UsoCFDI" ColumnName="UsoCFDI" />
+                <ScalarProperty Name="AdjuntarComprobante" ColumnName="AdjuntarComprobante" />
+                <ScalarProperty Name="DescripcionClaveSat" ColumnName="DescripcionClaveSat" />
+                <ScalarProperty Name="ClaveSat" ColumnName="ClaveSat" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="MotivoCancelacion" ColumnName="MotivoCancelacion" />
+                <ScalarProperty Name="IdCancelacion" ColumnName="IdCancelacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdAdjuntoFactura" ColumnName="IdAdjuntoFactura" />
+                <ScalarProperty Name="FechaEnvioFactura" ColumnName="FechaEnvioFactura" />
+                <ScalarProperty Name="FacturaXML" ColumnName="FacturaXML" />
+                <ScalarProperty Name="FacturaPDF" ColumnName="FacturaPDF" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="IdConceptoFacturacion" ColumnName="IdConceptoFacturacion" />
+                <ScalarProperty Name="IdEmpresaFacturadora" ColumnName="IdEmpresaFacturadora" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_SaldosClientesDetalle" FunctionName="TadaContabilidadModel.Store.sp_SaldosClientesDetalle">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TadaContabilidadModel.sp_SaldosClientesDetalle_Result">
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="Importe" ColumnName="Importe" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SaldosPorClientes" FunctionName="TadaContabilidadModel.Store.sp_SaldosPorClientes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TadaContabilidadModel.sp_SaldosPorClientes_Result">
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Facturadora" ColumnName="Facturadora" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFacturadora" ColumnName="IdFacturadora" />
+                <ScalarProperty Name="Saldo" ColumnName="Saldo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

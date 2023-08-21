@@ -1,0 +1,116 @@
+﻿@model List<TadaNomina.Models.ViewModels.MovimientosIMSS.mMovimientosSinRespuesta>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string mensaje = ViewBag.Mensaje;
+}
+
+<div id="page-head">
+    @if (mensaje != null)
+    {
+        if (mensaje == "CORRECTO")
+        {
+            <div class="alert alert-success">
+                <button class="close" data-dismiss="alert">
+                    <i class="pci-cross pci-circle"></i>
+                </button>
+                <strong>Correcto:</strong>
+                Todas las respuestas has sido grabadas correctamente
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <button class="close" data-dismiss="alert">
+                    <i class="pci-cross pci-circle"></i>
+                </button>
+                <strong>Error:</strong>
+                @mensaje
+            </div>
+        }
+    }
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Movimientos sin respuesta</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel panel-body text-left">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Consulta respuesta
+            </h4>
+        </div>
+        <hr />
+        @if (Model.Count != 0)
+        {
+            <div class="panel-body">
+                <table id="demo-dt-selection" class="table table-striped table-bordered table-hover" cellspacing="0" width="80%">
+                    <thead>
+                        <tr>
+                            <th hidden="hidden">IdMovimiento</th>
+                            <th width="20%">Empleado</th>
+                            <th width="10%">Registro Patronal</th>
+                            <th width="20%">Nombre Patrona</th>
+                            <th width="10%">Lote</th>
+                            <th width="10%">Tipo Movimiento</th>
+                            <th width="10%">Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td hidden="hidden">@item.IdMovimiento</td>
+                                <td>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</td>
+                                <td aling="center">@item.RegistroPatronal</td>
+                                <td align="center">@item.NombrePatrona</td>
+                                <td align="center">@item.Lote</td>
+                                @if (item.TipoMovimiento == "A")
+                                {
+                                    <td align="center">
+                                        ALTA
+                                    </td>
+                                }
+                                @if (item.TipoMovimiento == "B")
+                                {
+                                    <td align="center">
+                                        BAJA
+                                    </td>
+                                }
+                                @if (item.TipoMovimiento == "C")
+                                {
+                                    <td align="center">
+                                        CAMBIO
+                                    </td>
+                                }
+                                <td align="center">@item.Fecha</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel-footer text-right">
+                        <a href="~/MovimientosSinRespuesta/Respuesta" class="btn btn-success _Load">Consultar</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="panel-body">
+                <div class="cls-container" style="background-color:white">
+                    <div class="cls-content">
+                        <h1 class="error-code text-muted">
+                            <i class="fa ti-face-smile"></i>
+                        </h1>
+                        <p class="h4 text-uppercase text-bold">No tiene movimientos sin respuesta capturada</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

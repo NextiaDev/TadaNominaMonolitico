@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/PacUtils.Core" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/PacUtils.Core" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="RespuestaTimbrado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CadenaTimbre" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Cfdi" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="DescripcionError" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="Uuid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Valido" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RespuestaTimbrado" nillable="true" type="tns:RespuestaTimbrado" />
+  <xs:complexType name="RespuestaCancelacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Acuse" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MensajeError" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusUuids" nillable="true" type="tns:ArrayOfStatusUuid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RespuestaCancelacion" nillable="true" type="tns:RespuestaCancelacion" />
+  <xs:complexType name="ArrayOfStatusUuid">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="StatusUuid" nillable="true" type="tns:StatusUuid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfStatusUuid" nillable="true" type="tns:ArrayOfStatusUuid" />
+  <xs:complexType name="StatusUuid">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Uuid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StatusUuid" nillable="true" type="tns:StatusUuid" />
+  <xs:complexType name="ResultadoConsulta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AcuseCancelacion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="AcuseEnvio" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Comprobante" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" type="tns:StatusComprobante" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResultadoConsulta" nillable="true" type="tns:ResultadoConsulta" />
+  <xs:simpleType name="StatusComprobante">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NoEncontrado" />
+      <xs:enumeration value="EnProceso" />
+      <xs:enumeration value="Enviado" />
+      <xs:enumeration value="Cancelado" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="StatusComprobante" nillable="true" type="tns:StatusComprobante" />
+</xs:schema>

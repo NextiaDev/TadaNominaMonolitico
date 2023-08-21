@@ -1,0 +1,80 @@
+﻿@model List<TadaNomina.Models.ViewModels.Facturacion.ModelSolicitudFacturas>
+@{
+    ViewBag.Title = "SFinalizadas";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Solicitud de Facturas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Solicitudes Finalizadas.</h3>
+            </div>
+            <div class="panel-body">
+
+                @Html.ActionLink("Regresar", "Index", "SolicitudFacturas", null, new { @class = "btn btn-primary btn-sm" })
+
+                <br /><br /><br />
+
+                @if (Model.Count() > 0)
+                {
+                    <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="3%" hidden="hidden">Id</th>
+                                <th width="40%">Descripción</th>
+                                <th width="5%">Tipo</th>
+                                <th width="8%">SubTotal</th>
+                                <th width="8%">IVA</th>
+                                <th width="8%">Total Costeo</th>
+                                <th width="8%">Total Factura</th>
+                                <th width="12%">Estatus</th>
+                                <th width="4%">Costeo</th>
+                                <th width="4%">Archivos</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td hidden="hidden">@item.Num</td>
+                                <td>@item.Descripcion</td>
+                                <td>@item.TipoEsquema</td>
+                                <td>$@item.SubTotal</td>
+                                <td>$@item.IVA</td>
+                                <td>$@item.Total</td>
+                                <td>$@item.NTotal</td>
+                                <td>@item.Estatus</td>
+                                <td><a href="~/SolicitudFacturas/VerCosteo?_ID=@TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdfacturasContabilidad.ToString())&_PA=@TadaNomina.Models.ClassCore.Statics.Encriptar("2")" class="btn btn-sm btn-success load"><i class="glyphicon glyphicon-list-alt"></i></a></td>
+
+                                <td align="center"><a href="~/SolicitudFacturas/Archivos?_ID=@TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdfacturasContabilidad.ToString())" class="btn btn-sm btn-mint load"><i class="glyphicon glyphicon-file"></i></a></td>
+
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        No hay razones sociales cargadas .
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

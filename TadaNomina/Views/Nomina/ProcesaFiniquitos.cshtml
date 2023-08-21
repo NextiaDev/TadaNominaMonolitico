@@ -1,0 +1,613 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelProcesaNominaGeneral
+
+@{
+    ViewBag.Title = "ProcesaFiniquitos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Proceso de Finiquitos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Resumen de Finiquitos</h3>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("ProcesaFiniquitos", "Nomina", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+
+                @if (ViewBag.ValidaConceptos != null)
+                {
+                    if (ViewBag.ValidaConceptos)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span>
+                            No se han configurado todos los conceptos de finiquitos, es posible que no se obtengan los resultados esperados.
+                        </div>
+                    }
+                }
+
+                @Html.HiddenFor(model => model.IdPeriodoNomina)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cliente, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.Cliente, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.UnidadNegocio, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.UnidadNegocio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        <u> <strong> @Html.DisplayFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</strong></u>
+                    </div>
+                    @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TipoNomina, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaInicial, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.FechaInicial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.FechaFinal, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.FechaFinal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalEmpleados, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalEmpleados, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.TotalPagarSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalPagarSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalISR, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalISR, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.TotalISN, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalISN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalIMSS, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalIMSS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.TotalIMSS_P, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalIMSS_P, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 text-right">
+                        Aplicar Fecha de Baja a Todos los Empleados del Periodo:
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <input type="date" id="_fechaBajaGral" class="form-control" />
+                    </div>
+                    <div class="col-md-1 text-left">
+                        <a href="#" class="btn btn-default add-tooltip" title="Actualizar Fecha de Baja a Todos los Empleados" data-toggle="modal" data-target="#modalActualizaFecha"><span class="fa fa-refresh"></span></a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Claves, htmlAttributes: new { @class = "control-label col-md-3", })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Claves, new { htmlAttributes = new { @class = "form-control", id = "Claves", @placeholder = "0001, 0002, ...", @readonly = "readonly" } })
+
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" class="btn btn-mint btn-sm" data-toggle="modal" data-target="#modalBuscar"><span class="fa fa-search"></span> Buscar Empleados</a>
+                    </div>
+                </div>
+                @if (Session["sTipoUsuario"].ToString() == "System")
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ids, htmlAttributes: new { @class = "control-label col-md-3", })
+                        <div class="col-md-5">
+
+                            @Html.EditorFor(model => model.Ids, new { htmlAttributes = new { @class = "form-control", id = "Ids", @readonly = "readonly" } })
+
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group" style="display:none">
+                        @Html.LabelFor(model => model.Ids, htmlAttributes: new { @class = "control-label col-md-3", })
+                        <div class="col-md-5">
+
+                            @Html.EditorFor(model => model.Ids, new { htmlAttributes = new { @class = "form-control", id = "Ids", @readonly = "readonly" } })
+
+                        </div>
+                    </div>
+                }
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @if (Model.Mensaje != null)
+                        {
+                            if (Model.validacion)
+                            {
+                                <div class="alert alert-info">
+                                    <span class="fa fa-info"></span> @Model.Mensaje
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-danger">
+                                    <span class="fa fa-warning"></span> @Model.Mensaje
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+
+                    <div class="form-group" style="text-align:right">
+                        <button type="submit" id="Aceptar" class="btn btn-primary btn-sm"><span class="fa fa-refresh"></span> Procesar</button>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-file-pdf-o"></span>
+                                Formatos
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(" Tradicional", "FormatosFiniquitos", new { Model.IdPeriodoNomina }, new { @class = "fa fa-file-pdf-o" })</li>
+                                <li>@Html.ActionLink(" Esquema", "FormatosFiniquitoSs", new { Model.IdPeriodoNomina }, new { @class = "fa fa-file-pdf-o" })</li>
+                                <li>@Html.ActionLink(" Real", "FormatoFiniquitoRs", new { Model.IdPeriodoNomina }, new { @class = "fa fa-file-pdf-o" })</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalAcumular"><span class="fa fa-save"></span> Acumular</a>
+                        <a href="#" class="btn btn-dark btn-sm" id="getConfiguracionAvanzada"><span class="fa fa-list-ol"></span> Elegir Conceptos</a>
+                        <a href="#" class="btn btn-mint btn-sm" id="getConfigSDI"><span class="fa fa-cog"></span> Conf. SDI</a>
+                        <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalEliminar"><span class="fa fa-trash"></span> Eliminar</a>
+                        <a href="@Url.Action("Descargar", new { Id = Model.IdPeriodoNomina })" class="btn btn-success btn-sm"><span class="fa fa-download"></span> Descargar</a>
+                        <a href="@Url.Action("Index")" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar</a>
+
+                    </div>
+                </div>
+            </div>
+                <br />
+
+                <hr />
+
+                if (Model.empleados.Count > 0)
+                {
+                    <table class="table table-hover table-condensed table-responsive table-sm">
+                        <thead style="background-color:#CCCCCC">
+                            <tr>
+                                <th>Clave</th>
+                                <th>Nombre</th>
+                                <th>RFC</th>
+                                <th>Liquidación</th>
+                                <th>Fecha Baja</th>
+                                <th>ER</th>
+                                <th>DD</th>
+                                <th>Neto</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.empleados.Count; i++)
+                            {
+                                if (Model.empleados[i].IdEstatus == 1)
+                                {
+                                    <tr style="background-color:gray; color:white">
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].IdEmpleado)
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].IdPeriodoNomina)
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].ClaveEmpleado)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].ClaveEmpleado)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].Nombre)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].RFC)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].RFC)
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(modelItem => modelItem.empleados[i].Liquidacion)
+                                        </td>
+                                        <td>
+                                            @Html.EditorFor(modelItem => modelItem.empleados[i].FechaBaja, new { htmlAttributes = new { @class = "form-control", style = "width:120px", placeholder = "dd/MM/yyyy", @readonly = "readonly" } })
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].ER)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].ER)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].DD)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].DD)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].Neto)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].Neto)
+                                        </td>
+                                        <td>
+
+                                            <p href="#" class="btn btn-default btn-sm"> <span class="fa fa-edit"></span></p>
+                                            <p href="#" class="btn btn-default btn-sm"> <span class="fa fa-remove"></span></p>
+                                            <p href="#" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ban-circle"></span></p>
+                                            <p href="#" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-folder-close"></span></p>
+                                            @if (Session["sTipoUsuario"].ToString() == "System")
+                                            {
+                                                @Html.ActionLink(" ", "Abrir", new { IdEmpleado = Model.empleados[i].IdEmpleado, pIdPeriodoNomina = Model.empleados[i].IdPeriodoNomina }, new { @class = "bnt btn-warning btn-sm glyphicon glyphicon-folder-open _Load", @rel = "tooltip", @title = "Abrir" })
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].IdEmpleado)
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].IdPeriodoNomina)
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].ClaveEmpleado)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].ClaveEmpleado)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].Nombre)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].RFC)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].RFC)
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(modelItem => modelItem.empleados[i].Liquidacion)
+                                        </td>
+                                        <td>
+                                            @Html.EditorFor(modelItem => modelItem.empleados[i].FechaBaja, new { htmlAttributes = new { @class = "form-control calendar", style = "width:120px", placeholder = "dd/MM/yyyy" } })
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].ER)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].ER)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].DD)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].DD)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => modelItem.empleados[i].Neto)
+                                            @Html.DisplayFor(modelItem => modelItem.empleados[i].Neto)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink(" ", "ProcesarFiniquitoIndividual", new { IdEmpleado = Model.empleados[i].IdEmpleado, pIdPeriodoNomina = Model.empleados[i].IdPeriodoNomina }, new { @class = "bnt btn-primary btn-sm glyphicon glyphicon-edit _Load add-tooltip", @title = "Editar" })
+                                            @Html.ActionLink(" ", "Delete", new { IdEmpleado = Model.empleados[i].IdEmpleado, pIdPeriodoNomina = Model.empleados[i].IdPeriodoNomina }, new { @class = "bnt btn-primary btn-sm glyphicon glyphicon-remove _Load add-tooltip", @title = "Eliminar" })
+                                            @Html.ActionLink(" ", "Bloquear", new { IdEmpleado = Model.empleados[i].IdEmpleado, pIdPeriodoNomina = Model.empleados[i].IdPeriodoNomina }, new { @class = "bnt btn-primary btn-sm glyphicon glyphicon-ban-circle _Load add-tooltip", @title = "Bloquear" })
+                                            @Html.ActionLink(" ", "Cerrar", new { IdEmpleado = Model.empleados[i].IdEmpleado, pIdPeriodoNomina = Model.empleados[i].IdPeriodoNomina }, new { @class = "bnt btn-primary btn-sm glyphicon glyphicon-folder-close _Load add-tooltip", @title = "Cerrar" })
+                                            
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                    
+                }
+
+
+
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Calculos</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea eliminar todos los calculos del periodo?
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    @Html.ActionLink("Eliminar Todo", "EliminarAllFiniquitos", new { Model.IdPeriodoNomina }, new { @class="btn btn-danger" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalActualizaFecha" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Actualizar Fecha Baja</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea actualizar la fecha de baja a todos los empleados dentro del periodo?
+                <br /><br />
+                <div class="text-muted text-sm">Nota: A los empleados que son baja no se actualizara la fecha y se tomara la de su baja real.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <button class="btn btn-primary" id="actualizaFechasBajaGral">Actualizar Fecha</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalAcumular" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Acumular Calculos</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea acumular todos los calculos del periodo?
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    @Html.ActionLink("Acumular Todo", "AcumularAllFiniquitos", new { Model.IdPeriodoNomina }, new { @class = "btn btn-warning" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalBuscar" data-backdrop="static" data-keyboard="false"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>*@
+                <h4 class="modal-title">Buscar Empleados</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="_claves" autocomplete="off" placeholder="Ingrese las claves de los empleados separadas por ',' ej. (1, 2, 3)" />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="_clave" autocomplete="off" placeholder="Ingrese la clave del empleado..." />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="_nombre" autocomplete="off" placeholder="Ingrese el nombre del empleado..." />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="_rfc" autocomplete="off" placeholder="Ingrese el rfc del empleado..." />
+                    </div>
+                </div>
+                <br />
+                <div class="text-right">
+                    <button class="btn btn-mint" id="buscarEmp"><span class="fa fa-search" title="Buscar"></span> Buscar</button>
+                    @*<button class="btn btn-success" id="insertarTodos"><span class="fa fa-download"></span> Insertar Todos</button>*@
+                    <button class='btn btn-info' onClick='Limpiar()'><span class='fa fa-refresh' title='Limpiar'></span> Limpiar</button>
+                </div>
+
+                <br />
+                <div id="_resultados"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    @*@Html.ActionLink("Cerrar y Actualizar", "ProcesaFiniquitos", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class="btn btn-default" })*@
+                    <button class="btn btn-default" data-dismiss="modal" id="actualizarEmp" val="@Model.IdPeriodoNomina" type="button">Cerrar y Actualizar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="configuracionAvanzada" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Elegir Conceptos.</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-warning"><span class="fa fa-info-circle"></span><strong> Nota:</strong> Esta configuración aplica para todos los calculos del periodo. Los elementos que seleccione los dejara de calcular automaticamente el sistema y tendra que ingresar los valores en cada campo.</div>
+                                
+                <div class="row">
+                    @Html.Label("Vacaciones:", new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => x.banderaVacGral, new { @class = "form-checkbox" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    @Html.Label("Prima Vacacional:", new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => x.banderaPVGral)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    @Html.Label("Aguinaldo:", new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => x.banderaAguiGral)
+                    </div>
+
+                </div>
+
+                <br />
+                <div class="row">
+                    @Html.Label("Indemnización 90D:", new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => x.bandera90dGral)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    @Html.Label("Indemnización 20D:", new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => x.bandera20dGral)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    @Html.Label("Prima de Antiguedad:", new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
+                        @Html.CheckBoxFor(x => x.banderaPAGral)
+                    </div>
+                </div>
+                <br />
+               
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <button class="btn btn-dark" id="guardaConf" val="@Model.IdPeriodoNomina" data-dismiss="modal" type="button">Guardar Cambios</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="configuracionSDI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Configuración de cálculo con SD/SDI.</h4>
+            </div>
+            <div class="modal-body">
+
+               
+                @*<div class="alert alert-warning"><span class="fa fa-info-circle"></span> Configuración de cálculo con SD/SDI.</div>*@
+                <div class="row">
+                    <div class="form-group">
+                        @Html.Label("Calcular Liquidación con SDI:", new { @class = "control-label col-md-6" })
+                        <div class="col-md-6">
+                            @Html.CheckBoxFor(x => x.LiquidacionSDIGral, new { @class = "form-checkbox" })
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        @Html.Label("Conceptos que integran el SDI:", new { @class = "control-label col-md-5" })
+                        <div class="col-md-7">
+                            @Html.TextAreaFor(x => x.ConceptosSDI, new { @class = "form-control", placeholder = "CVECNPTO1,CVECNPTO2,CVECNPTO3,...", id= "ConceptosSDI" })
+                        </div>
+                    </div>
+                </div>
+                <br />
+               
+                    
+                Periodos que se consideran para los conceptos y su integración al SDI
+                <br /><br />
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <div class="control-label">
+                                          Periodos
+                                      </div>
+
+                                      @Html.ListBoxFor(model => model.IdsPeriodos, Model.lPeriodos, new { @class = "form-control", @id = "IdsPeriodos" })
+
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                      <div class="control-label">
+
+                                          Periodos Agregados &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#" id="limpiarSeleccionados" class="add-tooltip" title="Elimina Periodos "><span class="fa fa-trash"></span> Limpiar</a>
+                                      </div>
+
+                                      @Html.ListBoxFor(model => model.IdsPeriodosSelecionados, Model.lPeriodosSeleccionados, new { @class = "form-control", @id = "IdsPeriodosSelecionados", @disabled= "disabled" })
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    
+                <br />
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <button class="btn btn-mint" id="guardaConfSDI" val="@Model.IdPeriodoNomina" data-dismiss="modal" type="button">Guardar Cambios</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalEmpleadosOtros" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>*@
+                <h4 class="modal-title">No Agregados</h4>
+            </div>
+            <div class="modal-body">
+                Los siguientes empledos no se agregaron ya que estan en otros periodos:
+                <br />
+                <br />
+                    <div class="text-bold" id="_empleadosNoAgregados"></div>
+                
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" id="_cerrarOtros" type="button">Cerrar</button>                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Core/mensajes.js"></script>
+<script src="~/js/Core/finiquitosGral.js"></script>
+
+
+
+

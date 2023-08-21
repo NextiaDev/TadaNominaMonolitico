@@ -1,0 +1,108 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelIncidenciasProgramadas
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle Incidencia Programada</h4>
+</div>
+
+<div class="modal-body">
+
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.IdEmpleado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdEmpleado)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NoEmp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NoEmp)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IdConcepto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdConcepto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CveConcepto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CveConcepto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Concepto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Concepto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cantidad)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Monto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Monto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MontoEsq)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MontoEsq)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Activo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Activo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Observaciones)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Observaciones)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="form-actions no-color">
+        <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+    </div>
+</div>

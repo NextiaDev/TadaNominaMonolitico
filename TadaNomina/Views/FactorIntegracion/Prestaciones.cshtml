@@ -1,0 +1,137 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Catalogos.ModelPrestaciones>
+
+@{
+    ViewBag.Title = "Prestaciones";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Prestaciones</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Prestaciones Disponibles</h3>
+        </div>
+        <div class="panel-body">
+            <br />
+            @Html.ActionLink(" Crear Nuevo", "NuevaPrestacion", null, new { @class = "btn btn-info _Load" })
+            <br />
+            <br />
+            <table class="table table-hover table-condensed">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cliente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Prestacion)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Prestacion)
+                        </td>
+                        <td>
+                            @Html.ActionLink(" ", "EditPrestacion", new { id = item.IdPrestacion }, new { @class = "btn btn-primary btn-sm fa fa-edit", @rel = "tooltip", @title = "Editar" }) |
+                            <a href="#" class="anchorDetail" data-id="@item.IdPrestacion" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |
+                            <a href="#" class="anchorDelete" data-id="@item.IdPrestacion" rel="tooltip" , title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a>
+                        </td>
+                        <td>
+                            @Html.ActionLink(" Configurar", "Index", new { id = item.IdPrestacion }, htmlAttributes: new { @class = "btn btn-mint _Load" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var TeamDetailPostBackURL = "@Url.Action("DetailsPrestacion", "FactorIntegracion")";
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                var href = $(this).attr('href');
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+   var TeamDetailPostBackURLDelete = "@Url.Action("DeletePrestacion", "FactorIntegracion")";
+        $(function () {
+            $(".anchorDelete").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLDelete,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+         });
+
+
+</script>
+

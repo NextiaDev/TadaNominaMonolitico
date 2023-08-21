@@ -1,0 +1,66 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelPeriodoNomina
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Desacumular Periodo</h4>
+</div>
+
+<div class="modal-body">
+    <label> Esta seguro que desea desacumular el periodo con los siguientes datos?</label>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UnidaNegocio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnidaNegocio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Periodo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Periodo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoNomina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoNomina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaFin)
+        </dd>
+
+
+    </dl>
+    <hr />
+    <label> <strong>Nota:</strong> No se puede desacumular un periodo que tenga registros timbrados, en caso de que haya registros timbrados primero se deben cancelar.</label>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+            <input type="submit" value="Desacumular Periodo" class="btn btn-warning btn-sm _Aceptar" />
+        </div>
+    </div>
+}

@@ -1,0 +1,76 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelUnidadesNegocio
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Nueva Unidad de Negocio</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-6 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Caputar Datos.</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UnidadNegocio, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.UnidadNegocio, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.UnidadNegocio, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(x => x.IdTipoNomina, Model.TipoNomina, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TipoNomina, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PorcentajeISN, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.PorcentajeISN, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.PorcentajeISN, "", new { @class = "text-danger" })
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ConfiguracionSueldos, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(x => x.ConfiguracionSueldos, Model.LConfiguracionSueldos, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ConfiguracionSueldos, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+                </div>
+                    <div class="panel-footer">
+                        <div class="form-group" style="text-align:right">
+                            <input type="submit" value="Guardar" class="btn btn-primary btn-sm _Load" />
+                            @Html.ActionLink("Regresar a lista", "Index", null, new { @class = "btn btn-info btn-sm" })
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,601 @@
+﻿
+@model TadaNomina.Models.ViewModels.Catalogos.ModelCatalogosAltas
+@{
+    ViewBag.Title = "EditarEmpleados";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<script src="~/js/Core/mensajes.js"></script>
+<script src="~/js/nifty.js"></script>
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Editar Empleados</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            <div class="panel-body">
+                <br /><br />
+                @using (Html.BeginForm("EditarEmpleados", "Empleado", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+
+                        <label class="control-label col-md-3">Selecciona un archivo (file.csv)</label>
+                        <div class="col-md-2">
+                            <span class="pull-left btn btn-mint btn-file">
+                                Seleccionar archivo<input type="file" name="postedFile" id="postedFile" />
+                            </span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success" data-loading-text="Cargando...">Subir Archivo</button>
+
+
+
+
+                        <input type="button" onclick="location.href='@Url.Action("Excel", "Empleado")'" value="Descargar Layout" class="btn btn-primary" />
+
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label id="nameFile" class="control-label col-md-4 text-info"></label>
+                    </div>
+                }
+
+                <hr />
+                <div>
+                    <div class="text-center">
+                        <label class="text-bold">Catalogos...</label>
+                    </div>
+                    <br />
+                    <a href="#" data-toggle="modal" data-target="#modalCC" class="col-md-3">
+                        <div class="panel panel-info panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.centroCostos.Count</p>
+                                <p class="mar-no">C. Costos</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#modalRegPat" class="col-md-3">
+                        <div class="panel panel-success panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.registroPat.Count</p>
+                                <p class="mar-no">Reg. Pat</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#modalDeptos" class="col-md-3">
+                        <div class="panel panel-warning panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.departamentos.Count</p>
+                                <p class="mar-no">Deptos</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#modalSuc" class="col-md-3">
+                        <div class="panel panel-mint panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.sucursales.Count</p>
+                                <p class="mar-no">Sucursales</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#modalPuestos" class="col-md-3">
+                        <div class="panel panel-primary panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.puestos.Count</p>
+                                <p class="mar-no">Puestos</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#modalBan" class="col-md-3">
+                        <div class="panel panel-dark panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.bancos.Count</p>
+                                <p class="mar-no">Bancos</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-toggle="modal" data-target="#modalEnt" class="col-md-3">
+                        <div class="panel panel-pink panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.entidades.Count</p>
+                                <p class="mar-no">Ent. Fed</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#" data-toggle="modal" data-target="#modalArea" class="col-md-3">
+                        <div class="panel panel-danger panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.areasPat.Count</p>
+                                <p class="mar-no">Areas</p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="#" data-toggle="modal" data-target="#modalJornadas" class="col-md-3">
+                        <div class="panel panel-danger panel-colorful media middle pad-all">
+                            <div class="media-left">
+                                <div class="pad-hor">
+                                    <i class="demo-pli-list-view icon-3x"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-2x mar-no text-semibold">@Model.Jornadas.Count</p>
+                                <p class="mar-no">Jornadas</p>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="dvjson"></div>
+
+<!-- Modal CC -->
+<div class="modal fade" id="modalCC" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Centros de Costos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.centroCostos)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdCentroCostos)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.CentroCostos)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="CC" class="btn btn-primary descargaCat" val="CC">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Deptos -->
+<div class="modal fade" id="modalDeptos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Departamentos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.departamentos)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdDepartamento)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Departamento)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="deptos" class="btn btn-primary descargaCat" val="deptos">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Puestos -->
+<div class="modal fade" id="modalPuestos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Puestos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.puestos)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdPuesto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Puesto)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="ptos" class="btn btn-primary descargaCat" val="ptos">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Suc -->
+<div class="modal fade" id="modalSuc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Sucursales</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.sucursales)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdSucursal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Sucursal)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="Suc" class="btn btn-primary descargaCat" val="Suc">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal regPat -->
+<div class="modal fade" id="modalRegPat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Empresas Patronas</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.registroPat)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdRegistroPatronal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.NombrePatrona)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="regPat" class="btn btn-primary descargaCat" val="regPat">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Bancos -->
+<div class="modal fade" id="modalBan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Bancos</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.bancos)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdBanco)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.NombreBanco)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="Ban" class="btn btn-primary descargaCat" val="Ban">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Entidades -->
+<div class="modal fade" id="modalEnt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo Entidad Federativa</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.entidades)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Nombre)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="Ent" class="btn btn-primary descargaCat" val="Ent">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Areas -->
+<div class="modal fade" id="modalArea" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo de Areas</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.areasPat)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdArea)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Area)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="Are" class="btn btn-primary descargaCat" val="Are">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Jornadas -->
+<div class="modal fade" id="modalJornadas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Catalogo de Jornadas</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Descripción
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Jornadas)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(x => item.IdJornada)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(x => item.Jornada)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="Jor" class="btn btn-primary descargaCat" val="Jor">Descargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Core/Employed.js"></script>
+}
+
+@if (ViewBag.JavaScriptFunction != null)
+{
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.JavaScriptFunction)
+    </script>
+}

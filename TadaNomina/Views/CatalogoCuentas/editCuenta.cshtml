@@ -1,0 +1,93 @@
+﻿@model TadaNomina.Models.ViewModels.Contabilidad.ModelNuevaCuentaContable
+
+@{
+    ViewBag.Title = "editCuenta";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Catálogo de Cuentas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Editar Cuenta Contble</h3>
+        </div>
+
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Clave, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Clave, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Clave, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdTipoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.IdTipoNomina, Model.lTipoNomina, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdTipoNomina" })
+                            @Html.ValidationMessageFor(model => model.IdTipoNomina, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.Concepto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.Concepto, Model.lConceptos, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "Concepto" })
+                            @Html.ValidationMessageFor(model => model.Concepto, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdTipoCuenta, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.IdTipoCuenta, Model.lTipoCenta, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdTipoNomina" })
+                            @Html.ValidationMessageFor(model => model.IdTipoCuenta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br /><br />
+                    <div class="panel-footer">
+                        <div class="form-group text-right">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Actualizar" class="btn btn-primary" />
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info _Back" })
+                            </div>
+                        </div>
+                    </div>
+                    @if (ViewBag.Validacion != null)
+                    {
+                        if (ViewBag.Validacion == true)
+                        {
+                            <div class="alert alert-info">@ViewBag.Mensaje</div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">@ViewBag.Mensaje</div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/cuentasContables.js"></script>
+}

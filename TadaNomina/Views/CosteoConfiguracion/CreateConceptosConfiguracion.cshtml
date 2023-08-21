@@ -1,0 +1,186 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ConfiguraConceptosM
+@{
+    ViewBag.Title = "CreateConceptosConfiguracion";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow"> Nuevo Concepto</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                <strong>Captura Datos </strong>
+            </h2>
+
+        </div>
+        <h3>@(ViewBag.Concepto != null ? ViewBag.Concepto.descripcion : "")</h3>
+
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.HiddenFor(x => x.idCosteosConcepto)
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <br />
+                    <h4>Elegir Tipo de Concepto</h4>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.tipoConcepto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.tipoConcepto, Model.lTipoConcepto, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "muestraOtros(this);", @id = "txtddlEspecialidad" })
+                            @Html.ValidationMessageFor(model => model.tipoConcepto, "", new { @class = "text-danger" })
+                        </div>
+                        <div id="divInc">
+                            @Html.LabelFor(model => model.concepto, htmlAttributes: new { @class = "control-label col-md-2", id = "divOtros" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.concepto, Model.Lconceptos, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdConceptos" })
+                                @Html.ValidationMessageFor(model => model.concepto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="divNom">
+                            @Html.LabelFor(model => model.idCatTipoNomina, htmlAttributes: new { @class = "control-label col-md-2", id = "nom" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.idCatTipoNomina, Model.LNomina, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdNom" })
+                                @Html.ValidationMessageFor(model => model.idCatTipoNomina, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="divConf">
+                            @Html.LabelFor(model => model.idconfig, htmlAttributes: new { @class = "control-label col-md-2", id = "configlabe" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.idconfig, Model.LConfig, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "config" })
+                                @Html.ValidationMessageFor(model => model.idconfig, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="divOtro">
+                            @Html.LabelFor(model => model.idOtro, htmlAttributes: new { @class = "control-label col-md-2", id = "configOtro" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.idOtro, Model.Lotro, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "otro" })
+                                @Html.ValidationMessageFor(model => model.idOtro, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br />
+                    <h4>Operaciones Internas</h4>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.operador, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.operador, Model.lOperador, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdTipoNomina" })
+                            @Html.ValidationMessageFor(model => model.operador, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.valor, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.valor, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.valor, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <br />
+                    <h4>Operador general</h4>
+                    <br />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.operadorGral, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.operadorGral, Model.loperadorGral, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdTipoNomina" })
+                            @Html.ValidationMessageFor(model => model.operadorGral, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <br /><br />
+                    <div class="panel-footer">
+                        <div class="form-group text-right">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Crear" class="btn btn-primary btn-sm" />
+                                @Html.ActionLink("Regresar", "GetConceptosConfiguracion", new { Model.idCosteosConcepto, idCosteo = ((TadaNomina.Models.ViewModels.Facturacion.CosteoConceptos)Session["costeoConceptos"] != null ? ((TadaNomina.Models.ViewModels.Facturacion.CosteoConceptos)Session["costeoConceptos"]).idCosteo : 0) }, new { @class = "btn btn-info btn-sm _Back" })
+
+                            </div>
+                        </div>
+                    </div>
+                    @if (ViewBag.Validacion != null)
+                    {
+                        if (ViewBag.Validacion == true)
+                        {
+                            <div class="alert alert-info">@ViewBag.Mensaje</div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">@ViewBag.Mensaje</div>
+                        }
+                    }
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<script language="JavaScript">
+
+    $(document).ready(function () {
+        $('#divNom').hide();
+        $('#divInc').hide();
+        $('#divConf').hide();
+        $('#divOtro').hide();
+    });
+    $("#Addalerta").hide();
+    $('#txtddlEspecialidad').on('change', function () {
+        if (this.value == "INCIDENCIAS") {
+            $('#divInc').show();
+            $('#divNom').hide();
+            $('#divConf').hide();
+            $('#divOtro').hide();
+        }
+
+        else if (this.value == "NOMINA") {
+
+            $('#divNom').show();
+            $('#divInc').hide();
+            $('#divConf').hide();
+            $('#divOtro').hide();
+
+        }
+        else if (this.value == "YA CONFIGURADO") {
+
+            $('#divNom').hide();
+            $('#divInc').hide();
+            $('#divConf').show();
+            $('#divOtro').hide();
+
+        }
+        else if (this.value == "OTRO") {
+            $('#divOtro').show();
+            $('#divNom').hide();
+            $('#divInc').hide();
+            $('#divConf').hide();
+
+        }
+        else {
+
+            $('#divNom').hide();
+            $('#divInc').hide();
+            $('#divConf').hide();
+            $('#divOtro').hide();
+        }
+
+    });
+</script>
+

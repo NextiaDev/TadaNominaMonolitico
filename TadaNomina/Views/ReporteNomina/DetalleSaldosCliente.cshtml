@@ -1,0 +1,54 @@
+﻿@model List<TadaNomina.Models.ViewModels.Reportes.ModelReporteSaldosPorCliente>
+@{
+    ViewBag.Title = "DetalleSaldosCliente";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Detalle de saldos.</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Saldos</h3>
+        </div>
+
+        <div class="panel-body">
+
+            <table id="demo-dt-selection" class="table table-striped table-hover table-sm" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model[0].Cliente)</td>
+                        <td>@Html.DisplayNameFor(model => model[0].Facturadora)</td>
+                        <td>@Html.DisplayNameFor(model => model[0].FechaCaptura)</td>
+                        <td>@Html.DisplayNameFor(model => model[0].Importe)</td>
+                        <td>@Html.DisplayNameFor(model => model[0].TipoMovimiento)</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Cliente</td>
+                            <td>@item.Facturadora</td>
+                            <td>@item.FechaCaptura</td>
+                            <td>@item.Importe</td>
+                            <td>@item.TipoMovimiento</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="panel-footer">
+                <div class="form-group" style="text-align:right">
+                    @Html.ActionLink("Regresar", "SaldosPorCliente", null, new { @class = "btn btn-info btn-sm" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

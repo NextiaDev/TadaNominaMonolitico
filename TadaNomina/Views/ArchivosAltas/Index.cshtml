@@ -1,0 +1,110 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vw_ArchivosAltaCuentas>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Archivos de Altas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Archivos de Solicitud de Alta de Cuentas.</h3>
+        </div>
+
+        <div class="panel-body">
+            <hr />
+            @Html.ActionLink("Cargar Archivo", "ArchivoAltas", null, new { @class = "btn btn-primary btn-sm _Load" })
+            @*@Html.ActionLink("Ver Finalizados", "ArchivoAltasFin", null, new { @class = "btn btn-mint btn-sm" })
+            @Html.ActionLink("Ver Rechazados", "ArchivoAltasRech", null, new { @class = "btn btn-warning btn-sm" })*@
+            <br />
+            <br />
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-hover table-sm">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cliente)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UnidadNegocio)
+                        </th>
+                        <th>
+                            Archivo
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Observaciones)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Estatus)
+                        </th>
+                        <th>
+                            Descargar
+                        </th>
+                        
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cliente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnidadNegocio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ruta)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Observaciones)
+                            </td>
+                            <td>
+                                @if (item.IdEstatus == 1)
+                                {
+                                    <label class="label label-info">@item.Estatus</label>
+                                }
+                                @if (item.IdEstatus == 2)
+                                {
+                            <label class="label label-success">@item.Estatus</label>
+                                }
+                                @if (item.IdEstatus == 3)
+                                {
+                            <label class="label label-mint">@item.Estatus</label>
+                                }
+                                @if (item.IdEstatus == 4)
+                                {
+                            <label class="label label-warning">@item.Estatus</label>
+                                }
+                                @if (item.IdEstatus == 5)
+                                {
+                            <label class="label label-danger">@item.Estatus</label>
+                                }
+
+
+                            </td>
+                            <td>
+                                @Html.ActionLink(" ", "Descargar", new { item.IdArchivoAltas }, new { @class = "btn btn-primary btn-sm fa fa-download" })
+
+                            </td>                            
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <span class="fa fa-info"></span>
+                    No hay archivos cargados.
+                </div>
+            }
+        </div>
+        </div>
+</div>

@@ -1,0 +1,385 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelProcesaNominaGeneral
+
+@{
+    ViewBag.Title = "ProcesaNominaGeneral";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Proceso de Nómina</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Resumen de Nómina</h3>
+        </div>
+        <div class="panel-body">
+            @if (Model.EmpleadosSinSDI > 0 && Model.TipoNomina == "Nomina")
+            {
+                <div class="alert alert-warning">
+                    <span class="fa fa-warning fa-2x"></span>
+                    <br />
+                    <strong>¡Atención!</strong>&nbsp; Existen <strong>@Model.EmpleadosSinSDI</strong> empleado(s) sin SDI y que si cuentan con 'Registro Patronal' y 'Sueldo Diario', esto puede causar que las 'Cargas Solciales' se calculeN erroneamente para estos empleados.
+                    <ul>
+                        @foreach (var item in Model.LEmpleadosSinSDI)
+                        {
+                            <li>
+                                @item.Key - @item.Value
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+
+                    @Html.HiddenFor(model => model.IdPeriodoNomina)
+                    @Html.HiddenFor(model => model.TipoNomina)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cliente, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.Cliente, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.UnidadNegocio, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.UnidadNegocio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            <u> <strong> @Html.DisplayFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</strong></u>
+                        </div>
+                        @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TipoNomina, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Periodicidad, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.Periodicidad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.PorcentajeISN, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.PorcentajeISN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FechaInicial, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.FechaInicial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.FechaFinal, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.FechaFinal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AjusteImpuestos, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.AjusteImpuestos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.PeriodoAjuste, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.PeriodoAjuste, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TotalEmpleados, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TotalEmpleados, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.TotalPagarSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TotalPagarSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TotalISR, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TotalISR, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.TotalISN, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TotalISN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TotalIMSS, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TotalIMSS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                        @Html.LabelFor(model => model.TotalIMSS_P, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DisplayFor(model => model.TotalIMSS_P, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    @if (Model.TipoNomina == "Aguinaldo")
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IncidenciasAguinaldoAutomaticas, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-2">
+                                @Html.CheckBoxFor(x => x.AguinaldoSINO, new { @id = "IncidenciasAguinaldoAutomaticas" })
+
+                            </div>
+
+                        </div>
+                    }
+
+                    @if (Model.TipoNomina == "Proyeccion")
+                    {
+                        <div class="form-group">
+                            <div class="control-label col-md-3">
+                                Cargar Sueldos Proyección
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" class="btn btn-mint btn-sm" data-toggle="modal" data-target="#modalCargarSueldosProy"><span class="fa fa-upload"></span></a>
+                                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" title="Limpiar datos de proyección" data-target="#modalQuitarDatos"><span class="fa fa-trash"></span></a>
+                            </div>
+
+                        </div>
+                    }
+
+                    @if (Model.AJusteAnual == "S")
+                    {
+                        <div class="form-group">
+                            <div class="control-label col-md-3">
+                                Configurar Ajuste
+                            </div>
+                            @*<div class="col-md-5">
+                            @Html.TextAreaFor(x=> x.empleadosSinAjuste, new { @class="form-control", @placeholder="Escriba aqui las claves separadas por coma(,) de los empleados que a los que no se realizara el ajuste..." })
+                        </div>*@
+                            <div class="col-md-4">
+                                <a href="#" id="configurarAjuste" data-id="@Model.IdPeriodoNomina" class="btn btn-dark btn-sm add-tooltip" title="Guardar Claves"><span class="fa fa-cogs"></span></a>
+
+                            </div>
+                        </div>
+                    }
+
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @if (Model.Mensaje != null)
+                            {
+                                if (Model.validacion)
+                                {
+                                    <div class="alert alert-info">
+                                        @Model.Mensaje
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        @Model.Mensaje
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <br />
+                    <div class="panel-footer">
+                        <div class="form-group" style="text-align:right">
+                            <input type="submit" value="Calcular" id="Aceptar" class="btn btn-primary btn-sm" />
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo">Elminar Calculo</button>
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteCalculoBajas">Elminar C. Bajas</button>
+                            @*<button class="btn btn-success btn-sm" onclick="generaReporte(@Model.IdPeriodoNomina)"> Descargar</button>*@
+                            @Html.ActionLink("Descargar", "Descargar", new { Id = Model.IdPeriodoNomina }, new { @class = "btn btn-success btn-sm" })
+                            @Html.ActionLink("Buscar Empleado", "BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm", id = "Load" })
+                            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm", id = "Back" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalCargarSueldosProy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Cargar Datos Para Proyección</h4>
+            </div>
+            <div class="modal-body">
+                <hr />
+                <div class="alert alert-info"><span class="fa fa-info-circle"></span> Para poder cargar el archivo se debe guardar en formato CSV(delimitado por comas).</div>
+                <div class="row">
+                    <div class="col-md-3 text-right">
+                        Layout:
+                    </div>
+                    <div class="col-md-9">
+                        <a href="~/Formatos/DatosProyeccion.xlsx" class="btn btn-dark btn-block"><span class="fa fa-download"></span> Descarga Formato</a>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-md-3 text-right">Archivo (.csv):</div>
+                    <div class="col-md-9">
+                        <input type="file" id="filePiramidados" class="form-control" />
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <input type="button" id="cargarLayout" value="Cargar Archivo" class="btn btn-success btn-sm _Aceptar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfAjuste" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Configurar Ajuste Anual</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        Empleados Sin Ajuste:
+                    </div>
+                    <div class="col-md-9">
+                        <textarea id="_empleadosSinAjuste" class="form-control" placeholder="Escriba aqui las claves separadas por coma(,) de los empleados que a los que no se realizara el ajuste..."></textarea>
+                    </div>
+                </div>
+                <br />
+                <div class="alert alert-purple">
+                    Si se requiere un ajuste mensual en estos empleados, por favor elija los periodos contra los que se ajustara.
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-2">
+                        Periodos:
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" id="_selectPeriodo">
+                                
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <input value="Agregar" type="button" id="btnAdd" class="btn btn-mint add-tooltip" title="Agrega el periodo selecionado al listado de ajuste." />
+                        <input value="Limpiar" type="button" id="btnLimpiar" class="btn btn-default add-tooltip" title="Limpiar controles de ajuste." />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Ids Periodos:
+                    </div>
+                    <div class="col-md-4">
+                        <textarea id="_idsPeriodsAjuste" class="form-control" readonly></textarea>
+                    </div>
+                    <div class="col-md-2">
+                        Descripción Periodos:
+                    </div>
+                    <div class="col-md-4">
+                        <textarea id="_peridoosAjuste" class="form-control" readonly></textarea>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <input type="button" id="_guardarConfAjuste" data-id="@Model.IdPeriodoNomina" value="Guardar" class="btn btn-dark btn-sm _Aceptar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalQuitarDatos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Datos de Proyección</h4>
+            </div>
+            <div class="modal-body">
+                Se eliminaran los datos cargados para el calculo de proyección.
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <input type="button" id="quitarDatosProy" value="Quitar Datos" class="btn btn-danger btn-sm _Aceptar" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCalculo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Calculo</h4>
+            </div>
+            <div class="modal-body">
+                Esta Seguro que desea eliminar el calculo para este periodo?
+                <br />
+                Esta acción eliminara los calculos de todos los empleados.
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    @Html.ActionLink("Eliminar Calculo", "DeleteAllNomina", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-danger _Aceptar" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCalculoBajas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Calculo Bajas</h4>
+            </div>
+            <div class="modal-body">
+                Esta Seguro que desea eliminar el calculo de las bajas para este periodo?
+                <br />
+                Esta acción eliminara los calculos de todos los empleados que son baja.
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    @Html.ActionLink("Eliminar Calculo Bajas", "DeleteNominaBajas", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-warning _Aceptar" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/Chek.js"></script>
+}

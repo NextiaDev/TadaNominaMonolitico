@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "BajaBatch";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Baja Masiva de Empleados</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            <div class="panel-body">
+                <br /><br />
+                @using (Html.BeginForm("BajaBatch", "Empleado", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                      <div class="form-group">
+                          <label class="control-label col-md-3">Selecciona un archivo (file.csv)</label>
+                          <div class="col-md-2">
+                              <span class="pull-left btn btn-mint btn-file">
+                                  Seleccionar archivo<input type="file" name="postedFile" id="postedFile" />
+                              </span>
+                          </div>
+
+                          <button type="submit" id="upload" class="btn btn-success" data-loading-text="Cargando..." disabled>Subir Archivo</button>
+
+                          <a href="~/Formatos/BajasLayout.xlsx" download="FormatoBajas">
+                              <span class="btn btn-info">Descargar Formato Bajas</span>
+                          </a>
+                      </div>
+
+                    <div class="form-group">
+                        <label id="nameFile" class="control-label col-md-4 text-info"></label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/Core/Employed.js"></script>
+}
+

@@ -1,0 +1,45 @@
+﻿@model TadaNomina.Models.ViewModels.ModelSindicatos
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Sindicatos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="col-lg-6 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">¿Estas seguro de eliminar el sindicato?</h3>
+            </div>
+            @using (Html.BeginForm())
+                {
+                <div class="panel-body">
+                    <hr />
+                    <dl class="dl-horizontal">
+
+                        <dt>@Html.DisplayNameFor(m => m.NombreSindicato)</dt>
+                        <dd>@Html.DisplayFor(m => m.NombreSindicato)</dd>
+
+                        <dt>@Html.DisplayNameFor(m => m.NombreCorto)</dt>
+                        <dd>@Html.DisplayFor(m => m.NombreCorto)</dd>
+
+                        <dt>@Html.DisplayNameFor(m => m.Grupo)</dt>
+                        <dd>@Html.DisplayFor(m => m.Grupo)</dd>
+                    </dl>
+                    <hr />
+
+                    <div>
+                        <a href="~/Sindicatos/Borrar?_id=@(Model.IdSindicato)" class="btn btn-danger btn-sm ">Eliminar</a>
+                        @*<input type="submit" value="Delete" class="btn btn-danger btn-sm _Aceptar" /> |*@
+                        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-info btn-sm _Back" })
+                    </div>
+                    
+                </div>
+            }
+            </div>
+    </div>
+</div>

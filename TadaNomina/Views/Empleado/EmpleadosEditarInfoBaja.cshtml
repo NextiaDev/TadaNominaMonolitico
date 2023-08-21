@@ -1,0 +1,184 @@
+﻿@using TadaNomina.Models.ViewModels@model Empleado
+@{
+    ViewBag.Title = "EmpleadosEditarInfoBaja";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@section Styles
+{
+    <link href="~/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Modificación de Información de Empleados Baja</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            @using (Html.BeginForm("EmpleadosEditarInfoBaja", "Empleado", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="panel-body">
+
+                @Html.HiddenFor(model => model.IdEmpleado)
+                @Html.HiddenFor(model => model.IdUnidadNegocio)
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-address-card-o"></i> Información que se puede actualizar del empleado</h3>
+                </div>
+                <br />
+                <!--Informacion general empleado-->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClaveEmpleado, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ClaveEmpleado, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ClaveEmpleado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Nombre, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ApellidoPaterno, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ApellidoMaterno, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "calendar form-control" })
+                        @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rfc, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Rfc, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rfc, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.Curp, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Curp, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Curp, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Imss, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Imss, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Imss, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.CorreoElectronico, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CorreoElectronico, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CorreoElectronico, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaAltaIMSS, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaAltaIMSS, htmlAttributes: new { @class = "calendar form-control" })
+                        @Html.ValidationMessageFor(model => model.FechaAltaIMSS, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.FechaReconocimientoAntiguedad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaReconocimientoAntiguedad, htmlAttributes: new { @class = "calendar form-control" })
+                        @Html.ValidationMessageFor(model => model.FechaReconocimientoAntiguedad, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaBaja, htmlAttributes: new { @class = "calendar form-control" })
+                        @Html.ValidationMessageFor(model => model.FechaBaja, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CodigoPostalFiscal, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CodigoPostalFiscal, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CodigoPostalFiscal, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.IdBancoTrad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.IdBancoTrad, Model.BancosList, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IdBancoTrad, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.CuentaBancariaTrad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CuentaBancariaTrad, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CuentaBancariaTrad, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.CuentaInterbancariaTrad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CuentaInterbancariaTrad, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CuentaInterbancariaTrad, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <!--Información Administrativa-->
+
+                <div class="panel-footer">
+                    <div class="form-group" style="text-align:right">
+                        <input type="submit" value="Actualizar Datos" class="btn btn-primary" />
+                        <a href="@Url.Action("ReactivarEmpleadoSearch", "Empleado")" class="btn btn-info"> Cancelar</a>
+                    </div>
+                </div>
+
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/Core/Employed.js"></script>
+    <script src="~/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+}
+

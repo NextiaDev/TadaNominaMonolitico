@@ -1,0 +1,197 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vConceptos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Conceptos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Conceptos Disponibles</h3>
+        </div>
+        <div class="panel-body">
+            @if (Session["sTipoUsuario"].ToString() == "System")
+            {
+                @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-primary btn-sm _Load" })
+            }
+            else
+            {
+                <button disabled class="btn btn-primary btn-sm" title="No tines permisos para editar el concepto">Crear Nuevo</button>
+            }
+            @Html.ActionLink(" Agregar Existente", "AgregarExistente", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br />
+            <br />
+            @if (Model.Count() > 0)
+            {
+                <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cliente)
+                            </th>
+
+                            <th>
+                                @Html.DisplayName("Clave")
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ClaveSAT)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Concepto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoConcepto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoDato)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Exenta)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cliente)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveConcepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveSAT)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Concepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoConcepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDato)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Exenta)
+                                </td>
+                                <td>
+                                    @if (Session["sTipoUsuario"].ToString() == "System")
+                                    {
+                                        @Html.ActionLink(" ", "Edit", new { id = item.IdConcepto }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @title = "Editar" })
+                                    }
+                                    else
+                                    {
+                                        <button disabled class="btn btn-default btn-sm" title="No tines permisos para editar el concepto"><span class="fa fa-edit"></span></button>
+                                    }
+                                    <a href="#" class="anchorDetail" data-id="@item.IdConcepto" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a>
+                                    <a href="#" class="anchorDelete" data-id="@item.IdConcepto" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    No hay conceptos cargados para esta unidad de negocio.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    var TeamDetailPostBackURL = "@Url.Action("Details", "Conceptos")";
+    $(function () {
+        $(".anchorDetail").click(function () {
+            
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            var href = $(this).attr('href');
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    var TeamDetailPostBackURLDelete = "@Url.Action("Delete", "Conceptos")";
+    $(function () {
+        $(".anchorDelete").click(function () {
+            
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURLDelete,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+        });
+
+</script>
+
+

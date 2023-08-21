@@ -1,0 +1,117 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelDepartamentos
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Eliminar Departamentos</h4>
+</div>
+<div class="modal-body">
+
+    @if (Model.ValidaDepto != null)
+    {
+        if (Model.ValidaDepto == 0)
+        {
+            <label>Sucedió algo inesperado, favor de intentarlo más tarde.</label>
+        }
+        else
+        {
+            <label>El Departamento seleccionado no se puede eliminar ya que está relacionada con la estructura de la organización, favor de ponerse en contacto con RH para realizar la eliminación.</label>
+        }
+        <br />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Clave)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Clave)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Departamento)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Departamento)
+            </dd>
+
+        </dl>
+
+        <div class="modal-footer">
+            <div class="form-actions no-color">
+                <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        if (Model.ValidaEmpleado != null)
+        {
+            if (Model.ValidaEmpleado == 0)
+            {
+                <label>Sucedió algo inesperado, favor de intentarlo más tarde.</label>
+            }
+            else
+            {
+                <label>El Departamento seleccionado no se puede eliminar ya que aún está relacionado con colaboradores activos.</label>
+            }
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Clave)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Clave)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Departamento)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Departamento)
+                </dd>
+
+            </dl><div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                </div>
+            </div> 
+        }else
+        {
+            <label> ¿Está seguro que desea eliminar el siguiente Departamento?</label>
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Clave)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Clave)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Departamento)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Departamento)
+                </dd>
+
+            </dl>
+
+            using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                        <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                    </div>
+                </div>
+            }
+        }
+    }
+
+</div>

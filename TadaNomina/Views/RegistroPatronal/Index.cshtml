@@ -1,0 +1,300 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.Cat_RegistroPatronal>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+
+    List<SelectListItem> LBancos = (List<SelectListItem>)ViewBag.ListaNombreBanco;
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Registro Patronal</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Registro Patronal</h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Registro Patronal", "Create", null, new { @class = "btn btn-info btn-sm" })
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NombrePatrona)
+                        </th>
+                        <th>
+                            Reg. Pat
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RFC)
+                        </th>
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.Clase)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RiesgoTrabajo)
+                        </th>*@
+                        @*<th>
+                            @Html.DisplayNameFor(model => model.IdActividadEconomica)
+                        </th>*@
+                        @*<th>
+                            Banco
+                        </th>*@
+                        @*<th>
+                            Cta.Bancaria
+                        </th>*@
+                        <th>Acciones</th>
+                        <th>PAC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var query = LBancos;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdRegistroPatronal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombrePatrona)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegistroPatronal)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RFC)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.Clase)
+                        </td>
+                        <td>
+                            @item.RiesgoTrabajo.ToString()
+                        </td>*@
+                        @*<td>
+            @Html.DisplayFor(modelItem => item.IdActividadEconomica)
+        </td>*@
+                        @*@if (item.IdBanco != null)
+                        {
+                            foreach (var item2 in query.Where(x => int.Parse(x.Value) == item.IdBanco))
+                            {
+                                <td>@item2.Text</td>
+                            }
+                        }
+                        else
+                        { 
+                            <td> &nbsp;</td>
+                        }*@
+
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.CuentaBancaria)
+                        </td>*@
+
+                    <td>
+                        @*@Html.ActionLink("  ", "Edit", new { id = item.IdRegistroPatronal }, new { @class = "btn btn-primary btn-sm fa fa-edit add-tooltip", @rel = "tooltip", @tittle = "Editar" })*@
+                        <a href="@Url.Action("Edit", new { id = item.IdRegistroPatronal })" class="add-tooltip" data-id="@item.IdRegistroPatronal" rel="tooltip" title="Editar"><span class="btn btn-primary btn-sm fa fa-edit"></span></a>
+                        <a href="#" class="anchorDetail add-tooltip" data-id="@item.IdRegistroPatronal" rel="tooltip" title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a>
+                        <a href="#" class="anchorDelete add-tooltip" data-id="@item.IdRegistroPatronal" rel="tooltip" title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a>
+                        
+
+                    </td>
+                    <td>
+                        <a href="#" class="add-tooltip mRegistrar" data-text="@item.NombrePatrona" data-id="@item.IdRegistroPatronal" rel="tooltip" title="Registrar Patrona"><span class="btn btn-mint btn-sm fa fa-external-link"></span></a>
+                        <a href="#" class="add-tooltip mActualizar" data-text="@item.NombrePatrona" data-id="@item.IdRegistroPatronal" rel="tooltip" title="Actualizar Datos Patrona"><span class="btn btn-mint btn-sm fa fa-refresh"></span></a>
+                    </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<div id="modalRegistrar" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hRegistrar" />
+                <h4 class="modal-title" id="myLargeModalLabel">Registrar Patrona en el PAC</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea registrar esta patrona 
+                <label class="text-bold" id="patronaReg"></label>?
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <button class="btn btn-primary btn-sm" id="_registrarPatrona">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalActualizar" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hActualizar" />
+                <h4 class="modal-title" id="myLargeModalLabel">Actualizar Patrona en el PAC</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea actualizar la información de esta patrona
+                <label class="text-bold" id="patronaRegAct"></label>?
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <button class="btn btn-warning btn-sm" id="_actualizarPatrona">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Core/mensajes.js"></script>
+<script type="text/javascript">
+
+    //Registrar empresa patrona
+    $(".mRegistrar").click(function () {
+        $("#hRegistrar").val($(this).attr('data-id'));
+        $("#patronaReg").text($(this).attr("data-text"));
+        $("#modalRegistrar").modal("show");
+    })
+    
+    $("#_registrarPatrona").click(function () {
+        var IdRegistroPatronal = $("#hRegistrar").val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'RegistroPatronal/registrarPatrona',
+            data: { IdRegistroPatronal },
+            dataType: 'json',
+            success: function (result) {
+                $("#modalRegistrar").modal("hide");
+                if (result.result == "Ok") {
+
+                    mensajeAlerta("Atencion!", "Se registro correctamente el Registro Patronal en el PAC", "mint", "jelly", "fadeOut", 2100);
+                }
+                else {
+                    mensajeAlerta("Atencion!", result.mensaje, "danger", "jelly", "fadeOut", 2100);
+                }
+            },
+            error: function (er) {
+                mensajeAlerta("Atencion!", er, "danger", "jelly", "fadeOut", 2100);
+            }
+        });
+    });
+
+    //Editar registro patronal
+    $(".mActualizar").click(function () {
+        $("#hActualizar").val($(this).attr('data-id'));
+        $("#patronaRegAct").text($(this).attr("data-text"));
+        $("#modalActualizar").modal("show");
+    })
+
+    $("#_actualizarPatrona").click(function () {
+        var IdRegistroPatronal = $("#hActualizar").val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'RegistroPatronal/actualizarPatrona',
+            data: { IdRegistroPatronal },
+            dataType: 'json',
+            success: function (result) {
+                $("#modalActualizar").modal("hide");
+                if (result.result == "Ok") {
+
+                    mensajeAlerta("Atencion!", "Se actualizo correctamente el Registro Patronal en el PAC", "mint", "jelly", "fadeOut", 2100);
+                }
+                else {
+                    mensajeAlerta("Atencion!", result.mensaje, "danger", "jelly", "fadeOut", 2100);
+                }
+            },
+            error: function (er) {
+                mensajeAlerta("Atencion!", er, "danger", "jelly", "fadeOut", 2100);
+            }
+        });
+    });
+
+    var TeamDetailPostBackURL = "@Url.Action("Details", "RegistroPatronal")";
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                var href = $(this).attr('href');
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+   var TeamDetailPostBackURLDelete = "@Url.Action("Delete", "RegistroPatronal")";
+        $(function () {
+            $(".anchorDelete").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLDelete,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+    });
+
+</script>
+

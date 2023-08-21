@@ -1,0 +1,82 @@
+﻿body {
+  
+    background-image: url('../../img/bg-img/fondo14.jpg');
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+.formulario {
+    background: rgba(0,0,0,.1);
+    padding:30px;
+    border-radius: 1px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.568);
+    color:white;
+}
+.form-control {
+    background: rgba(0,0,0,.3);
+    border-style: none;
+    transition: 0.5s ease-in;
+    outline: none;
+    box-shadow: none;
+}
+.form-control:focus{
+    background:none;
+    box-shadow:none;
+    outline:none;
+}
+
+.form-control::placeholder{
+    color:white;
+}
+
+.ingresar {
+    background: #294f75;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 700 !important;
+    color: white;
+    box-shadow: 0 0 30px rgba(0,0,0,0.568);
+    transition: 0.5s ease-in;
+}
+.ingresar:hover{
+    color: white;
+}
+
+.olvide {
+    color: white;
+    text-decoration-line: none;
+    text-decoration-style: none;
+}
+.olvide:hover {
+        color: white;
+        text-decoration-line: none;
+        text-decoration-style: none; }
+
+.olvide1 {
+    color: white;
+    text-decoration-line: none;
+    text-decoration-style: none;
+    font-size: 20px;
+    font-weight: 700 !important;
+    /*border: 2px solid white;*/
+    /*padding: 10px;
+    border-radius: 10px;*/
+    background: rgba(0,0,0,.5);
+}
+
+img{
+    max-width : 100%;
+}
+
+
+.olvide1:hover {
+        color: white;
+        text-decoration-line: none;
+        text-decoration-style: none;
+}
+
+
+#link {
+    color: #FFFFFF;
+}
+

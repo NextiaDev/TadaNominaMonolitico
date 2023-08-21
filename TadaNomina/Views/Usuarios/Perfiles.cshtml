@@ -1,0 +1,81 @@
+﻿@model TadaNomina.Models.ViewModels.ModelPerfil
+
+@{
+    ViewBag.Title = "Perfiles";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text text-overflow">Perfil Usuario</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    
+        <div class="panel">
+            <div class="panel-heading">
+
+                <h3 class="panel-title">@Model.Nombre</h3>
+                   
+            </div>
+
+            <div class="panel-body">
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.IdCliente, Model.sLClientes, "Elegir...", new { @class = "form-control", @id = "lstCliente" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.IdUnidadNegocio, Model.sLUnidades, "Elegir...", new { @class= "form-control", @id="lstUnidades" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="button" class="btn btn-default" value="Agregar" />
+                    </div>
+                    
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.ListBoxFor(model => model.lClientes, new MultiSelectList(Model.lClientes, "IdCliente", "Cliente"), new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.ListBoxFor(model => model.lUnidad, new MultiSelectList(Model.lUnidad, "IdUnidadNegocio", "UnidadNegocio"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <hr />
+
+                <p>
+
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm _Back" }) |
+                    <input type="submit" value="Guardar Cambios" class="btn btn-primary btn-sm _Aceptar" />
+                </p>
+            </div>
+            
+            </div>
+        </div>
+    
+<script>
+    $("#lstCliente").change(function () {
+        var IdCliente = $("#lstCliente").val();    
+        $("#lstUnidades").empty();
+        $.ajax({
+            method: 'POST',            
+            url: '/Usuarios/getUnidades',
+            dataType: 'json',
+            data: { id: IdCliente },
+            success: function (data) {
+                eval(data);
+                
+                $.each(data, function (i, unidad) {
+                    $("#lstUnidades").append('<option value="' + unidad.IdUnidadNegocio + '">' +
+                        unidad.UnidadNegocio + '</option>');
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,115 @@
+﻿@model TadaNomina.Models.ViewModels.Contabilidad.ModelIndex
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Catálogo de Cuentas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Catálogo Contable
+            </h2>
+
+        </div>
+        <div class="panel-body">
+            <div class="text-right">
+                <a href="@Url.Action("newCuenta", "CatalogoCuentas")" class="btn btn-primary _Load"><span class="fa fa-plus"></span> Agregar Cuenta</a>
+            </div>
+            <br />
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        Registro Patronal:
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.IdRegistroPatronal, Model.lRegistros, "Elegir...", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-mint"><span class="fa fa-search"></span> Buscar</button>
+                    </div>
+                </div>
+            }
+            <br /><br />
+            @if (Model.lcuentas.Count() > 0)
+            {
+                <form class="form-inline">
+                    <table id="CC" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th hidden>IdCuenta</th>
+                                <th>Clave</th>
+                                <th>Descripción</th>
+                                <th>T. Cuenta</th>
+                                <th>T. Nom.</th>
+                                <th>Ver Subcuentas</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.lcuentas)
+                            {
+                                <tr>
+                                    <td hidden>@item.idCuenta</td>
+                                    <td> @item.clave</td>
+                                    <td> @item.descripcion</td>
+                                    <td>@item.TipoCuenta</td>
+                                    <td>@item.TipoNomina</td>
+                                    <td align="center"><a href="@Url.Action("VerSubCuentas", "CatalogoCuentas", new { item.idCuenta, item.Nivel, _Descripcion = item.descripcion })" class="btn btn-sm btn-primary _Load"><i class="glyphicon glyphicon-arrow-right"></i></a></td>
+                                    <td align="center"><a href="@Url.Action("editCuenta", "CatalogoCuentas", new { item.idCuenta })" class="btn btn-sm btn-info _Load"><i class="glyphicon glyphicon-edit"></i></a></td>
+                                    <td align="center"><button class='btn btn-sm btn-danger' type="button" onclick="eliminar(@item.idCuenta, null, null, null)" data-toggle="modal" data-target="#ModalEliminar"><i class='glyphicon glyphicon-trash'></i></button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-info"><span class="fa fa-info"></span> No hay subcuentas registradas por el momento</div>
+            }
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("deleteCuenta", "CatalogoCuentas", FormMethod.Post))
+{
+    <!-- Modal-->
+    <input type="hidden" id="_id" name="_id" />
+    <input type="hidden" id="IdCuenta_" name="IdCuenta_" />
+    <input type="hidden" id="Nivel_" name="Nivel_" />
+    <input type="hidden" id="_Descripcion_" name="_Descripcion_" />
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>
+                    <hr />
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <i class="btn btn-sm btn-danger demo-pli-close"></i>&nbsp; ¿Está seguro que desea eliminar el registro?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/js/Core/cuentasContables.js"></script>
+}

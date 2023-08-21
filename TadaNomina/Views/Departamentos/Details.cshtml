@@ -1,0 +1,46 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelDepartamentos
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle Departamento</h4>
+</div>
+
+
+<div class="modal-body">
+
+    <hr />
+    <dl class="dl-horizontal">      
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Departamento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Departamento)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+        </div>
+    </div>
+</p>

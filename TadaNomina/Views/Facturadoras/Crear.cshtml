@@ -1,0 +1,141 @@
+﻿@model TadaNomina.Models.ViewModels.CFDI.ModelFacturadoras
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+
+    var _Bancos = (List<SelectListItem>)ViewBag.lstBancos;
+    
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Nueva Facturadora</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    @*<div class="col-lg-8 col-lg-offset-2">*@
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Caputar Datos.</h3>
+        </div>
+        <div class="panel-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+
+                <div class="form-group">
+                    
+                    <div class="col-md-4">
+                        <label>Nombre de la Facturadora</label>
+                        @Html.EditorFor(x => x.Facturadora, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label>RFC</label>
+                        @Html.EditorFor(x => x.RFC, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Banco Principal</label>
+                        @Html.DropDownListFor(x => x.IdBanco, _Bancos, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Banco Secundario</label>
+                        @Html.DropDownListFor(x => x.IdBanco2, _Bancos, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Domicilio</label>
+                        @Html.EditorFor(x => x.Domicilio, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Clave Facturadora</label>
+                        @Html.EditorFor(x => x.ClaveFacturadora, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-8">
+                        <label>Observaciones</label><br />
+                        @Html.TextAreaFor(x => x.Observaciones, new { @class = "form-control medium-textarea"  })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Fecha de inicio</label>
+                        @Html.EditorFor(x => x.FechaOperacion, new { htmlAttributes = new { @class = "form-control calendar" } })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Tipo Esquema</label>
+                        @Html.EditorFor(x => x.TipoEsquema, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Facturación Mensual</label>
+                        <small>  *Solo números.</small>
+                        @Html.EditorFor(x => x.FacturacionMensual, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Facturación Anual</label>
+                        <small>  *Solo números.</small>
+                        @Html.EditorFor(x => x.FacturacionAnual, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Correo del usuario</label>
+                        @Html.EditorFor(x => x.UsuarioMail, new { htmlAttributes = new { @class = "form-control", @autocomplete="new-password" } })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Contraseña</label><br />
+                        @Html.PasswordFor(x => x.PasswordMail,  new { @class = "form-control", @autocomplete = "new-password" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Puerto de correo</label>
+                        @Html.TextBoxFor(x => x.PuertoMail, new { @class = "form-control" } )
+                    </div>
+                    <div class="col-md-4">
+                        <label>Host de correo</label>
+                        @Html.TextBoxFor(x => x.HostMail, new { @class = "form-control" } )
+                    </div>
+                </div>
+
+
+            </div>
+                <br />
+                <div class="panel-footer">
+                    <div class="form-group" style="text-align:right">
+                        <input type="submit" value="Guardar" class="btn btn-primary btn-sm _Load" />
+                        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm" })
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+

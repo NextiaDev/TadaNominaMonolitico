@@ -1,0 +1,191 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Nominas.ModelInfonavit>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Créditos Vivienda</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Créditos Activos
+            </h3>
+        </div>
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br /><br />
+
+            <table id="demo-dt-selection" class="table table-hover table-sm">
+                <thead>
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClaveEmp)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Empleado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tipo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NoCredito)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CantidadUnidad)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClaveEmp)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Empleado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tipo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NoCredito)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CantidadUnidad)
+                            </td>
+
+                            <td>
+                                @*@Html.ActionLink(" ", "Edit", new { id = item.IdCreditoInfonavit }, new { @class = "btn btn-primary btn-sm fa fa-edit" }) |*@
+                                <a href="#" class="anchorDetail" data-id="@item.IdCreditoInfonavit" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |
+                                <a href="#" class="anchorDelete" data-id="@item.IdCreditoInfonavit" rel="tooltip" , title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a> |
+                                <a href="#" class="anchorPorcentaje" data-id="@item.IdCreditoInfonavit" rel="tooltip" , title="Porcentaje"><span class="btn btn-primary btn-sm fa fa-pencil"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+
+    
+<script>
+        var TeamDetailPostBackURL = "@Url.Action("Details", "Infonavit")";
+        $(function () {
+            $(".anchorDetail").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { id },
+                    datatype: "json",
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+        var TeamDetailPostBackURLDelete = "@Url.Action("Delete", "Infonavit")";
+        $(function () {
+            $(".anchorDelete").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLDelete,
+                    contentType: "application/json; charset=utf-8",
+                    data: { id },
+                    datatype: "json",
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+        var TeamDetailPostBackURLPorcentaje = "@Url.Action("UpdatePorcentaje", "Infonavit")";
+        $(function () {
+            $(".anchorPorcentaje").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLPorcentaje,
+                    contentType: "application/json; charset=utf-8",
+                    data: { id },
+                    datatype: "json",
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+</script>
+

@@ -1,0 +1,192 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelConfEmpleadoHoras
+
+@{
+    ViewBag.Title = "ConfiguracionEmpleado";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@section Scripts {
+    <script src="~/js/Core/ConfHoras.js"></script>
+}
+
+<div id="form">
+
+    <div id="page-head">
+        <div id="page-title">
+            <h1 class="page-header text-overflow">Configurar Empleado</h1>
+        </div>
+    </div>
+
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Html.DisplayFor(model => model.empleado.ClaveEmpleado) &nbsp; @Html.DisplayFor(model => model.empleado.NombreCompleto)</h3>
+            </div>
+            <div class="panel-body">
+                <p>
+                    @Html.ActionLink("Regresar", "COnfiguracionEmpleados", new { pIdPeriodoNomina = Request.QueryString["pIdPeriodoNomina"] }, new { @class = "btn btn-info btn-sm _Back" })
+                    @*<button class="btn btn-primary btn-sm" id="guardarTodo"><span class="fa fa-save"></span> Guardar Todo</button>*@
+                </p>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-md-2" style="text-align:right">
+                        Cuota Fija:
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(x => x.CuotaFija, new { @class = "form-control", @autocomplete = "off", @id="CuotaFija" })
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        Cobro x Hora:
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(x => x.CostoxHora, new { @class = "form-control", @autocomplete = "off", @id="CostoxHora" })
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        Horas Meta:
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(x => x.MetaHoras, new { @class = "form-control", @autocomplete = "off", @id="MetaHoras" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2" style="text-align:right">
+                        Tipo Bono:
+                    </div>
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(x => x.TipoBono, Model.lTipoBono, "Elegir...", new { @class = "form-control", @autocomplete = "off", @id="TipoBono" })
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        Bono:
+                    </div>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(x => x.Bono, new { @class = "form-control", @autocomplete = "off", @id="Bono" })
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer" style="text-align:right">
+                <button class="btn btn-primary btn-sm _Aceptar" id="guardaDatosPrincipales"><span class="fa fa-save"></span> Guardar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div id="page-content">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Personal A Cargo</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    CVE.
+                                </th>
+                                <th>
+                                    Nombre.
+                                </th>
+                                <th>
+                                    Seleccionar
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="_personal">
+
+                            @foreach (var item in Model.empleados)
+                            {
+                                <tr>
+                                     <td class="_idEmpleado">
+                                         <label> @item.IdEmpleado</label>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Cve)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Nombre)
+                                    </td>
+                                    <td>
+                                        @Html.CheckBoxFor(x=> item.check, new { @id=item.IdEmpleado})
+                                        
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="panel-footer" style="text-align:right">
+                    <button class="btn btn-primary btn-sm _Aceptar" id="guardaPersonal"><span class="fa fa-save"></span> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div id="page-content">
+           
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Actividades</h3>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table table-hover" id="tableMaterias">
+                        <thead>
+                            <tr>
+                                <th>
+                                    id
+                                </th>
+                                <th>
+                                    Actividad
+                                </th>
+                                <th>
+                                    Cobro/hora
+                                </th>
+                                <th>
+                                    Seleccionar
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="_contenido">
+
+                            @foreach (var item in Model.Materias)
+                            {
+                                <tr>
+                                    <td class="_contenido">
+                                        @Html.DisplayFor(model => item.IdMateria)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Materia)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => item.costo, new { @class = "form-control _costo", @id="text" + item.IdMateria })
+                                    </td>
+                                    <td>
+                                        @Html.CheckBoxFor(model => item.check, new { @id=item.IdMateria })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer" style="text-align:right">
+                    <button class="btn btn-primary btn-sm" id="guardaMaterias"><span class="fa fa-save"></span> Guardar</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+</div>

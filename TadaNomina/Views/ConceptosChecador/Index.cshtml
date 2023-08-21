@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    var LstConceptops = (List<TadaNomina.Models.ViewModels.RelojChecador.ConceptosChecadorModel>)ViewBag.LstConceptos;
+}
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Conceptos Checador</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading" style="padding: 1% 0 0 1%">
+            <h4>Conceptos disponibles</h4>
+        </div>
+        <div class="panel-body">
+            <div style="padding:1% 0 1% 0">
+                @Html.ActionLink("Agregar concepto", "AddConcepto", null, new {@class = "btn btn-success _Load" })
+            </div>
+            @if (LstConceptops.Count == 0)
+            {
+                <div style="text-align:center">
+                    <h5><b>**SIN DATOS**</b></h5>
+                </div>
+            }
+            else
+            {
+                <table id="demo-dt-selection" class="table table-striped table-bordered table-hover" cellspacing="0" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th>@Html.Label("Clave Concepto")</th>
+                            <th>@Html.Label("Clave SAT")</th>
+                            <th>@Html.Label("Concepto")</th>
+                            <th>@Html.Label("Descripcion Checador")</th>
+                            <th>@Html.Label("Editar")</th>
+                            <th>@Html.Label("Eliminar")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in LstConceptops)
+                        {
+                            <tr>
+                                <td>@item.ClaveConcepto</td>
+                                <td>@item.ClaveSAT</td>
+                                <td>@item.Concepto</td>
+                                <td>@item.DescripcionGV</td>
+                                <td>@Html.ActionLink("Editar", "EditConcepto", new { Id = TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdConceptoChecador.ToString()) }, new { @class = "btn btn-info _Load" })</td>
+                                <td><button class='btn btn-danger' type="button" onclick="eliminar(@item.IdConceptoChecador)" data-toggle="modal" data-target="#ModalEliminar"><i class='glyphicon glyphicon-trash'></i></button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteConcepto", "ConceptosChecador", FormMethod.Post))
+{
+    <!-- Modal-->
+    <input type="hidden" id="IdConcepto" name="IdConcepto" />
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>
+                    <hr />
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <label>¿Está seguro que desea eliminar el concepto?</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger _Load">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/js/JsConceptosChecador.js"></script>

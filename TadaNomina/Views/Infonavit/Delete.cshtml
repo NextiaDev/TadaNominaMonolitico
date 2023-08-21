@@ -1,0 +1,98 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelInfonavit
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Eliminar Credito</h4>
+</div>
+
+<div class="modal-body">
+
+    <h3>Esta seguro que desea eliminar el siguiente Credito?</h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveEmp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClaveEmp)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Empleado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Empleado)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.rfc)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.rfc)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tipo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NoCredito)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NoCredito)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CantidadUnidad)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CantidadUnidad)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Estatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaCaptura)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaCaptura)
+            </dd>
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.IdCreditoInfonavit)
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        }
+    </div>
+ </div>

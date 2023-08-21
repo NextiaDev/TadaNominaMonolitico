@@ -1,0 +1,80 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ModelNewPagoAdicional
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Pagos Adicionales</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div class="col-md-8 col-lg-offset-2">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Solicitar Pago Adicional.</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("New", "PagosAdicionales", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Comentarios, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Adjuntar archivo Soliciud:</label>
+                            <div class="col-md-9">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            Buscar
+                                            @Html.TextBoxFor(x => x.Archivo, new { id = "file1", type = "file", @class = "form-control" })
+
+                                        </span>
+                                    </span>
+                                    <input type="text" id="nombrearchivou" value="Seleccione Archivo" class="form-control" readonly>
+                                    <span class="input-group-addon btn btn-danger" onclick="RemoverArchivou()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="panel-footer">
+                            <div class="text-right">
+                                <input type="submit" value="Enviar Solicitud" class="btn btn-primary btn-sm _Aceptar" />
+                                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm _Back" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#file1').on('change',
+        function () {
+            document.getElementById('nombrearchivou').value = document.getElementById('file1').files[0].name;
+        });
+</script>

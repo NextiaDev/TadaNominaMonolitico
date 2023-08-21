@@ -1,0 +1,102 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Facturacion.CosteosModel>
+@{
+    ViewBag.Title = "ConfiguracionCosteo";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow"> Costeos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Configuración Costeos
+            </h2>
+
+        </div>
+        <div class="panel-body">
+            <div class="text-right">
+                <a href="@Url.Action("Create", "CosteoConfiguracion")" class="btn btn-primary _Load"><span class="fa fa-plus"></span> Agregar Costeo</a>
+            </div>
+            <br /><br />
+            @if (Model.Count() > 0)
+            {
+                <form class="form-inline">
+                    <table id="CC" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th hidden>idCosteo</th>
+                                <th>Descripción</th>
+                                <th>Tipo Nómina</th>
+                                <th>Dividir Patrona</th>
+                                <th>Separado por</th>
+                                <th>Editar</th>
+                                <th>Configurar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td hidden>@item.idCosteo</td>
+                                    <td> @item.descripcion</td>
+                                    <td> @item.tipoNomina</td>
+                                    <td>@item.dividirPatronal</td>
+                                    <td>@item.separadoPor</td>
+                                    <td align="center"><a href="@Url.Action("Edit", "CosteoConfiguracion", new { item.idCosteo })" class="btn btn-sm btn-primary _Load"><i class="glyphicon glyphicon-edit"></i></a></td>
+                                    <td align="center"><a href="@Url.Action("GetConceptos", "CosteoConfiguracion", new { item.idCosteo })" class="btn btn-sm btn-primary _Load"><i class="glyphicon glyphicon-arrow-right"></i></a></td>
+                                    <td align="center"><button class='btn btn-sm btn-danger' type="button" onclick="eliminar(@item.idCosteo)" data-toggle="modal" data-target="#ModalEliminar"><i class='glyphicon glyphicon-trash'></i></button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-info"><span class="fa fa-info"></span> No hay costeos Registrados</div>
+            }
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteCosteo", "CosteoConfiguracion", FormMethod.Post))
+{
+    <!-- Modal-->
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>
+                    <hr />
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <input type="hidden" id="idCosteo" name="idCosteo" />
+                        <i class="btn btn-sm btn-danger demo-pli-close"></i>&nbsp; ¿Está seguro que desea eliminar el registro?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="~/js/Core/costeos.js"></script>
+
+}
+
+
+
+

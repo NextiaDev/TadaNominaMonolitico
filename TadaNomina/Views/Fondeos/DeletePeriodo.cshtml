@@ -1,0 +1,47 @@
+﻿@model TadaNomina.Models.DB.vCosteos_Fondeos
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Eliminar Fondeo</h4>
+</div>
+
+<div class="modal-body">
+    Esta seguro que desea eliminar el siguiente Fondeo?
+    <div>
+
+        <dl class="dl-horizontal">
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Importe)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Importe)
+            </dd>
+
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.IdOtroConcepto)
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

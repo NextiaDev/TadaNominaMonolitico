@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="112e4d58-3c65-4b76-b8a3-1ce33c4a8e26" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://66.85.140.10:8050/SealedTurbopac.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SealedTurboPac.xsd" MetadataType="Schema" ID="1a438b1b-5d31-40f4-a217-78eb84a4b388" SourceId="1" SourceUrl="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd1" />
+    <MetadataFile FileName="SealedTurboPac1.xsd" MetadataType="Schema" ID="a56aefeb-eff6-4b5e-a238-ddaeb60030d4" SourceId="1" SourceUrl="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd0" />
+    <MetadataFile FileName="SealedTurboPac.wsdl" MetadataType="Wsdl" ID="5e999b34-2965-4be9-8b45-a25b6ba5ca29" SourceId="1" SourceUrl="http://66.85.140.10:8050/SealedTurboPac.svc?wsdl" />
+    <MetadataFile FileName="SealedTurboPac2.xsd" MetadataType="Schema" ID="292004c1-3306-4107-8628-22380403dc1c" SourceId="1" SourceUrl="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd2" />
+    <MetadataFile FileName="SealedTurboPac.disco" MetadataType="Disco" ID="f9f2027a-b06f-453b-8361-b3ffba6a3c44" SourceId="1" SourceUrl="http://66.85.140.10:8050/SealedTurboPac.svc?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

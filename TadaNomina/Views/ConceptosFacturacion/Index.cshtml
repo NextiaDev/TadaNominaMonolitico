@@ -1,0 +1,89 @@
+﻿@model List<TadaNomina.Models.ViewModels.CFDI.ModelConceptosFacturacion>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Conceptos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Conceptos de Facturación</h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="text-left">
+                <a href="~/ConceptosFacturacion/Crear" class="btn btn-primary btn-labeled btn-sm"><i class="btn-label glyphicon glyphicon-plus "></i>Nuevo Concepto</a>
+            </div>
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover table-sm" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Descripción SAT</th>
+                        <th>Concepto</th>
+                        <th>Clave SAT</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DescripcionClaveSat)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Concepto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClaveSat)
+                            </td>
+                            <td><a href="~/ConceptosFacturacion/Editar?_Id=@(item.IdConceptoFacturacion.ToString())" class="btn btn-info btn-sm">Editar...</a></td>
+                            <td><button class='btn btn-sm btn-danger' type="button" onclick="eliminar(@item.IdConceptoFacturacion)" data-toggle="modal" data-target="#ModalEliminar"><i class='glyphicon glyphicon-trash'></i></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Eliminar", "ConceptosFacturacion", FormMethod.Post))
+{
+    <!-- Modal-->
+    <input type="hidden" id="_id" name="_id" />
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>
+                    <hr />
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <i class="btn btn-sm btn-danger demo-pli-close"></i>&nbsp; ¿Está seguro que desea eliminar el registro?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function eliminar(_id) {
+        document.getElementById("_id").value = _id;
+    }
+</script>

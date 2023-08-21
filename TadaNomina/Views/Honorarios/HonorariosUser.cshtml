@@ -1,0 +1,136 @@
+﻿
+@model IEnumerable<TadaNomina.Models.DB.vHonorarios>
+@{
+    ViewBag.Title = "HonorariosUser";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            <div id="page-head">
+                <div id="page-title">
+                    <h1 class="page-header text-overflow">Honorarios</h1>
+                </div>
+                <div id="rutaPrincipal"></div>
+            </div>
+
+
+            <div id="page-content">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Archivos Honorarios</h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <br />
+                        <br />
+
+                        <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UnidadNegocio)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Periodo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NombreCompleto)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SubTotal)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IVA)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Total)
+                                    </th>
+
+                                    <th>
+                                        Archivos PDF
+                                    </th>
+                                    <th>
+                                        Archivos XML
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UnidadNegocio)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Periodo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SubTotal)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IVA)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Total)
+                                        </td>
+
+                                        @if (item.RutaPDF == null)
+                                        {
+
+                                            <td>
+                                                <center>
+                                                    <span class="badge badge-warning">S/A</span>
+                                                </center>
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <center>
+
+                                                    @Html.ActionLink("Honorarios", "DownloadPDF", new { ID = item.IdHonorarios }, new { @class = "btn btn-success btn-sm" })
+                                                </center>
+                                            </td>
+                                        }
+
+                                        @if (item.RutaXML == null)
+                                        {
+
+                                            <td>
+                                                <center>
+                                                    <span class="badge badge-warning">S/A</span>
+                                                </center>
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                <center>
+
+                                                    @Html.ActionLink("Honorarios", "DownloadXML", new { ID = item.IdHonorarios }, new { @class = "btn btn-success btn-sm" })
+                                                </center>
+                                            </td>
+                                        }
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

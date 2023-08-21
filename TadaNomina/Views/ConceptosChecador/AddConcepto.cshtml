@@ -1,0 +1,46 @@
+﻿@model TadaNomina.Models.ViewModels.RelojChecador.ConceptosChecadorModel
+@{
+    ViewBag.Title = "AddConcepto";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    var LstCNomina = (List<SelectListItem>)ViewBag.LstCNomina;
+    var LstGV = (List<SelectListItem>)ViewBag.lstCGV;
+
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Conceptos Checador</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading" style="padding:1% 0 0 1%">
+            <h4>Seleccionar conceptos a ligar</h4>
+        </div>
+        <div class="panel-body">
+            @using (Html.BeginForm("AddConcepto", "ConceptosChecador", FormMethod.Post))
+            {
+
+                <div class="col-md-6" style="padding: 1% 0 1% 0">
+                    @Html.LabelFor(m => m.IdConceptoNomina)
+                    @Html.DropDownListFor(m => m.IdConceptoNomina, LstCNomina, "...Seleccionar...", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.IdConceptoNomina, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6" style="padding: 1% 0 1% 0">
+                    @Html.LabelFor(m => m.IdConceptoGV)
+                    @Html.DropDownListFor(m => m.IdConceptoGV, LstGV, "...Seleccionar...", new { @class = "form-control", onchange = "Descripcion(this)" })
+                    @Html.ValidationMessageFor(m => m.IdConceptoGV, "", new { @class = "text-danger" })
+                    @Html.Hidden("DescripcionGV", "", new { @name = "DescripcionGV", id = "DescripcionGV" })
+                </div>
+                <div style="padding: 1% 0 0 0; text-align:right">
+                    <br />
+                    @Html.ActionLink("Regresar", "Index", "ConceptosChecador", new { @class = "btn btn-primary _Load" })
+                    <button type="submit" class="btn btn-success">Agregar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script src="~/js/JsConceptosChecador.js"></script>

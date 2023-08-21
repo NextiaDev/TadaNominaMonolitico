@@ -1,0 +1,65 @@
+﻿@model TadaNomina.Models.ViewModels.Reportes.ModelReporteHonorarios
+
+@{
+    ViewBag.Title = "ReportesHonorarios";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Reporte de Honorarios por Cliente</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Llena los datos para obtener el reporte</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("DescargarReporteHonorariosByClienteFechas", "Honorarios"))
+                {
+                    @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    <hr />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.fInicial, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.fInicial, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.fInicial, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.fFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.fFinal, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.fFinal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Estatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.Estatus, Model.LEstatus, "Elegir...", htmlAttributes: new { @class = "form-control", id = "TipoNominaS" })
+                            @Html.ValidationMessageFor(model => model.Estatus, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="text-right">
+                            <button type="submit" id="Descargar" class="btn btn-success btn-sm">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

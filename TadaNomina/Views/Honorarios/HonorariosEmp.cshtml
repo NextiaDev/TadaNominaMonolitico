@@ -1,0 +1,275 @@
+﻿@using TadaNomina.Models.ViewModels
+@model Empleado
+@{
+    ViewBag.Title = "HonorariosEmp";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@section Styles
+{
+    <link href="~/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Honorarios Empleado</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            @using (Html.BeginForm("HonorariosEmp", "Honorarios", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+            <div class="panel-body">
+
+                @Html.HiddenFor(model => model.IdEmpleado)
+                @Html.HiddenFor(model => model.IdUnidadNegocio)
+
+
+                <hr />
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-address-card-o"></i> Informaci&oacute;n del Empleado</h3>
+                </div>
+
+                <!--Informacion general empleado-->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ClaveEmpleado, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ClaveEmpleado, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ClaveEmpleado, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ApellidoPaterno, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Nombre, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ApellidoMaterno, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <hr />
+
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-dollar"></i> Informaci&oacute;n Honorarios</h3>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ConceptoPago, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ConceptoPago, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ConceptoPago, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.Patrona, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Patrona, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Patrona, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Periodo, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Periodo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <hr />
+
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-dollar"></i> Calculos</h3>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Subtotal, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Subtotal, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.Subtotal, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.iva, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.iva, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.iva, "", new { @class = "text-danger" })
+                    </div>
+                </div><div class="form-group">
+                    @Html.LabelFor(model => model.totalfactura, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.totalfactura, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.totalfactura, "", new { @class = "text-danger" })
+                    </div>
+                </div><div class="form-group">
+                    @Html.LabelFor(model => model.retencionisr, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.retencionisr, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.retencionisr, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.retencioniva, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.retencioniva, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.retencioniva, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.totalRetencion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.totalRetencion, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.totalRetencion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-user"></i> Observaciones</h3>
+                </div>
+                <hr />
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.ObservacionesUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ObservacionesUsuario, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ObservacionesUsuario, "", new { @class = "text-danger" })
+                    </div>
+
+                    @Html.LabelFor(model => model.ObservacionesCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ObservacionesCliente, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ObservacionesCliente, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+                <div class="form-group">
+
+                </div>
+
+                <div class="panel-footer">
+                    <div class="form-group" style="text-align:right">
+                        @*<input type="submit" value="Editar" class="btn btn-primary" />
+                        @Html.ActionLink("Cancelar", "Search", null, new { @class = "btn btn-info _Back" })*@
+                    </div>
+                </div>
+
+
+            }
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<script>
+    $("#HonorariosB").change(function () {
+        var brutos = $("#HonorariosB").val();
+
+        console.log(brutos);
+
+        $.ajax({
+            type: 'POST',
+            url:"@Url.Action("CalcularHonorariosbrutos")",
+            data: JSON.stringify(
+                {
+                    'brutos': brutos,
+
+                }
+            ),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (datos) {
+
+                $("#Subtotal").val(datos.subtotal);
+                $("#iva").val(datos.iva);
+                $("#totalfactura").val(datos.totalfactura);
+                $("#retencionisr").val(datos.retencionisr);
+                $("#retencioniva").val(datos.retencioniva);
+                $("#totalRetencion").val(datos.totalRetencion);
+
+                console.log(datos);
+            },
+            error: function (error) {
+            }
+        });
+    });
+
+
+    $("#HonorariosN").change(function () {
+        var netos = $("#HonorariosN").val();
+
+        console.log(netos);
+
+        $.ajax({
+            type: 'POST',
+            url:"@Url.Action("CalcularHonorarisNetos")",
+            data: JSON.stringify(
+                {
+                    'netos': netos,
+
+                }
+            ),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (datos) {
+
+                $("#Subtotal").val(datos.subtotal);
+                $("#iva").val(datos.iva);
+                $("#totalfactura").val(datos.totalfactura);
+                $("#retencionisr").val(datos.retencionisr);
+                $("#retencioniva").val(datos.retencioniva);
+                $("#totalRetencion").val(datos.totalRetencion);
+
+                console.log(datos);
+            },
+            error: function (error) {
+            }
+        });
+    });
+
+
+</script>
+    @section Scripts {
+        <script src="~/plugins/jquery-ui/jquery-ui.js"></script>
+        <script src="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+        <script src="~/js/jquery.validate.js"></script>
+        <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    }

@@ -1,0 +1,150 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ModelFondeosPeriodo
+
+@{
+    ViewBag.Title = "FondeosPeriodo";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Fondeos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Fodeos Por Periodo.</h3>
+        </div>
+        <hr />
+        <div class="panel-body">
+            <div class="text-left">
+                @Html.ActionLink("Nuevo Fondeo", "CreateFondeoPeriodo", null, new { @class = "btn btn-primary btn-sm _Back" })
+                @Html.ActionLink("Regresar", "FondeosFijos", null, new { @class = "btn btn-info btn-sm _Back" })
+            </div>
+            <br />
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <div class="col-md-2 text-right">
+                        Periodo:
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.IdPeriodoNomina, Model.lPeriodos, "Elegir...", new { @class = "form-control", @id = "IdPeriodoNomina" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    @if (Model.fondeos != null)
+                    {
+                        if (Model.fondeos.Count > 0)
+                        {
+                            <table class="table table-hover table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Costeo
+                                        </th>
+                                        <th>
+                                            Separado Pat.
+                                        </th>
+                                        <th>
+                                            Dividido Por
+                                        </th>
+                                        <th>
+                                            Descripción
+                                        </th>
+                                        <th>
+                                            Importe
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.fondeos)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Expr1)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DividirPatronal)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SeparadoPor)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Descripcion)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Importe)
+                                            </td>
+                                            <td>
+                                                @*@Html.ActionLink(" ", "Edit", new { id = item.IdOtroConcepto }, new { @class = "btn btn-primary btn-sm fa fa-edit" }) |
+                                                    <a href="#" class="anchorDetail" data-id="@item.IdOtroConcepto" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |*@
+                                                <a href="#" class="anchorDelete" data-id="@item.IdOtroConcepto" rel="tooltip" , title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info">
+                                <span class="fa fa-info"></span>
+                                No hay fondeos para el periodo seleccionado.
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Core/fondeos.js"></script>
+
+<script>
+
+
+        var TeamDetailPostBackURLDelete = "@Url.Action("DeletePeriodo", "Fondeos")";
+        $(function () {
+            $(".anchorDelete").click(function () {
+
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLDelete,
+                    contentType: "application/json; charset=utf-8",
+                    data: { id },
+                    datatype: "json",
+                    success: function (data) {
+
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+</script>

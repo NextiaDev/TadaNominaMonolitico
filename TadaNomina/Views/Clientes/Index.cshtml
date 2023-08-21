@@ -1,0 +1,152 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.Cat_Clientes>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Clientes</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Clientes Disponibles</h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo Cliente", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover table-sm" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cliente)
+                        </th>
+                        <th>
+                            Razón Social
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RFC)
+                        </th>                        
+                        <th>
+                            @Html.DisplayNameFor(model => model.Correo)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cliente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RazonSocial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RFC)
+                            </td>                            
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Correo)
+                            </td>
+                            <td>
+                                @Html.ActionLink("  ", "Edit", new { id = item.IdCliente }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @tittle = "Editar" })
+                                <a href="#" class="anchorDetail" data-id="@item.IdCliente" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a>
+                                <a href="#" class="anchorDelete" data-id="@item.IdCliente" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    var TeamDetailPostBackURL = "@Url.Action("Details", "Clientes")";
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                var href = $(this).attr('href');
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+   var TeamDetailPostBackURLDelete = "@Url.Action("Delete", "Clientes")";
+        $(function () {
+            $(".anchorDelete").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLDelete,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+         });
+
+
+</script>
+
+

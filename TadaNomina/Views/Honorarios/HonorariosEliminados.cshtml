@@ -1,0 +1,190 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vHonorarios>
+@{
+    ViewBag.Title = "HonorariosEliminados";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Periodos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Honorarios Eliminados</h3>
+        </div>
+
+        <div class="panel-body">
+            <br />
+            <br />
+            @Html.ActionLink(" Crear Nuevo", "Seach", null, new { @class = "btn btn-info btn-sm _Load" })
+            @Html.ActionLink(" carga Layout", "CreateLayout", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina }, new { @class = "btn btn-dark btn-sm _Load" })
+
+            <br />
+            <br />
+
+            <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UnidadNegocio)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Periodo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NombreCompleto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubTotal)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Total)
+                        </th>
+
+
+
+                        <th>
+                            Estatus
+                        </th>
+
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnidadNegocio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Periodo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NombreCompleto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SubTotal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Total)
+                            </td>
+
+
+
+                            <td>
+                                @if (item.IdEstatus == 1)
+                                {
+
+                                    <span class="badge badge-success">Solicitada</span>
+
+
+
+                                }
+
+                                @if (item.IdEstatus == 2)
+                                {
+
+                                    <span class="badge badge-danger">Rechazada</span>
+
+
+                                }
+
+                                @if (item.IdEstatus == 3)
+                                {
+
+                                    <span class="badge badge-primary">Completada</span>
+
+
+                                }
+
+
+                            </td>
+
+
+
+
+                            @if (item.IdEstatus == 1)
+                            {
+                                <td>
+                                    @Html.ActionLink("  ", "HonorariosEmp", new { id = item.IdHonorarios }, new { @class = "btn btn-default btn-sm fa fa-search", @rel = "tooltip", @tittle = "Editar" }) |
+                                    <button data-id="@item.IdHonorarios" data-dat="@item.IdHonorarios" class="btn btn-danger btn-sm add-tooltip deletePeriodoNomina" data-toggle="tooltip" data-container="body" data-original-title="Eliminar"><span class="fa fa-eraser"></span></button>
+
+                                </td>
+                            }
+
+                            @if (item.IdEstatus == 2)
+                            {
+                                <td>
+                                    @Html.ActionLink("  ", "HonorariosEmp", new { id = item.IdHonorarios }, new { @class = "btn btn-default btn-sm fa fa-search", @rel = "tooltip", @tittle = "Editar" }) |
+
+                                </td>
+                            }
+                            @if (item.IdEstatus == 3)
+                            {
+                                <td>
+                                    @Html.ActionLink("  ", "HonorariosEmp", new { id = item.IdHonorarios }, new { @class = "btn btn-default btn-sm fa fa-search", @rel = "tooltip", @tittle = "Editar" }) |
+                                    <button data-id="@item.IdHonorarios" data-dat="@item.IdHonorarios" class="btn btn-danger btn-sm add-tooltip deletePeriodoNomina" data-toggle="tooltip" data-container="body" data-original-title="Eliminar"><span class="fa fa-eraser"></span></button>
+
+                                </td>
+                            }
+
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="deletePeriodo" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myLargeModalLabel">Rechazar Honorario</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="hiddenDeleteId" />
+
+                <center>
+                    <span class="badge badge-warning">Esta seguro de rechazar el Honorario?</span>
+                </center>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 text-right">Observaciones:</div>
+                <div class="col-md-10">
+
+                    <textarea id="newObservaciones_" class="form-control"></textarea>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <input type="button" class="btn btn-danger btn-sm" id="_eliminarHonorario" value="Eliminar" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/default.js"></script>
+    <script src="~/js/Core/Honorarios.js"></script>
+}

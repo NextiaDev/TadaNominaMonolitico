@@ -1,0 +1,70 @@
+﻿@model TadaNomina.Models.ViewModels.Reportes.ModelIDSE
+
+@{
+    ViewBag.Title = "IDSE";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">IDSE</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Llena los datos para obtener el reporte</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("DescargarIDSE", "ReporteIMSS"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.fIncial, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.fIncial, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.fIncial, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.fFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.fFinal, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.fFinal, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoMovimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.tipoMovimiento, Model.ltipoMovimiento, "Elegir...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.tipoMovimiento, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success btn-sm">Descargar</button>
+                                @* @Html.ActionLink("Descargar", "Descargar", new { id = Model.tipoMovimiento }, new { @class = "btn btn-success btn-sm" })*@
+                            </div>
+                        </div>
+
+                        <br />
+                        @if (ViewBag.Mensaje != null)
+                        { 
+                            <div class="alert alert-danger"><span class="fa fa-info-circle fa-2x"></span> @ViewBag.Mensaje</div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

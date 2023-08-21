@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EAMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EAM_Empleados">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+          </Key>
+          <Property Name="IdEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonalJSON" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CuotaFija" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CostoHora" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="JSONMaterias" Type="nvarchar" MaxLength="4000" />
+          <Property Name="MetaHoras" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TipoBono" Type="nvarchar" MaxLength="10" />
+          <Property Name="Bono" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EAM_Materias">
+          <Key>
+            <PropertyRef Name="IdMateria" />
+          </Key>
+          <Property Name="IdMateria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Materia" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+        </EntityType>
+        <EntityContainer Name="EAMModelStoreContainer">
+          <EntitySet Name="EAM_Empleados" EntityType="Self.EAM_Empleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EAM_Materias" EntityType="Self.EAM_Materias" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EAMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EAM_Empleados">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+          </Key>
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonalJSON" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CostoHora" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="JSONMaterias" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="MetaHoras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TipoBono" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Bono" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="EAM_Materias">
+          <Key>
+            <PropertyRef Name="IdMateria" />
+          </Key>
+          <Property Name="IdMateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Materia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="EAMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EAM_Empleados" EntityType="Self.EAM_Empleados" />
+          <EntitySet Name="EAM_Materias" EntityType="Self.EAM_Materias" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EAMModelStoreContainer" CdmEntityContainer="EAMEntities">
+          <EntitySetMapping Name="EAM_Empleados">
+            <EntityTypeMapping TypeName="EAMModel.EAM_Empleados">
+              <MappingFragment StoreEntitySet="EAM_Empleados">
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="PersonalJSON" ColumnName="PersonalJSON" />
+                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
+                <ScalarProperty Name="CostoHora" ColumnName="CostoHora" />
+                <ScalarProperty Name="JSONMaterias" ColumnName="JSONMaterias" />
+                <ScalarProperty Name="MetaHoras" ColumnName="MetaHoras" />
+                <ScalarProperty Name="TipoBono" ColumnName="TipoBono" />
+                <ScalarProperty Name="Bono" ColumnName="Bono" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EAM_Materias">
+            <EntityTypeMapping TypeName="EAMModel.EAM_Materias">
+              <MappingFragment StoreEntitySet="EAM_Materias">
+                <ScalarProperty Name="IdMateria" ColumnName="IdMateria" />
+                <ScalarProperty Name="Materia" ColumnName="Materia" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

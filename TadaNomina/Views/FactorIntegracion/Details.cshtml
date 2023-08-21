@@ -1,0 +1,78 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelFactorIntegracion
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle Prestaciones</h4>
+</div>
+
+<div class="modal-body">
+
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Limite_Inferior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Limite_Inferior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Limite_Superior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Limite_Superior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Aguinaldo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Aguinaldo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vacaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vacaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrimaVacacional)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrimaVacacional)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrimaVacacionalSDI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrimaVacacionalSDI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FactorIntegracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FactorIntegracion)
+        </dd>
+
+    </dl>
+</div>
+
+<p>
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+        </div>
+    </div>
+</p>

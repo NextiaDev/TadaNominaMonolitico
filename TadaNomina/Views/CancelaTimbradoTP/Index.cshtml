@@ -1,0 +1,124 @@
+﻿@model TadaNomina.Models.ViewModels.CFDI.ModelCancelarTimbrado
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text text-overflow">Timbrado de Nómina</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Periodos Disponibles Para Cancelar.</h3>
+            </div>
+
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-7">
+                                @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ClavesEmpleado, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.ClavesEmpleado, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @placeholder = "0001,0002,0003,..." } })
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Este campo es opcional, en caso de no capturarse se cancela el periodo completo"><span class="fa fa-info"></span></button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br /><br />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @if (Model.Mensaje != null)
+                            {
+                                if (Model.validacion)
+                                {
+                                    <div class="alert alert-info">
+                                        @Model.Mensaje
+                                        <br />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        @Model.Mensaje
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="panel-footer">
+                        <div class="form-group" style="text-align:right">
+                            <input type="submit" value="Cancelar Timbrado" class="btn btn-danger btn-sm _Aceptar" />
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalDetalleErrores">Detalle de Errores</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModalDetalleErrores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                    <h4 class="modal-title" id="myModalLabel">Errores de Cancelación</h4>
+                </div>
+                <div class="modal-body">
+                    @if (Model.errores != null)
+                    {
+                        foreach (var item in Model.errores)
+                        {
+                            <table class="table table-condensed table-hover table-sm">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            Referencia: @Html.DisplayFor(x => item.Referencia)
+                                        </th>
+                                        <th>
+                                            Descripción: @Html.DisplayFor(x => item.Descripcion)
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No hay informacion.</div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

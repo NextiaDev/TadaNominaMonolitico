@@ -1,0 +1,99 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelPensionAlimenticia
+
+<div class="modal-header">
+
+    <h4 class="modal-title">Eliminar Pensión</h4>
+    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-window-close"></i></button>
+</div>
+
+<div class="modal-body">
+
+    <h3>Esta seguro que desea eliminar la siguinete Pensión?</h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveEmp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClaveEmp)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Empleado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Empleado)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.rfc)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.rfc)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TipoPension)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TipoPension)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Valor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Valor)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ValorEsq)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ValorEsq)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Estatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Estatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fechaCaptura)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fechaCaptura)
+            </dd>
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.IdPensionAlimenticia)
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

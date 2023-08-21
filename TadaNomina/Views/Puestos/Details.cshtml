@@ -1,0 +1,47 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelPuestos
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle de Puesto</h4>
+</div>
+
+<div class="modal-body">
+
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Puesto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Puesto)
+        </dd>
+
+    </dl>
+</div>
+
+<p>
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+        </div>
+    </div>
+</p>

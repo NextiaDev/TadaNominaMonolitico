@@ -1,0 +1,85 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.Cat_Areas>
+@{
+    ViewBag.Title = "Area";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Areas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Áreas Disponibles</h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nueva Area", "Create", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink(" carga Layout", "CreateLayout", null, new { @class = "btn btn-success btn-sm" })
+            <button class="btn btn-mint btn-sm" id="descarga">Descargar</button>
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" , width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdArea)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Clave)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Area)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaCaptura)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdArea)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Clave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Area)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaCaptura)
+                            </td>
+                            <td>
+                                @Html.ActionLink("  ", "Edit", new { id = item.IdArea }, new { @class = "btn btn-default btn-sm fa fa-edit", @rel = "tooltip", @tittle = "Editar" }) |
+                                <a href="#" class="anchorDetail" data-id="@item.IdArea" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a> |
+                                <a href="#" class="anchorDelete" data-id="@item.IdArea" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Core/Areas.js"></script>
+
+}

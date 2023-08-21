@@ -1,0 +1,137 @@
+﻿@model List<TadaNomina.Models.ViewModels.Facturacion.ModelSolicitudFacturas>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Solicitud de Facturas</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Costeos Disponibles.</h3>
+            </div>
+            <div class="panel-body">
+                @*@Html.ActionLink("Nueva Solicitud", "NewSolicitud", "SolicitudFacturas", null, new { @class = "btn btn-primary btn-sm" })*@
+                @Html.ActionLink("Solicitudes Finalizadas", "SFinalizadas", "SolicitudFacturas", null, new { @class = "btn btn-success btn-sm" })
+
+                <br /><br /><br />
+
+                @if (Model.Count() > 0)
+                {
+                    <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="3%" hidden="hidden">Id</th>
+                                <th width="20%">Descripción</th>
+                                <th width="5%">Tipo</th>
+                                <th width="7%">SubTotal</th>
+                                <th width="7%">IVA</th>
+                                <th width="7%">Total Costeo</th>
+                                <th width="7%">Total Factura</th>
+                                <th width="12%">Estatus</th>
+                                <th width="4%">Costeo</th>
+                                <th width="4%">Solicitud</th>
+                                <th width="4%">Archivos</th>
+                                <th width="4%">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td hidden="hidden">@item.Num</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.TipoEsquema</td>
+                                    <td>$@item.SubTotal</td>
+                                    <td>$@item.IVA</td>
+                                    <td>$@item.Total</td>
+                                    <td>$@item.NTotal</td>
+                                    <td>@item.Estatus</td>
+                                    <td><a href="~/SolicitudFacturas/VerCosteo?_ID=@TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdfacturasContabilidad.ToString())&_PA=@TadaNomina.Models.ClassCore.Statics.Encriptar("1")" class="btn btn-sm btn-success load"><i class="glyphicon glyphicon-list-alt"></i></a></td>
+                                    @if (item.Estatus == "COSTEO GUARDADO" || item.Estatus == "RECHAZADA")
+                                    {
+                                        <td align="center"><a href="~/SolicitudFacturas/Solicitud?_ID=@TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdfacturasContabilidad.ToString())" class="btn btn-sm btn-info load"><i class="glyphicon glyphicon-edit"></i></a></td>
+                                    }
+                                    else
+                                    {
+                                        <td align="center"><a href="#" class="btn btn-sm btn-info load" disabled="disabled"><i class="glyphicon glyphicon-edit"></i></a></td>
+                                    }
+
+                                    <td align="center"><a href="~/SolicitudFacturas/Archivos?_ID=@TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdfacturasContabilidad.ToString())" class="btn btn-sm btn-mint load"><i class="glyphicon glyphicon-file"></i></a></td>
+                                    @if (item.Estatus == "COSTEO GUARDADO" || item.Estatus == "RECHAZADA")
+                                    {
+                                        <td align="center"><button class='btn btn-sm btn-danger' onclick="eliminar(@item.IdfacturasContabilidad)" data-toggle="modal" data-target="#ModalEliminar"><i class='glyphicon glyphicon-trash'></i></button></td>
+                                    }
+                                    else
+                                    {
+                                        <td align="center"><button class='btn btn-sm btn-danger' disabled="disabled" onclick="eliminar(@item.IdfacturasContabilidad)" data-toggle="modal" data-target="#ModalEliminar"><i class='glyphicon glyphicon-trash'></i></button></td>
+                                    }
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        No hay Costeos Disponibles.
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Eliminar", "SolicitudFacturas", FormMethod.Post))
+{
+    <!-- Modal-->
+    <input type="hidden" id="IdfacturasContabilidad" name="IdfacturasContabilidad" />
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>
+                    <hr />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <i class="btn btn-sm btn-danger demo-pli-close"></i>&nbsp; ¿Está seguro que desea eliminar el registro?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+    
+
+    function eliminar(_Id) {
+
+    
+        document.getElementById("IdfacturasContabilidad").value = _Id;
+    }
+
+</script>
+

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "DescargarRecibos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+
+    List<SelectListItem> _Periodo = (List<SelectListItem>)ViewBag.Periodos;
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow"> Descargar archivos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Selecciona periodo:</label>
+                </div>
+                <div class="col-md-4">
+                    @Html.DropDownList("Periodo", _Periodo, new { @class = "form-control", @id = "OptPeriodo" })
+                </div>
+            </div><br /><br />
+            <div class="row">
+                <div class="col-md-6">
+                    @using (Html.BeginForm("DescargarPDF", "ProcesoNomina", FormMethod.Post))
+                    {
+                    <input hidden id="IdPeriodoNomina" name="IdPeriodoNomina" />
+                    <button class="btn btn-primary btn-success" id="BotonDescargarArchivo" type="submit">Descargar</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+
+        $("#OptPeriodo").change(function () {
+            var id = $("#OptPeriodo").val();
+            $("#IdPeriodoNomina").val(id);
+        });
+    </script>
+}

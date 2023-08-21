@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    var _ListaPeriodos = (List<SelectListItem>)ViewBag.LstPeriodos;
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Costeos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<form action="~/MovimientoCosteos/Consultar" method="post">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Movimientos de Costeos</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.DropDownList("ListarPeriodo", _ListaPeriodos, null, new { @class = "form-control", @onchage = "Obtener(this.Value)", @id = "miselect" })
+                    </div>
+                    <input hidden id="ValorNuevo" name="NewValue" />
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary btn-sm btn-info">Consultar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    $("#miselect").change(function () {
+        var h = document.getElementById("miselect").value;
+        document.getElementById("ValorNuevo").value = h;
+    });
+
+</script>
+

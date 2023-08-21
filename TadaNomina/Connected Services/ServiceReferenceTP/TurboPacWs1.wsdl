@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://turbopac.mx/TurboPac" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" targetNamespace="http://turbopac.mx/TurboPac" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://turbopac.mx/TurboPac/Imports">
+      <xsd:import schemaLocation="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd0" namespace="http://turbopac.mx/TurboPac" />
+      <xsd:import schemaLocation="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/PacUtils.Core" />
+      <xsd:import schemaLocation="https://ws.turbopac.mx/TimbradoTp/TurboPacWs.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITurboPacWs_TimbraCfdi_InputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraCfdi" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraCfdi_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraCfdiResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraCfdi33_InputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraCfdi33" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraCfdi33_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraCfdi33Response" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraURLCfdi33_InputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraURLCfdi33" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraURLCfdi33_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraURLCfdi33Response" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_CancelaCfdi_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelaCfdi" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_CancelaCfdi_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelaCfdiResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraRetencion_InputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraRetencion" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_TimbraRetencion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TimbraRetencionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_CancelaRetencion_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelaRetencion" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_CancelaRetencion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelaRetencionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_ObtenerStatusUuid_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObtenerStatusUuid" />
+  </wsdl:message>
+  <wsdl:message name="ITurboPacWs_ObtenerStatusUuid_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObtenerStatusUuidResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITurboPacWs">
+    <wsdl:operation name="TimbraCfdi">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraCfdi" message="tns:ITurboPacWs_TimbraCfdi_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraCfdiResponse" message="tns:ITurboPacWs_TimbraCfdi_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TimbraCfdi33">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraCfdi33" message="tns:ITurboPacWs_TimbraCfdi33_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraCfdi33Response" message="tns:ITurboPacWs_TimbraCfdi33_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TimbraURLCfdi33">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraURLCfdi33" message="tns:ITurboPacWs_TimbraURLCfdi33_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraURLCfdi33Response" message="tns:ITurboPacWs_TimbraURLCfdi33_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelaCfdi">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/CancelaCfdi" message="tns:ITurboPacWs_CancelaCfdi_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/CancelaCfdiResponse" message="tns:ITurboPacWs_CancelaCfdi_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TimbraRetencion">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraRetencion" message="tns:ITurboPacWs_TimbraRetencion_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/TimbraRetencionResponse" message="tns:ITurboPacWs_TimbraRetencion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelaRetencion">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/CancelaRetencion" message="tns:ITurboPacWs_CancelaRetencion_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/CancelaRetencionResponse" message="tns:ITurboPacWs_CancelaRetencion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtenerStatusUuid">
+      <wsdl:input wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/ObtenerStatusUuid" message="tns:ITurboPacWs_ObtenerStatusUuid_InputMessage" />
+      <wsdl:output wsaw:Action="http://turbopac.mx/TurboPac/ITurboPacWs/ObtenerStatusUuidResponse" message="tns:ITurboPacWs_ObtenerStatusUuid_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

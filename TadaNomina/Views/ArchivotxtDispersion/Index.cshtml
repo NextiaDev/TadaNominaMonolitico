@@ -1,0 +1,134 @@
+﻿@model TadaNomina.Models.ViewModels.LayoutBancos.mArchivoDispersion
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string mensajeError = (string)ViewBag.Mensaje;
+}
+
+@Html.Hidden("mError", mensajeError, new { id = "me" });
+
+<div id="page-head">
+    <div class="col-md-5 col-md-offset-7">
+        <div id="alert" class="alert alert-warning" hidden="hidden">
+            <button class="close" onclick="ocultarAlerta()">
+                <i class="pci-cross pci-circle"></i>
+            </button>
+            <div class="media">
+                <div class="media-left">
+                    <div class="pad-hor">
+                        <i class="fa ti-face-sad fa-2x"></i>
+                    </div>
+                </div>
+                <div class="media-body">
+                    <p class="mar-no text-semibold">Lo sientimos</p>
+                    <label id="msj_ctnt"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Archivos dispersión</h1>
+    </div>
+</div>
+
+<div id="page-content">
+    @using (Html.BeginForm("Index", "ArchivotxtDispersion", FormMethod.Post))
+    {
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Obtener archivo dispersión</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">Periodo Nomina</label>
+                        @Html.DropDownListFor(p => p.IdPeriodoNomina, Model.selectListPeriodoNomina, "Seleccionar...", htmlAttributes: new { @class = "form-control", required = "required" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">Banco</label>
+                        @Html.DropDownListFor(p => p.IdBanco, Model.selectListBancos, "Seleccionar...", htmlAttributes: new { @class = "form-control", id = "IdBanco", required = "required" })
+                    </div>
+                </div>
+
+                <!--Formulario BBVA y Santander -->
+                <div id="form_BBVA-STDR" hidden="hidden">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Destino</label>
+                            @Html.DropDownListFor(p => p.TipoArchivo, Model.selectListTipoArchivos, "Seleccionar...", htmlAttributes: new { @class = "form-control", id = "TA" })
+                        </div>
+                    </div>
+                </div>
+
+                <!--Formulario Banamex-->
+                <div id="form_BNX" hidden="hidden">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Número de cliente</label>
+                            @Html.TextBoxFor(p => p.NumCliente, htmlAttributes: new { @class = "form-control", id = "NC" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Clave de la sucursal</label>
+                            @Html.TextBoxFor(p => p.ClvSucursal, htmlAttributes: new { @class = "form-control", id = "CS" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Referencia numérica</label>
+                            @Html.TextBoxFor(p => p.RefNumerica, htmlAttributes: new { @class = "form-control", id = "RN", @placeholder = "Máximo 7 dígitos, sin espacios" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Referencia alfanumérica</label>
+                            @Html.TextBoxFor(p => p.RefAlfaNum, htmlAttributes: new { @class = "form-control", id = "RA", @placeholder = "Máximo 8 caracteres" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Nombre empresa</label>
+                            @Html.TextBoxFor(p => p.NombreEmpresa, htmlAttributes: new { @class = "form-control", id = "NE" })
+                        </div>
+                    </div>
+                </div>
+
+                <!--Formulario Banorte -->
+                <div id="form_BNTE" hidden="hidden">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Empresa</label>
+                            @Html.TextBoxFor(p => p.Empresa, htmlAttributes: new { @class = "form-control", @placeholder = "Máximo 5 dígitos, sin espacios", id = "E" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Destino</label>
+                            @Html.DropDownListFor(p => p.TipoArchivoBnte, Model.selectListTipoArchivos, "Seleccionar...", htmlAttributes: new { @class = "form-control", id = "TA" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary" id="btn_G" disabled="disabled">Generar</button>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/ArchivostxtDispersion/Index.js"></script>
+    <script src="~/js/Core/mensajes.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log($("#me").val())
+            if ($("#me").val() != "") {
+                mensajeAlerta("Validar", $("#me").val(), "warning", "fadeIn", "fadeOut", 4500);
+            }
+        });
+    </script>
+}

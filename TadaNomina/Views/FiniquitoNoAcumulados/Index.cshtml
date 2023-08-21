@@ -1,0 +1,146 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelMoverFiniquitos
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Finiquitos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Finiquitos no Acumulados.</h3>
+        </div>
+
+        <div class="panel-body">
+            @if (Model.calculos.Count > 0)
+            {
+
+                <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Periodo
+                        </th>
+                        <th>
+                            Cve.
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            A.Paterno
+                        </th>
+                        <th>
+                            A.Materno
+                        </th>
+                        <th>
+                            ER
+                        </th>
+                        <th>
+                            DD
+                        </th>
+                        <th>
+                            Neto
+                        </th>
+                        <th>
+                            ERS
+                        </th>
+                        <th>
+                            DDS
+                        </th>
+                        <th>
+                            Netos
+                        </th>
+
+
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.calculos)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Periodo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClaveEmpleado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ER)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DD)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Neto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ERS)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DDS)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Netos)
+                            </td>
+
+
+
+                            <td>
+                                <button class="btn btn-mint btn-sm _mover" val="@item.IdEmpleado" val2="@item.IdPeriodoNomina" title="Mover a nuevo periodo"><span class="fa fa-share"></span></button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            else
+            { 
+                <div class="alert alert-info"><span class="fa fa-info"></span> No hay calculos para mostrar.</div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalMover" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Mover Finiquito</h4>
+            </div>
+            <div class="modal-body">
+                Elija el periodo al que desea mover el calculo.
+                @Html.DropDownListFor(x=> x.IdPeriodo, Model.lPeriodos, "Elegir...", new { @class="form-control"})
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <button class="btn btn-mint" val="0" val2="0" id="_Aceptar" type="button">Mover</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Core/mensajes.js"></script>
+<script src="~/js/Core/finiquitosNoAcumulados.js"></script>

@@ -1,0 +1,96 @@
+﻿@model TadaNomina.Models.ViewModels.MovimientosIMSS.RespuestaLotesIMSS
+@{
+    ViewBag.Title = "ListadoLotes";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string mensaje = ViewBag.Mensaje;
+}
+
+<div id="page-head">
+    @if (mensaje != null)
+    {
+        <div class="alert alert-danger">
+            <button class="close" data-dismiss="alert">
+                <i class="pci-cross pci-circle"></i>
+            </button>
+            <strong>Error:</strong>
+            @mensaje
+        </div>
+    }
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Consulta lotes IMSS</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel panel-body text-left">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Listado Lotes.
+            </h4>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-10">
+                <div class="panel-footer text-left">
+                    <a href="~/Consultas/Index" class="btn btn-primary">Regresar</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table id="DT" class="table table-striped table-bordered order-column:asc" cellspacing="0" width="80%">
+                <thead>
+                    <tr>
+                        <th width="20%">Lote</th>
+                        <th width="20%">Fecha de creaci&oacute;n</th>
+                        <th width="20%">Estatus Lote</th>
+                        <th width="20%">Consultar Respuesta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RespuestaWebService.resumenLotes)
+                    {
+                        <tr>
+                            <td align="center">@item.idLote</td>
+                            <td align="center">@item.fechaTrans</td>
+                            @if (item.loteStatus == "-1")
+                            {
+                                <td align="center">
+                                    <div class="label label-table label-warning">No procesado</div>
+                                </td>
+                            }
+                            @if (item.loteStatus == "0")
+                            {
+                                <td align="center">
+                                    <div class="label label-table label-danger">ERROR:0</div>
+                                </td>
+                            }
+                            @if (item.loteStatus == "1")
+                            {
+                                <td align="center">
+                                    <div class="label label-table label-info">Enviado 1</div>
+                                </td>
+                            }
+                            @if (item.loteStatus == "2")
+                            {
+                                <td align="center">
+                                    <div class="label label-table label-warning">Por procesar 2</div>
+                                </td>
+                            }
+                            @if (item.loteStatus == "3")
+                            {
+                                <td align="center">
+                                    <div class="label label-table label-success">Procesado</div>
+                                </td>
+                            }
+                            <td align="center"><a href="~/Consultas/ConsultaRespuestaLote?IdRegistroPatronal=@ViewBag.RegistroPatronal&Lote=@item.idLote.ToString()" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

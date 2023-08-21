@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://serviciocancelacion.turbopac.mx/TPCancelacion/Cancela4.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" />
+  <xs:element name="SolicitarCancelacion_01">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rfcEmisor" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uuid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uuidSustitucion" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PropiedadErronea" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pfx" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="passPfx" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitarCancelacion_01Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" minOccurs="0" name="SolicitarCancelacion_01Result" nillable="true" type="q1:ResponseCancel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacion_02">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rfcEmisor" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uuid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="PropiedadErronea" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pfx" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="passPfx" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacion_02Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" minOccurs="0" name="SolicitudCancelacion_02Result" nillable="true" type="q2:ResponseCancel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacion_03">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rfcEmisor" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uuid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pfx" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="passPfx" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacion_03Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" minOccurs="0" name="SolicitudCancelacion_03Result" nillable="true" type="q3:ResponseCancel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacion_04">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rfcEmisor" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uuid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="xmlACancelar" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pfx" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="passPfx" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacion_04Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" minOccurs="0" name="SolicitudCancelacion_04Result" nillable="true" type="q4:ResponseCancel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacionRetencion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="rfcEmisor" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uuid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="motivoDeCancelacion" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="uriDescargaXml" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pfx" nillable="true" type="xs:base64Binary" />
+        <xs:element minOccurs="0" name="passPfx" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitudCancelacionRetencionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" minOccurs="0" name="SolicitudCancelacionRetencionResult" nillable="true" type="q5:ResponseCancel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticaToken">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticaTokenResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AutenticaTokenResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

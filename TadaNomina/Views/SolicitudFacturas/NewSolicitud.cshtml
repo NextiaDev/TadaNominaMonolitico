@@ -1,0 +1,216 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ModelNewSolicitud
+
+@{
+    ViewBag.Title = "NewSolicitud";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Nueva Solicitud de Factura</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Solicitud Sin Nómina</h3>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-info"><span class="fa fa-info-circle"></span> Se creara un periodo de nómina para referencia de esta solicitud.</div>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PeriodoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.PeriodoNomina, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre descriptivo para el periodo que se crea.", id = "periodonomina" } })
+                                @Html.ValidationMessageFor(model => model.PeriodoNomina, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Esquema, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.Esquema, Model.lEsquema, null, new { @class = "form-control", id = "esquema" })
+                                @Html.ValidationMessageFor(model => model.Esquema, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Importe, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.Importe, new { htmlAttributes = new { @class = "form-control", @id = "importe" } })
+                                    @*<span class="input-group-btn">
+                                            <a href="#" id="calcula" class="btn btn-mint">
+                                                <span class="fa fa-refresh"></span>
+                                            </a>
+                                        </span>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Importe, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-1">
+                                Honorario:
+                            </div>
+                            <div class="col-md-1">
+                                <input type="text" class="form-control" id="pHon" placeholder="%" />
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" id="calcula" class="btn btn-mint">
+                                    <span class="fa fa-refresh"></span>
+                                    Calcular
+                                </a>
+                            </div>
+                        </div>
+
+                        <hr />
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Honorario, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Honorario, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "honorario" } })
+                                @Html.ValidationMessageFor(model => model.Honorario, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Subtotal, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Subtotal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "subtotal" } })
+                                @Html.ValidationMessageFor(model => model.Subtotal, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IVA, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.IVA, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Id = "iva" } })
+                                @Html.ValidationMessageFor(model => model.IVA, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Total, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "total" } })
+                                @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        @if (ViewBag.Mensaje != null)
+                        {
+                            <div class="alert alert-danger"><span class="fa fa-warning"></span> ViewBag.Mensaje</div>
+                        }
+
+                        <div class="form-group text-right">
+                            <div class="col-md-offset-2 col-md-10">
+                                @*<input type="submit" value="Crear" class="btn btn-primary _Aceptar" />*@
+                                <button class="btn btn-primary" id="Validar" data-target="#panel-overlay" type="button" onclick="Valida()">Crear</button>
+                                @Html.ActionLink("Nueva Solicitud", "NewSolicitud", null, new { @class = "btn btn-primary", id = "Refrescar", style = "display:none" })
+                                @Html.ActionLink("Verificar Factura", "Index", null, new { @class = "btn btn-success", id = "Verificar1", style = "display:none" })
+                                @Html.ActionLink("Verificar Dispersión", "Index", "SolicitudDispersion", new { @class = "btn btn-success", id = "Verificar2", style = "display:none" })
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/Core/newSolicitudFactura.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript"></script>
+
+    <script>
+
+        function onSuccessNuevo(title, message) {
+
+            $.niftyNoty({
+                type: 'success',
+                container: 'floating',
+                title: title,
+                message: message,
+                closeBtn: true,
+                timer: 5000
+            });
+        }
+
+        function onDangerNuevo(title, message) {
+
+            $.niftyNoty({
+                type: 'danger',
+                container: 'floating',
+                title: title,
+                message: message,
+                closeBtn: true,
+                timer: 5000
+            });
+        }
+
+    </script>
+    <script>
+        function Valida() {
+
+            document.getElementById('periodonomina').disabled = true;
+            document.getElementById('esquema').disabled = true;
+            document.getElementById('importe').disabled = true;
+            document.getElementById('honorario').disabled = true;
+            document.getElementById('Validar').disabled = true;
+            document.getElementById('calcula').disabled = true;
+
+            var PeriodoNomina = $('#periodonomina').val();
+
+            var Esquema = $('#esquema').val();
+
+            var Importe = $('#importe').val();
+
+            var Honorario = $('#honorario').val();
+
+            var Subtotal = $('#subtotal').val();
+
+            var IVA = $('#iva').val();
+
+            var Total = $('#total').val();
+
+            $.ajax({
+                type: "POST",
+                url: "NuevaSolicitud",
+                data: JSON.stringify(
+                    {
+                        '_PeriodoNomina': PeriodoNomina,
+                        '_Esquema': Esquema,
+                        '_Importe': Importe,
+                        '_Honorario': Honorario,
+                        '_Subtotal': Subtotal,
+                        '_IVA': IVA,
+                        '_Total': Total,
+                    }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (datos) {
+
+                    if (datos.indexOf("ERROR:") !== -1) {
+                        onDangerNuevo("ERROR", datos);
+                        document.getElementById('periodonomina').disabled = false;
+                        document.getElementById('esquema').disabled = false;
+                        document.getElementById('importe').disabled = false;
+                        document.getElementById('Validar').disabled = false;
+                    }
+                    else {
+                        onSuccessNuevo("CORRECTO", datos);
+                        $('#Refrescar').show();
+                        $('#Verificar1').show();
+                        $('#Verificar2').show();
+                    }
+                },
+                error: function (error) {
+
+                    onDangerNuevo("ERROR", error.message);
+                }
+            });
+        }
+    </script>
+}

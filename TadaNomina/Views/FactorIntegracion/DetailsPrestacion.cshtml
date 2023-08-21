@@ -1,0 +1,43 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelPrestaciones
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle Prestaciones</h4>
+</div>
+
+<div class="modal-body">
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.IdCliente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdCliente)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Cliente)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Prestacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Prestacion)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="form-actions no-color">
+        <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelRecuperaciones
+
+@{
+    ViewBag.Title = "Recuperación IMSS";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@section Styles
+{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/nifty.js"></script>
+    <link href="~/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />    
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Recuperaciones IMSS</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-6 col-lg-offset-2">
+        <div class="row">
+            <div class="panel">
+                @using (Html.BeginForm("Edit", "RecuperacionesIMSS", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="panel-body">
+                        @Html.HiddenFor(model => model.IdEmpleado)
+                        @Html.HiddenFor(model => model.IdRegistroPatronal)
+                        <hr />
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-dollar"></i> Recuperación</h3>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.PeriodosList, htmlAttributes: new { @class = "form-control" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConceptoRecuperacion, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.ConceptoRecuperacion, Model.ConceptoList, htmlAttributes: new { @class = "form-control" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.monto, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.monto, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.monto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="form-group" style="text-align:right">
+                                <input type="submit" value="Guardar" class="btn btn-primary" />
+                                @Html.ActionLink("Regresar", "Search", null, new { @class = "btn btn-info _Back" })
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (ViewBag.JavaScriptFunction != null)
+{
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.JavaScriptFunction)
+    </script>
+}

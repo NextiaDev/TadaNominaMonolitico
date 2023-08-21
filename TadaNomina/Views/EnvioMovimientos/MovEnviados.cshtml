@@ -1,0 +1,103 @@
+﻿@model TadaNomina.Models.ViewModels.MovimientosIMSS.mMovimientosEnviados
+@{
+    ViewBag.Title = "MovEnviados";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Envío de Movimientos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel panel-body text-left">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Movimientos Enviados
+            </h4>
+        </div>
+        <hr />
+        <div class="panel-body">
+            <div>
+                <h4 class="panel-title">
+                    Movimientos Erroneos
+                </h4>
+            </div>
+            <table id="demo-dt-selection" class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Id Movimiento</th>
+                        <th>Id Empleado</th>
+                        <th>Nombre Empleado</th>
+                        <th>Id Registro Patronal</th>
+                        <th>Registro Patronal</th>
+                        <th>Tipo Movimiento</th>
+                        <th>Fecha</th>
+                        <th>Envio</th>
+                        <th>Error Envio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.errores)
+                    {
+                        <tr>
+                            <td>@item.IdMovimiento</td>
+                            <td>@item.IdEmpleado</td>
+                            <td>@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</td>
+                            <td>@item.IdRegistroPatronal</td>
+                            <td>@item.RegistroPatronal</td>
+                            <td>@item.TipoMovimiento</td>
+                            <td>@item.Fecha</td>
+                            <td>
+                                <div class="label label-table label-danger">Error</div>
+                            </td>
+                            <td>@item.ErrorEnvio</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <br />
+        <div class="panel-body">
+            <div>
+                <h4 class="panel-title">
+                    Movimientos Correctos
+                </h4>
+            </div>
+            <table id="demo-dt-selection" class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Id Movimiento</th>
+                        <th>Id Empleado</th>
+                        <th>Id Registro Patronal</th>
+                        <th>Tipo Movimiento</th>
+                        <th>Fecha</th>
+                        <th>Envio</th>
+                        <th>Lote</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.correctos)
+                    {
+                        <tr>
+                            <td>@item.IdMovimiento</td>
+                            <td>@item.IdEmpleado</td>
+                            <td>@item.IdRegistroPatronal</td>
+                            <td>@item.TipoMovimiento</td>
+                            <td>@item.Fecha</td>
+                            <td>@item.Envio</td>
+                            <td>@item.Lote</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

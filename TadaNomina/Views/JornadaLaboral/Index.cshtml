@@ -1,0 +1,83 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.Cat_Jornadas>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Jornadas Laborales</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Jornadas Disponibles</h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nueva Jornada", "Create", null, new { @class = "btn btn-info btn-sm" })
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" , width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdJornada)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Clave)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Jornada)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaCaptura)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdJornada)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Clave)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Jornada)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaCaptura)
+                            </td>
+                            <td>
+                                @Html.ActionLink("  ", "Edit", new { id = item.IdJornada }, new { @class = "btn btn-default btn-sm fa fa-edit", @rel = "tooltip", @tittle = "Editar" }) |
+                                <a href="#" class="anchorDetail" data-id="@item.IdJornada" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a> |
+                                <a href="#" class="anchorDelete" data-id="@item.IdJornada" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Core/Jornadas.js"></script>
+}
+
+

@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TadaAccesoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cat_Clientes">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+          <Property Name="RazonSocial" Type="nvarchar" MaxLength="100" />
+          <Property Name="RFC" Type="nvarchar" MaxLength="13" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contacto" Type="nvarchar" MaxLength="50" />
+          <Property Name="FechaIngreso" Type="date" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClienteAdministrado" Type="int" Nullable="false" />
+          <Property Name="IdCordinador" Type="int" />
+          <Property Name="Estructura" Type="int" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="100" />
+          <Property Name="Password" Type="varbinary" MaxLength="255" />
+          <Property Name="Acceso" Type="nchar" MaxLength="10" />
+          <Property Name="Logo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TituloPortal" Type="nvarchar" MaxLength="10" />
+          <Property Name="AnimacionPortal" Type="nvarchar" MaxLength="200" />
+          <Property Name="Nom_035" Type="int" />
+          <Property Name="ComentariosPublicaciones" Type="int" />
+          <Property Name="VersionCFDI" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModificacion" Type="int" />
+          <Property Name="FechaModificacion" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SendMail">
+          <Key>
+            <PropertyRef Name="idSendMail" />
+          </Key>
+          <Property Name="idSendMail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Proyecto" Type="nvarchar(max)" />
+          <Property Name="Credentials" Type="nvarchar(max)" />
+          <Property Name="Contrasena" Type="nvarchar" MaxLength="50" />
+          <Property Name="ClientHost" Type="nvarchar(max)" />
+          <Property Name="Puerto" Type="nvarchar" MaxLength="50" />
+          <Property Name="Idestatus" Type="int" />
+        </EntityType>
+        <EntityType Name="UrlSistema">
+          <Key>
+            <PropertyRef Name="IdURLSistema" />
+          </Key>
+          <Property Name="IdURLSistema" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URLSistema" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IdUnidadNegocio" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IdCentroCostos" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IdEmpleado" Type="int" />
+          <Property Name="IdDepartamento" Type="int" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="250" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contraseña" Type="varbinary" MaxLength="255" />
+          <Property Name="TipoUsuario" Type="nvarchar" MaxLength="15" />
+          <Property Name="Inventarios" Type="nvarchar" MaxLength="2" />
+          <Property Name="MovimientosEspeciales" Type="nvarchar" MaxLength="2" />
+          <Property Name="RHCloud" Type="nvarchar" MaxLength="2" />
+          <Property Name="RelogChecador" Type="nvarchar" MaxLength="2" />
+          <Property Name="Cordinador" Type="int" />
+          <Property Name="Confidencial" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaAlta" Type="datetime" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdModificacion" Type="int" />
+          <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="Evaluacion" Type="int" />
+          <Property Name="Soporte" Type="int" />
+          <Property Name="ImagenUsuario" Type="varbinary(max)" />
+        </EntityType>
+        <Function Name="sp_CambioPass" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <Parameter Name="PasswordNuevo" Type="nvarchar" Mode="In" />
+          <Parameter Name="resultado" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="Valida_Accesos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Login" Type="nvarchar" Mode="In" />
+          <Parameter Name="Password" Type="nvarchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Password" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <EntityContainer Name="TadaAccesoModelStoreContainer">
+          <EntitySet Name="Cat_Clientes" EntityType="Self.Cat_Clientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SendMail" EntityType="Self.SendMail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrlSistema" EntityType="Self.UrlSistema" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TadaAccesoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TadaAccesoEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="Valida_Accesos" IsComposable="true" ReturnType="Collection(Int32)">
+            <Parameter Name="Login" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CambioPass">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="PasswordNuevo" Mode="In" Type="String" />
+            <Parameter Name="resultado" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CambioPass1">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="PasswordNuevo" Mode="In" Type="String" />
+            <Parameter Name="resultado" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Cat_Clientes" EntityType="TadaAccesoModel.Cat_Clientes" />
+          <EntitySet Name="UrlSistema" EntityType="TadaAccesoModel.UrlSistema" />
+          <EntitySet Name="SendMail" EntityType="TadaAccesoModel.SendMail" />
+          <EntitySet Name="Usuarios" EntityType="TadaAccesoModel.Usuarios" />
+        </EntityContainer>
+        <EntityType Name="Cat_Clientes">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RazonSocial" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RFC" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="ClienteAdministrado" Type="Int32" Nullable="false" />
+          <Property Name="IdCordinador" Type="Int32" />
+          <Property Name="Estructura" Type="Int32" />
+          <Property Name="Usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="Acceso" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Logo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TituloPortal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AnimacionPortal" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Nom_035" Type="Int32" />
+          <Property Name="ComentariosPublicaciones" Type="Int32" />
+          <Property Name="VersionCFDI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UrlSistema">
+          <Key>
+            <PropertyRef Name="IdURLSistema" />
+          </Key>
+          <Property Name="IdURLSistema" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URLSistema1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SendMail">
+          <Key>
+            <PropertyRef Name="idSendMail" />
+          </Key>
+          <Property Name="idSendMail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Proyecto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Credentials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClientHost" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Puerto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Idestatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IdUnidadNegocio" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IdCentroCostos" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IdEmpleado" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contraseña" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="TipoUsuario" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Inventarios" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="MovimientosEspeciales" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="RHCloud" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="RelogChecador" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Cordinador" Type="Int32" />
+          <Property Name="Confidencial" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaAlta" Type="DateTime" Precision="3" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="Evaluacion" Type="Int32" />
+          <Property Name="Soporte" Type="Int32" />
+          <Property Name="ImagenUsuario" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TadaAccesoModelStoreContainer" CdmEntityContainer="TadaAccesoEntities">
+          <FunctionImportMapping FunctionImportName="Valida_Accesos" FunctionName="TadaAccesoModel.Store.Valida_Accesos" />
+          <FunctionImportMapping FunctionImportName="sp_CambioPass1" FunctionName="TadaAccesoModel.Store.sp_CambioPass" />
+          <EntitySetMapping Name="Cat_Clientes">
+            <EntityTypeMapping TypeName="TadaAccesoModel.Cat_Clientes">
+              <MappingFragment StoreEntitySet="Cat_Clientes">
+                <ScalarProperty Name="VersionCFDI" ColumnName="VersionCFDI" />
+                <ScalarProperty Name="ComentariosPublicaciones" ColumnName="ComentariosPublicaciones" />
+                <ScalarProperty Name="Nom_035" ColumnName="Nom_035" />
+                <ScalarProperty Name="AnimacionPortal" ColumnName="AnimacionPortal" />
+                <ScalarProperty Name="TituloPortal" ColumnName="TituloPortal" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Acceso" ColumnName="Acceso" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Estructura" ColumnName="Estructura" />
+                <ScalarProperty Name="IdCordinador" ColumnName="IdCordinador" />
+                <ScalarProperty Name="ClienteAdministrado" ColumnName="ClienteAdministrado" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrlSistema">
+            <EntityTypeMapping TypeName="TadaAccesoModel.UrlSistema">
+              <MappingFragment StoreEntitySet="UrlSistema">
+                <ScalarProperty Name="URLSistema1" ColumnName="URLSistema" />
+                <ScalarProperty Name="IdURLSistema" ColumnName="IdURLSistema" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SendMail">
+            <EntityTypeMapping TypeName="TadaAccesoModel.SendMail">
+              <MappingFragment StoreEntitySet="SendMail">
+                <ScalarProperty Name="Idestatus" ColumnName="Idestatus" />
+                <ScalarProperty Name="Puerto" ColumnName="Puerto" />
+                <ScalarProperty Name="ClientHost" ColumnName="ClientHost" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="Credentials" ColumnName="Credentials" />
+                <ScalarProperty Name="Proyecto" ColumnName="Proyecto" />
+                <ScalarProperty Name="idSendMail" ColumnName="idSendMail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="TadaAccesoModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="ImagenUsuario" ColumnName="ImagenUsuario" />
+                <ScalarProperty Name="Soporte" ColumnName="Soporte" />
+                <ScalarProperty Name="Evaluacion" ColumnName="Evaluacion" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="FechaAlta" ColumnName="FechaAlta" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="Confidencial" ColumnName="Confidencial" />
+                <ScalarProperty Name="Cordinador" ColumnName="Cordinador" />
+                <ScalarProperty Name="RelogChecador" ColumnName="RelogChecador" />
+                <ScalarProperty Name="RHCloud" ColumnName="RHCloud" />
+                <ScalarProperty Name="MovimientosEspeciales" ColumnName="MovimientosEspeciales" />
+                <ScalarProperty Name="Inventarios" ColumnName="Inventarios" />
+                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@{
+    if (ViewBag.confirmation)
+    {
+
+
+        <div class="panel">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h4>@ViewBag.title</h4>
+                </div>
+                <div class="alert alert-success">
+                    <div class="media-left">
+                        <span class="icon-wrap icon-wrap-xs icon-circle alert-icon">
+                            <i class="fa fa-check"></i>
+                        </span>
+                    </div><div class="media-body">
+                        <h4 class="alert-title">@ViewBag.alert</h4>
+                        <p class="alert-message">@ViewBag.message</p>
+                    </div>
+                </div>
+                <br />
+                <center>@Html.ActionLink("Salir", "Search", null, new { @class = "btn btn-warning" })</center>
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="panel">
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h4>@ViewBag.title</h4>
+                </div>
+                <div class="alert alert-danger">
+                    <div class="media-left">
+                        <span class="icon-wrap icon-wrap-xs icon-circle alert-icon">
+                            <i class="fa fa-close"></i>
+                        </span>
+                    </div><div class="media-body">
+                        <h4 class="alert-title">@ViewBag.alert</h4>
+                        <p class="alert-message">@ViewBag.message</p>
+                    </div>
+                </div>
+                <br />
+                <center>@Html.ActionLink("Regresar", "RegistraEmpleado", null, new { @class = "btn btn-warning" })</center>
+            </div>
+        </div>
+
+    }
+
+}
+        

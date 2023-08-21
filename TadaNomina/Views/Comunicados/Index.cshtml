@@ -1,0 +1,108 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vComunicados>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Comunicados</h1>
+    </div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comunicados Existentes</h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo Comunicado", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover table-sm" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdComunicado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdUnidadNegocio)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Imagen)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdEstatus)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdCaptura)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaCaptura)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdModifica)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UnidadNegocio)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdComunicado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdUnidadNegocio)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Imagen)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdEstatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdCaptura)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaCaptura)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdModifica)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnidadNegocio)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            </div>
+        </div>
+    </div>
+

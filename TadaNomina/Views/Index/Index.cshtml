@@ -1,0 +1,187 @@
+﻿@model TadaNomina.Models.ViewModels.ModelInicio
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@section Styles{
+    <link href="~/css/app.css" rel="stylesheet" />
+}
+
+<div id="page-head">
+    <div class="pad-all text-center">
+        <h3>@ViewBag.NominaSeleccionada</h3>
+        <p1>A continuación encontrara algunos detalles de la nómina...</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-info panel-colorful media middle pad-all">
+            <div class="media-left">
+                <div class="pad-hor">
+                    <i class="demo-pli-checked-user icon-3x"></i>
+                </div>
+            </div>
+            <div class="media-body">
+                <p class="text-2x mar-no text-semibold">@Model.CantidadEmpleadosActivos</p>
+                <p class="mar-no">Empleados Activos</p>
+            </div>
+            <div class="stats-link">
+                <a href="@Url.Action("Index", "ReporteEmpleados")">Ver Detalle <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-dark panel-colorful media middle pad-all">
+            <div class="media-left">
+                <div class="pad-hor">
+                    <i class="demo-pli-data-cloud icon-3x"></i>
+                </div>
+            </div>
+            <div class="media-body">
+                <p class="text-2x mar-no text-semibold">@Model.PeridosProcesados</p>
+                <p class="mar-no">Periodos Acumulados</p>
+            </div>
+            <div class="stats-link">
+                <a href="@Url.Action("Index", "ReporteNomina")">Ver Detalle <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-danger panel-colorful media middle pad-all">
+            <div class="media-left">
+                <div class="pad-hor">
+                    <i class="fa fa-file-pdf-o fa-3x"></i>
+                </div>
+            </div>
+            <div class="media-body">
+                <p class="text-2x mar-no text-semibold">@Model.detalleTimbradoInicio.Timbrados</p>
+                <p class="mar-no">Recibos Timbrados</p>
+            </div>
+            <div class="stats-link">
+                <a href="@Url.Action("ReporteTimbrado", "ReporteNomina")">Ver Detalle <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-warning panel-colorful media middle pad-all">
+            <div class="media-left">
+                <div class="pad-hor">
+                    <i class="demo-pli-exclamation icon-3x"></i>
+                </div>
+            </div>
+            <div class="media-body">
+                <p class="text-2x mar-no text-semibold">@Model.detalleTimbradoInicio.NoTimbrados</p>
+                <p class="mar-no">Faltantes Por Timbrar</p>
+            </div>
+            <div class="stats-link">
+                <a href="@Url.Action("ReporteTimbrado", "ReporteNomina")">Ver Detalle <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-6">
+        <div class="panel">
+
+            <div class="panel-body" style="text-align:center">
+
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-bordered-success">
+                            <div class="panel-title">
+                                <p class="text-bold text-uppercase">Último Periodo Procesado Abierto</p>
+                            </div>
+                            <div class="panel-body text-center clearfix">
+                                <div class="col-sm-3 pad-top">
+                                    <div class="text-lg">
+                                        <p class="text-5x text-thin text-main">@Model.EmpleadosProcesados</p>
+                                    </div>
+                                    <p class="text-sm text-bold text-uppercase">Empleados Procesados</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="label label-success text-lg">Detalle - @Model.nombrePer</p>
+                                    <br /><br />
+                                    <p class="text-xs">Información de los totales que se generaron en el último periodo de nómina</p>
+                                    <ul class="list-unstyled text-center bord-top pad-top mar-no row">
+                                        <li class="col-xs-4">
+                                            <span class="text-lg text-semibold text-main">@Model.Neto</span>
+                                            <p class="text-sm text-muted mar-no">Neto</p>
+                                        </li>
+                                        <li class="col-xs-4">
+                                            <span class="text-lg text-semibold text-main">@Model.IMSS</span>
+                                            <p class="text-sm text-muted mar-no">IMSS PAT</p>
+                                        </li>
+                                        <li class="col-xs-4">
+                                            <span class="text-lg text-semibold text-main">@Model.ISR</span>
+                                            <p class="text-sm text-muted mar-no">ISR</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>               
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel">
+
+            <div class="panel-body" style="text-align:center">
+
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel-bordered-mint">
+                            <div class="panel-title">
+                                <p class="text-bold text-uppercase">Último Periodo Procesado Acumulado</p>
+                            </div>
+                            <div class="panel-body text-center clearfix">
+                                <div class="col-sm-3 pad-top">
+                                    <div class="text-lg">
+                                        <p class="text-5x text-thin text-main">@Model.EmpleadosProcesadosC</p>
+                                    </div>
+                                    <p class="text-sm text-bold text-uppercase">Empleados Procesados</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="label label-mint text-lg">Detalle - @Model.nombrePerC</p>
+                                    <br /><br />
+                                    <p class="text-xs">Información de los totales que se generaron en el último periodo de nómina</p>
+                                    <ul class="list-unstyled text-center bord-top pad-top mar-no row">
+                                        <li class="col-xs-4">
+                                            <span class="text-lg text-semibold text-main">@Model.NetoC</span>
+                                            <p class="text-sm text-muted mar-no">Neto</p>
+                                        </li>
+                                        <li class="col-xs-4">
+                                            <span class="text-lg text-semibold text-main">@Model.IMSSC</span>
+                                            <p class="text-sm text-muted mar-no">IMSS PAT</p>
+                                        </li>
+                                        <li class="col-xs-4">
+                                            <span class="text-lg text-semibold text-main">@Model.ISRC</span>
+                                            <p class="text-sm text-muted mar-no">ISR</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/index.js"></script>
+}
+
+
+
+
+

@@ -1,0 +1,101 @@
+﻿@model TadaNomina.Models.ViewModels.Costeos.ModelCosteos
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Costeos</h1>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Obtener Costeo.</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdPeriodo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.IdPeriodo, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "_select" })
+                                @Html.ValidationMessageFor(model => model.IdsPeriodo, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Periodos, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.TextAreaFor(model => model.Periodos, htmlAttributes: new { @class = "form-control", @id="_periodos", @readonly="readonly" } )
+                                @Html.ValidationMessageFor(model => model.Periodos, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        @Html.HiddenFor(x=> x.IdsPeriodo)
+
+                        <div class="form-group">
+
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="text-right">
+                                <input type="submit" value="Costear" class="btn btn-primary" />
+                                @Html.ActionLink("Limpiar", "Limpiar", null, new { @class="btn btn-info" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <hr />
+                <br />
+                @if (Model.costeo != null)
+                {
+                    <div class="col-md-6 col-md-offset-3">
+                        <table class="table table-bordered">
+                            <tr style="background-color:black">
+                                <th class="text-center" colspan="2" style="color:white">COSTEO</th>
+                            </tr>
+                            <tr style="background-color: lightgray">
+                                <th><strong>Unidad de Negocio:</strong></th>
+                                <th>@Session["sNomina"]</th>
+                            </tr>
+                            <tr style="background-color: lightgray ">
+                                <th><strong>Periodo(s):</strong></th>
+                                <th>@Model.Periodos</th>
+                            </tr>
+                            <tr style="background-color: black">
+                                <th style="color:white">Descripción </th>
+                                <th style="color:white">Monto</th>
+                            </tr>
+                            @foreach (var item in Model.costeo)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Descripcion
+                                    </td>
+                                    <td class="text-right">
+                                        @string.Format("{0:C2}", item.Importe)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/js/Core/costeos.js"></script>
+}

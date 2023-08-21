@@ -1,0 +1,90 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.Empleados>
+
+@{
+    ViewBag.Title = "ConfiguracionEmpleados";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+    <div id="page-head">
+        <div id="page-title">
+            <h1 class="page-header text-overflow">Configurar Empleados</h1>
+        </div>
+    </div>
+
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                
+            </div>
+            <div class="panel-body">
+                @Html.ActionLink(" Regresar", "ListHoras", new { pIdPeriodoNomina = Request.QueryString["pIdPeriodoNomina"] }, new { @class="btn btn-info btn-sm _Back"})
+                <br />
+                <hr />
+                <table class="table">
+                    <tr>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.ClaveEmpleado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Curp)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rfc)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Imss)
+                        </th>
+
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ClaveEmpleado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Curp)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rfc)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Imss)
+                            </td>
+
+
+                            <td>
+                                @Html.ActionLink(" Configurar", "ConfiguracionEmpleado", new {  id=item.IdEmpleado, pIdPeriodoNomina = Request.QueryString["pIdPeriodoNomina"] }, new { @class="btn btn-warning btn-sm _Load"}) 
+                                
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                </div>
+</div>
+</div>

@@ -1,0 +1,184 @@
+﻿@model TadaNomina.Models.ViewModels.CFDI.ModelMovimientosCosteos
+@{
+    ViewBag.Title = "Editar";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    var _ListaPeriodos = (List<SelectListItem>)ViewBag.LstPeriodos;
+    var _ListaCosteos = (List<SelectListItem>)ViewBag.lstCosteos;
+    var _ListaTipoMovimientos = (List<SelectListItem>)ViewBag.lstTipoMovimientos;
+    var _ListaRegistroPatronal = (List<SelectListItem>)ViewBag.lstRegistroPatronal;
+    var _ListaDivision = (List<SelectListItem>)ViewBag.Division;
+    var _ListaConceptoCosteo = (List<SelectListItem>)ViewBag.ListaCosteoConceptos;
+
+    var _Listavacia = (List<SelectListItem>)ViewBag.ListaVacia;
+
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Cargos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Nuevo Cargo</h3>
+        </div>
+        <div class="panel-body">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+
+                    <div class="form-group">
+
+                        <div class="col-md-4">
+                            <label>Periodo de nómina</label>
+                            @Html.HiddenFor(x => x.IdCosteosMovimiento)
+                            @Html.DropDownListFor(x => x.IdPeriodoNomina, _ListaPeriodos, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>Costeo al que afecta</label>
+                            @Html.DropDownListFor(x => x.IdCosteo, _ListaCosteos, new { @class = "form-control ListarDivisiones ListarPatronas ListarConceptosFacturacion ListarConcepto", @id = "listeishon" })
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Division a la que afecta</label>
+                            @Html.DropDownListFor(x => x.IdDivision, _ListaDivision, "Elegir...", new { @class = "form-control", @id = "Division" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>Patrona a la que afecta</label>
+                            @Html.DropDownListFor(x => x.IdPatrona, _ListaRegistroPatronal, new { @class = "form-control", @id = "RegistroPatronal" })
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Tipo de Movimiento</label>
+                            @Html.DropDownListFor(x => x.TipoMovimiento, _ListaTipoMovimientos, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>Aplicar en</label>
+                            @Html.DropDownListFor(x => x.IdConcepto, _ListaConceptoCosteo, new { @class = "form-control", @id = "IdConcepto" })
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Monto</label>
+                            @Html.TextBoxFor(x => x.Monto, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <label>Descripción</label>
+                            @Html.TextBoxFor(x => x.Descripcion, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <label>Observaciones</label>
+                            @Html.TextAreaFor(x => x.Observaciones, new { @class = "form-control medium-textarea" })
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="panel-footer">
+                    <div class="form-group" style="text-align:right">
+                        <input type="submit" value="Guardar" class="btn btn-primary btn-sm _Load" />
+                        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm" })
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(".ListarDivisiones").change(function () {
+        var _IdCosteo = document.getElementById("listeishon").value;
+        $.ajax({
+            type: 'POST',
+            url: 'ListarDivision',
+            data: { _IdCosteo },
+            dataType: 'json',
+            success: function (Datos) {
+                if (Datos === "General") {
+                    document.getElementById("Division").disabled = true;
+                    document.getElementById("Division").value = "";
+                } else
+                {
+                    if (Datos[0].Division === "CC") {
+                        var contenido = "<option value='0'>Elegir...</option>";
+                        for (i = 0; i < Datos.length; i++) {
+                            contenido += "<option value='" + Datos[i].IdCentroCostos + "'>" + Datos[i].CentroCostos + "</option>";
+                        }
+                        document.getElementById("Division").innerHTML = contenido;
+                    } else {
+                        if (Datos[0].Division === "DD") {
+                            for (i = 0; i < Datos.length; i++) {
+                                contenido += "<option value='" + Datos[i].IdDepartamento + "'>" + Datos[i].Departamento + "</option>";
+                            }
+                            document.getElementById("Division").innerHTML = contenido;
+                        } else {
+                            if (Datos[0].Division === "PP") {
+                                for (i = 0; i < Datos.length; i++) {
+                                    contenido += "<option value='" + Datos[i].IdPuesto + "'>" + Datos[i].Puesto + "</option>";
+                                }
+                                document.getElementById("Division").innerHTML = contenido;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    $(".ListarPatronas").change(function () {
+        var _IdCosteo = document.getElementById("listeishon").value;
+        $.ajax({
+            type: 'POST',
+            url: 'ListarPatronas',
+            data: { _IdCosteo },
+            dataType: 'json',
+            success: function (Datos) {
+                if (Datos === "NO") {
+                    document.getElementById("RegistroPatronal").disabled = true;
+                    document.getElementById("RegistroPatronal").value = "";
+                }
+            }
+        });
+    });
+
+    $(".ListarConcepto").change(function () {
+        var _IdCosteo = document.getElementById("listeishon").value;
+        $.ajax({
+            type: 'POST',
+            url: 'ListarConcepto',
+            data: { _IdCosteo },
+            dataType: 'json',
+            success: function (Datos) {
+                var contenido = "<option value='0'>Elegir...</option>";
+
+                for (i = 0; i < Datos.length; i++) {
+                    contenido += "<option value='" + Datos[i].IdCosteosConcepto + "'>" + Datos[i].Descripcion + "</option>";
+                }
+                document.getElementById("IdConcepto").innerHTML = contenido;
+            }
+        });
+    });
+
+</script>
+

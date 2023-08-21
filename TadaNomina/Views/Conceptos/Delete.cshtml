@@ -1,0 +1,59 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelConceptos
+
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+<h4 class="modal-title">Eliminar Concepto</h4>
+</div>
+
+
+    <div class="modal-body">
+
+        <label> Esta seguro que desea eliminar el Concepto con los siguientes datos?</label>
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveGpo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClaveGpo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveConcepto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClaveConcepto)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveSAT)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClaveSAT)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Concepto)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Concepto)
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </div>
+            </div>
+        }
+    </div>
+

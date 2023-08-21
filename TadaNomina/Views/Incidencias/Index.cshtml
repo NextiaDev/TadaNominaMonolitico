@@ -1,0 +1,267 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelIndexIncidencias
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string bandera = ViewBag.TipoNomina;
+    string FlagRelojChecador = ViewBag.FlagRelojChecador;
+    var periodo = (int)ViewBag.pIdPeriodoNomina;
+
+    
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Incidencias</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Incidencias para el periodo.</h3>
+        </div>
+        
+        <div class="panel-body">
+            @if (ViewBag.Bandera)
+            {
+                <div class="alert alert-info">
+                    <span class="fa fa-info-circle"></span> <strong> ¡Atención!</strong>  Por rendimiento del sistema solo se muestran las ultimas 500 incidencias capturadas,
+                    si necesita ver todas por favor de click <a class="_Load" href="@Url.Action("Index", "Incidencias", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, MostrarTodas = 1 })"> <span style="color:white"> <strong>aquí</strong> </span>  </a>
+                </div>
+            }
+            @if (FlagRelojChecador == "Empty")
+            { 
+                <div class="alert alert-info">
+                    <span class="fa fa-info-circle"></span> <strong> ¡Atención!</strong> Es necesario llenar las fechas para el reloj checador en el periodo de nómina
+                </div>
+            }
+            <br />
+            @Html.ActionLink(" Nueva", "Create", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina }, new { @class = "btn btn-primary btn-sm _Load" })
+            @Html.ActionLink(" carga Layout", "CreateLayout", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, TipoPeriodo = ViewBag.TipoPeriodo }, new { @class = "btn btn-dark btn-sm _Load" })
+            <button class="btn btn-success btn-sm" onclick="generaReporte(@ViewBag.pIdPeriodoNomina)"> Descargar</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAll">Elminar Todas</button>
+            @if (Session["sRelojChecador"].ToString() == "SI" && bandera == "OK") {
+                @Html.ActionLink(" Checador", "Checador", new { pIdPer = TadaNomina.Models.ClassCore.Statics.Encriptar(periodo.ToString()) }, new { @class = "btn btn-mint btn-sm _Load" })
+            }
+            @Html.ActionLink(" Regresar", "SelecionaPeriodo", null, new { @class = "btn btn-info btn-sm _Back" })
+            <br /><br />
+            @if (Model.Incidencias.Count() > 0)
+            {
+                <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                Cve.
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Periodo
+                            </th>
+                            <th>
+                                Cve.Cpto.
+                            </th>
+                            <th>
+                                Concepto
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Monto
+                            </th>
+
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Incidencias)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveEmpleado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NombreEmpleado)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeriodoNomina)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveConcepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Concepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Monto)
+                                </td>
+
+
+                                <td>
+                                    @*@Html.ActionLink(" ", "Edit", new { id = item.IdIncidencia }, new { @class = "fa fa-edit", @rel = "tooltip", @title = "Editar" }) |*@
+                                    <a href="#" class="anchorDetail" data-id="@item.IdIncidencia" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |
+                                    <a href="#" class="anchorDelete" data-id="@item.IdIncidencia" rel="tooltip" , title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    No hay incidencias ingresadas en este periodo.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="dvjson"></div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteAll" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("DeleteAll", "Incidencias"))
+            {
+                @Html.HiddenFor(x=> x.IdPeridoNomina);
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                    <h4 class="modal-title">Eliminar todas las incidencias.</h4>
+                </div>
+                <div class="modal-body">
+                    Esta Seguro que desea eliminar todas las Incidencias para este periodo?
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-md-4">
+                            Concepto:
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(concepto => Model.IdConcepto, Model.LConcepto, "Elegir...", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+                        @*@Html.ActionLink(" Eliminar Todas", "DeleteAll", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, IdConcepto = Model.IdConcepto }, new { @class = "btn btn-danger btn-sm _Load" })*@
+                        <button type="submit" class="btn btn-danger btn-sm _Load">Eliminar Incidencias</button>
+                    </div>
+                </div>
+            }
+            </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var TeamDetailPostBackURL = "@Url.Action("Details", "Incidencias")";
+    $(function () {
+        $(".anchorDetail").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            var href = $(this).attr('href');
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    var TeamDetailPostBackURLDelete = "@Url.Action("Delete", "Incidencias")";
+    $(function () {
+        $(".anchorDelete").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURLDelete,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    $('#myModal').modal('show');
+
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+
+        $("#closbtn").click(function () {
+            $('#myModal').modal('hide');
+        });
+    });
+
+    function generaReporte(IdPeriodo) {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Descargar")',
+            data: { "Id": IdPeriodo },
+            dataType: 'json',
+            success: function (data) {
+
+                var d = JSON.parse(data);
+                console.log(d)
+
+                $("#dvjson").excelexportjs({
+                    containerid: "dvjson",
+                    datatype: 'json',
+                    dataset: d,
+                    columns: getColumns(d),
+                    worksheetName: "Incindencias"
+                });
+            }
+        });
+    }
+
+
+</script>

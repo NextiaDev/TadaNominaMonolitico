@@ -1,0 +1,9 @@
+﻿.print {
+    background-color: #ffffff;
+    font-family: arial;
+    /*   border-width: 2px;*/
+    /*border-style: dotted;*/
+    /* padding: 1em;*/
+    font-size: 100%;
+    line-height: .5em;
+}

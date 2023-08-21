@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.v_Tesoreria_PagosAdicionales>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Pagos Adicionales</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Solicitudes de Pagos Adicionales.</h3>
+            </div>
+            <div class="panel-body">
+                <br />
+                <div class="row">
+                    &nbsp;&nbsp;
+                    @Html.ActionLink("Nueva Solicitud", "New", null, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Finalizados", "Finalizados", null, new { @class = "btn btn-mint btn-sm" })
+                    @Html.ActionLink("Rechazados", "Rechazados", null, new { @class = "btn btn-danger btn-sm" })
+                </div>
+                <br />
+                @if (Model.Count() > 0)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cliente)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UnidadNegocio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Archivo)
+                            </th>
+                           
+                            <th>
+                                @Html.DisplayNameFor(model => model.FechaCaptura)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UsuarioCaptura)
+                            </th>
+                            
+                            <th>
+                                @Html.DisplayNameFor(model => model.estatus)
+                            </th>
+                            <th>Descargar</th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cliente)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnidadNegocio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Archivo)
+                                </td>                                
+                               
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaCaptura)
+                                </td>                              
+                                
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UsuarioCaptura)
+                                </td>                              
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.estatus)
+                                </td>
+                                <td>
+                                    @if (item.Archivo != string.Empty)
+                                    {
+                                    @Html.ActionLink(" ", "Descargar", new { item.IdPagoAdicional }, new { @class = "btn btn-mint btn-sm fa fa-download" })
+                                    }
+                                    else
+                                    { 
+                                        <a href="#" class="btn btn-mint btn-sm disabled" ><span class="fa fa-download"></span></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        <span class="fa fa-info-circle">
+                            Aun no se registran solicitudes de pago.
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

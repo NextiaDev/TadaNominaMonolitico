@@ -1,0 +1,109 @@
+﻿
+@model TadaNomina.Models.ViewModels.Facturacion.SumaSaldos
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@section Styles
+{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/nifty.js"></script>
+    <link href="~/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Insertar Saldos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            @using (Html.BeginForm("Index", "MovimientosSaldos", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="panel-body">
+                    @*@Html.HiddenFor(model => model.IdEmpleado)
+                        @Html.HiddenFor(model => model.IdCliente)
+                        @Html.HiddenFor(model => model.IdUnidadNegocio)*@
+
+
+                    <hr />
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-dollar"></i> Saldos</h3>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Idunidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.Idunidad, Model.LUnidad, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Idunidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.idFacturadora, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.idFacturadora, Model.LFacturadora, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.idFacturadora, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Monto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdFacturaContabilidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.IdFacturaContabilidad, Model.LCostep, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdFacturaContabilidad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="form-group" style="text-align:right">
+                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                            
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.JavaScriptFunction != null)
+{
+    <script type="text/javascript">
+        @Html.Raw(ViewBag.JavaScriptFunction)
+    </script>
+}
+
+@section Scripts {
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/plugins/jquery-ui/jquery-ui.js"></script>
+    <script src="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/Core/Ausen.js"></script>
+}
+
+
+
+
+

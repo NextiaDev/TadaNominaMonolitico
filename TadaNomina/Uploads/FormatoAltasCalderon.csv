@@ -1,0 +1,2 @@
+IdCentroCostos,IdDepartamento,IdPuesto,IdRegistroPatronal,IdEntidad,ClaveEmpleado,Nombre,ApellidoPaterno,ApellidoMaterno,Sexo,EstadoCivil,FechaNacimiento,SD,SDIMSS,SDI,IdBanco,CuentaBancaria,ClaveInterbancaria,CURP,RFC,NSS,Correo,FechaRecAntiguedad,FechaAltaIMSS,Esquema,TipoContrato,RFCSubcontratacion,Calle,NoExt,NoInt,CP,IdArea
+76,202,741,80,15,80,IGNACIO ISRAEL,LIMA,JAUREGUI,Masculino,Soltero,11/11/1976,500,184.48,194.09,4,2852666588,1.22E+16,LIJI761111HDFMRG07,LIJI761111HK9,68927604337,-,01/09/2010,16/07/2021,MIXTO,DETERMINADO,,-,-,-,-,132

@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    string mensaje = ViewBag.Mensaje;
+}
+
+<div id="page-head">
+    <input hidden="hidden" value=@mensaje id="msj" />
+    <div id="alerta1" class="alert alert-danger" hidden="hidden">
+        <button class="close" id="btn_cls_alert1">
+            <i class="pci-cross pci-circle"></i>
+        </button>
+        <strong>Error:</strong>
+        Ingrese el n&uacute;mero de seguro social
+    </div>
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Búsqueda de Colaborador</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<br />
+<br />
+
+<div class="panel col-md-12">
+    <div class="panel-heading">
+        <h3 class="panel-title">Búsqueda de empleados</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <hr />
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Número IMSS</label>
+                <div class="col-md-8">
+                    <input id="imss" type="text" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <input type="button" id="searchEmp" class="btn btn-success" value="Buscar" data-loading-text="Cargando..." />
+                    <label id="errorSearch" class="text-danger"></label>
+                </div>
+            </div>
+        </form>
+        <hr />
+        <br />
+        <div id="tableSearch" style="display:none">
+            <br /><br />
+            <table id="dataEmp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th width="20%">Lote</th>
+                        <th width="20%">Nombre Patrona</th>
+                        <th width="20%">Tipo Movimiento</th>
+                        <th width="20%">Apellido Paterno</th>
+                        <th width="20%">Apellido Materno</th>
+                        <th width="20%">Nombre</th>
+                        <th width="20%">Imss</th>
+                        <th width="20%">Fecha movimiento</th>
+                        <th width="20%">Fecha transmisión</th>
+                        <th width="20%">Acuses</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div id="ModalError" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error</h5>
+                <hr />
+            </div>
+            <div class="modal-body">
+                <label>@mensaje</label>
+            </div>
+            <div class="modal-footer">
+                <a href="~/ConsultaMovimientosAfiliatorios/Index" class="btn btn-primary">Aceptar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/MovimientosIMSS/MovimientosAfiliatorios.js"></script>
+
+}

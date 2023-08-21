@@ -1,0 +1,93 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.CosteoConceptosM
+@{
+    ViewBag.Title = "CreateConceptos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Nuevo Costeos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                <strong>Capturar Datos</strong>
+            </h2>
+
+        </div>
+
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.HiddenFor(x => x.idCosteo)
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.EditorFor(model => model.observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.observaciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.visible, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.visible, Model.lVisible, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdTipoNomina" })
+                            @Html.ValidationMessageFor(model => model.visible, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.tipoDatoFacturacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.tipoDatoFacturacion, Model.Lfacturacion, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "Concepto" })
+                            @Html.ValidationMessageFor(model => model.tipoDatoFacturacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.orden, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.orden, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.orden, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <br /><br />
+                    <div class="panel-footer">
+                        <div class="form-group text-right">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Crear" class="btn btn-primary btn-sm" />
+                                @Html.ActionLink("Regresar", "GetConceptos", new { Model.idCosteo }, new { @class = "btn btn-info btn-sm _Back" })
+
+                            </div>
+                        </div>
+                    </div>
+                    @if (ViewBag.Validacion != null)
+                    {
+                        if (ViewBag.Validacion == true)
+                        {
+                            <div class="alert alert-info">@ViewBag.Mensaje</div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">@ViewBag.Mensaje</div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

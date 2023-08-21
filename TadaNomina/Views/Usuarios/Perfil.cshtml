@@ -1,0 +1,130 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelUsuarios
+@{
+    ViewBag.Title = "Perfil";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Perfil del Usuario</h1>
+    </div>
+
+</div>
+
+<div class="col-md-6 col-lg-offset-3">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Detalle del Usuario
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="text-center">
+                    <div class="class=" list-group">
+                        <div class="media mar-btm">
+                            <div class="media-middle pos-rel">
+                                @if (Session["sFoto"].ToString() != "")
+                                {
+                                    <img src="data:image/png;base64, @Session["sFoto"]" width="300px" height="300px" class="img-xl img-circle" alt="Avatar">
+                                }
+                                else
+                                {
+                                    <img src="~/img/profile-photos/2.png" width="300px" height="300px" class="img-xl img-circle" alt="Avatar">
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>
+                            <button class="btn btn-mint btn-sm" data-toggle="modal" data-target="#modalFoto"><span class="fa fa-refresh"></span>&nbsp; Cambiar Imagen </button>
+                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalQuitarFoto"><span class="fa fa-trash"></span>&nbsp; Quitar Imagen </button>
+                        </p>
+
+                        <p class="text-lg text-main text-semibold mar-no">@Model.Nombre @Model.ApellidoPaterno @Model.ApellidoMaterno</p>
+
+                        <p>@Model.Correo</p>
+                        <br />
+
+                    </div>
+                </div>
+
+
+                <div class="row text-right">
+                    <div class="col-md-4">Usuario:</div>
+                    <div class="col-md-8">
+                        <input type="text" value="@Model.Usuario" class="form-control" disabled />
+                    </div>
+
+                </div>
+                <br />
+                <div class="row text-right">
+                    <div class="col-md-4">Tipo Usuario:</div>
+                    <div class="col-md-8">
+                        <input type="text" value="@Model.TipoUsuario" class="form-control" disabled />
+                    </div>
+
+                </div>
+                <br />
+                <div class="row text-right">
+                    <div class="col-md-4">Acceso a Clientes:</div>
+                    <div class="col-md-8">
+                        <input type="text" value="@Model.ClientesAcceso" class="form-control" disabled />
+                    </div>
+
+                </div>
+                <br />
+                <div class="row text-right">
+                    <div class="col-md-4">Acceso a Unidades:</div>
+                    <div class="col-md-8">
+                        <input type="text" value="@Model.ClientesAcceso" class="form-control" disabled />
+                    </div>
+
+                </div>               
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalFoto" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Seleccionar Foto</h4>
+            </div>
+            <div class="modal-body">
+                <input type="file" class="form-control" id="fileFoto" />
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cancelar</button>
+                <button class="btn btn-mint btn-sm" id="cargarFoto">Cargar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="modalQuitarFoto" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Quitar Foto</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Esta seguro que desea quitar la foto de perfil?</p>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cancelar</button>
+                <button class="btn btn-warning btn-sm" id="quitarFoto">Quitar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/usuarios.js"></script>
+}

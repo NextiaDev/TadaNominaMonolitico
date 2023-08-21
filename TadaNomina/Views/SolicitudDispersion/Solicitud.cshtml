@@ -1,0 +1,455 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.ModelSolicitudDispersion
+
+@{
+    ViewBag.Title = "Solicitud";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+
+    List<SelectListItem> listaRsocial = (List<SelectListItem>)ViewBag.listaRS;
+    List<SelectListItem> listaFact = (List<SelectListItem>)ViewBag.listaFacturadoras;
+    List<SelectListItem> listaConcep = (List<SelectListItem>)ViewBag.listaConceptos;
+}
+
+@if (ViewBag.ShowDialog == null)
+{
+    <div id="page-head">
+        <div id="page-title">
+            <h1 class="page-header text-overflow">Solicitud de Dispersión</h1>
+        </div>
+        <div id="rutaPrincipal"></div>
+    </div>
+    <div class="col-lg-8 col-lg-offset-2">
+        <div id="page-content">
+            <div class="panel">
+                <div class="panel-heading">
+
+                    <h3 class="panel-title">Registro de Solicitud</h3>
+                    <hr />
+                </div>
+                <div class="panel-body"> 
+                    <br />
+                    <div class="alert alert-info"><span class="fa fa-info-circle"></span> El campo Comprobante de Autorización es para nominas financiadas y los casos en los que aun no se cuenta con el comprobante de pago.</div>
+                    
+                    @using (Html.BeginForm("Solicitud", "SolicitudDispersion", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {<br /><br />
+                           <div class="form-horizontal">
+                               <input type="hidden" id="IdfacturasContabilidad" name="IdfacturasContabilidad" value="@ViewBag.IdfacturasContabilidad" />
+                               @Html.HiddenFor(x => x.Comprobante, new { id = "direccion1" })
+                               @Html.HiddenFor(x => x.ArchivoBancos, new { id = "direccion2" })
+                               @Html.HiddenFor(x => x.AutorizacionDispersion, new { id = "direccion3" })
+                               @Html.HiddenFor(x => x.Facturadora, new { id = "valFacturadora" })
+                               @Html.HiddenFor(x => x.ConceptoFacturacion, new { id = "valConceptoFacturacion" })
+                               @Html.HiddenFor(x => x.Razonsocial, new { id = "valRazonsocial" })
+                               @if (Model.IdClienteRazonSocialFacturacion != null)
+                               {@Html.HiddenFor(x => x.IdClienteRazonSocialFacturacion)}
+                               @if (Model.IdEmpresaFacturadora != null)
+                               {@Html.HiddenFor(x => x.IdEmpresaFacturadora)}
+                               @if (Model.IdConceptoFacturacion != null)
+                               {@Html.HiddenFor(x => x.IdConceptoFacturacion)}
+                               @if (Model.Comprobante != null)
+                               {@Html.HiddenFor(x => x.Comprobante)}
+                               @if (Model.ArchivoBancos != null)
+                               {@Html.HiddenFor(x => x.ArchivoBancos)}
+                               @Html.HiddenFor(x => x.Periodo)
+
+
+                               <div class="form-group">
+                                   <label class="control-label col-md-3">Razon Social a quien se le factura:</label>
+                                   <div class="col-md-9">
+                                       @if (Model.IdClienteRazonSocialFacturacion != null)
+                                       {
+                                           @Html.DropDownList("IdClienteRazonSocialFacturacion", listaRsocial, null, new { @class = "form-control", @id = "IdClienteRazonSocialFacturacion", @name = "IdClienteRazonSocialFacturacion", @disabled = "disabled" })
+                                       }
+                                       else
+                                       {
+                                           @Html.DropDownList("IdClienteRazonSocialFacturacion", listaRsocial, null, new { @class = "form-control", @id = "IdClienteRazonSocialFacturacion", @name = "IdClienteRazonSocialFacturacion" })
+
+                                       }
+                                       @Html.ValidationMessageFor(x => x.IdClienteRazonSocialFacturacion, "", new { @class = "text-danger" })
+                                   </div>
+                               </div>
+
+
+                               <div class="form-group">
+                                   <label class="control-label col-md-3">Facturadora:</label>
+                                   <div class="col-md-9">
+                                       @if (Model.IdEmpresaFacturadora != null)
+                                       {
+                                           @Html.DropDownList("IdEmpresaFacturadora", listaFact, null, new { @class = "form-control", @onChange = "listarConceptos(this.value)", @id = "IdEmpresaFacturadora", @name = "IdEmpresaFacturadora", @disabled = "disabled" })
+                                       }
+                                       else
+                                       {
+                                           @Html.DropDownList("IdEmpresaFacturadora", listaFact, null, new { @class = "form-control", @onChange = "listarConceptos(this.value)", @id = "IdEmpresaFacturadora", @name = "IdEmpresaFacturadora" })
+                                       }
+
+                                       @Html.ValidationMessageFor(x => x.IdEmpresaFacturadora, "", new { @class = "text-danger" })
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <label class="control-label col-md-3">Concepto de Facturación:</label>
+                                   <div class="col-md-9">
+                                       @if (Model.IdConceptoFacturacion != null)
+                                       {
+                                           @Html.DropDownListFor(x => x.IdConceptoFacturacion, listaConcep, null, new { @class = "form-control", @id = "Conceptos", @name = "Conceptos", @disabled = "disabled" })
+                                       }
+                                       else
+                                       {
+                                           @Html.DropDownList("IdConceptoFacturacion", listaConcep, null, new { @class = "form-control", @id = "Conceptos", @name = "Conceptos" })
+                                       }
+
+                                       @Html.ValidationMessageFor(x => x.IdConceptoFacturacion, "", new { @class = "text-danger" })
+                                   </div>
+                               </div>
+
+                               <div class="form-group">
+                                   <label class="control-label col-md-3">Adjuntar autorización de pago:</label>
+                                   <div class="col-md-9">
+                                       <div class="input-group">
+                                           <span class="input-group-btn">
+                                               <span class="btn btn-default btn-file">
+                                                   Buscar
+                                                   @Html.TextBoxFor(x => x.FileAttach3, new { id = "file3", type = "file", @class = "form-control" })
+
+                                               </span>
+
+
+
+                                           </span>
+
+
+                                           <input type="text" id="nombrearchivoa" value="Seleccione Archivo" class="form-control" readonly>
+
+                                           <span class="input-group-addon btn btn-danger" onclick="RemoverArchivou()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+
+                                       </div>
+
+                                   </div>
+                               </div>
+
+                               @if (Model.Comprobante == null)
+                               {
+                                   <div class="form-group">
+                                       <label class="control-label col-md-3">Adjuntar comprobante de pago:</label>
+                                       <div class="col-md-9">
+                                           <div class="input-group">
+                                               <span class="input-group-btn">
+                                                   <span class="btn btn-default btn-file">
+                                                       Buscar
+                                                       @Html.TextBoxFor(x => x.FileAttach1, new { id = "file1", type = "file", @class = "form-control" })
+
+                                                   </span>
+
+
+
+                                               </span>
+
+
+                                               <input type="text" id="nombrearchivou" value="Seleccione Archivo" class="form-control" readonly>
+
+                                               <span class="input-group-addon btn btn-danger" onclick="RemoverArchivou()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                               }
+                               else
+                               {
+                                   <div class="form-group">
+                                       <label class="control-label col-md-3">Adjuntar comprobante de pago:</label>
+                                       <div class="col-md-9">
+                                           <div class="input-group">
+                                               <span class="input-group-btn">
+                                                   <span class="btn btn-default btn-file">
+                                                       Buscar
+                                                       <input type="file" class="form-control" disabled="disabled" title="Ya fue cargado el archivo" />
+
+                                                   </span>
+                                               </span>
+
+
+                                               <input type="text" id="nombrearchivou" placeholder="Selecciones Archivo" class="form-control" readonly>
+
+                                               <span class="input-group-addon btn btn-danger" onclick="RemoverArchivou()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                               }
+
+                               @if (Model.ArchivoBancos == null)
+                               {
+                                   <div class="form-group">
+                                       <label class="control-label col-md-3">Adjuntar archivo de Bancos:</label>
+                                       <div class="col-md-9">
+                                           <div class="input-group">
+                                               <span class="input-group-btn">
+                                                   <span class="btn btn-default btn-file">
+                                                       Buscar
+                                                       @Html.TextBoxFor(x => x.FileAttach2, new { id = "file2", type = "file", @class = "form-control" })
+
+                                                   </span>
+
+
+
+                                               </span>
+
+
+                                               <input type="text" id="nombrearchivod" value="Seleccione Archivo" class="form-control" readonly>
+
+                                               <span class="input-group-addon btn btn-danger" onclick="RemoverArchivod()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                               }
+                               else
+                               {
+                                   <div class="form-group">
+                                       <label class="control-label col-md-3">Adjuntar archivo de Bancos:</label>
+                                       <div class="col-md-9">
+                                           <div class="input-group">
+                                               <span class="input-group-btn">
+                                                   <span class="btn btn-default btn-file">
+                                                       Buscar
+                                                       <input type="file" class="form-control" disabled="disabled" title="Ya fue cargado el archivo" />
+
+                                                   </span>
+                                               </span>
+
+
+                                               <input type="text" id="nombrearchivou" placeholder="Selecciones Archivo" class="form-control" readonly>
+
+                                               <span class="input-group-addon btn btn-danger" onclick="RemoverArchivou()"><font color='white'> <i class="fa fa-trash"> </i></font> </span>
+
+                                           </div>
+
+                                       </div>
+                                   </div>
+                               }
+
+                               <div class="form-group">
+                                   <label class="control-label col-md-3">Fecha Pago:</label>
+                                   <div class="col-md-9">
+                                       @Html.TextBoxFor(x => x.FechaPago, new { @class = "form-control calendar", @rows = "10", @readonly = "readonly", @placeholder = "dd/MM/yyyy" })
+                                       @Html.ValidationMessageFor(x => x.FechaPago, "", new { @class = "text-danger" })
+                                   </div>
+                               </div>
+                               <div class="form-group">
+                                   <label class="control-label col-md-3">Observaciones:</label>
+                                   <div class="col-md-9">
+                                       @Html.TextAreaFor(x => x.Observaciones, new { @class = "form-control", @rows = "10" })
+                                       @Html.ValidationMessageFor(x => x.Observaciones, "", new { @class = "text-danger" })
+                                   </div>
+                               </div>
+
+                           </div>
+                        <br />
+                        if (ViewBag.Mensaje != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Mensaje</div>
+                        }
+
+                        <div class="panel-footer text-right">
+                            <a class="btn btn-info btn-sm _Back" href="~/SolicitudDispersion/Index">Regresar</a>
+                            &nbsp;
+                            <button class="btn btn-primary btn-sm" onclick="GuardaArchivos()" type="submit">Solicitar</button>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    if (ViewBag.ShowDialog)
+    {
+    <div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Confirmación de Registro</h4>
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <h4 style="color:forestgreen;">Solicitud Registrada Exitosamente</h4>
+                    <br /><br />
+                    <i class="fa fa-check-circle fa-lg fa-5x" style="color:forestgreen;"></i>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success waves-effect" onclick="ve_index_rest()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+    <div id="myModal" class="modal fade" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Confirmación de Registro</h4>
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <h4 style="color:red;">Error: No se registro la solicitud</h4>
+                    <p>@ViewBag.Mensaje</p>
+                    <br /><br />
+                    <i class="fa fa-times-circle fa-lg fa-5x" style="color: red;"></i>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger waves-effect" onclick="ve_index_rest()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+}
+
+
+<script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+         $('#myModal').modal('show');
+
+        });
+
+        function ve_index_rest() {
+
+            window.location.href = '@Url.Action("Index", "SolicitudDispersion")';
+    }
+
+    function listarConceptos(val) {
+
+
+
+
+        $.get("Conceptos/?IdFacturadora=" + val, function (data) {
+            var count = data.length;
+            var contenido = "";
+
+            for (var i = 0; i < count; i++) {
+                contenido += "<option value='" + data[i].Value + "'>" + data[i].Text + "</option>";
+            }
+            document.getElementById("Conceptos").innerHTML = contenido;
+        });
+    };
+
+    function RemoverArchivod() {
+
+        document.getElementById('nombrearchivod').value = '';
+        document.getElementById('file2').value = '';
+
+
+    }
+
+    $('#file1').on('change',
+        function () {
+
+            document.getElementById('nombrearchivou').value = document.getElementById('file1').files[0].name;
+
+
+        })
+
+    $('#file2').on('change',
+        function () {
+
+            document.getElementById('nombrearchivod').value = document.getElementById('file2').files[0].name;
+
+
+        })
+
+    $('#file3').on('change',
+        function () {
+
+            document.getElementById('nombrearchivoa').value = document.getElementById('file3').files[0].name;
+
+
+        })
+
+
+
+    function GuardaArchivos() {
+
+        if (document.getElementById('nombrearchivou').value != "Seleccione Archivo" && document.getElementById('nombrearchivou').value != "") {
+
+            var nombre = document.getElementById('nombrearchivou').value;
+
+            var base = "D:\\TadaNomina\\ArchivosTesoreria\\";
+
+
+            var carpeta = document.getElementById('IdfacturasContabilidad').value;;
+
+            var ruta = base + carpeta + "\\" + nombre;
+
+            document.getElementById('direccion1').value = ruta;
+
+        }
+
+        if (document.getElementById('nombrearchivod').value != "Seleccione Archivo" && document.getElementById('nombrearchivod').value != "") {
+
+            var nombre = document.getElementById('nombrearchivod').value;
+
+            var base = "D:\\TadaNomina\\ArchivosTesoreria\\";
+
+
+            var carpeta = document.getElementById('IdfacturasContabilidad').value;;
+
+            var ruta = base + carpeta + "\\" + nombre;
+
+            document.getElementById('direccion2').value = ruta;
+
+        }
+
+        if (document.getElementById('nombrearchivoa').value != "Seleccione Archivo" && document.getElementById('nombrearchivoa').value != "") {
+
+            var nombre = document.getElementById('nombrearchivoa').value;
+
+            var base = "D:\\TadaNomina\\ArchivosTesoreria\\";
+
+
+            var carpeta = document.getElementById('IdfacturasContabilidad').value;;
+
+            var ruta = base + carpeta + "\\" + nombre;
+
+            document.getElementById('direccion3').value = ruta;
+
+        }
+
+        if (document.getElementById('IdEmpresaFacturadora').value != "") {
+            var combof = document.getElementById("IdEmpresaFacturadora");
+            var selectedf = combof.options[combof.selectedIndex].text;
+            document.getElementById('valFacturadora').value = selectedf;
+
+        }
+
+        if (document.getElementById('Conceptos').value != "") {
+
+
+            var comboc = document.getElementById("Conceptos");
+            var selectedc = comboc.options[comboc.selectedIndex].text;
+            document.getElementById('valConceptoFacturacion').value = selectedc;
+
+
+        }
+
+        if (document.getElementById('IdClienteRazonSocialFacturacion').value != "") {
+
+
+            var combors = document.getElementById("IdClienteRazonSocialFacturacion");
+            var selectedrs = combors.options[combors.selectedIndex].text;
+            document.getElementById('valRazonsocial').value = selectedrs;
+        }
+    }
+
+
+</script>

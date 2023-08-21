@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "ListHoras";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Horas Para el Periodo</h1>
+    </div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            
+        </div>
+        <div class="panel-body">
+            <br />
+            @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-info btn-sm _Load" })
+            @Html.ActionLink(" Configurar", "ConfiguracionEmpleados", new { pIdPeriodoNomina = Request.QueryString["pIdPeriodoNomina"] }, new { @class = "btn btn-dark btn-sm _Load" })
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,104 @@
+﻿@model List<TadaNomina.Models.ViewModels.Facturacion.ModelClienteRazonSocialFacturacion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Razón Social</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Razón Social de Facturación</h3>
+            </div>
+            <div class="panel-body">
+                @Html.ActionLink("Crear Nuevo", "Crud", "ClienteRazonSocialFacturacion", null, new { @class = "btn btn-primary btn-sm" })
+
+                <br /><br /><br />
+
+                @if (Model.Count() > 0)
+                {
+                    <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Razón Social</th>
+                                <th>RFC</th>
+                                <th>Correo</th>
+                                <th>Grupo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.RazonSocial</td>
+                                    <td>@item.RFC</td>
+                                    <td>@item.Correo</td>
+                                    <td>@item.Grupo</td>
+                                    <td>
+
+                                        <a href="~/ClienteRazonSocialFacturacion/Crud?ID=@TadaNomina.Models.ClassCore.Statics.Encriptar(item.IdClienteRazonSocialFacturacion.ToString())" rel="tooltip" , title="Editar"><span class="btn btn-default btn-sm fa fa-edit"></span></a>
+                                         <button class="btn btn-default btn-sm fa fa-remove" onclick="eliminar(@item.IdClienteRazonSocialFacturacion)" data-toggle="modal" data-target="#ModalEliminar" rel="tooltip" , title="Eliminar"></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        No hay razones sociales cargadas .
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Eliminar", "ClienteRazonSocialFacturacion", FormMethod.Post))
+{
+    <!-- Modal-->
+    <input type="hidden" id="IdClienteRazonSocialFacturacion" name="IdClienteRazonSocialFacturacion" />
+    <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>
+                    <hr />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div>
+                    <div class="modal-body">
+                        <i class="btn btn-sm btn-danger demo-pli-close"></i>&nbsp; ¿Está seguro que desea eliminar el registro?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function eliminar(_Id) {
+
+       document.getElementById("IdClienteRazonSocialFacturacion").value = _Id;
+    }
+</script>

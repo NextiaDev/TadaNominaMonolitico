@@ -1,0 +1,166 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Catalogos.ModelUsuarios>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Usuarios</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Usuarios Existentes</h3>
+        </div>
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br />
+            <br /><br>
+
+            @if (Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <!--Profile Widget-->
+                    <!--===================================================-->
+                    <div class="col-md-4">
+                        <div class="panel widget">
+                            <div class="widget-header bg-gray-dark text-center">
+                                <h4 class="mar-no pad-top text-dark">@item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno</h4>
+
+                                <p class="mar-btm">@item.TipoUsuario</p>
+
+
+                            </div>
+                            <div class="widget-body">
+                                @if (item.Foto != "")
+                                {
+                                    <img alt="Profile Picture" class="widget-img img-circle img-border-light" src="data:image/png;base64, @item.Foto">
+                                }
+                                else 
+                                {
+                                    <img alt="Profile Picture" class="widget-img img-circle img-border-light" src="~/img/profile-photos/1.png">
+                                }
+                                
+
+                            <div class="list-group bg-trans mar-no">
+                                <o class="list-group-item list-item-sm">
+                                    <span class="pull-right">@item.Correo</span>
+                                    Correo
+                                </o>
+                                <o class="list-group-item list-item-sm">
+                                    <span class="pull-right">@item.Usuario</span>
+                                    Usuario:
+                                </o>
+
+                                <div class="panel-footer text-right">
+                                    @if (item.TipoUsuario == "System")
+                                    {
+                                        <button  class="btn btn-info btn-sm add-tooltip disabled" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="No se pueden realizar acciones en este usuario."><span class="fa fa-pencil"></span></button>
+
+
+                                        <button class="btn btn-info btn-sm add-tooltip disabled" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="No se pueden realizar acciones en este usuario."><span class="fa fa-list"></span></button>
+                                        @*<button class="btn btn-dark btn-sm add-tooltip disabled" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="No se pueden realizar acciones en este usuario."><span class="fa fa-cog"></span></button>*@
+
+                                        <button class="btn btn-danger btn-sm add-tooltip disabled" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="No se pueden realizar acciones en este usuario."><span class="fa fa-trash"></span></button>
+                                    }
+                                    else
+                                    {
+                                        <button data-id="@item.IdUsuario" class="btn btn-info btn-sm add-tooltip editUsuario" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Editar"><span class="fa fa-pencil"></span></button>
+
+
+                                        <a href="#" data-id="@item.IdUsuario" class="btn btn-info btn-sm add-tooltip detalleUsuario" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Detalle"><span class="fa fa-list"></span></a>
+                                        @*<a href="@Url.Action("Perfiles", new { IdUsuario = item.IdUsuario })" class="btn btn-dark btn-sm _Load add-tooltip configurarUsuario" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Asignar Perfiles"><span class="fa fa-cog"></span></a>*@
+
+                                        <button data-id="@item.IdUsuario" class="btn btn-danger btn-sm add-tooltip deleteUsuario" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Eliminar"><span class="fa fa-trash"></span></button>
+                                    }
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+
+
+            }
+            else
+            {
+                <div class="alert alert-info"><span class="fa fa-info-circle"></span> No se han agregado Datos.</div>
+            }
+
+            @*<table id="demo-dt-selection" class="table table-hover" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cliente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Usuario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Correo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TipoUsuario)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Usuario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Correo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoUsuario)
+                        </td>
+                        <td>
+
+                            @Html.ActionLink(" ", "Edit", new { id = item.IdUsuario }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @title = "Acceso a Nominas" }) |
+
+                            @Html.ActionLink(" ", "Delete", new { id = item.IdUsuario }, new { @class = "btn btn-default btn-sm fa fa-remove _Load", @rel = "tooltip", @title = "Eliminar" }) |
+
+                            @Html.ActionLink(" Perfil", "Perfiles", new { id = item.IdUsuario }, new { @class = "btn btn-info btn-sm", @rel = "tooltip", @title = "Perfil" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+        </div>
+    </div>
+</div>
+
+
+

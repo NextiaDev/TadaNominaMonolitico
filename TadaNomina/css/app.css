@@ -1,0 +1,14 @@
+﻿.stats-link a, .widget.widget-stats .stats-link a {
+    display: block;
+    margin: 15px -15px -15px;
+    padding: 7px 15px;
+    background: rgba(0,0,0,.4);
+    text-align: right;
+    color: rgba(255,255,255,.7);
+    text-decoration: none
+}
+
+    .stats-link a:focus, .widget-stats .stats-link a:hover, .widget.widget-stats .stats-link a:focus, .widget.widget-stats .stats-link a:hover {
+        background: rgba(0,0,0,.6);
+        color: #fff
+    }

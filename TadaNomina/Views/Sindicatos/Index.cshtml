@@ -1,0 +1,68 @@
+﻿@model List<TadaNomina.Models.ViewModels.ModelSindicatos>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Sindicatos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Sindicatos Existentes</h3>
+        </div>
+        <div class="panel-body">
+            @if (Session["sTipoUsuario"].ToString() == "System")
+            {
+                @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            }
+            else
+            {
+                <button disabled class="btn btn-primary btn-sm" title="No tienes permisos para agregar sindicatos">Crear Nuevo</button>
+            }
+
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover table-sm" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Nombre Sindicato</td>
+                        <td>Nombre Corto</td>
+                        <td>Grupo</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.IdSindicato</td>
+                            <td width="50%">@item.NombreSindicato</td>
+                            <td>@item.NombreCorto</td>
+                            <td>@item.Grupo</td>
+                            @if (Session["sTipoUsuario"].ToString() != "System")
+                            {
+                                <td>
+                                    <button disabled class="btn btn-default btn-sm" title="No tienes permisos para editar el sindicato"><span class="fa fa-edit"></span></button>
+                                    <button disabled class="btn btn-default btn-sm" title="No tienes permisos para eliminar el sindicato"><span class="fa fa-remove"></span></button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink(" ", "Edit", new { id = item.IdSindicato }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @title = "Editar" })
+                                    @Html.ActionLink(" ", "Delete", new { id = item.IdSindicato }, new { @class = "btn btn-default btn-sm fa fa-remove _Load", @rel = "tooltip", @title = "Eliminar" })
+                                </td>
+                            }
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

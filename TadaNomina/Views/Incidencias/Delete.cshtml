@@ -1,0 +1,91 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelIncidencias
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Eliminar Incindencia</h4>
+</div>
+
+
+<div class="modal-body">
+    <label> Esta seguro que desea eliminar la incidencia con los siguientes datos?</label>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClaveEmpleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClaveEmpleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreEmpleado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreEmpleado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PeriodoNomina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PeriodoNomina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClaveConcepto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClaveConcepto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Concepto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Concepto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cantidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MontoEsquema)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MontoEsquema)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("IdPeriodoNomina", ViewData["pIdPeriodoNomina"])
+        <div class="modal-footer">
+            <div class="form-actions no-color">
+                <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+                <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+            </div>
+        </div>
+    }
+</div>

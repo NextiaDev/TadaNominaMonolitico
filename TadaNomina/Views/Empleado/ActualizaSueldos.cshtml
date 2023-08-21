@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "ActualizaSueldos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+@section Styles
+{
+    <link href="~/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="~/plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css" rel="stylesheet" />
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Búsqueda de Empleados</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="row">
+        <div class="panel">
+            <div class="panel-body">
+
+                <br /><br />
+
+                <form class="form-horizontal">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Clave Empleado</label>
+                        <div class="col-md-4">
+                            <input id="clave" type="text" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Nombre Empleado</label>
+                        <div class="col-md-4">
+                            <input id="name" type="text" class="form-control" />
+                            <label id="errorSearch" class="text-danger"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5"></div>
+                    <input type="button" id="searchEmp" class="btn btn-success" value="Buscar" data-loading-text="Cargando..." />
+                </form>
+                <hr />
+                <br />
+
+
+                <div id="tableSearch" style="display:none">
+                    <br /><br />
+                    <table id="dataEmp" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Clave Empleado</th>
+                                <th>Apellido Paterno</th>
+                                <th>Apellido Materno</th>
+                                <th>Nombre</th>
+                                <th>SD</th>
+                                <th>SDIMSS</th>
+                                <th>SDI</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script src="~/js/Core/ActualizaEmpleados.js"></script>
+
+}
+

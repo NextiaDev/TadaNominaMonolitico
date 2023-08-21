@@ -1,0 +1,290 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Nominas.ModelPeriodoNomina>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Periodos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>    
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                Periodos Disponibles
+            </h3>
+        </div>
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br /><br />
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-hover table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                Unidad
+                            </th>
+                            <th>
+                                Periodo
+                            </th>
+                            <th>
+                                Tipo
+                            </th>
+                            <th>
+                                F.Inicial
+                            </th>
+                            <th>
+                                F.Final
+                            </th>
+                            <th>
+                                Ajuste
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnidaNegocio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Periodo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoNomina)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaInicio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaFin)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AjusteImpuestos)
+                                </td>
+
+                                <td>
+                                    @if (item.TipoNomina == "Proyeccion")
+                                    {
+                                        <button class="btn btn-primary btn-sm fa fa-edit disabled" rel="tooltip" title="Este tipo de periodo no se puede editar."></button>
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink(" ", "Edit", new { id = item.IdPeriodoNomina }, new { @class = "btn btn-primary btn-sm fa fa-edit _Load", @rel = "tooltip", @title = "Editar", @id = string.Concat("edit", item.IdPeriodoNomina) })
+                                    }
+                                    
+                                    <button class="anchorDetail btn btn-primary btn-sm fa fa-search" id="@("detail"+item.IdPeriodoNomina)" data-id="@item.IdPeriodoNomina" rel="tooltip"  title="Detalle"></button> 
+                                    <button class="anchorDelete btn btn-primary btn-sm fa fa-remove" val="@item.Periodo" data-id="@item.IdPeriodoNomina" id="@("delete"+item.IdPeriodoNomina)" rel="tooltip"  title="Eliminar"></button>
+                                </td>
+                                <td>
+                                    @if (item.ValidacionAcumulaPeriodo == "S" || item.TipoNomina == "Proyeccion")
+                                    { 
+                                    <button type="button" class="modalAcumular btn btn-warning btn-sm" title="El periodo no se puede acumular desde esta pantalla" disabled >Acumular</button>
+                                    }
+                                    else
+                                    {
+                                    <button type="button" class="modalAcumular btn btn-warning btn-sm" id="@("acumular"+item.IdPeriodoNomina)" val="@item.Periodo" data-id="@item.IdPeriodoNomina">Acumular</button>
+                                    }
+                                    
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    No hay periodos abiertos.
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+<div id='modalAcumularPeriodo' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Acumular Periodo</h4>
+            </div>
+
+            <div class="modal-body">
+                <hr />
+                <h4><label id="idper" style="display:none"></label>Esta seguro que desea acumular el Periodo:  <label id="info"></label> ?</h4>
+                <hr />
+                <div class="alert alert-warning">
+                    <span class="fa fa-info-circle"></span>
+                    Debe ingresar la fecha de dispersión, ya que es la misma que aparecera en el CFDI timbrado!
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:right">
+                        Fecha Dispersión:
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="FechaDispersion" class="form-control calendar" />
+                    </div>
+                </div>
+                <hr />
+                <label> <strong>Nota:</strong> Una vez que el periodo se acumula ya no se puede modificar la información del mismo.</label>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" id="acumularPeriodo" value="Acumular Periodo" class="btn btn-warning btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='modalDetail' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Detalle</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        Unidad Negocio:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_lblUnidad"></label>
+                    </div>
+                    <div class="col-md-2">
+                        Periodo:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_lblPeriodo"></label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        f.Incial:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_fechaInicial"></label>
+                    </div>
+                    <div class="col-md-2">
+                        f.Final:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_fechaFinal"></label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Tipo:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_tipoNomina"></label>
+                    </div>
+                    <div class="col-md-2">
+                        C/Ajuste:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_AjusteImp"></label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        P/Ajuste:
+                    </div>
+                    <div class="col-md-10">
+                        <label id="_pAjuste"></label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Omitir desc:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_omitirDesc"></label>
+                    </div>
+                    <div class="col-md-2">
+                        f.Creacion:
+                    </div>
+                    <div class="col-md-4">
+                        <label id="_fCreacion"></label>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Observaciones:
+                    </div>
+                    <div class="col-md-10">
+                        <label id="_Observaciones"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='modalDeletePeriodo' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Periodo</h4>
+            </div>
+
+            <div class="modal-body">
+                <hr />
+                <h4><label id="idperEl" style="display:none"></label>Esta seguro que desea eliminar el Periodo:  <label id="infoEl"></label> ?</h4>                
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" id="eliminarPeriodo" value="Eliminar Periodo" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/periodos.js"></script>
+}
+
+
+
+

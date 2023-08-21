@@ -1,0 +1,249 @@
+﻿@model TadaNomina.Models.ViewModels.Contabilidad.ModelPolizaGral
+
+@{
+    ViewBag.Title = "PolizaGral";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Póliza Contable</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Ver Póliza
+            </h2>
+
+        </div>
+        <div class="panel-body">
+            <div class="text-right">
+
+                <div>
+                    
+                    @Html.ActionLink("Limpiar", "PolizaGral", new { Model.IdPoliza }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info" })
+
+                </div>
+            </div>
+            <br /><br />
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.HiddenFor(x => x.IdPoliza)
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+
+                            @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control", @id= "IdPeriodoNomina" })
+                            @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
+
+                        </div>
+                        @Html.LabelFor(model => model.IdRegistroPatronal, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+
+                            @Html.DropDownListFor(model => model.IdRegistroPatronal, Model.lRegistros, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdRegistroPatronal, "", new { @class = "text-danger" })
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+                </div>
+                <br />
+                <div class="panel-footer" style="text-align:right">
+                    
+
+                    <a href="#" class="btn btn-dark" id="_actualizarInfo"><span class="fa fa-trash"></span> Eliminar Información Poliza</a>
+                    <button type="submit" class="btn btn-primary"><span class="fa fa-eye"></span> Ver Poliza</button>
+
+
+                </div>
+                <br /><br />
+
+            }
+
+
+            @if (Model.reporte != null)
+            {
+                <div class="text-right">
+                    <a href="@Url.Action("Descargar", new { Model.IdPeriodoNomina, Model.IdPoliza })" class="btn btn-success"><span class="fa fa-download"></span> Descargar</a>
+                </div>
+                <br />
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Periodo
+                            </th>
+                            <th>
+                                Cuenta
+                            </th>
+                            <th>
+                                Descripción
+                            </th>
+                            <th>
+                                Imp. Debito
+                            </th>
+                            <th>
+                                Imp. Credito
+                            </th>
+                            <th>
+                                Ubicación
+                            </th>
+                            <th>
+                                F. Inicio
+                            </th>
+                            <th>
+                                F. Fin
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.reporte)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Periodo
+                                </td>
+                                <td>
+                                    @item.Cuenta
+                                </td>
+                                <td>
+                                    @item.DescripcionCuenta
+                                </td>
+                                <td>
+                                    @item.ImporteDebito.ToString("C2")
+                                </td>
+                                <td>
+                                    @item.ImporteCredito.ToString("C2")
+                                </td>
+                                <td>
+                                    @item.Ubicacion
+                                </td>
+                                <td>
+                                    @item.FechaInicio.Substring(0, 10)
+                                </td>
+                                <td>
+                                    @item.FechaFin.Substring(0, 10)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+            @if (Model.reporteWS != null)
+            {
+                <div class="text-right">
+                    @using (Html.BeginForm("DescargarWS", "PolizaContable", FormMethod.Post))
+                    {
+                        <input type="hidden" name="GridHtml" />
+
+                        <button class="btn btn-mint" type="submit" id="btnSubmit"> <span class=" fa fa-file-excel-o fa-lg  load"></span></button>
+
+                    }
+                </div>
+                <br />
+                <div id="Grid">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    val1
+                                </th>
+                                <th>
+                                    Cuenta
+                                </th>
+                                <th>
+                                    val2
+                                </th>
+                                <th>
+                                    Tipo
+                                </th>
+                                <th>
+                                    Importe
+                                </th>
+                                <th>
+                                    val3
+                                </th>
+                                <th>
+                                    val4
+                                </th>
+                                <th>
+                                    Periodo
+                                </th>
+                                <th>
+                                    CC
+                                </th>
+                                <th>
+                                    Desc
+                                </th>
+                                <th>
+                                    Sucursal
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.reporteWS)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.valor1
+                                    </td>
+                                    <td>
+                                        &nbsp;@item.cuenta
+                                    </td>
+                                    <td>
+                                        @item.valor2
+                                    </td>
+                                    <td>
+                                        @item.Tipo
+                                    </td>
+                                    <td>
+                                        @item.Importe
+                                    </td>
+                                    <td>
+                                        @item.valor3
+                                    </td>
+                                    <td>
+                                        @item.valor4
+                                    </td>
+                                    <td>
+                                        @item.Periodo
+                                    </td>
+                                    <td>
+                                        @item.CentroCostos
+                                    </td>
+                                    <td>
+                                        @item.Descripcion
+                                    </td>
+                                    <td>
+                                        @item.suc
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Core/mensajes.js"></script>
+<script src="~/js/Core/polizaContable.js"></script>

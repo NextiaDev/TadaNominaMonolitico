@@ -1,0 +1,196 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.FactorIntegracion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Prestaciones del Patrón</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+    
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="mnp-desc">@ViewBag.Unidad</span></h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Prestación", "Create", new { Id = ViewBag.IdPrestaciones }, new { @class = "btn btn-primary _Aceptar" })
+            @Html.ActionLink(" Carga Layout", "CreateLayout", new { Id = ViewBag.IdPrestaciones }, new { @class = "btn btn-success _Load" })
+            @Html.ActionLink(" Cargar Prestaciones de ley", "PrestacionesLey", new { Id = ViewBag.IdPrestaciones }, new { @class = "btn btn-dark _Aceptar" })            
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModalEliminar">
+                Eliminiar Todo
+            </button>
+            @Html.ActionLink(" Regresar a lista", "Prestaciones", null, new { @class = "btn btn-info _Back" })
+            <br />
+            <br />
+            <table id="demo-dt-selection" class="table table-striped table-hover table-responsive" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Limite_Inferior)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Limite_Superior)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Aguinaldo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vacaciones)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimaVacacional)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PrimaVacacionalSDI)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FactorIntegracion1)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Limite_Inferior)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Limite_Superior)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Aguinaldo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Vacaciones)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrimaVacacional)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrimaVacacionalSDI)
+                            </td>
+                            <td>
+                                @item.FactorIntegracion1.ToString()
+                               
+                            </td>
+
+                            <td>
+                                @Html.ActionLink("  ", "Edit", new { id = item.IdFactorIntegracion }, new { @class = "fa fa-edit", @rel = "tooltip", @tittle = "Editar" }) |
+                                <a href="#" class="anchorDetail" data-id="@item.IdFactorIntegracion" rel="tooltip" , title="Detalle"><span class="fa fa-search"></span></a> |
+                                <a href="#" class="anchorDelete" data-id="@item.IdFactorIntegracion" rel="tooltip" , title="Eliminar"><span class="fa fa-remove"></span></a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModalEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Todo</h4>
+            </div>
+            <div class="modal-body">
+                <label>Estas seguro que desear eliminar todos los registros?</label>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    @Html.ActionLink(" Eliminar Todo", "EliminarTodo", new { Id = ViewBag.IdPrestaciones }, new { @class = "btn btn-warning _Aceptar" })
+                </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var TeamDetailPostBackURL = "@Url.Action("Details", "FactorIntegracion")";
+        $(function () {
+            $(".anchorDetail").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                var href = $(this).attr('href');
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+   var TeamDetailPostBackURLDelete = "@Url.Action("Delete", "FactorIntegracion")";
+        $(function () {
+            $(".anchorDelete").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: TeamDetailPostBackURLDelete,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+         });
+
+
+</script>
+

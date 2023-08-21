@@ -1,0 +1,74 @@
+﻿@using TadaNomina.Models.ViewModels
+@model Empleado
+@{
+    ViewBag.Title = "NHonorario";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<hr />
+
+<div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-address-card-o"></i> Informaci&oacute;n del Empleado</h3>
+</div>
+
+<!--Informacion general empleado-->
+<div class="form-group">
+    @Html.LabelFor(model => model.ClaveEmpleado, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.ClaveEmpleado, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ClaveEmpleado, "", new { @class = "text-danger" })
+    </div>
+    @if (Session["sRelojChecador"].ToString() == "SI")
+    {
+        @Html.LabelFor(model => model.PremioP, new { @class = "control-label col-md-2" })
+        <div class="col-md-1" style="padding:0.4%">
+            @Html.CheckBoxFor(model => model.PremioP, false)
+        </div>
+    }
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Nombre, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.LabelFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ApellidoPaterno, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ApellidoMaterno, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "calendar form-control calendar" })
+        @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Rfc, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Rfc, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Rfc, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.LabelFor(model => model.Curp, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-4">
+        @Html.TextBoxFor(model => model.Curp, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Curp, "", new { @class = "text-danger" })
+    </div>
+</div>
+

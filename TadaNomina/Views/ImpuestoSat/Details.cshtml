@@ -1,0 +1,69 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelImpuestoSat
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle Impuesto SAT</h4>
+</div>
+
+<div class="modal-body">
+
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoNomina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoNomina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimiteInferior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimiteInferior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LimiteSuperior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LimiteSuperior)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CuotaFija)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CuotaFija)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Porcentaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Porcentaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaInicio)
+        </dd>
+    </dl>
+</div>
+
+<p>
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+        </div>
+    </div>
+</p>

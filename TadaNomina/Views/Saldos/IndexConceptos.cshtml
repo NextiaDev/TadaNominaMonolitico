@@ -1,0 +1,321 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vSaldos>
+
+@{
+    ViewBag.Title = "IndexConceptos";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Saldos del Concepto <strong>@ViewBag.Clave - @ViewBag.Concepto</strong></h3>
+        </div>
+
+        <div class="panel-body">
+
+            <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
+            @*<a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true" data-id="@ViewBag.IdConcepto" id="_cambiaFormulaGral"><span class="fa fa-superscript"></span>  Formula General</a>*@
+
+            <br />
+            <br />
+
+            @if (Model.Count() > 0)
+            {
+
+                <table class="table table-hover table-bordered" id="dt-no-pagin">
+                    <thead>
+                        <tr>
+                            <th width="5%">
+                                @Html.DisplayNameFor(model => model.IdSaldo)
+                            </th>
+                            <th width="5%">
+                                Cve.
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Tipo)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.DescuentoPeriodo)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.numeroPeriodos)
+                                </th>*@
+                            <th width="7%">
+                                Empleado
+                            </th>
+                            <th width="7%">
+                                Estado
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IdSaldo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveEmpleado)
+                                </td>
+                                <td>
+                                    @item.Nombre @item.ApellidoPaterno @item.ApellidoMaterno
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tipo)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DescuentoPeriodo)
+                                </td>
+
+                                <td>
+                                    <div class="col-md-4">
+
+                                        <div class="box-inline mar-rgt">
+
+                                            @if (item.IdEstatusEmpleado == 1)
+                                            {
+                                                <span class="badge bg-success">Activo</span>
+                                            }
+                                            else if (item.IdEstatusEmpleado == 2)
+                                            {
+                                                <span class="badge bg-warning">Baja</span>
+                                            }
+
+                                        </div>
+
+
+
+                                    </div>
+                                </td>
+
+
+                                <td>
+                                    <div class="col-md-4">
+
+                                        <div class="box-inline mar-rgt">
+
+                                            @if (item.IdEstatus == 1)
+                                            {
+                                                <input id="check-@item.IdSaldo" class="toggle-switch" type="checkbox" checked onchange="ActivarSaldo('check-@item.IdSaldo', @item.IdSaldo)">
+                                                <label for="check-@item.IdSaldo"></label>
+                                            }
+                                            else if (item.IdEstatus == 2)
+                                            {
+                                                <input id="check-@item.IdSaldo" class="toggle-switch" type="checkbox" onchange="ActivarSaldo('check-@item.IdSaldo', @item.IdSaldo)">
+                                                <label for="check-@item.IdSaldo"></label>
+                                            }
+
+                                        </div>
+
+
+
+                                    </div>
+                                </td>
+                                @if (item.IdEstatusEmpleado == 1)
+                                {
+                                    <td>
+                                        <button data-id="editarCredito" class="btn btn-info btn-sm add-tooltip editCredito" data-toggle="tooltip" data-container="body" data-placement="left" data-original-title="Editar"><span class="fa fa-pencil"></span></button>
+                                        <button data-id="editarCredito" class="btn btn-info btn-sm add-tooltip detalleCredito" data-toggle="tooltip" data-container="body" data-placement="left" data-original-title="Detalle"><span class="fa fa-search"></span></button>
+                                        <button data-id="deleteTipoNomina" class="btn btn-danger btn-sm add-tooltip deleteCredito" data-toggle="tooltip" data-container="body" data-placement="left" data-original-title="Eliminar"><span class="fa fa-eraser"></span></button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <button disabled data-id="editarCredito" class="btn btn-info btn-sm add-tooltip editCredito" data-toggle="tooltip" data-container="body" data-placement="left" data-original-title="Editar"><span class="fa fa-pencil"></span></button>
+                                        <button disabled data-id="deleteTipoNomina" class="btn btn-danger btn-sm add-tooltip deleteCredito" data-toggle="tooltip" data-container="body" data-placement="left" data-original-title="Eliminar"><span class="fa fa-eraser"></span></button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info"><span class="fa fa-info-circle"></span> No se han agregado Datos.</div>
+            }
+            <br />
+        </div>
+    </div>
+</div>
+
+
+
+<div id="editTipo" class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myLargeModalLabel">Editar Saldos</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="_Id">
+                <div class="row">
+                    <div class="col-md-3 text-right">Nombre:</div>
+                    <div class="col-md-4">
+                        <input id="NombreE" type="text" class="form-control" disabled />
+                    </div>
+                    <div class="col-md-2 text-right">R.F.C:</div>
+                    <div class="col-md-3">
+                        <input id="RfcE" type="text" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+                @*Agregar JACM*@
+                <div class="row">
+                    <div class="col-md-3 text-right">Tipo:</div>
+                    <div class="col-md-9">
+                        <input id="AplicaE" type="text" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+                @*Agregar JACM*@
+                <div class="row">
+                    <div class="col-md-3 text-right">Concepto:</div>
+                    <div class="col-md-9">
+                        <select id="TipoE" class="form-control" required>
+                            <option id="0" selected="selected">Selecione un opcion</option>
+                        </select>
+                    </div>
+                </div>
+                <br />
+                <div class="row" id="SaldosE" style="display:none">
+                    <div class="col-md-3 text-right">Saldo Inicial:</div>
+                    <div class="col-md-9">
+                        <input id="saldoInicialE" type="number" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+                <div class="row" id="SaldosE1" style="display:none">
+                    <div class="col-md-3 text-right">Saldo Actual</div>
+                    <div class="col-md-9">
+                        <input id="saldoActualE" type="number" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+                <div class="row" id="SaldosE2" style="display:none">
+                    <div class="col-md-3 text-right">Monto Periodo</div>
+                    <div class="col-md-9">
+                        <input id="descuentoPeriodoE" type="number" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+                <div class="row" id="SaldosE3" style="display:none">
+                    <div class="col-md-3 text-right">Numero de Periodos</div>
+                    <div class="col-md-9">
+                        <input id="numeroPeriodosE" type="number" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+                <div class="row" id="SaldosE4" style="display:none">
+                    <div class="col-md-3 text-right">Observaciones</div>
+                    <div class="col-md-9">
+                        <input id="observacionesE" type="text" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+                @*Agregar JACM*@
+                <div class="row" id="PeriodoTE" style="display:none">
+                    <div id="desdeid" class="col-md-3 text-right">Desde:</div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control calendar" name="FechaInicial" id="FechaInicialE" placeholder="Seleccione la Fecha Inicial" required, readonly />
+                    </div>
+                    <div id="idhas">
+                        <div class="col-md-1 text-right" id="idHasta">Hasta:</div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control calendar" name="FechaFinal" id="FechaFinalE" placeholder="Seleccione la Fecha Final" required, readonly />
+                            <br />
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right">Indefinido:</div>
+                    <div class="col-md-2">
+                        <input id="editSaldos_" class="toggle-switch" type="checkbox" />
+                        <label for="editSaldos_"></label>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row" id="PeriodoTE1" style="display:none">
+                    <div class="col-md-3 text-right">Monto Periodo:</div>
+                    <div class="col-md-9">
+                        <input id="descuentoPeriodoTE" type="text" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+
+                <div class="row" id="PeriodoTE2" style="display:none">
+                    <div class="col-md-3 text-right">Observaciones</div>
+                    <div class="col-md-9">
+                        <input id="observacionesTE" type="text" class="form-control" required />
+                        <br />
+                    </div>
+                </div>
+                @*Agregar JACM*@
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                    <button class="btn btn-dark btn-sm" id="_GuardarSaldosE">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="deleteTipo" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="_Id">
+                <h4 class="modal-title" id="myLargeModalLabel">Eliminar Saldo</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea eliminarlo:
+                <br />
+                El concepto:<label id="nombreTipoCreditoE"></label>?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <button class="btn btn-danger btn-sm" id="_eliminarS">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="suspender" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="_Id">
+                <h4 class="modal-title" id="myLargeModalLabel">Suspender Saldo</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea eliminarlo:
+                <label id="nombreTipoCredito"></label>?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <button class="btn btn-danger btn-sm" id="_eliminarFonacot">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/default.js"></script>
+    <script src="~/js/Core/Saldos.js"></script>
+}
+

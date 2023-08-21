@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Aplicar Primas Vacacuionales";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Primas Vacacionales Por Aniversario</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Aplicacion de Primas Vacacionales</h3>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="row text-right">
+                &nbsp;&nbsp;
+                @Html.ActionLink(" Regresar", "Index", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina }, new { @class = "btn btn-primary _Load" })
+
+                @*<a href="#" class="btn btn-mint">Aplicar Primas</a>*@
+            </div>
+            <br />
+
+            @if (ViewBag.MensajeValidacion != null)
+            {
+
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <label>@ViewBag.MensajeValidacion</label>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+

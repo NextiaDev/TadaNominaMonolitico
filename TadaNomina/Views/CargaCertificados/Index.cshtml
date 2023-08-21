@@ -1,0 +1,181 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.Cat_RegistroPatronal>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Registro Patronal</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Carga CSD(<span class="text-muted">Certificado de Sello Digital</span>)</h3>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-striped table-hover" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+
+                        <th>
+                            R. Social
+                        </th>
+
+                        <th>
+                            R. Patronal
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.RFC)
+                        </th>
+
+
+                        <th>
+                            CSD.cer
+                        </th>
+                        <th>
+                            CSD.key
+                        </th>
+                        <th>
+                            FIEL.cer
+                        </th>
+                        <th>
+                            FIEL.key
+                        </th>
+                        <th>Acciones</th>
+                        <th>PAC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdRegistroPatronal)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NombrePatrona)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RegistroPatronal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RFC)
+                            </td>
+
+
+                            <td>
+                                @if (item.rutaCer != null)
+                                {
+                                    <label class="label label-success">Cargado</label>
+                                }
+                                else
+                                {
+                                    <label class="label label-danger">No cargado</label>
+                                }
+                            </td>
+                            <td>
+                                @if (item.rutaKey != null)
+                                {
+                                    <label class="label label-success">Cargado</label>
+                                }
+                                else
+                                {
+                                    <label class="label label-danger">No cargado</label>
+                                }
+                            </td>
+
+                            <td>
+                                @if (item.rutaFielCer != null)
+                                {
+                                    <label class="label label-success">Cargado</label>
+                                }
+                                else
+                                {
+                                    <label class="label label-danger">No cargado</label>
+                                }
+                            </td>
+                            <td>
+                                @if (item.rutaFielKey != null)
+                                {
+                                    <label class="label label-success">Cargado</label>
+                                }
+                                else
+                                {
+                                    <label class="label label-danger">No cargado</label>
+                                }
+                            </td>
+
+                            <td>
+                                <a href="@Url.Action("CargarSellos", new { Id = item.IdRegistroPatronal })" class="add-tooltip" title="Cargar archivos CSD"><span class="btn btn-primary btn-sm fa fa-upload"></span></a>
+                                <a href="@Url.Action("CargarFIEL", new { Id = item.IdRegistroPatronal })" class="add-tooltip" title="Cargar archivos FIEL"><span class="btn btn-primary btn-sm fa fa-upload"></span></a>
+
+                            </td>
+                            <td>
+                                <a href="#" data-id="@item.IdRegistroPatronal" data-text="@item.NombrePatrona" class="add-tooltip cargaCSDPAC" title="Cargar archivos CSD al PAC"><span class="btn btn-mint btn-sm fa fa-upload"></span></a>
+                                <a href="#" data-id="@item.IdRegistroPatronal" data-text="@item.NombrePatrona" class="add-tooltip cargaFIELPAC" title="Cargar archivos FIEL al PAC"><span class="btn btn-mint btn-sm fa fa-upload"></span></a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="modalCargaSCD" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hiddenIdEmpresaCSD" />
+                <h4 class="modal-title" id="myLargeModalLabel">Enviar CSD al PAC</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea enviar los archivos de CSD de la empresa
+                <label class="text-bold" id="detalleEmpresa"></label> al PAC?
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <button class="btn btn-warning btn-sm" id="_enviaCSDPAC">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalCargaFIEL" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hiddenIdEmpresaFIEL" />
+                <h4 class="modal-title" id="myLargeModalLabel">Enviar FIEL al PAC</h4>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro que desea enviar los archivos de FIEL de la empresa
+                <label class="text-bold" id="detalleEmpresaF"></label> al PAC?
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default btn-sm" type="button">Cerrar</button>
+                <button class="btn btn-warning btn-sm" id="_enviaFIELPAC">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/cargaCertificados.js"></script>
+}

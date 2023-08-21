@@ -1,0 +1,115 @@
+﻿@model TadaNomina.Models.ViewModels.Facturacion.Costeo.ModelFondeos
+
+@{
+    ViewBag.Title = "CreateFondeoPeriodo";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow"> Fondeos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div class="col-md-12">
+    <div id="page-content">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Caputar Datos.</h3>
+            </div>
+            <div class="panel-body">
+                <br />
+                @*<div class="alert alert-info">
+                        <h4><span class="fa fa-info-circle"></span> ¡Atencion! Considere lo siguiente:</h4>
+                        <ul>
+                            <li>Si ingresa importe no debe capturar conceptos.</li>
+                            <li>Si captura conceptos no debe capturar el periodo.</li>
+                            <li>Si captura conceptos el fondeo se considerara fijo y aplicara en todos los periodos.</li>
+                            <li>Si captura un importe debe de capturar el periodo en el que aplicara.</li>
+                        </ul>
+                    </div>
+                    <br />*@
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodo, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IdCosteo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.IdCosteo, Model.lCosteos, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdCosteo" })
+                                @Html.ValidationMessageFor(model => model.IdCosteo, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdPatrona, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.IdPatrona, Model.lPatrona, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdPatrona" })
+                                @Html.ValidationMessageFor(model => model.IdPatrona, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IdDivision, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.IdDivision, Model.lDivision, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdDivision" })
+                                @Html.ValidationMessageFor(model => model.IdDivision, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Importe, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Importe, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Importe, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.IdsConcetos, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.ListBoxFor(model => model.IdsConcetos, Model.lConceptos, new { @class = "form-control", @id = "IdsConcetos" })
+                                </div>
+                                @Html.LabelFor(model => model.IdsConceptosSelec, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-4">
+                                    @Html.ListBoxFor(model => model.IdsConceptosSelec, Model.lConceptosSelect, new { @class = "form-control", @id = "IdsConceptosSelec" })
+                                </div>
+                            </div>*@
+
+                        @if (ViewBag.Mensaje != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Mensaje</div>
+                        }
+
+                        <div class="panel-footer">
+                            <div class="text-right">
+                                <input type="submit" value="Guardar" class="btn btn-primary btn-sm" />
+                                @Html.ActionLink("Regresar", "FondeosPeriodo", null, new { @class = "btn btn-info btn-sm _Back" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Core/fondeos.js"></script>

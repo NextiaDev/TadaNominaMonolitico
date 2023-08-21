@@ -1,0 +1,337 @@
+﻿@model TadaNomina.Models.ViewModels.MovimientosIMSS.mDetalleLote
+@{
+    ViewBag.Title = "ConsultaRespuestaLote";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Consulta lotes</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel panel-body text-left">
+        <div class="panel-heading">
+            <h4 class="panel title">
+                Respuesta
+            </h4>
+        </div>
+        <hr />
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="control-label">Fecha Acuse Recibo</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.resumenLotes.fechaAcuseRecibo, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Fecha Transacci&oacute;n</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.resumenLotes.fechaTrans, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Lote</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.resumenLotes.idLote, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="control-label">Nombre</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.nombre, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Registro Patronal</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.registroPatronal, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Bajas Aceptadas</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.bajaAceptado, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Bajas Rechazadas</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.bajaRechazado, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Modificaciones Aceptadas</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.modificacionAceptado, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Modificaciones Rechazadas</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.modificacionRechazado, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Ingreso Aceptados</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.reingresoAceptado, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="control-label">Ingreso Rechazados</label>
+                    <div id="example" class="form-control" readonly="true">
+                        <a>@Html.DisplayFor(Model => Model.RespuestaGeneral.respuestaWebService.relacionMovimientos.reingresoRechazado, new { @class = "form-control" })</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="panel-footer text-right">
+                        <a href="~/Consultas/DescargaPDFRespuestaGeneral?IdRegistroPatronal=@ViewBag.Registro&Lote=@ViewBag.Lote" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Descargar PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="panel panel-body text-left">
+        <div class="panel-heading">
+            <h4 class="panel title">
+                Detalle Respuesta
+            </h4>
+        </div>
+        <div class="panel-body">
+            @foreach (var item in Model.RespuestaDetalle.respuestaWebService.movimientosLote)
+            {
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="control-label">Causa de Baja</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.causaBaja</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Clave del Trabajador</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.claveTrabajador</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Error de Movimiento</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.codigoErrorMovimiento</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Error de Movimiento</label>
+                        <div id="example" class="form-control" readonly="true">
+                            @switch (item.codigoErrorMovimiento)
+                            {
+                                case "0":
+                                    <a>OPERACIÓN REALIZADA EXITOSAMENTE</a>
+                                    break;
+                                case "01":
+                                    <a>REGISTRO PATRONAL ERRONEO</a>
+                                    break;
+                                case "03":
+                                    <a>NUMERO DE SEGURIDAD SOCIAL ES ERRONEO</a>
+                                    break;
+                                case "04":
+                                    <a>NUMERO DE SEGURIDAD SOCIAL ES INVALIDO</a>
+                                    break;
+                                case "06":
+                                    <a>NOMBRE DE LA PERSONA ES INVALIDO</a>
+                                    break;
+                                case "07":
+                                    <a>DATO DE TIPO DE MOVIMIENTO ES INVÁLIDO</a>
+                                    break;
+                                case "08":
+                                    <a>SBC NO DEBE SER CERO</a>
+                                    break;
+                                case "09":
+                                    <a>DATO DE SALARIO ES REQUERIDO</a>
+                                    break;
+                                case "13":
+                                    <a>DATO DE FECHA ES REQUERIDO</a>
+                                    break;
+                                case "15":
+                                    <a>SBC ES MENOR AL MINIMO DE LA ZONA</a>
+                                    break;
+                                case "16":
+                                    <a>DATO DE TIPO DE SALARIO ES INVALIDO</a>
+                                    break;
+                                case "17":
+                                    <a>DATO DE TIPO DE TRABAJADOR ES INVALIDO</a>
+                                    break;
+                                case "18":
+                                    <a>DATO DE NUMERO DE UMF ES INVALIDO</a>
+                                    break;
+                                case "19":
+                                    <a>DATO DE CAUSA DE BAJAS ES INVALIDO</a>
+                                    break;
+                                case "21":
+                                    <a>ERROR EN LA FECHA DEL MOVIMIENTO</a>
+                                    break;
+                                case "23":
+                                    <a>REGISTRO PATRONAL NO VIGENTE</a>
+                                    break;
+                                case "24":
+                                    <a>REGISTRO PATRONAL NO EXISTENTE</a>
+                                    break;
+                                case "26":
+                                    <a>NSS NO ESTA VIGENTE CON EL REGISTRO PATRONAL</a>
+                                    break;
+                                case "31":
+                                    <a>REGISTRO PATRONAL ES INVALIDO</a>
+                                    break;
+                                case "33":
+                                    <a>DATO DE SEMANA O JORNADA REDUCIDA ES INVALIDO</a>
+                                    break;
+                                case "36":
+                                    <a>FECHA DE PRESENTACION ES ANTICIPADA A FECHA DE REINGRESOS</a>
+                                    break;
+                                case "37":
+                                    <a>ERROR</a>
+                                    break;
+                                case "48":
+                                    <a>NSS YA ESTA VIGENTE CON EL REGISTRO PATRONAL</a>
+                                    break;
+                                case "49":
+                                    <a>FECHA DE MOVIMIENTO ANTERIOR A OTRO MOVIMIENTO REGISTRADO</a>
+                                    break;
+                                case "50":
+                                    <a>NSS NO ESTA VIGENTE CON EL REGISTRO PATRONAL</a>
+                                    break;
+                                case "51":
+                                    <a>NSS YA ESTA EN BAJA CON EL REGISTRO PATRONAL</a>
+                                    break;
+                                case "56":
+                                    <a>NSS YA TIENE MODIFICACION DE SALARIO CON MISMA FECHA</a>
+                                    break;
+                                case "58":
+                                    <a>NUMERO DE SEGURIDAD SOCIAL ES INEXISTENTE</a>
+                                    break;
+                                case "5":
+                                    <a> EL LOTE NO TIENE NINGÚN MOVIMIENTO VALIDO A SER REGISTRADO.</a>
+                                    break;
+                                case "59":
+                                    <a>NOMBRE DE LA PERSONA ES DIFERENTE AL REGISTRADO</a>
+                                    break;
+                                case "61":
+                                    <a>HA SIDO REGULARIZADO EL NSS, ACTUALICE SU REGISTRO</a>
+                                    break;
+                            }
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">CURP</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.curp</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Exteporaneo</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.extemporaneo</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Fecha del Movimiento</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.fecha_mov</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Estatus Movimiento</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.mensajeErrorMovimientos</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Nombre del Asegurado</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.nombreAsegurado.Replace("$", " ")</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Numero de Seguro Social</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.nss</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Registro Patronal</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.registroPatronal</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Salario Base</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.salarioBase</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Jornada</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.semanaJornadaRed</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Tipo Movimiento</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.tipo_mov</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Tipo Trabajo</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.tipo_trab</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">Tipo Salario</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.tipoSalario</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">umf</label>
+                        <div id="example" class="form-control" readonly="true">
+                            <a>@item.umf</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="panel-footer text-right">
+                        <a href="~/Consultas/DescargaPDFDetalleRespuesta?IdRegistroPatronal=@ViewBag.Registro&Lote=@ViewBag.Lote" class="btn btn-sm btn-success"><i class="fa fa-download"></i> Descargar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="panel-footer text-right">
+                        <a href="~/Consultas/ListadoLotes?IdRegistroPatronal=@ViewBag.Registro" class="btn btn-primary">Regresar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

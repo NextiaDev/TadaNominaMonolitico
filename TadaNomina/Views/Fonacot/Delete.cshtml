@@ -1,0 +1,89 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelFonacot
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalle de Crédito</h4>
+</div>
+
+<div class="modal-body">
+
+    <h4>Esta seguro que desea eliminar el siguiente Credito?</h4>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClaveEmp)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClaveEmp)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreEmpleado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NombreEmpleado)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RFC)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RFC)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroCredito)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NumeroCredito)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Plazos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Plazos)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CuotasPagadas)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CuotasPagadas)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RetencionMensual)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RetencionMensual)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.IdCreditoFonacot)
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+

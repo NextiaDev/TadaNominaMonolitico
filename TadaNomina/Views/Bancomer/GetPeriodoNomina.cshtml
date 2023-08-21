@@ -1,0 +1,40 @@
+﻿@model TadaNomina.Models.ViewModels.LayoutBancos.ModelBancomer
+@{
+    ViewBag.Title = "GetPeriodoNomina";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow"> Genera layout</h1>
+    </div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            @*<h3 class="panel-title">Seleccionar periodo</h3>*@
+        </div>
+
+        @using (Html.BeginForm("MismoBanco", "Bancomer", FormMethod.Get))
+        {
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.PeriodosN, "Seleccionar periodo...", htmlAttributes: new {@class = "form-control"})
+                    </div>
+               
+                    <div class="col-md-5">
+                        <button type="submit" class="btn btn-primary btn-success">Genera Layout</button>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+        }
+
+    </div>
+</div>
+

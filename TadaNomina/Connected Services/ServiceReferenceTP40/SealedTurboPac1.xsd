@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://66.85.140.10:8050/SealedTurboPac.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Tp.OneToOneCFDI40" />
+  <xs:element name="SealedCFDI40">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="xScript" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SealedCFDI40Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Tp.OneToOneCFDI40" minOccurs="0" name="SealedCFDI40Result" nillable="true" type="q1:ResponseSealed" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SealedRetencion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="xScript" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SealedRetencionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Tp.OneToOneCFDI40" minOccurs="0" name="SealedRetencionResult" nillable="true" type="q2:ResponseSealed" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateXMLCFDI40">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="xScript" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateXMLCFDI40Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ValidateXMLCFDI40Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateXMLRET20">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="xScript" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateXMLRET20Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ValidateXMLRET20Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateStructRET">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="xScript" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateStructRETResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ValidateStructRETResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateStructCFDI">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="xScript" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidateStructCFDIResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ValidateStructCFDIResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

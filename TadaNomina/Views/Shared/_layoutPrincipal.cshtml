@@ -1,0 +1,1290 @@
+﻿<!DOCTYPE html>
+
+<html lang="es-mx">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Nómina</title>
+
+    <!--STYLESHEET-->
+    <!--=================================================-->
+    <!--Open Sans Font [ OPTIONAL ]-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+
+    <script src="~/js/jquery.min.js"></script>
+
+    <!--Bootstrap Stylesheet [ REQUIRED ]-->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+    <link href="~/css/nifty.min.css" rel="stylesheet">
+
+    <!--Nifty Premium Icon [ DEMONSTRATION ]-->
+    <link href="~/css/demo/nifty-demo-icons.min.css" rel="stylesheet">
+
+    <!--=================================================-->
+    <!--Pace - Page Load Progress Par [OPTIONAL]-->
+    <link href="~/plugins/pace/pace.min.css" rel="stylesheet">
+    <script src="~/plugins/pace/pace.min.js"></script>
+
+    <!--Demo [ DEMONSTRATION ]-->
+    <link href="~/css/demo/nifty-demo.min.css" rel="stylesheet">
+
+    <!--Switchery [ OPTIONAL ]-->
+    <link href="~/plugins/switchery/switchery.min.css" rel="stylesheet">
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <link href="~/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <!--<link href="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.css" rel="stylesheet">-->
+    <!--Chosen [ OPTIONAL ]-->
+    <link href="~/plugins/chosen/chosen.min.css" rel="stylesheet">
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <link href="~/plugins/noUiSlider/nouislider.min.css" rel="stylesheet">
+
+    <!--Select2 [ OPTIONAL ]-->
+    <link href="~/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+    <!--Font Awesome [ OPTIONAL ]-->
+    <link href="~/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--Ion Icons [ OPTIONAL ]-->
+    <link href="~/plugins/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+    <!--Themify Icons [ OPTIONAL ]-->
+    <link href="~/plugins/themify-icons/themify-icons.min.css" rel="stylesheet">
+
+    <!--DataTables [ OPTIONAL ]-->
+    <link href="~/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="~/plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css" rel="stylesheet">
+    <!--FooTable [ OPTIONAL ]-->
+    <link href="~/plugins/fooTable/css/footable.core.css" rel="stylesheet">
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <link href="~/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <link href="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    @*<link href="~/plugins/toastr/toastr.min.css" rel="stylesheet">*@
+
+    <!--Animate.css [ OPTIONAL ]-->
+    <link href="~/plugins/animate-css/animate.min.css" rel="stylesheet">
+
+    <!--Loading.css [ OPTIONAL ]-->
+    <link href="~/css/loading.css" rel="stylesheet" />
+
+    @RenderSection("Styles", false)
+
+</head>
+<body>
+
+    <div id="userName" val="@ViewBag.NombreUsuario" val2="@Session["sLogin"].ToString()" style="display:none"></div>
+    <div id="nomSelect" val="@ViewBag.ClienteSeleccionado" val2="@ViewBag.NominaSeleccionada" style="display:none"></div>
+    <div id="container" class="effect aside-float aside-bright mainnav-lg navbar-fixed footer-fixed">
+        <div id="rutaHome" data-id="@Url.Action("Index", "Index")"></div>
+        <div id="rutaLogin" data-id="@Url.Action("Index", "Login")"></div>
+        <div id="rutaValidaSesion" data-id="@Url.Action("ValidaSession", "Base")"></div>
+
+
+        <div id="container">
+            <!--NAVBAR-->
+            <!--===================================================-->
+            <header id="navbar">
+                <div id="navbar-container" class="boxed">
+
+                    <!--Brand logo & name-->
+                    <!--================================-->
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand">
+                            <img src="~/img/TADA.png" alt="TADA Logo" class="brand-icon">
+                            <div class="brand-title">
+                                <span class="brand-text"> &nbsp;TADÁ <span class="text-muted"> Nómina</span></span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!--================================-->
+                    <!--End brand logo & name-->
+                    <!--Navbar Dropdown-->
+                    <!--================================-->
+                    <div class="navbar-content">
+                        <ul class="nav navbar-top-links">
+
+                            <!--Navigation toogle button-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li class="tgl-menu-btn">
+                                <a id="menuCerrado" class="mainnav-toggle" href="#" onclick="window.scrollTo(0,0)">
+                                    <i class="demo-pli-list-view"></i>
+                                </a>
+                            </li>
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <!--End Navigation toogle button-->
+                            <!--Search-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            @*<li>
+                                <div class="alert alert-danger custom-alert" style="display: none">
+
+                                    Your time is up. But you can move your mouse and get back to app.
+
+                                </div>
+                            </li>*@
+                        </ul>
+
+
+                        <ul class="nav navbar-top-links">
+
+                            <!--User dropdown-->
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <li>
+
+                                <a href="#" class="text-right">
+                                    @*<div class="ic-user pull-right">*@
+                                    <o class="text-bold">@ViewBag.NombreUsuario</o><br />
+                                    <span class="mnp-desc">@ViewBag.CorreoUsuario</span>
+
+                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                    <!--You can use an image instead of an icon.-->
+                                    <!--<img class="img-circle img-user media-object" src="~/img/profile-photos/1.png" alt="Profile Picture">-->
+                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                    @*<span class="fa fa-ellipsis-v"></span>&nbsp;
+
+
+                                    </div>*@
+
+                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                    <!--You can also display a user name in the navbar.-->
+                                    <!--<div class="username hidden-xs">Aaron Chavez</div>-->
+                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Perfil", "Usuarios")" class="list-group item add-tooltip _Load _noMenu" data-toggle="tooltip" data-container="body" data-placement="bottom" data-original-title="Perfil del Usuario">
+                                    <div class="media-left pos-rel">
+                                        @if (Session["sFoto"].ToString() != "")
+                                        {
+                                            <img class="img-circle img-xs" src="data:image/png;base64, @Session["sFoto"]" alt="Profile Picture">
+                                            <i id="statusUsuario" class="badge badge-success badge-stat badge-icon pull-left"></i>
+                                        }
+                                        else
+                                        {
+                                            <img class="img-circle img-xs" src="~/img/profile-photos/2.png" alt="Profile Picture">
+                                            <i id="statusUsuario" class="badge badge-success badge-stat badge-icon pull-left"></i>
+                                        }
+                                    </div>
+
+                                </a>
+                            </li>
+
+                            <li>
+
+                                <a href="@Url.Action("CambiaPass", "Usuarios")" id="_cambioPass" class="add-tooltip _noMenu" data-toggle="tooltip" data-container="body" data-placement="bottom" data-original-title="Cambiar Contraseña"><span class="fa fa-key"></span></a>
+                            </li>
+                            <li> 
+                                
+                                <a href="https://servicios.tada.mx/Central/Default/Central" class="add-tooltip" data-toggle="tooltip" data-container="body" data-placement="bottom" data-original-title="TADÁ Central"><span class="fa fa-th"></span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Logout")" class="add-tooltip" data-toggle="tooltip" data-container="body" data-placement="bottom" data-original-title="Cerrar Sesión"><span class="fa fa-power-off"></span></a>
+                            </li>
+                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            <!--End user dropdown-->
+
+                        </ul>
+                    </div>
+                    <!--================================-->
+                    <!--End Navbar Dropdown-->
+
+                </div>
+            </header>
+            <!--===================================================-->
+            <!--END NAVBAR-->
+
+            <div class="boxed">
+
+                <!--CONTENT CONTAINER-->
+                <!--===================================================-->
+                <div id="content-container">
+
+
+                    <!--Page content-->
+                    <!--===================================================-->
+                    <div id="page-content">
+                        @RenderBody()
+                    </div>
+                    <!--===================================================-->
+                    <!--End page content-->
+
+                </div>
+
+                <nav id="mainnav-container">
+                    <div id="mainnav">
+                        <!--OPTIONAL : ADD YOUR LOGO TO THE NAVIGATION-->
+                        <!--It will only appear on small screen devices.-->
+                        <!--================================
+                    <div class="mainnav-brand">
+                        <a href="index.html" class="brand">
+                            <img src="~/img/logo.png" alt="Nifty Logo" class="brand-icon">
+                            <span class="brand-text">Nifty</span>
+                        </a>
+                        <a href="#" class="mainnav-toggle"><i class="pci-cross pci-circle icon-lg"></i></a>
+                    </div>
+                    -->
+                        <!--Menu-->
+                        <!--================================-->
+                        <div id="mainnav-menu-wrap">
+                            <div class="nano sidebar">
+                                <div class="nano-content">
+
+                                    <!--Profile Widget-->
+                                    <!--================================-->
+                                    <div id="mainnav-profile" class="mainnav-profile">
+                                        <br />
+                                    </div>
+
+
+                                    <!--Shortcut buttons-->
+                                    <!--================================-->
+                                    <div id="mainnav-shortcut" class="hidden">
+                                        <ul class="list-unstyled shortcut-wrap">
+                                            <li class="col-xs-3" data-content="My Profile">
+                                                <a class="shortcut-grid" href="#">
+                                                    <div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
+                                                        <i class="demo-pli-male"></i>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="col-xs-3" data-content="Messages">
+                                                <a class="shortcut-grid" href="#">
+                                                    <div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
+                                                        <i class="demo-pli-speech-bubble-3"></i>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="col-xs-3" data-content="Activity">
+                                                <a class="shortcut-grid" href="#">
+                                                    <div class="icon-wrap icon-wrap-sm icon-circle bg-success">
+                                                        <i class="demo-pli-thunder"></i>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li class="col-xs-3" data-content="Lock Screen">
+                                                <a class="shortcut-grid" href="#">
+                                                    <div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
+                                                        <i class="demo-pli-lock-2"></i>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--================================-->
+                                    <!--End shortcut buttons-->
+
+                                    <ul id="mainnav-menu" class="list-group">
+
+
+                                        <li class="lista">
+                                            <a href="#">
+                                                <i class="fa fa-home"></i>
+                                                <span class="menu-title">Inicio</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse _menu1" data-menu1="Inicio">
+                                                @if (Session["sNomina"] != null)
+                                                {
+                                                    if (Session["sNomina"].ToString() != "Ninguna")
+                                                    {
+                                                        <li class="_subMenu" data-menu="Inicio" data-text="Inicio">
+                                                            <a class="_Load" href="@Url.Action("Index", "Index")">
+                                                                Inicio
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+
+                                                <li class="_subMenu" data-menu="Inicio" data-text="Cambiar de Nómina">
+                                                    <a class="_Load" href="@Url.Action("Index", "Default")">
+                                                        Cambiar de Nómina
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                        </li>
+
+
+                                        <!--Category name-->
+
+                                        @if (Session["sNomina"] != null)
+                                        {
+                                            if (Session["sNomina"].ToString() != "Ninguna")
+                                            {
+                                                <li class="lista">
+                                                    <a href="#">
+                                                        <i class="fa fa-calculator"></i>
+                                                        <span class="menu-title">Nómina</span>
+                                                        <i class="arrow"></i>
+                                                    </a>
+                                                    <ul class="collapse _menu1" data-menu1="Nómina">
+
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Periodos">
+                                                            <a class="_Load" href="@Url.Action("Index", "Periodos")">
+                                                                Periodos
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Acumular Periodos">
+                                                            <a class="_Load" href="@Url.Action("Index", "AcumularPeriodos")">
+                                                                Acumular Periodos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Procesar Nómina">
+                                                            <a class="_Load" href="@Url.Action("Index","Nomina")">
+                                                                Procesar Nómina
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Incidencias">
+                                                            <a class="_Load" href="@Url.Action("SelecionaPeriodo", "Incidencias")">
+                                                                Incidencias
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Incidencias Programadas">
+                                                            <a class="_Load" href="@Url.Action("Index", "IncidenciasProgramadas")">
+                                                                Incidencias Programadas
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Saldos">
+                                                            <a class="_Load" href="@Url.Action("Index", "Saldos")">
+                                                                Saldos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Pensión Alimenticia">
+                                                            <a class="_Load" href="@Url.Action("Index", "PensionAlimenticia")">
+                                                                Pensión Alimenticia
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="C. Para Vivienda">
+                                                            <a class="_Load" href="@Url.Action("Index", "Infonavit")">
+                                                                C. Para Vivienda
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="C. Fonacot">
+                                                            <a class="_Load" href="@Url.Action("Index", "Fonacot")">
+                                                                C. Fonacot
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Piramidar Conceptos">
+                                                            <a class="_Load" href="@Url.Action("SeleccionarPeriodo", "Piramidados")">
+                                                                Piramidar Conceptos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Carga Netos">
+                                                            <a class="_Load" href="@Url.Action("Index", "ActualizaNetos")">
+                                                                Carga Netos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Primas Vacacionales">
+                                                            <a class="_Load" href="@Url.Action("Index", "PrimasVacacionales")">
+                                                                Primas Vacacionales
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Archivo de Bancos">
+                                                            <a class="_Load" href="@Url.Action("SelecionaPeriodo", "ArchivoBancos")">
+                                                                Archivos de Bancos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Ausentismos">
+                                                            <a class="_Load" href="@Url.Action("Index", "Ausen")">
+                                                                Ausentismos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Recuperaciones IMSS">
+                                                            <a class="_Load" href="@Url.Action("Search", "RecuperacionesIMSS")">
+                                                                Recuperaciones IMSS
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Nómina" data-text="Finiquitos No Acumulados">
+                                                            <a class="_Load" href="@Url.Action("Index", "FiniquitoNoAcumulados")">
+                                                                Finiquitos No Acumulados
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+
+                                                <li class="lista">
+                                                    <a href="#">
+                                                        <i class="fa fa-file-code-o"></i>
+                                                        <span class="menu-title">Facturación/Dispersión</span>
+                                                        <i class="arrow"></i>
+                                                    </a>
+                                                    <ul class="collapse _menu1" data-menu1="Facturación">
+
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Costeos">
+                                                            <a class="_Load" href="@Url.Action("Index", "Costear")">
+                                                                Costeos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Movimientos Costeos">
+                                                            <a class="_Load" href="@Url.Action("Index", "MovimientoCosteos")">
+                                                                Movimientos Costeos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Fondeos Costeos">
+                                                            <a class="_Load" href="@Url.Action("FondeosFijos", "Fondeos")">
+                                                                Fondeos Costeos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Configurar Costeos">
+                                                            <a class="_Load" href="@Url.Action("ConfiguracionCosteo", "CosteoConfiguracion")">
+                                                                Configurar Costeos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Solicitud de Factura">
+                                                            <a class="_Load" href="@Url.Action("Index", "SolicitudFacturas")">
+                                                                Solicitud de Factura
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Solicitud Sin Costeo">
+                                                            <a class="_Load" href="@Url.Action("NewSolicitud", "SolicitudFacturas")">
+                                                                Solicitud Sin Costeo
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Adjuntar Comprobantes">
+                                                            <a class="_Load" href="@Url.Action("Pendientes", "SolicitudFacturas")">
+                                                                Adjuntar Comprobantes
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Adjuntar Comprobantes Tesorería">
+                                                            <a class="_Load" href="@Url.Action("PendientesTesoreria", "SolicitudFacturas")">
+                                                                Adjuntar Comprobantes Tesorería
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Solicitud de Dispersión">
+                                                            <a class="_Load" href="@Url.Action("Index", "SolicitudDispersion")">
+                                                                Solicitud de Dispersión
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Solicitar Cheques">
+                                                            <a class="_Load" href="@Url.Action("Index", "SolicitudCheques")">
+                                                                Solicitar Cheques
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Pagos Adicionales">
+                                                            <a class="_Load" href="@Url.Action("Index", "PagosAdicionales")">
+                                                                Pagos Adicionales
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Archivo Altas Banc.">
+                                                            <a class="_Load" href="@Url.Action("Index", "ArchivosAltas")">
+                                                                Archivo Altas Banc.
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Suma Saldos">
+                                                            <a href="@Url.Action("Index", "MovimientosSaldos")">
+                                                                Suma Saldos
+                                                            </a>
+                                                        </li>
+
+                                                        @if (Session["sTipoUsuario"] != null)
+                                                        {
+                                                            if (Session["sTipoUsuario"].ToString() == "System")
+                                                            {
+                                                                @*<li class="_subMenu" data-menu="Facturación" data-text="Facturadoras">
+                                                                    <a class="_Load" href="@Url.Action("Index", "Facturadoras")">
+                                                                        Facturadoras
+                                                                    </a>
+                                                                </li>
+                                                                <li class="_subMenu" data-menu="Facturación" data-text="Conceptos Facturación">
+                                                                    <a class="_Load" href="@Url.Action("Index", "ConceptosFacturacion")">
+                                                                        Conceptos Facturación
+                                                                    </a>
+                                                                </li>*@
+                                                                <li class="_subMenu" data-menu="Facturación" data-text="Razón Social">
+                                                                    <a href="@Url.Action("Index", "ClienteRazonSocialFacturacion")">
+                                                                        Razón Social
+                                                                    </a>
+                                                                </li>
+                                                            }
+                                                        }
+
+                                                        <li class="_subMenu" data-menu="Facturación" data-text="Layout Bancos">
+                                                            <a class="_Load" href="@Url.Action("Index", "ArchivotxtDispersion")">
+                                                                Layout Bancos
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+                                            }
+                                        }
+
+                                        <!--Category name-->
+                                        <li class="lista">
+                                            <a href="#">
+                                                <i class="fa fa-qrcode"></i>
+                                                <span class="menu-title">CFDI</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse _menu1" data-menu1="CFDI">
+                                                @if (Session["sNomina"] != null)
+                                                {
+                                                    if (Session["sNomina"].ToString() != "Ninguna")
+                                                    {
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Generación de XML">
+                                                            <a class="_Load" href="@Url.Action("Index", "GeneraXML")">
+                                                                Genera XML
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Timbrado">
+                                                            <a class="_Load" href="@Url.Action("Index", "TimbradoTP")">
+                                                                Timbrado
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Cancela Timbrado">
+                                                            <a class="_Load" href="@Url.Action("Index", "CancelaTimbradoTP")">
+                                                                Cancela Timbrado
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Descarga de Recibos">
+                                                            <a class="_Load" href="@Url.Action("Index", "DescargaCFDI")">
+                                                                Descarga de Recibos
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Dispersión de Recibos">
+                                                            <a class="_Load" href="@Url.Action("DispersarRecibo","DescargaCFDI")">
+                                                                Dispersión de Recibos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Carga Certificados">
+                                                            <a class="_Load" href="@Url.Action("Index","CargaCertificados")">
+                                                                Carga Certificados
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Generar Recibos Complemento">
+                                                            <a class="_Load" href="@Url.Action("Index","ProcesoNomina")">
+                                                                Generar Recibos Complemento
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="CFDI" data-text="Descarga Recibos Complemento">
+                                                            <a class="_Load" href="@Url.Action("DescargarRecibos","ProcesoNomina")">
+                                                                Descarga Recibos Complemento
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        </li>
+
+
+
+                                        @if (Session["sNomina"] != null)
+                                        {
+                                            if (Session["sNomina"].ToString() != "Ninguna")
+                                            {
+                                                <li class="lista">
+                                                    <a href="#">
+                                                        <i class="fa fa-line-chart"></i>
+                                                        <span class="menu-title">Contabilidad</span>
+                                                        <i class="arrow"></i>
+                                                    </a>
+                                                    <ul class="collapse _menu1" data-menu1="Contabilidad">
+
+                                                        <li class="_subMenu" data-menu="Contabilidad" data-text="Cuentas Contables">
+                                                            <a class="_Load" href="@Url.Action("Index", "CatalogoCuentas")">
+                                                                Cuentas Contables
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Contabilidad" data-text="Póliza Contable">
+                                                            <a class="_Load" href="@Url.Action("Index", "PolizaContable")">
+                                                                Póliza Contable
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+                                            }
+                                        }
+
+
+                                        <!--Category name-->
+
+                                        @if (Session["sNomina"] != null)
+                                        {
+                                            if (Session["sNomina"].ToString() != "Ninguna")
+                                            {
+                                                <li class="lista">
+                                                    <a href="#">
+                                                        <i class="fa fa-database"></i>
+                                                        <span class="menu-title">Reportes</span>
+                                                        <i class="arrow"></i>
+                                                    </a>
+                                                    <ul class="collapse _menu1" data-menu1="Reportes">
+
+
+                                                        <li class="_subMenu" data-menu="Reportes" data-text="Nomina">
+                                                            <a href="#">
+                                                                <i class="fa fa-money"></i>
+                                                                <span class="menu-title">Nómina</span>
+                                                                <i class="arrow"></i>
+                                                            </a>
+                                                            <!--Submenu-->
+                                                            <ul class="collapse">
+                                                                <li><a class="_Load" href="@Url.Action("Index", "ReporteNomina")">Nóminas Acumuladas</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteAcumuladoByIdCliente", "ReporteNomina")">Reporte Acumulado por Cliente</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("NuevosReportes", "ReporteNomina")">Resumen Nómina</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteTimbrado", "ReporteNomina")">Reporte de Timbrado</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("Index", "ReporteIncidencias")">Incidencias por Periodo</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteTipoPDf", "ReporteNomina")">Reportes PDF</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("RepContableByFechas", "ReporteContable")">Reporte Contable por rango de fechas</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("RepContableByIdPeriodoNomina", "ReporteContable")">Reporte Contable por Periodo</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteISN", "ReporteNomina")">Reporte ISN</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteIncidenciasByClienteFechas", "ReporteNomina")">Reporte Incidencias por Cliente</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteNominaAcumuladoPorEmpleado", "ReporteNomina")">Reporte Acumulado por Empleado</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReporteEspecialAgrupadoPorCC", "ReporteNomina")">Reporte Especial Acumulado Por CC</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("HonorariosPeriodos", "Honorarios")">Archivos Honorarios</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("ReportesHonorarios", "Honorarios")">Reporte Honorarios</a></li>
+                                                            </ul>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="Reportes" data-text="IMSS">
+                                                            <a href="#">
+                                                                <i class="fa fa-medkit"></i>
+                                                                <span class="menu-title">IMSS</span>
+                                                                <i class="arrow"></i>
+                                                            </a>
+                                                            <!--Submenu-->
+                                                            <ul class="collapse">
+                                                                <li><a class="_Load" href="@Url.Action("IDSE", "ReporteIMSS")">IDSE</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("SUA", "ReporteIMSS")">SUA</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("Variabilidad", "ReporteIMSS")">Variabilidad</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("RecuperacionesIMSS", "ReporteIMSS")">Recuperaciones IMSS</a></li>
+                                                            </ul>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="Reportes" data-text="Empleados">
+                                                            <a href="#">
+                                                                <i class="fa fa-users"></i>
+                                                                <span class="menu-title">Empleados</span>
+                                                                <i class="arrow"></i>
+                                                            </a>
+                                                            <!--Submenu-->
+                                                            <ul class="collapse">
+                                                                <li><a class="_Load" href="@Url.Action("Index", "ReporteEmpleados")">Empleados</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("RepAltasBajasByFechas", "ReporteNomina")">Altas y Bajas de Empleados</a></li>
+                                                                <li><a href="@Url.Action("DescargarReporteEmpleadosAdministradosByIdUsuario", "ReporteNomina")">Empleados administrados</a></li>
+                                                            </ul>
+                                                        </li>
+
+                                                        <li class="_subMenu" data-menu="Reportes" data-text="Facturación">
+                                                            <a href="#">
+                                                                <i class="fa fa-list"></i>
+                                                                <span class="menu-title">Facturación</span>
+                                                                <i class="arrow"></i>
+                                                            </a>
+                                                            <!--Submenu-->
+                                                            <ul class="collapse">
+                                                                <li><a class="_Load" href="@Url.Action("ReporteFacturacionByIdCliente", "ReporteNomina")">Por rango de fechas</a></li>
+                                                            </ul>
+                                                            <ul class="collapse">
+                                                                <li><a class="_Load" href="@Url.Action("SaldosPorCliente", "ReporteNomina")">Consulta de saldos</a></li>
+                                                            </ul>
+                                                        </li>
+
+                                                        @* Para controlar el acceso a los reportes de Analitica *@
+
+                                                        @if (Session["sTipoUsuario"].ToString() == "System")
+                                                        {
+
+                                                            <li class="_subMenu" data-menu="Reportes" data-text="Análitica">
+                                                                <a href="#">
+                                                                    <i class="fa fa-list"></i>
+                                                                    <span class="menu-title">Análitica</span>
+                                                                    <i class="arrow"></i>
+                                                                </a>
+                                                                <!--Submenu-->
+                                                                <ul class="collapse">
+                                                                    <li><a class="_Load" href="@Url.Action("Index", "ReporteAnalitica")">Estadísticas</a></li>
+                                                                </ul>
+                                                            </li>
+                                                        }
+
+                                                    </ul>
+                                                </li>
+                                            }
+                                        }
+
+                                        @if (Session["sNomina"] != null)
+                                        {
+                                            if (Session["sNomina"].ToString() != "Ninguna")
+                                            {
+                                                <li class="lista">
+                                                    <a href="#">
+                                                        <i class="fa fa-briefcase"></i>
+                                                        <span class="menu-title">Herramientas</span>
+                                                        <i class="arrow"></i>
+                                                    </a>
+                                                    <ul class="collapse _menu1" data-menu1="Herramientas">
+
+                                                        <li class="_subMenu" data-menu="Herramientas" data-text="Periodos Acumulados">
+                                                            <a class="_Load" href="@Url.Action("Acumulados", "Periodos")">
+                                                                Periodos Acumulados
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Herramientas" data-text="Cambio de Unidad">
+                                                            <a class="_Load" href="@Url.Action("Index", "CambioUnidad")">
+                                                                Cambio de Unidad
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                        }
+
+
+
+                                        @if (Session["sNomina"] != null)
+                                        {
+                                            if (Session["sNomina"].ToString() != "Ninguna")
+                                            {
+                                                <li class="lista">
+                                                    <a href="#">
+                                                        <i class="fa fa-id-card"></i>
+                                                        <span class="menu-title">Empleados</span>
+                                                        <i class="arrow"></i>
+                                                    </a>
+                                                    <ul class="collapse _menu1" data-menu1="Empleados">
+
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Modificación / Baja">
+                                                            <a class="_Load" href="@Url.Action("Search", "Empleado")">
+                                                                Modificación / Baja
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Registro Empleado">
+                                                            <a class="_Load" href="@Url.Action("RegistraEmpleado", "Empleado")">
+                                                                Registro Empleado
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Empleados Baja">
+                                                            <a class="_Load" href="@Url.Action("ReactivarEmpleadoSearch", "Empleado")">
+                                                                Empleados Baja
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Carga por Layout">
+                                                            <a class="_Load" href="@Url.Action("Batch", "Empleado")">
+                                                                Carga por Layout
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Edición por Layout">
+                                                            <a class="_Load" href="@Url.Action("EditarEmpleados","Empleado")">
+                                                                Edición por Layout
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Baja por Layout">
+                                                            <a class="_Load" href="@Url.Action("BajaBatch", "Empleado")">
+                                                                Baja por Layout
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Empleados" data-text="Actualización Sueldos">
+                                                            <a class="_Load" href="@Url.Action("ActualizaSueldos", "Empleado")">
+                                                                Actualización Sueldos
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </li>
+
+                                            }
+                                        }
+
+                                        @if (Session["sNomina"] != null)
+                                        {
+
+                                            <li class="lista">
+                                                <a href="#">
+                                                    <i class="fa fa-medkit"></i>
+                                                    <span class="menu-title">Movimientos IMSS</span>
+                                                    <i class="arrow"></i>
+                                                </a>
+                                                <ul class="collapse _menu1" data-menu1="Movimientos IMSS">
+                                                    @if (Session["sClienteAdministrado"].ToString() == "0")
+                                                    {
+                                                        <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Certificados">
+                                                            <a class="_Load" href="~/CargaCertificadosIMSS/Index">
+                                                                Certificados
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Administración">
+                                                            <a class="_Load" href="~/EnvioMovimientos/Index">
+                                                                Administración
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Movimientod sin Respuesta">
+                                                            <a class="_Load" href="~/MovimientosSinRespuesta/Index">
+                                                                Movimientos sin Respuesta
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Actualización SDI">
+                                                            <a class="_Load" href="@Url.Action("ActualizacionSDI", "IMSS")">
+                                                                Actualización SDI
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                    <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Consultas">
+                                                        <a class="_Load" href="~/Consultas/Index">
+                                                            Consultas
+                                                        </a>
+                                                    </li>
+                                                    <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Movimientos Procesados">
+                                                        <a class="_Load" href="~/MovimientosProcesados/Index">
+                                                            Movimientos procesados
+                                                        </a>
+                                                    </li>
+                                                    <li class="_subMenu" data-menu="Movimientos IMSS" data-text="Consulta Movimientos Afiliatorios">
+                                                        <a class="_Load" href="~/ConsultaMovimientosAfiliatorios/Index">
+                                                            Consulta Movimientos Afiliatorios
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+
+                                        <!--Category name-->
+
+                                        <li class="lista">
+                                            <a href="#">
+                                                <i class="fa fa-gears"></i>
+                                                <span class="menu-title">Administración</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse _menu1" data-menu1="Administración">
+                                                @if (Session["sTipoUsuario"] != null)
+                                                {
+                                                    if (Session["sTipoUsuario"].ToString() == "System")
+                                                    {
+                                                        <li class="_subMenu" data-menu="Administración" data-text="Usuarios">
+                                                            <a class="_Load" href="@Url.Action("Index", "Usuarios")">
+                                                                Usuarios
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Administración" data-text="Clientes">
+                                                            <a class="_Load" href="@Url.Action("Index", "Clientes")">
+                                                                Clientes
+                                                            </a>
+                                                        </li>
+
+                                                    }
+                                                }
+                                                <li class="_subMenu" data-menu="Administración" data-text="Unidades de Negocio">
+                                                    <a class="_Load" href="@Url.Action("Index", "UnidadesNegocio")">
+                                                        Unidades de Negocio
+                                                    </a>
+                                                </li>
+                                                <li class="_subMenu" data-menu="Administración" data-text="Centros de Costos">
+                                                    <a class="_Load" href="@Url.Action("Index", "CentrosCostos")">
+                                                        Centros de Costos
+                                                    </a>
+                                                </li>
+                                                <li class="_subMenu" data-menu="Administración" data-text="Áreas">
+                                                    <a class="_Load" href="@Url.Action("Area", "Areas")">
+                                                        Áreas
+                                                    </a>
+                                                </li>
+                                                <li class="_subMenu" data-menu="Administración" data-text="Departamentos">
+                                                    <a class="_Load" href="@Url.Action("Index", "Departamentos")">
+                                                        Departamentos
+                                                    </a>
+                                                </li>
+                                                <li class="_subMenu" data-menu="Administración" data-text="Sucursales">
+                                                    <a class="_Load" href="@Url.Action("Index", "Sucursales")">
+                                                        Sucursales
+                                                    </a>
+                                                </li>
+                                                <li class="_subMenu" data-menu="Administración" data-text="Puestos">
+                                                    <a class="_Load" href="@Url.Action("Index", "Puestos")">
+                                                        Puestos
+                                                    </a>
+                                                </li>
+
+                                                <li class="_subMenu" data-menu="Administración" data-text="Bancos">
+                                                    <a class="_Load" href="@Url.Action("Index", "Bancos")">
+                                                        Bancos
+                                                    </a>
+                                                </li>
+
+                                                <li class="_subMenu" data-menu="Administración" data-text="Entidad Federativa">
+                                                    <a class="_Load" href="@Url.Action("Index", "EntidadFederativa")">
+                                                        Entidad Federativa
+                                                    </a>
+                                                </li>
+
+                                                <li class="_subMenu" data-menu="Administración" data-text="Registros Patronales">
+                                                    <a class="_Load" href="@Url.Action("Index", "RegistroPatronal")">
+                                                        Registros Patronales
+                                                    </a>
+                                                </li>
+                                                @if (Session["sTipoUsuario"] != null)
+                                                {
+                                                    if (Session["sTipoUsuario"].ToString() == "System")
+                                                    {
+                                                        <li class="_subMenu" data-menu="Administración" data-text="Sindicatos">
+                                                            <a class="_Load" href="@Url.Action("Index", "Sindicatos")">
+                                                                Sindicatos
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+
+
+                                                        <li class="_subMenu" data-menu="Administración" data-text="Sindicatos">
+                                                            <a class="_Load" href="@Url.Action("Index", "JornadaLaboral")">
+                                                                Jornada Laboral
+                                                            </a>
+                                                        </li>
+
+
+
+                                                    </ul>
+                                        </li>
+
+                                        <li class="lista">
+                                            <a href="#">
+                                                <i class="ion-settings"></i>
+                                                <span class="menu-title">Configuración</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse _menu1" data-menu1="Configuración">
+
+                                                <li class="_subMenu" data-menu="Configuración" data-text="Catálogo de Conceptos">
+                                                    <a class="_Load" href="@Url.Action("Index", "Conceptos")">
+                                                        Catálogo de Conceptos
+                                                    </a>
+                                                </li>
+                                                @if (Session["sRelojChecador"].ToString() == "SI")
+                                                {
+                                                    <li class="_subMenu" data-menu="Configuración" data-text="Conceptos Checador">
+                                                        <a class="_Load" href="@Url.Action("Index","ConceptosChecador")">
+                                                            Conceptos Checador
+                                                        </a>
+                                                    </li>
+                                                }
+                                                <li class="_subMenu" data-menu="Configuración" data-text="Asiganción de Conceptos">
+                                                    <a class="_Load" href="@Url.Action("Index", "ConceptosFiniquitos")">
+                                                        Asignación de Conceptos
+                                                    </a>
+                                                </li>
+                                                @if (Session["sNomina"] != null)
+                                                {
+                                                    if (Session["sNomina"].ToString() != "Ninguna")
+                                                    {
+                                                        <li class="_subMenu" data-menu="Configuración" data-text="Configurar Fechas Cálculos">
+                                                            <a class="_Load" href="@Url.Action("Index", "ConfigurarCalculos")">
+                                                                Configurar Fechas Cálculos
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+                                                <li class="_subMenu" data-menu="Configuración" data-text="Prestaciones del Patrón">
+                                                    <a class="_Load" href="@Url.Action("Prestaciones", "FactorIntegracion")">
+                                                        Prestaciones del Patrón
+                                                    </a>
+                                                </li>
+                                                @if (Session["sTipoUsuario"] != null)
+                                                {
+                                                    if (Session["sTipoUsuario"].ToString() == "System")
+                                                    {
+                                                        <li class="_subMenu" data-menu="Configuración" data-text="Tablas de Impuestos">
+                                                            <a class="_Load" href="@Url.Action("Index", "ImpuestoSat")">
+                                                                Tablas de Impuestos
+                                                            </a>
+                                                        </li>
+                                                        <li class="_subMenu" data-menu="Configuración" data-text="Tablas de Subsidio">
+                                                            <a class="_Load" href="@Url.Action("Index", "SubsidioEmpleoSat")">
+                                                                Tablas de Subsidio
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </li>
+
+
+                                        <!--Menu list item-->
+
+                                        <li class="lista">
+                                            <a href="#">
+                                                <i class="fa fa-support"></i>
+                                                <span class="menu-title">Soporte</span>
+                                                <i class="arrow"></i>
+                                            </a>
+                                            <ul class="collapse _menu1" data-menu1="Soporte">
+
+                                                <li>
+                                                    <a href="#">
+                                                        Manual
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" data-toggle="modal" data-target="#reportarModal">
+                                                        Reportar un problema
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        Contacto
+                                                    </a>
+                                                </li>
+
+                                                @if (Session["sTipoUsuario"].ToString() == "System")
+                                                {
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#modaDatosConexion">
+                                                            Datos de Conexión
+                                                        </a>
+                                                    </li>
+                                                    <li class="_subMenu" data-menu="Soporte" data-text="Logs">
+                                                        <a class="_Load" href="@Url.Action("Index", "Logs")">
+                                                            Logs
+                                                        </a>
+                                                    </li>
+
+                                                }
+
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--================================-->
+                        <!--End menu-->
+
+                    </div>
+                </nav>
+                <!--===================================================-->
+                <!--END MAIN NAVIGATION-->
+
+            </div>
+
+
+            <!-- MODALES -->
+            <!--===================================================-->
+            <!--problemas modal-->
+            <div class="modal fade" id="reportarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reportar Problema</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <textarea id="mensajeProblema" class="form-control" rows="10" placeholder="Describa el problema..."></textarea>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="EnviarProblema">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--datos de conexion-->
+            <div class="modal fade" id="modaDatosConexion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Información de Conexiones</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+
+                                    API:<strong>@ViewBag.APIConectada</strong>
+                                    <br />
+                                    DB:<strong>@ViewBag.Base</strong>
+                                    <br />
+                                    API:<strong>@ViewBag.APIConectadaConta</strong>
+                                    <br />
+                                    DB:<strong>@ViewBag.BaseC</strong>
+
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--===================================================-->
+            <!--END MODALES-->
+            <!-- FOOTER -->
+            <!--===================================================-->
+            <footer id="footer">
+
+                <!-- Visible when footer positions are fixed -->
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                <div class="show-fixed pad-rgt pull-right">
+                    @if (ViewBag.ClienteSeleccionado == "Ninguno")
+                    {
+                        <div>
+                            Cliente y Nómina: <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-warning">@ViewBag.ClienteSeleccionado</span></a> &nbsp;
+                            - &nbsp;<a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-warning">@ViewBag.NominaSeleccionada</span></a>
+                        </div>
+                    }
+                    else
+                    {
+                        if (Session["sTipoUsuario"].ToString() == "System")
+                        {
+                            <div>
+                                Cliente y Nómina: <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.ClienteSeleccionado (@Session["sIdCliente"])</span></a> &nbsp;
+                                -&nbsp; <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.NominaSeleccionada (@Session["sIdUnidadNegocio"])</span></a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                Cliente y Nómina: <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.ClienteSeleccionado</span></a> &nbsp;
+                                -&nbsp; <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.NominaSeleccionada</span></a>
+                            </div>
+
+                        }
+                    }
+                </div>
+
+                <!-- Visible when footer positions are static -->
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                <div class="hide-fixed pull-right pad-rgt">
+                    Cliente: <strong>@ViewBag.NominaSeleccionada</strong>
+                    Nómina Seleccionada: <strong>@ViewBag.NominaSeleccionada</strong>
+                </div>
+
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+                <!-- Remove the class "show-fixed" and "hide-fixed" to make the content always appears. -->
+                <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+                <p class="pad-lft">&#0169; @ViewBag.AñoActual Powered by - TADÁ</p>
+
+            </footer>
+            <!--===================================================-->
+            <!-- END FOOTER -->
+            <!-- SCROLL PAGE BUTTON -->
+            <!--===================================================-->
+            <button class="scroll-top btn">
+                <i class="pci-chevron chevron-up"></i>
+            </button>
+            <!--===================================================-->
+        </div>
+    </div>
+
+    <script src="~/js/Procesando.js"></script>
+    <!--jQuery [ REQUIRED ]-->
+    <script src="~/js/jquery.min.js"></script>
+
+
+    <!--BootstrapJS [ RECOMMENDED ]-->
+    <script src="~/js/bootstrap.min.js"></script>
+
+
+    <!--NiftyJS [ RECOMMENDED ]-->
+    <script src="~/js/nifty.min.js"></script>
+
+
+    <!--Switchery [ OPTIONAL ]-->
+    <script src="~/plugins/switchery/switchery.min.js"></script>
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <script src="~/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <!--<script src="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>-->
+    <!--Chosen [ OPTIONAL ]-->
+    <script src="~/plugins/chosen/chosen.jquery.min.js"></script>
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <script src="~/plugins/noUiSlider/nouislider.min.js"></script>
+
+    <!--Select2 [ OPTIONAL ]-->
+    <script src="~/plugins/select2/js/select2.min.js"></script>
+
+    <!--Icons [ SAMPLE ]-->
+    <script src="~/js/demo/icons.js"></script>
+
+    <!--DataTables [ OPTIONAL ]-->
+    <script src="~/plugins/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="~/plugins/datatables/media/js/dataTables.bootstrap.js"></script>
+    <script src="~/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+
+    <!--DataTables Sample [ SAMPLE ]-->
+    <script src="~/js/demo/tables-datatables.js"></script>
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <script src="~/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <script src="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+    <!--Form Component [ SAMPLE ]-->
+    @*<script src="~/js/demo/form-component.js"></script>*@
+
+    <!--Bootbox Modals [ OPTIONAL ]-->
+    <script src="~/plugins/bootbox/bootbox.min.js"></script>
+
+
+    <!--Modals [ SAMPLE ]-->
+    <script src="~/js/demo/ui-modals.js"></script>
+
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+    <!--Loading [ SAMPLE ]-->
+    <script src="~/js/jquery.loading.min.js"></script>
+
+    <!--Reportes [ SAMPLE ]-->
+    <script src="~/js/excelexportjs.js"></script>
+
+    <!-- Idle Timer plugin -->
+    <script src="~/plugins/idle-timer/idle-timer.min.js"></script>
+
+    <!-- Toastr script -->
+    @*<script src="~/plugins/toastr/toastr.min.js"></script>*@
+       
+    <!--Reportar Problemas-->
+    <script src="~/js/Core/problemas.js"></script>
+
+
+    <!--Reportes [ SAMPLE ]-->
+    @*<script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+        <script src="/signalr/hubs"></script>
+        <script src="~/js/chat.js"></script>*@
+
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

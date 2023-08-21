@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vAusentismos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Ausentismos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Ausentismos</h3>
+        </div>
+
+        <div class="panel-body">
+            @Html.ActionLink(" Crear Nuevo Ausentismo", "Create", null, new { @class = "btn btn-info btn-sm" })
+            <br />
+            <br />
+            @if (Model.Count() > 0)
+            {
+
+                <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" , width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ClaveEmpleado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ApellidoPaterno)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ApellidoMaterno)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoFolio)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveEmpleado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApellidoPaterno)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApellidoMaterno)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoFolio)
+                                </td>
+
+                                <td>
+                                    <a href="#" class="anchorDetail" data-id="@item.IdAusentismo" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search "></span></a> |
+                                    @*@Html.ActionLink(" ", "Editar", new { id = item.IdAusentismo }, new { @class = "btn btn-default btn-sm fa fa-edit ", @rel = "tooltip", @title = "Editar", @id = string.Concat("Editar", item.IdAusentismo) }) |*@
+                                    <a href="#" class="anchorDelete" data-id="@item.IdAusentismo" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info"><span class="fa fa-info-circle fa-2x"></span> No hay ausentismos capturados.</div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class='modal fade'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/Ausen.js"></script>
+}

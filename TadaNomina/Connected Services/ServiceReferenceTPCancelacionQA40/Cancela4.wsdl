@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="Cancela4" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpsBinding_ICancela4_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://serviciocancelaciondemo.turbopac.mx/TPCancelacion/Cancela4.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://serviciocancelaciondemo.turbopac.mx/TPCancelacion/Cancela4.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://serviciocancelaciondemo.turbopac.mx/TPCancelacion/Cancela4.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Tp.OneToOneCancelacion" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICancela4_SolicitarCancelacion_01_InputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitarCancelacion_01" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitarCancelacion_01_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitarCancelacion_01Response" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacion_02_InputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacion_02" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacion_02_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacion_02Response" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacion_03_InputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacion_03" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacion_03_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacion_03Response" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacion_04_InputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacion_04" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacion_04_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacion_04Response" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacionRetencion_InputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacionRetencion" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_SolicitudCancelacionRetencion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitudCancelacionRetencionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_AutenticaToken_InputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticaToken" />
+  </wsdl:message>
+  <wsdl:message name="ICancela4_AutenticaToken_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticaTokenResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICancela4">
+    <wsdl:operation name="SolicitarCancelacion_01">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICancela4/SolicitarCancelacion_01" message="tns:ICancela4_SolicitarCancelacion_01_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICancela4/SolicitarCancelacion_01Response" message="tns:ICancela4_SolicitarCancelacion_01_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_02">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacion_02" message="tns:ICancela4_SolicitudCancelacion_02_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacion_02Response" message="tns:ICancela4_SolicitudCancelacion_02_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_03">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacion_03" message="tns:ICancela4_SolicitudCancelacion_03_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacion_03Response" message="tns:ICancela4_SolicitudCancelacion_03_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_04">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacion_04" message="tns:ICancela4_SolicitudCancelacion_04_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacion_04Response" message="tns:ICancela4_SolicitudCancelacion_04_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacionRetencion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacionRetencion" message="tns:ICancela4_SolicitudCancelacionRetencion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICancela4/SolicitudCancelacionRetencionResponse" message="tns:ICancela4_SolicitudCancelacionRetencion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AutenticaToken">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICancela4/AutenticaToken" message="tns:ICancela4_AutenticaToken_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICancela4/AutenticaTokenResponse" message="tns:ICancela4_AutenticaToken_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ICancela4" type="tns:ICancela4">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SolicitarCancelacion_01">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitarCancelacion_01" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_02">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacion_02" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_03">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacion_03" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_04">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacion_04" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacionRetencion">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacionRetencion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AutenticaToken">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/AutenticaToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpsBinding_ICancela4" type="tns:ICancela4">
+    <wsp:PolicyReference URI="#BasicHttpsBinding_ICancela4_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SolicitarCancelacion_01">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitarCancelacion_01" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_02">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacion_02" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_03">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacion_03" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacion_04">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacion_04" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitudCancelacionRetencion">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/SolicitudCancelacionRetencion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AutenticaToken">
+      <soap:operation soapAction="http://tempuri.org/ICancela4/AutenticaToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Cancela4">
+    <wsdl:port name="BasicHttpBinding_ICancela4" binding="tns:BasicHttpBinding_ICancela4">
+      <soap:address location="http://win-3gn0biiikhl/TPCancelacion/Cancela4.svc" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpsBinding_ICancela4" binding="tns:BasicHttpsBinding_ICancela4">
+      <soap:address location="https://serviciocancelaciondemo.turbopac.mx/TPCancelacion/Cancela4.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

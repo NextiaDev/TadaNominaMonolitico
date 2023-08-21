@@ -1,0 +1,105 @@
+﻿@model IEnumerable<TadaNomina.Models.DB.vConceptos>
+
+@{
+    ViewBag.Title = "AgregarExistente";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Conceptos</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Conceptos Disponibles</h3>
+        </div>
+        <div class="panel-body">
+            @Html.ActionLink(" Regresar", "Index", null, new { @class = "btn btn-info btn-sm _Load" })
+            <br />
+            <br />
+            @if (Model.Count() > 0)
+            {
+                <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Gpo")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Cve")
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ClaveSAT)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Concepto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoConcepto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoDato)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoEsquema)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Exenta)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveGpo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveConcepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClaveSAT)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Concepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoConcepto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoDato)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoEsquema)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Exenta)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "AgregarExistente", new { id = item.IdConcepto }, new { @class = "btn btn-default btn-sm fa fa-download _Load", @rel = "tooltip", @title = "Insertar" })
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    No hay conceptos cargados para esta unidad de negocio.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

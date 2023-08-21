@@ -1,0 +1,13 @@
+﻿@model TadaNomina.Models.ViewModels.Reportes.ModelAnalitica
+
+@if (Model.Analitica == 1)
+{
+
+    <iframe title="Reporte nómina, demográfico, puestos" width="100%" height="100%" src="https://app.powerbi.com/reportEmbed?reportId=5c36ed74-2d5b-447d-b0e4-33e58a87b9cd&autoAuth=true&ctid=44bf2ebd-40c0-4015-957a-0721c9a132a9" frameborder="0" allowFullScreen="true"></iframe>
+}
+else
+{
+    <iframe title="Reporte nómina, demográfico, puestos - Esquema" width="100%" height="100%" src="https://app.powerbi.com/reportEmbed?reportId=b882252e-eb8d-422e-a5d4-7ab4a2d79f84&autoAuth=true&ctid=44bf2ebd-40c0-4015-957a-0721c9a132a9" frameborder="0" allowFullScreen="true"></iframe>
+}
+
+

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<TadaNomina.Models.ViewModels.Reportes.ModelReporteNomina>
+@{
+    ViewBag.Title = "ReporteTipoPDf";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Reportes Empleados</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Reportes Disponibles</h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cliente)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UnidadNegocio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Periodo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaInicio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaFin)
+                    </th>
+                    <th>
+                        Centro de Costos
+                    </th>
+                    <th>
+                        Departamentos
+                    </th>
+                    <th>
+                        Unidad de Negocio
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cliente)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnidadNegocio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Periodo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaInicio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FechaFin)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Descarga", "DescargaCentros", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Descarga", "DescargaDepart", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Descarga", "DescargaUnidadNegocio", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="dvjson"></div>
+</div>
