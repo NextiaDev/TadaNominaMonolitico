@@ -311,7 +311,7 @@ namespace TadaNomina.Models.ClassCore
                     ClassFechasCalculos cf = new ClassFechasCalculos();
                     var conf = cf.GetConfiguracionFechas(periodo.IdUnidadNegocio);
                     if (conf != null)
-                    {
+                    {                       
                         int IdPrestaciones = vEmp.IdPrestaciones ?? 1;
                         DateTime? FechaIngreso = null;
                         FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
@@ -319,16 +319,17 @@ namespace TadaNomina.Models.ClassCore
                         cpv.GetDias(IdPrestaciones, Antiguedad);
 
                         if (concepto.SDPor != 0 && concepto.SDPor != null)
-                        {                            
+                        {
                             if (concepto.FactoryValor == "SI")
                             {
                                 cantidadAnt = i.Cantidad;
                                 i.Cantidad = i.Cantidad * (decimal)concepto.SDPor;
                                 concepto.SDPor = cpv.Porcentaje;
-                            }                            
+                            }
                         }
                         else
                             concepto.SDPor = cpv.Porcentaje;
+                        
                     }
                 }
             }

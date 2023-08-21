@@ -83,8 +83,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (Periodo.TipoNomina == "Proyeccion")
                 {
                     if (item.SDI_Proyeccion != null && item.SDI_Proyeccion > 0) { SDI = GetSD(item.SDI_Proyeccion); }
-                    if (item.SDI_Proyeccion != null && item.SDI_Proyeccion > 0) { SD_IMSS = GetSD(item.SDIMSS_Proyeccion); }
-                    if (item.SDI_Proyeccion != null && item.SDI_Proyeccion > 0) { SD_Real = GetSD(item.SD_Proyeccion); }
+                    if (item.SDIMSS_Proyeccion != null && item.SDIMSS_Proyeccion > 0) { SD_IMSS = GetSD(item.SDIMSS_Proyeccion); }
+                    if (item.SD_Proyeccion != null && item.SD_Proyeccion > 0) { SD_Real = GetSD(item.SD_Proyeccion); }
                 }
 
                 incidenciasEmpleado = listIncidencias.Where(x => x.IdEmpleado == item.IdEmpleado).ToList();

@@ -153,6 +153,9 @@ namespace TadaNomina.Models.ClassCore
             if (fechaCalculo == "Reconocimiento Antiguedad")
                 fecha = emp.FechaReconocimientoAntiguedad;
 
+            if(fecha == null)
+                fecha = emp.FechaReconocimientoAntiguedad;
+
             return fecha;
         }
 
