@@ -65,7 +65,7 @@
       <HintPath>..\packages\Core.Sat.1.0.88\lib\net45\Core.Sat.dll</HintPath>
     </Reference>
     <Reference Include="Core.Sat.Cancelacion">
-      <HintPath>..\..\Delva\Delva\Delva\bin\Core.Sat.Cancelacion.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Core.Sat.Cancelacion.dll</HintPath>
     </Reference>
     <Reference Include="Core.Sat.Utils, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Core.Sat.Utils.1.0.24\lib\net45\Core.Sat.Utils.dll</HintPath>
@@ -98,10 +98,10 @@
       <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\..\Delva\Delva\Delva\bin\Ionic.Zip.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>..\..\Delva\Delva\Delva\bin\itextsharp.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -147,13 +147,13 @@
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SAT.Services">
-      <HintPath>..\..\..\..\Escritorio\pew\LaNubeDevOps\LaNube\bin\SAT.Services.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SAT.Services.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.5.10.4\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="SW-sdk">
-      <HintPath>..\..\..\..\Escritorio\pew\LaNubeDevOps\LaNube\bin\SW-sdk.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SW-sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">

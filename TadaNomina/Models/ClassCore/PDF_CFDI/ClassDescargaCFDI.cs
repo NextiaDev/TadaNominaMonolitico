@@ -170,7 +170,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
             {
                 var listadoxReg = timbrado.Where(x => x.RegistroPatronal.Equals(listaregistro[i].RegistroPatronal)).ToList();
                 var patrona = GetRegistro(listaregistro[i].RegistroPatronal.ToString());
-                string carpeta = @"D:\TadaNomina\DescargaCFDINomina\" + patrona.NombrePatrona.ToString();
+                string carpeta = @"D:\TadaNomina\DescargaCFDINomina\" + patrona.NombrePatrona.ToString() + "_" + patrona.RegistroPatronal.ToString();
 
                 if (!Directory.Exists(carpeta))
                 {
