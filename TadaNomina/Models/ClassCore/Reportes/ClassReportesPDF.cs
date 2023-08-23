@@ -88,7 +88,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 }
                 else
                 {
-                    if (!puesto.Equals(item.Puesto.ToString()))
+                    if (!(puesto ?? "").Equals(item.Puesto.ToString()))
                     {
                         AgregarCelda(fontEncabezado, table, puesto, 10, 1);
                         puesto = item.Puesto.ToString();
@@ -109,7 +109,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 string depto = " ";
                 if (item.Departamento != null) { depto = item.Departamento; }
                 AgregarCelda(fontEncabezado, table, depto, 2, 1);
-                AgregarCelda(fontEncabezado, table, item.Puesto.ToString(), 3, 1);
+                AgregarCelda(fontEncabezado, table, item.Puesto ?? "", 3, 1);
                 AgregarCelda(fontEncabezado, table, item.sueldoDiario.ToString(), 3, 1);
                 AgregarCelda(fontEncabezado, table, item.SDI.ToString(), 2, 1);
 
