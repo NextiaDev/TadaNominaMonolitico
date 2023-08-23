@@ -81,6 +81,7 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Honorarios> Honorarios { get; set; }
         public virtual DbSet<vHonorarios> vHonorarios { get; set; }
         public virtual DbSet<Ausentismos> Ausentismos { get; set; }
+        public virtual DbSet<VPagosServicios> VPagosServicios { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalPercepciones_Result> sp_ReciboTradicionalPercepciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {

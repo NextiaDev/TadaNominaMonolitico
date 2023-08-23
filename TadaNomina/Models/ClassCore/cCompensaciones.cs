@@ -9,6 +9,59 @@ namespace TadaNomina.Models.ClassCore
 {
     public class cCompensaciones
     {
+        public void ProcesarIncidenciasPagos(List<VPagosServicios> Ordenes, int IdPeriodoNomina, int IdUsuario)
+        {
+
+            var agrupador = Ordenes.GroupBy(x => new { x.IdEmpleado, x.IdConcepto, }).Select(x => new
+            {
+                IdEmpleado = x.Key.IdEmpleado,
+                IdConcepto = x.Key.IdConcepto,
+
+                Pago = x.Sum(c => c.Pago)
+            });
+
+            foreach (var ia in agrupador)
+            {
+
+                DeleteIncidenciaCompensacionesPagos(IdPeriodoNomina, ia.IdEmpleado, ia.IdConcepto.Value);
+                AgregaIncidenciasCompensaoEmpleadoNominaPagos(ia.IdEmpleado, IdPeriodoNomina, ia.IdConcepto.Value, ia.Pago, IdUsuario);
+            }
+
+
+
+        }
+        public void AgregaIncidenciasCompensaoEmpleadoNominaPagos(int idempleado, int idperiodo, int idconcepto, decimal monto, int IdUsuario)
+        {
+            ClassIncidencias cl = new ClassIncidencias();
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+
+                ModelIncidencias model = new ModelIncidencias();
+
+                model.IdEmpleado = idempleado;
+                model.IdPeriodoNomina = idperiodo;
+                model.IdConcepto = (int)idconcepto;
+                model.Monto = monto;
+                model.Observaciones = "PDUP SYSTEM COMPENSACIONES";
+                model.MontoEsquema = 0;
+                model.BanderaCompensaciones = 1;
+                cl.NewIncindencia(model, IdUsuario);
+
+
+
+            }
+        }
+
+
+        public void DeleteIncidenciaCompensacionesPagos(int IdPeriodoNomina, int idempleado, int idConcepto)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var incidencias = entidad.Incidencias.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.IdEstatus == 1 && x.BanderaCompensaciones == 1 && x.IdEmpleado == idempleado && x.IdConcepto == idConcepto).ToList();
+                entidad.Incidencias.RemoveRange(incidencias);
+                entidad.SaveChanges();
+            }
+        }
         public void ProcesarIncidenciasCompe(List<vCompensaciones> Ordenes, int IdPeriodoNomina, int IdUsuario)
         {
 
