@@ -350,6 +350,11 @@
                         @Html.TextBoxFor(model => model.NumeroTelefonico, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.NumeroTelefonico, "", new { @class = "text-danger" })
                     </div>
+                    @Html.LabelFor(model => model.Nacionalidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.Nacionalidad, Model.NacionalidadList, null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Nacionalidad, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
                 <hr />

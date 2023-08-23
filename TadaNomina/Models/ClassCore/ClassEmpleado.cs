@@ -41,6 +41,8 @@ namespace TadaNomina.Models.ClassCore
             empleado.EstadoCivilList = GetEstadoCivil();
             empleado.BancosList = GetBancos();
             empleado.EsquemasList = GetEsquema();
+            empleado.NacionalidadList = GetNacionalidad();
+
 
             try { empleado.DepartamentoList = GetDepartamentos(IdCliente); } catch { empleado.DepartamentoList = new List<SelectListItem>(); }
             try { empleado.PuestosList = GetPuestos(IdCliente); } catch { empleado.PuestosList = new List<SelectListItem>(); }
@@ -533,7 +535,7 @@ namespace TadaNomina.Models.ClassCore
                     IdCaptura = empleado.IdCaptura,
                     FechaCaptura = DateTime.Now,
                     IdPrestaciones = empleado.IdPrestaciones,
-                    IdJornada= empleado.IdJornada,
+                    IdJornada = empleado.IdJornada,
                     IdBancoViaticos = empleado.IdBancoViaticos,
                     CuentaBancariaViaticos = empleado.CuentaBancariaViaticos,
                     CuentaInterbancariaViaticos = empleado.CuentaInterBancariaViaticos,
@@ -541,7 +543,8 @@ namespace TadaNomina.Models.ClassCore
                     Calle = empleado.CalleFiscal,
                     noExt = empleado.NumeroExtFiscal,
                     noInt = empleado.NumeroIntFiscal,
-                    CP = empleado.CodigoPostalFiscal
+                    CP = empleado.CodigoPostalFiscal,
+                    Nacionalidad = empleado.Nacionalidad,
                 };
 
                 if (empleado.IdRegistroPatronal != null)
@@ -557,7 +560,7 @@ namespace TadaNomina.Models.ClassCore
                             {
                                 entity.Empleados.Add(emp);
                                 value = entity.SaveChanges();
-                                bool i = SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
+                                bool i = true;// SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
                             }
                             else
                             {
@@ -584,10 +587,10 @@ namespace TadaNomina.Models.ClassCore
                 }
                 if (empleado.IdRegistroPatronal == null)
                 {
-                    if(empleado.Imss == null && empleado.SDIMSS==null && empleado.SDI==null && empleado.FechaAltaIMSS==null)
+                    if (empleado.Imss == null && empleado.SDIMSS == null && empleado.SDI == null && empleado.FechaAltaIMSS == null)
                     {
                         entity.Empleados.Add(emp);
-                        value=entity.SaveChanges();
+                        value = entity.SaveChanges();
                         bool i = SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
                     }
                     else
@@ -952,6 +955,8 @@ namespace TadaNomina.Models.ClassCore
                 empleado.Imss = emp.Imss;
                 empleado.CorreoElectronico = emp.CorreoElectronico;
                 empleado.PremioP = empleado.PremioP;
+                empleado.Nacionalidad = emp.Nacionalidad;
+                empleado.NacionalidadList = GetNacionalidad();
 
                 try
                 {
@@ -1158,6 +1163,7 @@ namespace TadaNomina.Models.ClassCore
                     emp.IdArea = empleado.idArea;
                     emp.PremioP = empleado.Premio;
                     emp.Telefono = empleado.NumeroTelefonico;
+                    emp.Nacionalidad = empleado.Nacionalidad;
 
                     if (empleado.FechaNacimiento != null)
                     {
@@ -1456,11 +1462,19 @@ namespace TadaNomina.Models.ClassCore
                         emp.IdCaptura = empleado.IdCaptura;
                         emp.FechaCaptura = DateTime.Now;
                         emp.IdSucursal = empleado.IdSucursal;
-                        emp.Calle = empleado.Calle;
-                        emp.noExt = empleado.NumeroExt;
-                        emp.noInt = empleado.NumeroInt;
-                        emp.CP = empleado.CodigoPostal;
+                        emp.Calle = empleado.CalleFiscal;
+                        emp.noExt = empleado.NumeroExtFiscal;
+                        emp.noInt = empleado.NumeroIntFiscal;
+                        emp.CP = empleado.CodigoPostalFiscal;
                         emp.Nacionalidad = empleado.Nacionalidad;
+                        emp.IdArea = empleado.idArea;
+                        emp.IdJornada = empleado.IdJornada;
+                        emp.idSindicato = empleado.Idsindicato;
+
+                        if (empleado.FechaTerminoContrato != null)
+                            try { emp.FechaTerminoContrato = Convert.ToDateTime(empleado.FechaTerminoContrato); } catch { }
+
+                        emp.Telefono = empleado.NumeroTelefonico;
 
                         // Validamos si el SDI viene en 0
                         if (emp.SDIMSS > 0 && emp.SDI == 0)
@@ -1755,6 +1769,7 @@ namespace TadaNomina.Models.ClassCore
                 var sin = (from b in entidad.Sindicatos.Where(x => x.IdEstatus == 1) select b).ToList();
                 var jor = (from b in entidad.Cat_Jornadas.Where(x => x.IdEstatus == 1) select b).ToList();
                 var hono = (from b in entidad.Cat_HonorariosFacturas.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b).ToList();
+                var nac = GetNacionalidad();
 
 
                 ModelCatalogosAltas model = new ModelCatalogosAltas();
@@ -1769,10 +1784,26 @@ namespace TadaNomina.Models.ClassCore
                 model.Sindicatos = sin;
                 model.Jornadas=jor;
                 model.Cat_Hono = hono;
+                model.Nacionalidad = nac;
 
 
                 return model;
             }
+        }
+
+        /// <summary>
+        /// Método para obtener una lista con el tipo de nacionalidad 
+        /// </summary>
+        /// <returns>Listado con el tipo de nacionalidad</returns>
+        public List<SelectListItem> GetNacionalidad()
+        {
+            List<SelectListItem> lista = new List<SelectListItem>();
+
+            lista.Add(new SelectListItem { Value = "0", Text = "Elegir.." });
+            lista.Add(new SelectListItem { Value = "MEXICANA", Text = "Mexicana" });
+            lista.Add(new SelectListItem { Value = "EXTRANJERA", Text = "Extranjero" });
+
+            return lista;
         }
 
         /// <summary>

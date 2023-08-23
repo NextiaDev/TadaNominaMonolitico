@@ -39,7 +39,6 @@ namespace TadaNomina.Controllers.Administracion
             {
                 return RedirectToAction("Index", "Login");
             }
-
         }
 
         /// <summary>
@@ -964,21 +963,21 @@ namespace TadaNomina.Controllers.Administracion
                             {
                                 emp.IdJornada = int.Parse(dr["[IdJornada]"].ToString());
                             }
-                            if (!string.IsNullOrEmpty(dr["[Calle]"].ToString()))
+                            if (!string.IsNullOrEmpty(dr["[CalleFiscal]"].ToString()))
                             {
-                                emp.Calle = dr["[Calle]"].ToString();
+                                emp.Calle = dr["[CalleFiscal]"].ToString();
                             }
-                            if (!string.IsNullOrEmpty(dr["[noExt]"].ToString()))
+                            if (!string.IsNullOrEmpty(dr["[noExtFiscal]"].ToString()))
                             {
-                                emp.noExt = dr["[noExt]"].ToString();
+                                emp.noExt = dr["[noExtFiscal]"].ToString();
                             }
-                            if (!string.IsNullOrEmpty(dr["[noInt]"].ToString()))
+                            if (!string.IsNullOrEmpty(dr["[noIntFiscal]"].ToString()))
                             {
-                                emp.noInt = dr["[noInt]"].ToString();
+                                emp.noInt = dr["[noIntFiscal]"].ToString();
                             }
-                            if (!string.IsNullOrEmpty(dr["[CP]"].ToString()))
+                            if (!string.IsNullOrEmpty(dr["[CPFiscal]"].ToString()))
                             {
-                                emp.CP = dr["[CP]"].ToString();                               
+                                emp.CP = dr["[CPFiscal]"].ToString();                               
                             }
                             if (!string.IsNullOrEmpty(dr["[IdPrestaciones]"].ToString()))
                             {
@@ -989,15 +988,33 @@ namespace TadaNomina.Controllers.Administracion
                             if (!string.IsNullOrEmpty(IdBancoViaticos))
                             {
                                 emp.IdBancoViaticos = int.Parse(IdBancoViaticos);
-                            };
+                            }
                             if (!string.IsNullOrEmpty(Cuenta_Bancaria_Viaticos))
                             {
                                 emp.CuentaBancariaViaticos = Cuenta_Bancaria_Viaticos;
-                            };
+                            }
                             if (!string.IsNullOrEmpty(Cuenta_InterBancaria_Viaticos))
                             {
                                 emp.CuentaInterbancariaViaticos = Cuenta_InterBancaria_Viaticos;
-                            };
+                            }
+
+                            if (!string.IsNullOrEmpty(dr["[Telefono]"].ToString()))
+                            {
+                                emp.Telefono = dr["[Telefono]"].ToString().Replace("/", "").Replace(" ", "").Replace("-", "");
+                            }
+                            if (!string.IsNullOrEmpty(dr["[Nacionalidad]"].ToString()))
+                            {
+                                try
+                                {
+                                    if (dr["[Nacionalidad]"].ToString().ToUpper().Contains("MEX"))
+                                        emp.Nacionalidad = "MEXICANA";
+                                    else if (dr["[Nacionalidad]"].ToString().ToUpper().Contains("EXT"))
+                                        emp.Nacionalidad = "EXTRANJERA";
+                                }
+                                catch
+                                {
+                                }
+                            }
                         }
                     }
 

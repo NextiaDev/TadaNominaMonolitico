@@ -337,6 +337,8 @@ namespace TadaNomina.Models.ViewModels
         public string UUID { get; set; }
 
         public int idHono { get; set; }
+        public List<SelectListItem> NacionalidadList { get; set; }
+
     }
 }
 

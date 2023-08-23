@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TadaNomina.Models.DB;
 
 namespace TadaNomina.Models.ViewModels.Catalogos
@@ -18,6 +19,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public List<Cat_Areas> areasPat { get; set; }
         public List<Sindicatos> Sindicatos { get; set; }
         public List<Cat_Jornadas> Jornadas { get; set; }
+        public List<SelectListItem> Nacionalidad { get; set; }
 
         public List<Cat_HonorariosFacturas> Cat_Hono { get; set; }
 
