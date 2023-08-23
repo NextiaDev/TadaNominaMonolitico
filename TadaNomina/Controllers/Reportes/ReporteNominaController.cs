@@ -32,7 +32,6 @@ namespace TadaNomina.Controllers.Reportes
             return View(model);
         }
 
-
         /// <summary>
         /// Descarga el reporte de la nomina seleccionada
         /// </summary>
@@ -93,8 +92,6 @@ namespace TadaNomina.Controllers.Reportes
 
             return View(model);
         }
-
-
 
         public FileResult DescargaUnidadNegocio(int id)
         {
