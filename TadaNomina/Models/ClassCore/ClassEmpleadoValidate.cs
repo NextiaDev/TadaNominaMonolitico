@@ -8,6 +8,9 @@ using TadaNomina.Models.ViewModels;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ClassCore;
 using System.IO;
+using System.Globalization;
+using System.Text;
+using System.Web.Mvc;
 
 namespace TadaNomina.Models
 {
@@ -59,7 +62,7 @@ namespace TadaNomina.Models
         private List<Cat_Areas> Areas { get; set; }
         private List<Sindicatos> Sindicatos { get; set; }
         private List<Cat_Sucursales> Sucursales { get; set; }
-        private List<Cat_Jornadas> Jornadas { get; set; }
+        private List<SelectListItem> Jornadas { get; set; }
 
         /// <summary>
         /// Método para ontener el archivo .csv
@@ -81,6 +84,7 @@ namespace TadaNomina.Models
             Sindicatos = config.GetAreasBySindicatos();
             Sucursales = config.GetAllSucursales(IdCliente);
             RowFiles = new List<RowFile>();
+            Jornadas = config.GetJornadas(IdCliente);
         }
 
         /// <summary>
@@ -112,11 +116,11 @@ namespace TadaNomina.Models
                     if (Validate(row, rowFile).Equals(Type.Success))
                     {
                         int? IdBancoViatico = null;
-                        try { IdBancoViatico = idBancoViaticos(row.Split(',')[35].Trim()); } catch { IdBancoViatico = null; }
+                        try { IdBancoViatico = idBancoViaticos(row.Split(',')[41].Trim()); } catch { IdBancoViatico = null; }
                         string CuentaViatico = null;
-                        try { CuentaViatico = Cuenta(row.Split(',')[36].Trim()); } catch { CuentaViatico = null; }
+                        try { CuentaViatico = Cuenta(row.Split(',')[42].Trim()); } catch { CuentaViatico = null; }
                         string CuentaInterViatico = null;
-                        try { CuentaInterViatico = Cuenta(row.Split(',')[37].Trim()); } catch { CuentaInterViatico = null; }
+                        try { CuentaInterViatico = Cuenta(row.Split(',')[43].Trim()); } catch { CuentaInterViatico = null; }
                         empleadosBatch.Add(new Empleado
                         {
                             IdUnidadNegocio = pIdUnidadNegocio,
@@ -126,9 +130,9 @@ namespace TadaNomina.Models
                             IdRegistroPatronal = RegistroPatronal(row.Split(',')[3].Trim()),
                             IdEntidad = Convert.ToInt32(row.Split(',')[4].Trim()),
                             ClaveEmpleado = row.Split(',')[5].Trim().ToUpper(),
-                            Nombre = row.Split(',')[6].Trim().ToUpper(),
-                            ApellidoPaterno = row.Split(',')[7].Trim().ToUpper(),
-                            ApellidoMaterno = ApellidoMaterno(row.Split(',')[8].Trim().ToUpper()),
+                            Nombre = Nombre(row.Split(',')[6].Trim().ToUpper()),
+                            ApellidoPaterno = Nombre(row.Split(',')[7].Trim().ToUpper()),
+                            ApellidoMaterno = Nombre(row.Split(',')[8].Trim().ToUpper()),
                             Sexo = Sexo(row.Split(',')[9].Trim().ToUpper()),
                             EstadoCivil = EstadoCivil(row.Split(',')[10].Trim().ToUpper()),
                             FechaNacimiento = Fecha(row.Split(',')[11].Trim()),
@@ -149,20 +153,26 @@ namespace TadaNomina.Models
                             IdCaptura = idUsuario,
                             IdEstatus = 1,
                             FechaCaptura = DateTime.Now,
-                            RFCSubContratacion = ValidateRFCSub(row.Split(',')[26].Trim().ToUpper()),
-                            Calle = NulableString(row.Split(',')[27].Trim().ToUpper()),
-                            NumeroExt = NulableString(row.Split(',')[28].Trim().ToUpper()),
-                            NumeroInt = NulableString(row.Split(',')[29].Trim().ToUpper()),
-                            CodigoPostal = row.Split(',')[30].Trim(),
-                            idArea = IdArea(row.Split(',')[31].Trim().ToUpper()),
-                            Idsindicato = idSindicato(row.Split(',')[32].Trim().ToUpper()),
-                            IdSucursal = idSucursal(row.Split(',')[33].Trim().ToUpper()),
-                            IdJornada = idJornada(row.Split(',')[34].Trim().ToUpper()),
+                            NumeroTelefonico = NulableString(row.Split(',')[26].Trim()),
+
+                            CalleFiscal = NulableString(row.Split(',')[27].Trim().ToUpper()),
+                            NumeroExtFiscal = NulableString(row.Split(',')[28].Trim().ToUpper()),
+                            NumeroIntFiscal = NulableString(row.Split(',')[29].Trim().ToUpper()),
+                            CodigoPostalFiscal = row.Split(',')[30].Trim(),
+                            Calle = NulableString(row.Split(',')[31].Trim().ToUpper()),
+                            NumeroExt = NulableString(row.Split(',')[32].Trim().ToUpper()),
+                            NumeroInt = NulableString(row.Split(',')[33].Trim().ToUpper()),
+                            CodigoPostal = row.Split(',')[34].Trim(),
+
+                            idArea = IdArea(row.Split(',')[35].Trim().ToUpper()),
+                            Idsindicato = idSindicato(row.Split(',')[36].Trim().ToUpper()),
+                            IdSucursal = idSucursal(row.Split(',')[37].Trim().ToUpper()),
+                            IdJornada = idJornada(row.Split(',')[38].Trim().ToUpper()),
                             IdBancoViaticos = IdBancoViatico,
                             CuentaBancariaViaticos = CuentaViatico,
                             CuentaInterBancariaViaticos = CuentaInterViatico,
-                            Nacionalidad = ValidaNacionalidad(row.Split(',')[35].Trim()),
-                            FechaTerminoContrato = Fecha(row.Split(',')[36].Trim())
+                            Nacionalidad = ValidaNacionalidad(row.Split(',')[39].Trim()),
+                            FechaTerminoContrato = Fecha(row.Split(',')[40].Trim()),
                         });
 
                         InsertedCount++;
@@ -415,7 +425,6 @@ namespace TadaNomina.Models
         /// <returns>Validacíon del archivo</returns>
         public Type Validate(string row, RowFile rowFile)
         {
-
             if (ValidateRow(row, rowFile).Equals(Type.Error))
             {
                 return Type.Error;
@@ -424,7 +433,7 @@ namespace TadaNomina.Models
             ValidateIdCentroCostos(row.Split(',')[0].Trim(), rowFile);
             ValidateIdDepartamento(row.Split(',')[1].Trim(), rowFile);
             ValidateIdPuesto(row.Split(',')[2].Trim(), rowFile);
-            if(ValidateIdRegistroPatronal(row.Split(',')[3].Trim(), rowFile).Equals(Type.Error))
+            if (ValidateIdRegistroPatronal(row.Split(',')[3].Trim(), rowFile).Equals(Type.Error))
             {
                 return Type.Error;
             }
@@ -501,17 +510,24 @@ namespace TadaNomina.Models
             {
                 return Type.Error;
             }
+            ValidateTelefono(row.Split(',')[26].Trim().ToUpper(), rowFile);
 
-            ValidateRFCSub(row.Split(',')[26].Trim().ToUpper(), rowFile);
-            ValidateCalle(row.Split(',')[27].Trim().ToUpper(), rowFile);
-            ValidateNumeroExt(row.Split(',')[28].Trim().ToUpper(), rowFile);
-            ValidateNumeroInt(row.Split(',')[29].Trim().ToUpper(), rowFile);
-            ValidateCodigoPostal(row.Split(',')[30].Trim().ToUpper(), rowFile);
-            ValidateIdArea(row.Split(',')[31].Trim().ToUpper(), rowFile);
-            ValidateSindicato(row.Split(',')[32].Trim().ToUpper(), rowFile);
-            ValidateSucursal(row.Split(',')[33].Trim().ToUpper(), rowFile);
-            ValidateJornada(row.Split(',')[34].Trim().ToUpper(), rowFile);
-            ValidateNacionalidad(row.Split(',')[35].Trim(), rowFile);
+            ValidateCalle(row.Split(',')[27].Trim().ToUpper(), rowFile, "Fiscal", 27);
+            ValidateNumeroExt(row.Split(',')[28].Trim().ToUpper(), rowFile, "Fiscal", 28);
+            ValidateNumeroInt(row.Split(',')[29].Trim().ToUpper(), rowFile, "Fiscal", 29);
+            ValidateCodigoPostal(row.Split(',')[30].Trim().ToUpper(), rowFile, "Fiscal", 30);
+
+            ValidateCalle(row.Split(',')[31].Trim().ToUpper(), rowFile, "Personal", 31);
+            ValidateNumeroExt(row.Split(',')[32].Trim().ToUpper(), rowFile, "Personal", 32);
+            ValidateNumeroInt(row.Split(',')[33].Trim().ToUpper(), rowFile, "Personal", 33);
+            ValidateCodigoPostal(row.Split(',')[34].Trim().ToUpper(), rowFile, "Personal", 34);
+
+            ValidateIdArea(row.Split(',')[35].Trim().ToUpper(), rowFile);
+            ValidateSindicato(row.Split(',')[36].Trim().ToUpper(), rowFile);
+            ValidateSucursal(row.Split(',')[37].Trim().ToUpper(), rowFile);
+            ValidateJornada(row.Split(',')[38].Trim().ToUpper(), rowFile);
+            ValidateNacionalidad(row.Split(',')[39].Trim(), rowFile);
+            ValidateFechaTerinoContrato(row.Split(',')[40].Trim(), rowFile);
 
             return Type.Success;
         }
@@ -596,13 +612,13 @@ namespace TadaNomina.Models
             ColumnFile columnFile = new ColumnFile { Column = 1 };
 
 
-            if (commas.Equals(36))
+            if (commas.Equals(43))
             {
                 rowFile.RowValidation = Type.Success;
                 rowFile.RowDetail = "Ok";
                 return Type.Success;
             }
-            else if (commas < 35)
+            else if (commas < 43)
             {
 
                 rowFile.RowValidation = Type.Error;
@@ -615,7 +631,6 @@ namespace TadaNomina.Models
                 rowFile.RowDetail = "El registro no cumple con los campos requeridos, contiene mas campos, imposible leer línea";
                 return Type.Error;
             }
-
         }
 
         /// <summary>
@@ -1001,7 +1016,7 @@ namespace TadaNomina.Models
                 return Type.Error;
             }
 
-            Regex exp = new Regex(@"^[a-zA-ZñÑ ]*$");
+            Regex exp = new Regex(@"^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]*$");
 
             if (exp.IsMatch(Nombre))
             {
@@ -1040,7 +1055,7 @@ namespace TadaNomina.Models
                 return Type.Error;
             }
 
-            Regex exp = new Regex(@"^[a-zA-ZñÑ ]*$");
+            Regex exp = new Regex(@"^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]*$");
 
             if (exp.IsMatch(ApellidoPaterno))
             {
@@ -1080,7 +1095,7 @@ namespace TadaNomina.Models
                 return Type.Warning;
             }
 
-            Regex exp = new Regex(@"^[a-zA-ZñÑ ]*$");
+            Regex exp = new Regex(@"^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]*$");
 
             if (exp.IsMatch(ApellidoMaterno))
             {
@@ -1574,7 +1589,7 @@ namespace TadaNomina.Models
 
             Regex exp = new Regex(@"^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$");
 
-            if (exp.IsMatch(RFC)||RFC.Length==13)
+            if (exp.IsMatch(RFC) || RFC.Length == 13)
             {
                 if (Empleados.Exists(x => x.Rfc.Equals(RFC)))
                 {
@@ -1984,20 +1999,20 @@ namespace TadaNomina.Models
         /// <param name="calle">Calle del empleado</param>
         /// <param name="rowFile">Fila del archivo txt</param>
         /// <returns>Texto par al afila del archivo txt</returns>
-        public Type ValidateCalle(string calle, RowFile rowFile)
+        public Type ValidateCalle(string calle, RowFile rowFile, string tipoDireccion, int columna)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 28 };
+            ColumnFile columnFile = new ColumnFile { Column = columna };
 
             if (string.IsNullOrEmpty(calle))
             {
-                columnFile.Field = "Calle";
-                columnFile.ColumnDetail = "El campo Calle es nulo";
+                columnFile.Field = "Calle " + tipoDireccion;
+                columnFile.ColumnDetail = "El campo Calle " + tipoDireccion + " es nulo";
                 columnFile.Type = Type.Warning;
                 rowFile.Columns.Add(columnFile);
                 return Type.Warning;
             }
 
-            columnFile.Field = "Calle";
+            columnFile.Field = "Calle " + tipoDireccion;
             columnFile.ColumnDetail = "Ok";
             columnFile.Type = Type.Success;
             rowFile.Columns.Add(columnFile);
@@ -2010,20 +2025,20 @@ namespace TadaNomina.Models
         /// <param name="NumeroExt">Numero exterior del empleado</param>
         /// <param name="rowFile">Fila del archivo txt</param>
         /// <returns>Texto par al afila del archivo txt</returns>
-        public Type ValidateNumeroExt(string NumeroExt, RowFile rowFile)
+        public Type ValidateNumeroExt(string NumeroExt, RowFile rowFile, string tiopDireccion, int columna)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 29 };
+            ColumnFile columnFile = new ColumnFile { Column = columna };
 
             if (string.IsNullOrEmpty(NumeroExt))
             {
-                columnFile.Field = "Número Exterior";
-                columnFile.ColumnDetail = "El campo Número Exterior es nulo";
+                columnFile.Field = "Número Exterior " + tiopDireccion;
+                columnFile.ColumnDetail = "El campo Número Exterior " + tiopDireccion + " es nulo";
                 columnFile.Type = Type.Warning;
                 rowFile.Columns.Add(columnFile);
                 return Type.Warning;
             }
 
-            columnFile.Field = "Número Exterior";
+            columnFile.Field = "Número Exterior " + tiopDireccion;
             columnFile.ColumnDetail = "Ok";
             columnFile.Type = Type.Success;
             rowFile.Columns.Add(columnFile);
@@ -2036,20 +2051,20 @@ namespace TadaNomina.Models
         /// <param name="NumeroInt">Numero interior del empleado</param>
         /// <param name="rowFile">Fila del archivo txt</param>
         /// <returns>Texto par al afila del archivo txt</returns>
-        public Type ValidateNumeroInt(string NumeroInt, RowFile rowFile)
+        public Type ValidateNumeroInt(string NumeroInt, RowFile rowFile, string tiopDireccion, int columna)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 30 };
+            ColumnFile columnFile = new ColumnFile { Column = columna };
 
             if (string.IsNullOrEmpty(NumeroInt))
             {
-                columnFile.Field = "Número Interior";
-                columnFile.ColumnDetail = "El campo Número Interior es nulo";
+                columnFile.Field = "Número Interior " + tiopDireccion;
+                columnFile.ColumnDetail = "El campo Número Interior " + tiopDireccion + " es nulo";
                 columnFile.Type = Type.Warning;
                 rowFile.Columns.Add(columnFile);
                 return Type.Warning;
             }
 
-            columnFile.Field = "Número Interior";
+            columnFile.Field = "Número Interior " + tiopDireccion;
             columnFile.ColumnDetail = "Ok";
             columnFile.Type = Type.Success;
             rowFile.Columns.Add(columnFile);
@@ -2063,14 +2078,14 @@ namespace TadaNomina.Models
         /// <param name="cp">Codigo postal</param>
         /// <param name="rowFile">Fila del archivo txt</param>
         /// <returns>Texto par al afila del archivo txt</returns>
-        public Type ValidateCodigoPostal(string cp, RowFile rowFile)
+        public Type ValidateCodigoPostal(string cp, RowFile rowFile, string tipoDireccion, int columna)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 31 };
+            ColumnFile columnFile = new ColumnFile { Column = columna };
 
             if (string.IsNullOrWhiteSpace(cp))
             {
-                columnFile.Field = "Código Postal";
-                columnFile.ColumnDetail = "El campo Código Postal es nulo";
+                columnFile.Field = "Código Postal " + tipoDireccion;
+                columnFile.ColumnDetail = "El campo Código Postal " + tipoDireccion + " es nulo";
                 columnFile.Type = Type.Warning;
                 rowFile.Columns.Add(columnFile);
                 return Type.Warning;
@@ -2090,7 +2105,7 @@ namespace TadaNomina.Models
 
                     if (value != null)
                     {
-                        columnFile.Field = "Código Postal";
+                        columnFile.Field = "Código Postal " + tipoDireccion;
                         columnFile.ColumnDetail = "OK";
                         columnFile.Type = Type.Success;
                         rowFile.Columns.Add(columnFile);
@@ -2098,8 +2113,8 @@ namespace TadaNomina.Models
                     }
                     else
                     {
-                        columnFile.Field = "Código Postal";
-                        columnFile.ColumnDetail = "El campo Código Postal no existe se sustituye valor a nulo, valor leído: " + cp;
+                        columnFile.Field = "Código Postal " + tipoDireccion;
+                        columnFile.ColumnDetail = "El campo Código Postal " + tipoDireccion + " no existe se sustituye valor a nulo, valor leído: " + cp;
                         columnFile.Type = Type.Warning;
                         rowFile.Columns.Add(columnFile);
                         return Type.Warning;
@@ -2107,8 +2122,8 @@ namespace TadaNomina.Models
                 }
                 else
                 {
-                    columnFile.Field = "Código Postal";
-                    columnFile.ColumnDetail = "El campo Código Postal debe contener solo números se sustituye valor a nulo, valor leído: " + cp;
+                    columnFile.Field = "Código Postal " + tipoDireccion;
+                    columnFile.ColumnDetail = "El campo Código Postal " + tipoDireccion + " debe contener solo números se sustituye valor a nulo, valor leído: " + cp;
                     columnFile.Type = Type.Warning;
                     rowFile.Columns.Add(columnFile);
                     return Type.Warning;
@@ -2124,7 +2139,7 @@ namespace TadaNomina.Models
         /// <returns>Texto par al afila del archivo txt</returns>
         public Type ValidateIdArea(string Idarea, RowFile rowFile)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 2 };
+            ColumnFile columnFile = new ColumnFile { Column = 36 };
 
             if (string.IsNullOrEmpty(Idarea))
             {
@@ -2176,7 +2191,7 @@ namespace TadaNomina.Models
         /// <returns>Texto par al afila del archivo txt</returns>
         public Type ValidateSindicato(string idSindicato, RowFile rowFile)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 2 };
+            ColumnFile columnFile = new ColumnFile { Column = 37 };
 
             if (string.IsNullOrEmpty(idSindicato))
             {
@@ -2228,7 +2243,7 @@ namespace TadaNomina.Models
         /// <returns>Texto par al afila del archivo txt</returns>
         public Type ValidateSucursal(string idSucursal, RowFile rowFile)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 2 };
+            ColumnFile columnFile = new ColumnFile { Column = 38 };
 
             if (string.IsNullOrEmpty(idSucursal))
             {
@@ -2280,7 +2295,7 @@ namespace TadaNomina.Models
         /// <returns>Texto par al afila del archivo txt</returns>
         public Type ValidateJornada(string idJornada, RowFile rowFile)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 2 };
+            ColumnFile columnFile = new ColumnFile { Column = 39 };
 
             if (string.IsNullOrEmpty(idJornada))
             {
@@ -2296,7 +2311,7 @@ namespace TadaNomina.Models
                 {
                     int value = Convert.ToInt32(idJornada);
 
-                    if (Jornadas.Exists(x => x.IdJornada == value))
+                    if (Jornadas.Exists(x => x.Value == value.ToString()))
                     {
                         columnFile.Field = "Identificador de Jornada";
                         columnFile.ColumnDetail = "Ok";
@@ -2452,6 +2467,51 @@ namespace TadaNomina.Models
             }
         }
 
+        public Type ValidateTelefono(string NumeroTelefónico, RowFile rowFile)
+        {
+            ColumnFile columnFile = new ColumnFile { Column = 27 };
+
+            if (string.IsNullOrEmpty(NumeroTelefónico))
+            {
+                columnFile.Field = "Número telefónico";
+                columnFile.ColumnDetail = "El campo Número telefónico es nulo";
+                columnFile.Type = Type.Warning;
+                rowFile.Columns.Add(columnFile);
+                return Type.Warning;
+            }
+
+            Regex exp = new Regex(@"^[0-9]*$");
+
+            if (exp.IsMatch(NumeroTelefónico))
+            {
+                columnFile.Field = "Número telefónico";
+                columnFile.ColumnDetail = "Ok";
+                columnFile.Type = Type.Success;
+                rowFile.Columns.Add(columnFile);
+                return Type.Success;
+            }
+            else
+            {
+                string numero = NumeroTelefónico.Replace("-", "").Replace(" ", "").Replace("/", "");
+                if (exp.IsMatch(numero))
+                {
+                    columnFile.Field = "Número telefónico";
+                    columnFile.ColumnDetail = "Ok";
+                    columnFile.Type = Type.Success;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Success;
+                }
+                else
+                {
+                    columnFile.Field = "Número telefónico";
+                    columnFile.ColumnDetail = "El campo Número telefónico solo puede contener números se sustituye valor a nulo, valor leído: " + NumeroTelefónico;
+                    columnFile.Type = Type.Invalid;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Invalid;
+                }
+            }
+        }
+
         /// <summary>
         /// Método para validar el compo de recontratable
         /// </summary>
@@ -2488,6 +2548,39 @@ namespace TadaNomina.Models
                 return Type.Invalid;
             }
 
+        }
+
+        public Type ValidateFechaTerinoContrato(string FechaDeNaciemiento, RowFile rowFile)
+        {
+            ColumnFile columnFile = new ColumnFile { Column = 41 };
+
+            if (string.IsNullOrEmpty(FechaDeNaciemiento))
+            {
+                columnFile.Field = "Fecha de término de contrato";
+                columnFile.ColumnDetail = "El campo Fecha de término de contrato es nulo";
+                columnFile.Type = Type.Warning;
+                rowFile.Columns.Add(columnFile);
+                return Type.Warning;
+            }
+
+            Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+            if (exp.IsMatch(FechaDeNaciemiento))
+            {
+                columnFile.Field = "Fecha de término de contrato";
+                columnFile.ColumnDetail = "Ok";
+                columnFile.Type = Type.Success;
+                rowFile.Columns.Add(columnFile);
+                return Type.Success;
+            }
+            else
+            {
+                columnFile.Field = "Fecha de término de contrato";
+                columnFile.ColumnDetail = "El campo Fecha de término de contrato debe tener el formato correcto \"dd/mm/aaaa\" se sustituye valor a nulo, valor leído: " + FechaDeNaciemiento;
+                columnFile.Type = Type.Invalid;
+                rowFile.Columns.Add(columnFile);
+                return Type.Invalid;
+            }
         }
 
         /// <summary>
@@ -2992,7 +3085,7 @@ namespace TadaNomina.Models
                 try
                 {
                     int value = int.Parse(IdJornada);
-                    if (Jornadas.Exists(p => p.IdJornada == value))
+                    if (Jornadas.Exists(p => p.Value == value.ToString()))
                     {
                         return value;
                     }
@@ -3069,6 +3162,7 @@ namespace TadaNomina.Models
             }
             return result;
         }
+
         /// <summary>
         /// Método par aconvertir valdiar la Nacionalidad
         /// </summary>
@@ -3100,7 +3194,7 @@ namespace TadaNomina.Models
         /// <returns></returns>
         public Type ValidateNacionalidad(string Nacionalidad, RowFile rowFile)
         {
-            ColumnFile columnFile = new ColumnFile { Column = 35 };
+            ColumnFile columnFile = new ColumnFile { Column = 40 };
 
             if (string.IsNullOrEmpty(Nacionalidad))
             {
@@ -3116,6 +3210,48 @@ namespace TadaNomina.Models
             columnFile.Type = Type.Success;
             rowFile.Columns.Add(columnFile);
             return Type.Success;
+        }
+
+        /// <summary>
+        /// Método par aconvertir valores a nulos
+        /// </summary>
+        /// <param name="ApellidoMaterno">Apellido materno del empleado</param>
+        /// <returns>Apellido materno del empleado</returns>
+        public string Nombre(string Nombre)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Nombre))
+                {
+                    return null;
+                }
+                string apeM = Nombre.Normalize(NormalizationForm.FormD);
+
+                StringBuilder result = new StringBuilder();
+
+                foreach (char c in apeM)
+                {
+                    if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    {
+                        result.Append(c);
+                    }
+                }
+
+                Regex exp = new Regex(@"^[a-zA-ZÑñ ]*$");
+
+                if (exp.IsMatch(result.ToString()))
+                {
+                    return result.ToString();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
