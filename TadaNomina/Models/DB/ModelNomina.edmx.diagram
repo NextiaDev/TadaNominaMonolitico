@@ -59,6 +59,7 @@
         <EntityTypeShape EntityType="NominaModel.Honorarios" Width="1.5" PointX="28.75" PointY="9.75" />
         <EntityTypeShape EntityType="NominaModel.vHonorarios" Width="1.5" PointX="0.75" PointY="29.75" />
         <EntityTypeShape EntityType="NominaModel.Ausentismos" Width="1.5" PointX="21.375" PointY="11.75" />
+        <EntityTypeShape EntityType="NominaModel.VPagosServicios" Width="1.5" PointX="29.375" PointY="18.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
