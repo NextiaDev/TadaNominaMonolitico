@@ -355,8 +355,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                     {
                         indiceOtros++;
                         NominaOtroPago nOtrosPagos3 = new NominaOtroPago();
-                        nOtrosPagos3.TipoOtroPago = tipos.ObtenTipoOtrosPagos("999");
-                        nOtrosPagos3.Clave = "999";
+                        nOtrosPagos3.TipoOtroPago = oPagos.ClaveConcepto == "003" ? tipos.ObtenTipoOtrosPagos("003") : tipos.ObtenTipoOtrosPagos("999");
+                        nOtrosPagos3.Clave = oPagos.ClaveConcepto;
                         nOtrosPagos3.Concepto = oPagos.Concepto;
 
                         nOtrosPagos3.Importe = (decimal)oPagos.Monto;
