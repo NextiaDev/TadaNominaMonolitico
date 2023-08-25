@@ -161,7 +161,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (IdEmpleado != null)
                     ProcesaAusentismos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
                 else
-                    ProcesaAusentismos(IdPeriodoNomina, IdUsuario);          
+                    ProcesaAusentismos(IdPeriodoNomina, IdUsuario);
+
+                //if (IdEmpleado != null)
+                //    ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
+                //else
+                //    ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
             }
 
             if (Periodo.TipoNomina == "Complemento")
@@ -1793,5 +1798,69 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 entidad.SaveChanges();
             }
         }
+
+        public void ProcesoCompensacionesPagos(int IdPeriodoNomina, int IdEmpleado, int IdUsuario)
+        {
+            ClassIncidencias cl = new ClassIncidencias();
+            cCompensaciones au = new cCompensaciones();
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var ordenes = entidad.VPagosServicios.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == IdPeriodoNomina).Where(x => x.Expr2 == 1).ToList();
+
+                if (ordenes.Count != 0)
+                {
+                    var sum = ordenes.Select(c => c.Pago).Sum();
+                    var idconcepto = ordenes.Select(c => c.IdConcepto).FirstOrDefault();
+                    var id = ordenes.Select(c => c.IdConcepto).FirstOrDefault();
+                    ModelIncidencias model = new ModelIncidencias();
+                    au.DeleteIncidenciaCompensaciones(IdPeriodoNomina, IdEmpleado);
+
+                    model.IdEmpleado = IdEmpleado;
+                    model.IdPeriodoNomina = IdPeriodoNomina;
+                    try
+                    {
+                        model.IdConcepto = (int)idconcepto;
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                    model.Monto = sum;
+                    model.Observaciones = "PDUP SYSTEM BALLISTIC";
+                    model.MontoEsquema = 0;
+                    model.BanderaCompensaciones = 1;
+
+                    if (model.IdConcepto != 0)
+                        cl.NewIncindencia(model, IdUsuario);
+                }
+                else
+                {
+                    au.DeleteIncidenciaCompensaciones(IdPeriodoNomina, IdEmpleado);
+
+                }
+
+
+            }
+
+        }
+
+        public void ProcesoCompensacionesPagos(int IdPeriodoNomina, int IdUsuario)
+        {
+            cCompensaciones au = new cCompensaciones();
+            var select = new List<VPagosServicios>();
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                select = entidad.VPagosServicios.Where(x => x.IdPeriodoNomina == IdPeriodoNomina).Where(x => x.IdEstatus == 1).ToList();
+            }
+
+            if(select.Count != 0)
+            {
+                au.ProcesarIncidenciasPagos(select, IdPeriodoNomina, IdUsuario);
+
+            }
+        }
+
     }
 }
