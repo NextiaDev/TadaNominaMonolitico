@@ -767,6 +767,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelAcceso.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\ModelBallistic.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBallistic.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\ModelBallistic.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBallistic.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\ModelBallistic.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBallistic.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\ModelCatalogos.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1111,7 +1126,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\VPagosServicios.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelBallistic.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vPensionAlimenticia.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -4458,6 +4473,16 @@
       <DependentUpon>ModelAcceso.edmx</DependentUpon>
       <LastGenOutput>ModelAcceso.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\DB\ModelBallistic.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelBallistic.edmx</DependentUpon>
+      <LastGenOutput>ModelBallistic.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DB\ModelBallistic.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelBallistic.edmx</DependentUpon>
+      <LastGenOutput>ModelBallistic.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\DB\ModelCatalogos.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelCatalogos.edmx</DependentUpon>
@@ -6505,6 +6530,13 @@
     <Content Include="Formatos\LayoutPiramidados.xlsx" />
     <Content Include="Formatos\DatosProyeccion.xlsx" />
     <Content Include="Formatos\FormatoHonorarios.xlsx" />
+    <EntityDeploy Include="Models\DB\ModelBallistic.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelBallistic.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DB\ModelBallistic.edmx.diagram">
+      <DependentUpon>ModelBallistic.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
