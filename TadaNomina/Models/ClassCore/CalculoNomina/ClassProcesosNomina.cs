@@ -163,10 +163,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 else
                     ProcesaAusentismos(IdPeriodoNomina, IdUsuario);
 
-                if (IdEmpleado != null)
-                    ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
-                else
-                    ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
+                //if (IdEmpleado != null)
+                //    ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
+                //else
+                //    ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
             }
 
             if (Periodo.TipoNomina == "Complemento")
