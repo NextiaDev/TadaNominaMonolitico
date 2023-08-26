@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TadaBallisticModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaBallistic.dbo.VPagosServicios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VPagosServicios">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+            <PropertyRef Name="IdUnidadNegocio" />
+            <PropertyRef Name="IdEntidad" />
+            <PropertyRef Name="ClaveEmpleado" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="ApellidoPaterno" />
+            <PropertyRef Name="Esquema" />
+            <PropertyRef Name="TipoContrato" />
+            <PropertyRef Name="IdEstatus" />
+            <PropertyRef Name="IdCaptura" />
+            <PropertyRef Name="FechaCaptura" />
+            <PropertyRef Name="IdPagoOrdenServicio" />
+            <PropertyRef Name="IdPeriodoNomina" />
+            <PropertyRef Name="IdOrdenServicio" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="Pago" />
+            <PropertyRef Name="DescripcionPago" />
+            <PropertyRef Name="SaldoInicial" />
+            <PropertyRef Name="SaldoActual" />
+            <PropertyRef Name="Honorario" />
+            <PropertyRef Name="Expr2" />
+            <PropertyRef Name="Expr3" />
+            <PropertyRef Name="Expr4" />
+          </Key>
+          <Property Name="IdEmpleado" Type="int" Nullable="false" />
+          <Property Name="IdUnidadNegocio" Type="int" Nullable="false" />
+          <Property Name="IdCentroCostos" Type="int" />
+          <Property Name="IdDepartamento" Type="int" />
+          <Property Name="IdPuesto" Type="int" />
+          <Property Name="IdSucursal" Type="int" />
+          <Property Name="IdArea" Type="int" />
+          <Property Name="IdRegistroPatronal" Type="int" />
+          <Property Name="IdEntidad" Type="int" Nullable="false" />
+          <Property Name="IdPrestaciones" Type="int" />
+          <Property Name="IdJornada" Type="int" />
+          <Property Name="ClaveEmpleado" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sexo" Type="nvarchar" MaxLength="10" />
+          <Property Name="EstadoCivil" Type="nvarchar" MaxLength="10" />
+          <Property Name="FechaNacimiento" Type="date" />
+          <Property Name="SD" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SDIMSS" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NetoPagar" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="IdBancoTrad" Type="int" />
+          <Property Name="CuentaBancariaTrad" Type="nvarchar" MaxLength="25" />
+          <Property Name="CuentaInterbancariaTrad" Type="nvarchar" MaxLength="25" />
+          <Property Name="Curp" Type="nvarchar" MaxLength="18" />
+          <Property Name="Rfc" Type="nvarchar" MaxLength="13" />
+          <Property Name="Imss" Type="nvarchar" MaxLength="11" />
+          <Property Name="CorreoElectronico" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="varbinary" MaxLength="255" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="date" />
+          <Property Name="FechaAltaIMSS" Type="date" />
+          <Property Name="FechaBaja" Type="date" />
+          <Property Name="MotivoBaja" Type="nvarchar" MaxLength="500" />
+          <Property Name="Recontratable" Type="nvarchar" MaxLength="2" />
+          <Property Name="Esquema" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TipoContrato" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaTerminoContrato" Type="datetime" />
+          <Property Name="RFCSubContratacion" Type="nvarchar" MaxLength="15" />
+          <Property Name="IdPerfil" Type="int" />
+          <Property Name="IdEstatus" Type="int" Nullable="false" />
+          <Property Name="IdCaptura" Type="int" Nullable="false" />
+          <Property Name="FechaCaptura" Type="datetime" Nullable="false" />
+          <Property Name="IdModificacion" Type="int" />
+          <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="Contrasena" Type="varbinary" MaxLength="255" />
+          <Property Name="PassKiosko" Type="varbinary" MaxLength="255" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="20" />
+          <Property Name="Nacionalidad" Type="nvarchar" MaxLength="25" />
+          <Property Name="idSindicato" Type="int" />
+          <Property Name="PremioP" Type="nchar" MaxLength="2" />
+          <Property Name="SaldoVacaciones" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSaldo" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoPeriodoAnterior" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAdeudoVacaciones" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DiasExtras" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoDiasExtras" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSaldoExtras" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdCodigoPostal" Type="int" />
+          <Property Name="Calle" Type="nvarchar" MaxLength="100" />
+          <Property Name="noExt" Type="nvarchar" MaxLength="50" />
+          <Property Name="noInt" Type="nvarchar" MaxLength="50" />
+          <Property Name="Colonia" Type="nvarchar" MaxLength="100" />
+          <Property Name="Alcaldia" Type="nvarchar" MaxLength="100" />
+          <Property Name="Entidad" Type="nvarchar" MaxLength="100" />
+          <Property Name="CP" Type="nvarchar" MaxLength="5" />
+          <Property Name="RutaCSF" Type="nvarchar" MaxLength="100" />
+          <Property Name="DocumentoAlta" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentoBaja" Type="nvarchar" MaxLength="50" />
+          <Property Name="MotivoBajaRH" Type="nvarchar" MaxLength="50" />
+          <Property Name="SD_Proyeccion" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SDIMSS_Proyeccion" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SDI_Proyeccion" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FechaAltaIMSS_Proyeccion" Type="date" />
+          <Property Name="FechaReconocimientoAntiguedad_Proyeccion" Type="date" />
+          <Property Name="Neto_Proyeccion" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="IdBancoViaticos" Type="int" />
+          <Property Name="CuentaBancariaViaticos" Type="nvarchar" MaxLength="25" />
+          <Property Name="CuentaInterbancariaViaticos" Type="nvarchar" MaxLength="25" />
+          <Property Name="CardChecador" Type="nvarchar" MaxLength="150" />
+          <Property Name="passChecador" Type="nvarchar" MaxLength="12" />
+          <Property Name="PrivilegioChecador" Type="int" />
+          <Property Name="Foto" Type="nvarchar" MaxLength="4000" />
+          <Property Name="ImagenPerfil" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Origen" Type="nvarchar" MaxLength="20" />
+          <Property Name="FechaModificacionNube" Type="datetime" />
+          <Property Name="FechaModificacionCIF" Type="datetime" />
+          <Property Name="IdPagoOrdenServicio" Type="int" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="int" Nullable="false" />
+          <Property Name="IdOrdenServicio" Type="int" Nullable="false" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="IdConcepto" Type="int" />
+          <Property Name="Pago" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DescripcionPago" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="SaldoInicial" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SaldoActual" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Honorario" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="EnvioHonorario" Type="nvarchar" MaxLength="2" />
+          <Property Name="Expr2" Type="int" Nullable="false" />
+          <Property Name="Expr3" Type="int" Nullable="false" />
+          <Property Name="Expr4" Type="datetime" Nullable="false" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="TadaBallisticModelStoreContainer">
+          <EntitySet Name="VPagosServicios" EntityType="Self.VPagosServicios" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VPagosServicios].[IdEmpleado] AS [IdEmpleado], 
+    [VPagosServicios].[IdUnidadNegocio] AS [IdUnidadNegocio], 
+    [VPagosServicios].[IdCentroCostos] AS [IdCentroCostos], 
+    [VPagosServicios].[IdDepartamento] AS [IdDepartamento], 
+    [VPagosServicios].[IdPuesto] AS [IdPuesto], 
+    [VPagosServicios].[IdSucursal] AS [IdSucursal], 
+    [VPagosServicios].[IdArea] AS [IdArea], 
+    [VPagosServicios].[IdRegistroPatronal] AS [IdRegistroPatronal], 
+    [VPagosServicios].[IdEntidad] AS [IdEntidad], 
+    [VPagosServicios].[IdPrestaciones] AS [IdPrestaciones], 
+    [VPagosServicios].[IdJornada] AS [IdJornada], 
+    [VPagosServicios].[ClaveEmpleado] AS [ClaveEmpleado], 
+    [VPagosServicios].[Nombre] AS [Nombre], 
+    [VPagosServicios].[ApellidoPaterno] AS [ApellidoPaterno], 
+    [VPagosServicios].[ApellidoMaterno] AS [ApellidoMaterno], 
+    [VPagosServicios].[Sexo] AS [Sexo], 
+    [VPagosServicios].[EstadoCivil] AS [EstadoCivil], 
+    [VPagosServicios].[FechaNacimiento] AS [FechaNacimiento], 
+    [VPagosServicios].[SD] AS [SD], 
+    [VPagosServicios].[SDIMSS] AS [SDIMSS], 
+    [VPagosServicios].[SDI] AS [SDI], 
+    [VPagosServicios].[NetoPagar] AS [NetoPagar], 
+    [VPagosServicios].[IdBancoTrad] AS [IdBancoTrad], 
+    [VPagosServicios].[CuentaBancariaTrad] AS [CuentaBancariaTrad], 
+    [VPagosServicios].[CuentaInterbancariaTrad] AS [CuentaInterbancariaTrad], 
+    [VPagosServicios].[Curp] AS [Curp], 
+    [VPagosServicios].[Rfc] AS [Rfc], 
+    [VPagosServicios].[Imss] AS [Imss], 
+    [VPagosServicios].[CorreoElectronico] AS [CorreoElectronico], 
+    [VPagosServicios].[Password] AS [Password], 
+    [VPagosServicios].[FechaReconocimientoAntiguedad] AS [FechaReconocimientoAntiguedad], 
+    [VPagosServicios].[FechaAltaIMSS] AS [FechaAltaIMSS], 
+    [VPagosServicios].[FechaBaja] AS [FechaBaja], 
+    [VPagosServicios].[MotivoBaja] AS [MotivoBaja], 
+    [VPagosServicios].[Recontratable] AS [Recontratable], 
+    [VPagosServicios].[Esquema] AS [Esquema], 
+    [VPagosServicios].[TipoContrato] AS [TipoContrato], 
+    [VPagosServicios].[FechaTerminoContrato] AS [FechaTerminoContrato], 
+    [VPagosServicios].[RFCSubContratacion] AS [RFCSubContratacion], 
+    [VPagosServicios].[IdPerfil] AS [IdPerfil], 
+    [VPagosServicios].[IdEstatus] AS [IdEstatus], 
+    [VPagosServicios].[IdCaptura] AS [IdCaptura], 
+    [VPagosServicios].[FechaCaptura] AS [FechaCaptura], 
+    [VPagosServicios].[IdModificacion] AS [IdModificacion], 
+    [VPagosServicios].[FechaModificacion] AS [FechaModificacion], 
+    [VPagosServicios].[Contrasena] AS [Contrasena], 
+    [VPagosServicios].[PassKiosko] AS [PassKiosko], 
+    [VPagosServicios].[Telefono] AS [Telefono], 
+    [VPagosServicios].[Nacionalidad] AS [Nacionalidad], 
+    [VPagosServicios].[idSindicato] AS [idSindicato], 
+    [VPagosServicios].[PremioP] AS [PremioP], 
+    [VPagosServicios].[SaldoVacaciones] AS [SaldoVacaciones], 
+    [VPagosServicios].[BanderaSaldo] AS [BanderaSaldo], 
+    [VPagosServicios].[SaldoPeriodoAnterior] AS [SaldoPeriodoAnterior], 
+    [VPagosServicios].[SaldoAdeudoVacaciones] AS [SaldoAdeudoVacaciones], 
+    [VPagosServicios].[DiasExtras] AS [DiasExtras], 
+    [VPagosServicios].[SaldoDiasExtras] AS [SaldoDiasExtras], 
+    [VPagosServicios].[BanderaSaldoExtras] AS [BanderaSaldoExtras], 
+    [VPagosServicios].[IdCodigoPostal] AS [IdCodigoPostal], 
+    [VPagosServicios].[Calle] AS [Calle], 
+    [VPagosServicios].[noExt] AS [noExt], 
+    [VPagosServicios].[noInt] AS [noInt], 
+    [VPagosServicios].[Colonia] AS [Colonia], 
+    [VPagosServicios].[Alcaldia] AS [Alcaldia], 
+    [VPagosServicios].[Entidad] AS [Entidad], 
+    [VPagosServicios].[CP] AS [CP], 
+    [VPagosServicios].[RutaCSF] AS [RutaCSF], 
+    [VPagosServicios].[DocumentoAlta] AS [DocumentoAlta], 
+    [VPagosServicios].[DocumentoBaja] AS [DocumentoBaja], 
+    [VPagosServicios].[MotivoBajaRH] AS [MotivoBajaRH], 
+    [VPagosServicios].[SD_Proyeccion] AS [SD_Proyeccion], 
+    [VPagosServicios].[SDIMSS_Proyeccion] AS [SDIMSS_Proyeccion], 
+    [VPagosServicios].[SDI_Proyeccion] AS [SDI_Proyeccion], 
+    [VPagosServicios].[FechaAltaIMSS_Proyeccion] AS [FechaAltaIMSS_Proyeccion], 
+    [VPagosServicios].[FechaReconocimientoAntiguedad_Proyeccion] AS [FechaReconocimientoAntiguedad_Proyeccion], 
+    [VPagosServicios].[Neto_Proyeccion] AS [Neto_Proyeccion], 
+    [VPagosServicios].[IdBancoViaticos] AS [IdBancoViaticos], 
+    [VPagosServicios].[CuentaBancariaViaticos] AS [CuentaBancariaViaticos], 
+    [VPagosServicios].[CuentaInterbancariaViaticos] AS [CuentaInterbancariaViaticos], 
+    [VPagosServicios].[CardChecador] AS [CardChecador], 
+    [VPagosServicios].[passChecador] AS [passChecador], 
+    [VPagosServicios].[PrivilegioChecador] AS [PrivilegioChecador], 
+    [VPagosServicios].[Foto] AS [Foto], 
+    [VPagosServicios].[ImagenPerfil] AS [ImagenPerfil], 
+    [VPagosServicios].[Origen] AS [Origen], 
+    [VPagosServicios].[FechaModificacionNube] AS [FechaModificacionNube], 
+    [VPagosServicios].[FechaModificacionCIF] AS [FechaModificacionCIF], 
+    [VPagosServicios].[IdPagoOrdenServicio] AS [IdPagoOrdenServicio], 
+    [VPagosServicios].[IdPeriodoNomina] AS [IdPeriodoNomina], 
+    [VPagosServicios].[IdOrdenServicio] AS [IdOrdenServicio], 
+    [VPagosServicios].[Expr1] AS [Expr1], 
+    [VPagosServicios].[IdConcepto] AS [IdConcepto], 
+    [VPagosServicios].[Pago] AS [Pago], 
+    [VPagosServicios].[DescripcionPago] AS [DescripcionPago], 
+    [VPagosServicios].[SaldoInicial] AS [SaldoInicial], 
+    [VPagosServicios].[SaldoActual] AS [SaldoActual], 
+    [VPagosServicios].[Honorario] AS [Honorario], 
+    [VPagosServicios].[EnvioHonorario] AS [EnvioHonorario], 
+    [VPagosServicios].[Expr2] AS [Expr2], 
+    [VPagosServicios].[Expr3] AS [Expr3], 
+    [VPagosServicios].[Expr4] AS [Expr4], 
+    [VPagosServicios].[IdModifica] AS [IdModifica], 
+    [VPagosServicios].[FechaModifica] AS [FechaModifica]
+    FROM [dbo].[VPagosServicios] AS [VPagosServicios]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TadaBallisticModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="VPagosServicios">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+            <PropertyRef Name="IdUnidadNegocio" />
+            <PropertyRef Name="IdEntidad" />
+            <PropertyRef Name="ClaveEmpleado" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="ApellidoPaterno" />
+            <PropertyRef Name="Esquema" />
+            <PropertyRef Name="TipoContrato" />
+            <PropertyRef Name="IdEstatus" />
+            <PropertyRef Name="IdCaptura" />
+            <PropertyRef Name="FechaCaptura" />
+            <PropertyRef Name="IdPagoOrdenServicio" />
+            <PropertyRef Name="IdPeriodoNomina" />
+            <PropertyRef Name="IdOrdenServicio" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="Pago" />
+            <PropertyRef Name="DescripcionPago" />
+            <PropertyRef Name="SaldoInicial" />
+            <PropertyRef Name="SaldoActual" />
+            <PropertyRef Name="Honorario" />
+            <PropertyRef Name="Expr2" />
+            <PropertyRef Name="Expr3" />
+            <PropertyRef Name="Expr4" />
+          </Key>
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" />
+          <Property Name="IdCentroCostos" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="IdPuesto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="IdEntidad" Type="Int32" Nullable="false" />
+          <Property Name="IdPrestaciones" Type="Int32" />
+          <Property Name="IdJornada" Type="Int32" />
+          <Property Name="ClaveEmpleado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sexo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EstadoCivil" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="SD" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDIMSS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NetoPagar" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdBancoTrad" Type="Int32" />
+          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
+          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="MotivoBaja" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Recontratable" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Esquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TipoContrato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaTerminoContrato" Type="DateTime" Precision="3" />
+          <Property Name="RFCSubContratacion" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="IdPerfil" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" Nullable="false" />
+          <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="Contrasena" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="PassKiosko" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Nacionalidad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="idSindicato" Type="Int32" />
+          <Property Name="PremioP" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="SaldoVacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSaldo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoPeriodoAnterior" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAdeudoVacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasExtras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoDiasExtras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSaldoExtras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdCodigoPostal" Type="Int32" />
+          <Property Name="Calle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="noExt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="noInt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Alcaldia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Entidad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CP" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="RutaCSF" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentoAlta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentoBaja" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MotivoBajaRH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SD_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDIMSS_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FechaAltaIMSS_Proyeccion" Type="DateTime" Precision="0" />
+          <Property Name="FechaReconocimientoAntiguedad_Proyeccion" Type="DateTime" Precision="0" />
+          <Property Name="Neto_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdBancoViaticos" Type="Int32" />
+          <Property Name="CuentaBancariaViaticos" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaViaticos" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CardChecador" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="passChecador" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="PrivilegioChecador" Type="Int32" />
+          <Property Name="Foto" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ImagenPerfil" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Origen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FechaModificacionNube" Type="DateTime" Precision="3" />
+          <Property Name="FechaModificacionCIF" Type="DateTime" Precision="3" />
+          <Property Name="IdPagoOrdenServicio" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
+          <Property Name="IdOrdenServicio" Type="Int32" Nullable="false" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+          <Property Name="IdConcepto" Type="Int32" />
+          <Property Name="Pago" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DescripcionPago" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SaldoInicial" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SaldoActual" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Honorario" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EnvioHonorario" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Expr2" Type="Int32" Nullable="false" />
+          <Property Name="Expr3" Type="Int32" Nullable="false" />
+          <Property Name="Expr4" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="TadaBallisticEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="VPagosServicios" EntityType="Self.VPagosServicios" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TadaBallisticModelStoreContainer" CdmEntityContainer="TadaBallisticEntities">
+          <EntitySetMapping Name="VPagosServicios">
+            <EntityTypeMapping TypeName="TadaBallisticModel.VPagosServicios">
+              <MappingFragment StoreEntitySet="VPagosServicios">
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
+                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
+                <ScalarProperty Name="IdJornada" ColumnName="IdJornada" />
+                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="SD" ColumnName="SD" />
+                <ScalarProperty Name="SDIMSS" ColumnName="SDIMSS" />
+                <ScalarProperty Name="SDI" ColumnName="SDI" />
+                <ScalarProperty Name="NetoPagar" ColumnName="NetoPagar" />
+                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
+                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
+                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Imss" ColumnName="Imss" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
+                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="MotivoBaja" ColumnName="MotivoBaja" />
+                <ScalarProperty Name="Recontratable" ColumnName="Recontratable" />
+                <ScalarProperty Name="Esquema" ColumnName="Esquema" />
+                <ScalarProperty Name="TipoContrato" ColumnName="TipoContrato" />
+                <ScalarProperty Name="FechaTerminoContrato" ColumnName="FechaTerminoContrato" />
+                <ScalarProperty Name="RFCSubContratacion" ColumnName="RFCSubContratacion" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="PassKiosko" ColumnName="PassKiosko" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
+                <ScalarProperty Name="idSindicato" ColumnName="idSindicato" />
+                <ScalarProperty Name="PremioP" ColumnName="PremioP" />
+                <ScalarProperty Name="SaldoVacaciones" ColumnName="SaldoVacaciones" />
+                <ScalarProperty Name="BanderaSaldo" ColumnName="BanderaSaldo" />
+                <ScalarProperty Name="SaldoPeriodoAnterior" ColumnName="SaldoPeriodoAnterior" />
+                <ScalarProperty Name="SaldoAdeudoVacaciones" ColumnName="SaldoAdeudoVacaciones" />
+                <ScalarProperty Name="DiasExtras" ColumnName="DiasExtras" />
+                <ScalarProperty Name="SaldoDiasExtras" ColumnName="SaldoDiasExtras" />
+                <ScalarProperty Name="BanderaSaldoExtras" ColumnName="BanderaSaldoExtras" />
+                <ScalarProperty Name="IdCodigoPostal" ColumnName="IdCodigoPostal" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="noExt" ColumnName="noExt" />
+                <ScalarProperty Name="noInt" ColumnName="noInt" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="Alcaldia" ColumnName="Alcaldia" />
+                <ScalarProperty Name="Entidad" ColumnName="Entidad" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="RutaCSF" ColumnName="RutaCSF" />
+                <ScalarProperty Name="DocumentoAlta" ColumnName="DocumentoAlta" />
+                <ScalarProperty Name="DocumentoBaja" ColumnName="DocumentoBaja" />
+                <ScalarProperty Name="MotivoBajaRH" ColumnName="MotivoBajaRH" />
+                <ScalarProperty Name="SD_Proyeccion" ColumnName="SD_Proyeccion" />
+                <ScalarProperty Name="SDIMSS_Proyeccion" ColumnName="SDIMSS_Proyeccion" />
+                <ScalarProperty Name="SDI_Proyeccion" ColumnName="SDI_Proyeccion" />
+                <ScalarProperty Name="FechaAltaIMSS_Proyeccion" ColumnName="FechaAltaIMSS_Proyeccion" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad_Proyeccion" ColumnName="FechaReconocimientoAntiguedad_Proyeccion" />
+                <ScalarProperty Name="Neto_Proyeccion" ColumnName="Neto_Proyeccion" />
+                <ScalarProperty Name="IdBancoViaticos" ColumnName="IdBancoViaticos" />
+                <ScalarProperty Name="CuentaBancariaViaticos" ColumnName="CuentaBancariaViaticos" />
+                <ScalarProperty Name="CuentaInterbancariaViaticos" ColumnName="CuentaInterbancariaViaticos" />
+                <ScalarProperty Name="CardChecador" ColumnName="CardChecador" />
+                <ScalarProperty Name="passChecador" ColumnName="passChecador" />
+                <ScalarProperty Name="PrivilegioChecador" ColumnName="PrivilegioChecador" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="ImagenPerfil" ColumnName="ImagenPerfil" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="FechaModificacionNube" ColumnName="FechaModificacionNube" />
+                <ScalarProperty Name="FechaModificacionCIF" ColumnName="FechaModificacionCIF" />
+                <ScalarProperty Name="IdPagoOrdenServicio" ColumnName="IdPagoOrdenServicio" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdOrdenServicio" ColumnName="IdOrdenServicio" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+                <ScalarProperty Name="Pago" ColumnName="Pago" />
+                <ScalarProperty Name="DescripcionPago" ColumnName="DescripcionPago" />
+                <ScalarProperty Name="SaldoInicial" ColumnName="SaldoInicial" />
+                <ScalarProperty Name="SaldoActual" ColumnName="SaldoActual" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="EnvioHonorario" ColumnName="EnvioHonorario" />
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="Expr3" ColumnName="Expr3" />
+                <ScalarProperty Name="Expr4" ColumnName="Expr4" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

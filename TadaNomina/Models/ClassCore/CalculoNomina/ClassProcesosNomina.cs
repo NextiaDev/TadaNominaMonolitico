@@ -163,10 +163,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 else
                     ProcesaAusentismos(IdPeriodoNomina, IdUsuario);
 
-                //if (IdEmpleado != null)
-                //    ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
-                //else
-                //    ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
+                if (IdEmpleado != null)
+                    ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
+                else
+                    ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
             }
 
             if (Periodo.TipoNomina == "Complemento")
@@ -1803,7 +1803,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             ClassIncidencias cl = new ClassIncidencias();
             cCompensaciones au = new cCompensaciones();
-            using (NominaEntities1 entidad = new NominaEntities1())
+            using (TadaBallisticEntities entidad = new TadaBallisticEntities())
             {
                 var ordenes = entidad.VPagosServicios.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == IdPeriodoNomina).Where(x => x.Expr2 == 1).ToList();
 
@@ -1849,8 +1849,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         public void ProcesoCompensacionesPagos(int IdPeriodoNomina, int IdUsuario)
         {
             cCompensaciones au = new cCompensaciones();
-            var select = new List<VPagosServicios>();
-            using (NominaEntities1 entidad = new NominaEntities1())
+            var select = new List<TadaNomina.Models.DB.VPagosServicios>();
+            using (TadaBallisticEntities entidad = new TadaBallisticEntities())
             {
                 select = entidad.VPagosServicios.Where(x => x.IdPeriodoNomina == IdPeriodoNomina).Where(x => x.IdEstatus == 1).ToList();
             }
