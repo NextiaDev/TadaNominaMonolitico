@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Catalogos;
 
@@ -164,6 +165,10 @@ namespace TadaNomina.Models.ClassCore
                     sumaNetoFinal = conceptos.SumaNetoFinal,
                     MultiplicacDiasTrabajados = conceptos.MultiplicaDT,
                     ExcentaPorUnidad = conceptos.ExentaPorUnidad,
+                    FactoryValor = conceptos.FactoryValor,
+                    Piramida = conceptos.Piramida,
+                    PagoEfectivo = conceptos.PagoEfectivo,
+                    smgvalcien = conceptos.ExentoPorSueldoMinimo
                 };
 
                 return modelConceptos;
@@ -270,7 +275,11 @@ namespace TadaNomina.Models.ClassCore
                     IdCaptura = IdUsuario,
                     FechaCaptura = DateTime.Now,
                     SumaNetoFinal = modelConcepto.sumaNetoFinal,
-                    ExentaPorUnidad = modelConcepto.ExcentaPorUnidad
+                    ExentaPorUnidad = modelConcepto.ExcentaPorUnidad,
+                    FactoryValor = modelConcepto.FactoryValor,
+                    Piramida = modelConcepto.Piramida,
+                    PagoEfectivo = modelConcepto.PagoEfectivo,
+                    ExentoPorSueldoMinimo = modelConcepto.smgvalcien
                 };
 
                 entidad.Cat_ConceptosNomina.Add(concepto);
@@ -317,6 +326,10 @@ namespace TadaNomina.Models.ClassCore
                     concepto.SumaNetoFinal = modelConceptos.sumaNetoFinal;
                     concepto.MultiplicaDT = modelConceptos.MultiplicacDiasTrabajados;
                     concepto.ExentaPorUnidad = modelConceptos.ExcentaPorUnidad;
+                    concepto.FactoryValor = modelConceptos.FactoryValor;
+                    concepto.Piramida = modelConceptos.Piramida;
+                    concepto.PagoEfectivo = modelConceptos.PagoEfectivo;
+                    concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
                 }
 
                 entidad.SaveChanges();
@@ -375,6 +388,11 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lSumaNeto = _listSINO;
             modelConceptos.lMultiplicaDiasTrabajados = _listSINO;
             modelConceptos.lExcentaPorUnidad = _listSINO1;
+            modelConceptos.lPiramidal= _listSINO1;
+            modelConceptos.lPagoEfectivo= _listSINO1;
+            modelConceptos.lsmgvalcien = _listSINO1;
+            modelConceptos.lFactoryValor= _listSINO1;
+
 
             return modelConceptos;
         }
@@ -430,6 +448,10 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lSumaNeto = _listSINO;
             modelConceptos.lMultiplicaDiasTrabajados = _listSINO;
             modelConceptos.lExcentaPorUnidad = _listSINO1;
+            modelConceptos.lPiramidal = _listSINO1;
+            modelConceptos.lPagoEfectivo = _listSINO1;
+            modelConceptos.lsmgvalcien = _listSINO1;
+            modelConceptos.lFactoryValor = _listSINO1;
 
             return modelConceptos;
         }

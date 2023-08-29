@@ -25,25 +25,24 @@
                 {
                     <div class="form-horizontal">
                         <div class="form-group">
-                            @Html.LabelFor(x => x.IdCliente, htmlAttributes: new { @class = "control-label col-md-4" })
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(x => x.IdCliente, Model.cliente, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.IdCliente, "", new { @class = "text-danger" })
+                            <div>
+                                @Html.DropDownList("Cliente", Model.cliente, "Seleccionar", new { @class = "form-control", id = "IdCliente" })
                             </div>
+
+                       
 
                         </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(x => x.IdunidadNegocio, htmlAttributes: new { @class = "control-label col-md-4" })
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(x => x.IdunidadNegocio, Model.unidadNegocio, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.IdunidadNegocio, "", new { @class = "text-danger" })
+                        <div class="form-group" id="myDIV" style="display: none">
+                            <div>
+                                @Html.DropDownList("Unidad", Model.unidadNegocio, "Seleccionar", new { @class = "form-control", id = "idUnidad" })
                             </div>
+                       
                         </div>
 
                         <div class="panel-footer text-right">
 
-                            <button class="btn btn-primary btn-sm" id="Load" type="submit">Aceptar</button>
+                            <a class="btn btn-primary btn-sm" id="Seleccionar" >Aceptar</a>
                         </div>
                     </div>
 
@@ -62,7 +61,7 @@
 
 @section Scripts{
     <script src="~/js/Core/mensajes.js"></script>
-    <script src="~/js/Core/default.js"></script>
+    <script src="~/js/Core/default.js"></script>    
 }
 
 

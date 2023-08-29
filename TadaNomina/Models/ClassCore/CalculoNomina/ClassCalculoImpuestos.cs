@@ -1,9 +1,11 @@
-﻿using Org.BouncyCastle.Utilities.Collections;
+﻿using DocumentFormat.OpenXml.Office.CustomUI;
+using Org.BouncyCastle.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
 {
@@ -576,7 +578,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 if (SD_IMSS <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1 ) || faltasIncapacidades >= diasPago_)
                 {
-                    CargaObreraAlPatron();
+                    if (UnidadNegocio.CobraCOPS_Empleado_SMGV=="S" && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS,SDI))
+                    {
+                        nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
+                        nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
+                        + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
+                    }
+                    else
+                    {
+                        CargaObreraAlPatron();
+                    }                    
                 }
                 else
                 {
@@ -893,6 +904,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             return porcentaje = ListFactoresCyV_IMSS.Where(x => x.LimiteInferior <= SDI && x.LimiteSuperior >= SDI).FirstOrDefault().Porcentaje;
 
-        }
+        }        
     }
 }
