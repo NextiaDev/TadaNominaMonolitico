@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /TadaNomina/Web.config
 /TadaNomina/Models/ClassCore/cLog.cs
+/TadaNomina/TadaNomina.csproj

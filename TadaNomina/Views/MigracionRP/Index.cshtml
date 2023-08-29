@@ -1,0 +1,121 @@
+﻿@model TadaNomina.Models.ViewModels.Herramientas.mMigracionRP
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Cambiar de Registro Patronal</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Cambio de Registro Patronal.(Se generan altas y bajas en automático)</h3>
+            </div>
+
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Claves, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-7">
+                                @Html.TextAreaFor(model => model.Claves, new { @class = "form-control", @placeholder = "001,002,003,...", @id = "Claves" })
+                                @Html.ValidationMessageFor(model => model.Claves, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-2">
+                                <span id="_validar" class="btn btn-mint btn-sm">Validar Empleados</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdNuevoRegistroPatronal, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-7">
+                                @Html.DropDownListFor(model => model.IdNuevoRegistroPatronal, Model.lregistros, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IdNuevoRegistroPatronal, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.fBaja, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.fBaja, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.fBaja, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.fAlta, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.fAlta, new { htmlAttributes = new { @class = "form-control calendar", @placeholder = "DD/MM/YYYY", autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.fAlta, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConservaAntiguedad, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.CheckBoxFor(model => model.ConservaAntiguedad)
+                            </div>
+                        </div>
+
+                        <br />
+                        <hr />
+                        <div class="form-group text-right">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Migrar Empleados" class="btn btn-primary" _Aceptar />
+                            </div>
+                        </div>
+                        <br />
+                        @if (Model.Mensaje != null)
+                        {
+                            if (Model.Validacion)
+                            {
+                                <div class="alert alert-info"><span class="fa fa-info-circle fa-lg"> @Model.Mensaje </span></div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning"><span class="fa fa-close fa-lg"> @Model.Mensaje </span></div>
+                            }
+                        }
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id='myModal' class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Validacion de empleados</h4>
+            </div>
+            <div class="modal-body">
+                <div id='myModalContent'></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts{
+    <script src="~/js/Core/migracionRP.js"></script>
+}
+
+
+
