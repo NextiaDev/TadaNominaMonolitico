@@ -68,5 +68,9 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdConceptoSeptimoDia { get; set; }
         public string RetencionISR_SMGV { get; set; }
         public Nullable<decimal> FactorDiasProvision { get; set; }
+        public string CobraCOPS_Empleado_SMGV { get; set; }
+        public Nullable<int> TipoCliente { get; set; }
+        public string AcuerdoEconomico { get; set; }
+        public Nullable<int> TipoCobro { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office.CustomUI;
+using System;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
@@ -172,6 +173,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).Select(x => x.FactorIntegracion).FirstOrDefault() ?? 0;
             if(nominaTrabajo.FactorIntegracion == null)
                 nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdCliente == 0).Select(x => x.FactorIntegracion).FirstOrDefault();
+
+            nominaTrabajo.FechaAltaIMSS= datosEmpleados.FechaAltaIMSS;
+            nominaTrabajo.FechaReconocimientoAntiguedad= datosEmpleados.FechaReconocimientoAntiguedad;
 
             GetDiasTrabajados(_tipoEsquemaT);
             
