@@ -25,13 +25,19 @@ namespace TadaNomina.Controllers
 
             var listUnidades = new List<SelectListItem>();
             modelSeleccionarNomina.unidadNegocio = listUnidades;
+            ViewBag.Lista = clientes;
 
             return View(modelSeleccionarNomina);            
         }
 
         [HttpPost]
-        public ActionResult Index(ModelSelecionarNomina seleccionarNomina)
+        public ActionResult Index(int? idcliente, int? IdunidadNegocio)
         {
+
+            ModelSelecionarNomina seleccionarNomina = new ModelSelecionarNomina();
+            seleccionarNomina.IdCliente= idcliente;
+            seleccionarNomina.IdunidadNegocio = IdunidadNegocio;
+
             try
             {
                 if (ModelState.IsValid)
@@ -71,11 +77,17 @@ namespace TadaNomina.Controllers
                         ViewBag.IdNomia = Session["sIdUnidadNegocio"].ToString();
                         ViewBag.IdCliente = Session["sIdCliente"].ToString();
 
-                        return RedirectToAction("Index", "Index");
+                        return Json("ok", JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
-                        return View("Index", seleccionarNomina);
+                        if(seleccionarNomina.IdCliente != null)
+                        {
+                          return Json(seleccionarNomina, JsonRequestBehavior.AllowGet);
+
+                        }
+
+                          return View("Index", seleccionarNomina);
                     }
                 }
                 else

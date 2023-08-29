@@ -91,6 +91,23 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name ="¿Multiplica Por Días Trab?")]        
         public string MultiplicacDiasTrabajados { get; set; }
         public List<SelectListItem> lMultiplicaDiasTrabajados { get; set; }
+
+        [Display(Name = "¿Considerar Factor y Valor?")]
+        public string FactoryValor { get; set; }
+        public List<SelectListItem> lFactoryValor { get; set; }
+
+        [Display(Name = "Excenta SMGV 100%")]
+        public string smgvalcien { get; set; }
+        public List<SelectListItem> lsmgvalcien { get; set; }
+
+
+        [Display(Name = "Piramidar")]
+        public string Piramida { get; set; }
+        public List<SelectListItem> lPiramidal { get; set; }       
         
+        [Display(Name = "Pago en efectivo")]
+        public string PagoEfectivo { get; set; }
+        public List<SelectListItem> lPagoEfectivo { get; set; }
+
     }
 }
