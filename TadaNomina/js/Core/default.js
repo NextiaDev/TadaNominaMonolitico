@@ -17,7 +17,6 @@ $('#IdCliente').change(function () {
         x.style.display = "block"
         var idcliente = $("#IdCliente").val();
         $('#Seleccionar').attr('disabled', false);
-        console.log(idcliente);
         $.ajax({
             type: 'POST',
             url: 'Default/Index',
@@ -57,7 +56,7 @@ $("#Seleccionar").click(function () {
             console.log(data);
 
             if (data == "ok") {
-                $(location).attr('href', '../Index/Index');
+                window.location = $("#ruta").attr('val');
 
             }
             else {
