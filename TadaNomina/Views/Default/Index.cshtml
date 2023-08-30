@@ -29,7 +29,7 @@
                                 @Html.DropDownList("Cliente", Model.cliente, "Seleccionar", new { @class = "form-control", id = "IdCliente" })
                             </div>
 
-                       
+
 
                         </div>
 
@@ -37,12 +37,12 @@
                             <div>
                                 @Html.DropDownList("Unidad", Model.unidadNegocio, "Seleccionar", new { @class = "form-control", id = "idUnidad" })
                             </div>
-                       
+
                         </div>
 
                         <div class="panel-footer text-right">
 
-                            <a class="btn btn-primary btn-sm" id="Seleccionar" >Aceptar</a>
+                            <a class="btn btn-primary btn-sm" id="Seleccionar">Aceptar</a>
                         </div>
                     </div>
 
@@ -59,10 +59,12 @@
 
 </div>
 
-@section Scripts{
-    <script src="~/js/Core/mensajes.js"></script>
-    <script src="~/js/Core/default.js"></script>    
-}
+<div id="ruta" val="@Url.Action("Index", "Index")">
+    </div>
+    @section Scripts{
+        <script src="~/js/Core/mensajes.js"></script>
+        <script src="~/js/Core/default.js"></script>
+    }
 
 
 
