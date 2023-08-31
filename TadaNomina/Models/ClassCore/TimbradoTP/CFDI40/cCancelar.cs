@@ -88,9 +88,9 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             }
         }
 
-        public ServiceReferenceCancelacionTPTest2.ResponseCancel CancelarTimbrado40(string rfc_Emisor, string UUID, byte[] pfx, string pass)
+        public ServiceReferenceTPCancelado31082023.ResponseCancel CancelarTimbrado40(string rfc_Emisor, string UUID, byte[] pfx, string pass)
         {
-            ServiceReferenceCancelacionTPTest2.Cancela4Client serviceCancel = new ServiceReferenceCancelacionTPTest2.Cancela4Client();
+            ServiceReferenceTPCancelado31082023.Cancela4Client serviceCancel = new ServiceReferenceTPCancelado31082023.Cancela4Client();
 
             var response = serviceCancel.SolicitudCancelacion_02(rfc_Emisor, UUID, string.Empty, pfx, pass);
 

@@ -280,6 +280,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\ServiceReferenceTPCancelado31082023\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ServiceReferenceTPJWT\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -4050,6 +4055,22 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\Cancela4.wsdl" />
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\Cancela4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\Cancela41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\Cancela42.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Connected Services\ServiceReferenceTPCancelado31082023\TadaNomina.ServiceReferenceTPCancelado31082023.ResponseCancel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\ServiceReferenceTPCancelado31082023\TadaNomina.ServiceReferenceTPCancelado31082023.ResponseConsulta.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Connected Services\ServiceReferenceTPJWT\Service1.disco" />
     <None Include="Connected Services\ServiceReferenceTPJWT\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReferenceTPJWT\configuration.svcinfo" />
@@ -4067,6 +4088,13 @@
     <None Include="Connected Services\ServiceReferenceTPCancelacionNuevo\configuration91.svcinfo" />
     <None Include="Connected Services\ServiceReferenceTPCancelacionNuevo\configuration.svcinfo" />
     <None Include="Connected Services\ServiceReferenceTPCancelacionNuevo\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\Cancela4.disco" />
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceReferenceTPCancelado31082023\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -6924,6 +6952,7 @@
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceTPCancelacion20\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceTPCancelacionNuevo\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceTPCancelacionQA40\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceReferenceTPCancelado31082023\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceTPJWT\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceTPNuevoCanceladoTest\" />
     <WCFMetadataStorage Include="Connected Services\ServiceReferenceTP\" />
