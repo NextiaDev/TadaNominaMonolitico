@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="484f4812-a356-435d-8c3f-2d169f9f1a41" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://serviciocancelacion.turbopacmx.com/Tp.CancelacionOneToOne/Cancela4.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Cancela4.disco" MetadataType="Disco" ID="fa892cd9-d492-48c9-9942-dbc8fdcc4b85" SourceId="1" SourceUrl="https://serviciocancelacion.turbopacmx.com/Tp.CancelacionOneToOne/Cancela4.svc?disco" />
+    <MetadataFile FileName="Cancela4.xsd" MetadataType="Schema" ID="a5cfce83-b8ec-471f-946d-85c424691e7f" SourceId="1" SourceUrl="https://serviciocancelacion.turbopacmx.com/Tp.CancelacionOneToOne/Cancela4.svc?xsd=xsd0" />
+    <MetadataFile FileName="Cancela41.xsd" MetadataType="Schema" ID="a8359f84-de34-46c3-b697-28ae76377a2c" SourceId="1" SourceUrl="https://serviciocancelacion.turbopacmx.com/Tp.CancelacionOneToOne/Cancela4.svc?xsd=xsd1" />
+    <MetadataFile FileName="Cancela4.wsdl" MetadataType="Wsdl" ID="1678b796-a473-42c1-b1db-11876ce7302f" SourceId="1" SourceUrl="https://serviciocancelacion.turbopacmx.com/Tp.CancelacionOneToOne/Cancela4.svc?wsdl" />
+    <MetadataFile FileName="Cancela42.xsd" MetadataType="Schema" ID="24539906-5bc9-4e69-bd53-c8aa288c3584" SourceId="1" SourceUrl="https://serviciocancelacion.turbopacmx.com/Tp.CancelacionOneToOne/Cancela4.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
