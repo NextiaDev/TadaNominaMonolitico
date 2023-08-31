@@ -252,11 +252,6 @@ namespace TadaNomina.Controllers.Reportes
                             where b.IdCliente == Cliente && b.IdEstatus == 1
                             select b;
 
-
-
-
-
-
                 List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
 
                 using (NominaEntities1 entidad = new NominaEntities1())
@@ -267,8 +262,6 @@ namespace TadaNomina.Controllers.Reportes
                 List<string> archivos = new List<string>();
                 foreach (var item in query)
                 {
-
-
                     List<sp_PDFSunset1_Result> queryPorCentroCostos = (from myRow in datos
                                                                        where myRow.IdCentroCostos == item.IdCentroCostos
                                                                        orderby myRow.Nombre ascending
@@ -282,18 +275,14 @@ namespace TadaNomina.Controllers.Reportes
                         int[] periodos = new int[1];
                         periodos[0] = id;
 
-
                         var ins = cn.GetvInsidencias(periodos, item.IdCentroCostos);
 
                         pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, queryPorCentroCostos, act);
                         files.Add(archivoFisicotmp + ".pdf");
 
-
-
                         CreateZipFile(files, ruta_PDFS_ZIP + @"\" + item.CentroCostos.Replace("\"", "") + @".zip");
                         Session["Query"] = queryPorCentroCostos;
                     }
-
                 }
                 byte[] fileBytes = null;
                 string fileName = string.Empty;
@@ -306,8 +295,7 @@ namespace TadaNomina.Controllers.Reportes
                     }
                 }
 
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-
+                return File(fileBytes ?? new byte[0], System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
 
 

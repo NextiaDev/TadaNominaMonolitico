@@ -1131,7 +1131,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             montoPension = 0;
             montoPensionEsq = 0;
-            if (pensionAlimenticia != null)
+            if (pensionAlimenticia != null && pensionAlimenticia.Count>0)
             {
                 int IdConcepto = 0;
                 try { IdConcepto = (int)conceptosConfigurados.IdConceptoPensionAlimenticia; } catch { throw new Exception("Hay pensiones cargadas pero no se configuro ningun concepto. "); }
@@ -1860,6 +1860,26 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 au.ProcesarIncidenciasPagos(select, IdPeriodoNomina, IdUsuario);
 
             }
+        }
+
+        public bool ValidaCobroCOPS(int? IdPrestaciones, DateTime? FechaReconocimientoAntiguedad, DateTime? FechaAltaIMSS, decimal SDIMSS_Actual, decimal SDI_Actual)
+        {
+            bool resultado = false;
+            decimal _SDI_Limite = 0;
+
+            GetPrestacionesEmpleado(IdPrestaciones);
+            _fechaReconocimientoAntiguedad = GetFechaIngreso(FechaReconocimientoAntiguedad, FechaAltaIMSS, null);
+            Antiguedad = Math.Round((Periodo.FechaFin.Subtract(_fechaReconocimientoAntiguedad).Days) / 365M, 4);
+
+            var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).First();
+            if (_factor != null)
+            {
+                _SDI_Limite= Math.Round(SDIMSS_Actual*(decimal)_factor.FactorIntegracion,2);
+
+                if (_SDI_Limite < SDI_Actual) { resultado = true; }                
+            }
+
+            return resultado;
         }
 
     }

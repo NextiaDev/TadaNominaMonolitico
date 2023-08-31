@@ -141,6 +141,8 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             using (var wc = new WebClient())
             {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
                 wc.Headers["Content-type"] = "application/json";
                 wc.Headers["Authorization"] = "Bearer " + Token;
                 var result = wc.DownloadString(url);
@@ -164,6 +166,8 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             using (var wc = new WebClient())
             {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
                 wc.Headers["Content-type"] = "application/json";
                 wc.Headers["Authorization"] = "Bearer " + Token;
                 var result = wc.DownloadString(url);
@@ -206,13 +210,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             var _data = JsonConvert.SerializeObject(data);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, _data);
+                var result = wc.UploadString(url, _data);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -248,13 +256,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             var _data = JsonConvert.SerializeObject(data);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, _data);
+                var result = wc.UploadString(url, _data);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -267,13 +279,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
         {
             Uri url = new Uri(sStatics.ServidorContabilidad + "api/Costeos/deleteCosteo?IdCosteo=" + IdCosteo);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, "");
+                var result = wc.UploadString(url, "");
 
-            return result;
+                return result;
+            }
         }
 
         //Conceptos
@@ -290,6 +306,8 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             using (var wc = new WebClient())
             {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
                 wc.Headers["Content-type"] = "application/json";
                 wc.Headers["Authorization"] = "Bearer " + Token;
                 var result = wc.DownloadString(url);
@@ -328,13 +346,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             var _data = JsonConvert.SerializeObject(data);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, _data);
+                var result = wc.UploadString(url, _data);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -350,6 +372,8 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             using (var wc = new WebClient())
             {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
                 wc.Headers["Content-type"] = "application/json";
                 wc.Headers["Authorization"] = "Bearer " + Token;
                 var result = wc.DownloadString(url);
@@ -386,13 +410,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             var _data = JsonConvert.SerializeObject(data);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, _data);
+                var result = wc.UploadString(url, _data);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -405,13 +433,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
         {
             Uri url = new Uri(sStatics.ServidorContabilidad + "api/CosteosConceptos/deleteCosteoConcepto?IdCosteoConcepto=" + idCosteosConcepto);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, "");
+                var result = wc.UploadString(url, "");
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -427,6 +459,8 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             using (var wc = new WebClient())
             {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
                 wc.Headers["Content-type"] = "application/json";
                 wc.Headers["Authorization"] = "Bearer " + Token;
                 var result = wc.DownloadString(url);
@@ -447,15 +481,19 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
         {
             Uri url = new Uri(sStatics.ServidorContabilidad + "api/CuentasContables/getConceptos?IdCliente=" + IdCliente);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.DownloadString(url);
+                var result = wc.DownloadString(url);
 
-            var datos = JsonConvert.DeserializeObject<List<ModelCat_Conceptos>>(result);
+                var datos = JsonConvert.DeserializeObject<List<ModelCat_Conceptos>>(result);
 
-            return datos;
+                return datos;
+            }
         }
 
         /// <summary>
@@ -492,13 +530,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             var _data = JsonConvert.SerializeObject(data);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, _data);
+                var result = wc.UploadString(url, _data);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -514,6 +556,8 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             using (var wc = new WebClient())
             {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
                 wc.Headers["Content-type"] = "application/json";
                 wc.Headers["Authorization"] = "Bearer " + Token;
                 var result = wc.DownloadString(url);
@@ -558,13 +602,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
 
             var _data = JsonConvert.SerializeObject(data);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, _data);
+                var result = wc.UploadString(url, _data);
 
-            return result;
+                return result;
+            }
         }
 
         /// <summary>
@@ -577,13 +625,17 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
         {
             Uri url = new Uri(sStatics.ServidorContabilidad + "api/CosteosConceptosConfiguracion/deleteCosteoConceptoConfig?idCosteoConceptoConfiguracion=" + idCosteosConcepto);
 
-            var wc = new WebClient();
-            wc.Headers["Content-type"] = "application/json";
-            wc.Headers["Authorization"] = "Bearer " + Token;
+            using (var wc = new WebClient())
+            {
+                wc.Headers.Clear();
+                wc.Encoding = System.Text.Encoding.UTF8;
+                wc.Headers["Content-type"] = "application/json";
+                wc.Headers["Authorization"] = "Bearer " + Token;
 
-            var result = wc.UploadString(url, "");
+                var result = wc.UploadString(url, "");
 
-            return result;
+                return result;
+            }
         }
 
     }

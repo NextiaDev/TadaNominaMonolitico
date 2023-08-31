@@ -24,8 +24,9 @@ namespace TadaNomina.Services
                 Uri apiUrl = new Uri(sStatics.servidor + servicio);
 
                 using (var wc = new WebClient())
-                {
+                {                    
                     wc.Headers.Clear();
+                    wc.Encoding = System.Text.Encoding.UTF8;
                     wc.Headers["Content-type"] = "application/json";
                     wc.Headers["Authorization"] = "Bearer " + token;
                     var result = wc.DownloadString(apiUrl);

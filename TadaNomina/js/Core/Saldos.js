@@ -1,4 +1,17 @@
-﻿$("#AplicaPor").on("change", function () {
+﻿$(document).ready(function () {
+    $('#emp').chosen({
+        width: '100%'
+    });
+
+    $('#IdConcepto').chosen({
+        width: '100%'
+    });
+
+});
+
+
+
+$("#AplicaPor").on("change", function () {
     Saldos();
 });
 

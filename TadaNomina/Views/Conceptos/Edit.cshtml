@@ -126,6 +126,16 @@
                                 @Html.DropDownListFor(model => model.sumaNetoFinal, Model.lSumaNeto, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.sumaNetoFinal, "", new { @class = "text-danger" })
                             </div>
+                            <br />
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FactoryValor, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.FactoryValor, Model.lFactoryValor, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.FactoryValor, "", new { @class = "text-danger" })
+                            </div>
+
                         </div>
                         <br />
                     </div>
@@ -144,6 +154,16 @@
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.MultiplicacDiasTrabajados, Model.lMultiplicaDiasTrabajados, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.MultiplicacDiasTrabajados, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Piramida, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.Piramida, Model.lPiramidal, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Piramida, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.PagoEfectivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.PagoEfectivo, Model.lPagoEfectivo, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PagoEfectivo, "", new { @class = "text-danger" })
                             </div>
 
                         </div>
@@ -200,6 +220,11 @@
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.ExcentaPorUnidad, Model.lExcentaPorUnidad, "Elegir...", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ExcentaPorUnidad, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.smgvalcien, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.smgvalcien, Model.lsmgvalcien, "Elegir...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.smgvalcien, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <br />

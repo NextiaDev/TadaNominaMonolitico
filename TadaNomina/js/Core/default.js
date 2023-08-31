@@ -1,23 +1,76 @@
 ﻿$(document).ready(function () {
 
-    $("#IdCliente").change(function () {
-        $.showLoading({
-            name: 'jump-pulse'
-        });
-        $("form").submit();
-        async: true;
-    }); 
+    $('#IdCliente').chosen({
+        width: '100%'
+    });
 
-    localStorage.removeItem('_menuPantalla');
-    localStorage.removeItem('_submenuPantalla');    
+  
 
-    $('ul[data-menu1="Inicio"]').attr('class', 'collapse in _menu1');
-    $('li[data-menu="Inicio"][data-text="Cambiar de Nómina"]').attr('class', 'active-link _subMenu');
-    $('ul[data-menu1="Inicio"]').closest('.lista').attr('class', 'active-sub');
 });
 
-localStorage.removeItem('nominaSelecionada');
+$('#IdCliente').change(function () {
+    if ($('#IdCliente').val() != null && $('#IdCliente').val().trim() != "") {
+        $("#idUnidad").find('option').not(':first').remove();
+        var slt = document.getElementById('idUnidad');  
+        $("#idUnidad").trigger("liszt:updated");
+        var x = document.getElementById("myDIV");
+        x.style.display = "block"
+        var idcliente = $("#IdCliente").val();
+        $('#Seleccionar').attr('disabled', false);
+        $.ajax({
+            type: 'POST',
+            url: 'Default/Index',
+            data: { idcliente },
+            dataType: 'json',
+            async: false,
+            success: function (resul) {
+                $.each(resul.unidadNegocio, function (key, registro) {
+                    console.log(registro)
+                    $("#idUnidad").append('<option value=' + registro.Value + '>' + registro.Text + '</option>');               
+                });
+            }
+        });
+        $('#idUnidad').chosen({
+            width: '100%'
+        });
+        $("#idUnidad").trigger("chosen:updated");
 
+    }
+    else {
+        $('#Seleccionar').attr('disabled', true);
+    }
+});
+
+$("#Seleccionar").click(function () {
+    var idCliente = $("#IdCliente").val();
+    var slt = document.getElementById('idUnidad');  
+    var IdunidadNegocio = slt.options[slt.selectedIndex].value;
+    $.ajax({
+        type: 'POST',
+        url: 'Default/Index',
+        dataType: 'json',
+        data: { idCliente, IdunidadNegocio },
+        async: false,
+        success: function (data)
+        {
+            console.log(data);
+
+            if (data == "ok") {
+                window.location = $("#ruta").attr('val');
+
+            }
+            else {
+                mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "pink", "fadeIn", "fadeOut", 3500);  
+
+            }
+           
+        
+        },     
+    });
+
+
+});
+localStorage.removeItem('nominaSelecionada');
 if (!localStorage.getItem('ingreso')) {
     var user = $("#userName").attr("val");
     mensajeAlerta("Hola! " + user, "Bienvenido al Sistema Integral TADA!", "pink", "fadeIn", "fadeOut", 3500);  
