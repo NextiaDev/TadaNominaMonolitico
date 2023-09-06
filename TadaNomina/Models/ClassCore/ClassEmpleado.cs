@@ -560,7 +560,7 @@ namespace TadaNomina.Models.ClassCore
                             {
                                 entity.Empleados.Add(emp);
                                 value = entity.SaveChanges();
-                                bool i = true;// SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
+                                bool i = SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
                             }
                             else
                             {
