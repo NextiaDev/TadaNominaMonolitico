@@ -60,6 +60,8 @@ namespace TadaNomina.Services
 
                 using (var wc = new WebClient())
                 {
+                    wc.Headers.Clear();
+                    wc.Encoding = System.Text.Encoding.UTF8;
                     wc.Headers["Content-type"] = "application/json";
                     wc.Headers["Authorization"] = "Bearer " + Token;
                     var result = wc.UploadString(url, _datos);
@@ -91,6 +93,8 @@ namespace TadaNomina.Services
 
                 using (var wc = new WebClient())
                 {
+                    wc.Headers.Clear();
+                    wc.Encoding = System.Text.Encoding.UTF8;
                     wc.Headers["Content-type"] = "application/json";
                     wc.Headers["Authorization"] = "Bearer " + Token;
                     var result = wc.UploadString(url, _datos);
