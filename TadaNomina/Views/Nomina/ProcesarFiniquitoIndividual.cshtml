@@ -537,7 +537,7 @@
                                         @Html.DisplayFor(modelItem => item.Descripcion)
                                     </td>
                                     <td class="text-right">
-                                        @Html.DisplayFor(modelItem => item.Importe)
+                                        @(string.Format("{0:C}", item.Importe))
                                     </td>
                                 </tr>
                             }
@@ -549,7 +549,7 @@
                             <td></td>
 
                             <td class="text-right">
-                                <strong> @Html.DisplayFor(modelItem => modelItem.ER)</strong>
+                                <strong>@(string.Format("{0:C}", Model.ER))</strong>
                             </td>
                         </tr>
                     </tbody>
@@ -584,7 +584,7 @@
                                         @Html.DisplayFor(modelItem => item.Descripcion)
                                     </td>
                                     <td class="text-right">
-                                        @Html.DisplayFor(modelItem => item.Importe)
+                                        @(string.Format("{0:C}", item.Importe))
                                     </td>
                                 </tr>
                             }
@@ -596,7 +596,7 @@
                             <td></td>
 
                             <td class="text-right">
-                                <strong> @Html.DisplayFor(modelItem => modelItem.DD)</strong>
+                                <strong>@(string.Format("{0:C}", Model.DD))</strong>
                             </td>
                         </tr>
                     </tbody>
@@ -608,7 +608,7 @@
                     </div>
                     <div class="col-md-8 text-right">
                         <h5>
-                            @Html.DisplayFor(model => model.Neto)
+                            @(string.Format("{0:C}", Model.Neto))
                         </h5>
                     </div>
                 </div>

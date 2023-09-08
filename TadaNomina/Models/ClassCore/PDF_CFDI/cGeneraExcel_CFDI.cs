@@ -164,7 +164,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                 row["FechaTimbrado"] = xmlInput.Descendants(timbra + "TimbreFiscalDigital").Attributes("FechaTimbrado").ToList()[0].Value;
                 row["NoCertificadoSAT"] = xmlInput.Descendants(timbra + "TimbreFiscalDigital").Attributes("NoCertificadoSAT").ToList()[0].Value;
                 row["NoCertificado"] = xmlInput.Descendants(df + "Comprobante").Attributes("NoCertificado").ToList()[0].Value;
-                row["FormaPago"] = xmlInput.Descendants(df + "Comprobante").Attributes("FormaPago").ToList()[0].Value;
+                try { row["FormaPago"] = xmlInput.Descendants(df + "Comprobante").Attributes("FormaPago").ToList()[0].Value; } catch { row["FormaPago"] = "N/A"; }
                 row["Serie"] = xmlInput.Descendants(df + "Comprobante").Attributes("Serie").ToList()[0].Value;
                 row["SelloCFD"] = xmlInput.Descendants(timbra + "TimbreFiscalDigital").Attributes("SelloCFD").ToList()[0].Value;
                 row["SelloSAT"] = xmlInput.Descendants(timbra + "TimbreFiscalDigital").Attributes("SelloSAT").ToList()[0].Value; row["SubTotal"] = xmlInput.Descendants(df + "Comprobante").Attributes("SubTotal").ToList()[0].Value;
