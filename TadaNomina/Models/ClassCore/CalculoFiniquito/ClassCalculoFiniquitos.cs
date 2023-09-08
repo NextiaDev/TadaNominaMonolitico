@@ -124,8 +124,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
             nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.Monto).Sum();
 
-            CalculaBaseGravadaLiquidacion();
-            nominaTrabajo.ISRLiquidacion = CalculaISR((decimal)nominaTrabajo.BaseGravadaLiquidacion, Periodo.FechaFin, "05", false);
+            CalculaBaseGravadaLiquidacion();            
             CalculaISR();
             Calcula_Cuotas_Obreras();
 
@@ -521,6 +520,16 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             }
 
             nominaTrabajo.BaseGravadaLiquidacion = GravadoLiquidacion;
+
+            if (indem90d > 0 && indem20d > 0 && indemPA > 0)
+            {
+                decimal SMO = SD_IMSS * 30;
+                decimal ISR_SMO = CalculaISR(SMO, Periodo.FechaFin, "05", false);
+                decimal Factor = Math.Round(ISR_SMO / SMO, 6);
+                nominaTrabajo.ISRLiquidacion = nominaTrabajo.BaseGravadaLiquidacion * Factor;
+            }
+            else
+                nominaTrabajo.ISRLiquidacion = CalculaISR((decimal)nominaTrabajo.BaseGravadaLiquidacion, Periodo.FechaFin, "05", false);
         }
 
         /// <summary>
