@@ -548,7 +548,7 @@
                                           Periodos
                                       </div>
 
-                                      @Html.ListBoxFor(model => model.IdsPeriodos, Model.lPeriodos, new { @class = "form-control", @id = "IdsPeriodos" })
+                                      @Html.ListBoxFor(model => model.IdsPeriodos, Model.lPeriodos ?? new List<SelectListItem>(), new { @class = "form-control", @id = "IdsPeriodos" })
 
                                   </div>
                               </div>
@@ -559,7 +559,7 @@
                                           Periodos Agregados &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#" id="limpiarSeleccionados" class="add-tooltip" title="Elimina Periodos "><span class="fa fa-trash"></span> Limpiar</a>
                                       </div>
 
-                                      @Html.ListBoxFor(model => model.IdsPeriodosSelecionados, Model.lPeriodosSeleccionados, new { @class = "form-control", @id = "IdsPeriodosSelecionados", @disabled= "disabled" })
+                                      @Html.ListBoxFor(model => model.IdsPeriodosSelecionados, Model.lPeriodosSeleccionados ?? new List<SelectListItem>(), new { @class = "form-control", @id = "IdsPeriodosSelecionados", @disabled= "disabled" })
 
                                   </div>
                               </div>
