@@ -267,7 +267,7 @@ namespace TadaNomina.Controllers.Nomina
             tw.WriteLine("DETALLE DE CARGA DE INCIDENCIAS DEL ARCHIVO: " + model.Path);
             tw.WriteLine("");
             tw.WriteLine("----------------------------------------");
-            tw.WriteLine("Numero de Registros Leidos: " + model.Errores);
+            tw.WriteLine("Número de Registros Leidos: " + model.Errores);
             tw.WriteLine("Insertados correctamente: " + model.Correctos);
             tw.WriteLine("No Insertados: " + model.Errores);
             tw.WriteLine("----------------------------------------");
@@ -345,8 +345,8 @@ namespace TadaNomina.Controllers.Nomina
                 else
                 {
                     ViewBag.confirmation = false;
-                    ViewBag.title = "Modicación Empleado";
-                    ViewBag.alert = "1 ¡Modificacion Errónea!";
+                    ViewBag.title = "Modificación Empleado";
+                    ViewBag.alert = "1 ¡Modificación Errónea!";
                     ViewBag.message = "No Fue posible encontrar al empleado solicitado.";
                     return View("Response");
                 }
@@ -354,8 +354,8 @@ namespace TadaNomina.Controllers.Nomina
             catch (Exception ex)
             {
                 ViewBag.confirmation = false;
-                ViewBag.title = "Modicación Empleado";
-                ViewBag.alert = "2 ¡Modificacion Errónea!";
+                ViewBag.title = "Modificación Empleado";
+                ViewBag.alert = "2 ¡Modificación Errónea!";
                 ViewBag.message = "No Fue posible encontrar al empleado solictado." + ex.Message;
                 return View("Response");
             }
@@ -551,8 +551,8 @@ namespace TadaNomina.Controllers.Nomina
                 else
                 {
                     ViewBag.confirmation = false;
-                    ViewBag.title = "Modicación Empleado";
-                    ViewBag.alert = "1 ¡Modificacion Errónea!";
+                    ViewBag.title = "Modificación Empleado";
+                    ViewBag.alert = "1 ¡Modificación Errónea!";
                     ViewBag.message = "No Fue posible encontrar al empleado solicitado.";
                     return View("Response");
                 }
@@ -560,8 +560,8 @@ namespace TadaNomina.Controllers.Nomina
             catch (Exception ex)
             {
                 ViewBag.confirmation = false;
-                ViewBag.title = "Modicación Empleado";
-                ViewBag.alert = "2 ¡Modificacion Errónea!";
+                ViewBag.title = "Modificación Empleado";
+                ViewBag.alert = "2 ¡Modificación Errónea!";
                 ViewBag.message = "No Fue posible encontrar al empleado solictado." + ex.Message;
                 return View("Response");
             }
@@ -772,8 +772,8 @@ namespace TadaNomina.Controllers.Nomina
                 else
                 {
                     ViewBag.confirmation = false;
-                    ViewBag.title = "Modicación Empleado";
-                    ViewBag.alert = "1 ¡Modificacion Errónea!";
+                    ViewBag.title = "Modificación Empleado";
+                    ViewBag.alert = "1 ¡Modificación Errónea!";
                     ViewBag.message = "No Fue posible encontrar al empleado solicitado.";
                     return View("Response");
                 }
@@ -781,8 +781,8 @@ namespace TadaNomina.Controllers.Nomina
             catch (Exception ex)
             {
                 ViewBag.confirmation = false;
-                ViewBag.title = "Modicación Empleado";
-                ViewBag.alert = "2 ¡Modificacion Errónea!";
+                ViewBag.title = "Modificación Empleado";
+                ViewBag.alert = "2 ¡Modificación Errónea!";
                 ViewBag.message = "No Fue posible encontrar al empleado solictado." + ex.Message;
                 return View("Response");
             }
@@ -934,8 +934,8 @@ namespace TadaNomina.Controllers.Nomina
                 else
                 {
                     ViewBag.confirmation = false;
-                    ViewBag.title = "Modicación Empleado";
-                    ViewBag.alert = "1 ¡Modificacion Errónea!";
+                    ViewBag.title = "Modificación Empleado";
+                    ViewBag.alert = "1 ¡Modificación Errónea!";
                     ViewBag.message = "No Fue posible encontrar al empleado solicitado.";
                     return View("Response");
                 }
@@ -943,8 +943,8 @@ namespace TadaNomina.Controllers.Nomina
             catch (Exception ex)
             {
                 ViewBag.confirmation = false;
-                ViewBag.title = "Modicación Empleado";
-                ViewBag.alert = "2 ¡Modificacion Errónea!";
+                ViewBag.title = "Modificación Empleado";
+                ViewBag.alert = "2 ¡Modificación Errónea!";
                 ViewBag.message = "No Fue posible encontrar al empleado solictado." + ex.Message;
                 return View("Response");
             }
@@ -1006,8 +1006,8 @@ namespace TadaNomina.Controllers.Nomina
                 else
                 {
                     ViewBag.confirmation = false;
-                    ViewBag.title = "Modicación Empleado";
-                    ViewBag.alert = "1 ¡Modificacion Errónea!";
+                    ViewBag.title = "Modificación Empleado";
+                    ViewBag.alert = "1 ¡Modificación Errónea!";
                     ViewBag.message = "No Fue posible encontrar al empleado solicitado.";
                     return View("Response");
                 }
@@ -1015,8 +1015,8 @@ namespace TadaNomina.Controllers.Nomina
             catch (Exception ex)
             {
                 ViewBag.confirmation = false;
-                ViewBag.title = "Modicación Empleado";
-                ViewBag.alert = "2 ¡Modificacion Errónea!";
+                ViewBag.title = "Modificación Empleado";
+                ViewBag.alert = "2 ¡Modificación Errónea!";
                 ViewBag.message = "No Fue posible encontrar al empleado solictado." + ex.Message;
                 return View("Response");
             }

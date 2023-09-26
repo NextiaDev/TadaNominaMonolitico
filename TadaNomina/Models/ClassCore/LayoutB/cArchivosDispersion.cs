@@ -31,7 +31,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string getValidaciónBanco(int IdBanco)
         {
-            int[] BancosOK = new int[] { -1, 1, 4, 5, 18 };
+            int[] BancosOK = new int[] { -1, 1, 4, 5, 18, 8 };
             string resultado = BancosOK.Contains(IdBanco) ? "OK" : "No existe";
             return resultado;
         }
@@ -60,6 +60,11 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                     ClassBanorte cbnte = new ClassBanorte();
                     string txtbnte = model.TipoArchivoBnte == 2 ? cbnte.GeneraTxtBanorte(model.IdPeriodoNomina, IdUnidadNegocio, model.Empresa) : cbnte.GeneraTxtBanorteInter(model.IdPeriodoNomina, IdUnidadNegocio, model.Empresa);
                     bytes = Encoding.ASCII.GetBytes(txtbnte);
+                    break;
+                case 8:
+                    ClassBajio cbajio = new ClassBajio();
+                    string txtbajio = cbajio.GeneraTxtBajio(model.IdPeriodoNomina, IdUnidadNegocio);
+                    bytes = Encoding.ASCII.GetBytes(txtbajio);
                     break;
             }
             return bytes;

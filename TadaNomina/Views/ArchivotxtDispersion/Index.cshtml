@@ -41,7 +41,7 @@
             <div class="panel-body">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="form-label">Periodo Nomina</label>
+                        <label class="form-label">Periodo Nómina</label>
                         @Html.DropDownListFor(p => p.IdPeriodoNomina, Model.selectListPeriodoNomina, "Seleccionar...", htmlAttributes: new { @class = "form-control", required = "required" })
                     </div>
                 </div>
@@ -108,6 +108,16 @@
                         <div class="form-group">
                             <label class="form-label">Destino</label>
                             @Html.DropDownListFor(p => p.TipoArchivoBnte, Model.selectListTipoArchivos, "Seleccionar...", htmlAttributes: new { @class = "form-control", id = "TA" })
+                        </div>
+                    </div>
+                </div>
+
+                <!--Formulario Bajio -->
+                <div id="form_Bajio" hidden="hidden">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Destino</label>
+                            @Html.DropDownListFor(p => p.TipoArchivo, Model.selectListTipoArchivos, "Seleccionar...", htmlAttributes: new { @class = "form-control", id = "TA" })
                         </div>
                     </div>
                 </div>
