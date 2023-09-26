@@ -147,7 +147,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
         {
             using (NominaEntities1 ctx = new NominaEntities1())
             {
-                return ctx.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.CuentaBancariaTrad != null & x.Neto > 0 && x.IdEstatus == 1).ToList();
+                return ctx.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.CuentaBancariaTrad != null && x.Neto > 0 && x.IdEstatus == 1).ToList();
             }
         }
 
