@@ -29,6 +29,7 @@ namespace TadaNomina.Models.ViewModels.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdPeriodoNomina", SqlDbType.Int).Value = IdPeriodoNomina;
                     dt.Load(cmd.ExecuteReader());
