@@ -137,6 +137,8 @@ namespace TadaNomina.Controllers.Nomina
                     int IdUsuario = (int)Session["sIdUsuario"];
                     cins.NewIncindencia(collection, IdUsuario);
 
+                    //si la incidencia es de vacaciones se crea una nueva incidencia
+
                     ClassIncidencias cincidencias = new ClassIncidencias();
                     ModelIncidencias modelo = cincidencias.LlenaListasIncidencias(IdUnidad, IdCliente);
                     

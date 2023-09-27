@@ -153,6 +153,30 @@ namespace TadaNomina.Models.ClassCore
                 BanderaVacaciones = x.BanderaVacaciones, BanderaAusentismos = x.BanderaAusentismos, BanderaAdelantoPULPI = x.BanderaAdelantoPULPI, BanderaPiramidacion = x.BanderaPiramidacion, BanderaSaldos = x.BanderaSaldos, 
                 BanderaCompensaciones = x.BanderaCompensaciones }); });
 
+            foreach (var item in model)
+            {
+                if (item.BanderaIncidenciasFijas != null)
+                    item.ModuloCaptura = "Inc.Fijas";
+                if (item.BanderaConceptoEspecial != null)
+                    item.ModuloCaptura = "Especial";
+                if (item.BanderaFonacot != null)
+                    item.ModuloCaptura = "Fonacot";
+                if (item.BanderaInfonavit != null)
+                    item.ModuloCaptura = "Vivienda";
+                if (item.BanderaPensionAlimenticia != null)
+                    item.ModuloCaptura = "P.Alimenticia";
+                if (item.BanderaVacaciones != null)
+                    item.ModuloCaptura = "Vacaciones";
+                if (item.BanderaAusentismos != null)
+                    item.ModuloCaptura = "Ausentismos";
+                if (item.BanderaPiramidacion != null)
+                    item.ModuloCaptura = "Piramidación";
+                if (item.BanderaSaldos != null)
+                    item.ModuloCaptura = "Saldos";
+                if (item.BanderaCompensaciones != null)
+                    item.ModuloCaptura = "Comp. RH";
+            }
+
             return model;
         }
 
