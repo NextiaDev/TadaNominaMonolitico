@@ -739,6 +739,7 @@ namespace TadaNomina.Models.ClassCore
                 }
             }
         }
+
         /// <summary>
         /// Metodo para agregar incidencias de manera paraetrizada para el proceso particular de vacaciones solictadas
         /// </summary>
