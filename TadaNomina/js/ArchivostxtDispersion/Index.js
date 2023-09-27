@@ -49,12 +49,14 @@ function mostrarFormulario() {
     let formularioByS = document.getElementById('form_BBVA-STDR');
     let formularioBNX = document.getElementById('form_BNX');
     let formularioBnte = document.getElementById('form_BNTE');
+    let formularioBajio = document.getElementById('form_BAJIO');
     switch (idBancoSelect) {
         case '-1':
             console.log('TODOS');
             ocultarForms();
             formularioByS.removeAttribute('hidden');
             formularioBNX.removeAttribute('hidden');
+            formularioBajio.removeAttribute('hidden');
             addRequeridos();
             break;
         case '1':
@@ -81,6 +83,12 @@ function mostrarFormulario() {
             limpiarBNTE();
             formularioBnte.removeAttribute('hidden');
             break;
+        case '8':
+            console.log('BAJIO');
+            ocultarBAJIOform();
+            limpiarBAJIO();
+            formularioBAJIO.removeAttribute('hidden');
+            break;
         default:
             ocultarForms();
             break;
@@ -91,6 +99,7 @@ function ocultarForms() {
     ocultarBYSform();
     ocultarBNXform();
     ocultarBNTEform();
+    ocultarBAJIOform();
 }
 
 function ocultarBYSform() {
@@ -112,6 +121,13 @@ function ocultarBNTEform() {
     delRequeridoBNTE();
     limpiarBNTE();
     formBNTE.setAttribute('hidden', 'hidden');
+}
+
+function ocultarBAJIOform() {
+    let formBAJIO = document.getElementById('form_BAJIO');
+    delRequeridoBAJIO();
+    limpiarBAJIO();
+    formBAJIO.setAttribute('hidden', 'hidden');
 }
 
 function addRequeridoBYS() {
@@ -137,10 +153,16 @@ function addRequeridoBNTE() {
     TipoArchivo.setAttribute('required', 'required');
 }
 
+function addRequeridoBAJIO() {
+    let Tipoarchivo = document.getElementById('TA');
+    Tipoarchivo.setAttribute('required', 'required');
+}
+
 function addRequeridos() {
     addRequeridoBNX();
     addRequeridoBYS();
     addRequeridoBNTE();
+    addRequeridoBAJIO();
 }
 
 function delRequeridoBYS() {
@@ -164,10 +186,16 @@ function delRequeridoBNX() {
     RefAl.removeAttribute('required');
 }
 
+function delRequeridoBAJIO() {
+    let Tipoarchivo = document.getElementById('TA');
+    Tipoarchivo.removeAttribute('required');
+}
+
 function delRequeridos() {
     delRequeridoBYS();
     delRequeridoBNX();
     delRequeridoBNTE();
+    delRequeridoBAJIO();
 }
 
 function limpiarBYS() {
@@ -183,6 +211,10 @@ function limpiarBNX() {
 }
 
 function limpiarBNTE() {
+    document.getElementById('TA').value = '';
+}
+
+function limpiarBAJIO() {
     document.getElementById('TA').value = '';
 }
 

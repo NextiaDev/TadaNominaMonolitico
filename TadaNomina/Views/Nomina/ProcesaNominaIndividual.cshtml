@@ -199,8 +199,9 @@
 
                                 <th width="6%">Clave</th>
                                 <th>Concepto</th>
-                                <th>Tipo</th>
-                                <th>TipoDato</th>
+                                <th width="10%"></th>
+                                <th width="6%">Tipo</th>
+                                <th width="6%">TipoDato</th>
                                 <th width="6%">Cantidad</th>
                                 <th width="6%">Monto</th>
                                 <th width="6%">M. Esq</th>
@@ -236,6 +237,9 @@
                                                 @Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)
                                             </td>
                                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
+                                            <td>
+                                                <strong> @Html.DisplayFor(model => model.ListIncidencias[i].ModuloCaptura)</strong>
+                                            </td>
                                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoConcepto)</td>
                                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoDato)</td>
                                             <td>
@@ -274,6 +278,7 @@
 
                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)</td>
                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
+                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].ModuloCaptura)</td>
                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoConcepto)</td>
                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoDato)</td>
                             <td>
@@ -308,7 +313,6 @@
                             </td>
                         </tr>
                                     }
-
 
                                 }
                             }

@@ -53,7 +53,7 @@ namespace TadaNomina.Models.ClassCore.CosteosConfig
         public CosteosModel FindListPeriodos()
         {
             List<SelectListItem> _TipoNomima = new List<SelectListItem>();
-            _TipoNomima.Add(new SelectListItem { Text = "Nomina", Value = "Nomina" });
+            _TipoNomima.Add(new SelectListItem { Text = "Nómina", Value = "Nomina" });
             _TipoNomima.Add(new SelectListItem { Text = "Finiquitos", Value = "Finiquitos" });
             _TipoNomima.Add(new SelectListItem { Text = "Ambos", Value = "Ambos" });
 
