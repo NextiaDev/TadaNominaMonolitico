@@ -14,6 +14,10 @@ namespace TadaNomina.Models.ClassCore.LayoutB
         public string GeneraTxtBajio(int IdPeridoNomina, int IdUnidadNegocio)
         {
             var listado = GetListaBajio(IdPeridoNomina, IdUnidadNegocio);
+
+            if (listado.Count <= 0) throw new Exception("No esposible genear el archivo. Validar el banco de la patrona y/o el banco del empleado.");
+
+
             var cuentaCargo = GetCuentaBancariaDispersion(listado[0].IdRegistroPatronal);
 
             int registro = 1;
@@ -38,6 +42,12 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
                 }
                 var registrofinal = registro - 2;
+
+                if (registrofinal == 0)
+                {
+                    registrofinal = registrofinal + 1;
+                }
+
                 var registroultimalinea = registro + 1;
                 linea3 = "09" + RellenaCadenaCeros(registroultimalinea.ToString(), 7) + "90" + RellenaCadenaCeros(registrofinal.ToString(), 7) + RellenaCadenaCeros(totalNomina.ToString().Replace(".", ""), 18) + RellenaCadenaEspacios("", 145);
                 textoFinal += linea1 + linea2 + linea3;
@@ -56,6 +66,12 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
                 }
                 var registrofinal = registro - 2;
+
+                if (registrofinal == 0)
+                {
+                    registrofinal =  registrofinal + 1;
+                }
+
                 var registroultimalinea = registro + 1;
                 linea3 = "09" + RellenaCadenaCeros(registroultimalinea.ToString(), 7) + "90" + RellenaCadenaCeros(registrofinal.ToString(), 7) + RellenaCadenaCeros(totalNomina.ToString().Replace(".", ""), 18) + RellenaCadenaEspacios("", 145);
                 textoFinal += linea1 + linea2 + linea3;
@@ -83,19 +99,26 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
             foreach (var item in listaInfoEmpleados)
             {
-                Cat_Bancos claveBanco = cb.GetDatosBanco((int)item.IdBancoTrad);
+                try
+                {
+                    Cat_Bancos claveBanco = cb.GetDatosBanco((int)item.IdBancoTrad);
 
-                Nomina infoNom = listaNomina.Where(x => x.IdEmpleado == item.IdEmpleado).First();
-                mBajio model = new mBajio();
-                model.NetoPagar = tipoNomina == "Finiquitos" ? infoNom.Neto : infoNom.TotalEfectivo;
-                model.IdEmpleado = item.IdEmpleado;
-                model.CuentaEmpleado = cuentaNominaEmpleado.Where(x => x.IdEmpleado == item.IdEmpleado).Select(x => x.CuentaBancariaTrad).First();
-                model.Nombre = item.Nombre;
-                model.ApellidoPaterno = item.ApellidoPaterno;
-                model.ApellidoMaterno = item.ApellidoMaterno;
-                model.IdRegistroPatronal = (int)item.IdRegistroPatronal;
-                model.ClaveBanco = claveBanco.ClaveBanco;
-                listaBajio.Add(model);
+                    Nomina infoNom = listaNomina.Where(x => x.IdEmpleado == item.IdEmpleado).First();
+                    mBajio model = new mBajio();
+                    model.NetoPagar = tipoNomina == "Finiquitos" ? infoNom.Neto : infoNom.TotalEfectivo;
+                    model.IdEmpleado = item.IdEmpleado;
+                    model.CuentaEmpleado = cuentaNominaEmpleado.Where(x => x.IdEmpleado == item.IdEmpleado).Select(x => x.CuentaBancariaTrad).First();
+                    model.Nombre = item.Nombre;
+                    model.ApellidoPaterno = item.ApellidoPaterno;
+                    model.ApellidoMaterno = item.ApellidoMaterno;
+                    model.IdRegistroPatronal = (int)item.IdRegistroPatronal;
+                    model.ClaveBanco = claveBanco.ClaveBanco;
+                    listaBajio.Add(model);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("No esposible genear el archivo. No esposible genear el archivo. Validar el banco de la patrona y/o el banco del empleado.");
+                }
             }
             return listaBajio;
         }
@@ -209,13 +232,20 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GetCuentaBancariaDispersion(int IdRegistroPatronal)
         {
-            string cuentaDispersa = string.Empty;
-            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            try
             {
-                var query = ctx.Cat_RegistroPatronal.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).First();
-                cuentaDispersa = query.CuentaBancaria;
+                string cuentaDispersa = string.Empty;
+                using (TadaNominaEntities ctx = new TadaNominaEntities())
+                {
+                    var query = ctx.Cat_RegistroPatronal.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).First();
+                    cuentaDispersa = query.CuentaBancaria;
+                }
+                return cuentaDispersa;
             }
-            return cuentaDispersa;
+            catch (Exception ex)
+            {
+                throw new Exception("No esposible genear el archivo. Validar el banco de la patrona y/o el banco del empleado.");
+            }
         }
 
         public string GetClaveBanco(int IdBanco)

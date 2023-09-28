@@ -167,6 +167,20 @@
                             </div>
 
                         </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConceptoAdicional, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.ConceptoAdicional, Model.lConceptoAdicional, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontress();", @id = "_Valorr" })
+                                @Html.ValidationMessageFor(model => model.ConceptoAdicional, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group" id="Conceptosd" style="display: none">
+                                @Html.LabelFor(model => model.ClaveConceptos, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.ClaveConceptos, Model.LClaveConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ClaveConceptos, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
                         <br />
                     </div>
                 </div>
@@ -244,5 +258,26 @@
     </div>
 </div>
 
+<script>
 
+    $(document).ready(function () {
+
+        myFunctiontress();
+    })
+
+
+    function myFunctiontress() {
+        var x = document.getElementById("_Valorr").value;
+
+        if (x == "SI") {
+            $('#Conceptosd').css("display", "block");
+
+
+        }
+        else {
+            $('#Conceptosd').css("display", "none");
+
+        }
+    }
+</script>
             

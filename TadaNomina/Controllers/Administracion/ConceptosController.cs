@@ -51,8 +51,10 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa la vista con el modelo de conceptos.</returns>
         public ActionResult Create()
         {
+            int IdCliente = (int)Session["sIdCliente"];
+
             ClassConceptos conceptos = new ClassConceptos();
-            ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos();
+            ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos(IdCliente);
 
             return View(modConcpetos);
         }
@@ -79,7 +81,7 @@ namespace TadaNomina.Controllers.Administracion
                 else
                 {
                     ClassConceptos conceptos = new ClassConceptos();
-                    ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos();
+                    ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos(IdCliente);
 
                     return View(modConcpetos);
                 }

@@ -105,6 +105,26 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+        public List<vConceptos> GetvConceptosSeptimoDias(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var conceptos = from b in entidad.vConceptos.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente && x.ClaveGpo == "001") select b;
+
+                return conceptos.ToList();
+            }
+        }
+
+        public List<vConceptos> GetvConceptosFraccion(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var conceptos = from b in entidad.vConceptos.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente && x.ClaveGpo == "500") select b;
+
+                return conceptos.ToList();
+            }
+        }
+
         /// <summary>
         /// Método para obtener el concepto de nómina con su información complementaria por su identificador 
         /// </summary>
@@ -168,7 +188,12 @@ namespace TadaNomina.Models.ClassCore
                     FactoryValor = conceptos.FactoryValor,
                     Piramida = conceptos.Piramida,
                     PagoEfectivo = conceptos.PagoEfectivo,
-                    smgvalcien = conceptos.ExentoPorSueldoMinimo
+                    smgvalcien = conceptos.ExentoPorSueldoMinimo,
+                    ConceptoAdicional = conceptos.CreaConceptoAdicional,
+                    ClaveConceptos = conceptos.IdConceptoAdicional.ToString()
+
+
+
                 };
 
                 return modelConceptos;
@@ -246,6 +271,15 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Identificador usuario</param>
         public void AddConcepto(ModelConceptos modelConcepto, int IdCliente, int IdUsuario)
         {
+            int Adicional = 0;
+            if (modelConcepto.ConceptoAdicional == "SI")
+            {
+                
+                 Adicional = int.Parse(modelConcepto.ClaveConceptos);
+            }
+        
+
+
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 Cat_ConceptosNomina concepto = new Cat_ConceptosNomina()
@@ -279,7 +313,9 @@ namespace TadaNomina.Models.ClassCore
                     FactoryValor = modelConcepto.FactoryValor,
                     Piramida = modelConcepto.Piramida,
                     PagoEfectivo = modelConcepto.PagoEfectivo,
-                    ExentoPorSueldoMinimo = modelConcepto.smgvalcien
+                    ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
+                    CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
+                    IdConceptoAdicional = Adicional
                 };
 
                 entidad.Cat_ConceptosNomina.Add(concepto);
@@ -294,6 +330,13 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Identificador usuario</param>
         public void UpdateConcepto(ModelConceptos modelConceptos, int IdUsuario)
         {
+            int Adicional = 0;
+            if (modelConceptos.ConceptoAdicional == "SI")
+            {
+
+                Adicional = int.Parse(modelConceptos.ClaveConceptos);
+            }
+
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 var concepto = (from b in entidad.Cat_ConceptosNomina.Where(x => x.IdConcepto == modelConceptos.IdConcepto) select b).FirstOrDefault();
@@ -330,6 +373,8 @@ namespace TadaNomina.Models.ClassCore
                     concepto.Piramida = modelConceptos.Piramida;
                     concepto.PagoEfectivo = modelConceptos.PagoEfectivo;
                     concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
+                    concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
+                    concepto.IdConceptoAdicional = Adicional;
                 }
 
                 entidad.SaveChanges();
@@ -340,12 +385,16 @@ namespace TadaNomina.Models.ClassCore
         /// Método para llenar el modelo ModelConceptos con las listas desplegables requeridas para usar el el formulario
         /// </summary>
         /// <returns>Objeto de tipo ModelConceptos</returns>
-        public ModelConceptos LlenaListasConcpetos()
+        public ModelConceptos LlenaListasConcpetos(int IdCliente)
         {
             List<SelectListItem> lagrupador = new List<SelectListItem>();
+            List<SelectListItem> lagrupadords = new List<SelectListItem>();
+            
             List<Cat_AgrupadorConceptos> grupo = GetAgrupadorConceptos();
-            grupo.ForEach(x=> { lagrupador.Add(new SelectListItem { Text=x.ClaveGpo + " - " + x.Descripcion, Value=x.ClaveGpo }); });
+            List<Cat_ConceptosNomina> grupod = GetConceptps(IdCliente);
 
+            grupo.ForEach(x=> { lagrupador.Add(new SelectListItem { Text=x.ClaveGpo + " - " + x.Descripcion, Value= x.ClaveGpo }); });
+            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
             _tipoConcpto.Add(new SelectListItem { Text = "Deduccion", Value = "DD" });
@@ -365,6 +414,8 @@ namespace TadaNomina.Models.ClassCore
             _listSINO.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINO.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+    
+
             List<SelectListItem> _listSINO1 = new List<SelectListItem>();
             _listSINO1.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINO1.Add(new SelectListItem { Text = "NO", Value = "NO" });
@@ -375,6 +426,7 @@ namespace TadaNomina.Models.ClassCore
 
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
+            modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
             modelConceptos.LTipoDato = _TipoDato;            
             modelConceptos.LTipoEsquema = _tipoEsquema;
@@ -392,6 +444,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lPagoEfectivo= _listSINO1;
             modelConceptos.lsmgvalcien = _listSINO1;
             modelConceptos.lFactoryValor= _listSINO1;
+            modelConceptos.lConceptoAdicional = _listSINO1;
 
 
             return modelConceptos;
@@ -405,8 +458,13 @@ namespace TadaNomina.Models.ClassCore
         public ModelConceptos LlenaListasConcpetos(ModelConceptos modelConceptos)
         {
             List<SelectListItem> lagrupador = new List<SelectListItem>();
+            List<SelectListItem> lagrupadords = new List<SelectListItem>();
+
             List<Cat_AgrupadorConceptos> grupo = GetAgrupadorConceptos();
+            List<Cat_ConceptosNomina> grupod = GetConceptps(modelConceptos.IdCliente);
+
             grupo.ForEach(x => { lagrupador.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Descripcion, Value = x.ClaveGpo }); });
+            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
 
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
@@ -435,6 +493,7 @@ namespace TadaNomina.Models.ClassCore
             _UnidadExenta.Add(new SelectListItem { Text = "UMA", Value = "UMA" });
 
             modelConceptos.LAgrupador = lagrupador;
+            modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
             modelConceptos.LTipoDato = _TipoDato;            
             modelConceptos.LIntegra = _listSINO;
@@ -452,6 +511,8 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lPagoEfectivo = _listSINO1;
             modelConceptos.lsmgvalcien = _listSINO1;
             modelConceptos.lFactoryValor = _listSINO1;
+            modelConceptos.lConceptoAdicional = _listSINO1;
+
 
             return modelConceptos;
         }
@@ -469,6 +530,17 @@ namespace TadaNomina.Models.ClassCore
                 return agrupadores.ToList();
             }
         }
+
+        public List<Cat_ConceptosNomina> GetConceptps (int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var agrupadores = from b in entidad.Cat_ConceptosNomina.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente) select b;
+
+                return agrupadores.ToList();
+            }
+        }
+
 
         /// <summary>
         /// Método para cambiar el estatus del concepto de nómina a inactivo 

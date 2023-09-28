@@ -36,6 +36,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string MultiplicaDT { get; set; }
         public int? BanderaSaldos { get; set; }
         public int? BanderaCompensaciones { get; set; }
+        public int? BanderaIncidencia { get; set; }
         public string ModuloCaptura { get; set; }
     }
 

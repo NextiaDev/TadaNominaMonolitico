@@ -31,6 +31,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdSindicato { get; set; }
         public Nullable<int> Confidencial { get; set; }
         public string CalculaProvision { get; set; }
+        public Nullable<decimal> FactorDiasProvision { get; set; }
         public string DiasFraccioandos { get; set; }
         public Nullable<decimal> FactorDiasFraccionados { get; set; }
         public string IdsConceptosFraccionados { get; set; }
@@ -67,7 +68,6 @@ namespace TadaNomina.Models.DB
         public string SeptimoDia { get; set; }
         public Nullable<int> IdConceptoSeptimoDia { get; set; }
         public string RetencionISR_SMGV { get; set; }
-        public Nullable<decimal> FactorDiasProvision { get; set; }
         public string CobraCOPS_Empleado_SMGV { get; set; }
         public Nullable<int> TipoCliente { get; set; }
         public string AcuerdoEconomico { get; set; }

@@ -22,5 +22,6 @@ namespace TadaNomina.Models.ViewModels.LayoutBancos
         public string Empresa { get; set; }
         public int TipoArchivoBnte { get; set; }
         public int TipoArchivoBajio { get; set; }
+        public string GrupoAfinidad { get; set; }
     }
 }
