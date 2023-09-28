@@ -65,7 +65,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_Jornadas> Cat_Jornadas { get; set; }
         public virtual DbSet<FactoresCyV_IMSS> FactoresCyV_IMSS { get; set; }
         public virtual DbSet<vPrestacionesFactor> vPrestacionesFactor { get; set; }
-        public virtual DbSet<vConceptos> vConceptos { get; set; }
         public virtual DbSet<PeriodoNomina> PeriodoNomina { get; set; }
         public virtual DbSet<vPeriodoNomina> vPeriodoNomina { get; set; }
         public virtual DbSet<Nomina> Nomina { get; set; }
@@ -81,7 +80,7 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Honorarios> Honorarios { get; set; }
         public virtual DbSet<vHonorarios> vHonorarios { get; set; }
         public virtual DbSet<Ausentismos> Ausentismos { get; set; }
-        public virtual DbSet<VPagosServicios> VPagosServicios { get; set; }
+        public virtual DbSet<vConceptos> vConceptos { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalPercepciones_Result> sp_ReciboTradicionalPercepciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {
@@ -414,7 +413,16 @@ namespace TadaNomina.Models.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_NOMINA_IncidenciasFijasAgrupadas_Result>("sp_NOMINA_IncidenciasFijasAgrupadas", idUnidadNegocioParameter);
         }
     
-        public virtual ObjectResult<sp_RegresaIncidenciasCalculoIndividual_Result3> sp_RegresaIncidenciasCalculoIndividual(Nullable<int> idEmpleado, Nullable<int> idPeriodoNomina, Nullable<int> idCliente)
+        public virtual ObjectResult<sp_RegresaAusentismos_Result> sp_RegresaAusentismos(Nullable<int> idPeriodoNomina)
+        {
+            var idPeriodoNominaParameter = idPeriodoNomina.HasValue ?
+                new ObjectParameter("IdPeriodoNomina", idPeriodoNomina) :
+                new ObjectParameter("IdPeriodoNomina", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaAusentismos_Result>("sp_RegresaAusentismos", idPeriodoNominaParameter);
+        }
+    
+        public virtual ObjectResult<sp_RegresaIncidenciasCalculoIndividual_Result> sp_RegresaIncidenciasCalculoIndividual(Nullable<int> idEmpleado, Nullable<int> idPeriodoNomina, Nullable<int> idCliente)
         {
             var idEmpleadoParameter = idEmpleado.HasValue ?
                 new ObjectParameter("IdEmpleado", idEmpleado) :
@@ -428,16 +436,7 @@ namespace TadaNomina.Models.DB
                 new ObjectParameter("IdCliente", idCliente) :
                 new ObjectParameter("IdCliente", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaIncidenciasCalculoIndividual_Result3>("sp_RegresaIncidenciasCalculoIndividual", idEmpleadoParameter, idPeriodoNominaParameter, idClienteParameter);
-        }
-    
-        public virtual ObjectResult<sp_RegresaAusentismos_Result> sp_RegresaAusentismos(Nullable<int> idPeriodoNomina)
-        {
-            var idPeriodoNominaParameter = idPeriodoNomina.HasValue ?
-                new ObjectParameter("IdPeriodoNomina", idPeriodoNomina) :
-                new ObjectParameter("IdPeriodoNomina", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaAusentismos_Result>("sp_RegresaAusentismos", idPeriodoNominaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaIncidenciasCalculoIndividual_Result>("sp_RegresaIncidenciasCalculoIndividual", idEmpleadoParameter, idPeriodoNominaParameter, idClienteParameter);
         }
     }
 }

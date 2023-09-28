@@ -51,5 +51,7 @@ namespace TadaNomina.Models.DB
         public string ClaveContable { get; set; }
         public string ExentoPorSueldoMinimo { get; set; }
         public string FactoryValor { get; set; }
+        public string CreaConceptoAdicional { get; set; }
+        public Nullable<int> IdConceptoAdicional { get; set; }
     }
 }

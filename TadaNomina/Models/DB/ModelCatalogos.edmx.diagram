@@ -44,10 +44,10 @@
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Sucursales" Width="1.5" PointX="21.375" PointY="19.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_HonorariosFacturas" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vUnidadesNegocio" Width="1.5" PointX="16.375" PointY="24.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="24.375" PointY="19.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="2.25" PointX="3.375" PointY="22.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="21.375" PointY="7.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Clientes" Width="1.5" PointX="23.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="23.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="24.375" PointY="20.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -152,7 +152,7 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="i">ModelIncidencias</param>
         /// <param name="IdUsuario">Identificador del usuario</param>
-        public void AddIncidencias(ModelIncidencias i, int IdUsuario)
+        public int AddIncidencias(ModelIncidencias i, int IdUsuario)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
@@ -179,12 +179,15 @@ namespace TadaNomina.Models.ClassCore
                 ins.BanderaAdelantoPULPI = i.BanderaAdelantoNominaPULPI;
                 ins.BanderaVacaciones = i.BanderaVacaciones;
                 ins.BanderaCompensaciones = i.BanderaCompensaciones;
+                ins.BanderaIncidencia = i.BanderaIncidencia;
                 ins.IdEstatus = 1;
                 ins.IdCaptura = IdUsuario;
                 ins.FechaCaptura = DateTime.Now;               
                                 
                 entidad.Incidencias.Add(ins);
                 entidad.SaveChanges();
+
+                return ins.IdIncidencia;
             }
         }
 
@@ -261,7 +264,7 @@ namespace TadaNomina.Models.ClassCore
         public void Proceso_Incidencias_Individuales(List<ModelIncidenciaIndividual> incidencias, int IdEmpleado, int IdPeriodoNomina, int IdUsuario)
         {
             var _incidencias = incidencias.Where(x => x.BanderaFiniquitos != 1).ToList();
-            _incidencias = _incidencias.Where(x => x.BanderaConceptoEspecial == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaPensionAlimenticia == null && x.BanderaIncidenciasFijas == null && x.BanderaAguinaldo == null && x.BanderaAusentismos == null && x.BanderaAdelantoPULPI == null && x.BanderaSaldos == null && x.BanderaCompensaciones == null).ToList();
+            _incidencias = _incidencias.Where(x => x.BanderaConceptoEspecial == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaPensionAlimenticia == null && x.BanderaIncidenciasFijas == null && x.BanderaAguinaldo == null && x.BanderaAusentismos == null && x.BanderaAdelantoPULPI == null && x.BanderaSaldos == null && x.BanderaCompensaciones == null && x.BanderaIncidencia == null).ToList();
             DeleteIncidencia(_incidencias.Select(x=>x.Id).ToArray());
 
             foreach (var i in _incidencias)
@@ -428,10 +431,12 @@ namespace TadaNomina.Models.ClassCore
 
             if (guardar)
             {
-                AddIncidencias(i, IdUsuario);
+                int IdIncidencia = AddIncidencias(i, IdUsuario);
+                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                    IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
             }
         }
-
+        
         /// <summary>
         /// Método para agregar nuevas incidencias recibiendo todos los parametros
         /// </summary>
@@ -605,7 +610,9 @@ namespace TadaNomina.Models.ClassCore
 
             if (guardar)
             {
-                AddIncidencias(i, IdUsuario);
+                int IdIncidencia = AddIncidencias(i, IdUsuario);
+                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                    IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
             }
         }
 
@@ -735,7 +742,9 @@ namespace TadaNomina.Models.ClassCore
 
                 if (guardar)
                 {
-                    AddIncidencias(i, IdUsuario);
+                    int IdIncidencia = AddIncidencias(i, IdUsuario);
+                    if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                        IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
                 }
             }
         }
@@ -873,6 +882,199 @@ namespace TadaNomina.Models.ClassCore
 
             if (guardar)
             {
+                int IdIncidencia = AddIncidencias(i, IdUsuario);
+                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                    IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
+            }
+        }
+
+
+        /// <summary>
+        /// Metodo para borrar las incidencias que se crearon por otra incidencia.
+        /// </summary>
+        /// <param name="IdPeriodo"></param>
+        /// <param name="IdEmpleado"></param>
+        /// <param name="IdConcepto"></param>        
+        public void DeleteIncidenciaSecundaria(int IdPeriodo, int IdEmpleado, int IdConcepto)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var inc = entidad.Incidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado && x.IdConcepto == IdConcepto && x.BanderaIncidencia != null).ToList();
+
+                entidad.Incidencias.RemoveRange(inc);
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Metodo para borrar las incidencias que se crearon por otra incidencia.
+        /// </summary>
+        /// <param name="IdPeriodo"></param>
+        /// <param name="IdEmpleado"></param>
+        /// <param name="IdConcepto"></param>        
+        public void DeleteIncidenciaSecundaria(int IdBandera)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var inc = entidad.Incidencias.Where(x => x.BanderaIncidencia == IdBandera).ToList();
+
+                entidad.Incidencias.RemoveRange(inc);
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Método para agregar nuevas incidencias que se generan de conceptos configurados para la creacion de otra incidencia
+        /// </summary>
+        /// <param name="i">ModelIncidencias</param>
+        /// <param name="IdUsuario">Identificador del usuario</param>
+        public void IncindenciaSecundaria(ModelIncidencias i, int IdIncidencia, int IdConcepto, int IdUsuario)
+        {
+            DeleteIncidenciaSecundaria(i.IdPeriodoNomina, i.IdEmpleado, IdConcepto);
+            i.IdConcepto = IdConcepto;
+            ClassConceptos cconceptos = new ClassConceptos();
+            vConceptos concepto = cconceptos.GetvConcepto(i.IdConcepto);
+
+            ClassEmpleado cempleado = new ClassEmpleado();
+            vEmpleados vEmp = cempleado.GetvEmpleado(i.IdEmpleado);
+
+            ClassPeriodoNomina cperiodo = new ClassPeriodoNomina();
+            vPeriodoNomina periodo = cperiodo.GetvPeriodoNominasId(i.IdPeriodoNomina);
+
+            ClassUnidadesNegocio cu = new ClassUnidadesNegocio();
+            Cat_UnidadNegocio catUnidad = cu.getUnidadesnegocioId(periodo.IdUnidadNegocio);
+
+            ClassConceptosFiniquitos ccf = new ClassConceptosFiniquitos();
+            ConfiguracionConceptosFiniquito configuracion = ccf.GetConfiguracionConceptosFiniquitos(periodo.IdCliente);
+
+            decimal cantidadAnt = 0;
+
+            if (configuracion != null)
+            {
+                if (configuracion.IdConceptoPV != null && configuracion.IdConceptoPV == i.IdConcepto)
+                {
+                    ClassPrimasVacacionales cpv = new ClassPrimasVacacionales();
+                    ClassFechasCalculos cf = new ClassFechasCalculos();
+                    var conf = cf.GetConfiguracionFechas(periodo.IdUnidadNegocio);
+                    if (conf != null)
+                    {
+                        int IdPrestaciones = vEmp.IdPrestaciones ?? 1;
+                        DateTime? FechaIngreso = null;
+                        FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
+                        decimal Antiguedad = periodo.FechaFin.Subtract((DateTime)FechaIngreso).Days / 365M;
+                        cpv.GetDias(IdPrestaciones, Antiguedad);
+
+                        if (concepto.SDPor != 0 && concepto.SDPor != null)
+                        {
+                            if (concepto.FactoryValor == "SI")
+                            {
+                                cantidadAnt = i.Cantidad;
+                                i.Cantidad = i.Cantidad * (decimal)concepto.SDPor;
+                                concepto.SDPor = cpv.Porcentaje;
+                            }
+                        }
+                        else
+                            concepto.SDPor = cpv.Porcentaje;
+
+                    }
+                }
+            }
+
+            if (concepto.MultiplicaDT == "SI")
+            {
+                concepto.TipoDato = "Cantidades";
+                concepto.CalculaMontos = "NO";
+            }
+
+            bool guardar = false;
+            Exento = 0;
+            Gravado = 0;
+            switch (concepto.TipoDato)
+            {
+                case "Cantidades":
+                    if (i.Cantidad > 0 || i.CantidadEsq > 0)
+                    {
+                        decimal cantidadTemporal = i.Cantidad;
+                        decimal? cantidadTemporalEsq = i.CantidadEsq;
+
+                        if (catUnidad.DiasFraccioandos == "S" && catUnidad.FactorDiasFraccionados > 0)
+                        {
+                            if (catUnidad.IdsConceptosFraccionados != null && catUnidad.IdsConceptosFraccionados.Length > 0)
+                            {
+                                var clavesFraccionadas = catUnidad.IdsConceptosFraccionados.Replace(" ", "").Split(',').ToArray();
+
+                                if (clavesFraccionadas.Contains(i.ClaveConcepto))
+                                {
+                                    i.Cantidad = i.Cantidad * (decimal)catUnidad.FactorDiasFraccionados;
+                                    i.CantidadEsq = i.CantidadEsq = (decimal)catUnidad.FactorDiasFraccionados;
+                                }
+                            }
+                            else
+                            {
+                                i.Cantidad = i.Cantidad * (decimal)catUnidad.FactorDiasFraccionados;
+                                i.CantidadEsq = i.CantidadEsq = (decimal)catUnidad.FactorDiasFraccionados;
+                            }
+                        }
+
+                        i.Monto = 0;
+                        i.MontoEsquema = 0;
+
+                        if (concepto.CalculaMontos == "SI")
+                        {
+                            ObtenMontos(concepto, vEmp, i, null, null);
+                            ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS);
+
+                            i.Monto = montoTradicional;
+                            i.MontoEsquema = montoEsquema;
+                        }
+
+                        i.Cantidad = cantidadTemporal;
+                        i.CantidadEsq = cantidadTemporalEsq;
+                        guardar = true;
+                    }
+                    break;
+                case "Pesos":
+                    i.Cantidad = 0;
+
+                    if (i.Monto > 0)
+                    {
+                        montoTradicional = i.Monto;
+                        ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS);
+                        guardar = true;
+                    }
+
+                    if (i.MontoEsquema > 0)
+                    {
+                        if (concepto.TipoEsquema == "Esquema" || concepto.TipoEsquema == "Mixto")
+                        {
+                            i.MontoEsquema = i.MontoEsquema;
+                        }
+                        else
+                        {
+                            i.MontoEsquema = 0;
+                        }
+                        guardar = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            i.Exento = Exento;
+            i.Gravado = Gravado;
+
+            if (concepto.ClaveSAT == "999")
+            {
+                i.Exento = 0;
+                i.Gravado = 0;
+            }
+
+            if (cantidadAnt > 0)
+                i.Cantidad = cantidadAnt;
+
+            if (guardar)
+            {
+                i.BanderaIncidencia = IdIncidencia;
                 AddIncidencias(i, IdUsuario);
             }
         }
@@ -1229,7 +1431,7 @@ namespace TadaNomina.Models.ClassCore
         {
             var si = new sIncidencias();
             si.DeleteIncindencia(Id, token);
-
+            DeleteIncidenciaSecundaria(Id);
         }
 
         /// <summary>
@@ -1259,7 +1461,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var incidencia = (from b in entidad.Incidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado) select b).ToList();
+                var incidencia = entidad.Incidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado).ToList();
 
                 entidad.Incidencias.RemoveRange(incidencia);
                 entidad.SaveChanges();
@@ -1444,7 +1646,6 @@ namespace TadaNomina.Models.ClassCore
 
             return modelErrores;
         }
-
 
         public class Mapeo
         {
@@ -1804,11 +2005,6 @@ namespace TadaNomina.Models.ClassCore
                 errores.Errores++; ;
             }
         }
-
-
-
-
-
 
     }
 }

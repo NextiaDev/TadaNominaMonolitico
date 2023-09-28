@@ -211,7 +211,7 @@
 
                             @{ for (int i = 0; i < Model.ListIncidencias.Count; i++)
                                 {
-                                    if (Model.ListIncidencias[i].BanderaIncidenciasFijas != null || Model.ListIncidencias[i].BanderaConceptoEspecial != null || Model.ListIncidencias[i].BanderaInfonavit != null || Model.ListIncidencias[i].BanderaFonacot != null || Model.ListIncidencias[i].BanderaPensionAlimenticia != null || Model.ListIncidencias[i].BanderaVacaciones != null || Model.ListIncidencias[i].BanderaAusentismos != null || Model.ListIncidencias[i].BanderaAdelantoPULPI != null || Model.ListIncidencias[i].BanderaPiramidacion != null || Model.ListIncidencias[i].BanderaSaldos != null || Model.ListIncidencias[i].BanderaCompensaciones != null)
+                                    if (Model.ListIncidencias[i].BanderaIncidenciasFijas != null || Model.ListIncidencias[i].BanderaConceptoEspecial != null || Model.ListIncidencias[i].BanderaInfonavit != null || Model.ListIncidencias[i].BanderaFonacot != null || Model.ListIncidencias[i].BanderaPensionAlimenticia != null || Model.ListIncidencias[i].BanderaVacaciones != null || Model.ListIncidencias[i].BanderaAusentismos != null || Model.ListIncidencias[i].BanderaAdelantoPULPI != null || Model.ListIncidencias[i].BanderaPiramidacion != null || Model.ListIncidencias[i].BanderaSaldos != null || Model.ListIncidencias[i].BanderaCompensaciones != null || Model.ListIncidencias[i].BanderaIncidencia != null)
                                     {
                                         <tr style="background-color:gray; color:white">
                                             @Html.HiddenFor(model => model.ListIncidencias[i].Id)
@@ -228,6 +228,7 @@
                                             @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPiramidacion)
                                             @Html.HiddenFor(model => model.ListIncidencias[i].BanderaSaldos)
                                             @Html.HiddenFor(model => model.ListIncidencias[i].BanderaCompensaciones)
+                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidencia)
 
 
                                             <td>
@@ -275,6 +276,7 @@
                             @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPiramidacion)
                             @Html.HiddenFor(model => model.ListIncidencias[i].BanderaSaldos)
                             @Html.HiddenFor(model => model.ListIncidencias[i].BanderaCompensaciones)
+                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidencia)
 
                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)</td>
                             <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
