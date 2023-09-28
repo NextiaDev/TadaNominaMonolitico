@@ -92,6 +92,15 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public string MultiplicacDiasTrabajados { get; set; }
         public List<SelectListItem> lMultiplicaDiasTrabajados { get; set; }
 
+        [Display(Name = "¿Concepto Adicional?")]
+        public string ConceptoAdicional { get; set; }
+        public List<SelectListItem> lConceptoAdicional { get; set; }
+
+
+        [Display(Name = "Conceptos:")]
+        public string ClaveConceptos { get; set; }
+        public List<SelectListItem> LClaveConcepto { get; set; }
+
         [Display(Name = "¿Considerar Factor y Valor?")]
         public string FactoryValor { get; set; }
         public List<SelectListItem> lFactoryValor { get; set; }
