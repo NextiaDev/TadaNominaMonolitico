@@ -61,6 +61,8 @@ namespace TadaNomina.Models.DB
         public string ConceptosSDILiquidacion { get; set; }
         public string CalcularLiquidacionSDI { get; set; }
         public string ISRAguinaldoL174 { get; set; }
+        public string ISRProyeccionMensual { get; set; }
+        public Nullable<decimal> FactorDiasMesISR { get; set; }
         public string GenerarIntegradoPVyAgui { get; set; }
         public string ValidaFechaSubirArchivo { get; set; }
         public string FechaInicioValidacionSubir { get; set; }
