@@ -92,7 +92,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public string MultiplicacDiasTrabajados { get; set; }
         public List<SelectListItem> lMultiplicaDiasTrabajados { get; set; }
 
-        [Display(Name = "¿Concepto Adicional?")]
+        [Display(Name = "¿Crea Concepto Adicional?")]
         public string ConceptoAdicional { get; set; }
         public List<SelectListItem> lConceptoAdicional { get; set; }
 

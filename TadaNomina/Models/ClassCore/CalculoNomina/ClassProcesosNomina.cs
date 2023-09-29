@@ -202,7 +202,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                if (Periodo.TablaDiaria == "S")
+                if (Periodo.TablaDiaria == "S" || UnidadNegocio.ISRProyeccionMensual == "S")
                 {
                     GetImpuestosSAT(4, Periodo.FechaFin);
                     GetSubsidioSAT(4, Periodo.FechaFin);
