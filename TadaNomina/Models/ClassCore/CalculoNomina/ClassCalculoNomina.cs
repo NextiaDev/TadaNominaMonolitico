@@ -309,7 +309,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {                
                 ClassConceptosFiniquitos cfiniquitos = new ClassConceptosFiniquitos();
                 int? IdConcepto = null;
-                try { IdConcepto = (cfiniquitos.GetvConfiguracionConceptosFiniquitos(item.IdCliente).IdConceptoAguinaldo).Value; } catch (Exception ex) { throw new Exception("No se ha configurado el concepto para aguinaldo."); }
+                try { IdConcepto = (cfiniquitos.GetvConfiguracionConceptosFiniquitos(item.IdCliente).IdConceptoAguinaldo).Value; } catch (Exception ex) { throw new Exception("No se ha configurado el concepto para aguinaldo." + ex.Message); }
 
                 var incidencia_  = incidenciasEmpleado.Where(x => x.IdConcepto == IdConcepto && x.BanderaAguinaldos == 1).FirstOrDefault();
 

@@ -65,10 +65,10 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_Sucursales> Cat_Sucursales { get; set; }
         public virtual DbSet<Cat_HonorariosFacturas> Cat_HonorariosFacturas { get; set; }
         public virtual DbSet<vUnidadesNegocio> vUnidadesNegocio { get; set; }
-        public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
-        public virtual DbSet<Cat_UnidadNegocio> Cat_UnidadNegocio { get; set; }
-        public virtual DbSet<vConceptos> vConceptos { get; set; }
         public virtual DbSet<Cat_Clientes> Cat_Clientes { get; set; }
+        public virtual DbSet<Cat_UnidadNegocio> Cat_UnidadNegocio { get; set; }
+        public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
+        public virtual DbSet<vConceptos> vConceptos { get; set; }
     
         public virtual ObjectResult<sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result> sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS(Nullable<int> idCliente, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal)
         {

@@ -69,11 +69,8 @@ namespace TadaNomina.Controllers.Nomina
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-            return View();
         }
 
 

@@ -50,5 +50,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> BanderaBallistic { get; set; }
         public Nullable<int> BanderaSaldos { get; set; }
         public Nullable<int> BanderaCompensaciones { get; set; }
+        public string Origen { get; set; }
+        public Nullable<int> BanderaIncidencia { get; set; }
     }
 }

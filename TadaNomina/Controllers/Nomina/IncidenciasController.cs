@@ -136,11 +136,8 @@ namespace TadaNomina.Controllers.Nomina
                     ClassIncidencias cins = new ClassIncidencias();
                     int IdUsuario = (int)Session["sIdUsuario"];
                     cins.NewIncindencia(collection, IdUsuario);
-
-                    //si la incidencia es de vacaciones se crea una nueva incidencia
-
-                    ClassIncidencias cincidencias = new ClassIncidencias();
-                    ModelIncidencias modelo = cincidencias.LlenaListasIncidencias(IdUnidad, IdCliente);
+                    
+                    ModelIncidencias modelo = cins.LlenaListasIncidencias(IdUnidad, IdCliente);
                     
                     modelo.validacion = true;
                     modelo.Mensaje = "La incidencia se guardo de forma correcta!";

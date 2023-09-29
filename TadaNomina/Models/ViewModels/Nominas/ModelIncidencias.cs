@@ -66,6 +66,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public int? BanderaIncidenciasFijas { get; set; }
         public int? BanderaVacaciones { get; set; }   
         public int? BanderaCompensaciones { get; set; }
+        public int? BanderaIncidencia { get; set; }
         public int? BanderaAdelantoNominaPULPI { get; set; }
         
 

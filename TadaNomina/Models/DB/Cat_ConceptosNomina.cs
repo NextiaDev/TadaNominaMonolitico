@@ -63,5 +63,7 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> PorcentajeDiasSubsecuentes { get; set; }
         public Nullable<int> IdConceptoPago { get; set; }
         public string FactoryValor { get; set; }
+        public string CreaConceptoAdicional { get; set; }
+        public Nullable<int> IdConceptoAdicional { get; set; }
     }
 }

@@ -151,12 +151,12 @@ namespace TadaNomina.Models.ClassCore
                 BanderaFiniquitos = x.BanderaFiniquitos, BanderaAguinaldo = x.BanderaAguinaldos, MultiplicaDT = x.MultiplicaDT, BanderaIncidenciasFijas = x.BanderaIncidenciasFijas,
                 BanderaConceptoEspecial = x.BanderaConceptoEspecial, BanderaFonacot = x.BanderaFonacot, BanderaInfonavit = x.BanderaInfonavit, BanderaPensionAlimenticia = x.BanderaPensionAlimenticia, 
                 BanderaVacaciones = x.BanderaVacaciones, BanderaAusentismos = x.BanderaAusentismos, BanderaAdelantoPULPI = x.BanderaAdelantoPULPI, BanderaPiramidacion = x.BanderaPiramidacion, BanderaSaldos = x.BanderaSaldos, 
-                BanderaCompensaciones = x.BanderaCompensaciones }); });
+                BanderaCompensaciones = x.BanderaCompensaciones, BanderaIncidencia = x.BanderaIncidencia }); });
 
             foreach (var item in model)
             {
                 if (item.BanderaIncidenciasFijas != null)
-                    item.ModuloCaptura = "Inc.Fijas";
+                    item.ModuloCaptura = "Inc.Fijas"; 
                 if (item.BanderaConceptoEspecial != null)
                     item.ModuloCaptura = "Especial";
                 if (item.BanderaFonacot != null)
@@ -175,6 +175,8 @@ namespace TadaNomina.Models.ClassCore
                     item.ModuloCaptura = "Saldos";
                 if (item.BanderaCompensaciones != null)
                     item.ModuloCaptura = "Comp. RH";
+                if (item.BanderaIncidencia != null)
+                    item.ModuloCaptura = "Incidencia";
             }
 
             return model;
@@ -187,7 +189,7 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdPeriodo">Identificador del periodo</param>
         /// <param name="IdCliente">Identificador del cliente</param>
         /// <returns>conjunto de incidencias en base a un empledo y un periodo de nómina para presentarlas en la pantalla de cálculo individual</returns>
-        public List<sp_RegresaIncidenciasCalculoIndividual_Result3> GetIncidneciasConceptos(int IdEmpleado, int IdPeriodo, int IdCliente)
+        public List<sp_RegresaIncidenciasCalculoIndividual_Result> GetIncidneciasConceptos(int IdEmpleado, int IdPeriodo, int IdCliente)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {

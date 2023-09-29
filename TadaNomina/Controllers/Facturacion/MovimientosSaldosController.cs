@@ -78,21 +78,15 @@ namespace TadaNomina.Controllers.Facturacion
                         else
                         {
                             ViewBag.JavaScriptFunction = string.Format("mensajeAlerta('Saldos', 'Su monto es menor!!', 'mint', 'bounceInRight', 'bounceOutLeft', 4500);");
-
                         }
                     }
-
                 }
                 else
                 {
-
                     AddMovimiento(model, IdUsuario);
                 }
-
-
-
             }
-            catch (Exception ex)
+            catch 
             {
                 return RedirectToAction("Index", "Login");
             }

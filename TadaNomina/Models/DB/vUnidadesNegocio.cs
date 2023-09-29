@@ -62,5 +62,8 @@ namespace TadaNomina.Models.DB
         public string Clave_Sat { get; set; }
         public string GenerarIntegradoPVyAgui { get; set; }
         public string SeptimoDia { get; set; }
+        public Nullable<int> TipoCliente { get; set; }
+        public string AcuerdoEconomico { get; set; }
+        public Nullable<int> TipoCobro { get; set; }
     }
 }
