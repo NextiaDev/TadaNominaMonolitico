@@ -117,6 +117,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             nominaTrabajo.BaseGravada += montoIncidenciasMultiplicaDTGrabado;
             nominaTrabajo.BaseGravadaP = nominaTrabajo.BaseGravada;
+
+            //obtener base gravada cuando se hace proyeccion mensual.
+            if (UnidadNegocio.ISRProyeccionMensual == "S")
+            {
+                var baseGravDiaria = nominaTrabajo.BaseGravada / (DiasPago + 1);
+                nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
+            }
             
             if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0)
                 nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();
@@ -258,7 +265,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.ISR = 0;
             
             nominaTrabajo.ISR = nominaTrabajo.CuotaFija + nominaTrabajo.PorcentajeCalculado;
-                        
+
+            //se obtiene el ISR mensualizado cuando hay proyeccion mensual
+            if (UnidadNegocio.ISRProyeccionMensual == "S")
+            {
+                var ISRDiario = nominaTrabajo.ISR / UnidadNegocio.FactorDiasMesISR;
+                nominaTrabajo.ISR = Math.Round((decimal)ISRDiario * (DiasPago + 1), 2);
+            }
+
             if (Periodo.AjusteDeImpuestos == "SI" && !AjusteAnual)
             {               
                 if (ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault() != null)
@@ -314,7 +328,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     nominaTrabajo.Subsidio = 0;
                 }
             }
-            
+
+            if (UnidadNegocio.ISRProyeccionMensual == "S")
+            {
+                CreditoSalario = 0;
+                nominaTrabajo.Subsidio = 0;
+            }
         }
 
         /// <summary>
@@ -324,14 +343,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             var query = ListSubsidio.Where(b=> b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
 
-            if (query == null || AjusteAnual)
-            {
-                CreditoSalario = 0;
-            }
-            else
-            {
-                CreditoSalario = query.CreditoSalario;
-            }
+            if (query == null || AjusteAnual)            
+                CreditoSalario = 0;            
+            else            
+                CreditoSalario = query.CreditoSalario;            
 
             nominaTrabajo.Subsidio = CreditoSalario;
         }
