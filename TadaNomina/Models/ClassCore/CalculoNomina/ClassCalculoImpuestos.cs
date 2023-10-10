@@ -416,7 +416,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }                
             }
 
-            if (UnidadNegocio.RetencionISR_SMGV == "S")            
+            if (UnidadNegocio.RetencionISR_SMGV == "S"  && SD_IMSS <= SueldosMinimos.SalarioMinimoGeneral)            
                 nominaTrabajo.ImpuestoRetener = nominaTrabajo.ImpuestoRetener > 0 ? nominaTrabajo.ImpuestoRetener = 0 : nominaTrabajo.ImpuestoRetener;
             
 
