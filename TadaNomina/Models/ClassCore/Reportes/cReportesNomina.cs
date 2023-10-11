@@ -88,6 +88,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdPeriodoNomina", SqlDbType.Int).Value = IdPeriodoNomina;
                     dt.Load(cmd.ExecuteReader());
@@ -277,6 +278,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdsPeriodoNomina", SqlDbType.Int).Value = IdPeriodoNomina;
                     dt.Load(cmd.ExecuteReader());
@@ -377,6 +379,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdUnidadNegocio", SqlDbType.Int).Value = IdUnidadNegocio;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -450,6 +453,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdUnidadNegocio", SqlDbType.Int).Value = IdUnidadNegocio;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -478,6 +482,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdCliente", SqlDbType.Int).Value = IdCliente;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -504,6 +509,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdCliente", SqlDbType.Int).Value = IdCliente;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -531,6 +537,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
                     cmd.Parameters.Add("FechaFinal", SqlDbType.Date).Value = pFechaFinal;
@@ -558,6 +565,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdCliente", SqlDbType.Int).Value = IdCliente;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -586,6 +594,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdCliente", SqlDbType.Int).Value = IdCliente;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -612,6 +621,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdUsuario", SqlDbType.Int).Value = IdUsuario;
                     dt.Load(cmd.ExecuteReader());
