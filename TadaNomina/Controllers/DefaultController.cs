@@ -12,7 +12,7 @@ namespace TadaNomina.Controllers
     public class DefaultController : BaseController
     {
         // GET: Default
-        public ActionResult Index()
+        public ActionResult Index(string Mensaje)
         {            
             var listClientes = new List<SelectListItem>();
             var modelSeleccionarNomina = new ModelSelecionarNomina();
@@ -26,6 +26,7 @@ namespace TadaNomina.Controllers
             var listUnidades = new List<SelectListItem>();
             modelSeleccionarNomina.unidadNegocio = listUnidades;
             ViewBag.Lista = clientes;
+            ViewBag.Mensaje = Mensaje;
 
             return View(modelSeleccionarNomina);            
         }
