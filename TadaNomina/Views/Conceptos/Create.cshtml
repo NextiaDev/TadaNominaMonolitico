@@ -62,7 +62,6 @@
                 </div>
             </div>
         </div>
-
         <div class="panel">
             <div class="panel-heading">
                 <h3 class="panel-title">Configuración Cálculo.</h3>
@@ -78,17 +77,22 @@
                         </div>
                         @Html.LabelFor(model => model.TipoDato, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
-                            @Html.DropDownListFor(model => model.TipoDato, Model.LTipoDato, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.TipoDato, Model.LTipoDato, "Elegir...", htmlAttributes: new { @class = "form-control", @onchange = "ValidaDiasHoras(this.value)" })
                             @Html.ValidationMessageFor(model => model.TipoDato, "", new { @class = "text-danger" })
                         </div>
+                        @Html.LabelFor(model => model.DiasHoras, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.DiasHoras, Model.lDiasHoras, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdDiasHoras", @disabled = "true" })
+                            @Html.ValidationMessageFor(model => model.DiasHoras, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.TipoEsquema, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.DropDownListFor(model => model.TipoEsquema, Model.LTipoEsquema, "Elegir...", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.TipoEsquema, "", new { @class = "text-danger" })
                         </div>
-                    </div>
-
-                    <div class="form-group">
                         @Html.LabelFor(model => model.CalculaMontos, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.DropDownListFor(model => model.CalculaMontos, Model.LCalculaMontos, "Elegir...", htmlAttributes: new { @class = "form-control" })
@@ -99,14 +103,14 @@
                             @Html.EditorFor(model => model.SDPor, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.SDPor, "", new { @class = "text-danger" })
                         </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.SDEntre, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.EditorFor(model => model.SDEntre, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                             @Html.ValidationMessageFor(model => model.SDEntre, "", new { @class = "text-danger" })
                         </div>
-                    </div>
-
-                    <div class="form-group">
                         @Html.LabelFor(model => model.AfectaSueldo, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.DropDownListFor(model => model.AfectaSueldo, Model.LAfectaSueldo, "Elegir...", htmlAttributes: new { @class = "form-control" })
@@ -117,26 +121,24 @@
                             @Html.DropDownListFor(model => model.AfectaCargaSocial, Model.LAfectaCargaSocial, "Elegir...", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.AfectaCargaSocial, "", new { @class = "text-danger" })
                         </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.sumaNetoFinal, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.DropDownListFor(model => model.sumaNetoFinal, Model.lSumaNeto, "Elegir...", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.sumaNetoFinal, "", new { @class = "text-danger" })
                         </div>
-                    </div>
-
-                    <div class="form-group">
                         @Html.LabelFor(model => model.FactoryValor, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
                             @Html.DropDownListFor(model => model.FactoryValor, Model.lFactoryValor, "Elegir...", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.FactoryValor, "", new { @class = "text-danger" })
                         </div>
-                      
                     </div>
                     <br />
                 </div>
             </div>
         </div>
-
         <div class="panel">
             <div class="panel-heading">
                 <h3 class="panel-title">Configuración Especial.</h3>
@@ -165,7 +167,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.ConceptoAdicional, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-2">
-                            @Html.DropDownListFor(model => model.ConceptoAdicional, Model.lConceptoAdicional, "Elegir...", htmlAttributes: new { @class = "form-control",onchange = "myFunctiontres();", @id = "_Valor" })
+                            @Html.DropDownListFor(model => model.ConceptoAdicional, Model.lConceptoAdicional, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontres();", @id = "_Valor" })
                             @Html.ValidationMessageFor(model => model.ConceptoAdicional, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group" id="Conceptosd" style="display: none">
@@ -175,11 +177,11 @@
                                 @Html.ValidationMessageFor(model => model.ClaveConceptos, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        </div>
-
-
-                        <br />
                     </div>
+
+
+                    <br />
+                </div>
             </div>
         </div>
 
@@ -270,6 +272,16 @@
         else {
             $('#Conceptosd').css("display", "none");
 
+        }
+    }
+
+    function ValidaDiasHoras(TipoDato) {
+        debugger;
+        if (TipoDato == "Cantidades") {
+            $("#IdDiasHoras").prop("disabled", false);
+        } else {
+            $("#IdDiasHoras").prop("disabled", true);
+            $("#IdDiasHoras").val(null);
         }
     }
 </script>
