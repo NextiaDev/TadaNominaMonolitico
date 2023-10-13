@@ -210,8 +210,8 @@
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Cat_EntidadFederativa">
           <Key>
             <PropertyRef Name="Id" />
@@ -745,8 +745,8 @@ warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not hav
           <Property Name="FechaInicio" Type="datetime" />
           <Property Name="IdEstatus" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.v_IMSS_MovimientosCESS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.v_IMSS_MovimientosCESS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="v_IMSS_MovimientosCESS">
           <Key>
             <PropertyRef Name="ActividadEconomica" />
@@ -770,8 +770,8 @@ warning 6002: The table/view 'TadaNomina.dbo.v_IMSS_MovimientosCESS' does not ha
           <Property Name="CausaBaja" Type="nvarchar" MaxLength="500" />
           <Property Name="Origen" Type="varchar" MaxLength="9" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vComunicados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vComunicados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vComunicados">
           <Key>
             <PropertyRef Name="IdComunicado" />
@@ -788,8 +788,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vComunicados' does not have a prima
           <Property Name="IdModifica" Type="int" />
           <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vConceptos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConceptos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vConceptos">
           <Key>
             <PropertyRef Name="IdConcepto" />
@@ -835,8 +835,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vConceptos' does not have a primary
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vConfiguracionConceptosFiniquitos">
           <Key>
             <PropertyRef Name="IdConfiguracion" />
@@ -880,8 +880,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' 
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vDepartamentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vDepartamentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vDepartamentos">
           <Key>
             <PropertyRef Name="IdDepartamento" />
@@ -897,8 +897,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vDepartamentos' does not have a pri
           <Property Name="FechaModificacion" Type="datetime" />
           <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vEmpleadosIMSS_NA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vEmpleadosIMSS_NA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vEmpleadosIMSS_NA">
           <Key>
             <PropertyRef Name="IdEmpleado" />
@@ -988,8 +988,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vEmpleadosIMSS_NA' does not have a 
           <Property Name="Estatus" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="MotivoBaja" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vPrestaciones' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPrestaciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vPrestaciones">
           <Key>
             <PropertyRef Name="IdPrestaciones" />
@@ -1004,8 +1004,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vPrestaciones' does not have a prim
           <Property Name="FechaModifica" Type="datetime" />
           <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vTipoAusentismo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTipoAusentismo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vTipoAusentismo">
           <Key>
             <PropertyRef Name="IdTipoAusentismo" />
@@ -1024,8 +1024,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vTipoAusentismo' does not have a pr
           <Property Name="Concepto" Type="nvarchar" MaxLength="150" />
           <Property Name="IdCliente" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vUnidadesNegocio">
           <Key>
             <PropertyRef Name="IdUnidadNegocio" />

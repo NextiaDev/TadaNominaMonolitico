@@ -108,6 +108,8 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> FechaModificacionNube { get; set; }
         public Nullable<System.DateTime> FechaModificacionCIF { get; set; }
         public Nullable<int> IdOcupacionSTPS { get; set; }
+        public Nullable<int> idSincatosClientes { get; set; }
+        public Nullable<decimal> PorcentajeSindicato { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }
