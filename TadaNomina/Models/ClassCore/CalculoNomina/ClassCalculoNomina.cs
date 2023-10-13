@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
@@ -219,7 +220,23 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 CalculaISR();
             }
 
-            Calcula_Cuotas_Obreras();
+            if (ValidacionDiasEquivalentes())
+            {
+                List<int> mesesvariables = new List<int>() { 1, 3, 5, 7, 9, 11 };
+                var mesfin = Periodo.FechaFin.Month;
+                if (mesesvariables.Contains(mesfin))
+                {
+                    Calcula_Cuotas_ObrerasEquivalentes();
+                }
+                else
+                {
+                    Calcula_Cuotas_Obreras();
+                }
+            }
+            else
+            {
+                Calcula_Cuotas_Obreras();
+            }
 
             if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina=="Nomina")
             {
@@ -256,7 +273,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;                       
         }
 
-                /// <summary>
+        /// <summary>
         /// Metodo que calcula la parte esquema del calculo de nómina
         /// </summary>
         /// <param name="item">Objeto con toda la información del empleado en proceso.</param>
