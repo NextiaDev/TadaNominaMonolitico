@@ -53,5 +53,6 @@ namespace TadaNomina.Models.DB
         public string FactoryValor { get; set; }
         public string CreaConceptoAdicional { get; set; }
         public Nullable<int> IdConceptoAdicional { get; set; }
+        public Nullable<int> CalculoDiasHoras { get; set; }
     }
 }

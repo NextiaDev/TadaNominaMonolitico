@@ -14,6 +14,8 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name ="Cliente: ")]
         public string Cliente { get; set; }
         [Display(Name ="Nombre descriptivo: ")]
+        [Required]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Solo se permiten letras y espacios en blanco.")]
         public string Prestacion { get; set; }  
         public bool validacion { get; set; }
         public string Mensaje { get; set; }
