@@ -190,10 +190,8 @@ namespace TadaNomina.Models.ClassCore
                     PagoEfectivo = conceptos.PagoEfectivo,
                     smgvalcien = conceptos.ExentoPorSueldoMinimo,
                     ConceptoAdicional = conceptos.CreaConceptoAdicional,
-                    ClaveConceptos = conceptos.IdConceptoAdicional.ToString()
-
-
-
+                    ClaveConceptos = conceptos.IdConceptoAdicional.ToString(),
+                    DiasHoras = conceptos.CalculoDiasHoras
                 };
 
                 return modelConceptos;
@@ -315,7 +313,8 @@ namespace TadaNomina.Models.ClassCore
                     PagoEfectivo = modelConcepto.PagoEfectivo,
                     ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
                     CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
-                    IdConceptoAdicional = Adicional
+                    IdConceptoAdicional = Adicional,
+                    CalculoDiasHoras = modelConcepto.DiasHoras
                 };
 
                 entidad.Cat_ConceptosNomina.Add(concepto);
@@ -375,6 +374,7 @@ namespace TadaNomina.Models.ClassCore
                     concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
                     concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
                     concepto.IdConceptoAdicional = Adicional;
+                    concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
                 }
 
                 entidad.SaveChanges();
@@ -422,7 +422,12 @@ namespace TadaNomina.Models.ClassCore
 
             List<SelectListItem> _UnidadExenta = new List<SelectListItem>();
             _UnidadExenta.Add(new SelectListItem { Text = "SMGV", Value = "SMGV" });
-            _UnidadExenta.Add(new SelectListItem { Text = "UMA", Value = "UMA" });           
+            _UnidadExenta.Add(new SelectListItem { Text = "UMA", Value = "UMA" });   
+            
+            List<SelectListItem> _listDiasHoras = new List<SelectListItem>();
+            _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "1" });
+            _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "2" });
+
 
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
@@ -445,6 +450,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lsmgvalcien = _listSINO1;
             modelConceptos.lFactoryValor= _listSINO1;
             modelConceptos.lConceptoAdicional = _listSINO1;
+            modelConceptos.lDiasHoras = _listDiasHoras;
 
 
             return modelConceptos;
@@ -492,6 +498,10 @@ namespace TadaNomina.Models.ClassCore
             _UnidadExenta.Add(new SelectListItem { Text = "SMGV", Value = "SMGV" });
             _UnidadExenta.Add(new SelectListItem { Text = "UMA", Value = "UMA" });
 
+            List<SelectListItem> _listDiasHoras = new List<SelectListItem>();
+            _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "1" });
+            _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "2" });
+
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
@@ -512,6 +522,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lsmgvalcien = _listSINO1;
             modelConceptos.lFactoryValor = _listSINO1;
             modelConceptos.lConceptoAdicional = _listSINO1;
+            modelConceptos.lDiasHoras = _listDiasHoras;
 
 
             return modelConceptos;
