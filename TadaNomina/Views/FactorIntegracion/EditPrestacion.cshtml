@@ -22,7 +22,7 @@
             </div>
             <div class="panel-body">
                 @Html.HiddenFor(x => x.IdCliente)
-                @using (Html.BeginForm())
+                @using (Html.BeginForm("EditPrestacion", "FactorIntegracion", System.Web.Mvc.FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
 
@@ -71,7 +71,7 @@
                         <div class="panel-footer text-right">
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                     @Html.ActionLink(" Regresar a lista", "Prestaciones", null, htmlAttributes: new { @class = "btn btn-info" })
                                 </div>
                             </div>
