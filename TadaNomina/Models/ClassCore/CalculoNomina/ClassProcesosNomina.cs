@@ -1871,7 +1871,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             _fechaReconocimientoAntiguedad = GetFechaIngreso(FechaReconocimientoAntiguedad, FechaAltaIMSS, null);
             Antiguedad = Math.Round((Periodo.FechaFin.Subtract(_fechaReconocimientoAntiguedad).Days) / 365M, 4);
 
-            var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).First();
+            var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).FirstOrDefault();
             if (_factor != null)
             {
                 _SDI_Limite= Math.Round(SDIMSS_Actual*(decimal)_factor.FactorIntegracion,2);
