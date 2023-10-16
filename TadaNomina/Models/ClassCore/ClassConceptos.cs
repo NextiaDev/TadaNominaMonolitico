@@ -425,8 +425,8 @@ namespace TadaNomina.Models.ClassCore
             _UnidadExenta.Add(new SelectListItem { Text = "UMA", Value = "UMA" });   
             
             List<SelectListItem> _listDiasHoras = new List<SelectListItem>();
-            _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "1" });
-            _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "2" });
+            _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "Dias" });
+            _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "Horas" });
 
 
             ModelConceptos modelConceptos = new ModelConceptos();
@@ -499,8 +499,8 @@ namespace TadaNomina.Models.ClassCore
             _UnidadExenta.Add(new SelectListItem { Text = "UMA", Value = "UMA" });
 
             List<SelectListItem> _listDiasHoras = new List<SelectListItem>();
-            _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "1" });
-            _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "2" });
+            _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "Dias" });
+            _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "Horas" });
 
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;

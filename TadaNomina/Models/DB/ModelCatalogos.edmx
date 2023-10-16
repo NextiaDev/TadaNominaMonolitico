@@ -191,7 +191,7 @@
           <Property Name="FactoryValor" Type="nvarchar" MaxLength="2" />
           <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
           <Property Name="IdConceptoAdicional" Type="int" />
-          <Property Name="CalculoDiasHoras" Type="int" />
+          <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Cat_Departamentos">
           <Key>
@@ -833,7 +833,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConceptos' no tiene definida
           <Property Name="FactoryValor" Type="nvarchar" MaxLength="2" />
           <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
           <Property Name="IdConceptoAdicional" Type="int" />
-          <Property Name="CalculoDiasHoras" Type="int" />
+          <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -2562,7 +2562,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IdConceptoAdicional" Type="Int32" />
-          <Property Name="CalculoDiasHoras" Type="Int32" />
+          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vConceptos">
           <Key>
@@ -2607,7 +2607,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IdConceptoAdicional" Type="Int32" />
-          <Property Name="CalculoDiasHoras" Type="Int32" />
+          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
