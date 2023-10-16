@@ -1,15 +1,9 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.EMMA;
-using Ionic.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.ServiceModel.Channels;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using TadaNomina.Models.ClassCore;
+
 using TadaNomina.Models.ClassCore.PDF_CFDI;
 using TadaNomina.Models.ViewModels.CFDI;
 
