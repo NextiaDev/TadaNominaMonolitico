@@ -85,5 +85,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> BanderaPiramidacion { get; set; }
         public Nullable<int> BanderaBallistic { get; set; }
         public Nullable<int> BanderaSaldos { get; set; }
+        public string CalculoDiasHoras { get; set; }
     }
 }

@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="TadaEmpleadoService.Cat_Puestos" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaEmpleadoService.Cat_CentroCostos" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="TadaEmpleadoService.Cat_EntidadFederativa" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="TadaEmpleadoService.EmpleadoInformacionComplementaria" Width="1.5" PointX="9.625" PointY="6.5" />
         <EntityTypeShape EntityType="TadaEmpleadoService.CodigoPostal" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaEmpleadoService.Cat_RegistroPatronal" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="TadaEmpleadoService.Prestaciones" Width="1.5" PointX="10.375" PointY="10.75" />
@@ -21,8 +20,9 @@
         <EntityTypeShape EntityType="TadaEmpleadoService.vClienteEmpresaEspecializada" Width="1.5" PointX="12.375" PointY="13.75" />
         <EntityTypeShape EntityType="TadaEmpleadoService.Sindicatos" Width="1.5" PointX="13.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaEmpleadoService.Cat_ConceptosNomina" Width="1.5" PointX="14.375" PointY="4.75" />
-        <EntityTypeShape EntityType="TadaEmpleadoService.Empleados" Width="1.5" PointX="7.75" PointY="26.25" />
         <EntityTypeShape EntityType="TadaEmpleadoService.vEmpleados" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="TadaEmpleadoService.EmpleadoInformacionComplementaria" Width="1.875" PointX="7.625" PointY="23.375" />
+        <EntityTypeShape EntityType="TadaEmpleadoService.Empleados" Width="1.875" PointX="5.375" PointY="15.75" />
         <AssociationConnector Association="TadaEmpleadoService.FK_EmpleadoInformacionComplementaria_Empleados" />
       </Diagram>
     </edmx:Diagrams>
