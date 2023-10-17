@@ -72,7 +72,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Saldos> Saldos { get; set; }
         public virtual DbSet<vSaldos> vSaldos { get; set; }
         public virtual DbSet<Incidencias> Incidencias { get; set; }
-        public virtual DbSet<vIncidencias> vIncidencias { get; set; }
         public virtual DbSet<vCompensaciones> vCompensaciones { get; set; }
         public virtual DbSet<vAusentismos> vAusentismos { get; set; }
         public virtual DbSet<Cat_HonorariosFacturas> Cat_HonorariosFacturas { get; set; }
@@ -80,6 +79,7 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Honorarios> Honorarios { get; set; }
         public virtual DbSet<vHonorarios> vHonorarios { get; set; }
         public virtual DbSet<Ausentismos> Ausentismos { get; set; }
+        public virtual DbSet<vIncidencias> vIncidencias { get; set; }
         public virtual DbSet<vConceptos> vConceptos { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalPercepciones_Result> sp_ReciboTradicionalPercepciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)

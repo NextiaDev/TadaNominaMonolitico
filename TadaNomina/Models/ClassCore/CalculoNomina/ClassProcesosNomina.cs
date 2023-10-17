@@ -961,10 +961,30 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Dias_Vacaciones = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.ClaveGpo == "002").Select(X => X.Cantidad).Sum();
 
             nominaTrabajo.DiasTrabajados = DiasPago;
-            diasMas += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002").Select(X => X.Cantidad).Sum();
+            diasMas += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
+
+            // se obtienen los conceptos que van a sumar a los dias trabajados en horas.
+            var diasMasFraccion = incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002" && x.CalculoDiasHoras == "Horas").ToList();
+
+            foreach (var df in diasMasFraccion)
+            {
+                decimal fraccion = (df.Cantidad ?? 0) / (df.SDEntre ?? 1);
+                diasMas += fraccion;
+            }
+            //////
                         
-            diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI").Select(X => X.Cantidad).Sum();
-                                    
+            diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
+
+            // se obtienen los conceptos que van a restar a los dias trabajados en horas.
+            var diasMenosFraccion = incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras == "Horas").ToList();
+
+            foreach (var df in diasMenosFraccion)
+            {
+                decimal fraccion = (df.Cantidad ?? 0) / (df.SDEntre ?? 1);
+                diasMenos += fraccion;
+            }
+            //////
+
             diasMenos += (decimal)nominaTrabajo.Dias_Vacaciones;
             if (configuracionNominaEmpleado.DiasSueldo > 0) { nominaTrabajo.DiasTrabajados += configuracionNominaEmpleado.DiasSueldo; }
 

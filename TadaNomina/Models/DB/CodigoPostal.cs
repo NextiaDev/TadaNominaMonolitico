@@ -19,5 +19,6 @@ namespace TadaNomina.Models.DB
         public string Colonia { get; set; }
         public string Municipio { get; set; }
         public int EntidadFederativaId { get; set; }
+        public Nullable<int> DiferenciaHoras { get; set; }
     }
 }

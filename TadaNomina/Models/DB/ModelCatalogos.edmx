@@ -1477,13 +1477,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="Cliente_EmpresaEspecializada" EntityType="TadaNominaModel.Cliente_EmpresaEspecializada" />
           <EntitySet Name="Cat_ConceptosChecador" EntityType="TadaNominaModel.Cat_ConceptosChecador" />
           <EntitySet Name="Cat_ErroresIMSS" EntityType="TadaNominaModel.Cat_ErroresIMSS" />
-          <EntitySet Name="EmpleadoInformacionComplementaria" EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" />
-          <EntitySet Name="Empleados" EntityType="TadaNominaModel.Empleados" />
           <EntitySet Name="MovimientosIMSS" EntityType="TadaNominaModel.MovimientosIMSS" />
-          <AssociationSet Name="FK_EmpleadoInformacionComplementaria_Empleados" Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados">
-            <End Role="Empleados" EntitySet="Empleados" />
-            <End Role="EmpleadoInformacionComplementaria" EntitySet="EmpleadoInformacionComplementaria" />
-          </AssociationSet>
           <EntitySet Name="v_IMSS_MovimientosCESS" EntityType="TadaNominaModel.v_IMSS_MovimientosCESS" />
           <FunctionImport Name="sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS" ReturnType="Collection(TadaNominaModel.sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result)">
             <Parameter Name="IdCliente" Mode="In" Type="Int32" />
@@ -1497,9 +1491,15 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="Cat_HonorariosFacturas" EntityType="TadaNominaModel.Cat_HonorariosFacturas" />
           <EntitySet Name="vUnidadesNegocio" EntityType="TadaNominaModel.vUnidadesNegocio" />
           <EntitySet Name="Cat_Clientes" EntityType="TadaNominaModel.Cat_Clientes" />
-          <EntitySet Name="Cat_UnidadNegocio" EntityType="TadaNominaModel.Cat_UnidadNegocio" />
           <EntitySet Name="Cat_ConceptosNomina" EntityType="TadaNominaModel.Cat_ConceptosNomina" />
           <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
+          <EntitySet Name="EmpleadoInformacionComplementaria" EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" />
+          <EntitySet Name="Empleados" EntityType="TadaNominaModel.Empleados" />
+          <AssociationSet Name="FK_EmpleadoInformacionComplementaria_Empleados" Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="EmpleadoInformacionComplementaria" EntitySet="EmpleadoInformacionComplementaria" />
+          </AssociationSet>
+          <EntitySet Name="Cat_UnidadNegocio" EntityType="TadaNominaModel.Cat_UnidadNegocio" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -1977,119 +1977,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="CodigoERROR" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="EmpleadoInformacionComplementaria">
-          <Key>
-            <PropertyRef Name="IdEmpleadoInfAdministrativa" />
-          </Key>
-          <Property Name="IdEmpleadoInfAdministrativa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="IdCodigoPostal" Type="Int32" />
-          <Property Name="Calle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="NumeroExt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="NumeroInt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Empleados" Relationship="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" FromRole="EmpleadoInformacionComplementaria" ToRole="Empleados" />
-        </EntityType>
-        <EntityType Name="Empleados">
-          <Key>
-            <PropertyRef Name="IdEmpleado" />
-          </Key>
-          <Property Name="IdEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" />
-          <Property Name="IdCentroCostos" Type="Int32" />
-          <Property Name="IdDepartamento" Type="Int32" />
-          <Property Name="IdPuesto" Type="Int32" />
-          <Property Name="IdSucursal" Type="Int32" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="IdEntidad" Type="Int32" Nullable="false" />
-          <Property Name="IdPrestaciones" Type="Int32" />
-          <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Sexo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="EstadoCivil" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
-          <Property Name="SD" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDIMSS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="NetoPagar" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdBancoTrad" Type="Int32" />
-          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
-          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="CorreoElectronico" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="Binary" MaxLength="255" FixedLength="false" />
-          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
-          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
-          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
-          <Property Name="MotivoBaja" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Recontratable" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="Esquema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TipoContrato" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RFCSubContratacion" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="IdPerfil" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
-          <Property Name="IdCaptura" Type="Int32" Nullable="false" />
-          <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IdModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <Property Name="Contrasena" Type="Binary" MaxLength="255" FixedLength="false" />
-          <Property Name="PassKiosko" Type="Binary" MaxLength="255" FixedLength="false" />
-          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Nacionalidad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="idSindicato" Type="Int32" />
-          <Property Name="PremioP" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="SaldoVacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BanderaSaldo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaldoAdeudoVacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasExtras" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SaldoDiasExtras" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BanderaSaldoExtras" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IdCodigoPostal" Type="Int32" />
-          <Property Name="Calle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="noExt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="noInt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Alcaldia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Entidad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="CP" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="RutaCSF" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EmpleadoInformacionComplementaria" Relationship="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" FromRole="Empleados" ToRole="EmpleadoInformacionComplementaria" />
-          <Property Name="SaldoPeriodoAnterior" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DocumentoAlta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DocumentoBaja" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MotivoBajaRH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SD_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDIMSS_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="FechaAltaIMSS_Proyeccion" Type="DateTime" Precision="0" />
-          <Property Name="FechaReconocimientoAntiguedad_Proyeccion" Type="DateTime" Precision="0" />
-          <Property Name="Neto_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdJornada" Type="Int32" />
-          <Property Name="IdBancoViaticos" Type="Int32" />
-          <Property Name="CuentaBancariaViaticos" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CuentaInterbancariaViaticos" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CardChecador" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="passChecador" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="PrivilegioChecador" Type="Int32" />
-          <Property Name="Foto" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
-          <Property Name="FechaTerminoContrato" Type="DateTime" Precision="3" />
-          <Property Name="ImagenPerfil" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Origen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="FechaModificacionNube" Type="DateTime" Precision="3" />
-          <Property Name="FechaModificacionCIF" Type="DateTime" Precision="3" />
-          <Property Name="IdOcupacionSTPS" Type="Int32" />
-          <Property Name="idSincatosClientes" Type="Int32" />
-          <Property Name="PorcentajeSindicato" Type="Decimal" Precision="18" Scale="4" />
-        </EntityType>
         <EntityType Name="MovimientosIMSS">
           <Key>
             <PropertyRef Name="IdMovimiento" />
@@ -2119,18 +2006,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="BanderaArchivo" Type="Int32" />
           <Property Name="ClienteAdministrado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
-        <Association Name="FK_EmpleadoInformacionComplementaria_Empleados">
-          <End Type="TadaNominaModel.Empleados" Role="Empleados" Multiplicity="1" />
-          <End Type="TadaNominaModel.EmpleadoInformacionComplementaria" Role="EmpleadoInformacionComplementaria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleados">
-              <PropertyRef Name="IdEmpleado" />
-            </Principal>
-            <Dependent Role="EmpleadoInformacionComplementaria">
-              <PropertyRef Name="IdEmpleado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="v_IMSS_MovimientosCESS">
           <Key>
             <PropertyRef Name="ActividadEconomica" />
@@ -2441,72 +2316,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
           <Property Name="FechaInicioProduccion" Type="DateTime" Precision="0" />
         </EntityType>
-        <EntityType Name="Cat_UnidadNegocio">
-          <Key>
-            <PropertyRef Name="IdUnidadNegocio" />
-          </Key>
-          <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCliente" Type="Int32" Nullable="false" />
-          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdTipoNomina" Type="Int32" Nullable="false" />
-          <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ConfiguracionSueldos" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IncidenciasAguinaldoAutomaticas" Type="Int32" />
-          <Property Name="PercepcionesEspeciales" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="DeduccionesEspeciales" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FiniquitosFechasDiferentes" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FiniquitosTablaMensual" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FiniquitosSubsidio" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FiniquitosExentoCompleto" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="AguinaldoExentoCompleto" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="IdSindicato" Type="Int32" />
-          <Property Name="Confidencial" Type="Int32" />
-          <Property Name="CalculaProvision" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FactorDiasProvision" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasFraccioandos" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FactorDiasFraccionados" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="IdsConceptosFraccionados" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Honorarios" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="ValidacionAcumulaPeriodo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="IdsValidacionAcumulaPeriodo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="NotificarAcumular" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="CorreosNotificacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DiasAltaMas" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="DiasAltaMenos" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="DiasAltaMasFraccionados" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="DiasAltaMenosFraccionados" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FaltasImporte" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="ValesEnEfectivo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="MostrarLiquidacionFormato" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
-          <Property Name="ConsideraAusentismosEnAguinaldo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="LeyendaReciboFiniquitos" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="NoCalcularCargaObrera" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="NoCalcularCargaPatronal" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="SubsidioSinSueldo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <Property Name="AdelantoDeNomina" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosSDILiquidacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CalcularLiquidacionSDI" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="ISRAguinaldoL174" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="ISRProyeccionMensual" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FactorDiasMesISR" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="GenerarIntegradoPVyAgui" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="ValidaFechaSubirArchivo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="FechaInicioValidacionSubir" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="FechaFinValidacionSubir" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="SeptimoDia" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="IdConceptoSeptimoDia" Type="Int32" />
-          <Property Name="RetencionISR_SMGV" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="CobraCOPS_Empleado_SMGV" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="TipoCliente" Type="Int32" />
-          <Property Name="AcuerdoEconomico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="TipoCobro" Type="Int32" />
-          <Property Name="BanderaDiasEquivalentes" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Cat_ConceptosNomina">
           <Key>
             <PropertyRef Name="IdConcepto" />
@@ -2608,6 +2417,197 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IdConceptoAdicional" Type="Int32" />
           <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmpleadoInformacionComplementaria">
+          <Key>
+            <PropertyRef Name="IdEmpleadoInfAdministrativa" />
+          </Key>
+          <Property Name="IdEmpleadoInfAdministrativa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdCodigoPostal" Type="Int32" />
+          <Property Name="Calle" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroExt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="NumeroInt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Empleados" Relationship="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" FromRole="EmpleadoInformacionComplementaria" ToRole="Empleados" />
+        </EntityType>
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+          </Key>
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" />
+          <Property Name="IdCentroCostos" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="IdPuesto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="IdEntidad" Type="Int32" Nullable="false" />
+          <Property Name="IdPrestaciones" Type="Int32" />
+          <Property Name="IdJornada" Type="Int32" />
+          <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sexo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="EstadoCivil" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="SD" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDIMSS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NetoPagar" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdBancoTrad" Type="Int32" />
+          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
+          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="MotivoBaja" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Recontratable" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Esquema" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoContrato" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaTerminoContrato" Type="DateTime" Precision="3" />
+          <Property Name="RFCSubContratacion" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="IdPerfil" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" Nullable="false" />
+          <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="Contrasena" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="PassKiosko" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Nacionalidad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="idSindicato" Type="Int32" />
+          <Property Name="PremioP" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="SaldoVacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSaldo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoPeriodoAnterior" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoAdeudoVacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasExtras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SaldoDiasExtras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSaldoExtras" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdCodigoPostal" Type="Int32" />
+          <Property Name="Calle" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="noExt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="noInt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Alcaldia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Entidad" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CP" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="RutaCSF" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentoAlta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentoBaja" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MotivoBajaRH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SD_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDIMSS_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FechaAltaIMSS_Proyeccion" Type="DateTime" Precision="0" />
+          <Property Name="FechaReconocimientoAntiguedad_Proyeccion" Type="DateTime" Precision="0" />
+          <Property Name="Neto_Proyeccion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdBancoViaticos" Type="Int32" />
+          <Property Name="CuentaBancariaViaticos" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaViaticos" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CardChecador" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="passChecador" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="PrivilegioChecador" Type="Int32" />
+          <Property Name="Foto" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="ImagenPerfil" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Origen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IdOcupacionSTPS" Type="Int32" />
+          <Property Name="FechaModificacionNube" Type="DateTime" Precision="3" />
+          <Property Name="FechaModificacionCIF" Type="DateTime" Precision="3" />
+          <Property Name="idSincatosClientes" Type="Int32" />
+          <Property Name="PorcentajeSindicato" Type="Decimal" Precision="18" Scale="4" />
+          <NavigationProperty Name="EmpleadoInformacionComplementaria" Relationship="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" FromRole="Empleados" ToRole="EmpleadoInformacionComplementaria" />
+        </EntityType>
+        <Association Name="FK_EmpleadoInformacionComplementaria_Empleados">
+          <End Type="TadaNominaModel.Empleados" Role="Empleados" Multiplicity="1" />
+          <End Type="TadaNominaModel.EmpleadoInformacionComplementaria" Role="EmpleadoInformacionComplementaria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="IdEmpleado" />
+            </Principal>
+            <Dependent Role="EmpleadoInformacionComplementaria">
+              <PropertyRef Name="IdEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Cat_UnidadNegocio">
+          <Key>
+            <PropertyRef Name="IdUnidadNegocio" />
+          </Key>
+          <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdTipoNomina" Type="Int32" Nullable="false" />
+          <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ConfiguracionSueldos" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IncidenciasAguinaldoAutomaticas" Type="Int32" />
+          <Property Name="PercepcionesEspeciales" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="DeduccionesEspeciales" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FiniquitosFechasDiferentes" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FiniquitosTablaMensual" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FiniquitosSubsidio" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FiniquitosExentoCompleto" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="AguinaldoExentoCompleto" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="Confidencial" Type="Int32" />
+          <Property Name="CalculaProvision" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FactorDiasProvision" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasFraccioandos" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FactorDiasFraccionados" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="IdsConceptosFraccionados" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Honorarios" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ValidacionAcumulaPeriodo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="IdsValidacionAcumulaPeriodo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NotificarAcumular" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="CorreosNotificacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DiasAltaMas" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="DiasAltaMenos" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="DiasAltaMasFraccionados" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="DiasAltaMenosFraccionados" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FaltasImporte" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ValesEnEfectivo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="MostrarLiquidacionFormato" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="ConsideraAusentismosEnAguinaldo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="LeyendaReciboFiniquitos" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="NoCalcularCargaObrera" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="NoCalcularCargaPatronal" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="SubsidioSinSueldo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="AdelantoDeNomina" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptosSDILiquidacion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CalcularLiquidacionSDI" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ISRAguinaldoL174" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ISRProyeccionMensual" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FactorDiasMesISR" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="GenerarIntegradoPVyAgui" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="ValidaFechaSubirArchivo" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="FechaInicioValidacionSubir" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="FechaFinValidacionSubir" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="SeptimoDia" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="IdConceptoSeptimoDia" Type="Int32" />
+          <Property Name="RetencionISR_SMGV" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="CobraCOPS_Empleado_SMGV" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="TipoCliente" Type="Int32" />
+          <Property Name="AcuerdoEconomico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TipoCobro" Type="Int32" />
+          <Property Name="BanderaDiasEquivalentes" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3118,119 +3118,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="EmpleadoInformacionComplementaria">
-            <EntityTypeMapping TypeName="TadaNominaModel.EmpleadoInformacionComplementaria">
-              <MappingFragment StoreEntitySet="EmpleadoInformacionComplementaria">
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="NumeroInt" ColumnName="NumeroInt" />
-                <ScalarProperty Name="NumeroExt" ColumnName="NumeroExt" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="IdCodigoPostal" ColumnName="IdCodigoPostal" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IdEmpleadoInfAdministrativa" ColumnName="IdEmpleadoInfAdministrativa" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Empleados">
-            <EntityTypeMapping TypeName="TadaNominaModel.Empleados">
-              <MappingFragment StoreEntitySet="Empleados">
-                <ScalarProperty Name="PorcentajeSindicato" ColumnName="PorcentajeSindicato" />
-                <ScalarProperty Name="idSincatosClientes" ColumnName="idSincatosClientes" />
-                <ScalarProperty Name="IdOcupacionSTPS" ColumnName="IdOcupacionSTPS" />
-                <ScalarProperty Name="FechaModificacionCIF" ColumnName="FechaModificacionCIF" />
-                <ScalarProperty Name="FechaModificacionNube" ColumnName="FechaModificacionNube" />
-                <ScalarProperty Name="Origen" ColumnName="Origen" />
-                <ScalarProperty Name="ImagenPerfil" ColumnName="ImagenPerfil" />
-                <ScalarProperty Name="FechaTerminoContrato" ColumnName="FechaTerminoContrato" />
-                <ScalarProperty Name="Foto" ColumnName="Foto" />
-                <ScalarProperty Name="PrivilegioChecador" ColumnName="PrivilegioChecador" />
-                <ScalarProperty Name="passChecador" ColumnName="passChecador" />
-                <ScalarProperty Name="CardChecador" ColumnName="CardChecador" />
-                <ScalarProperty Name="CuentaInterbancariaViaticos" ColumnName="CuentaInterbancariaViaticos" />
-                <ScalarProperty Name="CuentaBancariaViaticos" ColumnName="CuentaBancariaViaticos" />
-                <ScalarProperty Name="IdBancoViaticos" ColumnName="IdBancoViaticos" />
-                <ScalarProperty Name="IdJornada" ColumnName="IdJornada" />
-                <ScalarProperty Name="Neto_Proyeccion" ColumnName="Neto_Proyeccion" />
-                <ScalarProperty Name="FechaReconocimientoAntiguedad_Proyeccion" ColumnName="FechaReconocimientoAntiguedad_Proyeccion" />
-                <ScalarProperty Name="FechaAltaIMSS_Proyeccion" ColumnName="FechaAltaIMSS_Proyeccion" />
-                <ScalarProperty Name="SDI_Proyeccion" ColumnName="SDI_Proyeccion" />
-                <ScalarProperty Name="SDIMSS_Proyeccion" ColumnName="SDIMSS_Proyeccion" />
-                <ScalarProperty Name="SD_Proyeccion" ColumnName="SD_Proyeccion" />
-                <ScalarProperty Name="MotivoBajaRH" ColumnName="MotivoBajaRH" />
-                <ScalarProperty Name="DocumentoBaja" ColumnName="DocumentoBaja" />
-                <ScalarProperty Name="DocumentoAlta" ColumnName="DocumentoAlta" />
-                <ScalarProperty Name="SaldoPeriodoAnterior" ColumnName="SaldoPeriodoAnterior" />
-                <ScalarProperty Name="RutaCSF" ColumnName="RutaCSF" />
-                <ScalarProperty Name="CP" ColumnName="CP" />
-                <ScalarProperty Name="Entidad" ColumnName="Entidad" />
-                <ScalarProperty Name="Alcaldia" ColumnName="Alcaldia" />
-                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
-                <ScalarProperty Name="noInt" ColumnName="noInt" />
-                <ScalarProperty Name="noExt" ColumnName="noExt" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="IdCodigoPostal" ColumnName="IdCodigoPostal" />
-                <ScalarProperty Name="BanderaSaldoExtras" ColumnName="BanderaSaldoExtras" />
-                <ScalarProperty Name="SaldoDiasExtras" ColumnName="SaldoDiasExtras" />
-                <ScalarProperty Name="DiasExtras" ColumnName="DiasExtras" />
-                <ScalarProperty Name="SaldoAdeudoVacaciones" ColumnName="SaldoAdeudoVacaciones" />
-                <ScalarProperty Name="BanderaSaldo" ColumnName="BanderaSaldo" />
-                <ScalarProperty Name="SaldoVacaciones" ColumnName="SaldoVacaciones" />
-                <ScalarProperty Name="PremioP" ColumnName="PremioP" />
-                <ScalarProperty Name="idSindicato" ColumnName="idSindicato" />
-                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="PassKiosko" ColumnName="PassKiosko" />
-                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
-                <ScalarProperty Name="RFCSubContratacion" ColumnName="RFCSubContratacion" />
-                <ScalarProperty Name="TipoContrato" ColumnName="TipoContrato" />
-                <ScalarProperty Name="Esquema" ColumnName="Esquema" />
-                <ScalarProperty Name="Recontratable" ColumnName="Recontratable" />
-                <ScalarProperty Name="MotivoBaja" ColumnName="MotivoBaja" />
-                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
-                <ScalarProperty Name="Imss" ColumnName="Imss" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="Curp" ColumnName="Curp" />
-                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
-                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
-                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
-                <ScalarProperty Name="NetoPagar" ColumnName="NetoPagar" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="SDIMSS" ColumnName="SDIMSS" />
-                <ScalarProperty Name="SD" ColumnName="SD" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
-                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
-                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MovimientosIMSS">
             <EntityTypeMapping TypeName="TadaNominaModel.MovimientosIMSS">
               <MappingFragment StoreEntitySet="MovimientosIMSS">
@@ -3557,73 +3444,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cat_UnidadNegocio">
-            <EntityTypeMapping TypeName="TadaNominaModel.Cat_UnidadNegocio">
-              <MappingFragment StoreEntitySet="Cat_UnidadNegocio">
-                <ScalarProperty Name="BanderaDiasEquivalentes" ColumnName="BanderaDiasEquivalentes" />
-                <ScalarProperty Name="TipoCobro" ColumnName="TipoCobro" />
-                <ScalarProperty Name="AcuerdoEconomico" ColumnName="AcuerdoEconomico" />
-                <ScalarProperty Name="TipoCliente" ColumnName="TipoCliente" />
-                <ScalarProperty Name="CobraCOPS_Empleado_SMGV" ColumnName="CobraCOPS_Empleado_SMGV" />
-                <ScalarProperty Name="RetencionISR_SMGV" ColumnName="RetencionISR_SMGV" />
-                <ScalarProperty Name="IdConceptoSeptimoDia" ColumnName="IdConceptoSeptimoDia" />
-                <ScalarProperty Name="SeptimoDia" ColumnName="SeptimoDia" />
-                <ScalarProperty Name="FechaFinValidacionSubir" ColumnName="FechaFinValidacionSubir" />
-                <ScalarProperty Name="FechaInicioValidacionSubir" ColumnName="FechaInicioValidacionSubir" />
-                <ScalarProperty Name="ValidaFechaSubirArchivo" ColumnName="ValidaFechaSubirArchivo" />
-                <ScalarProperty Name="GenerarIntegradoPVyAgui" ColumnName="GenerarIntegradoPVyAgui" />
-                <ScalarProperty Name="FactorDiasMesISR" ColumnName="FactorDiasMesISR" />
-                <ScalarProperty Name="ISRProyeccionMensual" ColumnName="ISRProyeccionMensual" />
-                <ScalarProperty Name="ISRAguinaldoL174" ColumnName="ISRAguinaldoL174" />
-                <ScalarProperty Name="CalcularLiquidacionSDI" ColumnName="CalcularLiquidacionSDI" />
-                <ScalarProperty Name="ConceptosSDILiquidacion" ColumnName="ConceptosSDILiquidacion" />
-                <ScalarProperty Name="AdelantoDeNomina" ColumnName="AdelantoDeNomina" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="SubsidioSinSueldo" ColumnName="SubsidioSinSueldo" />
-                <ScalarProperty Name="NoCalcularCargaPatronal" ColumnName="NoCalcularCargaPatronal" />
-                <ScalarProperty Name="NoCalcularCargaObrera" ColumnName="NoCalcularCargaObrera" />
-                <ScalarProperty Name="LeyendaReciboFiniquitos" ColumnName="LeyendaReciboFiniquitos" />
-                <ScalarProperty Name="ConsideraAusentismosEnAguinaldo" ColumnName="ConsideraAusentismosEnAguinaldo" />
-                <ScalarProperty Name="MostrarLiquidacionFormato" ColumnName="MostrarLiquidacionFormato" />
-                <ScalarProperty Name="ValesEnEfectivo" ColumnName="ValesEnEfectivo" />
-                <ScalarProperty Name="FaltasImporte" ColumnName="FaltasImporte" />
-                <ScalarProperty Name="DiasAltaMenosFraccionados" ColumnName="DiasAltaMenosFraccionados" />
-                <ScalarProperty Name="DiasAltaMasFraccionados" ColumnName="DiasAltaMasFraccionados" />
-                <ScalarProperty Name="DiasAltaMenos" ColumnName="DiasAltaMenos" />
-                <ScalarProperty Name="DiasAltaMas" ColumnName="DiasAltaMas" />
-                <ScalarProperty Name="CorreosNotificacion" ColumnName="CorreosNotificacion" />
-                <ScalarProperty Name="NotificarAcumular" ColumnName="NotificarAcumular" />
-                <ScalarProperty Name="IdsValidacionAcumulaPeriodo" ColumnName="IdsValidacionAcumulaPeriodo" />
-                <ScalarProperty Name="ValidacionAcumulaPeriodo" ColumnName="ValidacionAcumulaPeriodo" />
-                <ScalarProperty Name="Honorarios" ColumnName="Honorarios" />
-                <ScalarProperty Name="IdsConceptosFraccionados" ColumnName="IdsConceptosFraccionados" />
-                <ScalarProperty Name="FactorDiasFraccionados" ColumnName="FactorDiasFraccionados" />
-                <ScalarProperty Name="DiasFraccioandos" ColumnName="DiasFraccioandos" />
-                <ScalarProperty Name="FactorDiasProvision" ColumnName="FactorDiasProvision" />
-                <ScalarProperty Name="CalculaProvision" ColumnName="CalculaProvision" />
-                <ScalarProperty Name="Confidencial" ColumnName="Confidencial" />
-                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
-                <ScalarProperty Name="AguinaldoExentoCompleto" ColumnName="AguinaldoExentoCompleto" />
-                <ScalarProperty Name="FiniquitosExentoCompleto" ColumnName="FiniquitosExentoCompleto" />
-                <ScalarProperty Name="FiniquitosSubsidio" ColumnName="FiniquitosSubsidio" />
-                <ScalarProperty Name="FiniquitosTablaMensual" ColumnName="FiniquitosTablaMensual" />
-                <ScalarProperty Name="FiniquitosFechasDiferentes" ColumnName="FiniquitosFechasDiferentes" />
-                <ScalarProperty Name="DeduccionesEspeciales" ColumnName="DeduccionesEspeciales" />
-                <ScalarProperty Name="PercepcionesEspeciales" ColumnName="PercepcionesEspeciales" />
-                <ScalarProperty Name="IncidenciasAguinaldoAutomaticas" ColumnName="IncidenciasAguinaldoAutomaticas" />
-                <ScalarProperty Name="ConfiguracionSueldos" ColumnName="ConfiguracionSueldos" />
-                <ScalarProperty Name="PorcentajeISN" ColumnName="PorcentajeISN" />
-                <ScalarProperty Name="IdTipoNomina" ColumnName="IdTipoNomina" />
-                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Cat_ConceptosNomina">
             <EntityTypeMapping TypeName="TadaNominaModel.Cat_ConceptosNomina">
               <MappingFragment StoreEntitySet="Cat_ConceptosNomina">
@@ -3725,6 +3545,186 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
                 <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpleadoInformacionComplementaria">
+            <EntityTypeMapping TypeName="TadaNominaModel.EmpleadoInformacionComplementaria">
+              <MappingFragment StoreEntitySet="EmpleadoInformacionComplementaria">
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="NumeroInt" ColumnName="NumeroInt" />
+                <ScalarProperty Name="NumeroExt" ColumnName="NumeroExt" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="IdCodigoPostal" ColumnName="IdCodigoPostal" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdEmpleadoInfAdministrativa" ColumnName="IdEmpleadoInfAdministrativa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleados">
+            <EntityTypeMapping TypeName="TadaNominaModel.Empleados">
+              <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="PorcentajeSindicato" ColumnName="PorcentajeSindicato" />
+                <ScalarProperty Name="idSincatosClientes" ColumnName="idSincatosClientes" />
+                <ScalarProperty Name="FechaModificacionCIF" ColumnName="FechaModificacionCIF" />
+                <ScalarProperty Name="FechaModificacionNube" ColumnName="FechaModificacionNube" />
+                <ScalarProperty Name="IdOcupacionSTPS" ColumnName="IdOcupacionSTPS" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="ImagenPerfil" ColumnName="ImagenPerfil" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="PrivilegioChecador" ColumnName="PrivilegioChecador" />
+                <ScalarProperty Name="passChecador" ColumnName="passChecador" />
+                <ScalarProperty Name="CardChecador" ColumnName="CardChecador" />
+                <ScalarProperty Name="CuentaInterbancariaViaticos" ColumnName="CuentaInterbancariaViaticos" />
+                <ScalarProperty Name="CuentaBancariaViaticos" ColumnName="CuentaBancariaViaticos" />
+                <ScalarProperty Name="IdBancoViaticos" ColumnName="IdBancoViaticos" />
+                <ScalarProperty Name="Neto_Proyeccion" ColumnName="Neto_Proyeccion" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad_Proyeccion" ColumnName="FechaReconocimientoAntiguedad_Proyeccion" />
+                <ScalarProperty Name="FechaAltaIMSS_Proyeccion" ColumnName="FechaAltaIMSS_Proyeccion" />
+                <ScalarProperty Name="SDI_Proyeccion" ColumnName="SDI_Proyeccion" />
+                <ScalarProperty Name="SDIMSS_Proyeccion" ColumnName="SDIMSS_Proyeccion" />
+                <ScalarProperty Name="SD_Proyeccion" ColumnName="SD_Proyeccion" />
+                <ScalarProperty Name="MotivoBajaRH" ColumnName="MotivoBajaRH" />
+                <ScalarProperty Name="DocumentoBaja" ColumnName="DocumentoBaja" />
+                <ScalarProperty Name="DocumentoAlta" ColumnName="DocumentoAlta" />
+                <ScalarProperty Name="RutaCSF" ColumnName="RutaCSF" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Entidad" ColumnName="Entidad" />
+                <ScalarProperty Name="Alcaldia" ColumnName="Alcaldia" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="noInt" ColumnName="noInt" />
+                <ScalarProperty Name="noExt" ColumnName="noExt" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="IdCodigoPostal" ColumnName="IdCodigoPostal" />
+                <ScalarProperty Name="BanderaSaldoExtras" ColumnName="BanderaSaldoExtras" />
+                <ScalarProperty Name="SaldoDiasExtras" ColumnName="SaldoDiasExtras" />
+                <ScalarProperty Name="DiasExtras" ColumnName="DiasExtras" />
+                <ScalarProperty Name="SaldoAdeudoVacaciones" ColumnName="SaldoAdeudoVacaciones" />
+                <ScalarProperty Name="SaldoPeriodoAnterior" ColumnName="SaldoPeriodoAnterior" />
+                <ScalarProperty Name="BanderaSaldo" ColumnName="BanderaSaldo" />
+                <ScalarProperty Name="SaldoVacaciones" ColumnName="SaldoVacaciones" />
+                <ScalarProperty Name="PremioP" ColumnName="PremioP" />
+                <ScalarProperty Name="idSindicato" ColumnName="idSindicato" />
+                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="PassKiosko" ColumnName="PassKiosko" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdPerfil" ColumnName="IdPerfil" />
+                <ScalarProperty Name="RFCSubContratacion" ColumnName="RFCSubContratacion" />
+                <ScalarProperty Name="FechaTerminoContrato" ColumnName="FechaTerminoContrato" />
+                <ScalarProperty Name="TipoContrato" ColumnName="TipoContrato" />
+                <ScalarProperty Name="Esquema" ColumnName="Esquema" />
+                <ScalarProperty Name="Recontratable" ColumnName="Recontratable" />
+                <ScalarProperty Name="MotivoBaja" ColumnName="MotivoBaja" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Imss" ColumnName="Imss" />
+                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
+                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
+                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
+                <ScalarProperty Name="NetoPagar" ColumnName="NetoPagar" />
+                <ScalarProperty Name="SDI" ColumnName="SDI" />
+                <ScalarProperty Name="SDIMSS" ColumnName="SDIMSS" />
+                <ScalarProperty Name="SD" ColumnName="SD" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="EstadoCivil" ColumnName="EstadoCivil" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
+                <ScalarProperty Name="IdJornada" ColumnName="IdJornada" />
+                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cat_UnidadNegocio">
+            <EntityTypeMapping TypeName="TadaNominaModel.Cat_UnidadNegocio">
+              <MappingFragment StoreEntitySet="Cat_UnidadNegocio">
+                <ScalarProperty Name="BanderaDiasEquivalentes" ColumnName="BanderaDiasEquivalentes" />
+                <ScalarProperty Name="TipoCobro" ColumnName="TipoCobro" />
+                <ScalarProperty Name="AcuerdoEconomico" ColumnName="AcuerdoEconomico" />
+                <ScalarProperty Name="TipoCliente" ColumnName="TipoCliente" />
+                <ScalarProperty Name="CobraCOPS_Empleado_SMGV" ColumnName="CobraCOPS_Empleado_SMGV" />
+                <ScalarProperty Name="RetencionISR_SMGV" ColumnName="RetencionISR_SMGV" />
+                <ScalarProperty Name="IdConceptoSeptimoDia" ColumnName="IdConceptoSeptimoDia" />
+                <ScalarProperty Name="SeptimoDia" ColumnName="SeptimoDia" />
+                <ScalarProperty Name="FechaFinValidacionSubir" ColumnName="FechaFinValidacionSubir" />
+                <ScalarProperty Name="FechaInicioValidacionSubir" ColumnName="FechaInicioValidacionSubir" />
+                <ScalarProperty Name="ValidaFechaSubirArchivo" ColumnName="ValidaFechaSubirArchivo" />
+                <ScalarProperty Name="GenerarIntegradoPVyAgui" ColumnName="GenerarIntegradoPVyAgui" />
+                <ScalarProperty Name="FactorDiasMesISR" ColumnName="FactorDiasMesISR" />
+                <ScalarProperty Name="ISRProyeccionMensual" ColumnName="ISRProyeccionMensual" />
+                <ScalarProperty Name="ISRAguinaldoL174" ColumnName="ISRAguinaldoL174" />
+                <ScalarProperty Name="CalcularLiquidacionSDI" ColumnName="CalcularLiquidacionSDI" />
+                <ScalarProperty Name="ConceptosSDILiquidacion" ColumnName="ConceptosSDILiquidacion" />
+                <ScalarProperty Name="AdelantoDeNomina" ColumnName="AdelantoDeNomina" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="SubsidioSinSueldo" ColumnName="SubsidioSinSueldo" />
+                <ScalarProperty Name="NoCalcularCargaPatronal" ColumnName="NoCalcularCargaPatronal" />
+                <ScalarProperty Name="NoCalcularCargaObrera" ColumnName="NoCalcularCargaObrera" />
+                <ScalarProperty Name="LeyendaReciboFiniquitos" ColumnName="LeyendaReciboFiniquitos" />
+                <ScalarProperty Name="ConsideraAusentismosEnAguinaldo" ColumnName="ConsideraAusentismosEnAguinaldo" />
+                <ScalarProperty Name="MostrarLiquidacionFormato" ColumnName="MostrarLiquidacionFormato" />
+                <ScalarProperty Name="ValesEnEfectivo" ColumnName="ValesEnEfectivo" />
+                <ScalarProperty Name="FaltasImporte" ColumnName="FaltasImporte" />
+                <ScalarProperty Name="DiasAltaMenosFraccionados" ColumnName="DiasAltaMenosFraccionados" />
+                <ScalarProperty Name="DiasAltaMasFraccionados" ColumnName="DiasAltaMasFraccionados" />
+                <ScalarProperty Name="DiasAltaMenos" ColumnName="DiasAltaMenos" />
+                <ScalarProperty Name="DiasAltaMas" ColumnName="DiasAltaMas" />
+                <ScalarProperty Name="CorreosNotificacion" ColumnName="CorreosNotificacion" />
+                <ScalarProperty Name="NotificarAcumular" ColumnName="NotificarAcumular" />
+                <ScalarProperty Name="IdsValidacionAcumulaPeriodo" ColumnName="IdsValidacionAcumulaPeriodo" />
+                <ScalarProperty Name="ValidacionAcumulaPeriodo" ColumnName="ValidacionAcumulaPeriodo" />
+                <ScalarProperty Name="Honorarios" ColumnName="Honorarios" />
+                <ScalarProperty Name="IdsConceptosFraccionados" ColumnName="IdsConceptosFraccionados" />
+                <ScalarProperty Name="FactorDiasFraccionados" ColumnName="FactorDiasFraccionados" />
+                <ScalarProperty Name="DiasFraccioandos" ColumnName="DiasFraccioandos" />
+                <ScalarProperty Name="FactorDiasProvision" ColumnName="FactorDiasProvision" />
+                <ScalarProperty Name="CalculaProvision" ColumnName="CalculaProvision" />
+                <ScalarProperty Name="Confidencial" ColumnName="Confidencial" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="AguinaldoExentoCompleto" ColumnName="AguinaldoExentoCompleto" />
+                <ScalarProperty Name="FiniquitosExentoCompleto" ColumnName="FiniquitosExentoCompleto" />
+                <ScalarProperty Name="FiniquitosSubsidio" ColumnName="FiniquitosSubsidio" />
+                <ScalarProperty Name="FiniquitosTablaMensual" ColumnName="FiniquitosTablaMensual" />
+                <ScalarProperty Name="FiniquitosFechasDiferentes" ColumnName="FiniquitosFechasDiferentes" />
+                <ScalarProperty Name="DeduccionesEspeciales" ColumnName="DeduccionesEspeciales" />
+                <ScalarProperty Name="PercepcionesEspeciales" ColumnName="PercepcionesEspeciales" />
+                <ScalarProperty Name="IncidenciasAguinaldoAutomaticas" ColumnName="IncidenciasAguinaldoAutomaticas" />
+                <ScalarProperty Name="ConfiguracionSueldos" ColumnName="ConfiguracionSueldos" />
+                <ScalarProperty Name="PorcentajeISN" ColumnName="PorcentajeISN" />
+                <ScalarProperty Name="IdTipoNomina" ColumnName="IdTipoNomina" />
+                <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

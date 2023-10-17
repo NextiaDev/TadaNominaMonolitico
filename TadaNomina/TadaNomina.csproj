@@ -1107,7 +1107,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidenciasProgramadas.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
