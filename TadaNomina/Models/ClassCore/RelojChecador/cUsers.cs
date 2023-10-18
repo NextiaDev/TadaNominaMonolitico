@@ -29,7 +29,7 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             ClassAccesosGV CAGV = new ClassAccesosGV();
 
 
-            int? IdCliente = int.Parse(HttpContext.Current.Session["sIdClientes"].ToString());
+            int? IdCliente = int.Parse(HttpContext.Current.Session["sIdCliente"].ToString());
 
             var accesos = CAGV.DatosGV((int)IdCliente);
 
