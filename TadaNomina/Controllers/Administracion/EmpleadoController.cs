@@ -68,7 +68,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa la vista de modificación del empleado.</returns>
         public ActionResult Edit(string data)
         {
-            
+
             int IdCliente = 0;
             int IdUsuario = 0;
             int IdUnidadNegocio = 0;
@@ -83,12 +83,12 @@ namespace TadaNomina.Controllers.Administracion
             {
                 return RedirectToAction("Index", "Login");
             }
-            
+
 
             try
             {
                 int idEmpleado = Convert.ToInt32(DecodeParam(data));
-                
+
                 if (idEmpleado > 0)
                 {
                     Debug.WriteLine("Entra con idempleado " + idEmpleado);
@@ -107,7 +107,7 @@ namespace TadaNomina.Controllers.Administracion
                 }
             }
             catch (Exception ex)
-            {                
+            {
                 ViewBag.confirmation = false;
                 ViewBag.title = "Modicación Empleado";
                 ViewBag.alert = "2 ¡Modificacion Errónea!";
@@ -125,7 +125,7 @@ namespace TadaNomina.Controllers.Administracion
             try
             {
                 ClassEmpleado ce = new ClassEmpleado();
-                
+
                 int IdCliente = (int)Session["sIdCliente"];
                 int IdUsuario = (int)Session["sIdUsuario"];
                 int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
@@ -175,7 +175,7 @@ namespace TadaNomina.Controllers.Administracion
                     Directory.CreateDirectory(path);
                 }
 
-                filePath = path + Path.GetFileName(postedFile.FileName);                
+                filePath = path + Path.GetFileName(postedFile.FileName);
                 postedFile.SaveAs(filePath);
 
                 string csvData = System.IO.File.ReadAllText(filePath, Encoding.UTF7);
@@ -286,7 +286,7 @@ namespace TadaNomina.Controllers.Administracion
             return File(file.DetailDismiss().GetBuffer(), "text/plain", "DetalleBajaEmpleados" + date.ToString("yyyyMMddhhmm") + ".txt");
         }
 
-        
+
         /// <summary>
         /// Acción que genera la vista para la respuesta del CRUD.
         /// </summary>
@@ -415,7 +415,7 @@ namespace TadaNomina.Controllers.Administracion
                             ViewBag.message = "Verifique que el valor de Sueldo Diario Base sea mayor a 0 y mayor o igual al Salario Minimo General vigente";
                             return View("Response");
                         }
-                        if(value == -4)
+                        if (value == -4)
                         {
                             ViewBag.confirmation = false;
                             ViewBag.title = "Registro Empleado";
@@ -591,14 +591,14 @@ namespace TadaNomina.Controllers.Administracion
                             ViewBag.alert = "¡Modificación Errónea!";
                             ViewBag.message = "No se logró modificar la información de " + empleado.Nombre + " " + empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno + ", por favor verifica que la fecha no exceda los 5 dias habiles.";
                             return View("Response");
-                           
+
                         case -2:
                             ViewBag.confirmation = false;
                             ViewBag.title = "Modicación Empleado";
                             ViewBag.alert = "¡Modificación Errónea!";
                             ViewBag.message = "No se logró modificar la información de " + empleado.Nombre + " " + empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno + ", por favor verifica que la fecha no exceda los 1 dias adelantados.";
                             return View("Response");
-                            
+
                     }
                     ViewBag.confirmation = false;
                     ViewBag.title = "Modicación Empleado";
@@ -609,7 +609,7 @@ namespace TadaNomina.Controllers.Administracion
             }
             else
             {
-                
+
                 ViewBag.confirmation = false;
                 ViewBag.title = "Modicación Empleado";
                 ViewBag.alert = "¡Modificación Errónea!";
@@ -624,7 +624,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <param name="param">Recibe la variable tipo string.</param>
         /// <returns>Regresa la cadena que contiene la matriz codificada.</returns>
         [HttpPost]
-                
+
         public string EncodeParam(string param)
         {
             byte[] array = Encoding.ASCII.GetBytes(param);
@@ -696,7 +696,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa un Json con los datos del área</returns>
         [HttpPost]
         public JsonResult DescargarCC(string tipo)
-        {            
+        {
             int IdCliente = (int)Session["sIdCliente"];
 
             var json = string.Empty;
@@ -844,7 +844,7 @@ namespace TadaNomina.Controllers.Administracion
             {
                 using (TadaEmpleados tada = new TadaEmpleados())
                 {
-                    ListEmpleado = tada.Empleados.Where(n => n.IdUnidadNegocio == idUnidadNegocio && n.IdEstatus ==1).ToList();
+                    ListEmpleado = tada.Empleados.Where(n => n.IdUnidadNegocio == idUnidadNegocio && n.IdEstatus == 1).ToList();
 
                     foreach (DataRow dr in csvTable.Rows)
                     {
@@ -977,7 +977,7 @@ namespace TadaNomina.Controllers.Administracion
                             }
                             if (!string.IsNullOrEmpty(dr["[CPFiscal]"].ToString()))
                             {
-                                emp.CP = dr["[CPFiscal]"].ToString();                               
+                                emp.CP = dr["[CPFiscal]"].ToString();
                             }
                             if (!string.IsNullOrEmpty(dr["[IdPrestaciones]"].ToString()))
                             {
@@ -1145,26 +1145,20 @@ namespace TadaNomina.Controllers.Administracion
             }
 
             int resul = 0;
-            using (NominaEntities1 tada = new NominaEntities1())
+            try
             {
-                resul = tada.SP_CambioSueldos(IdUsuario, IdUnidadNegocio, em.IdEmpleado, IdCliente, Convert.ToDateTime(em.FechaMovimiento), em.SDIMSSSueldos, em.SDISueldos, em.SDSueldos, em.Observaciones);
-            }
-
-            if (resul == 2)
-            {
+                using (NominaEntities1 tada = new NominaEntities1())
+                {
+                    resul = tada.SP_CambioSueldos(IdUsuario, IdUnidadNegocio, em.IdEmpleado, IdCliente, Convert.ToDateTime(em.FechaMovimiento), em.SDIMSSSueldos, em.SDISueldos, em.SDSueldos, em.Observaciones);
+                }
                 ViewBag.JavaScriptFunction = string.Format("mensajeAlerta('Actualiza Saldos', 'Se actualizo su saldo exitosamente!!', 'mint', 'bounceInRight', 'bounceOutLeft', 4500);");
-
                 return View();
             }
-            else
+            catch
             {
                 ViewBag.JavaScriptFunction = string.Format("mensajeAlerta('Actualiza Saldos', 'No se actualizo la informacion', 'warning', 'bounceInRight', 'bounceOutLeft', 4500);");
-
+                return View();
             }
-
-
-            return View();
-
         }
 
         /// <summary>
