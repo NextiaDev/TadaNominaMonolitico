@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
@@ -180,7 +181,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             GetDiasTrabajados(_tipoEsquemaT);
             
             nominaTrabajo.SueldoPagado = 0;
-            nominaTrabajo.SueldoPagado += (nominaTrabajo.DiasTrabajados + fraccionHorasMas - fraccionHorasMenos) * SD_IMSS;
+            nominaTrabajo.SueldoPagado += nominaTrabajo.DiasTrabajados * SD_IMSS;
             nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
             if (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) { nominaTrabajo.SueldoPagado = 0; }
             
@@ -188,20 +189,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
 
             if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null && UnidadNegocio.IdConceptoSeptimoDia > 0)
-            {
-                decimal septimoDiaInc = incidenciasEmpleado.Where(x => x.IdConcepto == (int)UnidadNegocio.IdConceptoSeptimoDia).Select(x => x.Cantidad).Sum() ?? 0;                
-                nominaTrabajo.DiasTrabajados += septimoDiaInc;
-
-                if (septimoDiaInc > 0)
-                {
-                    var diasMenosFraccion = incidenciasEmpleado.Where(x => x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras == "Horas").ToList();
-                    foreach (var ifrac in diasMenosFraccion)
-                    {
-                        decimal fraccion = Math.Round((ifrac.Cantidad ?? 0) * (1M / (6M * (ifrac.SDEntre ?? 1))), 2);
-                        nominaTrabajo.DiasTrabajados += fraccion;
-                    }                    
-                } 
-            }
+                nominaTrabajo.DiasTrabajados += incidenciasEmpleado.Where(x=> x.IdConcepto == (int)UnidadNegocio.IdConceptoSeptimoDia).Select(x=>x.Cantidad).Sum();
 
             if ((UnidadNegocio.PercepcionesEspeciales == "S" && datosEmpleados.IdEstatus == 1) || (configuracionNominaEmpleado.IncidenciasAutomaticas == 1))
             {
@@ -232,7 +220,23 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 CalculaISR();
             }
 
-            Calcula_Cuotas_Obreras();
+            if (ValidacionDiasEquivalentes())
+            {
+                List<int> mesesvariables = new List<int>() { 1, 3, 5, 7, 9, 11 };
+                var mesfin = Periodo.FechaFin.Month;
+                if (mesesvariables.Contains(mesfin))
+                {
+                    Calcula_Cuotas_ObrerasEquivalentes();
+                }
+                else
+                {
+                    Calcula_Cuotas_Obreras();
+                }
+            }
+            else
+            {
+                Calcula_Cuotas_Obreras();
+            }
 
             if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina=="Nomina")
             {
@@ -269,7 +273,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;                       
         }
 
-                /// <summary>
+        /// <summary>
         /// Metodo que calcula la parte esquema del calculo de nómina
         /// </summary>
         /// <param name="item">Objeto con toda la información del empleado en proceso.</param>
