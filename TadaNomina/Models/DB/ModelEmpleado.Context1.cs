@@ -29,7 +29,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_Puestos> Cat_Puestos { get; set; }
         public virtual DbSet<Cat_CentroCostos> Cat_CentroCostos { get; set; }
         public virtual DbSet<Cat_EntidadFederativa> Cat_EntidadFederativa { get; set; }
-        public virtual DbSet<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }
         public virtual DbSet<CodigoPostal> CodigoPostal { get; set; }
         public virtual DbSet<Cat_RegistroPatronal> Cat_RegistroPatronal { get; set; }
         public virtual DbSet<Prestaciones> Prestaciones { get; set; }
@@ -41,7 +40,8 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vClienteEmpresaEspecializada> vClienteEmpresaEspecializada { get; set; }
         public virtual DbSet<Sindicatos> Sindicatos { get; set; }
         public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
-        public virtual DbSet<Empleados> Empleados { get; set; }
         public virtual DbSet<vEmpleados> vEmpleados { get; set; }
+        public virtual DbSet<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }
+        public virtual DbSet<Empleados> Empleados { get; set; }
     }
 }

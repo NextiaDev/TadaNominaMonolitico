@@ -118,5 +118,9 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public string PagoEfectivo { get; set; }
         public List<SelectListItem> lPagoEfectivo { get; set; }
 
+        
+        [Display(Name = "¿El cálculo será por días u horas?")]
+        public string DiasHoras { get; set; }
+        public List<SelectListItem> lDiasHoras { get; set; }
     }
 }

@@ -30,6 +30,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdRegistroPatronal { get; set; }
         public int IdEntidad { get; set; }
         public Nullable<int> IdPrestaciones { get; set; }
+        public Nullable<int> IdJornada { get; set; }
         public string ClaveEmpleado { get; set; }
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
@@ -56,6 +57,7 @@ namespace TadaNomina.Models.DB
         public string Recontratable { get; set; }
         public string Esquema { get; set; }
         public string TipoContrato { get; set; }
+        public Nullable<System.DateTime> FechaTerminoContrato { get; set; }
         public string RFCSubContratacion { get; set; }
         public Nullable<int> IdPerfil { get; set; }
         public int IdEstatus { get; set; }
@@ -71,6 +73,7 @@ namespace TadaNomina.Models.DB
         public string PremioP { get; set; }
         public Nullable<decimal> SaldoVacaciones { get; set; }
         public Nullable<decimal> BanderaSaldo { get; set; }
+        public Nullable<decimal> SaldoPeriodoAnterior { get; set; }
         public Nullable<decimal> SaldoAdeudoVacaciones { get; set; }
         public Nullable<decimal> DiasExtras { get; set; }
         public Nullable<decimal> SaldoDiasExtras { get; set; }
@@ -84,7 +87,6 @@ namespace TadaNomina.Models.DB
         public string Entidad { get; set; }
         public string CP { get; set; }
         public string RutaCSF { get; set; }
-        public Nullable<decimal> SaldoPeriodoAnterior { get; set; }
         public string DocumentoAlta { get; set; }
         public string DocumentoBaja { get; set; }
         public string MotivoBajaRH { get; set; }
@@ -94,7 +96,6 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> FechaAltaIMSS_Proyeccion { get; set; }
         public Nullable<System.DateTime> FechaReconocimientoAntiguedad_Proyeccion { get; set; }
         public Nullable<decimal> Neto_Proyeccion { get; set; }
-        public Nullable<int> IdJornada { get; set; }
         public Nullable<int> IdBancoViaticos { get; set; }
         public string CuentaBancariaViaticos { get; set; }
         public string CuentaInterbancariaViaticos { get; set; }
@@ -102,12 +103,13 @@ namespace TadaNomina.Models.DB
         public string passChecador { get; set; }
         public Nullable<int> PrivilegioChecador { get; set; }
         public string Foto { get; set; }
-        public Nullable<System.DateTime> FechaTerminoContrato { get; set; }
         public string ImagenPerfil { get; set; }
         public string Origen { get; set; }
+        public Nullable<int> IdOcupacionSTPS { get; set; }
         public Nullable<System.DateTime> FechaModificacionNube { get; set; }
         public Nullable<System.DateTime> FechaModificacionCIF { get; set; }
-        public Nullable<int> IdOcupacionSTPS { get; set; }
+        public Nullable<int> idSincatosClientes { get; set; }
+        public Nullable<decimal> PorcentajeSindicato { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }

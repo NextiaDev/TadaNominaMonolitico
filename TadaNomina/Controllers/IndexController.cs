@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.EMMA;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,11 +14,19 @@ namespace TadaNomina.Controllers
         // GET: Index
         public ActionResult Index()
         {
-            int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
-            ClassInicio ci = new ClassInicio();
-            var model = ci.getInfoInicio(IdUnidadNegocio);
+            var model = new ModelInicio();
+            try
+            {
+                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+                ClassInicio ci = new ClassInicio();
+                model = ci.getInfoInicio(IdUnidadNegocio);
 
-            return View(model);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Default", new { mensaje = ex.Message });
+            }
         }
     }
 }

@@ -121,6 +121,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal DateTime _fechaReconocimientoAntiguedadEsquema;
         internal DateTime _FechaInicioEjercicio;
         internal DateTime _FechaInicioEjercicioTrad;
+        internal decimal fraccionHorasMas;
+        internal decimal fraccionHorasMenos;
 
         internal decimal montoPension;
         internal decimal montoPensionEsq;
@@ -407,14 +409,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
-        public List<vIncidencias> GetIncidenciasFaltasIncapacidadesPara7moDIaByEmpleado(int IdPeriodo, int IdEmpleados)
+        public List<vIncidencias> GetIncidenciasHorasPara7moDIa(int IdPeriodo, List<int> IdsEmpleados)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                string[] agrupadores = { "500", "501" };
-                return entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleados && agrupadores.Contains(x.ClaveGpo)).ToList();
+                return entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && IdsEmpleados.Contains((int)x.IdEmpleado) && x.TipoConcepto == "DD" && x.TipoDato == "Cantidades" && x.CalculoDiasHoras == "Horas" && x.AfectaSeldo == "SI").ToList();
             }
-        }
+        }       
 
         /// <summary>
         /// Metodo que obtiene las incidencias del periodo para un empleados especifico
@@ -955,16 +956,37 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Dias_Vacaciones = 0;
             decimal diasMas = 0;
             decimal diasMenos = 0;
+            fraccionHorasMas = 0;
+            fraccionHorasMenos = 0;
 
-            nominaTrabajo.Faltas = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.ClaveGpo == "500").Select(X => X.Cantidad).Sum();            
+            nominaTrabajo.Faltas = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.ClaveGpo == "500" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
             nominaTrabajo.Incapacidades = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.ClaveGpo == "501").Select(X => X.Cantidad).Sum();
             nominaTrabajo.Dias_Vacaciones = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.ClaveGpo == "002").Select(X => X.Cantidad).Sum();
 
             nominaTrabajo.DiasTrabajados = DiasPago;
-            diasMas += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002").Select(X => X.Cantidad).Sum();
-                        
-            diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI").Select(X => X.Cantidad).Sum();
-                                    
+            diasMas += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
+            diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
+            
+            // se obtienen los conceptos que van a sumar a los dias trabajados en horas.
+            var diasMasFraccion = incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002" && x.CalculoDiasHoras == "Horas").ToList();
+
+            foreach (var df in diasMasFraccion)
+            {
+                decimal fraccion = (df.Cantidad ?? 0) * (1M / (df.SDEntre ?? 1));
+                fraccionHorasMas = fraccion;
+            }
+            //////
+
+            // se obtienen los conceptos que van a restar a los dias trabajados en horas.
+            var diasMenosFraccion = incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras == "Horas").ToList();
+
+            foreach (var df in diasMenosFraccion)
+            {
+                decimal fraccion = (df.Cantidad ?? 0) * ( 1M / (df.SDEntre ?? 1));                
+                fraccionHorasMenos = fraccion;
+            }
+            //////
+
             diasMenos += (decimal)nominaTrabajo.Dias_Vacaciones;
             if (configuracionNominaEmpleado.DiasSueldo > 0) { nominaTrabajo.DiasTrabajados += configuracionNominaEmpleado.DiasSueldo; }
 
@@ -1468,6 +1490,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             }
         }
+
         /// <summary>
         /// Metodo para procesar las vacaciones autorizadas desde el portal de empleados
         /// </summary>
@@ -1485,6 +1508,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             else
                 cv.ProcesaIncidenciasVacaciones(IdUnidadNegocio, IdPeriodoNomina, IdUsuario, IdConceptoV);
         }
+
         /// <summary>
         /// Metodo para que calculo los elementos de Provision para los clientes que lo soliciten
         /// </summary>
@@ -1674,6 +1698,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             EliminaIncidenciasSeptimoDia(IdPeriodo, empleadosProceso.Select(x => x.IdEmpleado).ToList(), IdConcepto);
             var incidenciasINc = GetIncidenciasFaltasIncapacidadesPara7moDIa(IdPeriodo, empleadosProceso.Select(x=>x.IdEmpleado).ToList());
+            var incidenciasHorasINc = GetIncidenciasHorasPara7moDIa(IdPeriodo, empleadosProceso.Select(x=>x.IdEmpleado).ToList());
 
             ClassIncidencias ci = new ClassIncidencias();
             
@@ -1686,8 +1711,18 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     var factorSeptimoDia = 1 / 6M;
 
                     //operacion para faltas
-                    var faltas = incidenciasINc.Where(x => x.ClaveGpo == "500" && x.IdEmpleado == item.IdEmpleado).Select(x => x.Cantidad).Sum() ?? 0M;
+                    var faltas = incidenciasINc.Where(x => x.ClaveGpo == "500" && x.IdEmpleado == item.IdEmpleado && x.CalculoDiasHoras != "Horas").Select(x => x.Cantidad).Sum() ?? 0M;
                     var factorFaltas = (faltas * factorSeptimoDia);
+
+                    // se obtienen los conceptos que van a restar a los dias trabajados en horas.
+                    var diasMenosFraccion = incidenciasHorasINc.Where(x=> x.IdEmpleado == item.IdEmpleado).ToList();
+
+                    foreach (var df in diasMenosFraccion)
+                    {
+                        decimal fraccion = (df.Cantidad ?? 0) * (1M / (6M * (df.SDEntre ?? 1)));
+                        factorFaltas += fraccion;
+                    }
+                    //////
 
                     //operacion para incapacidades maternidad y riesgo de trabajo
                     string[] clavesIncap = { "01", "03" };
@@ -1723,60 +1758,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }
             }            
         }
-
-        public void ProcesaIncidenciasSeptimoDiaByEmpleado(vEmpleados empleadosProceso, int IdPeriodo, int IdConcepto, int IdUsuario)
-        {
-            EliminaIncidenciasSeptimoDiaByIdEmpleado(IdPeriodo, empleadosProceso.IdEmpleado, IdConcepto);
-            var incidenciasINc = GetIncidenciasFaltasIncapacidadesPara7moDIaByEmpleado(IdPeriodo, empleadosProceso.IdEmpleado).ToList();
-
-            ClassIncidencias ci = new ClassIncidencias();
-
-            
-            var confEmp = getconfiguracionEmpleadoNomina(IdEmpleado);
-            if (confEmp.SupenderSueldoTradicional != 1)
-            {
-                decimal cantidadSeptimoDia = 1;
-                var factorSeptimoDia = 1 / 6M;
-
-                //operacion para faltas
-                var faltas = incidenciasINc.Where(x => x.ClaveGpo == "500" && x.IdEmpleado == IdEmpleado).Select(x => x.Cantidad).Sum() ?? 0M;
-                var factorFaltas = (faltas * factorSeptimoDia);
-
-                //operacion para incapacidades maternidad y riesgo de trabajo
-                string[] clavesIncap = { "01", "03" };
-                var incapacidades = incidenciasINc.Where(x => x.ClaveGpo == "501" && clavesIncap.Contains(x.ClaveSAT) && x.IdEmpleado == IdEmpleado).Select(x => x.Cantidad).Sum();
-                if (incapacidades > 0)
-                    cantidadSeptimoDia = 0;
-
-                //operacion para incapacidades enfermedad gral
-                decimal factorIncapacidadGral = 0;
-                var incapacidadesEnfGral = incidenciasINc.Where(x => x.ClaveGpo == "501" && x.ClaveSAT == "02" && x.IdEmpleado == IdEmpleado).Select(x => x.Cantidad).ToList();
-                if (incapacidadesEnfGral.Count() > 0)
-                    factorIncapacidadGral = ((decimal)incapacidadesEnfGral.Sum() * factorSeptimoDia);
-
-                cantidadSeptimoDia -= (factorFaltas + factorIncapacidadGral);
-                if (cantidadSeptimoDia < 0) { cantidadSeptimoDia = 0; }
-
-                if (cantidadSeptimoDia > 0)
-                {
-                    ModelIncidencias mi = new ModelIncidencias()
-                    {
-                        IdEmpleado = IdEmpleado,
-                        IdPeriodoNomina = IdPeriodo,
-                        IdConcepto = IdConcepto,
-                        Cantidad = cantidadSeptimoDia,
-                        Monto = 0,
-                        CantidadEsq = 0,
-                        Observaciones = "PDUP SYSTEM",
-                        MontoEsquema = 0,
-                    };
-
-                    ci.NewIncindencia(mi, IdUsuario);
-                }
-            }
-            
-        }
-
+               
         public void EliminaIncidenciasSeptimoDia(int IdPeriodoNomina, List<int> IdsEmpleado, int IdConcepto)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
@@ -1871,7 +1853,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             _fechaReconocimientoAntiguedad = GetFechaIngreso(FechaReconocimientoAntiguedad, FechaAltaIMSS, null);
             Antiguedad = Math.Round((Periodo.FechaFin.Subtract(_fechaReconocimientoAntiguedad).Days) / 365M, 4);
 
-            var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).First();
+            var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).FirstOrDefault();
             if (_factor != null)
             {
                 _SDI_Limite= Math.Round(SDIMSS_Actual*(decimal)_factor.FactorIntegracion,2);

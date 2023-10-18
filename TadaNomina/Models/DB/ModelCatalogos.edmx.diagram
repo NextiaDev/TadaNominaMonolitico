@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4d82e768d5fb447790b86f5a043f3350" Name="Diagram1" ZoomLevel="86">
+      <Diagram DiagramId="4d82e768d5fb447790b86f5a043f3350" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="TadaNominaModel.vDepartamentos" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_AgrupadorConceptos" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Departamentos" Width="1.5" PointX="8" PointY="9" />
@@ -33,10 +33,7 @@
         <EntityTypeShape EntityType="TadaNominaModel.Cliente_EmpresaEspecializada" Width="1.5" PointX="19.375" PointY="16.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosChecador" Width="1.5" PointX="17.375" PointY="20.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_ErroresIMSS" Width="1.5" PointX="14.375" PointY="12.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" Width="1.5" PointX="21.625" PointY="26.625" />
-        <EntityTypeShape EntityType="TadaNominaModel.Empleados" Width="1.5" PointX="19.375" PointY="21.5" />
         <EntityTypeShape EntityType="TadaNominaModel.MovimientosIMSS" Width="1.5" PointX="21.375" PointY="0.75" />
-        <AssociationConnector Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" />
         <EntityTypeShape EntityType="TadaNominaModel.v_IMSS_MovimientosCESS" Width="1.5" PointX="0.75" PointY="21.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vEmpleadosIMSS_NA" Width="1.5" PointX="14.375" PointY="21.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Jornadas" Width="1.5" PointX="10.375" PointY="0.75" />
@@ -47,6 +44,9 @@
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Clientes" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="23.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="24.375" PointY="20.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" Width="1.5" PointX="20.625" PointY="34.375" />
+        <EntityTypeShape EntityType="TadaNominaModel.Empleados" Width="1.5" PointX="18.375" PointY="26.75" />
+        <AssociationConnector Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
         </Diagram>
     </edmx:Diagrams>
