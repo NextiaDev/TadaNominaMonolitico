@@ -53,7 +53,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
         {
             List<ModelSantander> listaSantander = new List<ModelSantander>();
             var tipoNomina = GetTipoNomina(IdPeriodoNomina);
-            var listaNom = tipoNomina != "Finiquitos" ? GetNominaNormal(IdPeriodoNomina, null) : GetNominaFiniquitos(IdPeriodoNomina);
+            var listaNom = tipoNomina != "Finiquitos" ? GetNominaNormal(IdPeriodoNomina, null) : GetNominaFiniquitos(IdPeriodoNomina, null);
             List<int> listaIdEmpleados = listaNom.Select(p => p.IdEmpleado).ToList();
             ClassEmpleado cemp = new ClassEmpleado();
             List<vEmpleados> listaInfoEmp = cemp.getvEmpleadosByListIds(listaIdEmpleados, IdUnidadNegocio).Where(p => p.IdBancoTrad == 5 && p.CuentaBancariaTrad != null).ToList();
@@ -90,12 +90,21 @@ namespace TadaNomina.Models.ClassCore.LayoutB
             return listado;
         }
 
-        public List<Nomina> GetNominaFiniquitos(int IdPeriodoNomina)
+        public List<Nomina> GetNominaFiniquitos(int IdPeriodoNomina, int? IdBanco)
         {
+            var result = new List<Nomina>();
             using (NominaEntities1 ctx = new NominaEntities1())
             {
-                return ctx.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.CuentaBancariaTrad != null && x.Neto > 0 && x.IdEstatus == 1).ToList();
+                if (IdBanco == null)
+                {
+                    result = ctx.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.CuentaBancariaTrad != null && x.Neto > 0 && x.IdEstatus == 1).ToList();
+                }
+                else
+                {
+                    result = ctx.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.CuentaBancariaTrad != null && x.Neto > 0 && x.IdEstatus == 1 && x.IdBancoTrad != IdBanco).ToList();
+                }
             }
+            return result;
         }
 
         public vEmpleados GetInfoEmpleado(int IdEmpleado)
@@ -193,7 +202,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
             string textoFinal = string.Empty;
             decimal totalsalario = 0;
             var tipoNomina = GetTipoNomina(IdPeriodoNomina);
-            var listadoNomina = tipoNomina != "Finiquitos" ? GetNominaNormal(IdPeriodoNomina, 5) : GetNominaFiniquitos(IdPeriodoNomina);
+            var listadoNomina = tipoNomina != "Finiquitos" ? GetNominaNormal(IdPeriodoNomina, 5) : GetNominaFiniquitos(IdPeriodoNomina, 5);
             var ListadoNominaxRP = listadoNomina.GroupBy(p => p.IdRegistroPatronal);
             foreach (var item in ListadoNominaxRP)
             {
@@ -256,7 +265,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
         {
             List<ModelSantander> listaSantanderInter = new List<ModelSantander>();
             var tipoNomina = GetTipoNomina(IdPeriodoNomina);
-            var listaNom = tipoNomina != "Finiquitos" ? GetNominaNormal(IdPeriodoNomina, 5) : GetNominaFiniquitos(IdPeriodoNomina);
+            var listaNom = tipoNomina != "Finiquitos" ? GetNominaNormal(IdPeriodoNomina, 5) : GetNominaFiniquitos(IdPeriodoNomina, 5);
             List<int> listaIdEmpleados = listaNom.Select(p => p.IdEmpleado).ToList();
             ClassEmpleado cemp = new ClassEmpleado();
             List<vEmpleados> listaInfoEmp = cemp.getvEmpleadosByListIds(listaIdEmpleados, IdUnidadNegocio).Where(p => p.IdBancoTrad != 5 && p.CuentaBancariaTrad != null).ToList();
