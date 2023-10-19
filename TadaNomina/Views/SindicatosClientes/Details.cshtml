@@ -1,0 +1,37 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelCatSindicatosClientes
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Detalles Sindicatos</h4>
+</div>
+
+
+<div class="modal-body">
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sindicato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sindicato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CuotaSindical)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CuotaSindical)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+        </div>
+    </div>
+</p>

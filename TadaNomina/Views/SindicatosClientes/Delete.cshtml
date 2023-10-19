@@ -1,0 +1,41 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelCatSindicatosClientes
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+    <h4 class="modal-title">Eliminar Sindicato</h4>
+</div>
+
+<center>
+    <label>¿Está seguro que desea eliminar el siguiente Sindicato?</label>
+    </center>
+        <br />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Sindicato)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sindicato)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CuotaSindical)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CuotaSindical)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                    <input type="submit" value="Eliminar" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        }
