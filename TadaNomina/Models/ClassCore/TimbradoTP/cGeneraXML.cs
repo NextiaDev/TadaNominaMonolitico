@@ -212,6 +212,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
 
                 using (SqlCommand cmd = new SqlCommand("sp_InformacionXML_Nomina", sqlconn))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdPeriodoNomina", SqlDbType.Int).Value = IdPeriodoNomina;
                     SqlDataReader dr = cmd.ExecuteReader();
