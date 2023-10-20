@@ -972,7 +972,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
                 {
                     var listamod = ctx.ModificacionSueldos.Where(p => p.IdEmpleado == IdEmpleado && p.FechaMovimiento == fechainiciomes).ToList();
-                    var numeroreg = listamod.Count-1;
+                    var numeroreg = listamod.Count()-1;
                     modificacionsueldoemp =listamod.Count() >= 1 ? listamod[numeroreg] : null;
                 }
                 decimal sdianterior = modificacionsueldoemp == null ? SDI : modificacionsueldoemp.SDI_Anterior;
