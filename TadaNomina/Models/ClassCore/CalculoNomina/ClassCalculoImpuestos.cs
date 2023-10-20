@@ -437,189 +437,376 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             Calcula_Dias_IMSS();
             Evalua_Tipo_Insidencia();
-                        
 
-            if ((Periodo.TipoNomina == "Complemento" && DiasTrabajados_IMSS < 1) || (UnidadNegocio.NoCalcularCargaObrera == "S" && UnidadNegocio.NoCalcularCargaPatronal == "S"))
+            if (UnidadNegocio.BanderaCargasSocialesSinFaltas == "S")
             {
-                SinCargarObreroPatronal();
-            }
-            else
-            {
-                
-                foreach (var item in ListImpuestosIMSS.Where(c => c.TipoCuota == "Obrera"))
+
+                decimal dias = (decimal)nominaTrabajo.DiasTrabajados;
+                if ((Periodo.TipoNomina == "Complemento" && DiasTrabajados_IMSS < 1) || (UnidadNegocio.NoCalcularCargaObrera == "S" && UnidadNegocio.NoCalcularCargaPatronal == "S"))
                 {
-                    switch (item.Descripcion)
-                    {
-                        #region Obrera
-                        case "EXCEDENTE OBRERA":
-
-                            if (SDI < (UMA * 3))
-                            {
-                                nominaTrabajo.Excedente_Obrera = 0;
-                            }
-                            else
-                            {
-                                decimal op1 = SDI - (UMA * 3);
-                                decimal op2 = op1 * decimal.Parse(item.Porcentaje.ToString());
-                                decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS + Dias_Faltados)) / 100, 2);
-
-                                nominaTrabajo.Excedente_Obrera = Math.Round(op3, 2);
-                            }
-
-                            break;
-
-                        case "PRESTACIONES DINERO":
-
-                            decimal _PrestacionDinero = (DiasTrabajados_IMSS + Dias_Faltados);
-                            nominaTrabajo.Prestaciones_Dinero = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _PrestacionDinero) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "GASTOS MED. PENSION":
-
-                            decimal _GMP = (DiasTrabajados_IMSS + Dias_Faltados); ;
-                            nominaTrabajo.Gastos_Med_Pension = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _GMP) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "INVALIDEZ Y VIDA":
-
-                            decimal _InvalidezVida = DiasTrabajados_IMSS;
-                            nominaTrabajo.Invalidez_Vida = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _InvalidezVida) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "CESANTIA Y VEJEZ":
-
-                            decimal _CesantiaVejez = DiasTrabajados_IMSS;
-                            nominaTrabajo.Cesantia_Vejez = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-                            #endregion
-                    }
-                }
-                
-
-                decimal DiasTrabajados_IMSS_Patronal = DiasTrabajados_IMSS;
-
-                foreach (var item2 in ListImpuestosIMSS.Where(c => c.TipoCuota == "Patronal"))
-                {
-                    switch (item2.Descripcion)
-                    {
-                        #region Patronal
-                        case "CUOTA FIJA":
-
-                            decimal _CuotaFija = (DiasTrabajados_IMSS_Patronal + Dias_Faltados);
-
-                            if (SDI == 0)
-                            {
-                                nominaTrabajo.Cuota_Fija_Patronal = 0;
-                            }
-                            else
-                            {
-                                nominaTrabajo.Cuota_Fija_Patronal = Math.Round(decimal.Round(((decimal.Round(UMA, 2) * _CuotaFija) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            }
-
-                            break;
-
-                        case "EXCEDENTE PATRONAL":
-
-                            if (SDI < (UMA * 3))
-                            {
-                                nominaTrabajo.Excedente_Patronal = 0;
-                            }
-                            else
-                            {
-                                decimal op1 = 0;
-                                op1 = SDI - (UMA * 3);
-                                decimal op2 = decimal.Round(op1, 2) * decimal.Round(decimal.Parse(item2.Porcentaje.ToString()), 3);
-                                decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS_Patronal + Dias_Faltados)) / 100, 2);
-
-                                nominaTrabajo.Excedente_Patronal = Math.Round(op3, 2);
-                            }
-
-                            break;
-
-                        case "PREST. DINERO":
-
-                            decimal _PrestDinero = (DiasTrabajados_IMSS_Patronal + Dias_Faltados);
-                            nominaTrabajo.Prestamo_Dinero_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _PrestDinero) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "GASTOS MED. PENSION":
-
-                            decimal _GastosMed = (DiasTrabajados_IMSS_Patronal + Dias_Faltados); ;
-                            nominaTrabajo.Gastos_Med_Pension_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _GastosMed) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "RIESGO DE TRABAJO":
-
-                            decimal _RiesgoT = DiasTrabajados_IMSS_Patronal;
-                            nominaTrabajo.Riesgo_Trabajo_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * Porcentaje_Riesgo_Trabajo_Patronal) * _RiesgoT) / (decimal)100, 2), 2);
-                            break;
-
-                        case "INVALIDEZ Y VIDA":
-
-                            decimal _InvalidezVida = DiasTrabajados_IMSS_Patronal;
-                            nominaTrabajo.Invalidez_Vida_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _InvalidezVida) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "GUARD. PREST EN ESPECIE":
-
-                            decimal _Guarderia = DiasTrabajados_IMSS_Patronal;
-                            nominaTrabajo.Prestamo_Especie = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Guarderia) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "RETIRO":
-                            decimal _Retiro = (DiasTrabajados_IMSS_Patronal + Incapacidades);
-                            nominaTrabajo.Retiro = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Retiro) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-
-                        case "CESANTIA Y VEJEZ":
-                            decimal _CesantiaVejez = DiasTrabajados_IMSS_Patronal;
-                            nominaTrabajo.Cesantia_Vejez_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez) * CalculaPorcentajeCyV_IMSS(SDI)) / (decimal)100, 2), 2);
-                            break;
-
-                        case "INFONAVIT":
-                            decimal _Infonavit = (DiasTrabajados_IMSS_Patronal + Incapacidades);
-                            nominaTrabajo.INFONAVIT_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Infonavit) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
-                            break;
-                            #endregion
-                    }
-                }
-
-                string[] gpos = { "500", "501" };
-                var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema)).Sum(x => x.Cantidad);
-
-                decimal diasPago_ = (int)TipoNomina.DiasPago;
-                if (Periodo.TablaDiaria == "S" || diasPago_==0)
-                    diasPago_ = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1; ;
-
-                if (SD_IMSS <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1 ) || faltasIncapacidades >= diasPago_)
-                {
-                    if (UnidadNegocio.CobraCOPS_Empleado_SMGV=="S" && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS,SDI))
-                    {
-                        nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
-                        nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
-                        + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
-                    }
-                    else
-                    {
-                        CargaObreraAlPatron();
-                    }                    
+                    SinCargarObreroPatronal();
                 }
                 else
                 {
-                    nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
-                    nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
-                        + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
+
+                    foreach (var item in ListImpuestosIMSS.Where(c => c.TipoCuota == "Obrera"))
+                    {
+                        switch (item.Descripcion)
+                        {
+                            #region Obrera
+                            case "EXCEDENTE OBRERA":
+
+                                if (SDI < (UMA * 3))
+                                {
+                                    nominaTrabajo.Excedente_Obrera = 0;
+                                }
+                                else
+                                {
+                                    decimal op1 = SDI - (UMA * 3);
+                                    decimal op2 = op1 * decimal.Parse(item.Porcentaje.ToString());
+                                    decimal op3 = decimal.Round((op2 * (dias + 0)) / 100, 2);
+
+                                    nominaTrabajo.Excedente_Obrera = Math.Round(op3, 2);
+                                }
+
+                                break;
+
+                            case "PRESTACIONES DINERO":
+
+                                decimal _PrestacionDinero = (dias + 0);
+                                nominaTrabajo.Prestaciones_Dinero = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _PrestacionDinero) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "GASTOS MED. PENSION":
+
+                                decimal _GMP = (dias + 0); ;
+                                nominaTrabajo.Gastos_Med_Pension = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _GMP) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "INVALIDEZ Y VIDA":
+
+                                decimal _InvalidezVida = dias;
+                                nominaTrabajo.Invalidez_Vida = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _InvalidezVida) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "CESANTIA Y VEJEZ":
+
+                                decimal _CesantiaVejez = dias;
+                                nominaTrabajo.Cesantia_Vejez = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+                                #endregion
+                        }
+                    }
+
+
+                    decimal DiasTrabajados_IMSS_Patronal = dias;
+
+                    foreach (var item2 in ListImpuestosIMSS.Where(c => c.TipoCuota == "Patronal"))
+                    {
+                        switch (item2.Descripcion)
+                        {
+                            #region Patronal
+                            case "CUOTA FIJA":
+
+                                decimal _CuotaFija = (DiasTrabajados_IMSS_Patronal + 0);
+
+                                if (SDI == 0)
+                                {
+                                    nominaTrabajo.Cuota_Fija_Patronal = 0;
+                                }
+                                else
+                                {
+                                    nominaTrabajo.Cuota_Fija_Patronal = Math.Round(decimal.Round(((decimal.Round(UMA, 2) * _CuotaFija) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                }
+
+                                break;
+
+                            case "EXCEDENTE PATRONAL":
+
+                                if (SDI < (UMA * 3))
+                                {
+                                    nominaTrabajo.Excedente_Patronal = 0;
+                                }
+                                else
+                                {
+                                    decimal op1 = 0;
+                                    op1 = SDI - (UMA * 3);
+                                    decimal op2 = decimal.Round(op1, 2) * decimal.Round(decimal.Parse(item2.Porcentaje.ToString()), 3);
+                                    decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS_Patronal + 0)) / 100, 2);
+
+                                    nominaTrabajo.Excedente_Patronal = Math.Round(op3, 2);
+                                }
+
+                                break;
+
+                            case "PREST. DINERO":
+
+                                decimal _PrestDinero = (DiasTrabajados_IMSS_Patronal + 0);
+                                nominaTrabajo.Prestamo_Dinero_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _PrestDinero) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "GASTOS MED. PENSION":
+
+                                decimal _GastosMed = (DiasTrabajados_IMSS_Patronal + 0); ;
+                                nominaTrabajo.Gastos_Med_Pension_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _GastosMed) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "RIESGO DE TRABAJO":
+
+                                decimal _RiesgoT = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Riesgo_Trabajo_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * Porcentaje_Riesgo_Trabajo_Patronal) * _RiesgoT) / (decimal)100, 2), 2);
+                                break;
+
+                            case "INVALIDEZ Y VIDA":
+
+                                decimal _InvalidezVida = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Invalidez_Vida_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _InvalidezVida) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "GUARD. PREST EN ESPECIE":
+
+                                decimal _Guarderia = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Prestamo_Especie = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Guarderia) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "RETIRO":
+                                decimal _Retiro = (DiasTrabajados_IMSS_Patronal + Incapacidades);
+                                nominaTrabajo.Retiro = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Retiro) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "CESANTIA Y VEJEZ":
+                                decimal _CesantiaVejez = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Cesantia_Vejez_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez) * CalculaPorcentajeCyV_IMSS(SDI)) / (decimal)100, 2), 2);
+                                break;
+
+                            case "INFONAVIT":
+                                decimal _Infonavit = (DiasTrabajados_IMSS_Patronal + Incapacidades);
+                                nominaTrabajo.INFONAVIT_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Infonavit) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+                                #endregion
+                        }
+                    }
+
+                    string[] gpos = { "500", "501" };
+                    var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema)).Sum(x => x.Cantidad);
+
+                    decimal diasPago_ = (int)TipoNomina.DiasPago;
+                    if (Periodo.TablaDiaria == "S" || diasPago_ == 0)
+                        diasPago_ = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1; ;
+
+                    if (SD_IMSS <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1) || faltasIncapacidades >= diasPago_)
+                    {
+                        if (UnidadNegocio.CobraCOPS_Empleado_SMGV == "S" && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS, SDI))
+                        {
+                            nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
+                            nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
+                            + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
+                        }
+                        else
+                        {
+                            CargaObreraAlPatron();
+                        }
+                    }
+                    else
+                    {
+                        nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
+                        nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
+                            + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
+                    }
+
+                    if (UnidadNegocio.NoCalcularCargaPatronal == "S")
+                        SinCargaPatronal();
+
+                    if (UnidadNegocio.NoCalcularCargaObrera == "S")
+                        SincargaObrera();
                 }
 
-                if (UnidadNegocio.NoCalcularCargaPatronal == "S")
-                    SinCargaPatronal();
 
-                if (UnidadNegocio.NoCalcularCargaObrera == "S")
-                    SincargaObrera();
-            }                        
 
+            }
+            else
+            {
+                if ((Periodo.TipoNomina == "Complemento" && DiasTrabajados_IMSS < 1) || (UnidadNegocio.NoCalcularCargaObrera == "S" && UnidadNegocio.NoCalcularCargaPatronal == "S"))
+                {
+                    SinCargarObreroPatronal();
+                }
+                else
+                {
+
+                    foreach (var item in ListImpuestosIMSS.Where(c => c.TipoCuota == "Obrera"))
+                    {
+                        switch (item.Descripcion)
+                        {
+                            #region Obrera
+                            case "EXCEDENTE OBRERA":
+
+                                if (SDI < (UMA * 3))
+                                {
+                                    nominaTrabajo.Excedente_Obrera = 0;
+                                }
+                                else
+                                {
+                                    decimal op1 = SDI - (UMA * 3);
+                                    decimal op2 = op1 * decimal.Parse(item.Porcentaje.ToString());
+                                    decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS + Dias_Faltados)) / 100, 2);
+
+                                    nominaTrabajo.Excedente_Obrera = Math.Round(op3, 2);
+                                }
+
+                                break;
+
+                            case "PRESTACIONES DINERO":
+
+                                decimal _PrestacionDinero = (DiasTrabajados_IMSS + Dias_Faltados);
+                                nominaTrabajo.Prestaciones_Dinero = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _PrestacionDinero) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "GASTOS MED. PENSION":
+
+                                decimal _GMP = (DiasTrabajados_IMSS + Dias_Faltados); ;
+                                nominaTrabajo.Gastos_Med_Pension = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _GMP) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "INVALIDEZ Y VIDA":
+
+                                decimal _InvalidezVida = DiasTrabajados_IMSS;
+                                nominaTrabajo.Invalidez_Vida = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _InvalidezVida) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "CESANTIA Y VEJEZ":
+
+                                decimal _CesantiaVejez = DiasTrabajados_IMSS;
+                                nominaTrabajo.Cesantia_Vejez = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+                                #endregion
+                        }
+                    }
+
+
+                    decimal DiasTrabajados_IMSS_Patronal = DiasTrabajados_IMSS;
+
+                    foreach (var item2 in ListImpuestosIMSS.Where(c => c.TipoCuota == "Patronal"))
+                    {
+                        switch (item2.Descripcion)
+                        {
+                            #region Patronal
+                            case "CUOTA FIJA":
+
+                                decimal _CuotaFija = (DiasTrabajados_IMSS_Patronal + Dias_Faltados);
+
+                                if (SDI == 0)
+                                {
+                                    nominaTrabajo.Cuota_Fija_Patronal = 0;
+                                }
+                                else
+                                {
+                                    nominaTrabajo.Cuota_Fija_Patronal = Math.Round(decimal.Round(((decimal.Round(UMA, 2) * _CuotaFija) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                }
+
+                                break;
+
+                            case "EXCEDENTE PATRONAL":
+
+                                if (SDI < (UMA * 3))
+                                {
+                                    nominaTrabajo.Excedente_Patronal = 0;
+                                }
+                                else
+                                {
+                                    decimal op1 = 0;
+                                    op1 = SDI - (UMA * 3);
+                                    decimal op2 = decimal.Round(op1, 2) * decimal.Round(decimal.Parse(item2.Porcentaje.ToString()), 3);
+                                    decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS_Patronal + Dias_Faltados)) / 100, 2);
+
+                                    nominaTrabajo.Excedente_Patronal = Math.Round(op3, 2);
+                                }
+
+                                break;
+
+                            case "PREST. DINERO":
+
+                                decimal _PrestDinero = (DiasTrabajados_IMSS_Patronal + Dias_Faltados);
+                                nominaTrabajo.Prestamo_Dinero_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _PrestDinero) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "GASTOS MED. PENSION":
+
+                                decimal _GastosMed = (DiasTrabajados_IMSS_Patronal + Dias_Faltados); ;
+                                nominaTrabajo.Gastos_Med_Pension_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _GastosMed) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "RIESGO DE TRABAJO":
+
+                                decimal _RiesgoT = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Riesgo_Trabajo_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * Porcentaje_Riesgo_Trabajo_Patronal) * _RiesgoT) / (decimal)100, 2), 2);
+                                break;
+
+                            case "INVALIDEZ Y VIDA":
+
+                                decimal _InvalidezVida = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Invalidez_Vida_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _InvalidezVida) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "GUARD. PREST EN ESPECIE":
+
+                                decimal _Guarderia = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Prestamo_Especie = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Guarderia) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "RETIRO":
+                                decimal _Retiro = (DiasTrabajados_IMSS_Patronal + Incapacidades);
+                                nominaTrabajo.Retiro = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Retiro) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+
+                            case "CESANTIA Y VEJEZ":
+                                decimal _CesantiaVejez = DiasTrabajados_IMSS_Patronal;
+                                nominaTrabajo.Cesantia_Vejez_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez) * CalculaPorcentajeCyV_IMSS(SDI)) / (decimal)100, 2), 2);
+                                break;
+
+                            case "INFONAVIT":
+                                decimal _Infonavit = (DiasTrabajados_IMSS_Patronal + Incapacidades);
+                                nominaTrabajo.INFONAVIT_Patronal = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _Infonavit) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                                break;
+                                #endregion
+                        }
+                    }
+
+                    string[] gpos = { "500", "501" };
+                    var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema)).Sum(x => x.Cantidad);
+
+                    decimal diasPago_ = (int)TipoNomina.DiasPago;
+                    if (Periodo.TablaDiaria == "S" || diasPago_ == 0)
+                        diasPago_ = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1; ;
+
+                    if (SD_IMSS <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1) || faltasIncapacidades >= diasPago_)
+                    {
+                        if (UnidadNegocio.CobraCOPS_Empleado_SMGV == "S" && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS, SDI))
+                        {
+                            nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
+                            nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
+                            + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
+                        }
+                        else
+                        {
+                            CargaObreraAlPatron();
+                        }
+                    }
+                    else
+                    {
+                        nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
+                        nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
+                            + nominaTrabajo.Prestamo_Especie + nominaTrabajo.Retiro + nominaTrabajo.Cesantia_Vejez_Patronal + nominaTrabajo.INFONAVIT_Patronal + nominaTrabajo.Riesgo_Trabajo_Patronal;
+                    }
+
+                    if (UnidadNegocio.NoCalcularCargaPatronal == "S")
+                        SinCargaPatronal();
+
+                    if (UnidadNegocio.NoCalcularCargaObrera == "S")
+                        SincargaObrera();
+                }
+            }
             // Para que las nominas de PTU no calculen COPS
-            if (Periodo.TipoNomina=="PTU")
+            if (Periodo.TipoNomina == "PTU")
             {
                 SinCargarObreroPatronal();
             }
