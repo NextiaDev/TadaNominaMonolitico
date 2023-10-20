@@ -966,12 +966,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             else
             {
                 int idemp = IdEmpleado;
-                ModificacionSueldos modificacionsueldoemp = null;
+                ModificacionSueldos modificacionsueldoemp = new ModificacionSueldos();
                 var fechafin = Periodo.FechaFin;
                 var fechainiciomes = DateTime.Parse($"{01}/{fechafin.Month}/{fechafin.Year}");
                 using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
                 {
-                    modificacionsueldoemp = ctx.ModificacionSueldos.Where(p => p.IdEmpleado == IdEmpleado && p.FechaMovimiento == fechainiciomes).LastOrDefault();
+                    var listamod = ctx.ModificacionSueldos.Where(p => p.IdEmpleado == IdEmpleado && p.FechaMovimiento == fechainiciomes).ToList();
+                    var numeroreg = listamod.Count-1;
+                    modificacionsueldoemp =listamod.Count() >= 1 ? listamod[numeroreg] : null;
                 }
                 decimal sdianterior = modificacionsueldoemp == null ? SDI : modificacionsueldoemp.SDI_Anterior;
                 List<decimal> listadodiasfinal = new List<decimal>();
