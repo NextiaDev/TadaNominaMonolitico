@@ -18,8 +18,8 @@ namespace TadaNomina.Services
         //public static string servidor = "http://localhost:25677";
 
         public static string ruaWCC = ConfigurationManager.AppSettings.Get("API_ConnectionCont");
-        public static string ServidorContabilidad = ruaWCC;
-        //public static string ServidorContabilidad = "https://localhost:44352/";
+        //public static string ServidorContabilidad = ruaWCC;
+        public static string ServidorContabilidad = "https://localhost:44352/";
 
         public static string relojChecador = "https://servicios.tada.mx/api_nomina/";
 

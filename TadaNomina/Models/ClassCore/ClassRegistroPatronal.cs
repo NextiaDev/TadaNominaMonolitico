@@ -9,6 +9,7 @@ using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Catalogos;
 using System.Text;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace TadaNomina.Models.ClassCore
 {
@@ -62,8 +63,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
-                var Patrona = from b in entidad.Cat_RegistroPatronal.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b;
-                return Patrona.ToList();
+                return entidad.Cat_RegistroPatronal.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1).OrderBy(x=> x.RFC).ToList();                
             }
         }
 
@@ -90,8 +90,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
-                var Patrona = from b in entidad.Cat_RegistroPatronal.Where(x => IdsReg.Contains(x.IdRegistroPatronal)) select b;
-                return Patrona.ToList();
+                return entidad.Cat_RegistroPatronal.Where(x => IdsReg.Contains(x.IdRegistroPatronal)).OrderBy(x=> x.RFC).ToList();                
             }
         }
 
@@ -299,13 +298,13 @@ namespace TadaNomina.Models.ClassCore
         /// <returns>Regresa la lista de los regresos patronales.</returns>
         public List<SelectListItem> getSelectRegistro(int IdCliente)
         {
-            var registros = GetRegistroPatronalByIdCliente(IdCliente);
+            var registros = GetRegistroPatronalByIdCliente(IdCliente).DistinctBy(x=> x.RFC);
             var idsRegistros = getIdsEspecializadas(IdCliente);
-            var registrosIds = GetRegistroPatronalByIds(idsRegistros);
+            var registrosIds = GetRegistroPatronalByIds(idsRegistros).DistinctBy(x => x.RFC);
             var list = new List<SelectListItem>();
 
-            registros.ForEach(x=> { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RegistroPatronal, Value = x.IdRegistroPatronal.ToString() }); });
-            registrosIds.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RegistroPatronal, Value = x.IdRegistroPatronal.ToString() }); });
+            registros.ForEach(x=> { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.RFC.ToString() }); });
+            registrosIds.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.RFC.ToString() }); });
 
             return list;
         }

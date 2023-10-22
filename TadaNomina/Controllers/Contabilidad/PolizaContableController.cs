@@ -51,7 +51,7 @@ namespace TadaNomina.Controllers.Contabilidad
 
 
             if ((int)Session["sIdCliente"] == 6)
-                poliza.reporteWS = sconta.getReporteWS(Session["sToken"].ToString(), periodo.FechaInicio.ToShortDateString(), periodo.FechaFin.ToShortDateString(), poliza.IdPeriodoNomina, poliza.IdRegistroPatronal);
+                poliza.reporteWS = sconta.getReporteWS(Session["sToken"].ToString(), periodo.FechaInicio.ToShortDateString(), periodo.FechaFin.ToShortDateString(), poliza.IdPeriodoNomina, poliza.IdRegistroPatronal, poliza.RFC);
             else
                 poliza.reporte = sconta.getReporte(Session["sToken"].ToString(), (int)Session["sIdUnidadNegocio"], poliza.IdPeriodoNomina, (int)poliza.IdPoliza);
 
