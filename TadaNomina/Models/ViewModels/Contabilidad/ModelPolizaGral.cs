@@ -17,6 +17,8 @@ namespace TadaNomina.Models.ViewModels.Contabilidad
         public List<mReporteCuentas> reporte { get; set; }
         public List<mReporteCuentasWS> reporteWS { get; set; }
         public int? IdRegistroPatronal { get; set; }
+        [Display(Name = "Registro Patronal")]
+        public string RFC { get; set; }
         public List<SelectListItem> lRegistros { get; set; }
     }
 }
