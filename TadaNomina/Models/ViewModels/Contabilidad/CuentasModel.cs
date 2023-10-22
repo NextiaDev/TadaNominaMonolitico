@@ -24,5 +24,6 @@ namespace TadaNomina.Models.ViewModels.Contabilidad
         public string TipoCuenta { get; set; }
         public string TipoNomina { get; set; }
         public int? IdRegistroPatronal { get; set; }
+        public string RFCPatrona { get; set; }
     }
 }

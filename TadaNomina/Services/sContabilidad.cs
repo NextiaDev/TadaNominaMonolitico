@@ -28,6 +28,7 @@ namespace TadaNomina.Services
             Uri url = new Uri(cadenaUrl);
 
             var wc = new WebClient();
+            
             wc.Headers["Content-type"] = "application/json";
             wc.Headers["Authorization"] = "Bearer " + Token;
             var result = wc.DownloadString(url);
@@ -275,7 +276,7 @@ namespace TadaNomina.Services
         /// <param name="IdPeriodoNomina">Variable que contiene el id del periodo de nómina</param>
         /// <param name="IdRegistroPatronal">Variable que contiene el id del registro patronal</param>
         /// <returns></returns>
-        public List<mReporteCuentasWS> getReporteWS(string Token, string FechaInicio, string FechaFin, int IdPeriodoNomina, int? IdRegistroPatronal)
+        public List<mReporteCuentasWS> getReporteWS(string Token, string FechaInicio, string FechaFin, int IdPeriodoNomina, int? IdRegistroPatronal, string RFC)
         {
             try
             {
@@ -286,7 +287,8 @@ namespace TadaNomina.Services
                     FechaInicio = FechaInicio,
                     FechaFin = FechaFin,
                     IdPeriodoNomina = IdPeriodoNomina,
-                    IdRegistroPatronal = IdRegistroPatronal
+                    IdRegistroPatronal = IdRegistroPatronal,
+                    RFC = RFC
                 };
 
                 var _datos = JsonConvert.SerializeObject(datos);

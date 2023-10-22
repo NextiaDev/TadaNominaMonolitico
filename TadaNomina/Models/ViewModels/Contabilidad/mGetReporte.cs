@@ -13,5 +13,6 @@ namespace TadaNomina.Models.ViewModels.Contabilidad
         public string FechaFin { get; set; }
         public int IdPeriodoNomina { get; set; }
         public int? IdRegistroPatronal { get; set; }
+        public string RFC { get; set; }
     }
 }

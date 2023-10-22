@@ -12,7 +12,7 @@ namespace TadaNomina.Controllers.Contabilidad
     public class CatalogoCuentasController : BaseController
     {
         // GET: CatalogoCuentas
-        public ActionResult Index(int? IdRegistroPatronal)
+        public ActionResult Index(string rfc)
         {
             var model = new ModelIndex();
             var cc = new sContabilidad();
@@ -20,8 +20,8 @@ namespace TadaNomina.Controllers.Contabilidad
 
             var reg = new ClassRegistroPatronal();
 
-            if (IdRegistroPatronal != null)
-                model.lcuentas = list.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).ToList();
+            if (rfc != null)
+                model.lcuentas = list.Where(x => x.RFCPatrona == rfc).ToList();
             else
                 model.lcuentas = list;
 
