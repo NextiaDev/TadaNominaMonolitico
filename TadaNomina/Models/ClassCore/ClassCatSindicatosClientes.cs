@@ -13,7 +13,7 @@ namespace TadaNomina.Models.ClassCore
 
         public List<Cat_SindicatoCliente> getSindicatosCliente(int idCliente)
         {
-            using (TadaNominaEntities bd = new TadaNominaEntities())
+            using (NominaEntities1 bd = new NominaEntities1())
             {
                 var Sindicatos = (from b in bd.Cat_SindicatoCliente
                             where b.IdEstatus == 1 && b.idCliente == idCliente
@@ -25,7 +25,7 @@ namespace TadaNomina.Models.ClassCore
 
         public void addSindicatos(ModelCatSindicatosClientes model, int idcliente, int idusuario)
         {
-            using (TadaNominaEntities bd = new TadaNominaEntities())
+            using (NominaEntities1 bd = new NominaEntities1())
             {
                 Cat_SindicatoCliente ar = new Cat_SindicatoCliente()
                 {
@@ -47,7 +47,7 @@ namespace TadaNomina.Models.ClassCore
         {
             string fecha = (DateTime.Now).ToString();
 
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            using (NominaEntities1 entidad = new NominaEntities1())
             {
                 ModelCatSindicatosClientes model = new ModelCatSindicatosClientes();
                 var cc = (from b in entidad.Cat_SindicatoCliente
@@ -67,7 +67,7 @@ namespace TadaNomina.Models.ClassCore
 
         public void UpdateSindicatos(int idSindicato, int Idusuario, ModelCatSindicatosClientes model)
         {
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            using (NominaEntities1 entidad = new NominaEntities1())
             {
                 var cc = (from b in entidad.Cat_SindicatoCliente
                           where b.idCatSindicatoCliente == idSindicato
@@ -91,7 +91,7 @@ namespace TadaNomina.Models.ClassCore
 
         public void DeleteSindicatos(int idSindic, int pIdUsuario)
         {
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            using (NominaEntities1 entidad = new NominaEntities1())
             {
                 var cc = (from b in entidad.Cat_SindicatoCliente
                           where b.idCatSindicatoCliente == idSindic
