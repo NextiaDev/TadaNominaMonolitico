@@ -50,6 +50,27 @@ namespace TadaNomina.Models.ClassCore
                 return dt;
             }
         }
+        public DataTable GetTableSn(int IdUnidadNegocio, int IdPeriodo)
+        {
+            DataTable dt = new DataTable();
+            string sp = "sp_ReporteArchivoBancos";
+            using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ModelNomina"].ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sp, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("IdUnidadNegocio", SqlDbType.Int).Value = IdUnidadNegocio;
+                    cmd.Parameters.Add("IdPeriodoNomina", SqlDbType.Int).Value = IdPeriodo;
+                    cmd.Parameters.Add("TipoEsquema", SqlDbType.NVarChar).Value = "N";
+                    dt.Load(cmd.ExecuteReader());
+                    con.Close();
+                }
+
+                return dt;
+            }
+        }
+
 
         public DataTable GetTableHonorarios(int IdUnidadNegocio, int IdPeriodo)
         {

@@ -81,6 +81,23 @@ namespace TadaNomina.Controllers.Nomina
             }
         }
 
+        public FileResult SCuenta(int pIdPeriodoNomina)
+        {
+            ClassArchivosBancos cempleados = new ClassArchivosBancos();
+            int IdUnidad = (int)Session["sIdUnidadNegocio"];
+            DataTable dt = cempleados.GetTableSn(IdUnidad, pIdPeriodoNomina);
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt, "Grid");
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                }
+            }
+        }
+
 
         public FileResult DescargarHonorario(int pIdPeriodoNomina)
         {
