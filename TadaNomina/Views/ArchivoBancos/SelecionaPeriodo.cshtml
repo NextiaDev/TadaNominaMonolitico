@@ -64,6 +64,11 @@
 
                                 <td>
                                     @Html.ActionLink("Tradicional", "DescargarTradicional", new { pIdPeriodoNomina = item.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm" })
+                                    @if (item.IdUnidadNegocio == 271 || item.IdUnidadNegocio == 272)
+                                    {
+                                     @Html.ActionLink("S/Cuenta", "SCuenta", new { pIdPeriodoNomina = item.IdPeriodoNomina }, new { @class = "btn btn-warning btn-sm" })
+
+                                    }
                                     @Html.ActionLink("Esquema", "DescargarEsquema", new { pIdPeriodoNomina = item.IdPeriodoNomina }, new { @class = "btn btn-mint btn-sm" })
                                     @Html.ActionLink("Honorario", "DescargarHonorario", new { pIdPeriodoNomina = item.IdPeriodoNomina }, new { @class = "btn btn-success btn-sm" })
 

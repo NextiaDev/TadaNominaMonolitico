@@ -318,7 +318,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
-                var reg = entidad.Cliente_EmpresaEspecializada.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente).Select(x=> x.IdRegistroPatronal).ToList();
+                var reg = entidad.Cliente_EmpresaEspecializada.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente && x.IdCliente == 0).Select(x=> x.IdRegistroPatronal).ToList();
 
                 return reg;
             }
