@@ -317,6 +317,7 @@
     <Compile Include="Controllers\Administracion\JornadaLaboralController.cs" />
     <Compile Include="Controllers\Administracion\PuestosController.cs" />
     <Compile Include="Controllers\Administracion\RegistroPatronalController.cs" />
+    <Compile Include="Controllers\Administracion\SindicatosClientesController.cs" />
     <Compile Include="Controllers\Administracion\SindicatosController.cs" />
     <Compile Include="Controllers\Administracion\SubsidioEmpleoSatController.cs" />
     <Compile Include="Controllers\Administracion\SucursalesController.cs" />
@@ -422,6 +423,7 @@
     <Compile Include="Models\ClassCore\ClassAreas.cs" />
     <Compile Include="Models\ClassCore\ClassAusentismos.cs" />
     <Compile Include="Models\ClassCore\ClassBancos.cs" />
+    <Compile Include="Models\ClassCore\ClassCatSindicatosClientes.cs" />
     <Compile Include="Models\ClassCore\ClassCentrosCostos.cs" />
     <Compile Include="Models\ClassCore\ClassComunicados.cs" />
     <Compile Include="Models\ClassCore\ClassConceptos.cs" />
@@ -636,6 +638,9 @@
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Cat_SindicatoCliente.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Sucursales.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -1193,6 +1198,7 @@
     </Compile>
     <Compile Include="Models\ViewModels\Catalogos\ModelAreas.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelCatalogosAltas.cs" />
+    <Compile Include="Models\ViewModels\Catalogos\ModelCatSindicatosClientes.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelCentroCostos.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelCliente.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelClientes.cs" />
@@ -4446,6 +4452,7 @@
     <Content Include="js\Core\puestos.js" />
     <Content Include="js\Core\ReactEmpleados.js" />
     <Content Include="js\Core\Saldos.js" />
+    <Content Include="js\Core\SindicatosClientes.js" />
     <Content Include="js\Core\sucursales.js" />
     <Content Include="js\Core\usuarios.js" />
     <Content Include="js\demo\bg-images.js" />
@@ -6913,6 +6920,11 @@
     <Content Include="Views\Honorarios\ValidacionesLista.cshtml" />
     <Content Include="Views\ReporteContable\RepContableByIdPeriodoNomina.cshtml" />
     <Content Include="Views\MigracionRP\Index.cshtml" />
+    <Content Include="Views\SindicatosClientes\Create.cshtml" />
+    <Content Include="Views\SindicatosClientes\Delete.cshtml" />
+    <Content Include="Views\SindicatosClientes\Details.cshtml" />
+    <Content Include="Views\SindicatosClientes\Edit.cshtml" />
+    <Content Include="Views\SindicatosClientes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
