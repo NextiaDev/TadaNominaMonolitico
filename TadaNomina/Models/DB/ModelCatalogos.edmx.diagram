@@ -48,6 +48,7 @@
         <EntityTypeShape EntityType="TadaNominaModel.Empleados" Width="1.5" PointX="18.375" PointY="26.75" />
         <AssociationConnector Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_SindicatoCliente" Width="1.5" PointX="0.75" PointY="13.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

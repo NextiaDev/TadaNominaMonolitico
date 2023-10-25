@@ -44,5 +44,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
         public Nullable<System.DateTime> FechaInicioProduccion { get; set; }
+        public Nullable<int> RecibosTotalesRegPatronal { get; set; }
     }
 }
