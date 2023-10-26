@@ -90,7 +90,7 @@ namespace TadaNomina.Models.ViewModels
 
         public List<SelectListItem> AreaList { get; set; }
 
-        [Display(Name = "Sindicato")]
+        [Display(Name = "S. Grupo")]
         public int? Idsindicato { get; set; }
         public List<SelectListItem> SindicatoList { get; set; }
 
@@ -284,6 +284,13 @@ namespace TadaNomina.Models.ViewModels
         [RegularExpression("^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$", ErrorMessage = "{0} no cumple con el formaro de fecha \"dd/mm/aaaa\"")]
         public string FechaTerminoContrato { get; set; }
 
+        [Display(Name = "Sindicatos")]
+        public int? IdSindicatos { get; set; }
+
+
+        [Display(Name = "Cuota Sindical")]
+        public decimal NSindicato { get; set; }
+
 
         [Display(Name = "Observaciones Cliente:")]
 
@@ -338,6 +345,8 @@ namespace TadaNomina.Models.ViewModels
 
         public int idHono { get; set; }
         public List<SelectListItem> NacionalidadList { get; set; }
+        public List<SelectListItem> SindicatosoList { get; set; }
+
 
     }
 }

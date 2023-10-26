@@ -568,6 +568,22 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdSindicatos, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.IdSindicatos, Model.SindicatosoList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontress();", @id = "_Valor" })
+                        @Html.ValidationMessageFor(model => model.IdSindicatos, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group" id="Conceptosd" style="display: none">
+                    @Html.LabelFor(model => model.NSindicato, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.NSindicato, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.NSindicato, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
                 <div class="panel-footer">
                     <div class="form-group" style="text-align:right">
                         <input type="submit" value="Modificar" class="btn btn-primary" />
@@ -581,7 +597,51 @@
     </div>
 </div>
 
+<script>
 
+    $(document).ready(function () {
+
+        myFunctiontress();
+    })
+
+
+    function myFunctiontress() {
+        var id = document.getElementById("_Valor").value;
+        if (id > 0) {
+            $.ajax({
+                type: 'POST',
+                url: 'GetValorSindicato',
+                dataType: 'json',
+                data: { id: id },
+                success: function (data) {
+                    console.log(data.IdCaptura);
+
+                    if (data != null) {
+                        $('#Conceptosd').css("display", "block");
+                        $("#NSindicato").val(data.CuotaSindical).val;
+                        console.log(data.IdCaptura);
+
+                    }
+                    else {
+                        $('#Conceptosd').css("display", "none");
+
+                    }
+
+                }
+            });
+
+        }
+        else {
+            $('#Conceptosd').css("display", "none");
+            id = 0;
+        }
+
+       
+
+
+
+    }
+</script>
 
 @section Scripts {
     <script src="~/js/jquery.validate.js"></script>
