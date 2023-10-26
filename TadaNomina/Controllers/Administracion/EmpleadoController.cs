@@ -1407,5 +1407,28 @@ namespace TadaNomina.Controllers.Administracion
             ViewBag.message = "Se ha guardado la información de " + empleado.Nombre + " " + empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno + " correctamente.";
             return View("ResponseBaja");
         }
+
+
+        [HttpPost]
+
+        public JsonResult GetValorSindicato(int id)
+        {
+            try
+            {
+                int IdUnidadNegocio = 0;
+                IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+                ClassEmpleado empleados = new ClassEmpleado();
+                var model = empleados.GetSindicatosid(id);
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
+
+
     }
 }
