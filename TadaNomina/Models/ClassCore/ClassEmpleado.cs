@@ -45,6 +45,8 @@ namespace TadaNomina.Models.ClassCore
 
 
             try { empleado.DepartamentoList = GetDepartamentos(IdCliente); } catch { empleado.DepartamentoList = new List<SelectListItem>(); }
+            try { empleado.SindicatosoList = GetSindicatosClientes(IdCliente); } catch { empleado.SindicatosoList = new List<SelectListItem>(); }
+
             try { empleado.PuestosList = GetPuestos(IdCliente); } catch { empleado.PuestosList = new List<SelectListItem>(); }
             try { empleado.SucursalList = GetSucursales(IdCliente); } catch { empleado.SucursalList = new List<SelectListItem>(); }
             try { empleado.CentrosCostosList = GetCentrosCostos(IdCliente); } catch { empleado.CentrosCostosList = new List<SelectListItem>(); }
@@ -191,6 +193,21 @@ namespace TadaNomina.Models.ClassCore
             }
 
             return departamentos;
+        }
+
+        public List<SelectListItem> GetSindicatosClientes(int idCliente)
+        {
+            List<SelectListItem> sindicatos = new List<SelectListItem>();
+
+
+            using (TadaNominaEntities entity = new TadaNominaEntities())
+            {
+                var sindi = (from b in entity.Cat_SindicatoCliente where b.idCliente == idCliente select b).OrderBy(x => x.Sindicato).ToList();
+
+                sindi.ForEach(x => { sindicatos.Add(new SelectListItem { Text = x.Sindicato.ToUpper(), Value = x.idCatSindicatoCliente.ToString() }); });
+            }
+
+            return sindicatos;
         }
 
         /// <summary>
@@ -545,6 +562,8 @@ namespace TadaNomina.Models.ClassCore
                     noInt = empleado.NumeroIntFiscal,
                     CP = empleado.CodigoPostalFiscal,
                     Nacionalidad = empleado.Nacionalidad,
+                    idSincatosClientes = empleado.IdSindicatos,
+                    PorcentajeSindicato = empleado.NSindicato
                 };
 
                 if (empleado.IdRegistroPatronal != null)
@@ -902,7 +921,8 @@ namespace TadaNomina.Models.ClassCore
                 {
                     empleado.idcliente = IdCliente;//unificar el motivo ed bajas DRR
                 }
-
+                empleado.IdSindicatos = emp.idSincatosClientes;
+                empleado.SindicatosoList = GetSindicatosClientes(IdCliente);
                 empleado.MotivoBajaExterno = GetMotivosBajaExternos();//unificar el motivo ed bajas DRR
                 empleado.MotivoBajaInterno = GetMotivosBajaInternos();//unificar el motivo ed bajas DRR
 
@@ -1164,7 +1184,8 @@ namespace TadaNomina.Models.ClassCore
                     emp.PremioP = empleado.Premio;
                     emp.Telefono = empleado.NumeroTelefonico;
                     emp.Nacionalidad = empleado.Nacionalidad;
-
+                    emp.idSincatosClientes = empleado.IdSindicatos;
+                    emp.PorcentajeSindicato = empleado.NSindicato;
                     if (empleado.FechaNacimiento != null)
                     {
                         emp.FechaNacimiento = DateTime.Parse(empleado.FechaNacimiento);
@@ -2817,6 +2838,19 @@ namespace TadaNomina.Models.ClassCore
                 var query = (from b in entity.HistoricoHonorarios where b.IdHonorarios == idhonorario select b).ToList();
                 return query;
             }
+        }
+
+
+        public Cat_SindicatoCliente GetSindicatosid(int id)
+        {
+
+            using (TadaNominaEntities entity = new TadaNominaEntities())
+            {
+                var sindi = (from b in entity.Cat_SindicatoCliente where b.idCatSindicatoCliente == id select b).FirstOrDefault();
+                return sindi;
+            }
+
+
         }
 
 
