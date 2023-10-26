@@ -14,7 +14,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
     /// Autor: Carlos Alavez
     /// Fecha Ultima Modificación: 17/05/2022, Razón: documentar el codigo
     /// </summary>
-    public class ClassCalculoImpuestos: ClassProcesosNomina
+    public class ClassCalculoImpuestos : ClassProcesosNomina
     {
         /// <summary>
         /// Metodo para calcular el impuesto sobre la renta.
@@ -28,8 +28,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 Obten_Limite_Inferior();
                 Obten_Diferencia_Limite();
                 Obten_Porcentaje_Calculado();
-                Obten_ISR();                
-                Obten_Subsidio_Al_Empleo();                
+                Obten_ISR();
+                Obten_Subsidio_Al_Empleo();
                 Obten_Impuestos_Retenidos();
             }
             else
@@ -45,16 +45,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.ImpuestoRetener = 0;
                 nominaTrabajo.ReintegroISR = 0;
             }
-            
-            if(ListNominaAjusteAnterior != null)
+
+            if (ListNominaAjusteAnterior != null)
                 ListNominaAjuste = ListNominaAjusteAnterior;
 
-            if(ListImpuestos_Anterior != null)
-                ListImpuestos_Ajuste = ListImpuestos_Anterior;            
+            if (ListImpuestos_Anterior != null)
+                ListImpuestos_Ajuste = ListImpuestos_Anterior;
         }
 
         public void CalculaISRAguinaldoL174()
-        {            
+        {
             try
             {
                 nominaTrabajo.Subsidio = 0;
@@ -74,12 +74,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     var diferenciaRYAA = ISRCausado - ISR_prev;
                     var Porcentaje = diferenciaRYAA / aguinaldoMensualizado;
                     var IsrRet = Porcentaje * nominaTrabajo.BaseGravada;
-                    
+
                     nominaTrabajo.ISR = IsrRet;
                     nominaTrabajo.ImpuestoRetener = IsrRet;
                 }
                 else
-                {                    
+                {
                     nominaTrabajo.ISR = 0;
                     nominaTrabajo.ImpuestoRetener = 0;
                 }
@@ -124,14 +124,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 var baseGravDiaria = nominaTrabajo.BaseGravada / (DiasPago + 1);
                 nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
             }
-            
+
             if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0)
                 nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();
         }
 
         private void procesoAjusteSecundario()
         {
-            if (listEmpleadosSinAjuste != null)            
+            if (listEmpleadosSinAjuste != null)
                 AjusteAnual = listEmpleadosSinAjuste.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault() != null ? false : true;
 
             ListNominaAjusteAnterior = ListNominaAjuste;
@@ -145,7 +145,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 ListNominaAjuste = ListNominaAjusteSecundario;
                 ListImpuestos_Ajuste = ListImpuestos_AjusteSecundario;
-            }            
+            }
         }
 
         /// <summary>
@@ -158,13 +158,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Porcentaje = 0;
             nominaTrabajo.CuotaFija = 0;
 
-            if (Periodo.TablaDiaria == "S")            
-                GetTablasEnBaseDiasPeriodo();            
+            if (Periodo.TablaDiaria == "S")
+                GetTablasEnBaseDiasPeriodo();
 
             try
             {
                 if (Periodo.AjusteDeImpuestos == "SI")
-                {                       
+                {
                     if (ListNominaAjuste.Where(x => x.Rfc == RFC).FirstOrDefault() == null)
                     {
                         nominaTrabajo.LimiteInferior += ListImpuestos.Where(x => x.LimiteSuperior >= nominaTrabajo.BaseGravada && x.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault().LimiteInferior;
@@ -190,7 +190,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 throw new Exception("Error en tablas de impuestos. " + ex.Message);
             }
-            
+
         }
 
         private void GetTablasEnBaseDiasPeriodo()
@@ -203,11 +203,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             ListImpuestos_Anterior = ListImpuestos;
             ListSubsidio_Anterior = ListSubsidio;
 
-            for (int i = 0; i<= ListImpuestos.Count -1; i++)
-            {                
+            for (int i = 0; i <= ListImpuestos.Count - 1; i++)
+            {
                 DB.ImpuestoSat impuestos = new DB.ImpuestoSat();
                 impuestos.IdImpuesto = ListImpuestos[i].IdImpuesto;
-                impuestos.LimiteInferior = ListImpuestos[i].LimiteInferior <= 0.01M ? 0.01M : Math.Round(limpuestos[i-1].LimiteSuperior + 0.01M, 2);
+                impuestos.LimiteInferior = ListImpuestos[i].LimiteInferior <= 0.01M ? 0.01M : Math.Round(limpuestos[i - 1].LimiteSuperior + 0.01M, 2);
                 impuestos.LimiteSuperior = Math.Round((ListImpuestos[i].LimiteSuperior / factorAño) * numDiasTablasDiarias, 2);
                 impuestos.CuotaFija = Math.Round((ListImpuestos[i].CuotaFija / factorAño) * numDiasTablasDiarias, 2);
                 impuestos.Porcentaje = (ListImpuestos[i].Porcentaje);
@@ -221,12 +221,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             List<DB.SubsidioEmpleoSat> lsubsidio = new List<DB.SubsidioEmpleoSat>();
 
-            for (int i = 0; i<= ListSubsidio.Count -1; i++)
+            for (int i = 0; i <= ListSubsidio.Count - 1; i++)
             {
                 DB.SubsidioEmpleoSat subsidio = new DB.SubsidioEmpleoSat();
                 subsidio.IdSubsidio = ListSubsidio[i].IdSubsidio;
-                subsidio.LimiteInferior = ListSubsidio[i].LimiteInferior <= 0.01M ? 0.01M : Math.Round(lsubsidio[i -1].LimiteSuperior + 0.01M, 2);
-                subsidio.LimiteSuperior = Math.Round((ListSubsidio[i].LimiteSuperior / factorAño) * numDiasTablasDiarias , 2);
+                subsidio.LimiteInferior = ListSubsidio[i].LimiteInferior <= 0.01M ? 0.01M : Math.Round(lsubsidio[i - 1].LimiteSuperior + 0.01M, 2);
+                subsidio.LimiteSuperior = Math.Round((ListSubsidio[i].LimiteSuperior / factorAño) * numDiasTablasDiarias, 2);
                 subsidio.CreditoSalario = Math.Round((ListSubsidio[i].CreditoSalario / factorAño) * numDiasTablasDiarias, 2);
                 subsidio.FechaInicio = ListSubsidio[i].FechaInicio;
                 subsidio.IdEstatus = ListSubsidio[i].IdEstatus;
@@ -263,7 +263,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.ReintegroISR = 0;
             nominaTrabajo.ISR = 0;
-            
+
             nominaTrabajo.ISR = nominaTrabajo.CuotaFija + nominaTrabajo.PorcentajeCalculado;
 
             //se obtiene el ISR mensualizado cuando hay proyeccion mensual
@@ -274,7 +274,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             if (Periodo.AjusteDeImpuestos == "SI" && !AjusteAnual)
-            {               
+            {
                 if (ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault() != null)
                 {
                     var _isr = (from b in ListNominaAjuste.Where(b => b.Rfc == RFC) select b.ISR).Sum();
@@ -287,7 +287,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     }
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             CreditoSalario = 0;
             nominaTrabajo.Subsidio = 0;
             string[] _tipoNom = UnidadNegocio.FiniquitosSubsidio == "S" ? new[] { "Complemento", "Aguinaldo" } : new[] { "Complemento", "Finiquitos", "Aguinaldo" };
-            if (!_tipoNom.Contains( Periodo.TipoNomina))
+            if (!_tipoNom.Contains(Periodo.TipoNomina))
             {
                 if (Periodo.AjusteDeImpuestos == "NO")
                 {
@@ -341,12 +341,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         private void CalculoSubsidio()
         {
-            var query = ListSubsidio.Where(b=> b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
+            var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
 
-            if (query == null || AjusteAnual)            
-                CreditoSalario = 0;            
-            else            
-                CreditoSalario = query.CreditoSalario;            
+            if (query == null || AjusteAnual)
+                CreditoSalario = 0;
+            else
+                CreditoSalario = query.CreditoSalario;
 
             nominaTrabajo.Subsidio = CreditoSalario;
         }
@@ -358,28 +358,28 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.Subsidio = 0;
 
-            var query = (from b in ListSubsidio_Ajuste.Where( b=> b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada) select b).FirstOrDefault();
+            var query = (from b in ListSubsidio_Ajuste.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada) select b).FirstOrDefault();
 
             if (query != null)
             {
-                CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());               
+                CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
                 var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
                 if (queryAjuste != null) { CreditoSalario = CreditoSalario - (decimal)queryAjuste; }
                 if (CreditoSalario < 0) { CreditoSalario = 0; }
 
                 nominaTrabajo.Subsidio = CreditoSalario;
-            }            
+            }
         }
 
         /// <summary>
         /// Metodo que obtiene el impuesto a reteer y el subsidio a pagar.
         /// </summary>
         protected void Obten_Impuestos_Retenidos()
-        {            
+        {
             nominaTrabajo.SubsidioPagar = 0;
             nominaTrabajo.ImpuestoRetener = 0;
             decimal resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
-           
+
             if (resultset < 0)
             {
                 nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
@@ -413,12 +413,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     nominaTrabajo.ReintegroISR = 0;
                     nominaTrabajo.ImpuestoRetener = resultset2;
-                }                
+                }
             }
 
-            if (UnidadNegocio.RetencionISR_SMGV == "S"  && SD_IMSS <= SueldosMinimos.SalarioMinimoGeneral)            
+            if (UnidadNegocio.RetencionISR_SMGV == "S" && SD_IMSS <= SueldosMinimos.SalarioMinimoGeneral)
                 nominaTrabajo.ImpuestoRetener = nominaTrabajo.ImpuestoRetener > 0 ? nominaTrabajo.ImpuestoRetener = 0 : nominaTrabajo.ImpuestoRetener;
-            
+
 
             if (Periodo.TablaDiaria == "S")
             {
@@ -818,9 +818,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         public void Calcula_Dias_IMSS()
         {
             string[] _tipoNomina = { "Complemento", "Finiquitos", "Aguinaldo", "PTU" };
-            
+
             if (DiasTrabajados_IMSS == 0 && !_tipoNomina.Contains(Periodo.TipoNomina) && IdEstatus == 1)
-            {                
+            {
                 DiasTrabajados_IMSS = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1;
             }
 
@@ -837,8 +837,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             DiasTrabajados_IMSS -= DiasMenosPorAlta;
             DiasTrabajados_IMSS += DiasMasPorAlta;
             nominaTrabajo.DiasTrabajadosIMSS = DiasTrabajados_IMSS;
-            
-            if (configuracionNominaEmpleado.SuspenderCargasSociales == 1 || nominaTrabajo.DiasTrabajadosIMSS < 0) 
+
+            if (configuracionNominaEmpleado.SuspenderCargasSociales == 1 || nominaTrabajo.DiasTrabajadosIMSS < 0)
             {
                 DiasTrabajados_IMSS = 0;
                 nominaTrabajo.DiasTrabajadosIMSS = 0;
@@ -871,7 +871,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// Metodo que quita las cargas obreras y patronales, seteando sus valores en 0.
         /// </summary>
         protected void SinCargarObreroPatronal()
-        {            
+        {
             nominaTrabajo.Excedente_Patronal = 0;
             nominaTrabajo.Prestamo_Dinero_Patronal = 0;
             nominaTrabajo.Gastos_Med_Pension_Patronal = 0;
@@ -911,7 +911,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// Metodo para evaluar el tipo de incidencia, ya sea falta o incapcidad.
         /// </summary>
         private void Evalua_Tipo_Insidencia()
-        {   
+        {
             Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD"
                                                                 && b.IdEstatus == 1 && _tipoEsquemaT.Contains(b.TipoEsquema) && b.ClaveGpo == "500" && b.AfectaCargaSocial == "SI").Sum(x => x.Cantidad);
 
@@ -921,7 +921,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                                                                 && b.IdEstatus == 1 && _tipoEsquemaT.Contains(b.TipoEsquema) && b.ClaveGpo == "501" && b.AfectaCargaSocial == "SI").Sum(x => x.Cantidad);
 
             if (Incapacidades == 15 && DiasTrabajados_IMSS == 15.20M) { Incapacidades += .20M; }
-                        
+
             DiasTrabajados_IMSS = DiasTrabajados_IMSS - (Dias_Faltados + Incapacidades);
 
             if (DiasTrabajados_IMSS < 1)
@@ -952,7 +952,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             decimal CreditoSalario = 0;
             decimal Subsidio = 0;
             int IdTipoNomina = ObtenTipoNomina(TipoNomina);
-            
+
             GetImpuestosSAT_Auxiliar(IdTipoNomina, FechaFin);
             GetSubsidioSAT_Auxiliar(IdTipoNomina, FechaFin);
 
@@ -1069,7 +1069,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.CuotaFija = 0;
             nominaTrabajo.DiferenciaLimite = 0;
             nominaTrabajo.PorcentajeCalculado = 0;
-            nominaTrabajo.ISR = conceptosPiramidadosEmpleado.Select(x=> x.ISR_Cobrar).Sum();
+            nominaTrabajo.ISR = conceptosPiramidadosEmpleado.Select(x => x.ISR_Cobrar).Sum();
             nominaTrabajo.Subsidio = 0;
             nominaTrabajo.SubsidioPagar = 0;
             nominaTrabajo.ImpuestoRetener = conceptosPiramidadosEmpleado.Select(x => x.ISR_Cobrar).Sum();
@@ -1079,18 +1079,18 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         public decimal CalculaISRPiramidado(decimal importe, DateTime FechaFin)
         {
             decimal ISR_Asimilado;
-            decimal apoyo = 0;            
+            decimal apoyo = 0;
             var DatoAlQueLlegar = importe;
             decimal VarialbeGravada = DatoAlQueLlegar;
             decimal datoCondicion = DatoAlQueLlegar;
             while (datoCondicion >= .005M)
-            {                
+            {
                 var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, "05", false);
-                                
+
                 apoyo = VarialbeGravada;
                 ISR_Asimilado = impuestoAsimilado;
-                if (ISR_Asimilado < 0)                
-                    ISR_Asimilado = 0;                
+                if (ISR_Asimilado < 0)
+                    ISR_Asimilado = 0;
 
                 var NetoAsimilado = apoyo - ISR_Asimilado;
                 datoCondicion = importe - NetoAsimilado;
@@ -1127,7 +1127,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             var fechafinmes = fechainiciomes.AddDays(-1);
             var diassdi1 = fechafinmes.Day - fechaini.Day;
             var diassdi2 = fechafin.Day;
-            List<int> result = new List<int>() { diassdi1, diassdi2 + 1 };
+            List<int> result = new List<int>() { diassdi1 + 1, diassdi2 };
             return result;
         }
 
@@ -1159,8 +1159,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
                 {
                     var listamod = ctx.ModificacionSueldos.Where(p => p.IdEmpleado == IdEmpleado && p.FechaMovimiento == fechainiciomes).ToList();
-                    var numeroreg = listamod.Count()-1;
-                    modificacionsueldoemp =listamod.Count() >= 1 ? listamod[numeroreg] : null;
+                    var numeroreg = listamod.Count() - 1;
+                    modificacionsueldoemp = listamod.Count() >= 1 ? listamod[numeroreg] : null;
                 }
                 decimal sdianterior = modificacionsueldoemp == null ? SDI : modificacionsueldoemp.SDI_Anterior;
                 List<decimal> listadodiasfinal = new List<decimal>();
@@ -1191,13 +1191,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                                 decimal op01 = sdianterior - (UMA * 3);
                                 decimal op02 = op01 * decimal.Parse(item.Porcentaje.ToString());
-                                decimal op03 = decimal.Round((op02 * listadodiasinicial[0]) / 100, 2);
+                                decimal op03 = decimal.Round((op02 * listadodiasinicial[0]) / 100, 2) < 0 ? 0 : decimal.Round((op02 * listadodiasinicial[0]) / 100, 2);
 
                                 decimal op11 = SDI - (UMA * 3);
                                 decimal op12 = op11 * decimal.Parse(item.Porcentaje.ToString());
                                 decimal op13 = decimal.Round((op12 * (listadodiasinicial[1] + Dias_Faltados)) / 100, 2);
 
-                                optotal = decimal.Round((op03 + op13), 2);
+                                optotal = decimal.Round((op03 + op13), 2) < 0 ? 0 : decimal.Round((op03 + op13), 2);
 
                                 nominaTrabajo.Excedente_Obrera = Math.Round(optotal, 2);
                             }
@@ -1268,7 +1268,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             {
                                 decimal op0 = 0;
                                 decimal op1 = 0;
-                                op0 = sdianterior - (UMA * 3);
+                                op0 = sdianterior < (UMA * 3) ? 0 : sdianterior - (UMA *3);
                                 op1 = SDI - (UMA * 3);
                                 decimal op02 = decimal.Round(op0, 2) * decimal.Round(decimal.Parse(item2.Porcentaje.ToString()), 3);
                                 decimal op12 = decimal.Round(op1, 2) * decimal.Round(decimal.Parse(item2.Porcentaje.ToString()), 3);
@@ -1337,7 +1337,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                         case "CESANTIA Y VEJEZ":
                             decimal _CesantiaVejez0 = DiasTrabajados_IMSS_Patronal0;
                             decimal _CesantiaVejez1 = DiasTrabajados_IMSS_Patronal1;
-                            decimal vejezpatro0 = Math.Round(decimal.Round(((decimal.Round(sdianterior, 2) * _CesantiaVejez0) * CalculaPorcentajeCyV_IMSS(SDI)) / (decimal)100, 2), 2);
+                            decimal vejezpatro0 = Math.Round(decimal.Round(((decimal.Round(sdianterior, 2) * _CesantiaVejez0) * CalculaPorcentajeCyV_IMSS(sdianterior)) / (decimal)100, 2), 2);
                             decimal vejezpatro1 = Math.Round(decimal.Round(((decimal.Round(SDI, 2) * _CesantiaVejez1) * CalculaPorcentajeCyV_IMSS(SDI)) / (decimal)100, 2), 2);
                             nominaTrabajo.Cesantia_Vejez_Patronal = Math.Round(vejezpatro0 + vejezpatro1, 2);
                             break;
