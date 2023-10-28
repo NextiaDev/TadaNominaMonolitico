@@ -14,6 +14,7 @@ using System.Web.Script.Serialization;
 using TadaNomina.Models.DB;
 using LumenWorks.Framework.IO.Csv;
 using TadaNomina.Models.ClassCore.RelojChecador;
+using TadaNomina.Models.ViewModels.RelojChecador;
 
 namespace TadaNomina.Controllers.Administracion
 {
@@ -84,7 +85,6 @@ namespace TadaNomina.Controllers.Administracion
                 return RedirectToAction("Index", "Login");
             }
 
-
             try
             {
                 int idEmpleado = Convert.ToInt32(DecodeParam(data));
@@ -95,6 +95,36 @@ namespace TadaNomina.Controllers.Administracion
                     ClassEmpleado classEmpleado = new ClassEmpleado();
                     Empleado empleado = classEmpleado.GetEmpleadoToEdit(idEmpleado, IdUnidadNegocio, IdCliente);
                     empleado.lPeriodosProcesados = classEmpleado.getPeriodosProcesados(idEmpleado);
+                    if (Session["sRelojChecador"].ToString() == "SI")
+                    {
+                        cUsers cu = new cUsers();
+                        int estatus = 0;
+                        string clave;
+                        if (Session["sIdCliente"].ToString() == "141")
+                        {
+                            if (empleado.ClaveEmpleado.Substring(0, 1) == "H")
+                            {
+                                clave = empleado.ClaveEmpleado.Substring(1, empleado.ClaveEmpleado.Length - 1);
+                            }
+                            else
+                            {
+                                clave = empleado.Imss;
+                            }
+                        }
+                        else
+                        {
+                            clave = empleado.Imss;
+                        }
+                        estatus = cu.ListarUsuariosGV().Where(x => x.Identifier == clave).Select(x => x.Enabled).FirstOrDefault();
+                        if (estatus == 0)
+                        {
+                            empleado.RelojChecador = false;
+                        }
+                        else
+                        {
+                            empleado.RelojChecador = true;
+                        }
+                    }
                     return View(empleado);
                 }
                 else
@@ -286,7 +316,6 @@ namespace TadaNomina.Controllers.Administracion
             return File(file.DetailDismiss().GetBuffer(), "text/plain", "DetalleBajaEmpleados" + date.ToString("yyyyMMddhhmm") + ".txt");
         }
 
-
         /// <summary>
         /// Acción que genera la vista para la respuesta del CRUD.
         /// </summary>
@@ -331,7 +360,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <param name="RelojChecador">Recibe la variable tipo bool.</param>
         /// <returns>Regresa la vista del empleado modificado.</returns>
         [HttpPost]
-        public ActionResult RegistrarEmpleado(Empleado empleado, bool? RelojChecador)
+        public ActionResult RegistrarEmpleado(Empleado empleado)
         {
             int IdCliente = 0;
             int IdUsuario = 0;
@@ -368,22 +397,23 @@ namespace TadaNomina.Controllers.Administracion
                             }
                             else
                             {
-                                if (RelojChecador == true)
+                                ClassAccesosGV CAGV = new ClassAccesosGV();
+                                cRegistroAsistencias cRegistro = new cRegistroAsistencias();
+                                cUsers cu = new cUsers();
+                                var Accesos = CAGV.DatosGV(IdCliente);
+                                if (empleado.RelojChecador  && Accesos != null)
                                 {
-                                    ClassAccesosGV CAGV = new ClassAccesosGV();
-                                    cRegistroAsistencias cRegistro = new cRegistroAsistencias();
-                                    cUsers cu = new cUsers();
-
-                                    var Accesos = CAGV.DatosGV((int)IdCliente);
-                                    var token = cRegistro.GetToken(Accesos).token;
-
-                                    if (token != null)
+                                    var r = cu.Add(empleado, Accesos);
+                                    if (r.Success == false)
                                     {
-                                        var r = cu.Add(empleado, token);
-                                        if (r.Success == false)
-                                        {
-                                            cu.Enable(empleado, Accesos);
-                                        }
+                                        cu.Enable(empleado, Accesos);
+                                    }
+                                    else
+                                    {
+                                        ViewBag.confirmation = false;
+                                        ViewBag.title = "Registro Empleado";
+                                        ViewBag.alert = "¡Registro en checador erróneo!";
+                                        ViewBag.message = "Verificar datos ingresados";
                                     }
                                 }
                             }
@@ -439,7 +469,6 @@ namespace TadaNomina.Controllers.Administracion
                         ViewBag.alert = "¡Registro Erróneo!";
                         ViewBag.message = "La clave del empleado ya esta registrada";
                         return View("Response");
-
                     }
 
                 }
@@ -551,14 +580,53 @@ namespace TadaNomina.Controllers.Administracion
                     var cRegistro = new cRegistroAsistencias();
                     ClassAccesosGV CAGV = new ClassAccesosGV();
 
-                    int? IdCliente = int.Parse(Session["sIdClientes"].ToString());
+                    int? IdCliente = int.Parse(Session["sIdCliente"].ToString());
                     var Accesos = CAGV.DatosGV((int)IdCliente);
-                    var token = cRegistro.GetToken(Accesos).token;
-
-                    if (empleado.IdEstatus != 1)
+                    cUsers CU = new cUsers();
+                    string clave;
+                    if (Session["sIdCliente"].ToString() == "141")
                     {
-                        cUsers CU = new cUsers();
-                        var response = CU.Disable(empleado.Imss, empleado.CorreoElectronico, token, Accesos);
+                        if (empleado.ClaveEmpleado.Substring(0, 1) == "H")
+                        {
+                            clave = empleado.ClaveEmpleado.Substring(1, empleado.ClaveEmpleado.Length - 1);
+                        }
+                        else
+                        {
+                            clave = empleado.Imss;
+                        }
+                    }
+                    else
+                    {
+                        clave = empleado.Imss;
+                    }
+                    int estatus = CU.ListarUsuariosGV().Where(x => x.Identifier == clave).Select(x => x.Enabled).FirstOrDefault();
+
+                    mResultEdit res = new mResultEdit();
+                    if (empleado.RelojChecador)
+                    {
+                        if (estatus == 1)
+                        {
+                            res = CU.Edit(empleado, Accesos);
+                            if (empleado.IdEstatus != 1)
+                            {
+                                res = CU.Disable(empleado, Accesos);
+                            }
+                        }
+                        else
+                        {
+                            res = CU.Enable(empleado, Accesos);
+                            if (res.Success == false)
+                            {
+                                res = CU.Add(empleado, Accesos);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (estatus == 1)
+                        {
+                            res = CU.Disable(empleado, Accesos);
+                        }
                     }
                 }
                 catch
@@ -624,7 +692,6 @@ namespace TadaNomina.Controllers.Administracion
         /// <param name="param">Recibe la variable tipo string.</param>
         /// <returns>Regresa la cadena que contiene la matriz codificada.</returns>
         [HttpPost]
-
         public string EncodeParam(string param)
         {
             byte[] array = Encoding.ASCII.GetBytes(param);
@@ -639,8 +706,6 @@ namespace TadaNomina.Controllers.Administracion
 
         //    return Json(list, JsonRequestBehavior.AllowGet);
         //}
-
-
 
         /// <summary>
         /// Accion para decoficar url
@@ -1033,7 +1098,6 @@ namespace TadaNomina.Controllers.Administracion
             return View(model);
         }
 
-
         /// <summary>
         /// Acción para actualizar el sueldo.
         /// </summary>
@@ -1114,7 +1178,6 @@ namespace TadaNomina.Controllers.Administracion
                 return View("Response");
             }
         }
-
 
         /// <summary>
         /// Accion para guardar la informacion.
@@ -1302,7 +1365,6 @@ namespace TadaNomina.Controllers.Administracion
             }
         }
 
-
         /// <summary>
         /// Acción que obtiene a un empleado dado de baja.
         /// </summary>
@@ -1345,7 +1407,6 @@ namespace TadaNomina.Controllers.Administracion
             }
 
         }
-
 
         /// <summary>
         /// Acción que guarda la reactivación del empleado.

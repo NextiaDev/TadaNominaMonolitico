@@ -1118,7 +1118,6 @@ namespace TadaNomina.Models.ClassCore
                 {
                     var emp = (from b in entity.Empleados where b.IdEmpleado.Equals(empleado.IdEmpleado) select b).FirstOrDefault();
 
-
                     //Validamos si el cliente es administrado para no permitir modificacions sobre campos IMSS
 
                     if (ClienteAdministrado != 1)
@@ -2501,7 +2500,6 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
-
         public bool SetPassEmpleado(int IdEmpleado, int IdCliente, string correo, string token)
         {
             string email = "";
@@ -2609,7 +2607,6 @@ namespace TadaNomina.Models.ClassCore
             return jornadas;
         }
 
-
         public List<Empleado> GetEmpleadosHonorarios(int idUnidadNegocio)
         {
             using (TadaEmpleados entity = new TadaEmpleados())
@@ -2638,7 +2635,6 @@ namespace TadaNomina.Models.ClassCore
                 return empleados;
             }
         }
-
 
         public vHonorarios GetEmpleadosHonorariosv(int idhonorario)
         {
@@ -2809,7 +2805,6 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
-
         public List<HistoricoHonorarios> Historial(int idhonorario)
         {
             using (NominaEntities1 entity = new NominaEntities1())
@@ -2818,7 +2813,6 @@ namespace TadaNomina.Models.ClassCore
                 return query;
             }
         }
-
 
     }
 }
