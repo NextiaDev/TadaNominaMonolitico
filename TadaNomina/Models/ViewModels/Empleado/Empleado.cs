@@ -87,7 +87,7 @@ namespace TadaNomina.Models.ViewModels
         [Display(Name = "Premio de puntualidad")]
         public bool PremioP { get; set; }
         public string Premio { get; set; }
-
+        public bool RelojChecador { get; set; }
         public List<SelectListItem> AreaList { get; set; }
 
         [Display(Name = "S. Grupo")]
