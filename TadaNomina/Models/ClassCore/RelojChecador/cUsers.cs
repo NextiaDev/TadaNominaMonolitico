@@ -19,88 +19,100 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
 {
     public class cUsers
     {
-        public List<UserModel> ListarUsuariosGV(string token)
+        public List<UserModel> ListarUsuariosGV()
         {
-            List<UserModel> GetUsers;
             List<Empleados> lstxUN;
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
             ClassAccesosGV CAGV = new ClassAccesosGV();
-
+            List<UserModel> GetUsers = new List<UserModel>();
 
             int? IdCliente = int.Parse(HttpContext.Current.Session["sIdCliente"].ToString());
 
             var accesos = CAGV.DatosGV((int)IdCliente);
 
-            string curl = Statics.ServidorGeoVictoriaOauth + "/api";
-
-            RestClient client = new RestClient(curl)
-
+            if(accesos != null)
             {
+                string curl = Statics.ServidorGeoVictoriaOauth + "/api";
 
-                Authenticator = OAuth1Authenticator.ForProtectedResource(Statics.DesEncriptar(accesos.ClaveAPI), Statics.DesEncriptar(accesos.Secreto), string.Empty, string.Empty)
-
-            };
-
-            var request = new RestRequest("/User/List", Method.POST);
-
-            request.RequestFormat = DataFormat.Json;
-
-            var response = client.Execute(request);
-
-            GetUsers = JsonConvert.DeserializeObject<List<UserModel>>(response.Content);
-
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        int IdUnidadNegocio = (int)HttpContext.Current.Session["sIdUnidadNegocio"];
-
-            using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
-            {
-                lstxUN = ctx.Empleados.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1).ToList();
-            }
-            List<UserModel> remove = new List<UserModel>();
-            List<UserModel> remove2 = new List<UserModel>();
-
-            foreach (var item in GetUsers)
-            {
-                string auxiliar;
-                if (item.Identifier != null)
+                RestClient client = new RestClient(curl)
                 {
-                    if (item.Identifier.Length < 11)
+                    Authenticator = OAuth1Authenticator.ForProtectedResource(Statics.DesEncriptar(accesos.ClaveAPI), Statics.DesEncriptar(accesos.Secreto), string.Empty, string.Empty)
+                };
+
+                var request = new RestRequest("/User/List", Method.POST)
+                {
+                    RequestFormat = DataFormat.Json
+                };
+
+                var response = client.Execute(request);
+
+                GetUsers = JsonConvert.DeserializeObject<List<UserModel>>(response.Content);
+
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////
+                int IdUnidadNegocio = (int)HttpContext.Current.Session["sIdUnidadNegocio"];
+
+                using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
+                {
+                    lstxUN = ctx.Empleados.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1).ToList();
+                }
+                List<UserModel> remove = new List<UserModel>();
+                List<UserModel> remove2 = new List<UserModel>();
+                bool bandera = false;
+                string valida = null;
+                foreach (var item in GetUsers)
+                {
+                    string auxiliar;
+                    if (item.Identifier != null)
                     {
-                        auxiliar = "0" + item.Identifier;
+                        if (item.Identifier.Length == 10)
+                        {
+                            auxiliar = "0" + item.Identifier;
+                        }
+                        else if (HttpContext.Current.Session["sIdCliente"].ToString() == "141")
+                        {
+                            bandera = true;
+                            auxiliar = Quitar0(item.Identifier);
+                        }
+                        else
+                        {
+                            auxiliar = item.Identifier;
+                        }
+                        if (bandera)
+                        {
+                            valida = lstxUN.Where(x => x.ClaveEmpleado == auxiliar || x.CorreoElectronico == item.Email).Select(x => x.ClaveEmpleado).FirstOrDefault();
+                        }
+                        else
+                        {
+                            valida = lstxUN.Where(x => x.Imss == auxiliar || x.CorreoElectronico == item.Email).Select(x => x.Imss).FirstOrDefault();
+                        }
+
+                        if (valida == null)
+                        {
+                            remove.Add(item);
+                        }
+                        bandera = false;
+                        valida = null;
+                        auxiliar = null;
                     }
                     else
                     {
-                        auxiliar = item.Identifier;
-                    }
-
-                    var valida = lstxUN.Where(x => x.Imss == auxiliar || x.CorreoElectronico == item.Email).Select(x => x.Imss).FirstOrDefault();
-
-                    if (valida == null)
-                    {
-                        remove.Add(item);
+                        remove2.Add(item);
                     }
                 }
-                else
+
+                foreach (var item in remove)
                 {
-                    remove2.Add(item);
+                    GetUsers.Remove(item);
+                }
+
+                foreach (var item in remove2)
+                {
+                    if (item.Identifier == null)
+                        GetUsers.Remove(item);
                 }
             }
-            foreach (var item in remove)
-            {
-                GetUsers.Remove(item);
-            }
-
-            foreach (var item in remove2)
-            {
-                if (item.Identifier == null)
-                    GetUsers.Remove(item);
-            }
-
             return GetUsers;
-
         }
 
         public LibroDeAsistenciaModel AttendanceBook(string token, string StartDate, string EndDate, string UserIds)
@@ -410,37 +422,9 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return resultado;
         }
 
-        public mResultEdit Add(Empleado um, string token)
+        public List<string> LstUsuarios(int usuXC)
         {
-            UserModel datos;
-            Uri url;
-            WebClient wclient = new WebClient();
-            string _datos;
-            string curl;
-            string result;
-
-            datos = new UserModel()
-            {
-                Identifier = um.Imss,
-                Name = um.Nombre,
-                LastName = um.ApellidoPaterno + " "+ um.ApellidoMaterno,
-                Email = um.CorreoElectronico,
-            };
-
-            _datos = JsonConvert.SerializeObject(datos);
-            curl = Statics.ServidorGeoVictoriaToken + "/api/v1/User/Add";
-            url = new Uri(curl);
-            wclient.Encoding = System.Text.Encoding.UTF8;
-            wclient.Headers["Content-type"] = "application/json";
-            wclient.Headers["Authorization"] = token;
-            result = wclient.UploadString(url, _datos);
-            var r = JsonConvert.DeserializeObject<mResultEdit>(result);
-            return r;
-        }
-
-        public List<string> LstUsuarios(string token, int usuXC)
-        {
-            var lst = ListarUsuariosGV(token);
+            var lst = ListarUsuariosGV();
             List<string> usuarios = new List<string>();
             string usuario = "";
             int contador = 0;
@@ -467,9 +451,9 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return usuarios;
         }
 
-        public List<SelectListItem> NombreU(string token)
+        public List<SelectListItem> NombreU()
         {
-            var lst = ListarUsuariosGV(token);
+            var lst = ListarUsuariosGV();
             List<SelectListItem> nombres = new List<SelectListItem>();
             string comodin;
             foreach (var item in lst)
@@ -558,9 +542,9 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return empleado;
         }
 
-        public string CheckUsuario(string token, string usuario)
+        public string CheckUsuario(string usuario)
         {
-            var lstGV = ListarUsuariosGV(token);
+            var lstGV = ListarUsuariosGV();
             bool bandera = false;
             string usu;
 
@@ -623,43 +607,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             }
         }
 
-        public mResultEdit Disable(string Identifier, string Email, string token, AccesosGVModel accesos)
-        {
-            try
-            {
-                var datos = new UserModel()
-                {
-                    Identifier = Identifier,
-                    Email = Email
-                };
-
-                var _datos = JsonConvert.SerializeObject(datos);
-
-                //string curl = Statics.ServidorGeoVictoriaOauthTest + "/api";
-                string curl = Statics.ServidorGeoVictoriaOauth + "/api";
-
-                RestClient client = new RestClient(curl)
-                {
-                    Authenticator = OAuth1Authenticator.ForProtectedResource(Statics.DesEncriptar(accesos.ClaveAPI), Statics.DesEncriptar(accesos.Secreto), string.Empty, string.Empty)
-                };
-
-                var request = new RestRequest("/User/Disable", Method.POST);
-
-                request.RequestFormat = DataFormat.Json;
-                request.AddJsonBody(_datos);
-
-                var response = client.Execute(request);
-                var responseDesObj = JsonConvert.DeserializeObject<mResultEdit>(response.Content);
-
-                return responseDesObj;
-            }
-            catch
-            {
-                mResultEdit mre = new mResultEdit();
-                return mre;
-            }
-        }
-
         public mResultEdit Enable(Empleado um, AccesosGVModel accesos)
         {
             try
@@ -681,6 +628,171 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                 };
 
                 var request = new RestRequest("/User/Enable", Method.POST);
+
+                request.RequestFormat = DataFormat.Json;
+                request.AddJsonBody(_datos);
+
+                var response = client.Execute(request);
+                var responseDesObj = JsonConvert.DeserializeObject<mResultEdit>(response.Content);
+
+                return responseDesObj;
+            }
+            catch
+            {
+                mResultEdit mre = new mResultEdit();
+                return mre;
+            }
+        }
+
+        public string Completa0(string Clave)
+        {
+            string r = Clave;
+            if (Clave.Length < 8)
+            {
+                for (int i = Clave.Length; i <= 8; i++)
+                {
+                    r = 0 + r;
+                }
+            }
+            return r;
+        }
+
+        public string Quitar0(string Clave)
+        {
+            string r;
+            if (Clave.Substring(0, 1) == "0")
+            {
+                r = Quitar0(Clave.Substring(1, Clave.Length - 1));
+            }
+            else
+            {
+                r = Clave;
+            }
+            return r;
+        }
+
+        public mResultEdit Add(Empleado um, AccesosGVModel accesos)
+        {
+            try
+            {
+                var datos = new UserModel()
+                {
+                    Identifier = um.Imss,
+                    Name = um.Nombre,
+                    LastName = um.ApellidoMaterno != null ? um.ApellidoPaterno + " " + um.ApellidoMaterno : um.ApellidoPaterno,
+                    Email = um.CorreoElectronico
+                };
+
+                if (HttpContext.Current.Session["sIdCliente"].ToString() == "141")
+                {
+                    if (um.ClaveEmpleado.Substring(0, 1) == "H")
+                    {
+                        datos.Identifier = Completa0(um.ClaveEmpleado.Substring(1, um.ClaveEmpleado.Length - 1));
+                        datos.Custom1 = "H";
+                    }
+                }
+
+                var _datos = JsonConvert.SerializeObject(datos);
+
+                string curl = Statics.ServidorGeoVictoriaOauth + "/api";
+
+                RestClient client = new RestClient(curl)
+                {
+                    Authenticator = OAuth1Authenticator.ForProtectedResource(Statics.DesEncriptar(accesos.ClaveAPI), Statics.DesEncriptar(accesos.Secreto), string.Empty, string.Empty)
+                };
+
+                var request = new RestRequest("/User/Add", Method.POST);
+
+                request.RequestFormat = DataFormat.Json;
+                request.AddJsonBody(_datos);
+
+                var response = client.Execute(request);
+                var responseDesObj = JsonConvert.DeserializeObject<mResultEdit>(response.Content);
+
+                return responseDesObj;
+            }
+            catch
+            {
+                mResultEdit mre = new mResultEdit();
+                return mre;
+            }
+        }
+
+        public mResultEdit Edit(Empleado um, AccesosGVModel accesos)
+        {
+            try
+            {
+                var datos = new UserModel()
+                {
+                    Identifier = um.Imss,
+                    Name = um.Nombre,
+                    LastName = um.ApellidoMaterno != null ? um.ApellidoPaterno + " " + um.ApellidoMaterno : um.ApellidoPaterno,
+                    Email = um.CorreoElectronico
+                };
+
+                if (HttpContext.Current.Session["sIdCliente"].ToString() == "141")
+                {
+                    if (um.ClaveEmpleado.Substring(0, 1) == "H")
+                    {
+                        datos.Identifier = Completa0(um.ClaveEmpleado.Substring(1, um.ClaveEmpleado.Length - 1));
+                        datos.Custom1 = "H";
+                    }
+                }
+
+                var _datos = JsonConvert.SerializeObject(datos);
+
+                string curl = Statics.ServidorGeoVictoriaOauth + "/api";
+
+                RestClient client = new RestClient(curl)
+                {
+                    Authenticator = OAuth1Authenticator.ForProtectedResource(Statics.DesEncriptar(accesos.ClaveAPI), Statics.DesEncriptar(accesos.Secreto), string.Empty, string.Empty)
+                };
+
+                var request = new RestRequest("/User/Edit", Method.POST);
+
+                request.RequestFormat = DataFormat.Json;
+                request.AddJsonBody(_datos);
+
+                var response = client.Execute(request);
+                var responseDesObj = JsonConvert.DeserializeObject<mResultEdit>(response.Content);
+
+                return responseDesObj;
+            }
+            catch
+            {
+                mResultEdit mre = new mResultEdit();
+                return mre;
+            }
+        }
+
+        public mResultEdit Disable(Empleado Empleado, AccesosGVModel accesos)
+        {
+            try
+            {
+                var datos = new UserModel()
+                {
+                    Identifier = Empleado.Imss,
+                    Email = Empleado.CorreoElectronico
+                };
+                if (HttpContext.Current.Session["sIdCliente"].ToString() == "141")
+                {
+                    if (Empleado.ClaveEmpleado.Substring(0, 1) == "H")
+                    {
+                        datos.Identifier = Completa0(Empleado.ClaveEmpleado.Substring(1, Empleado.ClaveEmpleado.Length - 1));
+                    }
+                }
+
+                var _datos = JsonConvert.SerializeObject(datos);
+
+                //string curl = Statics.ServidorGeoVictoriaOauthTest + "/api";
+                string curl = Statics.ServidorGeoVictoriaOauth + "/api";
+
+                RestClient client = new RestClient(curl)
+                {
+                    Authenticator = OAuth1Authenticator.ForProtectedResource(Statics.DesEncriptar(accesos.ClaveAPI), Statics.DesEncriptar(accesos.Secreto), string.Empty, string.Empty)
+                };
+
+                var request = new RestRequest("/User/Disable", Method.POST);
 
                 request.RequestFormat = DataFormat.Json;
                 request.AddJsonBody(_datos);
