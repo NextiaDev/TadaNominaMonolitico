@@ -423,7 +423,7 @@ namespace TadaNomina.Controllers.Nomina
                     string dat1 = cu.FechaChecador(FechaInicioChecador, 'I');
                     string dat2 = cu.FechaChecador(FechaFinChecador, 'F');
 
-                    var usuarios = cu.LstUsuarios(token, usuXCon);
+                    var usuarios = cu.LstUsuarios(usuXCon);
                     var b = cu.Consolidated(token, dat1, dat2, usuarios, usuXCon);
                     var consulta = cu.ClaveEmpl((int)IdCliente);
                     var lstClaves = cu.ClaveEmpImss(consulta);
@@ -431,7 +431,7 @@ namespace TadaNomina.Controllers.Nomina
                     ViewBag.lstClaves = lstClaves;
                     ViewBag.fechaInicio = FechaInicioChecador;
                     ViewBag.fechaFinal = FechaUtilizadaFin;
-                    ViewBag.nombres = cu.NombreU(token);
+                    ViewBag.nombres = cu.NombreU();
                     ViewBag.nombresEmail = cu.NombreUxC();
                     ViewBag.vPeriodo = pIdPeriodoNomina;
                     ViewBag.Remuneraciones = b;
@@ -493,13 +493,13 @@ namespace TadaNomina.Controllers.Nomina
                     string dat1 = cu.FechaChecador(FechaInicioChecador, 'I');
                     string dat2 = cu.FechaChecador(FechaFinChecador, 'F');
 
-                    string usuario = cu.CheckUsuario(token, Identifier);
+                    string usuario = cu.CheckUsuario(Identifier);
                     var b = cu.AttendanceBook(token, dat1, dat2, usuario);
 
                     ViewBag.ClaveEmpleado = cu.ClaveEmpleado(Identifier, (int)IdCliente);
                     ViewBag.fechaInicio = FechaInicioChecador;
                     ViewBag.fechaFinal = FechaFinChecador;
-                    ViewBag.nombres = cu.NombreU(token);
+                    ViewBag.nombres = cu.NombreU();
                     ViewBag.vPeriodo = pIdPeriodoNomina;
 
                     return View(b);
@@ -541,7 +541,7 @@ namespace TadaNomina.Controllers.Nomina
                 string dat1 = cu.FechaChecador(FechaInicioChecador, 'I');
                 string dat2 = cu.FechaChecador(FechaFinChecador, 'F');
 
-                var usuarios = cu.LstUsuarios(tokenGV, usuXCon);
+                var usuarios = cu.LstUsuarios(usuXCon);
                 var c = cu.Consolidated(tokenGV, dat1, dat2, usuarios, usuXCon);
                 var a = cu.AtteBookXN(tokenGV, dat1, dat2, usuarios);
                 var lI = cu.LstIncidencias(c, a, (int)IdCliente);
