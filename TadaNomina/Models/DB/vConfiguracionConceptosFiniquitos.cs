@@ -52,5 +52,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> idConceptoEnfermedadGeneral { get; set; }
         public Nullable<int> idConceptoMaternidad { get; set; }
         public Nullable<int> idConceptoRiesgodeTrabajo { get; set; }
+        public Nullable<int> idConceptoCuotaSindical { get; set; }
     }
 }
