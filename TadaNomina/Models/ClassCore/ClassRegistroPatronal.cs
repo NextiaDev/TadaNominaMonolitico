@@ -309,6 +309,19 @@ namespace TadaNomina.Models.ClassCore
             return list;
         }
 
+        public List<SelectListItem> getSelectRP(int IdCliente)
+        {
+            var registros = GetRegistroPatronalByIdCliente(IdCliente).DistinctBy(x => x.RFC);
+            var idsRegistros = getIdsEspecializadas(IdCliente);
+            var registrosIds = GetRegistroPatronalByIds(idsRegistros).DistinctBy(x => x.RFC);
+            var list = new List<SelectListItem>();
+
+            registros.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.IdRegistroPatronal.ToString() }); });
+            registrosIds.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.IdRegistroPatronal.ToString() }); });
+
+            return list;
+        }
+
         /// <summary>
         /// Método para listar los Ids de los registros patronales con empresa especializada.
         /// </summary>
