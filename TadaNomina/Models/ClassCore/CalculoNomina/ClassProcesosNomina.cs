@@ -1864,5 +1864,31 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             return resultado;
         }
 
+
+        public void CalculaCuotasSindicales(int IdPeriodoNomina, int IdEmpleado, int idconceptoCuota, int idconceptoVacaciones, decimal? diasLaborados, decimal SDIMSS, int IdUsuario)
+        {
+
+            string sp = "SP_CalculaCuotasSindicales";
+            using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ModelNomina"].ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sp, con))
+                {
+                    cmd.CommandTimeout = 0;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("IdEmpleado", SqlDbType.Int).Value = IdEmpleado;
+                    cmd.Parameters.Add("IdConcepto", SqlDbType.Int).Value = idconceptoCuota;
+                    cmd.Parameters.Add("IdConceptoVacaciones", SqlDbType.Int).Value = idconceptoVacaciones;
+                    cmd.Parameters.Add("IdPeriodoNomina", SqlDbType.Int).Value = IdPeriodoNomina;
+                    cmd.Parameters.Add("DiasLaborados", SqlDbType.Decimal).Value = diasLaborados;
+                    cmd.Parameters.Add("SDIMSS", SqlDbType.Decimal).Value = SDIMSS;
+                    cmd.Parameters.Add("IdCaptura", SqlDbType.Int).Value = IdUsuario;
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+
+            }
+        }
+
     }
 }
