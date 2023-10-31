@@ -272,6 +272,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.DD += montoCreditoInfonavit;
             nominaTrabajo.DD += montoCreditoFonacot;
 
+            if ((UnidadNegocio.BanderaCuotaSindical == "S" && datosEmpleados.IdEstatus == 1))
+            {
+                int IdConcepto = 0;
+                int IdConceptoVacaciones = 0;
+                try { IdConceptoVacaciones = (int)conceptosConfigurados.IdConceptoVacaciones; } catch { throw new Exception("Hay Cuota Sindical , no se configuro ningun concepto. "); }
+                try { IdConcepto = (int)conceptosConfigurados.idConceptoCuotaSindical; } catch { throw new Exception("Hay Cuota Sindical , no se configuro ningun concepto. "); }
+
+                CalculaCuotasSindicales(IdPeriodoNomina, IdEmpleado, IdConcepto, IdConceptoVacaciones, nominaTrabajo.DiasTrabajados, SD_IMSS, IdUsuario);
+            }
+
             if ((UnidadNegocio.DeduccionesEspeciales == "S" && datosEmpleados.IdEstatus == 1) || (configuracionNominaEmpleado.IncidenciasAutomaticas == 1))
             {
                 if (configuracionNominaEmpleado.SupenderSueldoTradicional == null)

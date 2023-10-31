@@ -1645,8 +1645,6 @@
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="bin\TadaNomina.dll" />
-    <Content Include="bin\TadaNomina.pdb" />
     <Content Include="Connected Services\ServiceReferenceCancelacionTPTest2\TadaNomina.ServiceReferenceCancelacionTPTest2.ResponseCancel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -6928,6 +6926,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\" />
     <Folder Include="img\profile-photos\Users\" />
     <Folder Include="plugins\ionicons\builder\cheatsheet\" />
     <Folder Include="Views\AcumularPeriodo\" />
