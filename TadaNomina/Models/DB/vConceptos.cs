@@ -54,5 +54,6 @@ namespace TadaNomina.Models.DB
         public string CreaConceptoAdicional { get; set; }
         public Nullable<int> IdConceptoAdicional { get; set; }
         public string CalculoDiasHoras { get; set; }
+        public string IntegraPension { get; set; }
     }
 }

@@ -76,5 +76,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> TipoCobro { get; set; }
         public string BanderaDiasEquivalentes { get; set; }
         public string BanderaCargasSocialesSinFaltas { get; set; }
+        public string BanderaCuotaSindical { get; set; }
     }
 }
