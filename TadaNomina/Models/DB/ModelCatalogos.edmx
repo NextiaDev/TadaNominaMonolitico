@@ -193,6 +193,7 @@
           <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
+          <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Cat_Departamentos">
           <Key>
@@ -467,6 +468,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="TipoCobro" Type="int" />
           <Property Name="BanderaDiasEquivalentes" Type="nvarchar" MaxLength="2" />
           <Property Name="BanderaCargasSocialesSinFaltas" Type="nvarchar" MaxLength="2" />
+          <Property Name="BanderaCuotaSindical" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Cliente_EmpresaEspecializada">
           <Key>
@@ -500,6 +502,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="idConceptoEnfermedadGeneral" Type="int" />
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
+          <Property Name="idConceptoCuotaSindical" Type="int" />
           <Property Name="IdEstatus" Type="int" />
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
@@ -850,6 +853,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConceptos' no tiene definida
           <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
+          <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -895,6 +899,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniqu
           <Property Name="idConceptoEnfermedadGeneral" Type="int" />
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
+          <Property Name="idConceptoCuotaSindical" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vDepartamentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -1241,7 +1246,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
     [vConceptos].[FactoryValor] AS [FactoryValor], 
     [vConceptos].[CreaConceptoAdicional] AS [CreaConceptoAdicional], 
     [vConceptos].[IdConceptoAdicional] AS [IdConceptoAdicional], 
-    [vConceptos].[CalculoDiasHoras] AS [CalculoDiasHoras]
+    [vConceptos].[CalculoDiasHoras] AS [CalculoDiasHoras], 
+    [vConceptos].[IntegraPension] AS [IntegraPension]
     FROM [dbo].[vConceptos] AS [vConceptos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="Self.vConfiguracionConceptosFiniquitos" store:Type="Views" store:Schema="dbo">
@@ -1283,7 +1289,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
     [vConfiguracionConceptosFiniquitos].[idConceptoIncapacidadaccidenteTrayecto] AS [idConceptoIncapacidadaccidenteTrayecto], 
     [vConfiguracionConceptosFiniquitos].[idConceptoEnfermedadGeneral] AS [idConceptoEnfermedadGeneral], 
     [vConfiguracionConceptosFiniquitos].[idConceptoMaternidad] AS [idConceptoMaternidad], 
-    [vConfiguracionConceptosFiniquitos].[idConceptoRiesgodeTrabajo] AS [idConceptoRiesgodeTrabajo]
+    [vConfiguracionConceptosFiniquitos].[idConceptoRiesgodeTrabajo] AS [idConceptoRiesgodeTrabajo], 
+    [vConfiguracionConceptosFiniquitos].[idConceptoCuotaSindical] AS [idConceptoCuotaSindical]
     FROM [dbo].[vConfiguracionConceptosFiniquitos] AS [vConfiguracionConceptosFiniquitos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vDepartamentos" EntityType="Self.vDepartamentos" store:Type="Views" store:Schema="dbo">
@@ -1872,6 +1879,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
           <Property Name="idConceptoMaternidad" Type="Int32" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
+          <Property Name="idConceptoCuotaSindical" Type="Int32" />
         </EntityType>
         <EntityType Name="vConfiguracionConceptosFiniquitos">
           <Key>
@@ -1915,6 +1923,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
           <Property Name="idConceptoMaternidad" Type="Int32" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
+          <Property Name="idConceptoCuotaSindical" Type="Int32" />
         </EntityType>
         <EntityType Name="Cat_Areas">
           <Key>
@@ -2391,6 +2400,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IdConceptoAdicional" Type="Int32" />
           <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vConceptos">
           <Key>
@@ -2436,6 +2446,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IdConceptoAdicional" Type="Int32" />
           <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="EmpleadoInformacionComplementaria">
           <Key>
@@ -2628,6 +2639,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="TipoCobro" Type="Int32" />
           <Property Name="BanderaDiasEquivalentes" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="BanderaCargasSocialesSinFaltas" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="BanderaCuotaSindical" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Cat_SindicatoCliente">
           <Key>
@@ -3000,6 +3012,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="ConfiguracionConceptosFiniquito">
             <EntityTypeMapping TypeName="TadaNominaModel.ConfiguracionConceptosFiniquito">
               <MappingFragment StoreEntitySet="ConfiguracionConceptosFiniquito">
+                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
                 <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
                 <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
                 <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
@@ -3026,6 +3039,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="vConfiguracionConceptosFiniquitos">
             <EntityTypeMapping TypeName="TadaNominaModel.vConfiguracionConceptosFiniquitos">
               <MappingFragment StoreEntitySet="vConfiguracionConceptosFiniquitos">
+                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
                 <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
                 <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
                 <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
@@ -3482,6 +3496,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="Cat_ConceptosNomina">
             <EntityTypeMapping TypeName="TadaNominaModel.Cat_ConceptosNomina">
               <MappingFragment StoreEntitySet="Cat_ConceptosNomina">
+                <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
                 <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
                 <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
                 <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
@@ -3540,6 +3555,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="vConceptos">
             <EntityTypeMapping TypeName="TadaNominaModel.vConceptos">
               <MappingFragment StoreEntitySet="vConceptos">
+                <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
                 <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
                 <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
                 <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
@@ -3699,6 +3715,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="Cat_UnidadNegocio">
             <EntityTypeMapping TypeName="TadaNominaModel.Cat_UnidadNegocio">
               <MappingFragment StoreEntitySet="Cat_UnidadNegocio">
+                <ScalarProperty Name="BanderaCuotaSindical" ColumnName="BanderaCuotaSindical" />
                 <ScalarProperty Name="BanderaCargasSocialesSinFaltas" ColumnName="BanderaCargasSocialesSinFaltas" />
                 <ScalarProperty Name="BanderaDiasEquivalentes" ColumnName="BanderaDiasEquivalentes" />
                 <ScalarProperty Name="TipoCobro" ColumnName="TipoCobro" />
