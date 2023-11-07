@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="31f0307944f14eb7a995112d53f446ec" Name="Diagram1" ZoomLevel="77">
+      <Diagram DiagramId="31f0307944f14eb7a995112d53f446ec" Name="Diagram1" ZoomLevel="32">
         <EntityTypeShape EntityType="TadaBallisticModel.VPagosServicios" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
