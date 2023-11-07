@@ -60,9 +60,12 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                 List<UserModel> remove2 = new List<UserModel>();
                 bool bandera = false;
                 string valida = null;
+                string auxiliar = null;
                 foreach (var item in GetUsers)
                 {
-                    string auxiliar;
+                    bandera = false;
+                    valida = null;
+                    auxiliar = null;
                     if (item.Identifier != null)
                     {
                         if (item.Identifier.Length == 10)
@@ -80,20 +83,17 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                         }
                         if (bandera)
                         {
-                            valida = lstxUN.Where(x => x.ClaveEmpleado == auxiliar || x.CorreoElectronico == item.Email).Select(x => x.ClaveEmpleado).FirstOrDefault();
+                            valida = lstxUN.Where(x => x.ClaveEmpleado == auxiliar).Select(x => x.ClaveEmpleado).FirstOrDefault();
                         }
                         else
                         {
-                            valida = lstxUN.Where(x => x.Imss == auxiliar || x.CorreoElectronico == item.Email).Select(x => x.Imss).FirstOrDefault();
+                            valida = lstxUN.Where(x => x.Imss == auxiliar).Select(x => x.Imss).FirstOrDefault();
                         }
 
                         if (valida == null)
                         {
                             remove.Add(item);
                         }
-                        bandera = false;
-                        valida = null;
-                        auxiliar = null;
                     }
                     else
                     {

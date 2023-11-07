@@ -118,7 +118,19 @@ namespace TadaNomina.Controllers.Administracion
                         estatus = cu.ListarUsuariosGV().Where(x => x.Identifier == clave).Select(x => x.Enabled).FirstOrDefault();
                         if (estatus == 0)
                         {
-                            empleado.RelojChecador = false;
+                            if (clave.Substring(0, 1) == "0")
+                            {
+                                clave = empleado.Imss.Substring(1, empleado.Imss.Length - 1);
+                                estatus = cu.ListarUsuariosGV().Where(x => x.Identifier == clave).Select(x => x.Enabled).FirstOrDefault();
+                                if (estatus == 1)
+                                {
+                                    empleado.RelojChecador = true;
+                                }
+                            }
+                            else
+                            {
+                                empleado.RelojChecador = false;
+                            }
                         }
                         else
                         {
