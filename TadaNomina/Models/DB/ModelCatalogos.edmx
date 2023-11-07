@@ -193,6 +193,7 @@
           <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
+          <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Cat_Departamentos">
           <Key>
@@ -211,8 +212,8 @@
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Cat_EntidadFederativa">
           <Key>
             <PropertyRef Name="Id" />
@@ -467,6 +468,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="TipoCobro" Type="int" />
           <Property Name="BanderaDiasEquivalentes" Type="nvarchar" MaxLength="2" />
           <Property Name="BanderaCargasSocialesSinFaltas" Type="nvarchar" MaxLength="2" />
+          <Property Name="BanderaCuotaSindical" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Cliente_EmpresaEspecializada">
           <Key>
@@ -500,6 +502,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="idConceptoEnfermedadGeneral" Type="int" />
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
+          <Property Name="idConceptoCuotaSindical" Type="int" />
           <Property Name="IdEstatus" Type="int" />
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
@@ -761,8 +764,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="FechaInicio" Type="datetime" />
           <Property Name="IdEstatus" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.v_IMSS_MovimientosCESS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.v_IMSS_MovimientosCESS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_IMSS_MovimientosCESS">
           <Key>
             <PropertyRef Name="ActividadEconomica" />
@@ -786,8 +789,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.v_IMSS_MovimientosCESS' no ti
           <Property Name="CausaBaja" Type="nvarchar" MaxLength="500" />
           <Property Name="Origen" Type="varchar" MaxLength="9" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vComunicados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vComunicados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vComunicados">
           <Key>
             <PropertyRef Name="IdComunicado" />
@@ -804,8 +807,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vComunicados' no tiene defini
           <Property Name="IdModifica" Type="int" />
           <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConceptos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vConceptos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vConceptos">
           <Key>
             <PropertyRef Name="IdConcepto" />
@@ -850,9 +853,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConceptos' no tiene definida
           <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
+          <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vConfiguracionConceptosFiniquitos">
           <Key>
             <PropertyRef Name="IdConfiguracion" />
@@ -895,9 +899,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniqu
           <Property Name="idConceptoEnfermedadGeneral" Type="int" />
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
+          <Property Name="idConceptoCuotaSindical" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vDepartamentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vDepartamentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vDepartamentos">
           <Key>
             <PropertyRef Name="IdDepartamento" />
@@ -913,8 +918,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vDepartamentos' no tiene defi
           <Property Name="FechaModificacion" Type="datetime" />
           <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vEmpleadosIMSS_NA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vEmpleadosIMSS_NA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vEmpleadosIMSS_NA">
           <Key>
             <PropertyRef Name="IdEmpleado" />
@@ -1004,8 +1009,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vEmpleadosIMSS_NA' no tiene d
           <Property Name="Estatus" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="MotivoBaja" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPrestaciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vPrestaciones' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vPrestaciones">
           <Key>
             <PropertyRef Name="IdPrestaciones" />
@@ -1020,8 +1025,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPrestaciones' no tiene defin
           <Property Name="FechaModifica" Type="datetime" />
           <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTipoAusentismo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vTipoAusentismo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vTipoAusentismo">
           <Key>
             <PropertyRef Name="IdTipoAusentismo" />
@@ -1040,8 +1045,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTipoAusentismo' no tiene def
           <Property Name="Concepto" Type="nvarchar" MaxLength="150" />
           <Property Name="IdCliente" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vUnidadesNegocio">
           <Key>
             <PropertyRef Name="IdUnidadNegocio" />
@@ -1241,7 +1246,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
     [vConceptos].[FactoryValor] AS [FactoryValor], 
     [vConceptos].[CreaConceptoAdicional] AS [CreaConceptoAdicional], 
     [vConceptos].[IdConceptoAdicional] AS [IdConceptoAdicional], 
-    [vConceptos].[CalculoDiasHoras] AS [CalculoDiasHoras]
+    [vConceptos].[CalculoDiasHoras] AS [CalculoDiasHoras], 
+    [vConceptos].[IntegraPension] AS [IntegraPension]
     FROM [dbo].[vConceptos] AS [vConceptos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="Self.vConfiguracionConceptosFiniquitos" store:Type="Views" store:Schema="dbo">
@@ -1283,7 +1289,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
     [vConfiguracionConceptosFiniquitos].[idConceptoIncapacidadaccidenteTrayecto] AS [idConceptoIncapacidadaccidenteTrayecto], 
     [vConfiguracionConceptosFiniquitos].[idConceptoEnfermedadGeneral] AS [idConceptoEnfermedadGeneral], 
     [vConfiguracionConceptosFiniquitos].[idConceptoMaternidad] AS [idConceptoMaternidad], 
-    [vConfiguracionConceptosFiniquitos].[idConceptoRiesgodeTrabajo] AS [idConceptoRiesgodeTrabajo]
+    [vConfiguracionConceptosFiniquitos].[idConceptoRiesgodeTrabajo] AS [idConceptoRiesgodeTrabajo], 
+    [vConfiguracionConceptosFiniquitos].[idConceptoCuotaSindical] AS [idConceptoCuotaSindical]
     FROM [dbo].[vConfiguracionConceptosFiniquitos] AS [vConfiguracionConceptosFiniquitos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vDepartamentos" EntityType="Self.vDepartamentos" store:Type="Views" store:Schema="dbo">
@@ -1508,8 +1515,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="Cat_HonorariosFacturas" EntityType="TadaNominaModel.Cat_HonorariosFacturas" />
           <EntitySet Name="vUnidadesNegocio" EntityType="TadaNominaModel.vUnidadesNegocio" />
           <EntitySet Name="Cat_Clientes" EntityType="TadaNominaModel.Cat_Clientes" />
-          <EntitySet Name="Cat_ConceptosNomina" EntityType="TadaNominaModel.Cat_ConceptosNomina" />
-          <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
           <EntitySet Name="EmpleadoInformacionComplementaria" EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" />
           <EntitySet Name="Empleados" EntityType="TadaNominaModel.Empleados" />
           <AssociationSet Name="FK_EmpleadoInformacionComplementaria_Empleados" Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados">
@@ -1518,6 +1523,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           </AssociationSet>
           <EntitySet Name="Cat_UnidadNegocio" EntityType="TadaNominaModel.Cat_UnidadNegocio" />
           <EntitySet Name="Cat_SindicatoCliente" EntityType="TadaNominaModel.Cat_SindicatoCliente" />
+          <EntitySet Name="Cat_ConceptosNomina" EntityType="TadaNominaModel.Cat_ConceptosNomina" />
+          <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -1872,6 +1879,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
           <Property Name="idConceptoMaternidad" Type="Int32" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
+          <Property Name="idConceptoCuotaSindical" Type="Int32" />
         </EntityType>
         <EntityType Name="vConfiguracionConceptosFiniquitos">
           <Key>
@@ -1915,6 +1923,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
           <Property Name="idConceptoMaternidad" Type="Int32" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
+          <Property Name="idConceptoCuotaSindical" Type="Int32" />
         </EntityType>
         <EntityType Name="Cat_Areas">
           <Key>
@@ -2335,108 +2344,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="FechaInicioProduccion" Type="DateTime" Precision="0" />
           <Property Name="RecibosTotalesRegPatronal" Type="Int32" />
         </EntityType>
-        <EntityType Name="Cat_ConceptosNomina">
-          <Key>
-            <PropertyRef Name="IdConcepto" />
-          </Key>
-          <Property Name="IdConcepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCliente" Type="Int32" />
-          <Property Name="IdConceptoSistema" Type="Int32" />
-          <Property Name="ClaveGpo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConcepto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CalculaMontos" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="SDPor" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDEntre" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BanderaSDI" Type="Int32" />
-          <Property Name="Integrable" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="IntegraSDI" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="IntegraISN" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="AfectaSeldo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="AfectaCargaSocial" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="Exenta" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="ExentaPorUnidad" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="UnidadExenta" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CantidadExenta" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeGravado" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SumaNetoFinal" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="MultiplicaDT" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveContable" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="PagoEfectivo" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="Piramida" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="ExentoPorSueldoMinimo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModifica" Type="Int32" />
-          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-          <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosCalculo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosCondicionantesSI" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosCondicionantesNO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FormulaDiasPorcentaje" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Formula" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IncapacidadPagada" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="DiasIniciales" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeDiasIniciales" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="DiasSubsecuentes" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeDiasSubsecuentes" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdConceptoPago" Type="Int32" />
-          <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="IdConceptoAdicional" Type="Int32" />
-          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="vConceptos">
-          <Key>
-            <PropertyRef Name="IdConcepto" />
-          </Key>
-          <Property Name="IdConcepto" Type="Int32" Nullable="false" />
-          <Property Name="IdCliente" Type="Int32" />
-          <Property Name="ClaveConcepto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Integrable" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="IntegraSDI" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="Exenta" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="UnidadExenta" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CantidadExenta" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeGravado" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModifica" Type="Int32" />
-          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveGpo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CalculaMontos" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="SDPor" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDEntre" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AfectaSeldo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="AfectaCargaSocial" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="IdConceptoSistema" Type="Int32" />
-          <Property Name="SumaNetoFinal" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="BanderaSDI" Type="Int32" />
-          <Property Name="MultiplicaDT" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="ExentaPorUnidad" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="Piramida" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="PagoEfectivo" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
-          <Property Name="ClaveContable" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="ExentoPorSueldoMinimo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="IdConceptoAdicional" Type="Int32" />
-          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="EmpleadoInformacionComplementaria">
           <Key>
             <PropertyRef Name="IdEmpleadoInfAdministrativa" />
@@ -2628,6 +2535,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="TipoCobro" Type="Int32" />
           <Property Name="BanderaDiasEquivalentes" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="BanderaCargasSocialesSinFaltas" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="BanderaCuotaSindical" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Cat_SindicatoCliente">
           <Key>
@@ -2642,6 +2550,110 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
           <Property Name="IdModificacion" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Cat_ConceptosNomina">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+          </Key>
+          <Property Name="IdConcepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdConceptoSistema" Type="Int32" />
+          <Property Name="ClaveGpo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConcepto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CalculaMontos" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="SDPor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDEntre" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BanderaSDI" Type="Int32" />
+          <Property Name="Integrable" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="IntegraSDI" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="IntegraISN" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="AfectaSeldo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="AfectaCargaSocial" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Exenta" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="ExentaPorUnidad" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="UnidadExenta" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CantidadExenta" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeGravado" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SumaNetoFinal" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="MultiplicaDT" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveContable" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PagoEfectivo" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Piramida" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ExentoPorSueldoMinimo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptosCalculo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptosCondicionantesSI" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptosCondicionantesNO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FormulaDiasPorcentaje" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Formula" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IncapacidadPagada" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DiasIniciales" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeDiasIniciales" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DiasSubsecuentes" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeDiasSubsecuentes" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdConceptoPago" Type="Int32" />
+          <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdConceptoAdicional" Type="Int32" />
+          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vConceptos">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+          </Key>
+          <Property Name="IdConcepto" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="ClaveConcepto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Integrable" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="IntegraSDI" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Exenta" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="UnidadExenta" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CantidadExenta" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeGravado" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveGpo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CalculaMontos" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="SDPor" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDEntre" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AfectaSeldo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="AfectaCargaSocial" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdConceptoSistema" Type="Int32" />
+          <Property Name="SumaNetoFinal" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="BanderaSDI" Type="Int32" />
+          <Property Name="MultiplicaDT" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ExentaPorUnidad" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Piramida" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="PagoEfectivo" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="ClaveContable" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ExentoPorSueldoMinimo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdConceptoAdicional" Type="Int32" />
+          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3000,6 +3012,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="ConfiguracionConceptosFiniquito">
             <EntityTypeMapping TypeName="TadaNominaModel.ConfiguracionConceptosFiniquito">
               <MappingFragment StoreEntitySet="ConfiguracionConceptosFiniquito">
+                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
                 <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
                 <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
                 <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
@@ -3026,6 +3039,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="vConfiguracionConceptosFiniquitos">
             <EntityTypeMapping TypeName="TadaNominaModel.vConfiguracionConceptosFiniquitos">
               <MappingFragment StoreEntitySet="vConfiguracionConceptosFiniquitos">
+                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
                 <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
                 <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
                 <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
@@ -3479,110 +3493,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cat_ConceptosNomina">
-            <EntityTypeMapping TypeName="TadaNominaModel.Cat_ConceptosNomina">
-              <MappingFragment StoreEntitySet="Cat_ConceptosNomina">
-                <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
-                <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
-                <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
-                <ScalarProperty Name="FactoryValor" ColumnName="FactoryValor" />
-                <ScalarProperty Name="IdConceptoPago" ColumnName="IdConceptoPago" />
-                <ScalarProperty Name="PorcentajeDiasSubsecuentes" ColumnName="PorcentajeDiasSubsecuentes" />
-                <ScalarProperty Name="DiasSubsecuentes" ColumnName="DiasSubsecuentes" />
-                <ScalarProperty Name="PorcentajeDiasIniciales" ColumnName="PorcentajeDiasIniciales" />
-                <ScalarProperty Name="DiasIniciales" ColumnName="DiasIniciales" />
-                <ScalarProperty Name="IncapacidadPagada" ColumnName="IncapacidadPagada" />
-                <ScalarProperty Name="Formula" ColumnName="Formula" />
-                <ScalarProperty Name="FormulaDiasPorcentaje" ColumnName="FormulaDiasPorcentaje" />
-                <ScalarProperty Name="ConceptosCondicionantesNO" ColumnName="ConceptosCondicionantesNO" />
-                <ScalarProperty Name="ConceptosCondicionantesSI" ColumnName="ConceptosCondicionantesSI" />
-                <ScalarProperty Name="ConceptosCalculo" ColumnName="ConceptosCalculo" />
-                <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
-                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
-                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="ExentoPorSueldoMinimo" ColumnName="ExentoPorSueldoMinimo" />
-                <ScalarProperty Name="Piramida" ColumnName="Piramida" />
-                <ScalarProperty Name="PagoEfectivo" ColumnName="PagoEfectivo" />
-                <ScalarProperty Name="ClaveContable" ColumnName="ClaveContable" />
-                <ScalarProperty Name="MultiplicaDT" ColumnName="MultiplicaDT" />
-                <ScalarProperty Name="SumaNetoFinal" ColumnName="SumaNetoFinal" />
-                <ScalarProperty Name="PorcentajeGravado" ColumnName="PorcentajeGravado" />
-                <ScalarProperty Name="CantidadExenta" ColumnName="CantidadExenta" />
-                <ScalarProperty Name="UnidadExenta" ColumnName="UnidadExenta" />
-                <ScalarProperty Name="ExentaPorUnidad" ColumnName="ExentaPorUnidad" />
-                <ScalarProperty Name="Exenta" ColumnName="Exenta" />
-                <ScalarProperty Name="AfectaCargaSocial" ColumnName="AfectaCargaSocial" />
-                <ScalarProperty Name="AfectaSeldo" ColumnName="AfectaSeldo" />
-                <ScalarProperty Name="IntegraISN" ColumnName="IntegraISN" />
-                <ScalarProperty Name="IntegraSDI" ColumnName="IntegraSDI" />
-                <ScalarProperty Name="Integrable" ColumnName="Integrable" />
-                <ScalarProperty Name="BanderaSDI" ColumnName="BanderaSDI" />
-                <ScalarProperty Name="SDEntre" ColumnName="SDEntre" />
-                <ScalarProperty Name="SDPor" ColumnName="SDPor" />
-                <ScalarProperty Name="CalculaMontos" ColumnName="CalculaMontos" />
-                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
-                <ScalarProperty Name="TipoDato" ColumnName="TipoDato" />
-                <ScalarProperty Name="TipoConcepto" ColumnName="TipoConcepto" />
-                <ScalarProperty Name="Informacion" ColumnName="Informacion" />
-                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
-                <ScalarProperty Name="ClaveSAT" ColumnName="ClaveSAT" />
-                <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
-                <ScalarProperty Name="ClaveGpo" ColumnName="ClaveGpo" />
-                <ScalarProperty Name="IdConceptoSistema" ColumnName="IdConceptoSistema" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vConceptos">
-            <EntityTypeMapping TypeName="TadaNominaModel.vConceptos">
-              <MappingFragment StoreEntitySet="vConceptos">
-                <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
-                <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
-                <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
-                <ScalarProperty Name="FactoryValor" ColumnName="FactoryValor" />
-                <ScalarProperty Name="ExentoPorSueldoMinimo" ColumnName="ExentoPorSueldoMinimo" />
-                <ScalarProperty Name="ClaveContable" ColumnName="ClaveContable" />
-                <ScalarProperty Name="PagoEfectivo" ColumnName="PagoEfectivo" />
-                <ScalarProperty Name="Piramida" ColumnName="Piramida" />
-                <ScalarProperty Name="ExentaPorUnidad" ColumnName="ExentaPorUnidad" />
-                <ScalarProperty Name="MultiplicaDT" ColumnName="MultiplicaDT" />
-                <ScalarProperty Name="BanderaSDI" ColumnName="BanderaSDI" />
-                <ScalarProperty Name="SumaNetoFinal" ColumnName="SumaNetoFinal" />
-                <ScalarProperty Name="IdConceptoSistema" ColumnName="IdConceptoSistema" />
-                <ScalarProperty Name="AfectaCargaSocial" ColumnName="AfectaCargaSocial" />
-                <ScalarProperty Name="AfectaSeldo" ColumnName="AfectaSeldo" />
-                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
-                <ScalarProperty Name="SDEntre" ColumnName="SDEntre" />
-                <ScalarProperty Name="SDPor" ColumnName="SDPor" />
-                <ScalarProperty Name="CalculaMontos" ColumnName="CalculaMontos" />
-                <ScalarProperty Name="ClaveGpo" ColumnName="ClaveGpo" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
-                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="PorcentajeGravado" ColumnName="PorcentajeGravado" />
-                <ScalarProperty Name="CantidadExenta" ColumnName="CantidadExenta" />
-                <ScalarProperty Name="UnidadExenta" ColumnName="UnidadExenta" />
-                <ScalarProperty Name="Exenta" ColumnName="Exenta" />
-                <ScalarProperty Name="IntegraSDI" ColumnName="IntegraSDI" />
-                <ScalarProperty Name="Integrable" ColumnName="Integrable" />
-                <ScalarProperty Name="TipoDato" ColumnName="TipoDato" />
-                <ScalarProperty Name="TipoConcepto" ColumnName="TipoConcepto" />
-                <ScalarProperty Name="Informacion" ColumnName="Informacion" />
-                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
-                <ScalarProperty Name="ClaveSAT" ColumnName="ClaveSAT" />
-                <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EmpleadoInformacionComplementaria">
             <EntityTypeMapping TypeName="TadaNominaModel.EmpleadoInformacionComplementaria">
               <MappingFragment StoreEntitySet="EmpleadoInformacionComplementaria">
@@ -3699,6 +3609,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="Cat_UnidadNegocio">
             <EntityTypeMapping TypeName="TadaNominaModel.Cat_UnidadNegocio">
               <MappingFragment StoreEntitySet="Cat_UnidadNegocio">
+                <ScalarProperty Name="BanderaCuotaSindical" ColumnName="BanderaCuotaSindical" />
                 <ScalarProperty Name="BanderaCargasSocialesSinFaltas" ColumnName="BanderaCargasSocialesSinFaltas" />
                 <ScalarProperty Name="BanderaDiasEquivalentes" ColumnName="BanderaDiasEquivalentes" />
                 <ScalarProperty Name="TipoCobro" ColumnName="TipoCobro" />
@@ -3776,6 +3687,112 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
                 <ScalarProperty Name="Sindicato" ColumnName="Sindicato" />
                 <ScalarProperty Name="idCliente" ColumnName="idCliente" />
                 <ScalarProperty Name="idCatSindicatoCliente" ColumnName="idCatSindicatoCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cat_ConceptosNomina">
+            <EntityTypeMapping TypeName="TadaNominaModel.Cat_ConceptosNomina">
+              <MappingFragment StoreEntitySet="Cat_ConceptosNomina">
+                <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
+                <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
+                <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
+                <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
+                <ScalarProperty Name="FactoryValor" ColumnName="FactoryValor" />
+                <ScalarProperty Name="IdConceptoPago" ColumnName="IdConceptoPago" />
+                <ScalarProperty Name="PorcentajeDiasSubsecuentes" ColumnName="PorcentajeDiasSubsecuentes" />
+                <ScalarProperty Name="DiasSubsecuentes" ColumnName="DiasSubsecuentes" />
+                <ScalarProperty Name="PorcentajeDiasIniciales" ColumnName="PorcentajeDiasIniciales" />
+                <ScalarProperty Name="DiasIniciales" ColumnName="DiasIniciales" />
+                <ScalarProperty Name="IncapacidadPagada" ColumnName="IncapacidadPagada" />
+                <ScalarProperty Name="Formula" ColumnName="Formula" />
+                <ScalarProperty Name="FormulaDiasPorcentaje" ColumnName="FormulaDiasPorcentaje" />
+                <ScalarProperty Name="ConceptosCondicionantesNO" ColumnName="ConceptosCondicionantesNO" />
+                <ScalarProperty Name="ConceptosCondicionantesSI" ColumnName="ConceptosCondicionantesSI" />
+                <ScalarProperty Name="ConceptosCalculo" ColumnName="ConceptosCalculo" />
+                <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ExentoPorSueldoMinimo" ColumnName="ExentoPorSueldoMinimo" />
+                <ScalarProperty Name="Piramida" ColumnName="Piramida" />
+                <ScalarProperty Name="PagoEfectivo" ColumnName="PagoEfectivo" />
+                <ScalarProperty Name="ClaveContable" ColumnName="ClaveContable" />
+                <ScalarProperty Name="MultiplicaDT" ColumnName="MultiplicaDT" />
+                <ScalarProperty Name="SumaNetoFinal" ColumnName="SumaNetoFinal" />
+                <ScalarProperty Name="PorcentajeGravado" ColumnName="PorcentajeGravado" />
+                <ScalarProperty Name="CantidadExenta" ColumnName="CantidadExenta" />
+                <ScalarProperty Name="UnidadExenta" ColumnName="UnidadExenta" />
+                <ScalarProperty Name="ExentaPorUnidad" ColumnName="ExentaPorUnidad" />
+                <ScalarProperty Name="Exenta" ColumnName="Exenta" />
+                <ScalarProperty Name="AfectaCargaSocial" ColumnName="AfectaCargaSocial" />
+                <ScalarProperty Name="AfectaSeldo" ColumnName="AfectaSeldo" />
+                <ScalarProperty Name="IntegraISN" ColumnName="IntegraISN" />
+                <ScalarProperty Name="IntegraSDI" ColumnName="IntegraSDI" />
+                <ScalarProperty Name="Integrable" ColumnName="Integrable" />
+                <ScalarProperty Name="BanderaSDI" ColumnName="BanderaSDI" />
+                <ScalarProperty Name="SDEntre" ColumnName="SDEntre" />
+                <ScalarProperty Name="SDPor" ColumnName="SDPor" />
+                <ScalarProperty Name="CalculaMontos" ColumnName="CalculaMontos" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="TipoDato" ColumnName="TipoDato" />
+                <ScalarProperty Name="TipoConcepto" ColumnName="TipoConcepto" />
+                <ScalarProperty Name="Informacion" ColumnName="Informacion" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="ClaveSAT" ColumnName="ClaveSAT" />
+                <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
+                <ScalarProperty Name="ClaveGpo" ColumnName="ClaveGpo" />
+                <ScalarProperty Name="IdConceptoSistema" ColumnName="IdConceptoSistema" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vConceptos">
+            <EntityTypeMapping TypeName="TadaNominaModel.vConceptos">
+              <MappingFragment StoreEntitySet="vConceptos">
+                <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
+                <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
+                <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
+                <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
+                <ScalarProperty Name="FactoryValor" ColumnName="FactoryValor" />
+                <ScalarProperty Name="ExentoPorSueldoMinimo" ColumnName="ExentoPorSueldoMinimo" />
+                <ScalarProperty Name="ClaveContable" ColumnName="ClaveContable" />
+                <ScalarProperty Name="PagoEfectivo" ColumnName="PagoEfectivo" />
+                <ScalarProperty Name="Piramida" ColumnName="Piramida" />
+                <ScalarProperty Name="ExentaPorUnidad" ColumnName="ExentaPorUnidad" />
+                <ScalarProperty Name="MultiplicaDT" ColumnName="MultiplicaDT" />
+                <ScalarProperty Name="BanderaSDI" ColumnName="BanderaSDI" />
+                <ScalarProperty Name="SumaNetoFinal" ColumnName="SumaNetoFinal" />
+                <ScalarProperty Name="IdConceptoSistema" ColumnName="IdConceptoSistema" />
+                <ScalarProperty Name="AfectaCargaSocial" ColumnName="AfectaCargaSocial" />
+                <ScalarProperty Name="AfectaSeldo" ColumnName="AfectaSeldo" />
+                <ScalarProperty Name="TipoEsquema" ColumnName="TipoEsquema" />
+                <ScalarProperty Name="SDEntre" ColumnName="SDEntre" />
+                <ScalarProperty Name="SDPor" ColumnName="SDPor" />
+                <ScalarProperty Name="CalculaMontos" ColumnName="CalculaMontos" />
+                <ScalarProperty Name="ClaveGpo" ColumnName="ClaveGpo" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="PorcentajeGravado" ColumnName="PorcentajeGravado" />
+                <ScalarProperty Name="CantidadExenta" ColumnName="CantidadExenta" />
+                <ScalarProperty Name="UnidadExenta" ColumnName="UnidadExenta" />
+                <ScalarProperty Name="Exenta" ColumnName="Exenta" />
+                <ScalarProperty Name="IntegraSDI" ColumnName="IntegraSDI" />
+                <ScalarProperty Name="Integrable" ColumnName="Integrable" />
+                <ScalarProperty Name="TipoDato" ColumnName="TipoDato" />
+                <ScalarProperty Name="TipoConcepto" ColumnName="TipoConcepto" />
+                <ScalarProperty Name="Informacion" ColumnName="Informacion" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="ClaveSAT" ColumnName="ClaveSAT" />
+                <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

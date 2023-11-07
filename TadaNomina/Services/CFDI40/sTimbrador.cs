@@ -23,7 +23,8 @@ namespace TadaNomina.Services.CFDI40
                 {
                     wc.Headers.Clear();
                     wc.Headers["Content-type"] = "application/json";
-                    var result = wc.UploadString(apiUrl, JsonConvert.SerializeObject(model));
+                    var json = JsonConvert.SerializeObject(model);
+                    var result = wc.UploadString(apiUrl, json);
 
                     var list = JsonConvert.DeserializeObject<mTimbradoResult>(result);
 

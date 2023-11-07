@@ -179,7 +179,7 @@ namespace TadaNomina.Controllers.Facturacion
             var costeo = ccf.GetListCosteo(IdCosteo, Session["sToken"].ToString());
 
             if (costeo.dividirPatronal == "SI")
-                model.lPatrona = rp.getSelectRegistro((int)Session["sIdCliente"]);
+                model.lPatrona = rp.getSelectRP((int)Session["sIdCliente"]);
 
             model.lDivision = getListDivision(costeo.separadoPor);
             return Json(model, JsonRequestBehavior.AllowGet);

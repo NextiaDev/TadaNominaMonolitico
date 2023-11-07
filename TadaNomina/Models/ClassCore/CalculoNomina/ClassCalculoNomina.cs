@@ -104,7 +104,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     if (IdEstatus == 1 || configuracionNominaEmpleado.IncidenciasAutomaticas == 1)
                     {
-                        ProcesaPension(pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - nominaTrabajo.ImpuestoRetener - nominaTrabajo.IMSS_Obrero), (decimal)nominaTrabajo.ERS, IdUsuario);
+                        decimal? restaPension = incidenciasEmpleado.Where(x=> x.IntegraPension == "NO").Select(x=>x.Monto).Sum();
+                       
+                        ProcesaPension(pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - nominaTrabajo.ImpuestoRetener - nominaTrabajo.IMSS_Obrero - restaPension), (decimal)nominaTrabajo.ERS, IdUsuario);
                         ProcesaSaldos(saldos.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdEmpleado, IdPeriodoNomina, IdUsuario);
                     }
                 }
@@ -271,6 +273,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.DD += nominaTrabajo.IMSS_Obrero;
             nominaTrabajo.DD += montoCreditoInfonavit;
             nominaTrabajo.DD += montoCreditoFonacot;
+
+            if ((UnidadNegocio.BanderaCuotaSindical == "S" && datosEmpleados.IdEstatus == 1))
+            {
+                int IdConcepto = 0;
+                int IdConceptoVacaciones = 0;
+                try { IdConceptoVacaciones = (int)conceptosConfigurados.IdConceptoVacaciones; } catch { throw new Exception("Hay Cuota Sindical , no se configuro ningun concepto. "); }
+                try { IdConcepto = (int)conceptosConfigurados.idConceptoCuotaSindical; } catch { throw new Exception("Hay Cuota Sindical , no se configuro ningun concepto. "); }
+
+                CalculaCuotasSindicales(IdPeriodoNomina, IdEmpleado, IdConcepto, IdConceptoVacaciones, nominaTrabajo.DiasTrabajados, SD_IMSS, IdUsuario);
+            }
 
             if ((UnidadNegocio.DeduccionesEspeciales == "S" && datosEmpleados.IdEstatus == 1) || (configuracionNominaEmpleado.IncidenciasAutomaticas == 1))
             {

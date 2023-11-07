@@ -191,7 +191,8 @@ namespace TadaNomina.Models.ClassCore
                     smgvalcien = conceptos.ExentoPorSueldoMinimo,
                     ConceptoAdicional = conceptos.CreaConceptoAdicional,
                     ClaveConceptos = conceptos.IdConceptoAdicional.ToString(),
-                    DiasHoras = conceptos.CalculoDiasHoras
+                    DiasHoras = conceptos.CalculoDiasHoras,
+                    IntegraPension = conceptos.IntegraPension
                 };
 
                 return modelConceptos;
@@ -314,7 +315,8 @@ namespace TadaNomina.Models.ClassCore
                     ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
                     CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
                     IdConceptoAdicional = Adicional,
-                    CalculoDiasHoras = modelConcepto.DiasHoras
+                    CalculoDiasHoras = modelConcepto.DiasHoras,
+                    IntegraPension = modelConcepto.IntegraPension
                 };
 
                 entidad.Cat_ConceptosNomina.Add(concepto);
@@ -375,6 +377,7 @@ namespace TadaNomina.Models.ClassCore
                     concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
                     concepto.IdConceptoAdicional = Adicional;
                     concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
+                    concepto.IntegraPension = modelConceptos.IntegraPension;
                 }
 
                 entidad.SaveChanges();
@@ -414,7 +417,11 @@ namespace TadaNomina.Models.ClassCore
             _listSINO.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINO.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
-    
+            List<SelectListItem> _Pension = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "SI", Value = "SI" },
+                new SelectListItem { Text = "NO", Value = "NO" }
+            };
 
             List<SelectListItem> _listSINO1 = new List<SelectListItem>();
             _listSINO1.Add(new SelectListItem { Text = "SI", Value = "SI" });
@@ -451,7 +458,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lFactoryValor= _listSINO1;
             modelConceptos.lConceptoAdicional = _listSINO1;
             modelConceptos.lDiasHoras = _listDiasHoras;
-
+            modelConceptos.lstPension = _Pension;
 
             return modelConceptos;
         }
@@ -492,7 +499,13 @@ namespace TadaNomina.Models.ClassCore
             
             List<SelectListItem> _listSINO1 = new List<SelectListItem>();
             _listSINO1.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINO1.Add(new SelectListItem { Text = "NO", Value = "NO" });            
+            _listSINO1.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _Pension = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "SI", Value = "SI" },
+                new SelectListItem { Text = "NO", Value = "NO" }
+            };
 
             List<SelectListItem> _UnidadExenta = new List<SelectListItem>();
             _UnidadExenta.Add(new SelectListItem { Text = "SMGV", Value = "SMGV" });
@@ -523,7 +536,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lFactoryValor = _listSINO1;
             modelConceptos.lConceptoAdicional = _listSINO1;
             modelConceptos.lDiasHoras = _listDiasHoras;
-
+            modelConceptos.lstPension = _Pension;
 
             return modelConceptos;
         }
