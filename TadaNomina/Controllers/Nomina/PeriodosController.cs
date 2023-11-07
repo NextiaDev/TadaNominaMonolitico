@@ -30,7 +30,6 @@ namespace TadaNomina.Controllers.Nomina
         public ActionResult Create()
         {
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
-            ViewBag.BanderaRelojChecador = Session["sRelojChecador"].ToString();
             ClassPeriodoNomina cperiodos = new ClassPeriodoNomina();
             ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio);
             return View(model);
@@ -90,7 +89,6 @@ namespace TadaNomina.Controllers.Nomina
         {
             ClassPeriodoNomina cperiodos = new ClassPeriodoNomina();
             int IdUnidad = (int)Session["sIdUnidadNegocio"];
-            ViewBag.BanderaRelojChecador = Session["sRelojChecador"].ToString();
             ModelPeriodoNomina modelo = cperiodos.GetModelPeriodoNominasId(Id);
             ModelPeriodoNomina model = cperiodos.FindListPeriodos(modelo, IdUnidad);
             return View(model);
