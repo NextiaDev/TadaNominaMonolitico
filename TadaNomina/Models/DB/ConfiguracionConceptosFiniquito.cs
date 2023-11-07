@@ -25,15 +25,15 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdConceptoFonacot { get; set; }
         public Nullable<int> IdConceptoInfonavit { get; set; }
         public Nullable<int> IdConceptoPensionAlimenticia { get; set; }
-        public Nullable<int> IdEstatus { get; set; }
-        public Nullable<int> IdCaptura { get; set; }
-        public Nullable<System.DateTime> FechaCaptura { get; set; }
-        public Nullable<int> IdModifica { get; set; }
-        public Nullable<System.DateTime> FechaModifica { get; set; }
         public Nullable<int> idConceptoIncapacidadaccidenteTrayecto { get; set; }
         public Nullable<int> idConceptoEnfermedadGeneral { get; set; }
         public Nullable<int> idConceptoMaternidad { get; set; }
         public Nullable<int> idConceptoRiesgodeTrabajo { get; set; }
         public Nullable<int> idConceptoCuotaSindical { get; set; }
+        public Nullable<int> IdEstatus { get; set; }
+        public Nullable<int> IdCaptura { get; set; }
+        public Nullable<System.DateTime> FechaCaptura { get; set; }
+        public Nullable<int> IdModifica { get; set; }
+        public Nullable<System.DateTime> FechaModifica { get; set; }
     }
 }

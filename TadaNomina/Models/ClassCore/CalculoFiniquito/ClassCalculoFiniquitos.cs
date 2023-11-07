@@ -284,6 +284,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         {
             nominaTrabajo.Dias_Vacaciones = 0;
             DiasVacacionesEsquema = 0;
+            DiasVacacionesFactorIntegracion = ObtenDiasVacacionesPorFactorIntegracion((decimal)nominaTrabajo.Anios, IdPrestacionesEmpleado);
             int? IdConceptoVac = 0;
             try { IdConceptoVac = conceptosFiniquitos.IdConceptoVacaciones; } catch { IdConceptoVac = 0; }
 
@@ -300,8 +301,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                     nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
                 }
                 else
-                {
-                    DiasVacacionesFactorIntegracion = ObtenDiasVacacionesPorFactorIntegracion((decimal)nominaTrabajo.Anios, IdPrestacionesEmpleado );
+                {                   
                     nominaTrabajo.Dias_Vacaciones = Math.Round((AntiguedadGeneradaUltimoAño * DiasVacacionesFactorIntegracion), 14);
                     nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
                     DiasVacacionesEsquema = (decimal)nominaTrabajo.Dias_Vacaciones;
@@ -325,7 +325,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         /// </summary>
         private void CalculaPrimaVacacional()
         {
-            PorcentajePVFactorIntegracion = 0;            
+            PorcentajePVFactorIntegracion = 0;
+            PorcentajePVFactorIntegracion = ObtenPorcentajePVPorFactorIntegracion((decimal)nominaTrabajo.Anios, IdPrestacionesEmpleado);
             int? IdConceptoPV = 0;
             try { IdConceptoPV = conceptosFiniquitos.IdConceptoPV; } catch { IdConceptoPV = 0; }
 
@@ -339,8 +340,6 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 }
                 else
                 {
-                    PorcentajePVFactorIntegracion = ObtenPorcentajePVPorFactorIntegracion((decimal)nominaTrabajo.Anios, IdPrestacionesEmpleado);
-
                     if (nominaTrabajo.Dias_Vacaciones > 0 && IdConceptoPV != null)
                     {
                         CrearIncidencias((int)IdConceptoPV, (decimal)nominaTrabajo.Dias_Vacaciones, DiasVacacionesEsquema, 0, PorcentajePVFactorIntegracion, null, null, AntiguedadGeneradaUltimoAño);
@@ -356,6 +355,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         {
             DiasAguinaldoFactorIntegracion = 0;
             DiasAguinaldoFactorIntegracionEsquema = 0;
+            DiasAguinaldoFactorIntegracion = ObtenDiasAguinaldoPorFactorIntegracion((decimal)nominaTrabajo.Anios, IdPrestacionesEmpleado);
             decimal _FactorAguinaldo = 0;
             decimal _FactorAguinaldoEsquema = 0;
             int? IdConceptoAguinaldo = 0;
@@ -372,7 +372,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 }
                 else
                 {
-                    DiasAguinaldoFactorIntegracion = ObtenDiasAguinaldoPorFactorIntegracion((decimal)nominaTrabajo.Anios, IdPrestacionesEmpleado);                    
+                                      
                     _FactorAguinaldo = Math.Round(FactorDiasTrabajadosEjercicio * DiasAguinaldoFactorIntegracion, 6);
                     _FactorAguinaldoEsquema = _FactorAguinaldo;
 
