@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
-    string FlagChecador = ViewBag.BanderaRelojChecador;
 }
 
 
@@ -61,7 +60,7 @@
                                 @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        @if (FlagChecador == "SI")
+                        @if (Session["sRelojChecador"].ToString() == "SI")
                         {
                             <div class="form-group" id="rc" hidden>
                                 @Html.LabelFor(model => model.FechaInicioChecador, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -270,8 +269,8 @@
         });
     });
 
-    $('#TipoNominaS').change(function () {
-        if ($('#TipoNominaS').val() == "Nomina") {
+    $('#TipoNomina').change(function () {
+        if ($('#TipoNomina').val() == "Nomina") {
             $('#rc').removeAttr('hidden');
             $('#rc').show();
         }
