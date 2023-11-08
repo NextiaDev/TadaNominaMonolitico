@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
-    string FlagChecador = ViewBag.BanderaRelojChecador;
 }
 
 <div id="page-head">
@@ -69,7 +68,7 @@
                         </div>
                         <br />
 
-                        @if (FlagChecador == "SI")
+                        @if (Session["sRelojChecador"].ToString() == "SI")
                         {
                             <div class="form-group" id="rc" hidden>
                                 @Html.LabelFor(model => model.FechaInicioChecador, htmlAttributes: new { @class = "control-label col-md-2" })
