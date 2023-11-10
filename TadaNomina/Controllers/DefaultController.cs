@@ -13,7 +13,7 @@ namespace TadaNomina.Controllers
     {
         // GET: Default
         public ActionResult Index(string Mensaje)
-        {            
+        {   
             var listClientes = new List<SelectListItem>();
             var modelSeleccionarNomina = new ModelSelecionarNomina();
             string token = Session["sToken"].ToString();

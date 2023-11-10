@@ -68,8 +68,13 @@ namespace TadaNomina.Controllers
                         string[] user = { "System", "Usuario" };
                         if (user.Contains(model.User.Tipo))
                         {
-                            CreaVariablesSession(model);
-                            return RedirectToAction("Index", "Default");
+                            if (model.Modulo.Contains("NOMINA") )
+                            {
+                                CreaVariablesSession(model);
+                                return RedirectToAction("Index", "Default");
+                            }
+                            else
+                                throw new Exception("Tipo de usuario no valido.");
                         }
                         else
                             throw new Exception("Tipo de usuario no valido.");
