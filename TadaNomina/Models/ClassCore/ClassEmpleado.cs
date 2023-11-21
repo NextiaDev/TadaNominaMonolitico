@@ -187,12 +187,45 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                var departaments = (from b in entity.Cat_Departamentos where b.IdCliente == idCliente select b).OrderBy(x => x.Departamento).ToList();
+                var departaments = (from b in entity.Cat_Departamentos where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Departamento).ToList();
 
                 departaments.ForEach(x => { departamentos.Add(new SelectListItem { Text = x.Departamento.ToUpper(), Value = x.IdDepartamento.ToString() }); });
             }
 
             return departamentos;
+        }
+
+        /// <summary>
+        ///     Obtiene una lista de departamentos activos y el departamento que tiene asignado el empleado
+        /// </summary>
+        /// <param name="IdDepartamento">Id del departamento</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        /// <returns>Lista de departamentos</returns>
+        public List<SelectListItem> GetDepartamentosActivoseInactivo(int? IdDepartamento, int IdCliente)
+        {
+           
+            List<SelectListItem> Lista = new List<SelectListItem>();
+            Cat_Departamentos depto = new Cat_Departamentos();
+            Lista = GetDepartamentos(IdCliente);
+            if (IdDepartamento != null)
+            {
+                try
+                {
+                    using (TadaEmpleados ctx = new TadaEmpleados())
+                    {
+                        depto = ctx.Cat_Departamentos.Where(x => x.IdDepartamento == IdDepartamento).FirstOrDefault();
+                    }
+                    if (depto != null)
+                    {
+                        if (depto.IdEstatus == 2)
+                        {
+                            Lista.Add(new SelectListItem { Text = depto.Departamento.ToUpper() + " -Inactivo-", Value = depto.IdDepartamento.ToString() });
+                        }
+                    }
+                } 
+                catch{}
+            }
+            return Lista;
         }
 
         public List<SelectListItem> GetSindicatosClientes(int idCliente)
@@ -222,12 +255,44 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                var p = (from b in entity.Cat_Puestos where b.IdCliente == idCliente select b).OrderBy(x => x.Puesto).ToList();
+                var p = (from b in entity.Cat_Puestos where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Puesto).ToList();
 
                 p.ForEach(x => { Puestos.Add(new SelectListItem { Text = x.Puesto.ToUpper(), Value = x.IdPuesto.ToString() }); });
             }
 
             return Puestos;
+        }
+
+        /// <summary>
+        ///     Método que obtiene una lista de puestos activos y el puesto que tiene asignado el empleado
+        /// </summary>
+        /// <param name="IdPuesto">Id del puesto</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        /// <returns>Lista de puestos</returns>
+        public List<SelectListItem> GetPuestosActivosInactivos(int? IdPuesto, int IdCliente)
+        {
+            List<SelectListItem> Lista = new List<SelectListItem>();
+            Cat_Puestos Puesto = new Cat_Puestos();
+            Lista = GetPuestos(IdCliente);
+            if (IdPuesto != null)
+            {
+                try
+                {
+                    using (TadaEmpleados ctx = new TadaEmpleados())
+                    {
+                        Puesto = ctx.Cat_Puestos.Where(x => x.IdPuesto == IdPuesto).FirstOrDefault();
+                    }
+                    if (Puesto != null)
+                    {
+                        if (Puesto.IdEstatus == 2)
+                        {
+                            Lista.Add(new SelectListItem { Text = Puesto.Puesto.ToUpper() + " -Inactivo-", Value = Puesto.IdPuesto.ToString() });
+                        }
+                    }
+                }
+                catch { }
+            }
+            return Lista;
         }
 
         /// <summary>
@@ -242,12 +307,44 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                var p = (from b in entity.Cat_Sucursales where b.IdCliente == idCliente select b).OrderBy(x => x.Sucursal).ToList();
+                var p = (from b in entity.Cat_Sucursales where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Sucursal).ToList();
 
                 p.ForEach(x => { sucursales.Add(new SelectListItem { Text = x.Sucursal.ToUpper(), Value = x.IdSucursal.ToString() }); });
             }
 
             return sucursales;
+        }
+
+        /// <summary>
+        ///     Método que obtiene una lista de sucursales activas y la sucursal que tiene asignado el empleado
+        /// </summary>
+        /// <param name="IdSucursal">Id de la sucursal</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        /// <returns>Lista de sucursales</returns>
+        public List<SelectListItem> GetSucursalesActivosInactivos(int? IdSucursal, int IdCliente)
+        {
+            List<SelectListItem> Lista = new List<SelectListItem>();
+            Cat_Sucursales Sucursales = new Cat_Sucursales();
+            Lista = GetSucursales(IdCliente);
+            if (IdSucursal != null)
+            {
+                try
+                {
+                    using (TadaNominaEntities ctx = new TadaNominaEntities())
+                    {
+                        Sucursales = ctx.Cat_Sucursales.Where(x => x.IdSucursal == IdSucursal).FirstOrDefault();
+                    }
+                    if (Sucursales != null)
+                    {
+                        if (Sucursales.IdEstatus == 2)
+                        {
+                            Lista.Add(new SelectListItem { Text = Sucursales.Sucursal.ToUpper() + " -Inactivo-", Value = Sucursales.IdSucursal.ToString() });
+                        }
+                    }
+                }
+                catch { }
+            }
+            return Lista;
         }
 
         /// <summary>
@@ -261,12 +358,44 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                var cc = (from b in entity.Cat_CentroCostos where b.IdCliente == idCliente select b).OrderBy(x => x.CentroCostos).ToList();
+                var cc = (from b in entity.Cat_CentroCostos where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.CentroCostos).ToList();
 
                 cc.ForEach(x => { CentrosCostos.Add(new SelectListItem { Text = x.CentroCostos.ToUpper(), Value = x.IdCentroCostos.ToString() }); });
             }
 
             return CentrosCostos;
+        }
+
+        /// <summary>
+        ///     Método que obtiene una lista de centros de costos activos y el centro de costos que tiene asignado el emleado
+        /// </summary>
+        /// <param name="IdCC">Id del centro de costos</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        /// <returns>Lista de centros de costos</returns>
+        public List<SelectListItem> GetCentroCostosActivosInactivos(int? IdCC, int IdCliente)
+        {
+            List<SelectListItem> Lista = new List<SelectListItem>();
+            Cat_CentroCostos CC = new Cat_CentroCostos();
+            Lista = GetCentrosCostos(IdCliente);
+            if (IdCC != null)
+            {
+                try
+                {
+                    using (TadaNominaEntities ctx = new TadaNominaEntities())
+                    {
+                        CC = ctx.Cat_CentroCostos.Where(x => x.IdCentroCostos == IdCC).FirstOrDefault();
+                    }
+                    if (CC != null)
+                    {
+                        if (CC.IdEstatus == 2)
+                        {
+                            Lista.Add(new SelectListItem { Text = CC.CentroCostos.ToUpper() + " -Inactivo-", Value = CC.IdCentroCostos.ToString() });
+                        }
+                    }
+                }
+                catch { }
+            }
+            return Lista;
         }
 
         /// <summary>
@@ -313,12 +442,44 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaNominaEntities entity = new TadaNominaEntities())
             {
-                var ef = (from b in entity.Cat_Areas where b.IdCliente == idCliente select b).ToList();
+                var ef = (from b in entity.Cat_Areas where b.IdCliente == idCliente && b.IdEstatus == 1 select b).ToList();
 
                 ef.ForEach(x => { Area.Add(new SelectListItem { Text = x.Area.ToUpper(), Value = x.IdArea.ToString() }); });
             }
 
             return Area;
+        }
+
+        /// <summary>
+        ///     Método que obtiene una lista de áreas activas y el área que tiene asignado el empleado
+        /// </summary>
+        /// <param name="IdArea">Id del área</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        /// <returns>Lista de áreas</returns>
+        public List<SelectListItem> GetAreasActivosInactivos(int? IdArea, int IdCliente)
+        {
+            List<SelectListItem> Lista = new List<SelectListItem>();
+            Cat_Areas Areas = new Cat_Areas();
+            Lista = GetAre(IdCliente);
+            if (IdArea != null)
+            {
+                try
+                {
+                    using (TadaNominaEntities ctx = new TadaNominaEntities())
+                    {
+                        Areas = ctx.Cat_Areas.Where(x => x.IdArea == IdArea).FirstOrDefault();
+                    }
+                    if (Areas != null)
+                    {
+                        if (Areas.IdEstatus == 2)
+                        {
+                            Lista.Add(new SelectListItem { Text = Areas.Area.ToUpper() + " -Inactivo-", Value = Areas.IdArea.ToString() });
+                        }
+                    }
+                }
+                catch { }
+            }
+            return Lista;
         }
 
         /// <summary>
@@ -928,19 +1089,27 @@ namespace TadaNomina.Models.ClassCore
 
                 empleado.IdUnidadNegocio = emp.IdUnidadNegocio;
                 empleado.IdCentroCostos = emp.IdCentroCostos;
-                empleado.CentrosCostosList = GetCentrosCostos(IdCliente);
+                //empleado.CentrosCostosList = GetCentrosCostos(IdCliente);
+                empleado.CentrosCostosList = GetCentroCostosActivosInactivos(emp.IdCentroCostos, IdCliente);
 
                 empleado.IdDepartamento = emp.IdDepartamento;
-                empleado.DepartamentoList = GetDepartamentos(IdCliente);
+                //empleado.DepartamentoList = GetDepartamentos(IdCliente);
+                empleado.DepartamentoList = GetDepartamentosActivoseInactivo(emp.IdDepartamento, IdCliente);
+
                 empleado.idArea = emp.IdArea;
-                empleado.AreaList = GetAre(IdCliente);
+                //empleado.AreaList = GetAre(IdCliente);
+                empleado.AreaList = GetAreasActivosInactivos(emp.IdArea, IdCliente);
+
                 empleado.Idsindicato = emp.idSindicato;
                 empleado.SindicatoList = GetSindicato();
+
                 empleado.IdPuesto = emp.IdPuesto;
-                empleado.PuestosList = GetPuestos(IdCliente);
+                //empleado.PuestosList = GetPuestos(IdCliente);
+                empleado.PuestosList = GetPuestosActivosInactivos(emp.IdPuesto, IdCliente);
 
                 empleado.IdSucursal = emp.IdSucursal;
-                empleado.SucursalList = GetSucursales(IdCliente);
+                //empleado.SucursalList = GetSucursales(IdCliente);
+                empleado.SucursalList = GetSucursalesActivosInactivos(emp.IdSucursal, IdCliente);
 
                 empleado.IdRegistroPatronal = emp.IdRegistroPatronal;
                 empleado.RegistrosPatronalesList = GetRegistrosPatronales(IdCliente);
