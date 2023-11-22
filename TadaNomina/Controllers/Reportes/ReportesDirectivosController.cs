@@ -12,7 +12,7 @@ namespace TadaNomina.Controllers.Reportes
         // GET: ReportesDirectivos
         public ActionResult Index()
         {
-            ClassReportesRirectivos crd = new ClassReportesRirectivos();
+            ClassReportesDirectivos crd = new ClassReportesDirectivos();
             int IdUnidadNegocio = int.Parse(Session["sIdUnidadNegocio"].ToString());
             ViewBag.LstPeriodos = crd.GetLstPeriodos(IdUnidadNegocio);
             return View();
