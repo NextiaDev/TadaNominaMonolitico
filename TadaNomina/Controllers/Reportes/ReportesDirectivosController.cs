@@ -21,6 +21,7 @@ namespace TadaNomina.Controllers.Reportes
         [HttpPost]
         public ActionResult Index(string[] LstPeriodos)
         {
+
             return View();
         }
     }
