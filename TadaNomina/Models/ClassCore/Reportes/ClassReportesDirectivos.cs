@@ -8,7 +8,7 @@ using TadaNomina.Models.ViewModels.Nominas;
 
 namespace TadaNomina.Models.ClassCore.Reportes
 {
-    public class ClassReportesRirectivos
+    public class ClassReportesDirectivos
     {
         public List<SelectListItem> GetLstPeriodos(int IdUnidadNegocio)
         {

@@ -5,11 +5,12 @@ using System.Web;
 
 namespace TadaNomina.Models.ViewModels.Reportes
 {
-    public class ClassReportesDirectivos
+    public class ModelReportesDirectivos
     {
         public int NumEmpleados { get; set; }
         public decimal TotalPercep { get; set; }
         public decimal TotalPercepEsq { get; set; }
+        public decimal ImssPatron { get; set; }
         public decimal ImssObrero { get; set; }
         public decimal TotalPatron { get; set; }
         public decimal ISN { get; set; }
