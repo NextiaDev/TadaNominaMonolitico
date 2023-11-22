@@ -396,9 +396,11 @@
     <Compile Include="Controllers\Reportes\ReporteAnaliticaController.cs" />
     <Compile Include="Controllers\Reportes\ReporteContableController.cs" />
     <Compile Include="Controllers\Reportes\ReporteEmpleadosController.cs" />
+    <Compile Include="Controllers\Reportes\ReporteGVController.cs" />
     <Compile Include="Controllers\Reportes\ReporteIMSSController.cs" />
     <Compile Include="Controllers\Reportes\ReporteIncidenciasController.cs" />
     <Compile Include="Controllers\Reportes\ReporteNominaController.cs" />
+    <Compile Include="Controllers\Reportes\ReportesDirectivosController.cs" />
     <Compile Include="Controllers\Soporte\ReportarProblemaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -418,6 +420,7 @@
     <Compile Include="Models\ClassCore\cCompensaciones.cs" />
     <Compile Include="Models\ClassCore\cHonorarios.cs" />
     <Compile Include="Models\ClassCore\ClassActualizaNetos.cs" />
+    <Compile Include="Models\ClassCore\Reportes\ClassArchivoGV.cs" />
     <Compile Include="Models\ClassCore\ClassArchivosBancos.cs" />
     <Compile Include="Models\ClassCore\ClassArea.cs" />
     <Compile Include="Models\ClassCore\ClassAreas.cs" />
@@ -507,6 +510,7 @@
     <Compile Include="Models\ClassCore\Reportes\ClassReportesIMSS.cs" />
     <Compile Include="Models\ClassCore\Reportes\ClassReportesIncidencias.cs" />
     <Compile Include="Models\ClassCore\Reportes\ClassReportesPDF.cs" />
+    <Compile Include="Models\ClassCore\Reportes\ClassReportesRirectivos.cs" />
     <Compile Include="Models\ClassCore\Reportes\cReportesAnalitica.cs" />
     <Compile Include="Models\ClassCore\Reportes\cReportesNomina.cs" />
     <Compile Include="Models\ClassCore\Saldos.cs" />
@@ -1375,6 +1379,7 @@
     <Compile Include="Models\ViewModels\Reportes\ModelRepByFechasTM.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelReporteByFechas.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelReporteByIdPeriodo.cs" />
+    <Compile Include="Models\ViewModels\Reportes\ModelReporteGV.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelReporteHonorarios.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelReporteIncidencias.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelReporteNomina.cs" />
@@ -6569,6 +6574,7 @@
     <Content Include="Models\DB\ModelBallistic.edmx.diagram">
       <DependentUpon>ModelBallistic.edmx</DependentUpon>
     </Content>
+    <Content Include="Formatos\Marcas.xlsx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -6923,6 +6929,8 @@
     <Content Include="Views\SindicatosClientes\Details.cshtml" />
     <Content Include="Views\SindicatosClientes\Edit.cshtml" />
     <Content Include="Views\SindicatosClientes\Index.cshtml" />
+    <Content Include="Views\ReporteGV\Index.cshtml" />
+    <Content Include="Views\ReportesDirectivos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
