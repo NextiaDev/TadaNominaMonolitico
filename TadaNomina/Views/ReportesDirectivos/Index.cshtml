@@ -9,17 +9,17 @@
         <div class="panel-body">
             @using (Html.BeginForm("Index", "ReportesDirectivos", FormMethod.Post))
             {
-                <div class="row">
+            <div class="row">
                     <h3 class="text-center">Periodos</h3>
-                    <h5>Seleccionar periodos</h5>
-                    <br />
-                    @Html.DropDownList("LstPeriodos", LstPeriodos, "Seleccionar", new { @class = "form-control", @multiple = "multiple", id = "chosen" })
-                </div>
+                <h5>Seleccionar periodos</h5>
                 <br />
-                <div class="text-right">
+                    @Html.DropDownList("LstPeriodos", LstPeriodos, "Seleccionar", new { @class = "form-control", @multiple = "multiple", id = "chosen" })
+            </div>
+            <br />
+            <div class="text-right">
                     @*<button class="btn btn-sm btn-primary" id="btnSend">Enviar</button>*@
                     <button class="btn btn-sm btn-primary" type="submit">Enviar</button>
-                </div>
+            </div>
             }
         </div>
     </div>
