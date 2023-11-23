@@ -17,30 +17,17 @@
             </div>
             <br />
             <div class="text-right">
-                    @*<button class="btn btn-sm btn-primary" id="btnSend">Enviar</button>*@
                     <button class="btn btn-sm btn-primary" type="submit">Enviar</button>
             </div>
             }
         </div>
     </div>
 </div>
-<div id="ruta" data-ruta="@Url.Action("Index","ReportesDirectivos")"></div>
 @section Scripts{
     <script src="~/plugins/chosen/chosen.jquery.js"></script>
     <script>
         $('#chosen').chosen({
             width: '100%'
         });
-        //$('#btnSend').click(function () {
-        //    console.log('btn');
-        //    $.ajax({
-        //        type: 'POST',
-        //        url: $('#ruta').attr('data-ruta'),
-        //        data: { LstPeriodos: $('#chosen').val() },
-        //        success: function (result) {
-                    
-        //        }
-        //    })
-        //});
     </script>
 }
