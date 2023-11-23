@@ -1,46 +1,33 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Entidades";
     Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
     List<SelectListItem> LstPeriodos = (List<SelectListItem>)ViewBag.LstPeriodos;
 }
 <div id="page-content">
     <div class="panel col-md-6 col-lg-offset-3">
         <div class="panel-body">
-            @using (Html.BeginForm("Index", "ReportesDirectivos", FormMethod.Post))
+            @using (Html.BeginForm("Entidades", "ReportesDirectivos", FormMethod.Post))
             {
                 <div class="row">
-                    <h3 class="text-center">Periodos</h3>
+                    <h3 class="text-center">Entidades</h3>
                     <h5>Seleccionar periodos</h5>
                     <br />
                     @Html.DropDownList("LstPeriodos", LstPeriodos, "Seleccionar", new { @class = "form-control", @multiple = "multiple", id = "chosen" })
                 </div>
                 <br />
                 <div class="text-right">
-                    @*<button class="btn btn-sm btn-primary" id="btnSend">Enviar</button>*@
                     <button class="btn btn-sm btn-primary" type="submit">Enviar</button>
                 </div>
             }
         </div>
     </div>
 </div>
-<div id="ruta" data-ruta="@Url.Action("Index","ReportesDirectivos")"></div>
 @section Scripts{
     <script src="~/plugins/chosen/chosen.jquery.js"></script>
     <script>
         $('#chosen').chosen({
             width: '100%'
         });
-        //$('#btnSend').click(function () {
-        //    console.log('btn');
-        //    $.ajax({
-        //        type: 'POST',
-        //        url: $('#ruta').attr('data-ruta'),
-        //        data: { LstPeriodos: $('#chosen').val() },
-        //        success: function (result) {
-                    
-        //        }
-        //    })
-        //});
     </script>
 }

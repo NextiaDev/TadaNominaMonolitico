@@ -6933,6 +6933,9 @@
     <Content Include="Views\SindicatosClientes\Index.cshtml" />
     <Content Include="Views\ReporteGV\Index.cshtml" />
     <Content Include="Views\ReportesDirectivos\Index.cshtml" />
+    <Content Include="Views\ReportesDirectivos\Entidades.cshtml" />
+    <Content Include="Views\ReportesDirectivos\CC.cshtml" />
+    <Content Include="Views\ReportesDirectivos\Patrona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
