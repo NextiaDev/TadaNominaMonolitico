@@ -67,7 +67,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 ISR = 0.00M,
                 ImssObrero = 0.00M
             };
-            List<string> encabezados = new List<string> { "Periodo", "Sun Empleados", "Total_Patron", "ISN", "Total Percep", "Apoyo","ISR","IMSS Obrero" };
+            List<string> encabezados = new List<string> { "Periodo", "Sum Empleados", "Total_Patron", "ISN", "Total Percep", "Apoyo","ISR","IMSS Obrero" };
 
             foreach (var item in encabezados)
             {
@@ -141,7 +141,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
         public byte[] ExcelByEntidad(List<ModelReportesDirectivos> Datos)
         {
             List<DataColumn> columns = new List<DataColumn>();
-            List<string> encabezados = new List<string> { "Entidad", "Sun Empleados", "Total Percep", "Total Percep Esq", "ISR", "IMSS Obrero", "Total Deduc.", "Total_Patron" };
+            List<string> encabezados = new List<string> { "Entidad", "Sum Empleados", "Total Percep", "Total Percep Esq", "ISR", "IMSS Obrero", "Total Deduc.", "Total_Patron" };
             ModelReportesDirectivos Totales = new ModelReportesDirectivos
             {
                 NumEmpleados = 0,
@@ -223,7 +223,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
         public byte[] ExcelByCC(List<ModelReportesDirectivos> Datos)
         {
             List<DataColumn> columns = new List<DataColumn>();
-            List<string> encabezados = new List<string> { "CC", "Sun Empleados", "Total Percep", "Total Percep Esq", "ISR", "IMSS Obrero", "Total_Patron", "ISN" };
+            List<string> encabezados = new List<string> { "CC", "Sum Empleados", "Total Percep", "Total Percep Esq", "ISR", "IMSS Obrero", "Total_Patron", "ISN" };
             ModelReportesDirectivos Totales = new ModelReportesDirectivos
             {
                 NumEmpleados = 0,
@@ -306,7 +306,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
         public byte[] ExcelByPatrona(List<ModelReportesDirectivos> Datos)
         {
             List<DataColumn> columns = new List<DataColumn>();
-            List<string> encabezados = new List<string> { "Patrona", "Sun Empleados", "Total Percep", "Total Percep Esq", "IMSS Obrero", "Total_Patron", "ISN", "ISR" };
+            List<string> encabezados = new List<string> { "Patrona", "Sum Empleados", "Total Percep", "Total Percep Esq", "IMSS Obrero", "Total_Patron", "ISN", "ISR" };
             ModelReportesDirectivos Totales = new ModelReportesDirectivos
             {
                 NumEmpleados = 0,
