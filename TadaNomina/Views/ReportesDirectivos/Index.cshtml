@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    List<SelectListItem> LstPeriodos = (List<SelectListItem>)ViewBag.LstPeriodos;
+}
+<div id="page-content">
+    <div class="panel col-md-6 col-lg-offset-3">
+        <div class="panel-body">
+            @using (Html.BeginForm("Index", "ReportesDirectivos", FormMethod.Post))
+            {
+            <div class="row">
+                    <h3 class="text-center">Periodos</h3>
+                <h5>Seleccionar periodos</h5>
+                <br />
+                    @Html.DropDownList("LstPeriodos", LstPeriodos, "Seleccionar", new { @class = "form-control", @multiple = "multiple", id = "chosen" })
+            </div>
+            <br />
+            <div class="text-right">
+                    <button class="btn btn-sm btn-primary" type="submit">Enviar</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/plugins/chosen/chosen.jquery.js"></script>
+    <script>
+        $('#chosen').chosen({
+            width: '100%'
+        });
+    </script>
+}
