@@ -117,7 +117,7 @@ namespace TadaNomina.Models.DB
             var añoParameter = año.HasValue ?
                 new ObjectParameter("Año", año) :
                 new ObjectParameter("Año", typeof(int));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_AcumuladoFaltasAnual_Result>("sp_AcumuladoFaltasAnual", idUnidadNegocioParameter, añoParameter);
         }
     
