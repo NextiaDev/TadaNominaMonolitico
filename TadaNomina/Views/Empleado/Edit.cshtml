@@ -214,43 +214,43 @@
                             <br />
 
                             @*<table id="tablaPer" class="table table-hover table-bordered" style="display:none">
-                            <thead>
-                                <tr>
-                                    <th colspan="3" style="text-align:center">
-                                        Periodos en los que el empleado tiene calculo abierto!
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        @Html.Label("Id")
-                                    </th>
-                                    <th>
-                                        @Html.Label("Periodo")
-                                    </th>
-                                    <th>
-                                        @Html.Label("Seleccionar")
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for(int i = 0; i< Model.lPeriodosProcesados.Count; i++)
-                                {
-                                    @Html.HiddenFor(x=> Model.lPeriodosProcesados[i].IdPeriodoNomina)
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(y => Model.lPeriodosProcesados[i].IdPeriodoNomina)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(y => Model.lPeriodosProcesados[i].Periodo)
-                                        </td>
-                                        <td>
-                                            @Html.CheckBoxFor(y => Model.lPeriodosProcesados[i].Validacion)
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" style="text-align:center">
+                                                Periodos en los que el empleado tiene calculo abierto!
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                @Html.Label("Id")
+                                            </th>
+                                            <th>
+                                                @Html.Label("Periodo")
+                                            </th>
+                                            <th>
+                                                @Html.Label("Seleccionar")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for(int i = 0; i< Model.lPeriodosProcesados.Count; i++)
+                                        {
+                                            @Html.HiddenFor(x=> Model.lPeriodosProcesados[i].IdPeriodoNomina)
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(y => Model.lPeriodosProcesados[i].IdPeriodoNomina)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(y => Model.lPeriodosProcesados[i].Periodo)
+                                                </td>
+                                                <td>
+                                                    @Html.CheckBoxFor(y => Model.lPeriodosProcesados[i].Validacion)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
 
-                        </table>*@
+                                </table>*@
                         </div>
                     </div>
                     <hr />
@@ -277,7 +277,7 @@
                             }
                             @Html.Label("Reloj checador", new { @class = "control-label col-md-1" })
                             <div class="col-md-1" style="padding:0.4%">
-                                @Html.CheckBoxFor(mode=>Model.RelojChecador, new { onclick = "Premio(this)", id = "Reloj" })
+                                @Html.CheckBoxFor(mode => Model.RelojChecador, new { onclick = "Premio(this)", id = "Reloj" })
                             </div>
                         }
                     </div>
@@ -484,8 +484,9 @@
 
                         @Html.LabelFor(model => model.idArea, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.idArea, Model.AreaList, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.idArea, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.idArea, Model.AreaList, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "ValidaArea(this.value)", id = "IdArea" })
+                            @*@Html.ValidationMessageFor(model => model.idArea, "", new { @class = "text-danger" })*@
+                            <small class="text-danger" id="lblArea" hidden>El área asignada está inactiva, es necesario cambiarla por una activa.</small>
                         </div>
                     </div>
 
@@ -504,31 +505,39 @@
                         </div>
                     </div>
 
+
+
+
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.IdDepartamento, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.IdDepartamento, Model.DepartamentoList, "Elegir..", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.IdDepartamento, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.IdDepartamento, Model.DepartamentoList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "ValidaDepartamentos(this.value)", id = "IdDepartamento" })
+                            @*@Html.ValidationMessageFor(model => model.IdDepartamento, "", new { @class = "text-danger" })*@
+                            <small class="text-danger" id="lblDepartamento" hidden>El departamento asignado está inactivo, es necesario cambiarlo por uno activo.</small>
                         </div>
 
                         @Html.LabelFor(model => model.IdPuesto, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.IdPuesto, Model.PuestosList, "Elegir..", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.IdPuesto, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.IdPuesto, Model.PuestosList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "ValidaPuesto(this.value)", id = "IdPuesto" })
+                            @*@Html.ValidationMessageFor(model => model.IdPuesto, "", new { @class = "text-danger" })*@
+                            <small class="text-danger" id="lblPuesto" hidden>El puesto asignado está inactivo, es necesario cambiarlo por uno activo.</small>
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.IdCentroCostos, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.IdCentroCostos, Model.CentrosCostosList, "Elegir..", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.IdCentroCostos, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.IdCentroCostos, Model.CentrosCostosList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "ValidaCC(this.value)", id = "IdCC" })
+                            @*@Html.ValidationMessageFor(model => model.IdCentroCostos, "", new { @class = "text-danger" })*@
+                            <small class="text-danger" id="lblCC" hidden>El centro de costos asignado está inactivo, es necesario cambiarlo por uno activo.</small>
                         </div>
 
                         @Html.LabelFor(model => model.IdSucursal, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.IdSucursal, Model.SucursalList, "Elegir..", htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.IdSucursal, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.IdSucursal, Model.SucursalList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "ValidaSucursal(this.value)", id = "IdSucursal" })
+                            @*@Html.ValidationMessageFor(model => model.IdSucursal, "", new { @class = "text-danger" })*@
+                            <small class="text-danger" id="lblSucursal" hidden>La sucursal asignada está inactiva, es necesario cambiarla por una activa.</small>
                         </div>
                     </div>
 
@@ -573,21 +582,21 @@
                         </div>
                     </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.IdSindicatos, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.DropDownListFor(model => model.IdSindicatos, Model.SindicatosoList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontress();", @id = "_Valor" })
-                        @Html.ValidationMessageFor(model => model.IdSindicatos, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdSindicatos, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.IdSindicatos, Model.SindicatosoList, "Elegir..", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontress();", @id = "_Valor" })
+                            @Html.ValidationMessageFor(model => model.IdSindicatos, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group" id="Conceptosd" style="display: none">
-                    @Html.LabelFor(model => model.NSindicato, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(model => model.NSindicato, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.NSindicato, "", new { @class = "text-danger" })
-                    </div>
+                    <div class="form-group" id="Conceptosd" style="display: none">
+                        @Html.LabelFor(model => model.NSindicato, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.NSindicato, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NSindicato, "", new { @class = "text-danger" })
+                        </div>
 
-                </div>
+                    </div>
 
                     <div class="panel-footer">
                         <div class="form-group" style="text-align:right">
@@ -602,12 +611,16 @@
 </div>
 
 <script>
-
+    var model;
     $(document).ready(function () {
-
+        model = @Html.Raw(Json.Encode(Model));
+        ValidaDepartamentos('AAA');
+        ValidaPuesto('AAA');
+        ValidaArea('AAA');
+        ValidaCC('AAA');
+        ValidaSucursal('AAA');
         myFunctiontress();
-    })
-
+    });
 
     function myFunctiontress() {
         var id = document.getElementById("_Valor").value;
@@ -640,11 +653,13 @@
             id = 0;
         }
 
-       
+
 
 
 
     }
+
+
 </script>
 
 @section Scripts {
@@ -653,4 +668,6 @@
     <script src="~/js/Core/Employed.js"></script>
     <script src="~/plugins/jquery-ui/jquery-ui.js"></script>
     <script src="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/Core/EditEmpleado.js"></script>
 }
+
