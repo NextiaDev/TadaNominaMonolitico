@@ -267,10 +267,12 @@ namespace TadaNomina.Controllers.Administracion
         /// </summary>
         /// <param name="id">Recibe el identificador del factor de integración.</param>
         /// <returns>Regresa la vista con el factor de integración específico.</returns>
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, int IdPrestaciones)
         {
             ClassFactorIntegracion clsFactorIntegracion = new ClassFactorIntegracion();
-            return View(clsFactorIntegracion.GetModelFactorIntegracion(id));
+            var model = clsFactorIntegracion.GetModelFactorIntegracion(id);
+            model.IdPrestaciones = IdPrestaciones;
+            return View(model);
 
         }
 
@@ -287,6 +289,7 @@ namespace TadaNomina.Controllers.Administracion
             {
                 if (ModelState.IsValid)
                 {
+
                     ClassFactorIntegracion clsFactorIntegracion = new ClassFactorIntegracion();
                     int idusuario = (int)Session["sIdUsuario"];
                     clsFactorIntegracion.UpdateFactorIntegracion(collection, id, idusuario);

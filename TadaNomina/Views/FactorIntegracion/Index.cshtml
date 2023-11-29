@@ -85,7 +85,7 @@
                             </td>
 
                             <td>
-                                @Html.ActionLink("  ", "Edit", new { id = item.IdFactorIntegracion }, new { @class = "fa fa-edit", @rel = "tooltip", @tittle = "Editar" }) |
+                                @Html.ActionLink("  ", "Edit", new { id = item.IdFactorIntegracion, item.IdPrestaciones }, new { @class = "fa fa-edit", @rel = "tooltip", @tittle = "Editar" }) |
                                 <a href="#" class="anchorDetail" data-id="@item.IdFactorIntegracion" rel="tooltip" , title="Detalle"><span class="fa fa-search"></span></a> |
                                 <a href="#" class="anchorDelete" data-id="@item.IdFactorIntegracion" rel="tooltip" , title="Eliminar"><span class="fa fa-remove"></span></a>
 
