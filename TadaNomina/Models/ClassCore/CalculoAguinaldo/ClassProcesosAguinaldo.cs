@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -165,6 +166,7 @@ namespace TadaNomina.Models.ClassCore.CalculoAguinaldo
         {
             using (NominaEntities1 context = new NominaEntities1())
             {
+                context.Database.CommandTimeout = 0;
                 var queryFaltas = (from b in context.sp_AcumuladoFaltasAnual(IdUnidadNegocio, Año) select b);
 
                 List<Faltas> Listado_faltas = new List<Faltas>();
