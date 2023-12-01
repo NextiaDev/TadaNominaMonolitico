@@ -11,12 +11,18 @@
 <link href="~/plugins/jquery-ui/jquery-ui.css" rel="stylesheet" />
 <link href="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
 
-<br />
-<br />
-<br />
-<br />
-<br />
 
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Unidades de Negocio</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+<br />
+<br />
+<br />
 <div class="container" id="app">
 
     <div align="center" style="padding-bottom:30px;">
@@ -159,10 +165,11 @@
             <label for="check-NCP">No Calcula</label>
         </div>
     </div>
-    <hr />
     <center>
         <div class="modal-footer">
-            <input type="button" class="btn btn-dark btn-sm" id="_GuardarDatos" value="Guardar" />
+            <input type="button" class="btn btn-primary btn-sm" id="_GuardarDatos" value="Guardar" />
+            @Html.ActionLink("Regresar a lista", "Index", null, new { @class = "btn btn-info btn-sm" })
+
         </div>
     </center>
 </div>
@@ -186,7 +193,7 @@
                     $("#check-CS").prop('checked', false);
                 }
 
-             
+
 
                 if (data.BanderaCargasSocialesSinFaltas == 'S') {
                     $("#check-CSSF").prop('checked', true);
