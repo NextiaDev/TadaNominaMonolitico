@@ -30,6 +30,63 @@ namespace TadaNomina.Controllers.Administracion
             
         }
 
+
+        public ActionResult Config(int id)
+        {
+
+
+            return View();
+        }
+
+
+        public JsonResult GetTipoInfoUnidad()
+        {
+            try
+            {
+                int IdUnidadNegocio = 0;
+                try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+
+                var cs = new ClassUnidadesNegocio();
+                var emp = cs.getUnidadesnegocioId(IdUnidadNegocio);
+                return Json(emp, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GuardarEspeciales(string CuotaSindical,  string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin)
+        {
+
+            int IdUnidadNegocio = 0;
+            try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int idUsuario = (int)Session["sIdUsuario"];
+                    ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
+                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, idUsuario);
+
+                    return Json("Exito", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("Incorrecto", JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: UnidadesNegocio/Details/5
         /// <summary>
         /// Acción que muestra el detalle de una unidad de negocio.
