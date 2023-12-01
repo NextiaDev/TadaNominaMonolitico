@@ -35,10 +35,8 @@ namespace TadaNomina.Models.ClassCore.CalculoAguinaldo
             configuracionFechas = cf.GetConfiguracionFechas(p.IdUnidadNegocio); 
             string conf_fecha = null;
 
-            if (configuracionFechas != null)
-            {
-                conf_fecha = configuracionFechas.FAguinaldoReal;
-            }
+            if (configuracionFechas != null)            
+                conf_fecha = configuracionFechas.FAguinaldoReal;            
 
             ClassConceptosFiniquitos cfiniquitos = new ClassConceptosFiniquitos();
             int DiasTotalesPeriodo = p.FechaFin.Subtract(p.FechaInicio).Days + 1;

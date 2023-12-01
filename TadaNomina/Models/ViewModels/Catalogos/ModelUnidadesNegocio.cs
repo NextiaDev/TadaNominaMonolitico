@@ -25,7 +25,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
 
         [Required(ErrorMessage = "Debe ingresar el porcentaje par el calculo de ISN")]
         [Display(Name = "Porcentaje para calculo de ISN:")]
-        public decimal? PorcentajeISN { get; set; }       
+        public decimal? PorcentajeISN { get; set; } = 0;      
 
         [Required(ErrorMessage = "Debe ingresar la configuracion de sueldos")]
         [Display(Name = "Configuración de Sueldos:")]

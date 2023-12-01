@@ -36,9 +36,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.TipoNomina)
                         </th>
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.PorcentajeISN)
-                        </th>
+                        </th>*@
                         <th>
                             @Html.DisplayNameFor(model => model.ConfiguracionSueldos)
                         </th>
@@ -59,17 +59,19 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.TipoNomina)
                             </td>
-                             <td>
+                             @*<td>
                                 @Html.DisplayFor(modelItem => item.PorcentajeISN)
-                            </td>
+                            </td>*@
                               <td>
                                 @Html.DisplayFor(modelItem => item.ConfiguracionSueldos)
                             </td>
-                            <td>
-                                @Html.ActionLink("  ", "Edit", new { id = item.IdUnidadNegocio }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @tittle = "Editar" }) |
-                                <a href="#" class="anchorDetail" data-id="@item.IdUnidadNegocio" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a> |
-                                <a href="#" class="anchorDelete" data-id="@item.IdUnidadNegocio" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
-                            </td>
+                              <td>
+                                  @Html.ActionLink("  ", "Edit", new { id = item.IdUnidadNegocio }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @tittle = "Editar" }) |
+                                  @Html.ActionLink("  ", "Config", new { id = item.IdUnidadNegocio }, new { @class = "btn btn-default btn-sm fa fa-gear _Load", @rel = "tooltip", @tittle = "Configurar" }) |
+
+                                  <a href="#" class="anchorDetail" data-id="@item.IdUnidadNegocio" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a> |
+                                  <a href="#" class="anchorDelete" data-id="@item.IdUnidadNegocio" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                              </td>
                         </tr>
                     }
                 </tbody>
