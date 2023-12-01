@@ -6936,6 +6936,8 @@
     <Content Include="Views\ReportesDirectivos\Entidades.cshtml" />
     <Content Include="Views\ReportesDirectivos\CC.cshtml" />
     <Content Include="Views\ReportesDirectivos\Patrona.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\UnidadesNegocio\Config.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
