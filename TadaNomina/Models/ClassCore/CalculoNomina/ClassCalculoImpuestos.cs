@@ -112,8 +112,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             if (percepcionesEspecialesGravado == null) { percepcionesEspecialesGravado = 0; }
+            int IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0;
             nominaTrabajo.BaseGravada += percepcionesEspecialesGravado;
-            nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+
+            if(IdConceptoCompensacionPiramida != 0)
+                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(x => x.Gravado).Sum();
+            else
+                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
 
             nominaTrabajo.BaseGravada += montoIncidenciasMultiplicaDTGrabado;
             nominaTrabajo.BaseGravadaP = nominaTrabajo.BaseGravada;
@@ -992,6 +997,54 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             return result;
         }
 
+
+        public decimal CalculaISR(decimal BaseGravada, DateTime FechaFin, bool CalculaSubsidio)
+        {
+            decimal result = 0;
+            decimal LimiteInferior = 0;
+            decimal Porcentaje = 0;
+            decimal CuotaFija = 0;
+            decimal DiferenciaLimite = 0;
+            decimal PorcentajeCalculado = 0;
+            decimal ISR = 0;
+            decimal CreditoSalario = 0;
+            decimal Subsidio = 0;
+            
+            if (BaseGravada > 0)
+            {
+
+                LimiteInferior += ListImpuestos.Where(x => x.LimiteSuperior >= BaseGravada && x.LimiteInferior <= BaseGravada).FirstOrDefault().LimiteInferior;
+                Porcentaje += ListImpuestos.Where(x => x.LimiteSuperior >= BaseGravada && x.LimiteInferior <= BaseGravada).FirstOrDefault().Porcentaje;
+                CuotaFija += ListImpuestos.Where(x => x.LimiteSuperior >= BaseGravada && x.LimiteInferior <= BaseGravada).FirstOrDefault().CuotaFija;
+
+                DiferenciaLimite = BaseGravada - LimiteInferior;
+
+                decimal resultset = (DiferenciaLimite * Porcentaje) / 100;
+                PorcentajeCalculado = decimal.Round(resultset, 2);
+
+                ISR = CuotaFija + PorcentajeCalculado;
+
+                if (CalculaSubsidio)
+                {
+                    var query = (from b in ListSubsidio.Where(b => b.LimiteSuperior >= BaseGravada && b.LimiteInferior <= BaseGravada) select b).FirstOrDefault();
+
+                    if (query == null)
+                    {
+                        CreditoSalario = 0;
+                    }
+                    else
+                    {
+                        CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
+                    }
+
+                    Subsidio = CreditoSalario;
+                }
+
+                result = ISR - CreditoSalario;
+            }
+
+            return result;
+        }
         /// <summary>
         /// Metodo para obtener el Identificador del tipo de nómina que se esta calculando.
         /// </summary>
