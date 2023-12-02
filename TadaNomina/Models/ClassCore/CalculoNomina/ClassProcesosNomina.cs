@@ -1869,7 +1869,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             return resultado;
         }
 
-
         public void CalculaCuotasSindicales(int IdPeriodoNomina, int IdEmpleado, int idconceptoCuota, int idconceptoVacaciones, decimal? diasLaborados, decimal SDIMSS, int IdUsuario)
         {
 

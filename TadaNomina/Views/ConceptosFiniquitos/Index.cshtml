@@ -117,6 +117,14 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdConceptoCompensacion, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.IdConceptoCompensacion, Model.lConceptoCuotaSindical, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IdConceptoCompensacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <div class="col-md-12">

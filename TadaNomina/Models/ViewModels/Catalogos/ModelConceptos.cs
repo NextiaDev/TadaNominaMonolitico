@@ -110,7 +110,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public List<SelectListItem> lsmgvalcien { get; set; }
 
 
-        [Display(Name = "Piramidar")]
+        [Display(Name = "Se usa en Pantalla Piramidar")]
         public string Piramida { get; set; }
         public List<SelectListItem> lPiramidal { get; set; }       
         

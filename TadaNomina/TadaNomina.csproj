@@ -593,7 +593,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Areas.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Bancos.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -602,7 +602,7 @@
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CentroCostos.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Clientes.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -617,7 +617,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_EntidadFederativa.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -626,10 +626,10 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_HonorariosFacturas.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Jornadas.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_MotivosCancelacionSAT.cs">
       <DependentUpon>ModelTimbrado.tt</DependentUpon>
@@ -731,7 +731,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\FactorIntegracion.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Facturadoras.cs">
       <DependentUpon>ModelContabilidad.tt</DependentUpon>
@@ -752,7 +752,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\ImpuestoSat.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\ImpuestosIMSS.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -1035,7 +1035,7 @@
       <DependentUpon>ModelContabilidad.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SubsidioEmpleoSat.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Sueldos_Minimos.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -1077,7 +1077,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vConceptos.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vConceptosPiramidados.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -6936,6 +6936,7 @@
     <Content Include="Views\ReportesDirectivos\Entidades.cshtml" />
     <Content Include="Views\ReportesDirectivos\CC.cshtml" />
     <Content Include="Views\ReportesDirectivos\Patrona.cshtml" />
+    <Content Include="Views\UnidadesNegocio\Config.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
