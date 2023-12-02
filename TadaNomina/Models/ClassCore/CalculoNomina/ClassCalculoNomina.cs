@@ -1,9 +1,11 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
+using DocumentFormat.OpenXml.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels.Nominas;
 using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
@@ -186,9 +188,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.SueldoPagado += (nominaTrabajo.DiasTrabajados + fraccionHorasMas - fraccionHorasMenos) * SD_IMSS;
             nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
             if (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) { nominaTrabajo.SueldoPagado = 0; }
+            int IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0;
 
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
-            nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
+
+            if(IdConceptoCompensacionPiramida != 0)
+                nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(X => X.Monto).Sum();
+            else
+                nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
 
             if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null && UnidadNegocio.IdConceptoSeptimoDia > 0)
             {
@@ -232,7 +239,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                CalculaISR();
+                if(UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)")
+                    CalculaISR();
             }
 
             if (ValidacionDiasEquivalentes() && UnidadNegocio.BanderaDiasEquivalentes == "SI")
@@ -252,6 +260,27 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 Calcula_Cuotas_Obreras();
             }
+
+            //configuracion para piramidar sueldos
+            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)")
+            {
+                decimal imss = 0;
+                imss += (decimal)nominaTrabajo.IMSS_Obrero;
+                imss += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum();
+                decimal importeAPiramidar = 0;
+                importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
+                importeAPiramidar += imss;
+
+                decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
+                decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
+
+                InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+
+                nominaTrabajo.ER += importeConcepto;
+                percepcionesEspecialesGravado += importeConcepto;
+                CalculaISR();
+            }
+
 
             if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina=="Nomina")
             {
@@ -447,6 +476,50 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             foreach (var item in incidencias)
             {
                 cins.EliminaMontosAusentismos(item.IdIncidencia);
+            }
+        }
+
+        public decimal Piramida(decimal importe, DateTime FechaFin)
+        {
+            decimal ISR_Asimilado;
+            decimal apoyo = 0;
+            var DatoAlQueLlegar = importe;
+            decimal VarialbeGravada = DatoAlQueLlegar;
+            decimal datoCondicion = DatoAlQueLlegar;
+            while (datoCondicion >= .005M)
+            {
+                var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, false);
+
+                apoyo = VarialbeGravada;
+                ISR_Asimilado = impuestoAsimilado;
+                if (ISR_Asimilado < 0)
+                    ISR_Asimilado = 0;
+
+                var NetoAsimilado = apoyo - ISR_Asimilado;
+                datoCondicion = importe - NetoAsimilado;
+                VarialbeGravada += datoCondicion;
+            }
+
+            return apoyo;
+        }
+
+        public void InsertaIncidenciaConceptoCompensacionPiramidar(int IdConcepto, decimal Monto)
+        {
+            if (IdConcepto != 0)
+            {
+                ClassIncidencias cins = new ClassIncidencias();
+                ModelIncidencias model = new ModelIncidencias();
+                cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
+
+                model.IdEmpleado = IdEmpleado;
+                model.IdPeriodoNomina = IdPeriodoNomina;
+                model.IdConcepto = (int)IdConcepto;
+                model.Monto = Monto;
+                model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para las nominas que piramidan";
+                model.MontoEsquema = 0;
+
+                if (model.IdConcepto != 0)
+                    cins.NewIncindencia(model, IdUsuario);
             }
         }
     }

@@ -55,8 +55,9 @@ namespace TadaNomina.Models.ClassCore
             List<vConceptos> lconceptosCuotaSindical = lconceptosNomina.Where(x => x.ClaveGpo == "900").ToList();
             lconceptosCuotaSindical.ForEach(x => { lconceptosCuota.Add(new SelectListItem { Text = x.ClaveConcepto + "-" + x.Concepto, Value = x.IdConcepto.ToString() }); });
 
-
-
+            List<SelectListItem> lconceptosCompensacion = new List<SelectListItem>();
+            List<vConceptos> lconceptosCompensacionOtros = lconceptosNomina.Where(x => x.ClaveGpo == "900").ToList();
+            lconceptosCompensacionOtros.ForEach(x => { lconceptosCompensacion.Add(new SelectListItem { Text = x.ClaveConcepto + "-" + x.Concepto, Value = x.IdConcepto.ToString() }); });
 
             vConfiguracionConceptosFiniquitos lconceptosConfigurados = GetvConfiguracionConceptosFiniquitos(IdCliente);
 
@@ -82,7 +83,8 @@ namespace TadaNomina.Models.ClassCore
             model.lConceptoPensionAlimenticia = lconceptosPension;
             try { model.IdConceptoCuotaSindical = lconceptosConfigurados.idConceptoCuotaSindical; } catch { model.IdConceptoCuotaSindical = null; }
             model.lConceptoCuotaSindical = lconceptosCuota;
-
+            try { model.IdConceptoCompensacion = lconceptosConfigurados.IdConceptoCompensacion; } catch { model.IdConceptoCompensacion = null; }
+            model.lConceptoCuotaCompensacion = lconceptosCuota;
 
             return model;
         }
@@ -171,6 +173,7 @@ namespace TadaNomina.Models.ClassCore
                     IdConceptoInfonavit = model.IdConceptoInfonavit,
                     IdConceptoPensionAlimenticia = model.IdConceptoPensionAlimenticia,
                     idConceptoCuotaSindical = model.IdConceptoCuotaSindical,
+                    IdConceptoCompensacion = model.IdConceptoCompensacion,
                     IdEstatus = 1,
                     IdCaptura = IdUsuario,
                     FechaCaptura = DateTime.Now
@@ -202,6 +205,7 @@ namespace TadaNomina.Models.ClassCore
                 registro.IdConceptoInfonavit = model.IdConceptoInfonavit;
                 registro.IdConceptoPensionAlimenticia = model.IdConceptoPensionAlimenticia;
                 registro.idConceptoCuotaSindical = model.IdConceptoCuotaSindical;
+                registro.IdConceptoCompensacion = model.IdConceptoCompensacion;
 
                 entidad.SaveChanges();
             }
