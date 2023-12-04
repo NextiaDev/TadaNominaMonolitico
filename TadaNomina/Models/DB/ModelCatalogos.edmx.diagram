@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4d82e768d5fb447790b86f5a043f3350" Name="Diagram1" ZoomLevel="70">
+      <Diagram DiagramId="4d82e768d5fb447790b86f5a043f3350" Name="Diagram1" ZoomLevel="80">
         <EntityTypeShape EntityType="TadaNominaModel.vDepartamentos" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_AgrupadorConceptos" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Departamentos" Width="1.5" PointX="8" PointY="9" />
@@ -45,10 +45,10 @@
         <AssociationConnector Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_SindicatoCliente" Width="1.5" PointX="0.75" PointY="13.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="23.375" PointY="8.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="23.375" PointY="20.75" />
         <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" Width="1.5" PointX="20.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" Width="1.5" PointX="10.375" PointY="24.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="23.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="23.375" PointY="20.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

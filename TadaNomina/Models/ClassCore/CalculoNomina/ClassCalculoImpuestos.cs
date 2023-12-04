@@ -112,7 +112,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             if (percepcionesEspecialesGravado == null) { percepcionesEspecialesGravado = 0; }
-            int IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0;
+            int IdConceptoCompensacionPiramida = 0;
+            try { IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0; } catch { }
             nominaTrabajo.BaseGravada += percepcionesEspecialesGravado;
 
             if(IdConceptoCompensacionPiramida != 0)
