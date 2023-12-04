@@ -51,10 +51,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
         public string CalculoAutomatico { get; set; }
-        public string ConceptosCalculo { get; set; }
-        public string ConceptosCondicionantesSI { get; set; }
-        public string ConceptosCondicionantesNO { get; set; }
-        public string FormulaDiasPorcentaje { get; set; }
+        public Nullable<int> Orden { get; set; }
         public string Formula { get; set; }
         public string IncapacidadPagada { get; set; }
         public Nullable<decimal> DiasIniciales { get; set; }
@@ -67,5 +64,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdConceptoAdicional { get; set; }
         public string CalculoDiasHoras { get; set; }
         public string IntegraPension { get; set; }
+        public string VisibleEnReporte { get; set; }
+        public string ExcentoGravadoEnReporte { get; set; }
     }
 }

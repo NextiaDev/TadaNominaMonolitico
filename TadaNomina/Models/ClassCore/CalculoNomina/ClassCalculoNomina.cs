@@ -138,7 +138,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         /// <param name="datosEmpleados">Objeto con toda la información del empleado en proceso.</param>
         private void Porcesa_Nomina_Tradicional(vEmpleados datosEmpleados)
-        {            
+        {
             try { Porcentaje_Riesgo_Trabajo_Patronal = ListRegistroPatronal.Where(x => x.IdRegistroPatronal == datosEmpleados.IdRegistroPatronal).Select(x => x.RiesgoTrabajo).FirstOrDefault(); }
             catch { Porcentaje_Riesgo_Trabajo_Patronal = 0; }
 
@@ -157,9 +157,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             // Cuando el tipo de nomina tiene 0 en dias de pago se calcula con dias naturales
-            if (DiasPago == 0 && datosEmpleados.TipoNomina != "Honorarios")            
+            if (DiasPago == 0 && datosEmpleados.TipoNomina != "Honorarios")
                 DiasPago = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1;
-            
+
             if (Periodo.TablaDiaria == "S")
             {
                 DiasPago = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1M;
@@ -168,7 +168,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             DiasPago += DiasMasPorAlta;
             DiasPago -= DiasMenosPorAlta;
-                                    
+
             if (_tipoNomina.Contains(Periodo.TipoNomina) || datosEmpleados.IdEstatus == 3)
             {
                 DiasPago = 0;
@@ -176,11 +176,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).Select(x => x.FactorIntegracion).FirstOrDefault() ?? 0;
-            if(nominaTrabajo.FactorIntegracion == null)
+            if (nominaTrabajo.FactorIntegracion == null)
                 nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdCliente == 0).Select(x => x.FactorIntegracion).FirstOrDefault();
 
-            nominaTrabajo.FechaAltaIMSS= datosEmpleados.FechaAltaIMSS;
-            nominaTrabajo.FechaReconocimientoAntiguedad= datosEmpleados.FechaReconocimientoAntiguedad;
+            nominaTrabajo.FechaAltaIMSS = datosEmpleados.FechaAltaIMSS;
+            nominaTrabajo.FechaReconocimientoAntiguedad = datosEmpleados.FechaReconocimientoAntiguedad;
 
             GetDiasTrabajados(_tipoEsquemaT);
 
@@ -192,7 +192,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
 
-            if(IdConceptoCompensacionPiramida != 0)
+            if (IdConceptoCompensacionPiramida != 0)
                 nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(X => X.Monto).Sum();
             else
                 nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
@@ -239,7 +239,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                if(UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)")
+                if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)")
                     CalculaISR();
             }
 
@@ -262,27 +262,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             //configuracion para piramidar sueldos
-            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)")
-            {
-                decimal imss = 0;
-                imss += (decimal)nominaTrabajo.IMSS_Obrero;
-                imss += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum();
-                decimal importeAPiramidar = 0;
-                importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
-                importeAPiramidar += imss;
+            PiramidaSueldosConCompensacion(datosEmpleados);
 
-                decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
-                decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
-
-                InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
-
-                nominaTrabajo.ER += importeConcepto;
-                percepcionesEspecialesGravado += importeConcepto;
-                CalculaISR();
-            }
-
-
-            if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina=="Nomina")
+            if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina == "Nomina")
             {
                 if (datosEmpleados.IdEstatus == 1 || configuracionNominaEmpleado.IncidenciasAutomaticas == 1)
                 {
@@ -290,13 +272,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     ProcesaCreditoFonacot(creditosFonacot.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, IdUsuario, datosEmpleados.TipoNomina);
                 }
             }
-            
+
             nominaTrabajo.ER += nominaTrabajo.SubsidioPagar ?? 0;
-            nominaTrabajo.ER += nominaTrabajo.ReintegroISR ?? 0;            
+            nominaTrabajo.ER += nominaTrabajo.ReintegroISR ?? 0;
 
             //CalculaISN();
-            
-            nominaTrabajo.DD = 0;                        
+
+            nominaTrabajo.DD = 0;
             nominaTrabajo.DD += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.Monto).Sum();
             nominaTrabajo.DD += nominaTrabajo.ImpuestoRetener;
             nominaTrabajo.DD += nominaTrabajo.IMSS_Obrero;
@@ -319,12 +301,34 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     nominaTrabajo.DD += GetDeduccionesEspeciales(datosEmpleados.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, datosEmpleados.IdPuesto, datosEmpleados.Compensacion_Dia_Trabajado, nominaTrabajo.DiasTrabajados, nominaTrabajo.Faltas, SD_IMSS, IdUsuario, datosEmpleados.IdCliente, datosEmpleados.IdCentroCostos);
             }
 
-            if (nominaTrabajo.ER <= 0)            
+            if (nominaTrabajo.ER <= 0)
                 nominaTrabajo.DD = 0;
-                //EliminaMontosIncidenciasAusentismos();            
+            //EliminaMontosIncidenciasAusentismos();            
 
             nominaTrabajo.Neto = 0;
-            nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;                       
+            nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;
+        }
+
+        private void PiramidaSueldosConCompensacion(vEmpleados datosEmpleados)
+        {
+            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)")
+            {
+                decimal imss = 0;
+                imss += (decimal)nominaTrabajo.IMSS_Obrero;
+                imss += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum();
+                decimal importeAPiramidar = 0;
+                importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
+                importeAPiramidar += imss;
+
+                decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
+                decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
+
+                InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+
+                nominaTrabajo.ER += importeConcepto;
+                percepcionesEspecialesGravado += importeConcepto;
+                CalculaISR();
+            }
         }
 
         /// <summary>
