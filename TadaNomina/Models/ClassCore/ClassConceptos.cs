@@ -159,7 +159,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
-                var conceptos = (from b in entidad.vConceptos.Where(x => x.IdConcepto == IdConcepto) select b).FirstOrDefault();
+                var conceptos = entidad.vConceptos.Where(x => x.IdConcepto == IdConcepto).FirstOrDefault();
                 ModelConceptos modelConceptos = new ModelConceptos() {
                     IdConcepto = conceptos.IdConcepto,
                     IdCliente = (int)conceptos.IdCliente,
@@ -192,7 +192,12 @@ namespace TadaNomina.Models.ClassCore
                     ConceptoAdicional = conceptos.CreaConceptoAdicional,
                     ClaveConceptos = conceptos.IdConceptoAdicional.ToString(),
                     DiasHoras = conceptos.CalculoDiasHoras,
-                    IntegraPension = conceptos.IntegraPension
+                    IntegraPension = conceptos.IntegraPension,
+                    Formula = conceptos.Formula,
+                    CalculoAutomatico = conceptos.CalculoAutomatico,
+                    VisibleEnReporte = conceptos.VisibleEnReporte,
+                    ExcentoGravadoEnReporte = conceptos.ExcentoGravadoEnReporte,
+                    Orden = conceptos.Orden
                 };
 
                 return modelConceptos;
@@ -316,7 +321,12 @@ namespace TadaNomina.Models.ClassCore
                     CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
                     IdConceptoAdicional = Adicional,
                     CalculoDiasHoras = modelConcepto.DiasHoras,
-                    IntegraPension = modelConcepto.IntegraPension
+                    IntegraPension = modelConcepto.IntegraPension,
+                    Formula = modelConcepto.Formula,
+                    CalculoAutomatico = modelConcepto.CalculoAutomatico,
+                    VisibleEnReporte = modelConcepto.VisibleEnReporte,
+                    ExcentoGravadoEnReporte = modelConcepto.ExcentoGravadoEnReporte,
+                    Orden = modelConcepto.Orden
                 };
 
                 entidad.Cat_ConceptosNomina.Add(concepto);
@@ -378,6 +388,11 @@ namespace TadaNomina.Models.ClassCore
                     concepto.IdConceptoAdicional = Adicional;
                     concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
                     concepto.IntegraPension = modelConceptos.IntegraPension;
+                    concepto.Formula = modelConceptos.Formula;
+                    concepto.CalculoAutomatico = modelConceptos.CalculoAutomatico;
+                    concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
+                    concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
+                    concepto.Orden = modelConceptos.Orden;
                 }
 
                 entidad.SaveChanges();
@@ -435,6 +450,17 @@ namespace TadaNomina.Models.ClassCore
             _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "Dias" });
             _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "Horas" });
 
+            List<SelectListItem> _listSINOPA = new List<SelectListItem>();
+            _listSINOPA.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOPA.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listSINOVisible = new List<SelectListItem>();
+            _listSINOVisible.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOVisible.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listSINOExcentoGravado = new List<SelectListItem>();
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
@@ -459,6 +485,9 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lConceptoAdicional = _listSINO1;
             modelConceptos.lDiasHoras = _listDiasHoras;
             modelConceptos.lstPension = _Pension;
+            modelConceptos.lstPagoAutomatico = _listSINOPA;
+            modelConceptos.lstVisibleReporte = _listSINOVisible;
+            modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
 
             return modelConceptos;
         }
@@ -515,6 +544,18 @@ namespace TadaNomina.Models.ClassCore
             _listDiasHoras.Add(new SelectListItem { Text = "Días", Value = "Dias" });
             _listDiasHoras.Add(new SelectListItem { Text = "Horas", Value = "Horas" });
 
+            List<SelectListItem> _listSINOPA = new List<SelectListItem>();
+            _listSINOPA.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOPA.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listSINOVisible = new List<SelectListItem>();
+            _listSINOVisible.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOVisible.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listSINOExcentoGravado = new List<SelectListItem>();
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
@@ -537,6 +578,9 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lConceptoAdicional = _listSINO1;
             modelConceptos.lDiasHoras = _listDiasHoras;
             modelConceptos.lstPension = _Pension;
+            modelConceptos.lstPagoAutomatico = _listSINOPA;
+            modelConceptos.lstVisibleReporte = _listSINOVisible;
+            modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
 
             return modelConceptos;
         }
