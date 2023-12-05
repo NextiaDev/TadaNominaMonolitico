@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels;
 using TadaNomina.Models.ViewModels.Nominas;
 using TadaNomina.Services;
+using System.Linq.Dynamic.Core;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
 {
@@ -84,7 +86,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 SD_Real = GetSD(item.SD);
                 IdEntidadFederativa = item.IdEntidad;
                 IdPrestacionesEmpleado = item.IdPrestaciones;
-                
+                nominaTrabajo.Anios = Math.Round(ObtenAntiguedadEmpleado(item.FechaReconocimientoAntiguedad, Periodo.FechaFin), 2);
+
                 if (Periodo.TipoNomina == "Proyeccion")
                 {
                     if (item.SDI_Proyeccion != null && item.SDI_Proyeccion > 0) { SDI = GetSD(item.SDI_Proyeccion); }
@@ -219,47 +222,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (configuracionNominaEmpleado.SupenderSueldoTradicional == null)
                 {
                     GetPercepciones_pp(datosEmpleados.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, datosEmpleados.IdPuesto, datosEmpleados.Compensacion_Dia_Trabajado, nominaTrabajo.DiasTrabajados, nominaTrabajo.Faltas, SD_IMSS, IdUsuario, datosEmpleados.IdCliente, datosEmpleados.IdCentroCostos);
-                    nominaTrabajo.ER += (percepcionesEspecialesGravado + percepcionesEspecialesExcento);
+                    //nominaTrabajo.ER += (percepcionesEspecialesGravado + percepcionesEspecialesExcento);
                 }
             }
 
             //condigo para insertar incidencias que se calculan automaticamente
-            if (conceptosNominaFormula.Count > 0)
-            {
-                ExpressionContext context = new ExpressionContext();
-                context.Imports.AddType(typeof(Math));
-
-                foreach (var item in conceptosNominaFormula)
-                {
-                    List<string> lineas = item.Formula.Replace(" ", "").Replace("\n", "").Split(',').ToList();
-                    string Formula = string.Empty;
-                    string Omitidos = string.Empty;
-                    string Unicamente = string.Empty;
-                    foreach (var line in lineas)
-                    {                        
-                        List<string> datos = line.Replace(" ", "").Replace("\n", "").Split(':').ToList();
-                        string accion = datos[0].ToUpper();
-                            
-                        if (accion == "CALCULO")                            
-                            try { Formula = datos[1]; } catch { }
-
-                        if (accion == "EXCEPTO")
-                            try { Omitidos = datos[1]; } catch { }
-
-                        if (accion == "SOLO")
-                            try { Unicamente = datos[1]; } catch { }                        
-                    }
-
-                    if (item.CalculoAutomatico == "SI")
-                    { 
-                        
-                    }
-                }
-            }
-
+            PercepcionesFormuladas(datosEmpleados);            
 
             ProcesaIncidenciasMultiplicaDT();
-            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
+            incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
+            //nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
 
             if (Periodo.TipoNomina == "PTU")
             {
@@ -343,6 +315,106 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             nominaTrabajo.Neto = 0;
             nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;
+        }
+
+        private void PercepcionesFormuladas(vEmpleados datosEmpleados)
+        {
+            if (conceptosNominaFormula.Count > 0)
+            {
+                ExpressionContext context = new ExpressionContext();
+                context.Imports.AddType(typeof(Math));
+
+                foreach (var icform in conceptosNominaFormula)
+                {
+                    List<string> lineas = icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(',').ToList();
+                    string Formula = string.Empty;
+                    string Omitidos = string.Empty;
+                    string Unicamente = string.Empty;
+                    foreach (var line in lineas)
+                    {
+                        List<string> datos = line.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(':').ToList();
+                        string accion = datos[0].ToUpper();
+
+                        if (accion == "CALCULO")
+                            try { Formula = datos[1]; } catch { }
+
+                        if (accion == "EXCEPTO")
+                            try { Omitidos = datos[1]; } catch { }
+
+                        if (accion == "SOLO")
+                            try { Unicamente = datos[1]; } catch { }
+                    }
+
+                    if (icform.CalculoAutomatico == "SI")
+                    {
+                        //se reemplazan los valores que dependen de la tabla de equivalencias.                        
+                        foreach (var iEquiv in tablaEquivalencias)
+                        {
+                            var resultado = "0";
+                            if (icform.Formula.Contains(iEquiv.Clave))
+                            {
+                                if (tablaEquivalencias != null)
+                                {
+                                    if (iEquiv.Tabla == "Nomina")
+                                    {
+                                        List<NominaTrabajo> lnomina = new List<NominaTrabajo>();
+                                        lnomina.Add(nominaTrabajo);
+
+                                        resultado = lnomina.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
+                                    }
+
+                                    if (iEquiv.Tabla == "Empleados")
+                                    {
+                                        List<vEmpleados> lemp = new List<vEmpleados>();
+                                        lemp.Add(datosEmpleados);
+
+                                        resultado = lemp.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
+                                    }
+
+                                    if (iEquiv.Tabla == "FactorIntegracion")
+                                    {
+                                        if (iEquiv.Clave == "SBC")
+                                        {
+                                            decimal factor = (prestaciones.Where(x => nominaTrabajo.Anios >= x.Limite_Inferior && nominaTrabajo.Anios <= x.Limite_Superior)
+                                                .Select(x => x.FactorIntegracion).FirstOrDefault() ?? 1.0493M);
+
+                                            resultado = (SD_IMSS * factor).ToString();
+                                        }
+                                    }
+                                }
+
+                                Formula = Formula.Replace(iEquiv.Clave, resultado);
+                            }
+                        }
+                    }
+
+                    //ejecuta la operación
+                    IDynamicExpression e = context.CompileDynamic(Formula);
+                    var resul = Math.Round(Convert.ToDecimal(e.Evaluate()), 2);
+
+                    //si el resultado es diferente de 0 se actualiza la incidencia
+                    if (resul != 0)
+                        InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
+                }
+            }
+        }
+
+        public decimal ObtenAntiguedadEmpleado(DateTime? FechaIngreso, DateTime FechaBaja)
+        {
+            try
+            {
+                decimal Antiguedad = 0;
+                if (FechaIngreso != null)
+                {
+                    Decimal Dias = (FechaBaja.Subtract((DateTime)FechaIngreso).Days) + 1;
+                    Antiguedad = (Dias / 365);
+                }
+                return Antiguedad;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         private void PiramidaSueldosConCompensacion(vEmpleados datosEmpleados)
@@ -557,6 +629,26 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 model.IdConcepto = (int)IdConcepto;
                 model.Monto = Monto;
                 model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para las nominas que piramidan";
+                model.MontoEsquema = 0;
+
+                if (model.IdConcepto != 0)
+                    cins.NewIncindencia(model, IdUsuario);
+            }
+        }
+
+        public void InsertaIncidenciaConceptoFormulado(int IdConcepto, decimal Monto)
+        {
+            if (IdConcepto != 0)
+            {
+                ClassIncidencias cins = new ClassIncidencias();
+                ModelIncidencias model = new ModelIncidencias();
+                cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
+
+                model.IdEmpleado = IdEmpleado;
+                model.IdPeriodoNomina = IdPeriodoNomina;
+                model.IdConcepto = (int)IdConcepto;
+                model.Monto = Monto;
+                model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para los conceptos formulados";
                 model.MontoEsquema = 0;
 
                 if (model.IdConcepto != 0)

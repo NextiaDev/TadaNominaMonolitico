@@ -70,6 +70,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal ConfiguracionFechasCalculos configuracionFechas;
         internal List<ModelDiasTrabajadosAguinaldo> ListDiasTrabajadosAguinaldo;
         internal List<vConceptos> conceptosNominaFormula;
+        internal List<FormulasEquivalencias> tablaEquivalencias;
 
         internal bool AjusteSecundario = false;
         internal bool AjusteAnual = false;
@@ -156,6 +157,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             GetDatosUnidadNegocio(Periodo.IdUnidadNegocio);
             GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
             GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
+            GetTablaEquivalencias(UnidadNegocio.IdCliente);
 
             if (Periodo.TipoNomina == "Nomina")
             {
@@ -269,7 +271,15 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
-                conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1 && x.Formula != string.Empty).ToList();
+                conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1 && (x.Formula != string.Empty && x.Formula != null)).ToList();
+            }
+        }
+
+        private void GetTablaEquivalencias(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                tablaEquivalencias = entidad.FormulasEquivalencias.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente).ToList();
             }
         }
 
