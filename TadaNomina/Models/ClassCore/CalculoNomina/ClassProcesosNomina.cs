@@ -233,7 +233,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     GetImpuestosSAT_Ajuste_Anual(Periodo.FechaFin);
                     GetEmpleadosAjusteAnual(UnidadNegocio.IdUnidadNegocio, Periodo.FechaFin.Year);
                     
-                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList();
+                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste != null && Periodo.EmpleadosSinAjuste != "" ? 
+                        Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList() : new List<string>();
                     GetListEmpleadosSinAjuste(Periodo.IdUnidadNegocio, cvesEmpSinAjuste);
 
                     if (Periodo.PeriodosAjusteSecundario != null && Periodo.PeriodosAjusteSecundario.Length > 0 && listEmpleadosSinAjuste.Count > 0)
