@@ -69,6 +69,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal string[] _tipoEsquemaR = { "Tradicional", "Esquema", "Mixto" };
         internal ConfiguracionFechasCalculos configuracionFechas;
         internal List<ModelDiasTrabajadosAguinaldo> ListDiasTrabajadosAguinaldo;
+        internal List<vConceptos> conceptosNominaFormula;
 
         internal bool AjusteSecundario = false;
         internal bool AjusteAnual = false;
@@ -154,6 +155,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             ProcesaIncidenciasProgramadas(Periodo.DescuentosFijos, Periodo.IdUnidadNegocio, IdPeriodo, IdEmpleado, IdUsuario);
             GetDatosUnidadNegocio(Periodo.IdUnidadNegocio);
             GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
+            GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
 
             if (Periodo.TipoNomina == "Nomina")
             {
@@ -233,7 +235,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     GetImpuestosSAT_Ajuste_Anual(Periodo.FechaFin);
                     GetEmpleadosAjusteAnual(UnidadNegocio.IdUnidadNegocio, Periodo.FechaFin.Year);
                     
-                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList();
+                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste != null && Periodo.EmpleadosSinAjuste != "" ? 
+                        Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList() : new List<string>();
                     GetListEmpleadosSinAjuste(Periodo.IdUnidadNegocio, cvesEmpSinAjuste);
 
                     if (Periodo.PeriodosAjusteSecundario != null && Periodo.PeriodosAjusteSecundario.Length > 0 && listEmpleadosSinAjuste.Count > 0)
@@ -260,6 +263,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 GetSubsidioSAT(4, Periodo.FechaFin);
                 GetListEmpleadosPTU(Periodo.IdPeriodoNomina);
             }                       
+        }
+
+        private void GetListConceptosNominaFormula(int idCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1 && x.Formula != string.Empty).ToList();
+            }
         }
 
         public void getSaldos(int IdUnidadNegocio, DateTime FechaInicio, DateTime FechaFin)
