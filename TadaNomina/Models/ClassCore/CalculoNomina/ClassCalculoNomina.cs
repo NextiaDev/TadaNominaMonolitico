@@ -326,6 +326,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
 
                 nominaTrabajo.ER += importeConcepto;
+                percepcionesEspecialesGravado = 0;
                 percepcionesEspecialesGravado += importeConcepto;
                 CalculaISR();
             }
