@@ -681,6 +681,18 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
         </EntityType>
+        <EntityType Name="FormulasEquivalencias">
+          <Key>
+            <PropertyRef Name="IdEquivalencia" />
+          </Key>
+          <Property Name="IdEquivalencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="Clave" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Campo" Type="nvarchar" MaxLength="150" />
+          <Property Name="Tabla" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
+        </EntityType>
         <EntityType Name="ImpuestoSat">
           <Key>
             <PropertyRef Name="IdImpuesto" />
@@ -1167,6 +1179,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="EmpleadoInformacionComplementaria" EntityType="Self.EmpleadoInformacionComplementaria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FactorIntegracion" EntityType="Self.FactorIntegracion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormulasEquivalencias" EntityType="Self.FormulasEquivalencias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImpuestoSat" EntityType="Self.ImpuestoSat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientosIMSS" EntityType="Self.MovimientosIMSS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Prestaciones" EntityType="Self.Prestaciones" Schema="dbo" store:Type="Tables" />
@@ -1544,6 +1557,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" />
           <EntitySet Name="Cat_ConceptosNomina" EntityType="TadaNominaModel.Cat_ConceptosNomina" />
           <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
+          <EntitySet Name="FormulasEquivalencias" EntityType="TadaNominaModel.FormulasEquivalencias" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -2683,6 +2697,18 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="ExcentoGravadoEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="Orden" Type="Int32" />
           <Property Name="IntegraISN" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FormulasEquivalencias">
+          <Key>
+            <PropertyRef Name="IdEquivalencia" />
+          </Key>
+          <Property Name="IdEquivalencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Campo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Tabla" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3832,6 +3858,19 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
                 <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormulasEquivalencias">
+            <EntityTypeMapping TypeName="TadaNominaModel.FormulasEquivalencias">
+              <MappingFragment StoreEntitySet="FormulasEquivalencias">
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Tabla" ColumnName="Tabla" />
+                <ScalarProperty Name="Campo" ColumnName="Campo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdEquivalencia" ColumnName="IdEquivalencia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

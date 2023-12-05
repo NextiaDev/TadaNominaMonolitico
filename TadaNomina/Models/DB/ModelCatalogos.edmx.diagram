@@ -49,6 +49,7 @@
         <EntityTypeShape EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" Width="1.5" PointX="10.375" PointY="24.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="23.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="23.375" PointY="20.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.FormulasEquivalencias" Width="1.5" PointX="12.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
