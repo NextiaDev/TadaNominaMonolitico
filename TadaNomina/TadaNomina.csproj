@@ -97,6 +97,9 @@
     <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
     </Reference>
+    <Reference Include="Flee, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flee.2.0.0\lib\netstandard2.0\Flee.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -184,6 +187,11 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -6214,6 +6222,7 @@
     <Content Include="plugins\x-editable\inputs-ext\typeaheadjs\typeaheadjs.js" />
     <Content Include="plugins\x-editable\js\bootstrap-editable.js" />
     <Content Include="plugins\x-editable\js\bootstrap-editable.min.js" />
+    <Content Include="Resources\DocComments.xml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
