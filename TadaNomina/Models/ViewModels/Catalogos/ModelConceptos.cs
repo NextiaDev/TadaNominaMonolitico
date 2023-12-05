@@ -127,7 +127,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public string DiasHoras { get; set; }
         public List<SelectListItem> lDiasHoras { get; set; }
 
-        [Display(Name = "¿Calculo Automatico? :")]
+        [Display(Name = "¿Calculo Automatico?:")]
         public string CalculoAutomatico { get; set; }
         public List<SelectListItem> lstPagoAutomatico { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Validation;
+using Flee.PublicTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -222,6 +223,41 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }
             }
 
+            //condigo para insertar incidencias que se calculan automaticamente
+            if (conceptosNominaFormula.Count > 0)
+            {
+                ExpressionContext context = new ExpressionContext();
+                context.Imports.AddType(typeof(Math));
+
+                foreach (var item in conceptosNominaFormula)
+                {
+                    List<string> lineas = item.Formula.Replace(" ", "").Replace("\n", "").Split(',').ToList();
+                    string Formula = string.Empty;
+                    string Omitidos = string.Empty;
+                    string Unicamente = string.Empty;
+                    foreach (var line in lineas)
+                    {                        
+                        List<string> datos = line.Replace(" ", "").Replace("\n", "").Split(':').ToList();
+                        string accion = datos[0].ToUpper();
+                            
+                        if (accion == "CALCULO")                            
+                            try { Formula = datos[1]; } catch { }
+
+                        if (accion == "EXCEPTO")
+                            try { Omitidos = datos[1]; } catch { }
+
+                        if (accion == "SOLO")
+                            try { Unicamente = datos[1]; } catch { }                        
+                    }
+
+                    if (item.CalculoAutomatico == "SI")
+                    { 
+                        
+                    }
+                }
+            }
+
+
             ProcesaIncidenciasMultiplicaDT();
             nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
 
@@ -326,6 +362,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
 
                 nominaTrabajo.ER += importeConcepto;
+                percepcionesEspecialesGravado = 0;
                 percepcionesEspecialesGravado += importeConcepto;
                 CalculaISR();
             }
