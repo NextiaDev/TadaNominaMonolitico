@@ -457,7 +457,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado) select b).ToList();
+                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado && x.BanderaConceptoEspecial != 1 && x.BanderaPensionAlimenticia == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaAdelantoPULPI == null) select b).ToList();
 
                  return  _incidnecias;
             }

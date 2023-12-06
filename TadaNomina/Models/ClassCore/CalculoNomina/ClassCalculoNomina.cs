@@ -222,16 +222,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (configuracionNominaEmpleado.SupenderSueldoTradicional == null)
                 {
                     GetPercepciones_pp(datosEmpleados.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, datosEmpleados.IdPuesto, datosEmpleados.Compensacion_Dia_Trabajado, nominaTrabajo.DiasTrabajados, nominaTrabajo.Faltas, SD_IMSS, IdUsuario, datosEmpleados.IdCliente, datosEmpleados.IdCentroCostos);
-                    //nominaTrabajo.ER += (percepcionesEspecialesGravado + percepcionesEspecialesExcento);
+                    nominaTrabajo.ER += (percepcionesEspecialesGravado + percepcionesEspecialesExcento);
                 }
             }
 
             //condigo para insertar incidencias que se calculan automaticamente
-            PercepcionesFormuladas(datosEmpleados);            
-
-            ProcesaIncidenciasMultiplicaDT();
-            incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
-            //nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
+            PercepcionesFormuladas(datosEmpleados);
+            ProcesaIncidenciasMultiplicaDT();            
+            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;            
 
             if (Periodo.TipoNomina == "PTU")
             {
@@ -326,7 +324,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 foreach (var icform in conceptosNominaFormula)
                 {
-                    List<string> lineas = icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(',').ToList();
+                    List<string> lineas = icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(';').ToList();
                     string Formula = string.Empty;
                     string Omitidos = string.Empty;
                     string Unicamente = string.Empty;
@@ -396,6 +394,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (resul != 0)
                         InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
                 }
+
+                incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
             }
         }
 
