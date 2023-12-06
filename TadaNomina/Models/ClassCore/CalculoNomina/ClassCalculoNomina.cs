@@ -229,9 +229,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             //condigo para insertar incidencias que se calculan automaticamente
             PercepcionesFormuladas(datosEmpleados);
             ProcesaIncidenciasMultiplicaDT();            
-            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
-
-            incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
+            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;            
 
             if (Periodo.TipoNomina == "PTU")
             {
@@ -396,6 +394,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (resul != 0)
                         InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
                 }
+
+                incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
             }
         }
 
