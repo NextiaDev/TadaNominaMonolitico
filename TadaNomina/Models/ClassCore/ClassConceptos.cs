@@ -462,6 +462,10 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
@@ -476,7 +480,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.LUExenta = _UnidadExenta;
             modelConceptos.LCalculaMontos = _listSINO;
             modelConceptos.lSumaNeto = _listSINO;
-            modelConceptos.lMultiplicaDiasTrabajados = _listSINO;
+            modelConceptos.lMultiplicaDiasTrabajados = _listSINOMDT;
             modelConceptos.lExcentaPorUnidad = _listSINO1;
             modelConceptos.lPiramidal= _listSINO1;
             modelConceptos.lPagoEfectivo= _listSINO1;
@@ -556,6 +560,10 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
@@ -569,7 +577,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.LCalculaMontos = _listSINO;
             modelConceptos.LTipoEsquema = _tipoEsquema;
             modelConceptos.lSumaNeto = _listSINO;
-            modelConceptos.lMultiplicaDiasTrabajados = _listSINO;
+            modelConceptos.lMultiplicaDiasTrabajados = _listSINOMDT;
             modelConceptos.lExcentaPorUnidad = _listSINO1;
             modelConceptos.lPiramidal = _listSINO1;
             modelConceptos.lPagoEfectivo = _listSINO1;
@@ -673,6 +681,14 @@ namespace TadaNomina.Models.ClassCore
             }
 
             return list;
+        }
+
+        public List<FormulasEquivalencias> getConceptosFormulacion(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.FormulasEquivalencias.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1).ToList();
+            }
         }
     }
 }
