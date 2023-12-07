@@ -26,7 +26,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal Cat_UnidadNegocio UnidadNegocio;
         internal PeriodoNomina Periodo;
         internal List<vEmpleados> listEmpleados;
-        internal List<vEmpleados> listEmpleadosSinAjuste;
+        internal List<vEmpleados> listEmpleadosSinAjuste = new List<vEmpleados>();
         internal List<Cat_EntidadFederativa> listEntidades;
         internal List<vPrestacionesFactor> prestaciones;
         internal List<ImpuestoSat> ListImpuestos;
@@ -158,6 +158,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
             GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
             GetTablaEquivalencias(UnidadNegocio.IdCliente);
+            listEmpleadosSinAjuste = new List<vEmpleados>();
 
             if (Periodo.TipoNomina == "Nomina")
             {

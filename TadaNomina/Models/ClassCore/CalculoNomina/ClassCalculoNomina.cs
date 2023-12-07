@@ -195,11 +195,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             int IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0;
 
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
-
-            if (IdConceptoCompensacionPiramida != 0)
-                nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(X => X.Monto).Sum();
-            else
-                nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
+            SumaIncidencias(IdConceptoCompensacionPiramida);
 
             if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null && UnidadNegocio.IdConceptoSeptimoDia > 0)
             {
@@ -228,8 +224,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             //condigo para insertar incidencias que se calculan automaticamente
             PercepcionesFormuladas(datosEmpleados);
-            ProcesaIncidenciasMultiplicaDT();            
-            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;            
+            ProcesaIncidenciasMultiplicaDT();
+            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
 
             if (Periodo.TipoNomina == "PTU")
             {
@@ -315,9 +311,25 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;
         }
 
+        private void SumaIncidencias(int IdConceptoCompensacionPiramida)
+        {
+            if (IdConceptoCompensacionPiramida != 0)
+            {
+                decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != IdConceptoCompensacionPiramida ).Select(X => X.Monto).Sum();
+                nominaTrabajo.ER += importeIncidencias;
+            }
+            else
+            {
+                decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
+                nominaTrabajo.ER += importeIncidencias;
+            }
+        }
+
         private void PercepcionesFormuladas(vEmpleados datosEmpleados)
         {
-            if (conceptosNominaFormula.Count > 0)
+            var conceptosFormulaER = conceptosNominaFormula.Where(x=> x.TipoConcepto == "ER").OrderBy(x => x.Orden ?? 0).ToList();
+
+            if (conceptosFormulaER.Count > 0)
             {
                 ExpressionContext context = new ExpressionContext();
                 context.Imports.AddType(typeof(Math));
@@ -328,6 +340,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     string Formula = string.Empty;
                     string Omitidos = string.Empty;
                     string Unicamente = string.Empty;
+                    string[] ClavesUnicamente = new string[0];
+                    string[] ClavesOmitidos = new string[0];
+                    bool Calcular = true;
+
                     foreach (var line in lineas)
                     {
                         List<string> datos = line.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(':').ToList();
@@ -343,56 +359,74 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             try { Unicamente = datos[1]; } catch { }
                     }
 
+                    if (Unicamente != string.Empty)
+                        try { ClavesUnicamente = Unicamente.ToUpper().Trim().Split(',').ToArray(); } catch { }
+
+                    if (Omitidos != string.Empty)
+                        try { ClavesOmitidos = Omitidos.ToUpper().Trim().Split(',').ToArray(); } catch { }
+
+                    if (ClavesUnicamente.Count() > 0)
+                    {
+                        Calcular = false;
+                        if(ClavesUnicamente.Contains(ClaveEmpleado))
+                            Calcular = true;
+                    }                    
+
+                    if(ClavesOmitidos.Contains(ClaveEmpleado))
+                        Calcular = false;
+
                     if (icform.CalculoAutomatico == "SI")
                     {
-                        //se reemplazan los valores que dependen de la tabla de equivalencias.                        
-                        foreach (var iEquiv in tablaEquivalencias)
+                        DeleteIncidencia(icform.IdConcepto);
+
+                        if (Calcular)
                         {
-                            var resultado = "0";
-                            if (icform.Formula.Contains(iEquiv.Clave))
+                            foreach (var iEquiv in tablaEquivalencias)
                             {
-                                if (tablaEquivalencias != null)
+                                var resultado = "0";
+                                if (icform.Formula.Contains(iEquiv.Clave))
                                 {
-                                    if (iEquiv.Tabla == "Nomina")
+                                    if (tablaEquivalencias != null)
                                     {
-                                        List<NominaTrabajo> lnomina = new List<NominaTrabajo>();
-                                        lnomina.Add(nominaTrabajo);
-
-                                        resultado = lnomina.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
-                                    }
-
-                                    if (iEquiv.Tabla == "Empleados")
-                                    {
-                                        List<vEmpleados> lemp = new List<vEmpleados>();
-                                        lemp.Add(datosEmpleados);
-
-                                        resultado = lemp.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
-                                    }
-
-                                    if (iEquiv.Tabla == "FactorIntegracion")
-                                    {
-                                        if (iEquiv.Clave == "SBC")
+                                        if (iEquiv.Tabla == "Nomina")
                                         {
-                                            decimal factor = (prestaciones.Where(x => nominaTrabajo.Anios >= x.Limite_Inferior && nominaTrabajo.Anios <= x.Limite_Superior)
-                                                .Select(x => x.FactorIntegracion).FirstOrDefault() ?? 1.0493M);
+                                            List<NominaTrabajo> lnomina = new List<NominaTrabajo>();
+                                            lnomina.Add(nominaTrabajo);
 
-                                            resultado = (SD_IMSS * factor).ToString();
+                                            resultado = lnomina.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
+                                        }
+
+                                        if (iEquiv.Tabla == "Empleados")
+                                        {
+                                            List<vEmpleados> lemp = new List<vEmpleados>();
+                                            lemp.Add(datosEmpleados);
+
+                                            resultado = lemp.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
+                                        }
+
+                                        if (iEquiv.Tabla == "FactorIntegracion")
+                                        {
+                                            if (iEquiv.Clave == "SBC")
+                                            {
+                                                decimal factor = (prestaciones.Where(x => nominaTrabajo.Anios >= x.Limite_Inferior && nominaTrabajo.Anios <= x.Limite_Superior)
+                                                    .Select(x => x.FactorIntegracion).FirstOrDefault() ?? 1.0493M);
+
+                                                resultado = (SD_IMSS * factor).ToString();
+                                            }
                                         }
                                     }
-                                }
 
-                                Formula = Formula.Replace(iEquiv.Clave, resultado);
+                                    Formula = Formula.Replace(iEquiv.Clave, resultado);
+                                }
                             }
+
+                            IDynamicExpression e = context.CompileDynamic(Formula);
+                            var resul = Math.Round(Convert.ToDecimal(e.Evaluate()), 2);
+
+                            if (resul != 0)
+                                InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
                         }
                     }
-
-                    //ejecuta la operación
-                    IDynamicExpression e = context.CompileDynamic(Formula);
-                    var resul = Math.Round(Convert.ToDecimal(e.Evaluate()), 2);
-
-                    //si el resultado es diferente de 0 se actualiza la incidencia
-                    if (resul != 0)
-                        InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
                 }
 
                 incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
@@ -636,13 +670,22 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
-        public void InsertaIncidenciaConceptoFormulado(int IdConcepto, decimal Monto)
+        public void DeleteIncidencia(int IdConcepto)
         {
             if (IdConcepto != 0)
             {
                 ClassIncidencias cins = new ClassIncidencias();
                 ModelIncidencias model = new ModelIncidencias();
                 cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
+            }
+        }
+
+        public void InsertaIncidenciaConceptoFormulado(int IdConcepto, decimal Monto)
+        {
+            if (IdConcepto != 0)
+            {
+                ClassIncidencias cins = new ClassIncidencias();
+                ModelIncidencias model = new ModelIncidencias();                
 
                 model.IdEmpleado = IdEmpleado;
                 model.IdPeriodoNomina = IdPeriodoNomina;
