@@ -509,10 +509,24 @@
 </div>
 
 <script>
+    var idCliente = @Html.Raw(Json.Encode(Model.idcliente));
+    function generaClaveEmpleado() {
+        var ApellidoPaterno = $('#ApellidoPaterno').val();
+        $.ajax({
+            type: 'POST',
+            url: 'ObtenClaveEmpleadoPorAP',
+            dataType: 'json',
+            data: { ApellidoPaterno: ApellidoPaterno },
+            success: function (data) {
+                if (data != null) {
+                    $("#ClaveEmpleado").val(data);
+                }
+            }
+        });
+    }
+
     function myFunctiontres() {
         var id = document.getElementById("_Valor").value;
-
-
         if (id > 0 ) {
             $.ajax({
                 type: 'POST',
@@ -520,28 +534,20 @@
                 dataType: 'json',
                 data: { id: id },
                 success: function (data) {
-                    console.log(data);
-
                     if (data != null) {
                         $('#Conceptosd').css("display", "block");
                         $("#NSindicato").val(data.CuotaSindical).val;
-                        console.log(data.IdCaptura);
-
                     }
                     else {
                         $('#Conceptosd').css("display", "none");
-
                     }
-
                 }
             });
         }
         else {
             id = 0;
             $('#Conceptosd').css("display", "none");
-
         }
-
     }
 </script>
 

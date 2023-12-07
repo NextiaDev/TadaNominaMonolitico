@@ -15,6 +15,8 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using TadaNomina.Services;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Data.Entity;
 
 namespace TadaNomina.Models.ClassCore
 {
@@ -1021,9 +1023,15 @@ namespace TadaNomina.Models.ClassCore
             using (TadaEmpleados entity = new TadaEmpleados())
             {
                 List<Empleado> empleados = new List<Empleado>();
-                var query = (from b in entity.Empleados where (b.Nombre + " " + b.ApellidoPaterno + " " + b.ApellidoMaterno).StartsWith(nombre) && b.IdUnidadNegocio == idUnidadNegocio && b.IdEstatus == 1 select b).ToList();
+                var q = entity.vEmpleados
+                    .Where(x =>
+                        x.NombreCompleto.Contains(nombre) &&
+                        x.IdEstatus == 1 &&
+                        x.IdUnidadNegocio == idUnidadNegocio
+                    )
+                    .ToList();
 
-                query.ForEach(x =>
+                q.ForEach(x =>
                 {
                     empleados.Add(new Empleado
                     {
@@ -3017,5 +3025,26 @@ namespace TadaNomina.Models.ClassCore
 
         }
 
+        /// <summary>
+        /// ´Devuelve al empleado con la clave máxima según la primera letra del
+        /// apellido paterno y unidad de negocio especificados
+        /// </summary>
+        /// <param name="Palabra">Primera letra del apellido paterno</param>
+        /// <param name="idUnidadNegocio">El ID de la unidad de negocio</param>
+        /// <returns>El empleado con la máxima clave</returns>
+        public Empleados ObtenUltimoEmpleadoPorAP(string Palabra, int idUnidadNegocio)
+        {
+            TadaEmpleados bd = new TadaEmpleados();
+            return bd.Empleados
+                .Where(x =>
+                    x.ApellidoPaterno.StartsWith(Palabra) &&
+                    x.IdUnidadNegocio == idUnidadNegocio &&
+                    x.IdEstatus == 1
+                )
+                .OrderByDescending(x =>
+                    x.ClaveEmpleado
+                )
+                .FirstOrDefault();
+        }
     }
 }

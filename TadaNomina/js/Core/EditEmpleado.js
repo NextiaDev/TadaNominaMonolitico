@@ -125,3 +125,15 @@ function ValidaSucursal(IdSucursal) {
         }
     }
 }
+
+$("#ApellidoPaterno").on("paste keyup", function (event) {
+    if (idCliente == 172) {
+        let apellidoPaterno = $(this).val();
+        if (apellidoPaterno.length == 1) {
+            generaClaveEmpleado();
+        } else if (apellidoPaterno.length == 0) {
+            $("#ClaveEmpleado").val(claveEmpleadoOriginal);
+            $(this).val(apellidoPaternoOriginal);
+        }
+    }
+});

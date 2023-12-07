@@ -1,6 +1,6 @@
-﻿
-$(function () {
-    $('.calendar').datepicker({        
+﻿$(document).ready(function () {
+    $("#PremioP").prop("disabled", true);
+    $('.calendar').datepicker({
         format: 'dd/mm/yyyy'
     });
 });
@@ -8,8 +8,16 @@ $(function () {
 /****************************************/
 //Metodos para view Edit
 //Data table
-$("#searchEmp").click(function () {    
+$("form").on("submit", function (event) {
+    event.preventDefault();
+    buscarEmpleado();
+});
 
+$("#searchEmp").click(function () {    
+    buscarEmpleado();
+});
+
+const buscarEmpleado = () => {
     $("#errorSearch").text("");
 
     var clave = $("#clave").val();
@@ -27,8 +35,8 @@ $("#searchEmp").click(function () {
     else {
         $("#errorSearch").text("Selecciona sola una opción");
         $("#tableSearch").fadeOut();
-    }    
-});
+    }
+}
 
 //Funcion para obtener empledos general
 function AllEmpleados() {
@@ -477,4 +485,15 @@ $("#IdCodigoPostalFiscal").change(function () {
             $("#EntidadFiscal").val(data.Entidad);
         }
     });
+});
+
+$("#ApellidoPaterno").on("paste keyup", function (event) {
+    if (idCliente == 172) {
+        let apellidoPaterno = $(this).val();
+        if (apellidoPaterno.length == 1) {
+            generaClaveEmpleado();
+        } else if (apellidoPaterno.length == 0) {
+            $("#ClaveEmpleado").val("");
+        }
+    }
 });
