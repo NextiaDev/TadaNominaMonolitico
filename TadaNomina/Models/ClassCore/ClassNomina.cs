@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2013.PowerPoint.Roaming;
 using Microsoft.Ajax.Utilities;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -700,5 +701,103 @@ namespace TadaNomina.Models.ClassCore
             return res;
         }
 
+        public int? GeneraClaveEmpleado(string Paterno, int UN)
+        {
+            string primeraLetra = Paterno.Substring(0, 1).ToUpper();
+            // Buscamos el valor MAX del campo ClaveEmpleado donde la primer letra
+            // del apellido paterno inicie con primeraLetra
+            int? maxClaveEmpleado = ObtenerMaxClaveEmpleado(primeraLetra, UN);
+            if (maxClaveEmpleado != null)
+            {
+                // El valor obtenido le sumamos 1
+                return maxClaveEmpleado + 1;
+            }
+            else
+            {
+                // Si no hay valor máximo, se utiliza el primer valor de la siguiente escala numérica:
+                switch (primeraLetra)
+                {
+                    case "A":
+                        return 1; //rangoFin = 99;
+                    case "B":
+                        return 100; //rangoFin = 199;
+                    case "C":
+                        return 200; // rangoFin = 299;
+                    case "D":
+                        return 300; // rangoFin = 399;
+                    case "E":
+                        return 400; // rangoFin = 499;
+                    case "F":
+                        return 500; // rangoFin = 599;
+                    case "G":
+                        return 600; // rangoFin = 699;
+                    case "H":
+                        return 700; // rangoFin = 799;
+                    case "I":
+                        return 800; // rangoFin = 899;
+                    case "J":
+                        return 900; // rangoFin = 999;
+                    case "K":
+                        return 1000; // rangoFin = 1099;
+                    case "L":
+                        return 1100; // rangoFin = 1199;
+                    case "M":
+                        return 1200; // rangoFin = 1299;
+                    case "N":
+                        return 1300; // rangoFin = 1399;
+                    case "Ñ":
+                        return 1400; // rangoFin = 1499;
+                    case "O":
+                        return 1500; // rangoFin = 1599;
+                    case "P":
+                        return 1600; // rangoFin = 1699;
+                    case "Q":
+                        return 1700; // rangoFin = 1799;
+                    case "R":
+                        return 1800; // rangoFin = 1899;
+                    case "S":
+                        return 1900; // rangoFin = 1999;
+                    case "T":
+                        return 2000; // rangoFin = 2099;
+                    case "U":
+                        return 2100; // rangoFin = 2199;
+                    case "V":
+                        return 2200; // rangoFin = 2299;
+                    case "W":
+                        return 2300; // rangoFin = 2399;
+                    case "Z":
+                        return 2400; // rangoFin = 2499;
+                    // Agregar casos para las demás letras
+                    // ...
+
+                    default:
+                        // Manejar el caso de la letra no encontrada
+                        return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Devuelve la clave de empleado máxima según la primera letra
+        /// del apellido paterno y unidad de negocio especificados
+        /// </summary>
+        /// <param name="letra">Primera letra del apellido paterno</param>
+        /// <param name="UN">El ID de la unidad de negocio</param>
+        /// <returns>La máxima clave de empleado</returns>
+        private int? ObtenerMaxClaveEmpleado(string letra, int UN)
+        {
+            ClassEmpleado classEmpleado= new ClassEmpleado();
+            var ultimoEmpleado = classEmpleado.ObtenUltimoEmpleadoPorAP(letra, UN);
+            if (ultimoEmpleado != null && !string.IsNullOrEmpty(ultimoEmpleado.ClaveEmpleado))
+            {
+                bool success = int.TryParse(ultimoEmpleado.ClaveEmpleado, out int maxClaveEmpleado);
+                if (success && maxClaveEmpleado > 0)
+                    return maxClaveEmpleado;
+                else
+                    return null;
+            }
+            else
+                return null;
+        }
     }
 }

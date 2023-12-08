@@ -34,6 +34,8 @@ namespace TadaNomina.Controllers.Administracion
                 int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
                 ClassEmpleado initEmpleado = new ClassEmpleado();
                 Empleado empleado = initEmpleado.Init(IdCliente, IdUnidadNegocio);
+                empleado.idcliente = IdCliente;
+                empleado.IdUnidadNegocio = IdUnidadNegocio;
                 return View(empleado);
             }
             catch
@@ -222,7 +224,7 @@ namespace TadaNomina.Controllers.Administracion
 
                 string csvData = System.IO.File.ReadAllText(filePath, Encoding.UTF7);
                 FileImport file = new FileImport(IdCliente, IdUnidadNegocio);
-                file.Init(csvData, postedFile.FileName, IdUsuario, IdUnidadNegocio);
+                file.Init(csvData, postedFile.FileName, IdUsuario, IdUnidadNegocio, IdCliente);
                 return File(file);
             }
 
@@ -1483,7 +1485,6 @@ namespace TadaNomina.Controllers.Administracion
 
 
         [HttpPost]
-
         public JsonResult GetValorSindicato(int id)
         {
             try
@@ -1501,7 +1502,22 @@ namespace TadaNomina.Controllers.Administracion
 
         }
 
-
-
+        /// <summary>
+        /// Método que genera una Clave de Empleado conforme al algoritmo del cliente Grupo Marte
+        /// </summary>
+        /// <param name="ApellidoPaterno">El apellido paterno capturado en el formulario</param>
+        /// <returns>La clave de empleado</returns>
+        [HttpPost]
+        public JsonResult ObtenClaveEmpleadoPorAP(string ApellidoPaterno)
+        {
+            int? claveEmpleado = null;
+            int? IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+            if (IdUnidadNegocio != null)
+            {
+                ClassNomina cs = new ClassNomina();
+                claveEmpleado = cs.GeneraClaveEmpleado(ApellidoPaterno, (int)IdUnidadNegocio);
+            }
+            return Json(claveEmpleado, JsonRequestBehavior.AllowGet);
+        }
     }
 }

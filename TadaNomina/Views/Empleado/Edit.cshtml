@@ -611,6 +611,24 @@
 </div>
 
 <script>
+    var idCliente = @Html.Raw(Json.Encode(Model.idcliente));
+    var claveEmpleadoOriginal = @Html.Raw(Json.Encode(Model.ClaveEmpleado));
+    var apellidoPaternoOriginal = @Html.Raw(Json.Encode(Model.ApellidoPaterno));
+    function generaClaveEmpleado() {
+        var ApellidoPaterno = $('#ApellidoPaterno').val();
+        $.ajax({
+            type: 'POST',
+            url: 'ObtenClaveEmpleadoPorAP',
+            dataType: 'json',
+            data: { ApellidoPaterno: ApellidoPaterno },
+            success: function (data) {
+                if (data != null) {
+                    $("#ClaveEmpleado").val(data);
+                }
+            }
+        });
+    }
+
     var model;
     $(document).ready(function () {
         model = @Html.Raw(Json.Encode(Model));
@@ -631,35 +649,21 @@
                 dataType: 'json',
                 data: { id: id },
                 success: function (data) {
-                    console.log(data.IdCaptura);
-
                     if (data != null) {
                         $('#Conceptosd').css("display", "block");
                         $("#NSindicato").val(data.CuotaSindical).val;
-                        console.log(data.IdCaptura);
-
                     }
                     else {
                         $('#Conceptosd').css("display", "none");
-
                     }
-
                 }
             });
-
         }
         else {
             $('#Conceptosd').css("display", "none");
             id = 0;
         }
-
-
-
-
-
     }
-
-
 </script>
 
 @section Scripts {
