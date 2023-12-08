@@ -42,11 +42,6 @@ namespace TadaNomina.Models.ViewModels
         [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "{0} no valido, solo debe de contener números y letras")]
         public string ClaveEmpleado { get; set; }
 
-        [Display(Name = "Clave Empleado")]
-        [Required(ErrorMessage = "{0} es campo requerido")]
-        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "{0} no valido, solo debe de contener números y letras")]
-        public string ClaveEmpleadoGPMARTE { get; set; }
-
         [Required(ErrorMessage = "{0} es campo requerido")]
         //[RegularExpression("^[a-zA-ZñÑ ]*$", ErrorMessage = "{0} no valido, solo debe de contener letras")]
         [Display(Name = "Nombre(s)")]
