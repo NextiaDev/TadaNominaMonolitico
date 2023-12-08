@@ -15,6 +15,8 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 using TadaNomina.Services;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Data.Entity;
 
 namespace TadaNomina.Models.ClassCore
 {
@@ -1021,9 +1023,15 @@ namespace TadaNomina.Models.ClassCore
             using (TadaEmpleados entity = new TadaEmpleados())
             {
                 List<Empleado> empleados = new List<Empleado>();
-                var query = (from b in entity.Empleados where (b.Nombre + " " + b.ApellidoPaterno + " " + b.ApellidoMaterno).StartsWith(nombre) && b.IdUnidadNegocio == idUnidadNegocio && b.IdEstatus == 1 select b).ToList();
+                var q = entity.vEmpleados
+                    .Where(x =>
+                        x.NombreCompleto.Contains(nombre) &&
+                        x.IdEstatus == 1 &&
+                        x.IdUnidadNegocio == idUnidadNegocio
+                    )
+                    .ToList();
 
-                query.ForEach(x =>
+                q.ForEach(x =>
                 {
                     empleados.Add(new Empleado
                     {
@@ -1603,9 +1611,10 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="empleados">Lista con la información de los empleados</param>
         /// <returns>Valor para rectificar que los registros se realizaron con exito</returns>
-        public int AddEmpleadoBatch(List<Empleado> empleados, decimal SMGV)
+        public int AddEmpleadoBatch(List<Empleado> empleados, decimal SMGV, int idCliente, int idUN)
         {
             int value = 0;
+            int id = 0;
             decimal _SDI_Minimo = SMGV * 1.0493M;
             _SDI_Minimo = Math.Round(_SDI_Minimo, 2);
 
@@ -1617,6 +1626,15 @@ namespace TadaNomina.Models.ClassCore
                 {
                     foreach (Empleado empleado in empleados)
                     {
+                        // Se autogenera ClaveEmpleado para Grupo Marte
+                        string claveEmpleado = empleado.ClaveEmpleado;
+                        if (idCliente == 146 && string.IsNullOrEmpty(claveEmpleado))
+                        {
+                            ClassNomina cN = new ClassNomina();
+                            int? numClaveEmpleado = cN.GeneraClaveEmpleado(empleado.ApellidoPaterno, idUN);
+                            claveEmpleado = numClaveEmpleado.ToString() ?? "";
+                        }
+
                         var emp = new Empleados();
 
                         emp.IdUnidadNegocio = empleado.IdUnidadNegocio;
@@ -1625,7 +1643,7 @@ namespace TadaNomina.Models.ClassCore
                         emp.IdPuesto = empleado.IdPuesto;
                         emp.IdRegistroPatronal = empleado.IdRegistroPatronal;
                         emp.IdEntidad = empleado.IdEntidad;
-                        emp.ClaveEmpleado = empleado.ClaveEmpleado;
+                        emp.ClaveEmpleado = claveEmpleado;
                         emp.Nombre = empleado.Nombre;
                         emp.ApellidoPaterno = empleado.ApellidoPaterno;
                         emp.ApellidoMaterno = empleado.ApellidoMaterno;
@@ -1679,10 +1697,10 @@ namespace TadaNomina.Models.ClassCore
                         }
 
                         entity.Empleados.Add(emp);
+                        id = entity.SaveChanges();
+                        if (id > 0) value++;
                         empSave.Add(emp);
                     }
-
-                    value = entity.SaveChanges();
 
                     if (value > 0)
                     {
@@ -3017,5 +3035,27 @@ namespace TadaNomina.Models.ClassCore
 
         }
 
+        /// <summary>
+        /// ´Devuelve al empleado con la clave máxima según la primera letra del
+        /// apellido paterno y unidad de negocio especificados
+        /// </summary>
+        /// <param name="Palabra">Primera letra del apellido paterno</param>
+        /// <param name="idUnidadNegocio">El ID de la unidad de negocio</param>
+        /// <returns>El empleado con la máxima clave</returns>
+        public Empleados ObtenUltimoEmpleadoPorAP(string Palabra, int idUnidadNegocio)
+        {
+            TadaEmpleados bd = new TadaEmpleados();
+            var emp = bd.Empleados
+                .Where(x =>
+                    x.ApellidoPaterno.StartsWith(Palabra) &&
+                    x.IdUnidadNegocio == idUnidadNegocio &&
+                    x.IdEstatus == 1
+                )
+                .ToList()
+                .OrderByDescending(x =>
+                    int.Parse(x.ClaveEmpleado)
+                );
+            return emp.FirstOrDefault();
+        }
     }
 }

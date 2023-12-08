@@ -9,7 +9,4 @@ function Premio(valor) {
         document.getElementById('PremioP').disabled = true;
     }
 }
-$(document).ready(function () {
-    document.getElementById('PremioP').disabled = true;
-});
 /////////////////////////////////////////////////////////////////////////////////////////
