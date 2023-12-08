@@ -249,7 +249,7 @@ $("#IdCodigoPostalFiscal").change(function () {
 });
 
 $("#ApellidoPaterno").on("paste keyup", function (event) {
-    if (idCliente == 146) {
+    if (idCliente == 172) {
         let apellidoPaterno = $(this).val();
         if (apellidoPaterno.length > 0) {
             generaClaveEmpleado();
