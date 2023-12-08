@@ -224,7 +224,7 @@ namespace TadaNomina.Controllers.Administracion
 
                 string csvData = System.IO.File.ReadAllText(filePath, Encoding.UTF7);
                 FileImport file = new FileImport(IdCliente, IdUnidadNegocio);
-                file.Init(csvData, postedFile.FileName, IdUsuario, IdUnidadNegocio);
+                file.Init(csvData, postedFile.FileName, IdUsuario, IdUnidadNegocio, IdCliente);
                 return File(file);
             }
 

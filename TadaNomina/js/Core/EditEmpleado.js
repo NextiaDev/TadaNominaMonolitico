@@ -127,9 +127,9 @@ function ValidaSucursal(IdSucursal) {
 }
 
 $("#ApellidoPaterno").on("paste keyup", function (event) {
-    if (idCliente == 172) {
+    if (idCliente == 146) {
         let apellidoPaterno = $(this).val();
-        if (apellidoPaterno.length == 1) {
+        if (apellidoPaterno.length > 0) {
             generaClaveEmpleado();
         } else if (apellidoPaterno.length == 0) {
             $("#ClaveEmpleado").val(claveEmpleadoOriginal);
