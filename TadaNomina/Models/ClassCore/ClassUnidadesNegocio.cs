@@ -28,8 +28,39 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE,string CAA, int pIdUsuario)
         {
+
+            if (bool.Parse(PS) == true)
+            {
+                PS = "S";
+            }
+            else
+            {
+                PS = "N";
+
+            }
+
+            if (bool.Parse(DE) == true)
+            {
+                DE = "S";
+            }
+            else
+            {
+                DE = "N";
+
+            }
+            if (bool.Parse(CAA) == true)
+            {
+                CAA = "S";
+            }
+            else
+            {
+                CAA = "N";
+
+            }
+
+
 
             if (bool.Parse(CuotaSindical) == true)
             {
@@ -146,6 +177,9 @@ namespace TadaNomina.Models.ClassCore
                     unidad.NoCalcularCargaPatronal = NCargaPatronal;
                     unidad.FechaInicioValidacionSubir = FechaInicio;
                     unidad.FechaFinValidacionSubir = FechaFin;
+                    unidad.PercepcionesEspeciales = PS;
+                    unidad.DeduccionesEspeciales = DE;
+                    unidad.ConsideraAusentismosEnAguinaldo = CAA;
                     unidad.FechaModificacion = DateTime.Now;
 
                     entidad.SaveChanges();
