@@ -54,8 +54,6 @@ namespace TadaNomina.Controllers.Nomina
 
             ClassConceptos cc = new ClassConceptos();
 
-            mii.LConcepto = cc.getSelectConceptos((int)Session["sIdCliente"]);
-
             ViewBag.Bandera = false;
             if (lincidencias.Count > 500)
             {

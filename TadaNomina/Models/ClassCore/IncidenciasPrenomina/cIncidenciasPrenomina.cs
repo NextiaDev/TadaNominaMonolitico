@@ -139,20 +139,12 @@ namespace TadaNomina.Models.ClassCore.IncidenciasPrenomina
         {
             try
             {
-                var servicio = "/api/Incidencias/GetListIncidencias?IdPeriodo=" + IdPeriodoNomina;
-                Uri apiUrl = new Uri(sStatics.servidor + servicio);
-
-                using (var wc = new WebClient())
+                var listadpo = new List<vIncidencias>();
+                using (NominaEntities1 ctx = new NominaEntities1())
                 {
-                    wc.Headers.Clear();
-                    wc.Headers["Content-type"] = "application/json";
-                    wc.Headers["Authorization"] = "Bearer " + token;
-                    var result = wc.DownloadString(apiUrl);
-
-                    var list = JsonConvert.DeserializeObject<List<vIncidencias>>(result);
-
-                    return list;
+                    listadpo = ctx.vIncidencias.Where(i => i.IdPeriodoNomina == IdPeriodoNomina && i.IdEstatus == 100).ToList();
                 }
+                return listadpo;
             }
             catch (WebException ex)
             {
