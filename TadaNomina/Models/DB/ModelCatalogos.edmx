@@ -178,11 +178,8 @@
           <Property Name="IdModifica" Type="int" />
           <Property Name="FechaModifica" Type="datetime" />
           <Property Name="CalculoAutomatico" Type="nvarchar" MaxLength="2" />
-          <Property Name="ConceptosCalculo" Type="nvarchar" MaxLength="500" />
-          <Property Name="ConceptosCondicionantesSI" Type="nvarchar" MaxLength="500" />
-          <Property Name="ConceptosCondicionantesNO" Type="nvarchar" MaxLength="500" />
-          <Property Name="FormulaDiasPorcentaje" Type="nvarchar" MaxLength="500" />
-          <Property Name="Formula" Type="nvarchar" MaxLength="500" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="Formula" Type="nvarchar(max)" />
           <Property Name="IncapacidadPagada" Type="nvarchar" MaxLength="2" />
           <Property Name="DiasIniciales" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PorcentajeDiasIniciales" Type="decimal" Precision="18" Scale="4" />
@@ -194,6 +191,8 @@
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
           <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
+          <Property Name="VisibleEnReporte" Type="nvarchar" MaxLength="2" />
+          <Property Name="ExcentoGravadoEnReporte" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Cat_Departamentos">
           <Key>
@@ -212,8 +211,8 @@
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Cat_EntidadFederativa">
           <Key>
             <PropertyRef Name="Id" />
@@ -503,6 +502,7 @@ warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not hav
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
           <Property Name="idConceptoCuotaSindical" Type="int" />
+          <Property Name="IdConceptoCompensacion" Type="int" />
           <Property Name="IdEstatus" Type="int" />
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
@@ -661,6 +661,7 @@ warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not hav
           <Property Name="FechaModificacionCIF" Type="datetime" />
           <Property Name="idSincatosClientes" Type="int" />
           <Property Name="PorcentajeSindicato" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PorcentajeFondoAhorro" Type="decimal" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="FactorIntegracion">
           <Key>
@@ -679,6 +680,18 @@ warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not hav
           <Property Name="IdEstatus" Type="int" />
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FormulasEquivalencias">
+          <Key>
+            <PropertyRef Name="IdEquivalencia" />
+          </Key>
+          <Property Name="IdEquivalencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="Clave" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Campo" Type="nvarchar" MaxLength="150" />
+          <Property Name="Tabla" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdEstatus" Type="int" />
         </EntityType>
         <EntityType Name="ImpuestoSat">
           <Key>
@@ -764,8 +777,8 @@ warning 6002: The table/view 'TadaNomina.dbo.Cat_EntidadFederativa' does not hav
           <Property Name="FechaInicio" Type="datetime" />
           <Property Name="IdEstatus" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.v_IMSS_MovimientosCESS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.v_IMSS_MovimientosCESS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="v_IMSS_MovimientosCESS">
           <Key>
             <PropertyRef Name="ActividadEconomica" />
@@ -789,8 +802,8 @@ warning 6002: The table/view 'TadaNomina.dbo.v_IMSS_MovimientosCESS' does not ha
           <Property Name="CausaBaja" Type="nvarchar" MaxLength="500" />
           <Property Name="Origen" Type="varchar" MaxLength="9" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vComunicados' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vComunicados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vComunicados">
           <Key>
             <PropertyRef Name="IdComunicado" />
@@ -807,8 +820,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vComunicados' does not have a prima
           <Property Name="IdModifica" Type="int" />
           <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vConceptos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConceptos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vConceptos">
           <Key>
             <PropertyRef Name="IdConcepto" />
@@ -854,9 +867,15 @@ warning 6002: The table/view 'TadaNomina.dbo.vConceptos' does not have a primary
           <Property Name="IdConceptoAdicional" Type="int" />
           <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
           <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
+          <Property Name="Formula" Type="nvarchar(max)" />
+          <Property Name="CalculoAutomatico" Type="nvarchar" MaxLength="2" />
+          <Property Name="VisibleEnReporte" Type="nvarchar" MaxLength="2" />
+          <Property Name="ExcentoGravadoEnReporte" Type="nvarchar" MaxLength="2" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="IntegraISN" Type="nchar" MaxLength="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vConfiguracionConceptosFiniquitos">
           <Key>
             <PropertyRef Name="IdConfiguracion" />
@@ -900,9 +919,12 @@ warning 6002: The table/view 'TadaNomina.dbo.vConfiguracionConceptosFiniquitos' 
           <Property Name="idConceptoMaternidad" Type="int" />
           <Property Name="idConceptoRiesgodeTrabajo" Type="int" />
           <Property Name="idConceptoCuotaSindical" Type="int" />
+          <Property Name="IdConceptoCompensacion" Type="int" />
+          <Property Name="ClaveConceptoCompensacion" Type="nvarchar" MaxLength="50" />
+          <Property Name="ConceptoCompensacion" Type="nvarchar" MaxLength="150" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vDepartamentos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vDepartamentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vDepartamentos">
           <Key>
             <PropertyRef Name="IdDepartamento" />
@@ -918,8 +940,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vDepartamentos' does not have a pri
           <Property Name="FechaModificacion" Type="datetime" />
           <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vEmpleadosIMSS_NA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vEmpleadosIMSS_NA' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vEmpleadosIMSS_NA">
           <Key>
             <PropertyRef Name="IdEmpleado" />
@@ -1009,8 +1031,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vEmpleadosIMSS_NA' does not have a 
           <Property Name="Estatus" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="MotivoBaja" Type="nvarchar" MaxLength="500" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vPrestaciones' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPrestaciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vPrestaciones">
           <Key>
             <PropertyRef Name="IdPrestaciones" />
@@ -1025,8 +1047,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vPrestaciones' does not have a prim
           <Property Name="FechaModifica" Type="datetime" />
           <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vTipoAusentismo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTipoAusentismo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vTipoAusentismo">
           <Key>
             <PropertyRef Name="IdTipoAusentismo" />
@@ -1045,8 +1067,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vTipoAusentismo' does not have a pr
           <Property Name="Concepto" Type="nvarchar" MaxLength="150" />
           <Property Name="IdCliente" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vUnidadesNegocio">
           <Key>
             <PropertyRef Name="IdUnidadNegocio" />
@@ -1157,6 +1179,7 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <EntitySet Name="EmpleadoInformacionComplementaria" EntityType="Self.EmpleadoInformacionComplementaria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FactorIntegracion" EntityType="Self.FactorIntegracion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormulasEquivalencias" EntityType="Self.FormulasEquivalencias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ImpuestoSat" EntityType="Self.ImpuestoSat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MovimientosIMSS" EntityType="Self.MovimientosIMSS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Prestaciones" EntityType="Self.Prestaciones" Schema="dbo" store:Type="Tables" />
@@ -1247,7 +1270,13 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
     [vConceptos].[CreaConceptoAdicional] AS [CreaConceptoAdicional], 
     [vConceptos].[IdConceptoAdicional] AS [IdConceptoAdicional], 
     [vConceptos].[CalculoDiasHoras] AS [CalculoDiasHoras], 
-    [vConceptos].[IntegraPension] AS [IntegraPension]
+    [vConceptos].[IntegraPension] AS [IntegraPension], 
+    [vConceptos].[Formula] AS [Formula], 
+    [vConceptos].[CalculoAutomatico] AS [CalculoAutomatico], 
+    [vConceptos].[VisibleEnReporte] AS [VisibleEnReporte], 
+    [vConceptos].[ExcentoGravadoEnReporte] AS [ExcentoGravadoEnReporte], 
+    [vConceptos].[Orden] AS [Orden], 
+    [vConceptos].[IntegraISN] AS [IntegraISN]
     FROM [dbo].[vConceptos] AS [vConceptos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="Self.vConfiguracionConceptosFiniquitos" store:Type="Views" store:Schema="dbo">
@@ -1290,7 +1319,10 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
     [vConfiguracionConceptosFiniquitos].[idConceptoEnfermedadGeneral] AS [idConceptoEnfermedadGeneral], 
     [vConfiguracionConceptosFiniquitos].[idConceptoMaternidad] AS [idConceptoMaternidad], 
     [vConfiguracionConceptosFiniquitos].[idConceptoRiesgodeTrabajo] AS [idConceptoRiesgodeTrabajo], 
-    [vConfiguracionConceptosFiniquitos].[idConceptoCuotaSindical] AS [idConceptoCuotaSindical]
+    [vConfiguracionConceptosFiniquitos].[idConceptoCuotaSindical] AS [idConceptoCuotaSindical], 
+    [vConfiguracionConceptosFiniquitos].[IdConceptoCompensacion] AS [IdConceptoCompensacion], 
+    [vConfiguracionConceptosFiniquitos].[ClaveConceptoCompensacion] AS [ClaveConceptoCompensacion], 
+    [vConfiguracionConceptosFiniquitos].[ConceptoCompensacion] AS [ConceptoCompensacion]
     FROM [dbo].[vConfiguracionConceptosFiniquitos] AS [vConfiguracionConceptosFiniquitos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vDepartamentos" EntityType="Self.vDepartamentos" store:Type="Views" store:Schema="dbo">
@@ -1493,8 +1525,6 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <EntitySet Name="Cat_TipoAusentismo" EntityType="TadaNominaModel.Cat_TipoAusentismo" />
           <EntitySet Name="Cat_TipoIncapacidad" EntityType="TadaNominaModel.Cat_TipoIncapacidad" />
           <EntitySet Name="vTipoAusentismo" EntityType="TadaNominaModel.vTipoAusentismo" />
-          <EntitySet Name="ConfiguracionConceptosFiniquito" EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" />
-          <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" />
           <EntitySet Name="Cat_Areas" EntityType="TadaNominaModel.Cat_Areas" />
           <EntitySet Name="Sindicatos" EntityType="TadaNominaModel.Sindicatos" />
           <EntitySet Name="Cat_EntidadFederativa" EntityType="TadaNominaModel.Cat_EntidadFederativa" />
@@ -1523,8 +1553,11 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           </AssociationSet>
           <EntitySet Name="Cat_UnidadNegocio" EntityType="TadaNominaModel.Cat_UnidadNegocio" />
           <EntitySet Name="Cat_SindicatoCliente" EntityType="TadaNominaModel.Cat_SindicatoCliente" />
+          <EntitySet Name="ConfiguracionConceptosFiniquito" EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" />
+          <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" />
           <EntitySet Name="Cat_ConceptosNomina" EntityType="TadaNominaModel.Cat_ConceptosNomina" />
           <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
+          <EntitySet Name="FormulasEquivalencias" EntityType="TadaNominaModel.FormulasEquivalencias" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -1854,76 +1887,6 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="IdCliente" Type="Int32" />
-        </EntityType>
-        <EntityType Name="ConfiguracionConceptosFiniquito">
-          <Key>
-            <PropertyRef Name="IdConfiguracion" />
-          </Key>
-          <Property Name="IdConfiguracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCliente" Type="Int32" />
-          <Property Name="IdConceptoVacaciones" Type="Int32" />
-          <Property Name="IdConceptoPV" Type="Int32" />
-          <Property Name="IdConceptoAguinaldo" Type="Int32" />
-          <Property Name="IdConceptoIndem3M" Type="Int32" />
-          <Property Name="IdConceptoIndem20D" Type="Int32" />
-          <Property Name="IdConceptoIndemPA" Type="Int32" />
-          <Property Name="IdConceptoFonacot" Type="Int32" />
-          <Property Name="IdConceptoInfonavit" Type="Int32" />
-          <Property Name="IdConceptoPensionAlimenticia" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModifica" Type="Int32" />
-          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-          <Property Name="idConceptoIncapacidadaccidenteTrayecto" Type="Int32" />
-          <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
-          <Property Name="idConceptoMaternidad" Type="Int32" />
-          <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
-          <Property Name="idConceptoCuotaSindical" Type="Int32" />
-        </EntityType>
-        <EntityType Name="vConfiguracionConceptosFiniquitos">
-          <Key>
-            <PropertyRef Name="IdConfiguracion" />
-          </Key>
-          <Property Name="IdConfiguracion" Type="Int32" Nullable="false" />
-          <Property Name="IdCliente" Type="Int32" />
-          <Property Name="IdConceptoVacaciones" Type="Int32" />
-          <Property Name="IdConceptoPV" Type="Int32" />
-          <Property Name="IdConceptoAguinaldo" Type="Int32" />
-          <Property Name="IdConceptoIndem3M" Type="Int32" />
-          <Property Name="IdConceptoIndem20D" Type="Int32" />
-          <Property Name="IdConceptoIndemPA" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModifica" Type="Int32" />
-          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-          <Property Name="ClaveConceptoVac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoVac" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConceptoPV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoPV" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConceptoAguinaldo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoAguinaldo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConcepto3M" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Concepto3M" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConcepto20D" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Concepto20D" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConceptoPA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoPA" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="IdConceptoFonacot" Type="Int32" />
-          <Property Name="IdConceptoInfonavit" Type="Int32" />
-          <Property Name="IdConceptoPensionAlimenticia" Type="Int32" />
-          <Property Name="ClaveConceptoFonacot" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoFonacot" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConceptoInfonavit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoInfonavit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveConceptoPensionAlimenticia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptoPensionAlimenticia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="idConceptoIncapacidadaccidenteTrayecto" Type="Int32" />
-          <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
-          <Property Name="idConceptoMaternidad" Type="Int32" />
-          <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
-          <Property Name="idConceptoCuotaSindical" Type="Int32" />
         </EntityType>
         <EntityType Name="Cat_Areas">
           <Key>
@@ -2456,6 +2419,7 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <Property Name="idSincatosClientes" Type="Int32" />
           <Property Name="PorcentajeSindicato" Type="Decimal" Precision="18" Scale="4" />
           <NavigationProperty Name="EmpleadoInformacionComplementaria" Relationship="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" FromRole="Empleados" ToRole="EmpleadoInformacionComplementaria" />
+          <Property Name="PorcentajeFondoAhorro" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
         <Association Name="FK_EmpleadoInformacionComplementaria_Empleados">
           <End Type="TadaNominaModel.Empleados" Role="Empleados" Multiplicity="1" />
@@ -2551,6 +2515,80 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <Property Name="IdModificacion" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="ConfiguracionConceptosFiniquito">
+          <Key>
+            <PropertyRef Name="IdConfiguracion" />
+          </Key>
+          <Property Name="IdConfiguracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdConceptoVacaciones" Type="Int32" />
+          <Property Name="IdConceptoPV" Type="Int32" />
+          <Property Name="IdConceptoAguinaldo" Type="Int32" />
+          <Property Name="IdConceptoIndem3M" Type="Int32" />
+          <Property Name="IdConceptoIndem20D" Type="Int32" />
+          <Property Name="IdConceptoIndemPA" Type="Int32" />
+          <Property Name="IdConceptoFonacot" Type="Int32" />
+          <Property Name="IdConceptoInfonavit" Type="Int32" />
+          <Property Name="IdConceptoPensionAlimenticia" Type="Int32" />
+          <Property Name="idConceptoIncapacidadaccidenteTrayecto" Type="Int32" />
+          <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
+          <Property Name="idConceptoMaternidad" Type="Int32" />
+          <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
+          <Property Name="idConceptoCuotaSindical" Type="Int32" />
+          <Property Name="IdConceptoCompensacion" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vConfiguracionConceptosFiniquitos">
+          <Key>
+            <PropertyRef Name="IdConfiguracion" />
+          </Key>
+          <Property Name="IdConfiguracion" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdConceptoVacaciones" Type="Int32" />
+          <Property Name="IdConceptoPV" Type="Int32" />
+          <Property Name="IdConceptoAguinaldo" Type="Int32" />
+          <Property Name="IdConceptoIndem3M" Type="Int32" />
+          <Property Name="IdConceptoIndem20D" Type="Int32" />
+          <Property Name="IdConceptoIndemPA" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="ClaveConceptoVac" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoVac" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConceptoPV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoPV" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConceptoAguinaldo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoAguinaldo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConcepto3M" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto3M" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConcepto20D" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto20D" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConceptoPA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoPA" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdConceptoFonacot" Type="Int32" />
+          <Property Name="IdConceptoInfonavit" Type="Int32" />
+          <Property Name="IdConceptoPensionAlimenticia" Type="Int32" />
+          <Property Name="ClaveConceptoFonacot" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoFonacot" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConceptoInfonavit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoInfonavit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveConceptoPensionAlimenticia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoPensionAlimenticia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="idConceptoIncapacidadaccidenteTrayecto" Type="Int32" />
+          <Property Name="idConceptoEnfermedadGeneral" Type="Int32" />
+          <Property Name="idConceptoMaternidad" Type="Int32" />
+          <Property Name="idConceptoRiesgodeTrabajo" Type="Int32" />
+          <Property Name="idConceptoCuotaSindical" Type="Int32" />
+          <Property Name="IdConceptoCompensacion" Type="Int32" />
+          <Property Name="ClaveConceptoCompensacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ConceptoCompensacion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Cat_ConceptosNomina">
           <Key>
             <PropertyRef Name="IdConcepto" />
@@ -2592,11 +2630,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <Property Name="IdModifica" Type="Int32" />
           <Property Name="FechaModifica" Type="DateTime" Precision="3" />
           <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosCalculo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosCondicionantesSI" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="ConceptosCondicionantesNO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="FormulaDiasPorcentaje" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Formula" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="Formula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IncapacidadPagada" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="DiasIniciales" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PorcentajeDiasIniciales" Type="Decimal" Precision="18" Scale="4" />
@@ -2608,6 +2643,8 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <Property Name="IdConceptoAdicional" Type="Int32" />
           <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="VisibleEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ExcentoGravadoEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vConceptos">
           <Key>
@@ -2654,6 +2691,24 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <Property Name="IdConceptoAdicional" Type="Int32" />
           <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Formula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="VisibleEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ExcentoGravadoEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="IntegraISN" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FormulasEquivalencias">
+          <Key>
+            <PropertyRef Name="IdEquivalencia" />
+          </Key>
+          <Property Name="IdEquivalencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Campo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Tabla" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3006,78 +3061,6 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
                 <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
                 <ScalarProperty Name="TipoAusentismo" ColumnName="TipoAusentismo" />
                 <ScalarProperty Name="IdTipoAusentismo" ColumnName="IdTipoAusentismo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ConfiguracionConceptosFiniquito">
-            <EntityTypeMapping TypeName="TadaNominaModel.ConfiguracionConceptosFiniquito">
-              <MappingFragment StoreEntitySet="ConfiguracionConceptosFiniquito">
-                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
-                <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
-                <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
-                <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
-                <ScalarProperty Name="idConceptoIncapacidadaccidenteTrayecto" ColumnName="idConceptoIncapacidadaccidenteTrayecto" />
-                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
-                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdConceptoPensionAlimenticia" ColumnName="IdConceptoPensionAlimenticia" />
-                <ScalarProperty Name="IdConceptoInfonavit" ColumnName="IdConceptoInfonavit" />
-                <ScalarProperty Name="IdConceptoFonacot" ColumnName="IdConceptoFonacot" />
-                <ScalarProperty Name="IdConceptoIndemPA" ColumnName="IdConceptoIndemPA" />
-                <ScalarProperty Name="IdConceptoIndem20D" ColumnName="IdConceptoIndem20D" />
-                <ScalarProperty Name="IdConceptoIndem3M" ColumnName="IdConceptoIndem3M" />
-                <ScalarProperty Name="IdConceptoAguinaldo" ColumnName="IdConceptoAguinaldo" />
-                <ScalarProperty Name="IdConceptoPV" ColumnName="IdConceptoPV" />
-                <ScalarProperty Name="IdConceptoVacaciones" ColumnName="IdConceptoVacaciones" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdConfiguracion" ColumnName="IdConfiguracion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vConfiguracionConceptosFiniquitos">
-            <EntityTypeMapping TypeName="TadaNominaModel.vConfiguracionConceptosFiniquitos">
-              <MappingFragment StoreEntitySet="vConfiguracionConceptosFiniquitos">
-                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
-                <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
-                <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
-                <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
-                <ScalarProperty Name="idConceptoIncapacidadaccidenteTrayecto" ColumnName="idConceptoIncapacidadaccidenteTrayecto" />
-                <ScalarProperty Name="ConceptoPensionAlimenticia" ColumnName="ConceptoPensionAlimenticia" />
-                <ScalarProperty Name="ClaveConceptoPensionAlimenticia" ColumnName="ClaveConceptoPensionAlimenticia" />
-                <ScalarProperty Name="ConceptoInfonavit" ColumnName="ConceptoInfonavit" />
-                <ScalarProperty Name="ClaveConceptoInfonavit" ColumnName="ClaveConceptoInfonavit" />
-                <ScalarProperty Name="ConceptoFonacot" ColumnName="ConceptoFonacot" />
-                <ScalarProperty Name="ClaveConceptoFonacot" ColumnName="ClaveConceptoFonacot" />
-                <ScalarProperty Name="IdConceptoPensionAlimenticia" ColumnName="IdConceptoPensionAlimenticia" />
-                <ScalarProperty Name="IdConceptoInfonavit" ColumnName="IdConceptoInfonavit" />
-                <ScalarProperty Name="IdConceptoFonacot" ColumnName="IdConceptoFonacot" />
-                <ScalarProperty Name="ConceptoPA" ColumnName="ConceptoPA" />
-                <ScalarProperty Name="ClaveConceptoPA" ColumnName="ClaveConceptoPA" />
-                <ScalarProperty Name="Concepto20D" ColumnName="Concepto20D" />
-                <ScalarProperty Name="ClaveConcepto20D" ColumnName="ClaveConcepto20D" />
-                <ScalarProperty Name="Concepto3M" ColumnName="Concepto3M" />
-                <ScalarProperty Name="ClaveConcepto3M" ColumnName="ClaveConcepto3M" />
-                <ScalarProperty Name="ConceptoAguinaldo" ColumnName="ConceptoAguinaldo" />
-                <ScalarProperty Name="ClaveConceptoAguinaldo" ColumnName="ClaveConceptoAguinaldo" />
-                <ScalarProperty Name="ConceptoPV" ColumnName="ConceptoPV" />
-                <ScalarProperty Name="ClaveConceptoPV" ColumnName="ClaveConceptoPV" />
-                <ScalarProperty Name="ConceptoVac" ColumnName="ConceptoVac" />
-                <ScalarProperty Name="ClaveConceptoVac" ColumnName="ClaveConceptoVac" />
-                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
-                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdConceptoIndemPA" ColumnName="IdConceptoIndemPA" />
-                <ScalarProperty Name="IdConceptoIndem20D" ColumnName="IdConceptoIndem20D" />
-                <ScalarProperty Name="IdConceptoIndem3M" ColumnName="IdConceptoIndem3M" />
-                <ScalarProperty Name="IdConceptoAguinaldo" ColumnName="IdConceptoAguinaldo" />
-                <ScalarProperty Name="IdConceptoPV" ColumnName="IdConceptoPV" />
-                <ScalarProperty Name="IdConceptoVacaciones" ColumnName="IdConceptoVacaciones" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdConfiguracion" ColumnName="IdConfiguracion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3513,6 +3496,7 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <EntitySetMapping Name="Empleados">
             <EntityTypeMapping TypeName="TadaNominaModel.Empleados">
               <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="PorcentajeFondoAhorro" ColumnName="PorcentajeFondoAhorro" />
                 <ScalarProperty Name="PorcentajeSindicato" ColumnName="PorcentajeSindicato" />
                 <ScalarProperty Name="idSincatosClientes" ColumnName="idSincatosClientes" />
                 <ScalarProperty Name="FechaModificacionCIF" ColumnName="FechaModificacionCIF" />
@@ -3690,9 +3674,87 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ConfiguracionConceptosFiniquito">
+            <EntityTypeMapping TypeName="TadaNominaModel.ConfiguracionConceptosFiniquito">
+              <MappingFragment StoreEntitySet="ConfiguracionConceptosFiniquito">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdConceptoCompensacion" ColumnName="IdConceptoCompensacion" />
+                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
+                <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
+                <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
+                <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
+                <ScalarProperty Name="idConceptoIncapacidadaccidenteTrayecto" ColumnName="idConceptoIncapacidadaccidenteTrayecto" />
+                <ScalarProperty Name="IdConceptoPensionAlimenticia" ColumnName="IdConceptoPensionAlimenticia" />
+                <ScalarProperty Name="IdConceptoInfonavit" ColumnName="IdConceptoInfonavit" />
+                <ScalarProperty Name="IdConceptoFonacot" ColumnName="IdConceptoFonacot" />
+                <ScalarProperty Name="IdConceptoIndemPA" ColumnName="IdConceptoIndemPA" />
+                <ScalarProperty Name="IdConceptoIndem20D" ColumnName="IdConceptoIndem20D" />
+                <ScalarProperty Name="IdConceptoIndem3M" ColumnName="IdConceptoIndem3M" />
+                <ScalarProperty Name="IdConceptoAguinaldo" ColumnName="IdConceptoAguinaldo" />
+                <ScalarProperty Name="IdConceptoPV" ColumnName="IdConceptoPV" />
+                <ScalarProperty Name="IdConceptoVacaciones" ColumnName="IdConceptoVacaciones" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdConfiguracion" ColumnName="IdConfiguracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vConfiguracionConceptosFiniquitos">
+            <EntityTypeMapping TypeName="TadaNominaModel.vConfiguracionConceptosFiniquitos">
+              <MappingFragment StoreEntitySet="vConfiguracionConceptosFiniquitos">
+                <ScalarProperty Name="ConceptoCompensacion" ColumnName="ConceptoCompensacion" />
+                <ScalarProperty Name="ClaveConceptoCompensacion" ColumnName="ClaveConceptoCompensacion" />
+                <ScalarProperty Name="IdConceptoCompensacion" ColumnName="IdConceptoCompensacion" />
+                <ScalarProperty Name="idConceptoCuotaSindical" ColumnName="idConceptoCuotaSindical" />
+                <ScalarProperty Name="idConceptoRiesgodeTrabajo" ColumnName="idConceptoRiesgodeTrabajo" />
+                <ScalarProperty Name="idConceptoMaternidad" ColumnName="idConceptoMaternidad" />
+                <ScalarProperty Name="idConceptoEnfermedadGeneral" ColumnName="idConceptoEnfermedadGeneral" />
+                <ScalarProperty Name="idConceptoIncapacidadaccidenteTrayecto" ColumnName="idConceptoIncapacidadaccidenteTrayecto" />
+                <ScalarProperty Name="ConceptoPensionAlimenticia" ColumnName="ConceptoPensionAlimenticia" />
+                <ScalarProperty Name="ClaveConceptoPensionAlimenticia" ColumnName="ClaveConceptoPensionAlimenticia" />
+                <ScalarProperty Name="ConceptoInfonavit" ColumnName="ConceptoInfonavit" />
+                <ScalarProperty Name="ClaveConceptoInfonavit" ColumnName="ClaveConceptoInfonavit" />
+                <ScalarProperty Name="ConceptoFonacot" ColumnName="ConceptoFonacot" />
+                <ScalarProperty Name="ClaveConceptoFonacot" ColumnName="ClaveConceptoFonacot" />
+                <ScalarProperty Name="IdConceptoPensionAlimenticia" ColumnName="IdConceptoPensionAlimenticia" />
+                <ScalarProperty Name="IdConceptoInfonavit" ColumnName="IdConceptoInfonavit" />
+                <ScalarProperty Name="IdConceptoFonacot" ColumnName="IdConceptoFonacot" />
+                <ScalarProperty Name="ConceptoPA" ColumnName="ConceptoPA" />
+                <ScalarProperty Name="ClaveConceptoPA" ColumnName="ClaveConceptoPA" />
+                <ScalarProperty Name="Concepto20D" ColumnName="Concepto20D" />
+                <ScalarProperty Name="ClaveConcepto20D" ColumnName="ClaveConcepto20D" />
+                <ScalarProperty Name="Concepto3M" ColumnName="Concepto3M" />
+                <ScalarProperty Name="ClaveConcepto3M" ColumnName="ClaveConcepto3M" />
+                <ScalarProperty Name="ConceptoAguinaldo" ColumnName="ConceptoAguinaldo" />
+                <ScalarProperty Name="ClaveConceptoAguinaldo" ColumnName="ClaveConceptoAguinaldo" />
+                <ScalarProperty Name="ConceptoPV" ColumnName="ConceptoPV" />
+                <ScalarProperty Name="ClaveConceptoPV" ColumnName="ClaveConceptoPV" />
+                <ScalarProperty Name="ConceptoVac" ColumnName="ConceptoVac" />
+                <ScalarProperty Name="ClaveConceptoVac" ColumnName="ClaveConceptoVac" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdConceptoIndemPA" ColumnName="IdConceptoIndemPA" />
+                <ScalarProperty Name="IdConceptoIndem20D" ColumnName="IdConceptoIndem20D" />
+                <ScalarProperty Name="IdConceptoIndem3M" ColumnName="IdConceptoIndem3M" />
+                <ScalarProperty Name="IdConceptoAguinaldo" ColumnName="IdConceptoAguinaldo" />
+                <ScalarProperty Name="IdConceptoPV" ColumnName="IdConceptoPV" />
+                <ScalarProperty Name="IdConceptoVacaciones" ColumnName="IdConceptoVacaciones" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdConfiguracion" ColumnName="IdConfiguracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Cat_ConceptosNomina">
             <EntityTypeMapping TypeName="TadaNominaModel.Cat_ConceptosNomina">
               <MappingFragment StoreEntitySet="Cat_ConceptosNomina">
+                <ScalarProperty Name="ExcentoGravadoEnReporte" ColumnName="ExcentoGravadoEnReporte" />
+                <ScalarProperty Name="VisibleEnReporte" ColumnName="VisibleEnReporte" />
                 <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
                 <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
                 <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
@@ -3705,10 +3767,7 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
                 <ScalarProperty Name="DiasIniciales" ColumnName="DiasIniciales" />
                 <ScalarProperty Name="IncapacidadPagada" ColumnName="IncapacidadPagada" />
                 <ScalarProperty Name="Formula" ColumnName="Formula" />
-                <ScalarProperty Name="FormulaDiasPorcentaje" ColumnName="FormulaDiasPorcentaje" />
-                <ScalarProperty Name="ConceptosCondicionantesNO" ColumnName="ConceptosCondicionantesNO" />
-                <ScalarProperty Name="ConceptosCondicionantesSI" ColumnName="ConceptosCondicionantesSI" />
-                <ScalarProperty Name="ConceptosCalculo" ColumnName="ConceptosCalculo" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
                 <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
                 <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
                 <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
@@ -3752,6 +3811,12 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
           <EntitySetMapping Name="vConceptos">
             <EntityTypeMapping TypeName="TadaNominaModel.vConceptos">
               <MappingFragment StoreEntitySet="vConceptos">
+                <ScalarProperty Name="IntegraISN" ColumnName="IntegraISN" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="ExcentoGravadoEnReporte" ColumnName="ExcentoGravadoEnReporte" />
+                <ScalarProperty Name="VisibleEnReporte" ColumnName="VisibleEnReporte" />
+                <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
+                <ScalarProperty Name="Formula" ColumnName="Formula" />
                 <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
                 <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
                 <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
@@ -3793,6 +3858,19 @@ warning 6002: The table/view 'TadaNomina.dbo.vUnidadesNegocio' does not have a p
                 <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormulasEquivalencias">
+            <EntityTypeMapping TypeName="TadaNominaModel.FormulasEquivalencias">
+              <MappingFragment StoreEntitySet="FormulasEquivalencias">
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Tabla" ColumnName="Tabla" />
+                <ScalarProperty Name="Campo" ColumnName="Campo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdEquivalencia" ColumnName="IdEquivalencia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

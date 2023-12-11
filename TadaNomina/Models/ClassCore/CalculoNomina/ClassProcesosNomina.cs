@@ -69,6 +69,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal string[] _tipoEsquemaR = { "Tradicional", "Esquema", "Mixto" };
         internal ConfiguracionFechasCalculos configuracionFechas;
         internal List<ModelDiasTrabajadosAguinaldo> ListDiasTrabajadosAguinaldo;
+        internal List<vConceptos> conceptosNominaFormula;
+        internal List<FormulasEquivalencias> tablaEquivalencias;
 
         internal bool AjusteSecundario = false;
         internal bool AjusteAnual = false;
@@ -154,6 +156,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             ProcesaIncidenciasProgramadas(Periodo.DescuentosFijos, Periodo.IdUnidadNegocio, IdPeriodo, IdEmpleado, IdUsuario);
             GetDatosUnidadNegocio(Periodo.IdUnidadNegocio);
             GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
+            GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
+            GetTablaEquivalencias(UnidadNegocio.IdCliente);
 
             if (Periodo.TipoNomina == "Nomina")
             {
@@ -233,7 +237,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     GetImpuestosSAT_Ajuste_Anual(Periodo.FechaFin);
                     GetEmpleadosAjusteAnual(UnidadNegocio.IdUnidadNegocio, Periodo.FechaFin.Year);
                     
-                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList();
+                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste != null && Periodo.EmpleadosSinAjuste != "" ? 
+                        Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList() : new List<string>();
                     GetListEmpleadosSinAjuste(Periodo.IdUnidadNegocio, cvesEmpSinAjuste);
 
                     if (Periodo.PeriodosAjusteSecundario != null && Periodo.PeriodosAjusteSecundario.Length > 0 && listEmpleadosSinAjuste.Count > 0)
@@ -260,6 +265,22 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 GetSubsidioSAT(4, Periodo.FechaFin);
                 GetListEmpleadosPTU(Periodo.IdPeriodoNomina);
             }                       
+        }
+
+        private void GetListConceptosNominaFormula(int idCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1 && (x.Formula != string.Empty && x.Formula != null)).ToList();
+            }
+        }
+
+        private void GetTablaEquivalencias(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                tablaEquivalencias = entidad.FormulasEquivalencias.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente).ToList();
+            }
         }
 
         public void getSaldos(int IdUnidadNegocio, DateTime FechaInicio, DateTime FechaFin)
@@ -436,7 +457,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado) select b).ToList();
+                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado && x.BanderaConceptoEspecial != 1 && x.BanderaPensionAlimenticia == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaAdelantoPULPI == null) select b).ToList();
 
                  return  _incidnecias;
             }
@@ -1868,7 +1889,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             return resultado;
         }
-
 
         public void CalculaCuotasSindicales(int IdPeriodoNomina, int IdEmpleado, int idconceptoCuota, int idconceptoVacaciones, decimal? diasLaborados, decimal SDIMSS, int IdUsuario)
         {

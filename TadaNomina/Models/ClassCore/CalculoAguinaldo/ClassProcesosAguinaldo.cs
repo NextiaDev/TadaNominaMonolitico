@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,10 +35,8 @@ namespace TadaNomina.Models.ClassCore.CalculoAguinaldo
             configuracionFechas = cf.GetConfiguracionFechas(p.IdUnidadNegocio); 
             string conf_fecha = null;
 
-            if (configuracionFechas != null)
-            {
-                conf_fecha = configuracionFechas.FAguinaldoReal;
-            }
+            if (configuracionFechas != null)            
+                conf_fecha = configuracionFechas.FAguinaldoReal;            
 
             ClassConceptosFiniquitos cfiniquitos = new ClassConceptosFiniquitos();
             int DiasTotalesPeriodo = p.FechaFin.Subtract(p.FechaInicio).Days + 1;
@@ -165,6 +164,7 @@ namespace TadaNomina.Models.ClassCore.CalculoAguinaldo
         {
             using (NominaEntities1 context = new NominaEntities1())
             {
+                context.Database.CommandTimeout = 0;
                 var queryFaltas = (from b in context.sp_AcumuladoFaltasAnual(IdUnidadNegocio, Año) select b);
 
                 List<Faltas> Listado_faltas = new List<Faltas>();

@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+<div id="page-content">
+    <div class="panel col-md-6 col-lg-offset-3">
+        <div class="panel-body">
+            @using (Html.BeginForm("Index", "ReporteGV", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <label>Conexion GV</label>
+                    <br />
+                    <button class="btn btn-sm btn-success btn-labeled"><i class="btn-label fa fa-download"></i>Descargar</button>
+                </div>
+                <br />
+                <hr />
+                <div class="row">
+                    <label>Layout</label>
+                    <input class="form-control" type="file" id="ArchivoGV" onchange="ArchivoCV()" name="Archivo"/>
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><button class="btn btn-sm btn-success btn-labeled" disabled id="btnArchivoGV" type="submit"><i class="btn-label fa fa-upload"></i>Cargar</button></div>
+                    <div class="col-md-6 text-right"><a class="btn btn-sm btn-primary btn-labeled" href="~/Formatos/Marcas.xlsx"><i class="btn-label fa fa-download"></i>Layout</a></div>
+                    <br />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function ArchivoCV() {
+            if ($('#ArchivoGV').val() == "") {
+                $('#btnArchivoGV').attr('disabled',true)
+            }
+            else {
+                $('#btnArchivoGV').removeAttr('disabled')
+            }
+        }
+    </script>
+}

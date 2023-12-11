@@ -27,6 +27,168 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE,string CAA, int pIdUsuario)
+        {
+
+            if (bool.Parse(PS) == true)
+            {
+                PS = "S";
+            }
+            else
+            {
+                PS = "N";
+
+            }
+
+            if (bool.Parse(DE) == true)
+            {
+                DE = "S";
+            }
+            else
+            {
+                DE = "N";
+
+            }
+            if (bool.Parse(CAA) == true)
+            {
+                CAA = "S";
+            }
+            else
+            {
+                CAA = "N";
+
+            }
+
+
+
+            if (bool.Parse(CuotaSindical) == true)
+            {
+                CuotaSindical = "S";
+            }
+            else
+            {
+                CuotaSindical = "N";
+
+            }
+       
+            if (bool.Parse(CargasSFaltas) == true)
+            {
+                CargasSFaltas = "S";
+            }
+            else
+            {
+                CargasSFaltas = "N";
+
+            }
+            if (bool.Parse(DiasEquiv) == true)
+            {
+                DiasEquiv = "S";
+            }
+            else
+            {
+                DiasEquiv = "N";
+
+            }
+            if (bool.Parse(CobroCops) == true)
+            {
+                CobroCops = "S";
+            }
+            else
+            {
+                CobroCops = "N";
+
+            }
+            if (bool.Parse(RetenciISRSMGV) == true)
+            {
+                RetenciISRSMGV = "S";
+            }
+            else
+            {
+                RetenciISRSMGV = "N";
+
+            }
+            if (bool.Parse(SubirArchivo) == true)
+            {
+                SubirArchivo = "S";
+            }
+            else
+            {
+                SubirArchivo = "N";
+
+            }
+            if (bool.Parse(GeneraIntegrado) == true)
+            {
+                GeneraIntegrado = "S";
+            }
+            else
+            {
+                GeneraIntegrado = "N";
+
+            }
+            if (bool.Parse(Isr74) == true)
+            {
+                Isr74 = "S";
+            }
+            else
+            {
+                Isr74 = "N";
+
+            }
+            if (bool.Parse(NCargaObrera) == true)
+            {
+                NCargaObrera = "S";
+            }
+            else
+            {
+                NCargaObrera = "N";
+
+            }
+            if (bool.Parse(NCargaPatronal) == true)
+            {
+                NCargaPatronal = "S";
+            }
+            else
+            {
+                NCargaPatronal = "N";
+
+            }
+
+
+
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Cat_UnidadNegocio unidad = (from b in entidad.Cat_UnidadNegocio
+                                            where b.IdUnidadNegocio == pIdUnidadNegocio
+                                            select b).FirstOrDefault();
+
+                if (unidad != null)
+                {
+                    unidad.BanderaCuotaSindical = CuotaSindical;
+                    unidad.BanderaCargasSocialesSinFaltas = CargasSFaltas;
+                    unidad.BanderaDiasEquivalentes = DiasEquiv;
+                    unidad.CobraCOPS_Empleado_SMGV = CobroCops;
+                    unidad.RetencionISR_SMGV = RetenciISRSMGV;
+                    unidad.ValidaFechaSubirArchivo = SubirArchivo;
+                    unidad.GenerarIntegradoPVyAgui = GeneraIntegrado;
+                    unidad.ISRAguinaldoL174 = Isr74;
+                    unidad.IdModificacion = pIdUsuario;
+                    unidad.NoCalcularCargaObrera = NCargaObrera;
+                    unidad.NoCalcularCargaPatronal = NCargaPatronal;
+                    unidad.FechaInicioValidacionSubir = FechaInicio;
+                    unidad.FechaFinValidacionSubir = FechaFin;
+                    unidad.PercepcionesEspeciales = PS;
+                    unidad.DeduccionesEspeciales = DE;
+                    unidad.ConsideraAusentismosEnAguinaldo = CAA;
+                    unidad.FechaModificacion = DateTime.Now;
+
+                    entidad.SaveChanges();
+                }
+
+            }
+        }
+
+
         /// <summary>
         /// Método para mostrar las unidades de negocio por Id.
         /// </summary>

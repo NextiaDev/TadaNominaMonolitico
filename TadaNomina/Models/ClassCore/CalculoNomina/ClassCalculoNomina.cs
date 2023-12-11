@@ -1,10 +1,15 @@
 ﻿using DocumentFormat.OpenXml.Office.CustomUI;
+using DocumentFormat.OpenXml.Validation;
+using Flee.PublicTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels;
+using TadaNomina.Models.ViewModels.Nominas;
 using TadaNomina.Services;
+using System.Linq.Dynamic.Core;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
 {
@@ -81,7 +86,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 SD_Real = GetSD(item.SD);
                 IdEntidadFederativa = item.IdEntidad;
                 IdPrestacionesEmpleado = item.IdPrestaciones;
-                
+                nominaTrabajo.Anios = Math.Round(ObtenAntiguedadEmpleado(item.FechaReconocimientoAntiguedad, Periodo.FechaFin), 2);
+
                 if (Periodo.TipoNomina == "Proyeccion")
                 {
                     if (item.SDI_Proyeccion != null && item.SDI_Proyeccion > 0) { SDI = GetSD(item.SDI_Proyeccion); }
@@ -136,7 +142,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         /// <param name="datosEmpleados">Objeto con toda la información del empleado en proceso.</param>
         private void Porcesa_Nomina_Tradicional(vEmpleados datosEmpleados)
-        {            
+        {
             try { Porcentaje_Riesgo_Trabajo_Patronal = ListRegistroPatronal.Where(x => x.IdRegistroPatronal == datosEmpleados.IdRegistroPatronal).Select(x => x.RiesgoTrabajo).FirstOrDefault(); }
             catch { Porcentaje_Riesgo_Trabajo_Patronal = 0; }
 
@@ -155,9 +161,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             // Cuando el tipo de nomina tiene 0 en dias de pago se calcula con dias naturales
-            if (DiasPago == 0 && datosEmpleados.TipoNomina != "Honorarios")            
+            if (DiasPago == 0 && datosEmpleados.TipoNomina != "Honorarios")
                 DiasPago = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1;
-            
+
             if (Periodo.TablaDiaria == "S")
             {
                 DiasPago = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1M;
@@ -166,7 +172,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             DiasPago += DiasMasPorAlta;
             DiasPago -= DiasMenosPorAlta;
-                                    
+
             if (_tipoNomina.Contains(Periodo.TipoNomina) || datosEmpleados.IdEstatus == 3)
             {
                 DiasPago = 0;
@@ -174,11 +180,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).Select(x => x.FactorIntegracion).FirstOrDefault() ?? 0;
-            if(nominaTrabajo.FactorIntegracion == null)
+            if (nominaTrabajo.FactorIntegracion == null)
                 nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdCliente == 0).Select(x => x.FactorIntegracion).FirstOrDefault();
 
-            nominaTrabajo.FechaAltaIMSS= datosEmpleados.FechaAltaIMSS;
-            nominaTrabajo.FechaReconocimientoAntiguedad= datosEmpleados.FechaReconocimientoAntiguedad;
+            nominaTrabajo.FechaAltaIMSS = datosEmpleados.FechaAltaIMSS;
+            nominaTrabajo.FechaReconocimientoAntiguedad = datosEmpleados.FechaReconocimientoAntiguedad;
 
             GetDiasTrabajados(_tipoEsquemaT);
 
@@ -186,9 +192,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.SueldoPagado += (nominaTrabajo.DiasTrabajados + fraccionHorasMas - fraccionHorasMenos) * SD_IMSS;
             nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
             if (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) { nominaTrabajo.SueldoPagado = 0; }
+            int IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0;
 
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
-            nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
+
+            if (IdConceptoCompensacionPiramida != 0)
+                nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(X => X.Monto).Sum();
+            else
+                nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
 
             if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null && UnidadNegocio.IdConceptoSeptimoDia > 0)
             {
@@ -215,8 +226,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }
             }
 
-            ProcesaIncidenciasMultiplicaDT();
-            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
+            //condigo para insertar incidencias que se calculan automaticamente
+            PercepcionesFormuladas(datosEmpleados);
+            ProcesaIncidenciasMultiplicaDT();            
+            nominaTrabajo.ER += montoIncidenciasMultiplicaDT;            
 
             if (Periodo.TipoNomina == "PTU")
             {
@@ -232,7 +245,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                CalculaISR();
+                if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)")
+                    CalculaISR();
             }
 
             if (ValidacionDiasEquivalentes() && UnidadNegocio.BanderaDiasEquivalentes == "SI")
@@ -253,7 +267,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 Calcula_Cuotas_Obreras();
             }
 
-            if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina=="Nomina")
+            //configuracion para piramidar sueldos
+            PiramidaSueldosConCompensacion(datosEmpleados);
+
+            if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina == "Nomina")
             {
                 if (datosEmpleados.IdEstatus == 1 || configuracionNominaEmpleado.IncidenciasAutomaticas == 1)
                 {
@@ -261,13 +278,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     ProcesaCreditoFonacot(creditosFonacot.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, IdUsuario, datosEmpleados.TipoNomina);
                 }
             }
-            
+
             nominaTrabajo.ER += nominaTrabajo.SubsidioPagar ?? 0;
-            nominaTrabajo.ER += nominaTrabajo.ReintegroISR ?? 0;            
+            nominaTrabajo.ER += nominaTrabajo.ReintegroISR ?? 0;
 
             //CalculaISN();
-            
-            nominaTrabajo.DD = 0;                        
+
+            nominaTrabajo.DD = 0;
             nominaTrabajo.DD += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.Monto).Sum();
             nominaTrabajo.DD += nominaTrabajo.ImpuestoRetener;
             nominaTrabajo.DD += nominaTrabajo.IMSS_Obrero;
@@ -290,12 +307,137 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     nominaTrabajo.DD += GetDeduccionesEspeciales(datosEmpleados.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, datosEmpleados.IdPuesto, datosEmpleados.Compensacion_Dia_Trabajado, nominaTrabajo.DiasTrabajados, nominaTrabajo.Faltas, SD_IMSS, IdUsuario, datosEmpleados.IdCliente, datosEmpleados.IdCentroCostos);
             }
 
-            if (nominaTrabajo.ER <= 0)            
+            if (nominaTrabajo.ER <= 0)
                 nominaTrabajo.DD = 0;
-                //EliminaMontosIncidenciasAusentismos();            
+            //EliminaMontosIncidenciasAusentismos();            
 
             nominaTrabajo.Neto = 0;
-            nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;                       
+            nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;
+        }
+
+        private void PercepcionesFormuladas(vEmpleados datosEmpleados)
+        {
+            if (conceptosNominaFormula.Count > 0)
+            {
+                ExpressionContext context = new ExpressionContext();
+                context.Imports.AddType(typeof(Math));
+
+                foreach (var icform in conceptosNominaFormula)
+                {
+                    List<string> lineas = icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(';').ToList();
+                    string Formula = string.Empty;
+                    string Omitidos = string.Empty;
+                    string Unicamente = string.Empty;
+                    foreach (var line in lineas)
+                    {
+                        List<string> datos = line.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(':').ToList();
+                        string accion = datos[0].ToUpper();
+
+                        if (accion == "CALCULO")
+                            try { Formula = datos[1]; } catch { }
+
+                        if (accion == "EXCEPTO")
+                            try { Omitidos = datos[1]; } catch { }
+
+                        if (accion == "SOLO")
+                            try { Unicamente = datos[1]; } catch { }
+                    }
+
+                    if (icform.CalculoAutomatico == "SI")
+                    {
+                        //se reemplazan los valores que dependen de la tabla de equivalencias.                        
+                        foreach (var iEquiv in tablaEquivalencias)
+                        {
+                            var resultado = "0";
+                            if (icform.Formula.Contains(iEquiv.Clave))
+                            {
+                                if (tablaEquivalencias != null)
+                                {
+                                    if (iEquiv.Tabla == "Nomina")
+                                    {
+                                        List<NominaTrabajo> lnomina = new List<NominaTrabajo>();
+                                        lnomina.Add(nominaTrabajo);
+
+                                        resultado = lnomina.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
+                                    }
+
+                                    if (iEquiv.Tabla == "Empleados")
+                                    {
+                                        List<vEmpleados> lemp = new List<vEmpleados>();
+                                        lemp.Add(datosEmpleados);
+
+                                        resultado = lemp.AsQueryable().Select(iEquiv.Campo).Sum().ToString();
+                                    }
+
+                                    if (iEquiv.Tabla == "FactorIntegracion")
+                                    {
+                                        if (iEquiv.Clave == "SBC")
+                                        {
+                                            decimal factor = (prestaciones.Where(x => nominaTrabajo.Anios >= x.Limite_Inferior && nominaTrabajo.Anios <= x.Limite_Superior)
+                                                .Select(x => x.FactorIntegracion).FirstOrDefault() ?? 1.0493M);
+
+                                            resultado = (SD_IMSS * factor).ToString();
+                                        }
+                                    }
+                                }
+
+                                Formula = Formula.Replace(iEquiv.Clave, resultado);
+                            }
+                        }
+                    }
+
+                    //ejecuta la operación
+                    IDynamicExpression e = context.CompileDynamic(Formula);
+                    var resul = Math.Round(Convert.ToDecimal(e.Evaluate()), 2);
+
+                    //si el resultado es diferente de 0 se actualiza la incidencia
+                    if (resul != 0)
+                        InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
+                }
+
+                incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
+            }
+        }
+
+        public decimal ObtenAntiguedadEmpleado(DateTime? FechaIngreso, DateTime FechaBaja)
+        {
+            try
+            {
+                decimal Antiguedad = 0;
+                if (FechaIngreso != null)
+                {
+                    Decimal Dias = (FechaBaja.Subtract((DateTime)FechaIngreso).Days) + 1;
+                    Antiguedad = (Dias / 365);
+                }
+                return Antiguedad;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        private void PiramidaSueldosConCompensacion(vEmpleados datosEmpleados)
+        {
+            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)")
+            {
+                decimal imss = 0;
+                imss += (decimal)nominaTrabajo.IMSS_Obrero;
+                imss += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum();
+                decimal importeAPiramidar = 0;
+                importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
+                importeAPiramidar += imss;
+
+                decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
+                decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
+
+                InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+
+                nominaTrabajo.ER += importeConcepto;
+                percepcionesEspecialesGravado = 0;
+                percepcionesEspecialesGravado += importeConcepto;
+                CalculaISR();
+            }
         }
 
         /// <summary>
@@ -447,6 +589,70 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             foreach (var item in incidencias)
             {
                 cins.EliminaMontosAusentismos(item.IdIncidencia);
+            }
+        }
+
+        public decimal Piramida(decimal importe, DateTime FechaFin)
+        {
+            decimal ISR_Asimilado;
+            decimal apoyo = 0;
+            var DatoAlQueLlegar = importe;
+            decimal VarialbeGravada = DatoAlQueLlegar;
+            decimal datoCondicion = DatoAlQueLlegar;
+            while (datoCondicion >= .005M)
+            {
+                var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, false);
+
+                apoyo = VarialbeGravada;
+                ISR_Asimilado = impuestoAsimilado;
+                if (ISR_Asimilado < 0)
+                    ISR_Asimilado = 0;
+
+                var NetoAsimilado = apoyo - ISR_Asimilado;
+                datoCondicion = importe - NetoAsimilado;
+                VarialbeGravada += datoCondicion;
+            }
+
+            return apoyo;
+        }
+
+        public void InsertaIncidenciaConceptoCompensacionPiramidar(int IdConcepto, decimal Monto)
+        {
+            if (IdConcepto != 0)
+            {
+                ClassIncidencias cins = new ClassIncidencias();
+                ModelIncidencias model = new ModelIncidencias();
+                cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
+
+                model.IdEmpleado = IdEmpleado;
+                model.IdPeriodoNomina = IdPeriodoNomina;
+                model.IdConcepto = (int)IdConcepto;
+                model.Monto = Monto;
+                model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para las nominas que piramidan";
+                model.MontoEsquema = 0;
+
+                if (model.IdConcepto != 0)
+                    cins.NewIncindencia(model, IdUsuario);
+            }
+        }
+
+        public void InsertaIncidenciaConceptoFormulado(int IdConcepto, decimal Monto)
+        {
+            if (IdConcepto != 0)
+            {
+                ClassIncidencias cins = new ClassIncidencias();
+                ModelIncidencias model = new ModelIncidencias();
+                cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
+
+                model.IdEmpleado = IdEmpleado;
+                model.IdPeriodoNomina = IdPeriodoNomina;
+                model.IdConcepto = (int)IdConcepto;
+                model.Monto = Monto;
+                model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para los conceptos formulados";
+                model.MontoEsquema = 0;
+
+                if (model.IdConcepto != 0)
+                    cins.NewIncindencia(model, IdUsuario);
             }
         }
     }

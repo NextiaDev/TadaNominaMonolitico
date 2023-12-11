@@ -110,7 +110,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public List<SelectListItem> lsmgvalcien { get; set; }
 
 
-        [Display(Name = "Piramidar")]
+        [Display(Name = "Se usa en Pantalla Piramidar")]
         public string Piramida { get; set; }
         public List<SelectListItem> lPiramidal { get; set; }       
         
@@ -126,5 +126,21 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "¿El cálculo será por días u horas?")]
         public string DiasHoras { get; set; }
         public List<SelectListItem> lDiasHoras { get; set; }
+
+        [Display(Name = "¿Calculo Automatico?:")]
+        public string CalculoAutomatico { get; set; }
+        public List<SelectListItem> lstPagoAutomatico { get; set; }
+
+        [Display(Name = "Formula :")]
+        public string Formula { get; set; }
+        [Display(Name = "¿Visible en Reporte? :")]
+        public string VisibleEnReporte { get; set; }
+        public List<SelectListItem> lstVisibleReporte { get; set; }
+        [Display(Name = "¿Desgloce de Gravado y Exento? :")]
+        public string ExcentoGravadoEnReporte { get; set; }
+        public List<SelectListItem> lstDesgloceGravadoExento{ get; set; }
+        [Display(Name = "Orden de Calculo :")]
+        public int? Orden { get; set; }
+
     }
 }

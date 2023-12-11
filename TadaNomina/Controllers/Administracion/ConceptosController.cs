@@ -186,6 +186,20 @@ namespace TadaNomina.Controllers.Administracion
             List<vConceptos> lconceptos = ccon.GetvConceptos(0).OrderBy(x => x.Concepto).ToList();
 
             return View(lconceptos);
-        }       
+        }
+
+        public JsonResult getPalabrasReservadas()
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                var conceptos = cc.getConceptosFormulacion((int)Session["sIdCliente"]);
+                return Json(conceptos);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
     }
 }

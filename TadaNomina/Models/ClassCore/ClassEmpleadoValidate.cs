@@ -95,7 +95,7 @@ namespace TadaNomina.Models
         /// <param name="idUsuario">Identificador del usuario</param>
         /// <param name="pIdUnidadNegocio">Identificador de la unidad de negocio</param>
         /// <returns>Contador de los errores detectados</returns>
-        public int Init(string csvData, string nameFile, int idUsuario, int pIdUnidadNegocio)
+        public int Init(string csvData, string nameFile, int idUsuario, int pIdUnidadNegocio, int idCliente)
         {
             FileName = nameFile;
             int index = 0;
@@ -113,14 +113,14 @@ namespace TadaNomina.Models
                     rowFile.Columns = new List<ColumnFile>();
                     rowFile.Row = index;
 
-                    if (Validate(row, rowFile).Equals(Type.Success))
+                    if (Validate(row, rowFile, idCliente).Equals(Type.Success))
                     {
                         int? IdBancoViatico = null;
                         try { IdBancoViatico = idBancoViaticos(row.Split(',')[41].Trim()); } catch { IdBancoViatico = null; }
                         string CuentaViatico = null;
                         try { CuentaViatico = Cuenta(row.Split(',')[42].Trim()); } catch { CuentaViatico = null; }
                         string CuentaInterViatico = null;
-                        try { CuentaInterViatico = Cuenta(row.Split(',')[43].Trim()); } catch { CuentaInterViatico = null; }
+                        try { CuentaInterViatico = Cuenta(row.Split(',')[43].Trim()); } catch { CuentaInterViatico = null; }                        
                         empleadosBatch.Add(new Empleado
                         {
                             IdUnidadNegocio = pIdUnidadNegocio,
@@ -190,7 +190,7 @@ namespace TadaNomina.Models
             TotalCount = (index - 1);
             ClassEmpleado empleado = new ClassEmpleado();
             decimal SMG_ = empleado.ObtenSMV();
-            return empleado.AddEmpleadoBatch(empleadosBatch, SMG_);
+            return empleado.AddEmpleadoBatch(empleadosBatch, SMG_, idCliente, pIdUnidadNegocio);
         }
 
         /// <summary>
@@ -418,12 +418,12 @@ namespace TadaNomina.Models
         }
 
         /// <summary>
-        /// Método par avalidar toda la información para el alta de los empleados
+        /// Método para validar toda la información para el alta de los empleados
         /// </summary>
         /// <param name="row">linea de texto a analizar</param>
         /// <param name="rowFile"></param>
         /// <returns>Validacíon del archivo</returns>
-        public Type Validate(string row, RowFile rowFile)
+        public Type Validate(string row, RowFile rowFile, int idCliente)
         {
             if (ValidateRow(row, rowFile).Equals(Type.Error))
             {
@@ -442,10 +442,14 @@ namespace TadaNomina.Models
             {
                 return Type.Error;
             }
-
-            if (ValidateClaveEmpleado(row.Split(',')[5].Trim(), rowFile).Equals(Type.Error))
+            // Se inhabilita validación de ClaveEmpleado para Grupo Marte para permitir autogeneración
+            // en caso de campo vacio o nulo
+            if (idCliente != 172)
             {
-                return Type.Error;
+                if (ValidateClaveEmpleado(row.Split(',')[5].Trim(), rowFile).Equals(Type.Error))
+                {
+                    return Type.Error;
+                }
             }
 
             if (ValidateNombre(row.Split(',')[6].Trim(), rowFile).Equals(Type.Error))

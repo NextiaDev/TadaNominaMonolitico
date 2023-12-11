@@ -8,7 +8,7 @@ using TadaNomina.Models.ViewModels.Catalogos;
 
 namespace TadaNomina.Controllers.Administracion
 {
-    public class JornadaLaboralController : Controller
+    public class JornadaLaboralController : BaseController
     {
         // GET: JornadaLaboral
         public ActionResult Index()
