@@ -272,7 +272,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
-                conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1 && (x.Formula != string.Empty && x.Formula != null)).ToList();
+                conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1 ).ToList();
             }
         }
 
@@ -418,7 +418,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                listIncidencias = entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.BanderaConceptoEspecial != 1 && x.BanderaPensionAlimenticia == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaAdelantoPULPI == null).ToList();                
+                listIncidencias = entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.BanderaConceptoEspecial != 1 && x.BanderaPensionAlimenticia == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaAdelantoPULPI == null && x.CalculoAutomatico != "SI").ToList();                
             }
         }
 
@@ -458,9 +458,19 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado && x.BanderaConceptoEspecial != 1 && x.BanderaPensionAlimenticia == null && x.BanderaInfonavit == null && x.BanderaFonacot == null && x.BanderaAdelantoPULPI == null) select b).ToList();
+                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado) select b).ToList();
 
                  return  _incidnecias;
+            }
+        }
+
+        public List<vIncidencias> GetIncidenciasEmpleadoPagoAutomatico(int IdPeriodo, int IdEmpleado)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var _incidnecias = (from b in entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1 && x.IdEmpleado == IdEmpleado && x.CalculoAutomatico == "SI") select b).ToList();
+
+                return _incidnecias;
             }
         }
 

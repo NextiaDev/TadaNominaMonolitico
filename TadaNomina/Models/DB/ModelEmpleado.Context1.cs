@@ -33,15 +33,15 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_RegistroPatronal> Cat_RegistroPatronal { get; set; }
         public virtual DbSet<Prestaciones> Prestaciones { get; set; }
         public virtual DbSet<Cat_Sucursales> Cat_Sucursales { get; set; }
-        public virtual DbSet<Cat_Clientes> Cat_Clientes { get; set; }
         public virtual DbSet<Cat_Bancos> Cat_Bancos { get; set; }
         public virtual DbSet<Cat_CamposModificaEmp> Cat_CamposModificaEmp { get; set; }
         public virtual DbSet<Cat_Areas> Cat_Areas { get; set; }
         public virtual DbSet<vClienteEmpresaEspecializada> vClienteEmpresaEspecializada { get; set; }
         public virtual DbSet<Sindicatos> Sindicatos { get; set; }
-        public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
-        public virtual DbSet<vEmpleados> vEmpleados { get; set; }
         public virtual DbSet<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }
+        public virtual DbSet<vEmpleados> vEmpleados { get; set; }
+        public virtual DbSet<Cat_Clientes> Cat_Clientes { get; set; }
         public virtual DbSet<Empleados> Empleados { get; set; }
+        public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
     }
 }

@@ -82,19 +82,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vIncidencias> vIncidencias { get; set; }
         public virtual DbSet<vIncidencias_Consolidadas> vIncidencias_Consolidadas { get; set; }
     
-        public virtual ObjectResult<sp_ReciboTradicionalPercepciones_Result> sp_ReciboTradicionalPercepciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
-        {
-            var idPeriodoParameter = idPeriodo.HasValue ?
-                new ObjectParameter("IdPeriodo", idPeriodo) :
-                new ObjectParameter("IdPeriodo", typeof(int));
-    
-            var idEmpleadoParameter = idEmpleado.HasValue ?
-                new ObjectParameter("IdEmpleado", idEmpleado) :
-                new ObjectParameter("IdEmpleado", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ReciboTradicionalPercepciones_Result>("sp_ReciboTradicionalPercepciones", idPeriodoParameter, idEmpleadoParameter);
-        }
-    
         public virtual ObjectResult<sp_ReciboTradicionalDeducciones_Result> sp_ReciboTradicionalDeducciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {
             var idPeriodoParameter = idPeriodo.HasValue ?

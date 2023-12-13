@@ -27,7 +27,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <param name="_IdEmpledao"> Este parametro es opcional, solo se ocupa cuando se quiere procesar el calculo de un solo empleado</param>
         /// <param name="_IdUsuario">Usuario del sistema que esta procesando.</param>
         public void Procesar(int _IdPeriodoNomina, int? _IdEmpledao, int _IdUsuario)
-        {
+        {           
             contador = 0;
             IdPeriodoNomina = _IdPeriodoNomina; 
             IdUsuario = _IdUsuario;
@@ -61,8 +61,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             //calculo de septimo día, se pone en esta pocición para que actue solo sobre los empleados que se van a procesar
             if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null)
                 ProcesaIncidenciasSeptimoDia(empleadosProceso, _IdPeriodoNomina, (int)UnidadNegocio.IdConceptoSeptimoDia, IdUsuario);
-            
-            GetIncidencias(_IdPeriodoNomina);
+
+            try { GetIncidencias(_IdPeriodoNomina); } 
+            catch (Exception ex)
+            {
+                Statics.generaLog(IdPeriodoNomina, IdUsuario, "Fallo al llenar las listas con los datos necesarios: " + ex.Message, "Nomina");
+            }
 
             if (Periodo.TipoNomina == "Aguinaldo")
             {
@@ -71,10 +75,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     CalculaAguinaldos(Periodo, empleadosProceso, UnidadNegocio.IdCliente, IdUsuario);
                     GetIncidencias(_IdPeriodoNomina);
                 }
-            }            
+            }
 
             foreach (var item in empleadosProceso)
             {
+
                 nominaTrabajo = new NominaTrabajo();
                 IdEmpleado = item.IdEmpleado;
                 ClaveEmpleado = item.ClaveEmpleado;
@@ -110,8 +115,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     if (IdEstatus == 1 || configuracionNominaEmpleado.IncidenciasAutomaticas == 1)
                     {
-                        decimal? restaPension = incidenciasEmpleado.Where(x=> x.IntegraPension == "NO").Select(x=>x.Monto).Sum();
-                       
+                        decimal? restaPension = incidenciasEmpleado.Where(x => x.IntegraPension == "NO").Select(x => x.Monto).Sum();
+
                         ProcesaPension(pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - nominaTrabajo.ImpuestoRetener - nominaTrabajo.IMSS_Obrero - restaPension), (decimal)nominaTrabajo.ERS, IdUsuario);
                         ProcesaSaldos(saldos.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdEmpleado, IdPeriodoNomina, IdUsuario);
                     }
@@ -131,10 +136,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (UnidadNegocio.CalculaProvision == "S" && Periodo.TipoNomina == "Nomina")
                 {
                     ProcesaProvision(nominaTrabajo.DiasTrabajados, IdPrestacionesEmpleado, item.FechaReconocimientoAntiguedad, item.FechaAltaIMSS, (decimal)UnidadNegocio.FactorDiasProvision);
-                }                                
+                }
 
                 contador++;
-            }
+
+            }           
         }
 
         /// <summary>
@@ -223,7 +229,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             //condigo para insertar incidencias que se calculan automaticamente
-            PercepcionesFormuladas(datosEmpleados);
+            ConceptosFormulados(datosEmpleados, "ER");
             ProcesaIncidenciasMultiplicaDT();
             nominaTrabajo.ER += montoIncidenciasMultiplicaDT;
 
@@ -303,6 +309,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     nominaTrabajo.DD += GetDeduccionesEspeciales(datosEmpleados.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, datosEmpleados.IdPuesto, datosEmpleados.Compensacion_Dia_Trabajado, nominaTrabajo.DiasTrabajados, nominaTrabajo.Faltas, SD_IMSS, IdUsuario, datosEmpleados.IdCliente, datosEmpleados.IdCentroCostos);
             }
 
+            //procesa todos los conceptos formulados de deduccion
+            ConceptosFormulados(datosEmpleados, "DD");
+
             if (nominaTrabajo.ER <= 0)
                 nominaTrabajo.DD = 0;
             //EliminaMontosIncidenciasAusentismos();            
@@ -320,21 +329,21 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum();
+                decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" ).Select(X => X.Monto).Sum();
                 nominaTrabajo.ER += importeIncidencias;
             }
         }
 
-        private void PercepcionesFormuladas(vEmpleados datosEmpleados)
+        private void ConceptosFormulados(vEmpleados datosEmpleados, string TipoConcepto)
         {
-            var conceptosFormulaER = conceptosNominaFormula.Where(x=> x.TipoConcepto == "ER").OrderBy(x => x.Orden ?? 0).ToList();
+            var conceptosFormulaER = conceptosNominaFormula.Where(x=> x.TipoConcepto == TipoConcepto && (x.Formula != string.Empty && x.Formula != null)).OrderBy(x => x.Orden ?? 0).ToList();
 
             if (conceptosFormulaER.Count > 0)
             {
                 ExpressionContext context = new ExpressionContext();
                 context.Imports.AddType(typeof(Math));
 
-                foreach (var icform in conceptosNominaFormula)
+                foreach (var icform in conceptosFormulaER)
                 {
                     List<string> lineas = icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(';').ToList();
                     string Formula = string.Empty;
@@ -368,11 +377,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (ClavesUnicamente.Count() > 0)
                     {
                         Calcular = false;
-                        if(ClavesUnicamente.Contains(ClaveEmpleado))
+                        if (ClavesUnicamente.Contains(ClaveEmpleado))
                             Calcular = true;
-                    }                    
+                    }
 
-                    if(ClavesOmitidos.Contains(ClaveEmpleado))
+                    if (ClavesOmitidos.Contains(ClaveEmpleado))
                         Calcular = false;
 
                     if (icform.CalculoAutomatico == "SI")
@@ -381,6 +390,17 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                         if (Calcular)
                         {
+                            foreach (var lc in conceptosNominaFormula)
+                            {
+                                decimal monto = 0;
+
+                                var claveConcepto  = "\"" + lc.ClaveConcepto.Trim().ToUpper() + "\"";
+                                if (Formula.Contains(claveConcepto))
+                                    monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).Select(x => x.Monto).Sum() ?? 0;
+
+                                Formula = Formula.Replace(lc.ClaveConcepto, monto.ToString());
+                            }
+
                             foreach (var iEquiv in tablaEquivalencias)
                             {
                                 var resultado = "0";
@@ -425,11 +445,22 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                             if (resul != 0)
                                 InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
+
+                            string Linea = "Proceso de formula para el concepto: " + icform.ClaveConcepto + ". para el empleado: " + ClaveEmpleado 
+                                + ". formula origen: " + icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "") + ". formula aplicada: " + Formula + ". Resultado: " + resul;
+                            Statics.generaLog(IdPeriodoNomina, IdUsuario, Linea, "Nomina");
                         }
                     }
                 }
 
-                incidenciasEmpleado = GetIncidenciasEmpleado_(IdPeriodoNomina, IdEmpleado);
+                var incidenciasAuto = GetIncidenciasEmpleadoPagoAutomatico(IdPeriodoNomina, IdEmpleado).Where(x=> x.TipoConcepto == TipoConcepto);
+                incidenciasEmpleado.AddRange(incidenciasAuto);
+
+                if(TipoConcepto == "ER")
+                    nominaTrabajo.ER += incidenciasAuto.Select(x => x.Monto).Sum();
+
+                if (TipoConcepto == "DD")
+                    nominaTrabajo.DD += incidenciasAuto.Select(x => x.Monto).Sum();
             }
         }
 
@@ -693,10 +724,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 model.Monto = Monto;
                 model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para los conceptos formulados";
                 model.MontoEsquema = 0;
+                model.BanderaConceptoEspecial = 1;
 
                 if (model.IdConcepto != 0)
                     cins.NewIncindencia(model, IdUsuario);
             }
-        }
+        }        
     }
 }

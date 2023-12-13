@@ -607,16 +607,16 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Bancos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CamposModificaEmp.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CentroCostos.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Clientes.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Comunicados.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -625,13 +625,13 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_EntidadFederativa.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ErroresIMSS.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -646,10 +646,10 @@
       <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Puestos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
@@ -658,7 +658,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Sucursales.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_TipoAusentismo.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -733,10 +733,10 @@
       <DependentUpon>ModelEAM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\EmpleadoInformacionComplementaria.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Empleados.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\FactoresCyV_IMSS.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -953,7 +953,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Prestaciones.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\RecibosEsquema.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -968,7 +968,7 @@
       <DependentUpon>ModelAcceso.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Sindicatos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SolicitudCheque.cs">
       <DependentUpon>ModelContabilidad.tt</DependentUpon>
@@ -1024,9 +1024,7 @@
     <Compile Include="Models\DB\sp_ReciboTradicionalDeducciones_Result.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\sp_ReciboTradicionalPercepciones_Result.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\DB\sp_ReciboTradicionalPercepciones_Result.cs" />
     <Compile Include="Models\DB\sp_RegresaAusentismos_Result.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
@@ -1130,7 +1128,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidenciasProgramadas.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>

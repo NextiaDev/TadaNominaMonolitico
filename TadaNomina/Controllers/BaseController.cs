@@ -81,12 +81,12 @@ namespace TadaNomina.Controllers
         private void generaLog(string estatus, string controlador, string accion, string method, string error, string ip)
         {
             string path = DateTime.Now.ToLongDateString();
-            cLog oLog = new cLog();
+            cLog oLog = new cLog();            
             var cliente = Session["sCliente"] != null ? Session["sCliente"].ToString() : "N/A";
             var nomina = Session["sNomina"] != null ? Session["sNomina"].ToString() : "N/A";
 
             oLog.Add("Estatus:" + estatus + " | Usuario: ID:" + Session["sIdUsuario"] + " Nombre:" + Session["sNombre"] + " | Cliente: " + cliente 
-                + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error);
+                + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error, path);
         }
 
         public JsonResult ValidaSession()

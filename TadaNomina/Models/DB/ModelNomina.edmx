@@ -2048,10 +2048,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Parameter Name="IdPeriodo" Type="int" Mode="In" />
           <Parameter Name="IdEmpleado" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_ReciboTradicionalPercepciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdPeriodo" Type="int" Mode="In" />
-          <Parameter Name="IdEmpleado" Type="int" Mode="In" />
-        </Function>
+        
         <Function Name="sp_RegresaAusentismos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
         </Function>
@@ -3070,10 +3067,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="ImpuestoSat" EntityType="NominaModel.ImpuestoSat" />
           <EntitySet Name="SubsidioEmpleoSat" EntityType="NominaModel.SubsidioEmpleoSat" />
           <EntitySet Name="ImpuestosIMSS" EntityType="NominaModel.ImpuestosIMSS" />
-          <FunctionImport Name="sp_ReciboTradicionalPercepciones" ReturnType="Collection(NominaModel.sp_ReciboTradicionalPercepciones_Result)">
-            <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
-            <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_ReciboTradicionalDeducciones" ReturnType="Collection(NominaModel.sp_ReciboTradicionalDeducciones_Result)">
             <Parameter Name="IdPeriodo" Mode="In" Type="Int32" />
             <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
@@ -3274,11 +3267,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="IdCaptura" Type="Int32" />
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
         </EntityType>
-        <ComplexType Name="sp_ReciboTradicionalPercepciones_Result">
-          <Property Type="String" Name="Concepto" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="150" />
-          <Property Type="Decimal" Name="Importe" Nullable="true" Precision="18" Scale="2" />
-        </ComplexType>
         <ComplexType Name="sp_ReciboTradicionalDeducciones_Result">
           <Property Type="String" Name="Concepto" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="150" />
@@ -5376,15 +5364,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_ReciboTradicionalPercepciones" FunctionName="NominaModel.Store.sp_ReciboTradicionalPercepciones">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_ReciboTradicionalPercepciones_Result">
-                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Importe" ColumnName="Importe" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ReciboTradicionalDeducciones" FunctionName="NominaModel.Store.sp_ReciboTradicionalDeducciones">
             <ResultMapping>
               <ComplexTypeMapping TypeName="NominaModel.sp_ReciboTradicionalDeducciones_Result">
