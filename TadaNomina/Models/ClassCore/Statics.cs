@@ -7,7 +7,7 @@ namespace TadaNomina.Models.ClassCore
 {
     public class Statics
     {
-        public static string rutaGralArchivos = @"C:\\TadaNomina\";
+        public static string rutaGralArchivos = @"D:\\TadaNomina\";
 
         public static string Encriptar(string _cadenaAencriptar)
         {
