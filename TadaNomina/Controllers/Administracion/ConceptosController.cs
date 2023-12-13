@@ -201,5 +201,13 @@ namespace TadaNomina.Controllers.Administracion
                 return Json(ex.Message);
             }
         }
+
+        public ActionResult TablaFactores(int IdConcepto, string NombreConcepto)
+        { 
+            ModelFactores modelFactores = new ModelFactores();
+            modelFactores.IdConcepto = IdConcepto;
+            modelFactores.NombreConcepto = NombreConcepto;
+            return View(modelFactores);
+        }
     }
 }

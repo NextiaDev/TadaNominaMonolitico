@@ -34,39 +34,32 @@
                 <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Cliente)
-                            </th>
-
-                            <th>
+                            <th width="6%">
                                 @Html.DisplayName("Clave")
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ClaveSAT)
+                            <th width="6%">
+                                C.SAT
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Concepto)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.TipoConcepto)
+                            <th width="5%">
+                                T.Cnpto
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.TipoDato)
+                                T.Dato
                             </th>
 
                             <th>
                                 @Html.DisplayNameFor(model => model.Exenta)
                             </th>
-                            <th></th>
+                            <th width="15%"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Cliente)
-                                </td>
+                            <tr>                              
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ClaveConcepto)
