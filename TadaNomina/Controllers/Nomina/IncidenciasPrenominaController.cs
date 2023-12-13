@@ -10,7 +10,7 @@ using TadaNomina.Models.ViewModels.Nominas;
 
 namespace TadaNomina.Controllers.Nomina
 {
-    public class IncidenciasPrenominaController : Controller
+    public class IncidenciasPrenominaController : BaseController
     {
         // GET: IncidenciasPrenomina
         public ActionResult SeleccionarPeriodo()
