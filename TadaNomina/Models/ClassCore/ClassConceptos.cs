@@ -466,6 +466,10 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
+            _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
@@ -492,6 +496,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstPagoAutomatico = _listSINOPA;
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
+            modelConceptos.lstTablaFactores = _listSINOTabFac;
 
             return modelConceptos;
         }
@@ -564,6 +569,10 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
+            _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
@@ -589,6 +598,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstPagoAutomatico = _listSINOPA;
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
+            modelConceptos.lstTablaFactores = _listSINOTabFac;
 
             return modelConceptos;
         }

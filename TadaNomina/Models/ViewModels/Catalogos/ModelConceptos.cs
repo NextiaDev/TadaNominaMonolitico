@@ -142,5 +142,9 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "Orden de Calculo :")]
         public int? Orden { get; set; }
 
+        [Display(Name = "¿Usa Tabla de Factores? :")]
+        public string TablaFactores { get; set; }
+        public List<SelectListItem> lstTablaFactores { get; set; }
+
     }
 }
