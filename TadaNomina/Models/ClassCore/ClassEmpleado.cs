@@ -570,7 +570,7 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                empleados = (from b in entity.Empleados where b.IdUnidadNegocio.Equals(IdUnidadNegocio) && b.IdEstatus == 1 select b).ToList();
+                empleados = entity.Empleados.Where(b=> b.IdUnidadNegocio.Equals(IdUnidadNegocio) && b.IdEstatus == 1).ToList();
             }
 
             return empleados;

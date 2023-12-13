@@ -96,7 +96,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string SDI { get; set; }
         [Display(Name = "Fecha de alta ante IMSS:")]
         public string FechaAltaImss { get; set; }        
-        [Display(Name = "Fecha de Reconocimiento de Antiguedad:")]
+        [Display(Name = "F. Rec. de Antiguedad:")]
         public string FechaReconocimientoAntiguedad { get; set; }
         [Display(Name = "Fecha de Baja:")]
         public string FechaBaja { get; set; }
@@ -139,6 +139,11 @@ namespace TadaNomina.Models.ViewModels.Nominas
         [Display(Name = "Total a Pagar:")]
         public string TotalRecibir { get; set; }
         public int IdEstatus { get; set; }
+
+        [Display(Name = "Periodo:")]
+        public string NombrePeriodo { get; set; }
+        [Display(Name = "Fechas:")]
+        public string FechasPeriodo { get; set; }
 
         public bool validacion { get; set; }
         public string Mensaje { get; set; }

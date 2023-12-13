@@ -180,6 +180,7 @@ namespace TadaNomina.Models.ClassCore
                 ins.BanderaVacaciones = i.BanderaVacaciones;
                 ins.BanderaCompensaciones = i.BanderaCompensaciones;
                 ins.BanderaIncidencia = i.BanderaIncidencia;
+                ins.BanderaConceptoEspecial = i.BanderaConceptoEspecial;
                 ins.IdEstatus = 1;
                 ins.IdCaptura = IdUsuario;
                 ins.FechaCaptura = DateTime.Now;               

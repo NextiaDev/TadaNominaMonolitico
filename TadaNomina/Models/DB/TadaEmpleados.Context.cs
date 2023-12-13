@@ -40,13 +40,13 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<ModificacionSueldos> ModificacionSueldos { get; set; }
         public virtual DbSet<vClienteEmpresaEspecializada> vClienteEmpresaEspecializada { get; set; }
         public virtual DbSet<Sindicatos> Sindicatos { get; set; }
-        public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
         public virtual DbSet<vEmpleadosPTU> vEmpleadosPTU { get; set; }
         public virtual DbSet<vIncidencias> vIncidencias { get; set; }
         public virtual DbSet<Cat_Sucursales> Cat_Sucursales { get; set; }
-        public virtual DbSet<Empleados> Empleados { get; set; }
-        public virtual DbSet<vEmpleados> vEmpleados { get; set; }
         public virtual DbSet<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }
+        public virtual DbSet<vEmpleados> vEmpleados { get; set; }
+        public virtual DbSet<Empleados> Empleados { get; set; }
+        public virtual DbSet<Cat_ConceptosNomina> Cat_ConceptosNomina { get; set; }
     
         public virtual ObjectResult<string> sp_ArchivosSUA(Nullable<int> idCliente, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal, string tipoMovimiento)
         {

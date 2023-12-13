@@ -131,7 +131,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
             }
 
-            if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0)
+            if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0  && !listEmpleadosSinAjuste.Select(x=> x.ClaveEmpleado).Contains(ClaveEmpleado))
                 nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();
         }
 
@@ -169,7 +169,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             try
             {
-                if (Periodo.AjusteDeImpuestos == "SI")
+                if (Periodo.AjusteDeImpuestos == "SI" && !listEmpleadosSinAjuste.Select(x => x.ClaveEmpleado).Contains(ClaveEmpleado))
                 {
                     if (ListNominaAjuste.Where(x => x.Rfc == RFC).FirstOrDefault() == null)
                     {
@@ -279,7 +279,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.ISR = Math.Round((decimal)ISRDiario * (DiasPago + 1), 2);
             }
 
-            if (Periodo.AjusteDeImpuestos == "SI" && !AjusteAnual)
+            if (Periodo.AjusteDeImpuestos == "SI" && !listEmpleadosSinAjuste.Select(x => x.ClaveEmpleado).Contains(ClaveEmpleado) && !AjusteAnual)
             {
                 if (ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault() != null)
                 {

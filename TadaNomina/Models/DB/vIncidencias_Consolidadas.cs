@@ -76,5 +76,8 @@ namespace TadaNomina.Models.DB
         public string PagoEfectivo { get; set; }
         public string UsuarioCaptura { get; set; }
         public string IntegraISN { get; set; }
+        public string CalculoAutomatico { get; set; }
+        public Nullable<int> Orden { get; set; }
+        public string Formula { get; set; }
     }
 }

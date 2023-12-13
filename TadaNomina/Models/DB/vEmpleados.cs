@@ -127,5 +127,6 @@ namespace TadaNomina.Models.DB
         public string ImagenPerfil { get; set; }
         public Nullable<System.DateTime> FechaTerminoContrato { get; set; }
         public Nullable<int> IdOcupacionSTPS { get; set; }
+        public Nullable<decimal> PorcentajeSindicato { get; set; }
     }
 }
