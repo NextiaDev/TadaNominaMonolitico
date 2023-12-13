@@ -68,6 +68,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public int? BanderaCompensaciones { get; set; }
         public int? BanderaIncidencia { get; set; }
         public int? BanderaAdelantoNominaPULPI { get; set; }
+        public int? BanderaConceptoEspecial { get; set; }
         
 
         [Display(Name = "Seleccionar Archivo:")]

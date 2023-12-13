@@ -10,9 +10,22 @@ namespace TadaNomina.Models.ClassCore
     {
         private string Path = @"C:\TadaNomina\LogsFRONT\";
 
-
-        public void Add(string sLog)
+        public void AddOtroLog(string sLog, string path, string nombre)
         {
+            Path += path;
+            CreateDirectory();            
+            string cadena = "";
+
+            cadena += "> " + DateTime.Now + " | " + sLog + Environment.NewLine;
+
+            StreamWriter sw = new StreamWriter(Path + @"\" + nombre, true); ;
+            sw.Write(cadena);
+            sw.Close();
+        }
+
+        public void Add(string sLog, string path)
+        {
+            Path += path;
             CreateDirectory();
             string nombre = GetNameFile();
             string cadena = "";
@@ -64,7 +77,7 @@ namespace TadaNomina.Models.ClassCore
                 throw new Exception(ex.Message);
 
             }
-        }
+        }        
 
     }
 }

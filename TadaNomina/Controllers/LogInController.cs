@@ -44,7 +44,7 @@ namespace TadaNomina.Controllers
             var nomina = Session["sNomina"] != null ? Session["sNomina"].ToString() : "N/A";
 
             oLog.Add("Estatus:" + estatus + " | Usuario: ID:" + Session["sIdUsuario"] + " Nombre:" + Session["sNombre"] + " | Cliente: " + cliente
-                + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error);
+                + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error, path);
         }
              
         public ActionResult Index(string Usuario, string contraseña)

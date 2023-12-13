@@ -178,6 +178,8 @@ namespace TadaNomina.Models.ClassCore
                     item.ModuloCaptura = "Comp. RH";
                 if (item.BanderaIncidencia != null)
                     item.ModuloCaptura = "Incidencia";
+                if (item.BanderaConceptoEspecial != null)
+                    item.ModuloCaptura = "Automatica";
             }
 
             return model;
@@ -211,10 +213,16 @@ namespace TadaNomina.Models.ClassCore
         {
             ModelNominaIndividual model = new ModelNominaIndividual();
 
+            ClassPeriodoNomina cperiod = new ClassPeriodoNomina();
             ClassEmpleado classEmpleado = new ClassEmpleado(); 
             vEmpleados empleado = classEmpleado.GetvEmpleado(pIdEmpleado);
 
+            var periodo = cperiod.GetvPeriodoNominasId(pIdPeriodoNomina);
+
             model.IdPeriodoNomina = pIdPeriodoNomina;
+
+            model.NombrePeriodo = periodo.Periodo;
+            model.FechasPeriodo = periodo.FechaInicio.ToShortDateString() + " - " + periodo.FechaFin.ToShortDateString();
             model.IdEmpleado = empleado.IdEmpleado;
             model.claveEmpleado = empleado.ClaveEmpleado;
             model.NombreCompletoEmpleado = empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno + " " + empleado.Nombre;
@@ -319,7 +327,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var incidencias = (from b in entidad.sp_ReciboTradicionalPercepciones(IdPeriodo, IdEmpleado) select b).ToList();
+                var incidencias = entidad.Database.SqlQuery<sp_ReciboTradicionalPercepciones_Result>("sp_ReciboTradicionalPercepciones " + IdPeriodo + ", " + IdEmpleado).ToList();
 
                 return incidencias;
             }
