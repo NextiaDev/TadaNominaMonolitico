@@ -106,7 +106,7 @@
                 <label for="check-Hono">Activar Validacion</label>
                 <br />
                 <br />
-   
+
                 <div class="col-md-3">* Fecha Inicial:</div>
                 <div class="col-md-3">
                     <input type="text" id="editFechaInicio_" placeholder="Coloque un numero del 01 al 31" class="form-control" required />
@@ -201,6 +201,18 @@
                 <div class="col-sm-3 col-sm-offset-1">
                     <input id="check-CAA" class="toggle-switch" type="checkbox" checked>
                     <label for="check-CAA"></label>
+                </div>
+            </div>
+            <hr />
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <p>Aguinaldo Exento Completo.</p>
+
+                </div>
+                <div class="col-sm-3 col-sm-offset-1">
+                    <input id="check-AEC" class="toggle-switch" type="checkbox" checked>
+                    <label for="check-AEC"></label>
                 </div>
             </div>
             <center>
@@ -299,6 +311,11 @@
                         } else {
                             $("#check-CAA").prop('checked', false);
                         }
+                        if (data.AguinaldoExentoCompleto == 'S') {
+                            $("#check-AEC").prop('checked', true);
+                        } else {
+                            $("#check-AEC").prop('checked', false);
+                        }
                         $('#editFechaInicio_').val(data.FechaInicioValidacionSubir);
                         $('#editFechafin_').val(data.FechaFinValidacionSubir);
 
@@ -326,11 +343,13 @@
                 var PS = $("#check-PE").prop("checked");
                 var DE = $("#check-DES").prop("checked");
                 var CAA = $("#check-CAA").prop("checked");
+                var AEC = $("#check-AEC").prop("checked");
+                
 
                 $.ajax({
                     type: 'POST',
                     url: '../GuardarEspeciales',
-                    data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA },
+                    data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC },
                     dataType: 'json',
                     async: false,
                     success: function (result) {

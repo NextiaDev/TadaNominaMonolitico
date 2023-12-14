@@ -28,8 +28,18 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE,string CAA, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE,string CAA,string AEC, int pIdUsuario)
         {
+
+            if (bool.Parse(AEC) == true)
+            {
+                AEC = "S";
+            }
+            else
+            {
+                AEC = "N";
+
+            }
 
             if (bool.Parse(PS) == true)
             {
@@ -180,6 +190,7 @@ namespace TadaNomina.Models.ClassCore
                     unidad.PercepcionesEspeciales = PS;
                     unidad.DeduccionesEspeciales = DE;
                     unidad.ConsideraAusentismosEnAguinaldo = CAA;
+                    unidad.AguinaldoExentoCompleto= AEC;
                     unidad.FechaModificacion = DateTime.Now;
 
                     entidad.SaveChanges();

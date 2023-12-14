@@ -613,7 +613,7 @@
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CentroCostos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Clientes.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
@@ -628,7 +628,7 @@
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_EntidadFederativa.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
@@ -1128,7 +1128,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidenciasProgramadas.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -1656,7 +1656,6 @@
     <Content Include="assets\vendors\weathericons\weather-icons.min.css.map" />
     <Content Include="assets\vendors\zangdar\zangdar.css.map" />
     <Content Include="assets\vendors\zangdar\zangdar.min.css.map" />
-    <Content Include="bin\ApplicationInsights.config" />
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service.wsdl" />
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service.xsd">
       <SubType>Designer</SubType>
@@ -1666,6 +1665,7 @@
     </None>
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\ApplicationInsights.config" />
     <Content Include="bin\BouncyCastle.Crypto.dll" />
     <Content Include="bin\CadenasXslt.dll" />
     <Content Include="bin\CadenasXslt.Sat.dll" />
