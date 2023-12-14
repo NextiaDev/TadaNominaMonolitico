@@ -1,0 +1,27 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelFactores
+@{
+    ViewBag.Title = "TablaFactores";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Factores</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.NombreConcepto</h3>
+            </div>
+            <div class="panel-body">
+                <a href="@Url.Action("Edit")" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -303,8 +303,8 @@ namespace TadaNomina.Models.ClassCore
             var registrosIds = GetRegistroPatronalByIds(idsRegistros).DistinctBy(x => x.RFC);
             var list = new List<SelectListItem>();
 
-            registros.ForEach(x=> { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.RFC.ToString() }); });
-            registrosIds.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.RFC.ToString() }); });
+            registros.ForEach(x=> { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.IdRegistroPatronal.ToString() }); });
+            registrosIds.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.IdRegistroPatronal.ToString() }); });
 
             return list;
         }

@@ -137,7 +137,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
         private void procesoAjusteSecundario()
         {
-            if (listEmpleadosSinAjuste != null)
+            if (listEmpleadosSinAjuste != null && listEmpleadosSinAjuste.Count > 0)
                 AjusteAnual = listEmpleadosSinAjuste.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault() != null ? false : true;
 
             ListNominaAjusteAnterior = ListNominaAjuste;

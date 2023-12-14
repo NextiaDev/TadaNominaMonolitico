@@ -613,7 +613,7 @@
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CentroCostos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Clientes.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
@@ -628,7 +628,7 @@
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_EntidadFederativa.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
@@ -1128,7 +1128,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidenciasProgramadas.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -1230,6 +1230,7 @@
     <Compile Include="Models\ViewModels\Catalogos\ModelErroresPuestos.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelErroresSubsidioEmpleoSat.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelErroresSucursales.cs" />
+    <Compile Include="Models\ViewModels\Catalogos\ModelFactores.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelFactorIntegracion.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelImpuestoSat.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelJornada.cs" />
@@ -1656,7 +1657,6 @@
     <Content Include="assets\vendors\weathericons\weather-icons.min.css.map" />
     <Content Include="assets\vendors\zangdar\zangdar.css.map" />
     <Content Include="assets\vendors\zangdar\zangdar.min.css.map" />
-    <Content Include="bin\ApplicationInsights.config" />
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service.wsdl" />
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service.xsd">
       <SubType>Designer</SubType>
@@ -1666,6 +1666,7 @@
     </None>
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\ApplicationInsights.config" />
     <Content Include="bin\BouncyCastle.Crypto.dll" />
     <Content Include="bin\CadenasXslt.dll" />
     <Content Include="bin\CadenasXslt.Sat.dll" />
@@ -7054,6 +7055,7 @@
     <Content Include="Views\ReportesDirectivos\CC.cshtml" />
     <Content Include="Views\ReportesDirectivos\Patrona.cshtml" />
     <Content Include="Views\UnidadesNegocio\Config.cshtml" />
+    <Content Include="Views\Conceptos\TablaFactores.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
