@@ -13,11 +13,12 @@ namespace TadaNomina.Models.ViewModels.Contabilidad
         public int? Nivel { get; set; }
         [Display(Name = "Id Registro")]
         public int? IdCuentaCliente { get; set; }
+        [Display(Name = "Registro Patronal")]
         public int? IdRegistroPatronal { get; set; }
         public List<SelectListItem> lRegistroPatronal { get; set; }
         public string _Descripcion { get; set; }
         [Required]
-        [Display(Name = "Cve Contable")]
+        [Display(Name = "Clave Contable")]
         public string Clave { get; set; }
         [Required]
         [Display(Name = "Descripción")]
@@ -30,6 +31,7 @@ namespace TadaNomina.Models.ViewModels.Contabilidad
         [Display(Name = "Concepto")]
         public string Concepto { get; set; }
         public List<SelectListItem> lConceptos { get; set; }
+        [Display(Name = "Tipo Cuenta")]
         public int? IdTipoCuenta { get; set; }
         [Display(Name = "Tipo Cuenta")]
         public List<SelectListItem> lTipoCenta { get; set; }
