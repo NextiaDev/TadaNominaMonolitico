@@ -25,7 +25,7 @@ $('#IdCliente').change(function () {
             async: false,
             success: function (resul) {
                 $.each(resul.unidadNegocio, function (key, registro) {
-                    console.log(registro)
+                    
                     $("#idUnidad").append('<option value=' + registro.Value + '>' + registro.Text + '</option>');               
                 });
             }
@@ -42,6 +42,7 @@ $('#IdCliente').change(function () {
 });
 
 $("#Seleccionar").click(function () {
+    $.showLoading();
     var idCliente = $("#IdCliente").val();
     var slt = document.getElementById('idUnidad');  
     var IdunidadNegocio = slt.options[slt.selectedIndex].value;
@@ -60,12 +61,14 @@ $("#Seleccionar").click(function () {
 
             }
             else {
-                mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "pink", "fadeIn", "fadeOut", 3500);  
-
+                mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "danger", "fadeIn", "fadeOut", 3500);  
+                $.hideLoading();
             }
-           
-        
-        },     
+        }, 
+        error(er) {
+            mensajeAlerta("Alerta!", er, "danger", "fadeIn", "fadeOut", 3500);
+            $.hideLoading();
+        }
     });
 
 

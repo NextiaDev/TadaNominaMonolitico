@@ -115,7 +115,7 @@ namespace TadaNomina.Controllers.CFDI
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
                 
             }
-            catch
+            catch(Exception ex)
             {
                 return RedirectToAction("Index");
             }

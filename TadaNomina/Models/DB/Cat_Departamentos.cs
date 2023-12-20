@@ -23,8 +23,8 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
-        public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdUnidadNegocio { get; set; }
+        public Nullable<int> IdArea { get; set; }
         public string ClaveRH { get; set; }
     }
 }

@@ -693,11 +693,126 @@ namespace TadaNomina.Models.ClassCore
             return list;
         }
 
+
+        /// <summary>
+        /// Obtiene los conceptos que se formulan
+        /// </summary>
+        /// <param name="IdCliente">Identificador del cliente al que pertenece el concepto</param>
+        /// <returns></returns>
         public List<FormulasEquivalencias> getConceptosFormulacion(int IdCliente)
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 return entidad.FormulasEquivalencias.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene los factores que corresponde a cierto concepto
+        /// </summary>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <returns></returns>
+        public List<Conceptos_Factores> getFactoresByConcepto(int IdConcepto)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Conceptos_Factores.Where(x => x.IdConcepto == IdConcepto && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la informacion del factor en base a su ID
+        /// </summary>
+        /// <param name="IdConceptoFactor">Identificador del factor</param>
+        /// <returns></returns>
+        public Conceptos_Factores getFactoresByIDFactorConcepto(int IdConceptoFactor)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Conceptos_Factores.Where(x => x.IdConceptoFactor == IdConceptoFactor && x.IdEstatus == 1).FirstOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// metodo para agregar un factor a un concepto
+        /// </summary>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <param name="limInferior">limite inferior del factor</param>
+        /// <param name="limiteSuperior">limite superior del factor</param>
+        /// <param name="tipoDato">tipo de dato</param>
+        /// <param name="Valor">valor que aplica</param>
+        /// <param name="fIniVig">fecha inicio de vigencia</param>
+        /// <param name="IdUsuario">Identificador del usuario que captura</param>
+        public void addFactorConcepto(int IdConcepto, decimal limInferior, decimal limiteSuperior, string tipoDato, decimal Valor, string fIniVig, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Conceptos_Factores cf = new Conceptos_Factores()
+                {
+                    IdConcepto = IdConcepto,
+                    Limite_Inferior = limInferior,
+                    Limite_Superior = limiteSuperior,
+                    TipoDato = tipoDato,
+                    Valor = Valor,
+                    FechaInicioVigencia = DateTime.Parse(fIniVig),
+                    IdEstatus = 1,
+                    IdCaptura = IdUsuario,
+                    FechaCaptura = DateTime.Now,
+                };
+
+                entidad.Conceptos_Factores.Add(cf);
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// metodo para editar un factor de un concepto
+        /// </summary>
+        /// <param name="IdConceptoFactor">Identificador del factor que se va a modificar</param>
+        /// <param name="limInferior">limite inferior del factor</param>
+        /// <param name="limiteSuperior">limite superior del factor</param>
+        /// <param name="tipoDato">tipo de dato</param>
+        /// <param name="Valor">valor que aplica</param>
+        /// <param name="fIniVig">fecha inicio de vigencia</param>
+        /// <param name="IdUsuario">Identificador del usuario que captura</param>
+        public void editFactorConcepto(int IdConceptoFactor, decimal limInferior, decimal limiteSuperior, string tipoDato, decimal Valor, string fIniVig, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Conceptos_Factores cf = entidad.Conceptos_Factores.Where(x => x.IdConceptoFactor == IdConceptoFactor).FirstOrDefault();
+                if (cf != null)
+                {
+                    cf.Limite_Inferior = limInferior;
+                    cf.Limite_Superior = limiteSuperior;
+                    cf.TipoDato = tipoDato;
+                    cf.Valor = Valor;
+                    cf.FechaInicioVigencia = DateTime.Parse(fIniVig);
+                    cf.IdModifica = IdUsuario;
+                    cf.FechaModifica = DateTime.Now;
+                };
+
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// metodo para eliminar un factor a un concepto
+        /// </summary>
+        /// <param name="IdConceptoFactor">Identificador del factor que se va a eliminar</param>       
+        /// <param name="IdUsuario">Identificador del usuario que captura</param>
+        public void deleteFactorConcepto(int IdConceptoFactor, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Conceptos_Factores cf = entidad.Conceptos_Factores.Where(x => x.IdConceptoFactor == IdConceptoFactor).FirstOrDefault();
+                if (cf != null)
+                {
+                    cf.IdEstatus = 2;
+                    cf.IdModifica = IdUsuario;
+                    cf.FechaModifica = DateTime.Now;
+                };
+
+                entidad.SaveChanges();
             }
         }
     }

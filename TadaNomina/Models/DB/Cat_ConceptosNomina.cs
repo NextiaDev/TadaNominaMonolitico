@@ -66,5 +66,6 @@ namespace TadaNomina.Models.DB
         public string IntegraPension { get; set; }
         public string VisibleEnReporte { get; set; }
         public string ExcentoGravadoEnReporte { get; set; }
+        public string TablaFactores { get; set; }
     }
 }
