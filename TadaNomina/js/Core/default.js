@@ -28,7 +28,6 @@ $('#IdCliente').change(function () {
             async: false,
             success: function (resul) {
                 $.each(resul.unidadNegocio, function (key, registro) {
-
                     $("#idUnidad").append('<option value=' + registro.Value + '>' + registro.Text + '</option>');
                 });
             }
@@ -46,34 +45,27 @@ $('#IdCliente').change(function () {
 $("#Seleccionar").click(function () {
     $.showLoading();
     var idCliente = $("#IdCliente").val();
-    var slt = document.getElementById('idUnidad');
-    var IdunidadNegocio = slt.options[slt.selectedIndex].value;
-    $.ajax({
-        type: 'POST',
-        url: 'Default/Index',
-        dataType: 'json',
-        data: { idCliente, IdunidadNegocio },
-        async: false,
-        success: function (data)
-        {
-            console.log(data);
-
-            if (data == "ok") {
-                window.location = $("#ruta").attr('val');
-
-            }
-            else {
-                mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "danger", "fadeIn", "fadeOut", 3500);
-                $.hideLoading();
-            }
-        },
-        error(er) {
-            mensajeAlerta("Alerta!", er, "danger", "fadeIn", "fadeOut", 3500);
-            $.hideLoading();
-        }
-    });
-
-
+    if (idCliente != "" && idCliente != null) {
+        var slt = document.getElementById('idUnidad');
+        var IdunidadNegocio = slt.options[slt.selectedIndex].value;
+        $.ajax({
+            type: 'POST',
+            url: 'Default/Index',
+            dataType: 'json',
+            data: { idCliente, IdunidadNegocio },
+            async: false,
+            success: function (data) {
+                if (data == "ok") {
+                    window.location = $("#ruta").attr('val');
+                }
+                else {
+                    mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "pink", "fadeIn", "fadeOut", 3500);
+                }
+            },
+        });
+    } else {
+        mensajeAlerta("Alerta!", "Seleccione un Cliente!!", "pink", "fadeIn", "fadeOut", 3500);
+    }
 });
 localStorage.removeItem('nominaSelecionada');
 if (!localStorage.getItem('ingreso')) {
