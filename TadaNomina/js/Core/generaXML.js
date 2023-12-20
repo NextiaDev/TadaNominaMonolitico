@@ -22,7 +22,7 @@ $("#generarXML").click(function () {
                 mensajeAlerta("Atencion!", result.mensaje, "success", "jelly", "fadeOut", 0);
 
                 if (result.errores.length > 0) {
-                    mensajeAlerta("Atencion!", "Se generaron los siguientes errores: " + result.errores, "success", "jelly", "fadeOut", 0);
+                    mensajeAlerta("Atencion!", "Se generaron los siguientes errores: " + result.errores, "warning", "jelly", "fadeOut", 0);
                 }
             }
             else {

@@ -42,8 +42,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 try { _idRegistro = int.Parse(i.IdRegistroPatronal); } catch { _idRegistro = 0; }
                 try { _sdi = decimal.Parse(i.SalarioDiarioIntegrado); } catch { _sdi = 0;  }   
                 
-                if(_sdi == 0) result += ("El empleado no tiene SDI. ref: " + i.IdEmpleado + " - " + i.NumEmpleado + " - " + i.Nombre + " | ");
-                if(_idRegistro == 0) result += ("El empleado no tiene Registro Patronal. ref: " + i.IdEmpleado + " - " + i.NumEmpleado + " - " + i.Nombre + " | ");
+                if(_sdi == 0) result += ("El empleado no tiene SDI. ref: " + i.IdEmpleado + " - " + i.NumEmpleado + " - " + i.Nombre + " | \n");
+                if(_idRegistro == 0) result += ("El empleado no tiene Registro Patronal. ref: " + i.IdEmpleado + " - " + i.NumEmpleado + " - " + i.Nombre + " | \n");
 
                 bool validacion = false;
 
@@ -105,7 +105,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             string result = string.Empty;
             cCreaXML cxml = new cCreaXML();
             string Comprobante = string.Empty;
-            try { Comprobante = cxml.GeneraXML40Nomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo); } catch(Exception ex) { result += ex.Message + " | "; }
+            try { Comprobante = cxml.GeneraXML40Nomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo); } catch(Exception ex) { result += ex.Message + " | \n"; }
 
             if (Comprobante != string.Empty)
             {
