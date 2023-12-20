@@ -20,6 +20,10 @@ $("#generarXML").click(function () {
 
                 $("#MensajeContador").text("XML que hay actualmente en este periodo :" + result.cantidad);
                 mensajeAlerta("Atencion!", result.mensaje, "success", "jelly", "fadeOut", 0);
+
+                if (result.errores.length > 0) {
+                    mensajeAlerta("Atencion!", "Se generaron los siguientes errores: " + result.errores, "success", "jelly", "fadeOut", 0);
+                }
             }
             else {
                 mensajeAlerta("Atencion!", result.mensaje, "danger", "jelly", "fadeOut", 0);

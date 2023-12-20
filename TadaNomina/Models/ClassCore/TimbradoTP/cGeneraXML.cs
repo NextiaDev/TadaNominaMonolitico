@@ -26,8 +26,9 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="IdPeriodo">Periodo de nómina</param>
         /// <param name="Id"></param>
         /// <param name="IdUsuario">Usuario</param>
-        public void GeneraXMLTimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, int IdUsuario)
+        public string GeneraXMLTimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, int IdUsuario)
         {
+            string result = string.Empty;
             var cunidad = new ClassUnidadesNegocio();
             var informacion = obtenDatosTimbrado(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
             var unidad = cunidad.getUnidadesnegocioId(IdUnidadNegocio);
@@ -39,7 +40,10 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 
                 var _IdEmpleado = int.Parse(i.IdEmpleado);
                 try { _idRegistro = int.Parse(i.IdRegistroPatronal); } catch { _idRegistro = 0; }
-                try { _sdi = decimal.Parse(i.SalarioDiarioIntegrado); } catch { _sdi = 0; }                
+                try { _sdi = decimal.Parse(i.SalarioDiarioIntegrado); } catch { _sdi = 0;  }   
+                
+                if(_sdi == 0) result += ("El empleado no tiene SDI. ref: " + i.IdEmpleado + " - " + i.NumEmpleado + " - " + i.Nombre + " | ");
+                if(_idRegistro == 0) result += ("El empleado no tiene Registro Patronal. ref: " + i.IdEmpleado + " - " + i.NumEmpleado + " - " + i.Nombre + " | ");
 
                 bool validacion = false;
 
@@ -54,11 +58,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                     if (i.vercionCFDI == "3.3")
                         CrearXML33(i, IdUnidadNegocio, IdPeriodo, _IdEmpleado, _idRegistro, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);
                     else if (i.vercionCFDI == "4.0")
-                        CrearXML40(i, IdUnidadNegocio, IdPeriodo, _IdEmpleado, _idRegistro, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);
+                        result += CrearXML40(i, IdUnidadNegocio, IdPeriodo, _IdEmpleado, _idRegistro, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);
                     else
                         throw new Exception("No se ha especificado la version del cfdi.");
                 }
             }
+
+            return result;
         }
 
         /// <summary>
@@ -94,11 +100,12 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="guid">identificador unico para dar seguimiento a estas solicitudes</param>
         /// <param name="tipoFechaFiniquito">tipo de fecha en caso de que sea un finiquito</param>
         /// <param name="IdUsuario">Identificador del usuario que esta ejecutando el proeceso</param>
-        private void CrearXML40(DatosXML dat, int IdUnidadNegocio, int IdPeriodo, int IdEmpleado, int IdRegistro, Guid guid, string tipoFechaFiniquito, int IdUsuario)
+        private string CrearXML40(DatosXML dat, int IdUnidadNegocio, int IdPeriodo, int IdEmpleado, int IdRegistro, Guid guid, string tipoFechaFiniquito, int IdUsuario)
         {
+            string result = string.Empty;
             cCreaXML cxml = new cCreaXML();
             string Comprobante = string.Empty;
-            Comprobante = cxml.GeneraXML40Nomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo);
+            try { Comprobante = cxml.GeneraXML40Nomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo); } catch(Exception ex) { result += ex.Message + " | "; }
 
             if (Comprobante != string.Empty)
             {
@@ -107,6 +114,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 else
                     GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, IdUsuario);
             }
+
+            return result;
         }
 
         /// <summary>

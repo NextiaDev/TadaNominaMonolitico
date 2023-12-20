@@ -267,7 +267,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             //configuracion para piramidar sueldos
-            PiramidaSueldosConCompensacion(datosEmpleados);\
+            PiramidaSueldosConCompensacion(datosEmpleados);
 
             if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina == "Nomina")
             {

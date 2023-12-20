@@ -58,10 +58,10 @@ namespace TadaNomina.Controllers.CFDI
             {
                 Guid Id = Guid.NewGuid();
                 cGeneraXML ct = new cGeneraXML();
-                ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario);
+                var errores = ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario);
                 var cantidad = ct.getRegistrosXMLPeriodo(IdPeriodoNomina).Count();
 
-                return Json(new { estatus = "Ok", mensaje = "Se generaron correctamente los archivos.", cantidad });               
+                return Json(new { estatus = "Ok", mensaje = "Se generaron correctamente los archivos.", cantidad, errores });               
             }
             catch (Exception ex)
             {
