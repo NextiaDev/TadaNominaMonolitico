@@ -67,7 +67,8 @@ namespace TadaNomina.Models.ClassCore
                 Subsecuente = _Einca,
                 Incapacidad = Lincapacidades,
                 LAusentismos = Lausentismos,
-                TipodeIncidencia = _Incidencias
+                TipodeIncidencia = _Incidencias,
+                Subsidio = _Einca,
             };
 
             return model;
@@ -177,6 +178,9 @@ namespace TadaNomina.Models.ClassCore
                     FechaFinAplicacion = DateTime.Parse(ausen.FechaInicialAplicacion).AddDays(ausen.Dias - 1),
                     FechaFin = DateTime.Parse(ausen.FechaInicial).AddDays(ausen.Dias - 1),
                     IdEstatus = 1,
+                    DiasSubsidioInicial = ausen.DiasSubidioInicial,
+                    PorcentajeSubsidioInicial = ausen.PorcentajeSubsidio,
+                    PorcentajeSubsidioRestante = ausen.PorcentajeSubsidioRestante,
                     TipoIncapacidad = TipoIncapacidadN,
                     FechaCreacion = DateTime.Now
                 };
@@ -214,6 +218,9 @@ namespace TadaNomina.Models.ClassCore
                     IdEstatus = 1,
                     FolioIncapacidadInicial = ausen.FolioSub,
                     TipoIncapacidad = "Subsecuente",
+                    DiasSubsidioInicial = ausen.DiasSubidioInicial,
+                    PorcentajeSubsidioInicial = ausen.PorcentajeSubsidio,
+                    PorcentajeSubsidioRestante = ausen.PorcentajeSubsidioRestante,
                     FechaCreacion = DateTime.Now,
 
                 };

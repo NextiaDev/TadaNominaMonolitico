@@ -190,12 +190,16 @@ function myFunctioncuatro() {
         $('#fechaapli').css("display", "block");
         $('#fechaInicial').css("display", "block");
         $('#iddias_').css("display", "block");
+        $('#idsubsidiosgrup').css("display", "none");
+        $('#idSubsidio').css("display", "block");
+
         $('#txtIncapacidad').css("display", "none");
         $('#formatoid').css("display", "block");
         $('#iddiasApli_').css("display", "block");
     }
     else {
         $('#Folio').css("display", "none");
+        $('#idsubsidiosgrup').css("display", "none");
 
     }
 }
@@ -205,11 +209,13 @@ function myFunctiontres() {
 
     if (x != null) {
         $('#idSubsecuente').css("display", "block");
+        $('#idSubsidio').css("display", "block");
 
 
     }
     else {
         $('#idSubsecuente').css("display", "none");
+        $('#idSubsidio').css("display", "none");
 
     }  
 }
@@ -226,6 +232,9 @@ function myFunctiondos() {
         $('#fechaapli').css("display", "none");
         $('#fechaInicial').css("display", "none");
         $('#iddias_').css("display", "none");
+        $('#idsubsidiosgrup').css("display", "none");
+        $('#idSubsidio').css("display", "none");
+
         $('#txtIncapacidad').css("display", "none");
         $('#formatoid').css("display", "none");
 
@@ -246,6 +255,9 @@ function myFunctiondos() {
         $('#fechaapli').css("display", "none");
         $('#fechaInicial').css("display", "none");
         $('#iddias_').css("display", "none");
+        $('#idsubsidiosgrup').css("display", "none");
+        $('#idSubsidio').css("display", "none");
+
         $('#txtIncapacidad').css("display", "none");
         $('#formatoid').css("display", "none");
         $('#iddiasApli_').css("display", "none");
@@ -276,10 +288,28 @@ function myFunction() {
         $('#fechaapli').css("display", "block");
         $('#fechaInicial').css("display", "block");
         $('#iddias_').css("display", "block");
+
         $('#formatoid').css("display", "block");
         $('#iddiasApli_').css("display", "block");
         
         $('#txtIncapacidad').css("display", "none");
+    }
+}
+
+
+function myFunctionSubsidio() {
+    var x = document.getElementById("idSubsidioo").value;
+    if (x == "Si") {
+        $('#idsubsidiosgrup').css("display", "block");
+
+       
+
+
+    }
+    else {
+        $('#idsubsidiosgrup').css("display", "none");
+
+       
     }
 }
 

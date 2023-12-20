@@ -35,6 +35,10 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         public List<SelectListItem> Incapacidad { get; set; }
 
+        [Display(Name = "Aplicar Subsidio:")]
+
+        public List<SelectListItem> Subsidio { get; set; }
+
 
         [Display(Name = "Tipo Incapacidad:")]
 
@@ -82,7 +86,19 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         public int DiasApli { get; set; }
 
-        
+        [Display(Name = "Dias Subsidio Inicial")]
+
+        public int DiasSubidioInicial { get; set; }
+
+        [Display(Name = "Porcentaje Subsidio Inicial")]
+
+        public decimal PorcentajeSubsidio { get; set; }
+
+        [Display(Name = "Porcentaje Dias  Restante")]
+
+        public decimal PorcentajeSubsidioRestante { get; set; }
+
+
         public string Observaciones { get; set; }
 
         public string Mensaje { get; set; }
