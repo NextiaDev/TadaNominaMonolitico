@@ -41,7 +41,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 decimal Subtotal = (TotalExcentoPercepciones + TotalGravadoPercepciones) + decimal.Parse(dat.SubsidioPagar) + decimal.Parse(dat.ReintegroISR) + otrosPagos;
                 var tp = decimal.Parse(dat.totalPercepciones);
 
-                validaCFDI(Subtotal, tp);
+                validaCFDI(Subtotal, tp, dat.IdEmpleado + "-" + dat.NumEmpleado + "-" + dat.Nombre);
 
                 decimal TotalPercepciones = (TotalExcentoPercepciones + TotalGravadoPercepciones);
                 decimal Descuento = (TotalOtrasDeducciones + TotalImpuestosRetenidos);
@@ -475,13 +475,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
         /// <param name="subtotal">Suma total percepciones</param>
         /// <param name="totalPercepciones">Total percepciones</param>
         /// <exception cref="Exception">Metodo para dar conocimiento del</exception>
-        private void validaCFDI(decimal subtotal, decimal totalPercepciones)
+        private void validaCFDI(decimal subtotal, decimal totalPercepciones, string info)
         {
             var diferencia = subtotal - totalPercepciones;
             diferencia = Math.Abs(diferencia);
 
             if (diferencia > 1.0M)
-                throw new Exception("Error: La suma de los conceptos no es igual al subtotal, no se puede crear el XML.");
+                throw new Exception("Error: La suma de los conceptos no es igual al subtotal, no se puede crear el XML. ref:" + info);
         }
 
         private static string CreaXML(Comprobante comprobante40)
