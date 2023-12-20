@@ -39,21 +39,26 @@ namespace TadaNomina.Controllers.Contabilidad
         [HttpPost]
         public ActionResult PolizaGral(ModelPolizaGral poliza)
         {
+            string token = Session["sToken"].ToString();
+            int idCliente = (int)Session["sIdCliente"];
+            int idUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+
             var cp = new ClassPeriodoNomina();
             var crp = new ClassRegistroPatronal();
             var sconta = new sContabilidad();
-
+            
             if (poliza.IdPoliza == null) { poliza.IdPoliza = 0; }
             var periodo = cp.GetvPeriodoNominasId(poliza.IdPeriodoNomina);
 
-            poliza.lPeriodos = cp.GetSeleccionPeriodoAcumulado((int)Session["sIdUnidadNegocio"]);
-            poliza.lRegistros = crp.getSelectRegistro( (int)Session["sIdCliente"]);
+            poliza.lPeriodos = cp.GetSeleccionPeriodoAcumulado(idUnidadNegocio);
+            poliza.lRegistros = crp.getSelectRegistro(idCliente);
 
-
-            if ((int)Session["sIdCliente"] == 6)
-                poliza.reporteWS = sconta.getReporteWS(Session["sToken"].ToString(), periodo.FechaInicio.ToShortDateString(), periodo.FechaFin.ToShortDateString(), poliza.IdPeriodoNomina, poliza.IdRegistroPatronal, poliza.RFC);
+            // Si es Wingstop
+            if (idCliente == 6)
+                poliza.reporteWS = sconta.getReporteWS(token, periodo.FechaInicio.ToShortDateString(), periodo.FechaFin.ToShortDateString(), poliza.IdPeriodoNomina, poliza.IdRegistroPatronal, poliza.RFC);
+            // Cualquier otro cliente
             else
-                poliza.reporte = sconta.getReporte(Session["sToken"].ToString(), (int)Session["sIdUnidadNegocio"], poliza.IdPeriodoNomina, (int)poliza.IdPoliza);
+                poliza.reporte = sconta.getReporte(token, idUnidadNegocio, poliza.IdPeriodoNomina, (int)poliza.IdPoliza);
 
 
             return View(poliza);
