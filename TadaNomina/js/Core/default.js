@@ -1,17 +1,20 @@
 ﻿$(document).ready(function () {
-
     $('#IdCliente').chosen({
         width: '100%'
     });
+});
 
-  
-
+$(document).on("keypress", "form", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        $("#Seleccionar").click();
+    }
 });
 
 $('#IdCliente').change(function () {
     if ($('#IdCliente').val() != null && $('#IdCliente').val().trim() != "") {
         $("#idUnidad").find('option').not(':first').remove();
-        var slt = document.getElementById('idUnidad');  
+        var slt = document.getElementById('idUnidad');
         $("#idUnidad").trigger("liszt:updated");
         var x = document.getElementById("myDIV");
         x.style.display = "block"
@@ -25,8 +28,8 @@ $('#IdCliente').change(function () {
             async: false,
             success: function (resul) {
                 $.each(resul.unidadNegocio, function (key, registro) {
-                    
-                    $("#idUnidad").append('<option value=' + registro.Value + '>' + registro.Text + '</option>');               
+
+                    $("#idUnidad").append('<option value=' + registro.Value + '>' + registro.Text + '</option>');
                 });
             }
         });
@@ -34,7 +37,6 @@ $('#IdCliente').change(function () {
             width: '100%'
         });
         $("#idUnidad").trigger("chosen:updated");
-
     }
     else {
         $('#Seleccionar').attr('disabled', true);
@@ -44,7 +46,7 @@ $('#IdCliente').change(function () {
 $("#Seleccionar").click(function () {
     $.showLoading();
     var idCliente = $("#IdCliente").val();
-    var slt = document.getElementById('idUnidad');  
+    var slt = document.getElementById('idUnidad');
     var IdunidadNegocio = slt.options[slt.selectedIndex].value;
     $.ajax({
         type: 'POST',
@@ -61,10 +63,10 @@ $("#Seleccionar").click(function () {
 
             }
             else {
-                mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "danger", "fadeIn", "fadeOut", 3500);  
+                mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "danger", "fadeIn", "fadeOut", 3500);
                 $.hideLoading();
             }
-        }, 
+        },
         error(er) {
             mensajeAlerta("Alerta!", er, "danger", "fadeIn", "fadeOut", 3500);
             $.hideLoading();
@@ -76,11 +78,7 @@ $("#Seleccionar").click(function () {
 localStorage.removeItem('nominaSelecionada');
 if (!localStorage.getItem('ingreso')) {
     var user = $("#userName").attr("val");
-    mensajeAlerta("Hola! " + user, "Bienvenido al Sistema Integral TADA!", "pink", "fadeIn", "fadeOut", 3500);  
+    mensajeAlerta("Hola! " + user, "Bienvenido al Sistema Integral TADA!", "pink", "fadeIn", "fadeOut", 3500);
     localStorage.setItem('ingreso', 1);
-} 
-
-
-
-
-
+    localStorage.setItem('ingreso', 1);
+}
