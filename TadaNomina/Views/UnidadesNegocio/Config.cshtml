@@ -217,8 +217,9 @@
             </div>
             <center>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-primary btn-sm" id="_GuardarDatos" value="Guardar" />
-                    @Html.ActionLink("Regresar a lista", "Index", null, new { @class = "btn btn-info btn-sm" })
+                    <button type="button" class="btn btn-primary btn-sm" id="_GuardarDatos" ><span class="fa fa-save"></span> Guardar</button>
+                    <a href="@Url.Action("Index")" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar a lista</a>
+                    
 
                 </div>
             </center>

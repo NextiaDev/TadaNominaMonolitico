@@ -33,8 +33,6 @@ namespace TadaNomina.Controllers.Administracion
 
         public ActionResult Config(int id)
         {
-
-
             return View();
         }
 
@@ -150,8 +148,8 @@ namespace TadaNomina.Controllers.Administracion
                     ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
                     int idUsuario = (int)Session["sIdUsuario"];
                     int IdCliente = (int)Session["sIdCliente"];
-                    clsUnidad.AddUnidadNegocio(collection, idUsuario, IdCliente);
-                    return RedirectToAction("Index");
+                    clsUnidad.AddUnidadNegocio(collection, idUsuario, IdCliente); 
+                    return RedirectToAction("Index");  
                 }
                 else
                 {
@@ -295,6 +293,7 @@ namespace TadaNomina.Controllers.Administracion
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Brutos", Value = "Brutos" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos)", Value = "Netos(Impuestos)" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida)", Value = "Netos Tradicional(Piramida)" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida ART 93)", Value = "Netos Tradicional(Piramida ART 93)" });
             return listConfiguracionSueldos;
         }
     }

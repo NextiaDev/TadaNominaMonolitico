@@ -465,7 +465,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception(ex.Message + " ref." + dat.IdEmpleado + "-" + dat.NumEmpleado + "-" + dat.Nombre);
             }
         }
 

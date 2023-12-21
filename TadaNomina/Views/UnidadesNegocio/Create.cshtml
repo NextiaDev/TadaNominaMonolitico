@@ -42,13 +42,7 @@
                             @Html.ValidationMessageFor(model => model.TipoNomina, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    @*<div class="form-group">
-                        @Html.LabelFor(model => model.PorcentajeISN, htmlAttributes: new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.EditorFor(model => model.PorcentajeISN, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                            @Html.ValidationMessageFor(model => model.PorcentajeISN, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@                    
+                           
                     <div class="form-group">
                         @Html.LabelFor(model => model.ConfiguracionSueldos, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-8">
@@ -62,8 +56,8 @@
                 </div>
                     <div class="panel-footer">
                         <div class="form-group" style="text-align:right">
-                            <input type="submit" value="Guardar" class="btn btn-primary btn-sm _Load" />
-                            @Html.ActionLink("Regresar a lista", "Index", null, new { @class = "btn btn-info btn-sm" })
+                            <button type="submit" class="btn btn-primary btn-sm _Load"><span class="fa fa-save"></span> Guardar</button>
+                            <a href="@Url.Action("Index")" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar a lista</a>                            
                         </div>
                     </div>
                 }

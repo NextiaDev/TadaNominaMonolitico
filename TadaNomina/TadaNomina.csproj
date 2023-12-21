@@ -65,7 +65,7 @@
       <HintPath>..\packages\Core.Sat.1.0.88\lib\net45\Core.Sat.dll</HintPath>
     </Reference>
     <Reference Include="Core.Sat.Cancelacion">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Core.Sat.Cancelacion.dll</HintPath>
+      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\Core.Sat.Cancelacion.dll</HintPath>
     </Reference>
     <Reference Include="Core.Sat.Utils, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Core.Sat.Utils.1.0.24\lib\net45\Core.Sat.Utils.dll</HintPath>
@@ -101,10 +101,10 @@
       <HintPath>..\packages\Flee.2.0.0\lib\netstandard2.0\Flee.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Ionic.Zip.dll</HintPath>
+      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\itextsharp.dll</HintPath>
+      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -150,13 +150,13 @@
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SAT.Services">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SAT.Services.dll</HintPath>
+      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\SAT.Services.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.5.10.4\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="SW-sdk">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SW-sdk.dll</HintPath>
+      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\SW-sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -607,7 +607,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Bancos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CamposModificaEmp.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
@@ -616,7 +616,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Clientes.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Comunicados.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -625,13 +625,13 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_EntidadFederativa.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ErroresIMSS.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -646,10 +646,10 @@
       <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Puestos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
@@ -658,7 +658,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Sucursales.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_TipoAusentismo.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -668,6 +668,9 @@
     </Compile>
     <Compile Include="Models\DB\Cat_TipoNomina.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Cat_TipoPeriodo.cs">
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Token_MasNegocio.cs">
       <DependentUpon>ModelTimbrado.tt</DependentUpon>
@@ -689,6 +692,9 @@
     </Compile>
     <Compile Include="Models\DB\ConceptosPiramidados.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Conceptos_Factores.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\ConfiguracionConceptosFiniquito.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -733,10 +739,10 @@
       <DependentUpon>ModelEAM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\EmpleadoInformacionComplementaria.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Empleados.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\FactoresCyV_IMSS.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -953,7 +959,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Prestaciones.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\RecibosEsquema.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -968,7 +974,7 @@
       <DependentUpon>ModelAcceso.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Sindicatos.cs">
-      <DependentUpon>TadaEmpleados.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SolicitudCheque.cs">
       <DependentUpon>ModelContabilidad.tt</DependentUpon>
@@ -1430,12 +1436,8 @@
     <Compile Include="Services\sUnidadNegocio.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\.DS_Store" />
-    <Content Include="assets\css\.DS_Store" />
     <Content Include="assets\css\bootstrap.css.map" />
     <Content Include="assets\css\bootstrap.min.css.map" />
-    <Content Include="assets\css\color-schemes\.DS_Store" />
-    <Content Include="assets\css\color-schemes\all-headers\.DS_Store" />
     <Content Include="assets\css\color-schemes\all-headers\cherry\bootstrap.css.map" />
     <Content Include="assets\css\color-schemes\all-headers\cherry\bootstrap.min.css.map" />
     <Content Include="assets\css\color-schemes\all-headers\cherry\nifty.css.map" />
@@ -1586,7 +1588,6 @@
     <Content Include="assets\css\color-schemes\primary-nav\violet\bootstrap.min.css.map" />
     <Content Include="assets\css\color-schemes\primary-nav\violet\nifty.css.map" />
     <Content Include="assets\css\color-schemes\primary-nav\violet\nifty.min.css.map" />
-    <Content Include="assets\css\demo-purpose\.DS_Store" />
     <Content Include="assets\css\demo-purpose\demo-icons.css.map" />
     <Content Include="assets\css\demo-purpose\demo-icons.min.css.map" />
     <Content Include="assets\css\demo-purpose\demo-settings.css.map" />
@@ -1595,23 +1596,8 @@
     <Content Include="assets\css\nifty.css.map" />
     <Content Include="assets\css\nifty.min.css.map" />
     <Content Include="assets\data\data-tables.json" />
-    <Content Include="assets\img\.DS_Store" />
-    <Content Include="assets\img\color-schemes\.DS_Store" />
-    <Content Include="assets\img\megamenu\.DS_Store" />
-    <Content Include="assets\js\.DS_Store" />
-    <Content Include="assets\pages\.DS_Store" />
-    <Content Include="assets\premium\.DS_Store" />
-    <Content Include="assets\premium\boxed-bg\.DS_Store" />
-    <Content Include="assets\premium\icon-sets\.DS_Store" />
-    <Content Include="assets\premium\icon-sets\icons\.DS_Store" />
-    <Content Include="assets\premium\icon-sets\icons\line-icons\.DS_Store" />
-    <Content Include="assets\premium\icon-sets\icons\line-icons\font\.DS_Store" />
     <Content Include="assets\premium\icon-sets\icons\line-icons\font\premium-line-icons.woff2" />
-    <Content Include="assets\premium\icon-sets\icons\solid-icons\.DS_Store" />
-    <Content Include="assets\premium\icon-sets\icons\solid-icons\font\.DS_Store" />
     <Content Include="assets\premium\icon-sets\icons\solid-icons\font\premium-solid-icons.woff2" />
-    <Content Include="assets\premium\icon-sets\thumbs\.DS_Store" />
-    <Content Include="assets\vendors\.DS_Store" />
     <Content Include="assets\vendors\bootstrap5-tags\bootstrap5-tags.css.map" />
     <Content Include="assets\vendors\bootstrap5-tags\bootstrap5-tags.min.css.map" />
     <Content Include="assets\vendors\charts.css\charts.css.map" />
@@ -1644,8 +1630,6 @@
     <Content Include="assets\vendors\tabulator\tabulator.min.css.map" />
     <Content Include="assets\vendors\tagin\tagin.css.map" />
     <Content Include="assets\vendors\tagin\tagin.min.css.map" />
-    <Content Include="assets\vendors\themify-icons\.DS_Store" />
-    <Content Include="assets\vendors\themify-icons\fonts\.DS_Store" />
     <Content Include="assets\vendors\themify-icons\fonts\themify.woff2" />
     <Content Include="assets\vendors\themify-icons\themify-icons.css.map" />
     <Content Include="assets\vendors\themify-icons\themify-icons.min.css.map" />
@@ -1664,108 +1648,6 @@
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\Antlr3.Runtime.pdb" />
-    <Content Include="bin\ApplicationInsights.config" />
-    <Content Include="bin\BouncyCastle.Crypto.dll" />
-    <Content Include="bin\CadenasXslt.dll" />
-    <Content Include="bin\CadenasXslt.Sat.dll" />
-    <Content Include="bin\ClosedXML.dll" />
-    <Content Include="bin\ClosedXML.pdb" />
-    <Content Include="bin\ClosedXML.xml" />
-    <Content Include="bin\Core.Sat.Cancelacion.dll" />
-    <Content Include="bin\Core.Sat.dll" />
-    <Content Include="bin\Core.Sat.Utils.dll" />
-    <Content Include="bin\Core.Sat.XmlSerializers.dll" />
-    <Content Include="bin\Core.Sat.XmlUtils.dll" />
-    <Content Include="bin\Core.XmlUtils.dll" />
-    <Content Include="bin\CryptoFirma.dll" />
-    <Content Include="bin\DocumentFormat.OpenXml.dll" />
-    <Content Include="bin\DocumentFormat.OpenXml.xml" />
-    <Content Include="bin\EntityFramework.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\EntityFramework.xml" />
-    <Content Include="bin\es\System.Web.Helpers.resources.dll" />
-    <Content Include="bin\es\System.Web.Mvc.resources.dll" />
-    <Content Include="bin\es\System.Web.Optimization.resources.dll" />
-    <Content Include="bin\es\System.Web.Razor.resources.dll" />
-    <Content Include="bin\es\System.Web.WebPages.Deployment.resources.dll" />
-    <Content Include="bin\es\System.Web.WebPages.Razor.resources.dll" />
-    <Content Include="bin\es\System.Web.WebPages.resources.dll" />
-    <Content Include="bin\ExcelNumberFormat.dll" />
-    <Content Include="bin\ExcelNumberFormat.xml" />
-    <Content Include="bin\FastMember.dll" />
-    <Content Include="bin\Flee.dll" />
-    <Content Include="bin\Ionic.Zip.dll" />
-    <Content Include="bin\itextsharp.dll" />
-    <Content Include="bin\log4net.dll" />
-    <Content Include="bin\log4net.xml" />
-    <Content Include="bin\LumenWorks.Framework.IO.dll" />
-    <Content Include="bin\LumenWorks.Framework.IO.pdb" />
-    <Content Include="bin\LumenWorks.Framework.IO.xml" />
-    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
-    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
-    <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
-    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
-    <Content Include="bin\Microsoft.AI.PerfCounterCollector.xml" />
-    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
-    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.xml" />
-    <Content Include="bin\Microsoft.AI.Web.dll" />
-    <Content Include="bin\Microsoft.AI.Web.xml" />
-    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
-    <Content Include="bin\Microsoft.AI.WindowsServer.xml" />
-    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
-    <Content Include="bin\Microsoft.ApplicationInsights.xml" />
-    <Content Include="bin\Microsoft.AspNet.TelemetryCorrelation.dll" />
-    <Content Include="bin\Microsoft.AspNet.TelemetryCorrelation.xml" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
-    <Content Include="bin\Microsoft.Owin.dll" />
-    <Content Include="bin\Microsoft.Owin.xml" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
-    <Content Include="bin\Owin.dll" />
-    <Content Include="bin\RestSharp.dll" />
-    <Content Include="bin\RestSharp.xml" />
-    <Content Include="bin\SAT.Services.dll" />
-    <Content Include="bin\ServiceStack.Text.dll" />
-    <Content Include="bin\ServiceStack.Text.xml" />
-    <Content Include="bin\SW-sdk.dll" />
-    <Content Include="bin\System.Buffers.dll" />
-    <Content Include="bin\System.Buffers.xml" />
-    <Content Include="bin\System.Diagnostics.DiagnosticSource.dll" />
-    <Content Include="bin\System.Diagnostics.DiagnosticSource.xml" />
-    <Content Include="bin\System.IO.Packaging.dll" />
-    <Content Include="bin\System.Linq.Dynamic.Core.dll" />
-    <Content Include="bin\System.Linq.Dynamic.Core.pdb" />
-    <Content Include="bin\System.Linq.Dynamic.Core.xml" />
-    <Content Include="bin\System.Memory.dll" />
-    <Content Include="bin\System.Memory.xml" />
-    <Content Include="bin\System.Numerics.Vectors.dll" />
-    <Content Include="bin\System.Numerics.Vectors.xml" />
-    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.dll" />
-    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.xml" />
-    <Content Include="bin\System.ValueTuple.dll" />
-    <Content Include="bin\System.ValueTuple.xml" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
-    <Content Include="bin\System.Web.Optimization.dll" />
-    <Content Include="bin\System.Web.Optimization.xml" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\TadaNomina.dll" />
-    <Content Include="bin\TadaNomina.pdb" />
-    <Content Include="bin\WebGrease.dll" />
     <Content Include="Connected Services\ServiceReferenceCancelacionTPTest2\TadaNomina.ServiceReferenceCancelacionTPTest2.ResponseCancel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
@@ -4549,6 +4431,7 @@
     <Content Include="js\Core\EditSueldos.js" />
     <Content Include="js\Core\EmpleadoRecuperacionIMSS.js" />
     <Content Include="js\Core\Batch.js" />
+    <Content Include="js\Core\factoresConceptos.js" />
     <Content Include="js\Core\Search.js" />
     <Content Include="js\Core\Employed.js" />
     <Content Include="js\Core\finiquitosGral.js" />
