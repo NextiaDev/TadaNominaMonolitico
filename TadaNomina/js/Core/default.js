@@ -43,9 +43,10 @@ $('#IdCliente').change(function () {
 });
 
 $("#Seleccionar").click(function () {
-    $.showLoading();
+    
     var idCliente = $("#IdCliente").val();
     if (idCliente != "" && idCliente != null) {
+        $.showLoading();
         var slt = document.getElementById('idUnidad');
         var IdunidadNegocio = slt.options[slt.selectedIndex].value;
         $.ajax({
@@ -60,14 +61,18 @@ $("#Seleccionar").click(function () {
                 }
                 else {
                     mensajeAlerta("Alerta!", "Seleccione una Unidad!!", "pink", "fadeIn", "fadeOut", 3500);
+                    $.hideLoading();
                 }
             },
         });
     } else {
         mensajeAlerta("Alerta!", "Seleccione un Cliente!!", "pink", "fadeIn", "fadeOut", 3500);
+        $.hideLoading();
     }
 });
+
 localStorage.removeItem('nominaSelecionada');
+
 if (!localStorage.getItem('ingreso')) {
     var user = $("#userName").attr("val");
     mensajeAlerta("Hola! " + user, "Bienvenido al Sistema Integral TADA!", "pink", "fadeIn", "fadeOut", 3500);
