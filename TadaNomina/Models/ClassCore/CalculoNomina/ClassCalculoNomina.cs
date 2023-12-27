@@ -43,7 +43,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             percepcionesEspecialesEsquema = 0;
 
             GetListas(IdPeriodoNomina, _IdEmpledao, _IdUsuario);
-            GetConceptosConfigurados();
 
             int[] EstatusNomina = { 1, 3 };
             var empleadosProceso = listEmpleados;

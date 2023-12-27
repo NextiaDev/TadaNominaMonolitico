@@ -209,13 +209,11 @@ function myFunctiontres() {
 
     if (x != null) {
         $('#idSubsecuente').css("display", "block");
-        $('#idSubsidio').css("display", "block");
 
 
     }
     else {
         $('#idSubsecuente').css("display", "none");
-        $('#idSubsidio').css("display", "none");
 
     }  
 }
@@ -278,6 +276,8 @@ function myFunction() {
         $('#txtIncapacidad').css("display", "none");
         $('#formatoid').css("display", "block");
         $('#iddiasApli_').css("display", "block");      
+        $('#idSubsidio').css("display", "none");
+        $('#idsubsidiosgrup').css("display", "none");
 
    
     }
@@ -291,7 +291,8 @@ function myFunction() {
 
         $('#formatoid').css("display", "block");
         $('#iddiasApli_').css("display", "block");
-        
+        $('#idSubsidio').css("display", "block");
+
         $('#txtIncapacidad').css("display", "none");
     }
 }

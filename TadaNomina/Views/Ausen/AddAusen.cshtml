@@ -156,7 +156,7 @@
                 <div class="form-group" id="idSubsidio" style="display:none">
                     @Html.LabelFor(model => model.Subsidio, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-4">
-                        @Html.DropDownListFor(model => model.IdSubsecuente, Model.Subsidio, "-- SELECCIONE --", htmlAttributes: new { @class = "form-control", onchange = "myFunctionSubsidio();", @id = "idSubsidioo" })
+                        @Html.DropDownListFor(model => model.SubAusen, Model.Subsidio, "-- SELECCIONE --", htmlAttributes: new { @class = "form-control", onchange = "myFunctionSubsidio();", @id = "idSubsidioo" })
                         @Html.ValidationMessageFor(model => model.Subsidio, "", new { @class = "text-danger" })
                     </div>
 

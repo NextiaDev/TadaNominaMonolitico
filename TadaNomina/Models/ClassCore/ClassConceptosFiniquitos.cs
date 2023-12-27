@@ -59,6 +59,11 @@ namespace TadaNomina.Models.ClassCore
             List<vConceptos> lconceptosCompensacionOtros = lconceptosNomina.Where(x => x.ClaveGpo == "900").ToList();
             lconceptosCompensacionOtros.ForEach(x => { lconceptosCompensacion.Add(new SelectListItem { Text = x.ClaveConcepto + "-" + x.Concepto, Value = x.IdConcepto.ToString() }); });
 
+            List<SelectListItem> lconceptosSubsidioInca = new List<SelectListItem>();
+            List<vConceptos> lconceptosSubInca = lconceptosNomina.Where(x => x.ClaveGpo == "900").ToList();
+            lconceptosSubInca.ForEach(x => { lconceptosSubsidioInca.Add(new SelectListItem { Text = x.ClaveConcepto + "-" + x.Concepto, Value = x.IdConcepto.ToString() }); });
+
+
             vConfiguracionConceptosFiniquitos lconceptosConfigurados = GetvConfiguracionConceptosFiniquitos(IdCliente);
 
             try { model.Id = lconceptosConfigurados.IdConfiguracion; } catch { model.Id = 0; }
@@ -85,6 +90,9 @@ namespace TadaNomina.Models.ClassCore
             model.lConceptoCuotaSindical = lconceptosCuota;
             try { model.IdConceptoCompensacion = lconceptosConfigurados.IdConceptoCompensacion; } catch { model.IdConceptoCompensacion = null; }
             model.lConceptoCuotaCompensacion = lconceptosCuota;
+
+            try { model.IdConceptoSubAusentismo = lconceptosConfigurados.idConceptoSubsidioIncapacidad; } catch { model.IdConceptoSubAusentismo = null; }
+            model.lConceptoSubAusen = lconceptosSubsidioInca;
 
             return model;
         }
@@ -174,6 +182,7 @@ namespace TadaNomina.Models.ClassCore
                     IdConceptoPensionAlimenticia = model.IdConceptoPensionAlimenticia,
                     idConceptoCuotaSindical = model.IdConceptoCuotaSindical,
                     IdConceptoCompensacion = model.IdConceptoCompensacion,
+                    idConceptoSubsidioIncapacidad= model.IdConceptoSubAusentismo,
                     IdEstatus = 1,
                     IdCaptura = IdUsuario,
                     FechaCaptura = DateTime.Now
@@ -206,7 +215,7 @@ namespace TadaNomina.Models.ClassCore
                 registro.IdConceptoPensionAlimenticia = model.IdConceptoPensionAlimenticia;
                 registro.idConceptoCuotaSindical = model.IdConceptoCuotaSindical;
                 registro.IdConceptoCompensacion = model.IdConceptoCompensacion;
-
+                registro.idConceptoSubsidioIncapacidad = model.IdConceptoSubAusentismo;
                 entidad.SaveChanges();
             }
         }

@@ -1,15 +1,19 @@
-﻿using System;
+﻿using SW.Services.Status;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TadaNomina.Models.ClassCore.CalculoNomina;
 using TadaNomina.Models.ClassCore.MovimientosIMSS;
 using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels;
 using TadaNomina.Models.ViewModels.Nominas;
+using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore
 {
-    public class Ausen
+    public class Ausen 
     {
 
         public vAusentismos GetvAusensId(int id)
@@ -178,6 +182,7 @@ namespace TadaNomina.Models.ClassCore
                     FechaFinAplicacion = DateTime.Parse(ausen.FechaInicialAplicacion).AddDays(ausen.Dias - 1),
                     FechaFin = DateTime.Parse(ausen.FechaInicial).AddDays(ausen.Dias - 1),
                     IdEstatus = 1,
+                    AplicaSubsidio = ausen.SubAusen,
                     DiasSubsidioInicial = ausen.DiasSubidioInicial,
                     PorcentajeSubsidioInicial = ausen.PorcentajeSubsidio,
                     PorcentajeSubsidioRestante = ausen.PorcentajeSubsidioRestante,
@@ -221,6 +226,7 @@ namespace TadaNomina.Models.ClassCore
                     DiasSubsidioInicial = ausen.DiasSubidioInicial,
                     PorcentajeSubsidioInicial = ausen.PorcentajeSubsidio,
                     PorcentajeSubsidioRestante = ausen.PorcentajeSubsidioRestante,
+                    AplicaSubsidio = ausen.idAusentismos,
                     FechaCreacion = DateTime.Now,
 
                 };
@@ -250,7 +256,7 @@ namespace TadaNomina.Models.ClassCore
                         concepto.IdEmpleado = ausen.IdEmpleado;
                         concepto.Archivo = ausen.Imagen.ToString();
                         concepto.FechaFinAplicacion = DateTime.Parse(ausen.FechaInicialAplicacion).AddDays(ausen.Dias - 1);
-
+                        
                         concepto.FechaFin = DateTime.Parse(ausen.FechaInicial).AddDays(ausen.Dias - 1);
                         concepto.IdEstatus = 1;
                         concepto.TipoIncapacidad = "Inicial";
@@ -423,15 +429,50 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
-        public void ProcesaAusentismos(List<sp_RegresaAusentismos_Result> ausentismos, int IdPeriodoNomina, int IdUsuario)
+        public void ProcesaAusentismos( List<sp_RegresaAusentismos_Result> ausentismos, vConfiguracionConceptosFiniquitos conceptosConfigurados , int IdPeriodoNomina, int IdUsuario)
         {
             foreach (var iAusen in ausentismos)
             {
+                int IdConcepto = 0;
                 DeleteIncidenciaAusentismos(IdPeriodoNomina, iAusen.IdAusentismo);
                 AgregaIncidenciaAusentismoEmpleado(iAusen, IdPeriodoNomina, IdUsuario);
+                if (iAusen.AplicaSubsidio == "Si")
+                {
+                    if (iAusen.PorcentajeSubsidioRestante != 0)
+                    {
+                       var dias = ObtenDias(iAusen.idempleado.Value);
+                        var restad = (dias - iAusen.DiasSubsidioInicial) * iAusen.SD * (iAusen.PorcentajeSubsidioRestante);
+                        try
+                        {IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad;
+                        }
+                        catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
+                        AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, restad.Value, IdUsuario);
+                    }
+                    var operacion = (iAusen.SD * iAusen.DiasSubsidioInicial) * iAusen.PorcentajeSubsidioInicial;
+                    try { IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad; 
+                    } catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
+                    AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, operacion.Value, IdUsuario);
+
+                }
             }
         }
 
+
+        public decimal ObtenDias (int idEmpleado)
+        {
+            
+            using (TadaEmpleados entidad = new TadaEmpleados())
+            {
+                var _empleados = (from b in entidad.vEmpleados.Where(x => x.IdEmpleado == idEmpleado) select b.DiasPago).FirstOrDefault();
+                if (_empleados != 0)
+                    return _empleados;
+                else
+                    return 0;
+            }
+        }
+
+
+   
         public void DeleteIncidenciaAusentismos(int IdPeriodoNomina, int IdAusentismo)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
@@ -445,6 +486,9 @@ namespace TadaNomina.Models.ClassCore
 
         public void AgregaIncidenciaAusentismoEmpleado(sp_RegresaAusentismos_Result ausentismo, int IdPeriodoNomina, int IdUsuario)
         {
+
+
+
             Incidencias i = new Incidencias();
             i.IdEmpleado = ausentismo.idempleado;
             i.IdPeriodoNomina = IdPeriodoNomina;
@@ -468,6 +512,37 @@ namespace TadaNomina.Models.ClassCore
                 entidad.SaveChanges();
             }
         }
+
+
+        public void AgregaIncidenciaAusentismoEmpleadoSubsidio(sp_RegresaAusentismos_Result ausentismo, int IdPeriodoNomina,int incidencia,decimal monto,  int IdUsuario)
+        {
+
+
+            Incidencias i = new Incidencias();
+            i.IdEmpleado = ausentismo.idempleado;
+            i.IdPeriodoNomina = IdPeriodoNomina;
+            i.IdConcepto = int.Parse(ausentismo.idconcepto);
+            i.Cantidad = ausentismo.dias;
+            i.Monto = 0;
+            i.Exento = 0;
+            i.Gravado = 0;
+            i.MontoEsquema = 0;
+            i.ExentoEsquema = 0;
+            i.GravadoEsquema = 0;
+            i.Observaciones = "PDUP SYSTEM";
+            i.BanderaAusentismos = ausentismo.IdAusentismo;
+            i.IdEstatus = 1;
+            i.IdCaptura = IdUsuario;
+            i.FechaCaptura = DateTime.Now;
+
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                entidad.Incidencias.Add(i);
+                entidad.SaveChanges();
+            }
+        }
+
+
     }
 
 }

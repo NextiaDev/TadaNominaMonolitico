@@ -35,5 +35,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> DiasSubsidioInicial { get; set; }
         public Nullable<decimal> PorcentajeSubsidioInicial { get; set; }
         public Nullable<decimal> PorcentajeSubsidioRestante { get; set; }
+        public string AplicaSubsidio { get; set; }
     }
 }

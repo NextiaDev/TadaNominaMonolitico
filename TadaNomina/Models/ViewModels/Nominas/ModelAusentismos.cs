@@ -30,12 +30,16 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         [Display(Name = "Tipo de Incidencia:")]
         public List<SelectListItem> TipodeIncidencia { get; set; }
+
+        [Display(Name = "Aplicar Subsidio:")]
+
+        public string SubAusen { get; set; }
+
         public List<SelectListItem> Subsecuente { get; set; }
         [Display(Name = "Incapacidad:")]
 
         public List<SelectListItem> Incapacidad { get; set; }
 
-        [Display(Name = "Aplicar Subsidio:")]
 
         public List<SelectListItem> Subsidio { get; set; }
 
