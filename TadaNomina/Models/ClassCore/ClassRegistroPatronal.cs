@@ -310,6 +310,24 @@ namespace TadaNomina.Models.ClassCore
         }
 
         /// <summary>
+        /// Método para listar los registros patronales.
+        /// </summary>
+        /// <param name="IdCliente">Recibe el identificador del cliente.</param>
+        /// <returns>Regresa la lista de los regresos patronales.</returns>
+        public List<SelectListItem> getSelectRegistroPC(int IdCliente)
+        {
+            var registros = GetRegistroPatronalByIdCliente(IdCliente).DistinctBy(x => x.RFC);
+            var idsRegistros = getIdsEspecializadas(IdCliente);
+            var registrosIds = GetRegistroPatronalByIds(idsRegistros).DistinctBy(x => x.RFC);
+            var list = new List<SelectListItem>();
+
+            registros.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.RFC.ToString() }); });
+            registrosIds.ForEach(x => { list.Add(new SelectListItem { Text = x.NombrePatrona + " - " + x.RFC, Value = x.RFC.ToString() }); });
+
+            return list;
+        }
+
+        /// <summary>
         ///     Método para listar los registros patronales.
         /// </summary>
         /// <param name="IdCliente">Recibe el identificador del cliente.</param>
