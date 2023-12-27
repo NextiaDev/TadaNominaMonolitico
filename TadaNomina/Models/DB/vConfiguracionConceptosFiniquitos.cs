@@ -56,5 +56,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdConceptoCompensacion { get; set; }
         public string ClaveConceptoCompensacion { get; set; }
         public string ConceptoCompensacion { get; set; }
+        public Nullable<int> idConceptoSubsidioIncapacidad { get; set; }
     }
 }

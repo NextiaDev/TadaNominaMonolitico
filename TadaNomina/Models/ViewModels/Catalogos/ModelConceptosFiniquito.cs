@@ -45,6 +45,12 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public int? IdConceptoCuotaSindical { get; set; }
         public List<SelectListItem> lConceptoCuotaSindical { get; set; }
 
+        [Display(Name = "Concepto para Subsidio Ausentismos:")]
+        public int? IdConceptoSubAusentismo { get; set; }
+        public List<SelectListItem> lConceptoSubAusen { get; set; }
+
+
+
         [Display(Name = "Concepto para Compensación:")]
         public int? IdConceptoCompensacion { get; set; }
         public List<SelectListItem> lConceptoCuotaCompensacion { get; set; }
