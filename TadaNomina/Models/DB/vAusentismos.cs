@@ -48,5 +48,10 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> SDIMSS { get; set; }
         public Nullable<decimal> SDI { get; set; }
         public string TipoAusentismo { get; set; }
+        public string AplicaSubsidio { get; set; }
+        public Nullable<int> DiasSubsidioInicial { get; set; }
+        public Nullable<decimal> PorcentajeSubsidioInicial { get; set; }
+        public Nullable<decimal> PorcentajeSubsidioRestante { get; set; }
+        public Nullable<decimal> SD { get; set; }
     }
 }

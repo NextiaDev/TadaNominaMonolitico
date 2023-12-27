@@ -1,14 +1,10 @@
-﻿using DocumentFormat.OpenXml.Office.CustomUI;
-using DocumentFormat.OpenXml.Validation;
-using Flee.PublicTypes;
+﻿using Flee.PublicTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
-using TadaNomina.Models.ViewModels;
 using TadaNomina.Models.ViewModels.Nominas;
-using TadaNomina.Services;
 using System.Linq.Dynamic.Core;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
@@ -43,7 +39,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             percepcionesEspecialesEsquema = 0;
 
             GetListas(IdPeriodoNomina, _IdEmpledao, _IdUsuario);
-            GetConceptosConfigurados();
 
             int[] EstatusNomina = { 1, 3 };
             var empleadosProceso = listEmpleados;
