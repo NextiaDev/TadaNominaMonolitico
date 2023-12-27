@@ -32,7 +32,7 @@ namespace TadaNomina.Controllers.Contabilidad
             var model = new ModelPolizaGral();
             model.IdPoliza = IdPoliza;
             model.lPeriodos = cp.GetSeleccionPeriodoAcumulado((int)Session["sIdUnidadNegocio"]);
-            model.lRegistros = crp.getSelectRegistro((int)Session["sIdCliente"]);
+            model.lRegistros = crp.getSelectRegistroPC((int)Session["sIdCliente"]);
             return View(model);
         }
 
@@ -51,7 +51,7 @@ namespace TadaNomina.Controllers.Contabilidad
             var periodo = cp.GetvPeriodoNominasId(poliza.IdPeriodoNomina);
 
             poliza.lPeriodos = cp.GetSeleccionPeriodoAcumulado(idUnidadNegocio);
-            poliza.lRegistros = crp.getSelectRegistro(idCliente);
+            poliza.lRegistros = crp.getSelectRegistroPC(idCliente);
 
             // Si es Wingstop
             if (idCliente == 6)
