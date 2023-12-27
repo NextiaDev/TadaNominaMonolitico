@@ -239,7 +239,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)" || datosEmpleados.NetoPagar == 0)
+                if ((UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)" && UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida ART 93)") || datosEmpleados.NetoPagar == 0)
                     CalculaISR();
             }
 
@@ -476,7 +476,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
         private void PiramidaSueldosConCompensacion(vEmpleados datosEmpleados)
         {
-            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)" && datosEmpleados.NetoPagar > 0)
+            if ((UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)" || UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida ART 93)") && datosEmpleados.NetoPagar > 0)
             {
                 decimal imss = 0;
                 imss += (decimal)nominaTrabajo.IMSS_Obrero;
@@ -492,7 +492,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 nominaTrabajo.ER += importeConcepto;
                 percepcionesEspecialesGravado = 0;
-                percepcionesEspecialesGravado += importeConcepto;
+
+                if(UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida ART 93)")
+                    percepcionesEspecialesGravado += importeConcepto;
+
                 CalculaISR();
             }
         }
