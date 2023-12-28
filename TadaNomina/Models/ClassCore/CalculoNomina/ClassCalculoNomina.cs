@@ -1,14 +1,10 @@
-﻿using DocumentFormat.OpenXml.Office.CustomUI;
-using DocumentFormat.OpenXml.Validation;
-using Flee.PublicTypes;
+﻿using Flee.PublicTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TadaNomina.Models.ClassCore.CalculoAguinaldo;
 using TadaNomina.Models.DB;
-using TadaNomina.Models.ViewModels;
 using TadaNomina.Models.ViewModels.Nominas;
-using TadaNomina.Services;
 using System.Linq.Dynamic.Core;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
@@ -43,7 +39,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             percepcionesEspecialesEsquema = 0;
 
             GetListas(IdPeriodoNomina, _IdEmpledao, _IdUsuario);
-            GetConceptosConfigurados();
 
             int[] EstatusNomina = { 1, 3 };
             var empleadosProceso = listEmpleados;
@@ -63,10 +58,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 ProcesaIncidenciasSeptimoDia(empleadosProceso, _IdPeriodoNomina, (int)UnidadNegocio.IdConceptoSeptimoDia, IdUsuario);
 
             try { GetIncidencias(_IdPeriodoNomina); } 
-            catch (Exception ex)
-            {
-                Statics.generaLog(IdPeriodoNomina, IdUsuario, "Fallo al llenar las listas con los datos necesarios: " + ex.Message, "Nomina");
-            }
+            catch (Exception ex) { Statics.generaLog(IdPeriodoNomina, IdUsuario, "Fallo al llenar las listas con los datos necesarios: " + ex.Message, "Nomina"); }
 
             if (Periodo.TipoNomina == "Aguinaldo")
             {
@@ -247,7 +239,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
             else
             {
-                if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)")
+                if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida)" || datosEmpleados.NetoPagar == 0)
                     CalculaISR();
             }
 
@@ -444,11 +436,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             var resul = Math.Round(Convert.ToDecimal(e.Evaluate()), 2);
 
                             if (resul != 0)
-                                InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul);
+                                InsertaIncidenciaConceptoFormulado(icform.IdConcepto, resul, icform.Formula + "|" + Formula);
 
-                            string Linea = "Proceso de formula para el concepto: " + icform.ClaveConcepto + ". para el empleado: " + ClaveEmpleado 
-                                + ". formula origen: " + icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "") + ". formula aplicada: " + Formula + ". Resultado: " + resul;
-                            Statics.generaLog(IdPeriodoNomina, IdUsuario, Linea, "Nomina");
+                            //string Linea = "Proceso de formula para el concepto: " + icform.ClaveConcepto + ". para el empleado: " + ClaveEmpleado 
+                            //    + ". formula origen: " + icform.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "") + ". formula aplicada: " + Formula + ". Resultado: " + resul;
+                            //Statics.generaLog(IdPeriodoNomina, IdUsuario, Linea, "Nomina");
                         }
                     }
                 }
@@ -484,7 +476,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
         private void PiramidaSueldosConCompensacion(vEmpleados datosEmpleados)
         {
-            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)")
+            if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)" && datosEmpleados.NetoPagar > 0)
             {
                 decimal imss = 0;
                 imss += (decimal)nominaTrabajo.IMSS_Obrero;
@@ -701,6 +693,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
+        /// <summary>
+        /// Elimina la incidencia creada automaticamente por los conceptos formulados.
+        /// </summary>
+        /// <param name="IdConcepto">Id del concepto formulado.</param>
         public void DeleteIncidencia(int IdConcepto)
         {
             if (IdConcepto != 0)
@@ -711,7 +707,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
-        public void InsertaIncidenciaConceptoFormulado(int IdConcepto, decimal Monto)
+        /// <summary>
+        /// Inserta las incidencias de los conceptos formulados.
+        /// </summary>
+        /// <param name="IdConcepto"></param>
+        /// <param name="Monto"></param>
+        /// <param name="Formula"></param>
+        public void InsertaIncidenciaConceptoFormulado(int IdConcepto, decimal Monto, string Formula)
         {
             if (IdConcepto != 0)
             {
@@ -725,6 +727,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para los conceptos formulados";
                 model.MontoEsquema = 0;
                 model.BanderaConceptoEspecial = 1;
+                model.FormulaEjecutada = Formula;
 
                 if (model.IdConcepto != 0)
                     cins.NewIncindencia(model, IdUsuario);

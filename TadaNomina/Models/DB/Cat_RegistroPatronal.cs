@@ -30,13 +30,13 @@ namespace TadaNomina.Models.DB
         public string Calle { get; set; }
         public int IdActividadEconomica { get; set; }
         public string SelloDigital { get; set; }
+        public string rutaCer { get; set; }
+        public string rutaKey { get; set; }
         public string KeyPass { get; set; }
         public string Logo { get; set; }
         public int IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
-        public string rutaCer { get; set; }
-        public string rutaKey { get; set; }
         public Nullable<int> IdBanco { get; set; }
         public string CuentaBancaria { get; set; }
         public string Sucursal { get; set; }
@@ -50,10 +50,10 @@ namespace TadaNomina.Models.DB
         public string CorreoElectronico { get; set; }
         public string PortalWeb { get; set; }
         public Nullable<int> IdReferenciaCliente { get; set; }
-        public Nullable<int> IdModificacion { get; set; }
-        public Nullable<System.DateTime> FechaModificacion { get; set; }
         public Nullable<int> PersonaFisica { get; set; }
         public string CurpPersonaFisica { get; set; }
+        public Nullable<int> IdModificacion { get; set; }
+        public Nullable<System.DateTime> FechaModificacion { get; set; }
         public string CertificadoIMSS { get; set; }
         public string UsuarioIMSS { get; set; }
         public string ContraseñaIMSS { get; set; }

@@ -12,20 +12,19 @@ namespace TadaNomina.Models.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Cat_Puestos
+    public partial class Conceptos_Factores
     {
-        public int IdPuesto { get; set; }
-        public Nullable<int> IdCliente { get; set; }
-        public Nullable<int> IdDepartamento { get; set; }
-        public string Clave { get; set; }
-        public string Puesto { get; set; }
+        public int IdConceptoFactor { get; set; }
+        public Nullable<int> IdConcepto { get; set; }
+        public Nullable<decimal> Limite_Inferior { get; set; }
+        public Nullable<decimal> Limite_Superior { get; set; }
+        public string TipoDato { get; set; }
+        public Nullable<decimal> Valor { get; set; }
+        public Nullable<System.DateTime> FechaInicioVigencia { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
-        public Nullable<int> IdModificacion { get; set; }
-        public Nullable<System.DateTime> FechaModificacion { get; set; }
-        public Nullable<decimal> Compensacion_Dia_Trabajado { get; set; }
-        public Nullable<int> IdUnidadNegocio { get; set; }
-        public string ClaveRH { get; set; }
+        public Nullable<int> IdModifica { get; set; }
+        public Nullable<System.DateTime> FechaModifica { get; set; }
     }
 }

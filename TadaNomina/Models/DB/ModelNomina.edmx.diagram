@@ -48,7 +48,6 @@
         <EntityTypeShape EntityType="NominaModel.NominaTrabajo" Width="1.5" PointX="15.375" PointY="26.75" />
         <EntityTypeShape EntityType="NominaModel.Saldos" Width="1.5" PointX="7.375" PointY="11.75" />
         <EntityTypeShape EntityType="NominaModel.vSaldos" Width="1.5" PointX="9.375" PointY="11.75" />
-        <EntityTypeShape EntityType="NominaModel.Incidencias" Width="1.5" PointX="11.375" PointY="11.75" />
         <EntityTypeShape EntityType="NominaModel.vCompensaciones" Width="1.5" PointX="5.375" PointY="17.75" />
         <EntityTypeShape EntityType="NominaModel.vAusentismos" Width="1.5" PointX="21.375" PointY="26.75" />
         <EntityTypeShape EntityType="NominaModel.Cat_HonorariosFacturas" Width="1.5" PointX="7.375" PointY="19.75" />
@@ -59,6 +58,8 @@
         <EntityTypeShape EntityType="NominaModel.vConceptos" Width="1.5" PointX="29.375" PointY="18.75" />
         <EntityTypeShape EntityType="NominaModel.vIncidencias" Width="1.5" PointX="3.375" PointY="27.75" />
         <EntityTypeShape EntityType="NominaModel.vIncidencias_Consolidadas" Width="1.5" PointX="29.375" PointY="29.75" />
+        <EntityTypeShape EntityType="NominaModel.Incidencias" Width="1.5" PointX="12.375" PointY="11.75" />
+        <EntityTypeShape EntityType="NominaModel.Cat_TipoPeriodo" Width="1.5" PointX="5.375" PointY="23.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

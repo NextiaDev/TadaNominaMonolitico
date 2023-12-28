@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TadaNomina.Models.DB;
 
 namespace TadaNomina.Models.ViewModels.Catalogos
 {
@@ -9,6 +10,6 @@ namespace TadaNomina.Models.ViewModels.Catalogos
     {
         public int IdConcepto { get; set; }
         public string NombreConcepto { get; set; }
-        //public List<>
+        public List<Conceptos_Factores> lFactores { get; set; }
     }
 }

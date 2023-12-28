@@ -71,7 +71,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal List<ModelDiasTrabajadosAguinaldo> ListDiasTrabajadosAguinaldo;
         internal List<vConceptos> conceptosNominaFormula;
         internal List<FormulasEquivalencias> tablaEquivalencias;
-
         internal bool AjusteSecundario = false;
         internal bool AjusteAnual = false;
         internal int contador;
@@ -155,6 +154,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             GetSueldosMinimos(Periodo.FechaFin);
             ProcesaIncidenciasProgramadas(Periodo.DescuentosFijos, Periodo.IdUnidadNegocio, IdPeriodo, IdEmpleado, IdUsuario);
             GetDatosUnidadNegocio(Periodo.IdUnidadNegocio);
+            GetConceptosConfigurados();
+
             GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
             GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
             GetTablaEquivalencias(UnidadNegocio.IdCliente);
@@ -325,15 +326,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             Ausen au = new Ausen();
             var ausentismo = ausentismos.Where(x=> x.idempleado == IdEmpleado).Where(x=> x.IdEstatus == 1).ToList();
-
-            au.ProcesaAusentismos(ausentismo, IdPeriodoNomina, IdUsuario);           
+            au.ProcesaAusentismos(ausentismo, conceptosConfigurados,  IdPeriodoNomina, IdUsuario);           
         }
 
         public void ProcesaAusentismos(int IdPeriodoNomina, int IdUsuario)
         {
             Ausen au = new Ausen();           
 
-            au.ProcesaAusentismos(ausentismos, IdPeriodoNomina, IdUsuario);
+            au.ProcesaAusentismos(ausentismos, conceptosConfigurados, IdPeriodoNomina, IdUsuario);
         }
 
         /// <summary>

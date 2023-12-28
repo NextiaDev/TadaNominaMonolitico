@@ -173,6 +173,7 @@ namespace TadaNomina.Models.ClassCore
                 ins.FechaFin = i.FechaFinal;
                 ins.Folio = i.Folio;
                 ins.Observaciones = i.Observaciones;
+                ins.FormulaEjecutada = i.FormulaEjecutada;
                 ins.BanderaFiniquitos = i.BanderaFiniquitos;
                 ins.BanderaAguinaldos = i.BanderaAguinaldo;
                 ins.BanderaIncidenciasFijas = i.BanderaIncidenciasFijas;
