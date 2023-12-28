@@ -77,5 +77,8 @@ namespace TadaNomina.Models.DB
         public string BanderaDiasEquivalentes { get; set; }
         public string BanderaCargasSocialesSinFaltas { get; set; }
         public string BanderaCuotaSindical { get; set; }
+        public string BanderaDiasAguinaldo { get; set; }
+        public Nullable<int> DIasImss { get; set; }
+        public Nullable<int> DiasMenosImss { get; set; }
     }
 }
