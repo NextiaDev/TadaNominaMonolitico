@@ -481,22 +481,29 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 decimal imss = 0;
                 imss += (decimal)nominaTrabajo.IMSS_Obrero;
                 imss += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum();
-                decimal importeAPiramidar = 0;
-                importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
-                importeAPiramidar += imss;
 
-                decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
-                decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
 
-                InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
-
-                nominaTrabajo.ER += importeConcepto;
-                percepcionesEspecialesGravado = 0;
-
-                if(UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida ART 93)")
+                if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida ART 93)")
+                {
+                    CalculaISR();
+                    decimal importeConcepto = (decimal)datosEmpleados.NetoPagar - (decimal)nominaTrabajo.SueldoPagado + (decimal)nominaTrabajo.ImpuestoRetener + imss;
+                    InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+                    nominaTrabajo.ER += importeConcepto;
+                }
+                else
+                {
+                    decimal importeAPiramidar = 0;
+                    importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
+                    importeAPiramidar += imss;
+                    decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
+                    decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
+                    InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+                    nominaTrabajo.ER += importeConcepto;
+                    percepcionesEspecialesGravado = 0;
                     percepcionesEspecialesGravado += importeConcepto;
 
-                CalculaISR();
+                    CalculaISR();
+                }                
             }
         }
 
