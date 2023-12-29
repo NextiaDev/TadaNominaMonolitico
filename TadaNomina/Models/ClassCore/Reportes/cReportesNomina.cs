@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Reportes;
+using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore.Reportes
 {
@@ -989,6 +990,30 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 return incidencias;
             }
         }
+
+
+        public DataTable GetDataTableAusentimos(int IdUnidadNegocio, DateTime pFechaInicial, DateTime pFechaFinal)
+        {
+            DataTable dt = new DataTable();
+            string sp = "sp_ReporteAusentismos";
+            using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ModelNomina"].ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sp, con))
+                {
+                    cmd.CommandTimeout = 0;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
+                    cmd.Parameters.Add("FechaFinal", SqlDbType.Date).Value = pFechaFinal;
+                    cmd.Parameters.Add("IdUnidadNegocio", SqlDbType.Int).Value = IdUnidadNegocio;
+                    dt.Load(cmd.ExecuteReader());
+                    con.Close();
+                }
+
+                return dt;
+            }
+        }
+
 
     }
 }
