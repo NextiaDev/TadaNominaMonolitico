@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -266,6 +267,23 @@ namespace TadaNomina.Models.ClassCore
                 }
             }
         }
+
+        public bool validaClaveExistente(string clave, int IdCliente, int? IdConcepto)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var concepto = new Cat_ConceptosNomina();
+
+                if (IdConcepto == null)
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente).FirstOrDefault();
+                else
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdConcepto != IdConcepto).FirstOrDefault();
+
+                if (concepto != null)
+                    return false;
+                else return true;
+            }
+        }
         
         /// <summary>
         /// Método para agregar un concepto base
@@ -275,63 +293,63 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Identificador usuario</param>
         public void AddConcepto(ModelConceptos modelConcepto, int IdCliente, int IdUsuario)
         {
-            int Adicional = 0;
-            if (modelConcepto.ConceptoAdicional == "SI")
+            if (validaClaveExistente(modelConcepto.ClaveConcepto, IdCliente, null))
             {
-                
-                 Adicional = int.Parse(modelConcepto.ClaveConceptos);
-            }
-        
+                int Adicional = 0;
+                if (modelConcepto.ConceptoAdicional == "SI")
+                    Adicional = int.Parse(modelConcepto.ClaveConceptos);
 
-
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
-            {
-                Cat_ConceptosNomina concepto = new Cat_ConceptosNomina()
+                using (TadaNominaEntities entidad = new TadaNominaEntities())
                 {
-                    IdCliente = IdCliente,
-                    ClaveGpo = modelConcepto.ClaveGpo,
-                    ClaveConcepto = modelConcepto.ClaveConcepto,
-                    ClaveSAT = modelConcepto.ClaveSAT,
-                    Concepto = modelConcepto.Concepto,
-                    Informacion = modelConcepto.Informacion,
-                    TipoConcepto = modelConcepto.TipoConcepto,
-                    TipoDato = modelConcepto.TipoDato,
-                    TipoEsquema = modelConcepto.TipoEsquema,
-                    CalculaMontos = modelConcepto.CalculaMontos,
-                    SDPor = modelConcepto.SDPor,
-                    SDEntre = modelConcepto.SDEntre,
-                    Integrable = modelConcepto.Integrable,
-                    IntegraSDI = modelConcepto.IntegraSDI,
-                    AfectaSeldo = modelConcepto.AfectaSueldo,
-                    AfectaCargaSocial = modelConcepto.AfectaCargaSocial,
-                    Exenta = modelConcepto.Exenta,
-                    UnidadExenta = modelConcepto.UnidadExenta,
-                    CantidadExenta = modelConcepto.CantidadExenta,
-                    PorcentajeGravado = modelConcepto.PorcentajeGravado,
-                    MultiplicaDT = modelConcepto.MultiplicacDiasTrabajados,
-                    IdEstatus = 1,
-                    IdCaptura = IdUsuario,
-                    FechaCaptura = DateTime.Now,
-                    SumaNetoFinal = modelConcepto.sumaNetoFinal,
-                    ExentaPorUnidad = modelConcepto.ExcentaPorUnidad,
-                    FactoryValor = modelConcepto.FactoryValor,
-                    Piramida = modelConcepto.Piramida,
-                    PagoEfectivo = modelConcepto.PagoEfectivo,
-                    ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
-                    CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
-                    IdConceptoAdicional = Adicional,
-                    CalculoDiasHoras = modelConcepto.DiasHoras,
-                    IntegraPension = modelConcepto.IntegraPension,
-                    Formula = modelConcepto.Formula,
-                    CalculoAutomatico = modelConcepto.CalculoAutomatico,
-                    VisibleEnReporte = modelConcepto.VisibleEnReporte,
-                    ExcentoGravadoEnReporte = modelConcepto.ExcentoGravadoEnReporte,
-                    Orden = modelConcepto.Orden
-                };
+                    Cat_ConceptosNomina concepto = new Cat_ConceptosNomina()
+                    {
+                        IdCliente = IdCliente,
+                        ClaveGpo = modelConcepto.ClaveGpo,
+                        ClaveConcepto = modelConcepto.ClaveConcepto,
+                        ClaveSAT = modelConcepto.ClaveSAT,
+                        Concepto = modelConcepto.Concepto,
+                        Informacion = modelConcepto.Informacion,
+                        TipoConcepto = modelConcepto.TipoConcepto,
+                        TipoDato = modelConcepto.TipoDato,
+                        TipoEsquema = modelConcepto.TipoEsquema,
+                        CalculaMontos = modelConcepto.CalculaMontos,
+                        SDPor = modelConcepto.SDPor,
+                        SDEntre = modelConcepto.SDEntre,
+                        Integrable = modelConcepto.Integrable,
+                        IntegraSDI = modelConcepto.IntegraSDI,
+                        AfectaSeldo = modelConcepto.AfectaSueldo,
+                        AfectaCargaSocial = modelConcepto.AfectaCargaSocial,
+                        Exenta = modelConcepto.Exenta,
+                        UnidadExenta = modelConcepto.UnidadExenta,
+                        CantidadExenta = modelConcepto.CantidadExenta,
+                        PorcentajeGravado = modelConcepto.PorcentajeGravado,
+                        MultiplicaDT = modelConcepto.MultiplicacDiasTrabajados,
+                        IdEstatus = 1,
+                        IdCaptura = IdUsuario,
+                        FechaCaptura = DateTime.Now,
+                        SumaNetoFinal = modelConcepto.sumaNetoFinal,
+                        ExentaPorUnidad = modelConcepto.ExcentaPorUnidad,
+                        FactoryValor = modelConcepto.FactoryValor,
+                        Piramida = modelConcepto.Piramida,
+                        PagoEfectivo = modelConcepto.PagoEfectivo,
+                        ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
+                        CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
+                        IdConceptoAdicional = Adicional,
+                        CalculoDiasHoras = modelConcepto.DiasHoras,
+                        IntegraPension = modelConcepto.IntegraPension,
+                        Formula = modelConcepto.Formula,
+                        CalculoAutomatico = modelConcepto.CalculoAutomatico,
+                        VisibleEnReporte = modelConcepto.VisibleEnReporte,
+                        ExcentoGravadoEnReporte = modelConcepto.ExcentoGravadoEnReporte,
+                        Orden = modelConcepto.Orden
+                    };
 
-                entidad.Cat_ConceptosNomina.Add(concepto);
-                entidad.SaveChanges();
+                    entidad.Cat_ConceptosNomina.Add(concepto);
+                    entidad.SaveChanges();
+                }
             }
+            else
+                throw new Exception("La clave del concepto que desea agregar ya existe.");
         }
 
         /// <summary>
@@ -341,61 +359,61 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Identificador usuario</param>
         public void UpdateConcepto(ModelConceptos modelConceptos, int IdUsuario)
         {
-            int Adicional = 0;
-            if (modelConceptos.ConceptoAdicional == "SI")
+            if (validaClaveExistente(modelConceptos.ClaveConcepto, modelConceptos.IdCliente, modelConceptos.IdConcepto))
             {
+                int Adicional = 0;
+                if (modelConceptos.ConceptoAdicional == "SI")
+                    Adicional = int.Parse(modelConceptos.ClaveConceptos);
 
-                Adicional = int.Parse(modelConceptos.ClaveConceptos);
-            }
-
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
-            {
-                var concepto = (from b in entidad.Cat_ConceptosNomina.Where(x => x.IdConcepto == modelConceptos.IdConcepto) select b).FirstOrDefault();
-
-                if (concepto != null)
+                using (TadaNominaEntities entidad = new TadaNominaEntities())
                 {
-                    concepto.ClaveGpo = modelConceptos.ClaveGpo;
-                    concepto.ClaveConcepto = modelConceptos.ClaveConcepto;
-                    concepto.ClaveSAT = modelConceptos.ClaveSAT;
-                    concepto.Concepto = modelConceptos.Concepto;
-                    concepto.Informacion = modelConceptos.Informacion;
-                    concepto.TipoConcepto = modelConceptos.TipoConcepto;
-                    concepto.TipoDato = modelConceptos.TipoDato;
-                    concepto.TipoEsquema = modelConceptos.TipoEsquema;
-                    concepto.CalculaMontos = modelConceptos.CalculaMontos;
-                    concepto.SDPor = modelConceptos.SDPor;
-                    concepto.SDEntre = modelConceptos.SDEntre;
-                    concepto.SDPor = modelConceptos.SDPor;
-                    concepto.SDEntre = modelConceptos.SDEntre;                    
-                    concepto.Integrable = modelConceptos.Integrable;
-                    concepto.IntegraSDI = modelConceptos.IntegraSDI;
-                    concepto.AfectaSeldo = modelConceptos.AfectaSueldo;
-                    concepto.AfectaCargaSocial = modelConceptos.AfectaCargaSocial;
-                    concepto.Exenta = modelConceptos.Exenta;
-                    concepto.UnidadExenta = modelConceptos.UnidadExenta;
-                    concepto.CantidadExenta = modelConceptos.CantidadExenta;
-                    concepto.PorcentajeGravado = modelConceptos.PorcentajeGravado;
-                    concepto.IdModifica = IdUsuario;
-                    concepto.FechaModifica = DateTime.Now;
-                    concepto.SumaNetoFinal = modelConceptos.sumaNetoFinal;
-                    concepto.MultiplicaDT = modelConceptos.MultiplicacDiasTrabajados;
-                    concepto.ExentaPorUnidad = modelConceptos.ExcentaPorUnidad;
-                    concepto.FactoryValor = modelConceptos.FactoryValor;
-                    concepto.Piramida = modelConceptos.Piramida;
-                    concepto.PagoEfectivo = modelConceptos.PagoEfectivo;
-                    concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
-                    concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
-                    concepto.IdConceptoAdicional = Adicional;
-                    concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
-                    concepto.IntegraPension = modelConceptos.IntegraPension;
-                    concepto.Formula = modelConceptos.Formula;
-                    concepto.CalculoAutomatico = modelConceptos.CalculoAutomatico;
-                    concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
-                    concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
-                    concepto.Orden = modelConceptos.Orden;
-                }
+                    var concepto = entidad.Cat_ConceptosNomina.Where(x => x.IdConcepto == modelConceptos.IdConcepto).FirstOrDefault();
 
-                entidad.SaveChanges();
+                    if (concepto != null)
+                    {
+                        concepto.ClaveGpo = modelConceptos.ClaveGpo;
+                        concepto.ClaveConcepto = modelConceptos.ClaveConcepto;
+                        concepto.ClaveSAT = modelConceptos.ClaveSAT;
+                        concepto.Concepto = modelConceptos.Concepto;
+                        concepto.Informacion = modelConceptos.Informacion;
+                        concepto.TipoConcepto = modelConceptos.TipoConcepto;
+                        concepto.TipoDato = modelConceptos.TipoDato;
+                        concepto.TipoEsquema = modelConceptos.TipoEsquema;
+                        concepto.CalculaMontos = modelConceptos.CalculaMontos;
+                        concepto.SDPor = modelConceptos.SDPor;
+                        concepto.SDEntre = modelConceptos.SDEntre;
+                        concepto.SDPor = modelConceptos.SDPor;
+                        concepto.SDEntre = modelConceptos.SDEntre;
+                        concepto.Integrable = modelConceptos.Integrable;
+                        concepto.IntegraSDI = modelConceptos.IntegraSDI;
+                        concepto.AfectaSeldo = modelConceptos.AfectaSueldo;
+                        concepto.AfectaCargaSocial = modelConceptos.AfectaCargaSocial;
+                        concepto.Exenta = modelConceptos.Exenta;
+                        concepto.UnidadExenta = modelConceptos.UnidadExenta;
+                        concepto.CantidadExenta = modelConceptos.CantidadExenta;
+                        concepto.PorcentajeGravado = modelConceptos.PorcentajeGravado;
+                        concepto.IdModifica = IdUsuario;
+                        concepto.FechaModifica = DateTime.Now;
+                        concepto.SumaNetoFinal = modelConceptos.sumaNetoFinal;
+                        concepto.MultiplicaDT = modelConceptos.MultiplicacDiasTrabajados;
+                        concepto.ExentaPorUnidad = modelConceptos.ExcentaPorUnidad;
+                        concepto.FactoryValor = modelConceptos.FactoryValor;
+                        concepto.Piramida = modelConceptos.Piramida;
+                        concepto.PagoEfectivo = modelConceptos.PagoEfectivo;
+                        concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
+                        concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
+                        concepto.IdConceptoAdicional = Adicional;
+                        concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
+                        concepto.IntegraPension = modelConceptos.IntegraPension;
+                        concepto.Formula = modelConceptos.Formula;
+                        concepto.CalculoAutomatico = modelConceptos.CalculoAutomatico;
+                        concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
+                        concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
+                        concepto.Orden = modelConceptos.Orden;
+                    }
+
+                    entidad.SaveChanges();
+                }
             }
         }
 
