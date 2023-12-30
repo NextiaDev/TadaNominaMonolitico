@@ -33,6 +33,7 @@ namespace TadaNomina.Controllers.Administracion
 
         public ActionResult Config(int id)
         {
+            Session["sAsignada"] = id;
             return View();
         }
 
@@ -42,7 +43,7 @@ namespace TadaNomina.Controllers.Administracion
             try
             {
                 int IdUnidadNegocio = 0;
-                try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+                try { IdUnidadNegocio = (int)Session["sAsignada"]; } catch { IdUnidadNegocio = 0; }
 
                 var cs = new ClassUnidadesNegocio();
                 var emp = cs.getUnidadesnegocioId(IdUnidadNegocio);
@@ -56,11 +57,11 @@ namespace TadaNomina.Controllers.Administracion
         }
 
         [HttpPost]
-        public JsonResult GuardarEspeciales(string CuotaSindical,  string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC)
+        public JsonResult GuardarEspeciales(string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int DImss, int DImssB)
         {
 
             int IdUnidadNegocio = 0;
-            try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+            try { IdUnidadNegocio = (int)Session["sAsignada"]; } catch { IdUnidadNegocio = 0; }
 
 
             try
@@ -69,7 +70,7 @@ namespace TadaNomina.Controllers.Administracion
                 {
                     int idUsuario = (int)Session["sIdUsuario"];
                     ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
-                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin,PS,DE, CAA, AEC, idUsuario);
+                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, idUsuario);
 
                     return Json("Exito", JsonRequestBehavior.AllowGet);
                 }
