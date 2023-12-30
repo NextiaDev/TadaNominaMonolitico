@@ -126,7 +126,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
 
             CalculaBaseGravadaLiquidacion();            
             CalculaISR();
-            Calcula_Cuotas_Obreras();
+            Calcula_Cuotas_Obreras(null);
 
 
             nominaTrabajo.ER += nominaTrabajo.SubsidioPagar;

@@ -31,11 +31,12 @@ namespace TadaNomina.Models.DB
         public Nullable<int> idConceptoRiesgodeTrabajo { get; set; }
         public Nullable<int> idConceptoCuotaSindical { get; set; }
         public Nullable<int> IdConceptoCompensacion { get; set; }
+        public Nullable<int> IdConceptoArt93Fraclll { get; set; }
+        public Nullable<int> IdConceptoFaltas { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
-        public Nullable<int> idConceptoSubsidioIncapacidad { get; set; }
     }
 }

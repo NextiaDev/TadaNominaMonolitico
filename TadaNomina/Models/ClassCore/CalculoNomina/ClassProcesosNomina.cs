@@ -991,7 +991,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             fraccionHorasMas = 0;
             fraccionHorasMenos = 0;
 
-            nominaTrabajo.Faltas = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.ClaveGpo == "500" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
+            nominaTrabajo.Faltas = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.ClaveGpo == "500" && x.CalculoDiasHoras != "Horas" && x.IdConcepto != conceptosConfigurados.IdConceptoFaltas).Select(X => X.Cantidad).Sum();
             nominaTrabajo.Incapacidades = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.ClaveGpo == "501").Select(X => X.Cantidad).Sum();
             nominaTrabajo.Dias_Vacaciones = (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.ClaveGpo == "002").Select(X => X.Cantidad).Sum();
             
@@ -999,7 +999,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             nominaTrabajo.DiasTrabajados = DiasPago;
             diasMas += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.AfectaSeldo == "SI" && x.ClaveGpo != "002" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
-            diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras != "Horas").Select(X => X.Cantidad).Sum();
+            diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "DD" && x.AfectaSeldo == "SI" && x.CalculoDiasHoras != "Horas" && x.IdConcepto != conceptosConfigurados.IdConceptoFaltas).Select(X => X.Cantidad).Sum();
            
             // conceptos de prestaciones especiales paternidad 
             diasMenos += (decimal)incidenciasEmpleado.Where(x => tipoEsq.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.TipoConcepto == "ER" && x.ClaveGpo == "902").Select(X => X.Cantidad).Sum();

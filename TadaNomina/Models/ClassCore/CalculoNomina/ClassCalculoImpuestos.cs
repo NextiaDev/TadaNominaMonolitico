@@ -116,10 +116,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             try { IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0; } catch { }
             nominaTrabajo.BaseGravada += percepcionesEspecialesGravado;
 
-            if(IdConceptoCompensacionPiramida != 0)
-                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(x => x.Gravado).Sum();
-            else
-                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+            if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida ART 93)")
+            {
+                if (IdConceptoCompensacionPiramida != 0)
+                    nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(x => x.Gravado).Sum();
+                else
+                    nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+            }
 
             nominaTrabajo.BaseGravada += montoIncidenciasMultiplicaDTGrabado;
             nominaTrabajo.BaseGravadaP = nominaTrabajo.BaseGravada;
@@ -436,13 +439,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <summary>
         /// Metodo para calcular las Cargas Sociales que corresponden al trabajador.
         /// </summary>
-        protected void Calcula_Cuotas_Obreras()
+        protected void Calcula_Cuotas_Obreras(decimal? _DiasTrabajados)
         {
             UMA = (decimal)SueldosMinimos.UMA;
             Sueldo_Minimo = (decimal)SueldosMinimos.SalarioMinimoGeneral;
 
-            Calcula_Dias_IMSS();
-            Evalua_Tipo_Insidencia();
+            if (_DiasTrabajados == null)
+            {
+                Calcula_Dias_IMSS();
+                Evalua_Tipo_Insidencia();
+            }
 
             if (UnidadNegocio.BanderaCargasSocialesSinFaltas == "S")
             {
@@ -832,10 +838,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             string[] grupos = { "500", "501" };
 
-            DiasTrabajados_IMSS = DiasTrabajados_IMSS + (decimal)listIncidencias.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades"
+            DiasTrabajados_IMSS = DiasTrabajados_IMSS + (decimal)incidenciasEmpleado.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades"
                                                                                         && x.TipoConcepto == "ER" && x.AfectaCargaSocial == "SI" && x.IdEstatus == 1 && !grupos.Contains(x.ClaveGpo)).Sum(x => x.Cantidad);
 
-            DiasTrabajados_IMSS = DiasTrabajados_IMSS - (decimal)listIncidencias.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades"
+            DiasTrabajados_IMSS = DiasTrabajados_IMSS - (decimal)incidenciasEmpleado.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.IdConcepto != conceptosConfigurados.IdConceptoFaltas
                                                                                         && x.TipoConcepto == "DD" && x.AfectaCargaSocial == "SI" && x.IdEstatus == 1 && !grupos.Contains(x.ClaveGpo)).Sum(x => x.Cantidad);
 
             if (configuracionNominaEmpleado.DiasCargaSocial > 0) { DiasTrabajados_IMSS += (decimal)configuracionNominaEmpleado.DiasCargaSocial; }
@@ -918,7 +924,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         private void Evalua_Tipo_Insidencia()
         {
-            Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD"
+            Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD" && b.IdConcepto != conceptosConfigurados.IdConceptoFaltas
                                                                 && b.IdEstatus == 1 && _tipoEsquemaT.Contains(b.TipoEsquema) && b.ClaveGpo == "500" && b.AfectaCargaSocial == "SI").Sum(x => x.Cantidad);
 
             Dias_Faltados_IMSS = Dias_Faltados;

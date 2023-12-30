@@ -190,10 +190,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.SueldoPagado += (nominaTrabajo.DiasTrabajados + fraccionHorasMas - fraccionHorasMenos) * SD_IMSS;
             nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
             if (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) { nominaTrabajo.SueldoPagado = 0; }
-            int IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0;
-
+            
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
-            SumaIncidencias(IdConceptoCompensacionPiramida);
+            SumaIncidencias();
 
             if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null && UnidadNegocio.IdConceptoSeptimoDia > 0)
             {
@@ -253,12 +252,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }
                 else
                 {
-                    Calcula_Cuotas_Obreras();
+                    Calcula_Cuotas_Obreras(null);
                 }
             }
             else
             {
-                Calcula_Cuotas_Obreras();
+                Calcula_Cuotas_Obreras(null);
             }
 
             //configuracion para piramidar sueldos
@@ -312,11 +311,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Neto = nominaTrabajo.ER - nominaTrabajo.DD;
         }
 
-        private void SumaIncidencias(int IdConceptoCompensacionPiramida)
+        private void SumaIncidencias()
         {
-            if (IdConceptoCompensacionPiramida != 0)
+            if ((conceptosConfigurados.IdConceptoCompensacion != null && conceptosConfigurados.IdConceptoCompensacion != 0) || (conceptosConfigurados.IdConceptoArt93Fraclll != null && conceptosConfigurados.IdConceptoArt93Fraclll != 0))
             {
-                decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != IdConceptoCompensacionPiramida ).Select(X => X.Monto).Sum();
+                decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll ).Select(X => X.Monto).Sum();
                 nominaTrabajo.ER += importeIncidencias;
             }
             else
@@ -479,25 +478,68 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if ((UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida)" || UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida ART 93)") && datosEmpleados.NetoPagar > 0)
             {
                 decimal imss = 0;
-                imss += (decimal)nominaTrabajo.IMSS_Obrero;
-                imss += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum();
-                decimal importeAPiramidar = 0;
-                importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
-                importeAPiramidar += imss;
+                imss = getIMSS();
 
-                decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
-                decimal importeConcepto = montoBruto - (decimal)nominaTrabajo.SueldoPagado;
+                if (UnidadNegocio.ConfiguracionSueldos == "Netos Tradicional(Piramida ART 93)")
+                {
+                    CalculaISR();
+                    decimal importeConcepto = 0;
+                    importeConcepto = getImporteConcepto(datosEmpleados, imss);
 
-                InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+                    if (importeConcepto == 0)
+                    {
+                        nominaTrabajo.SueldoPagado -= 10;
+                        nominaTrabajo.ER -= 10;
+                        importeConcepto += 10;
+                    }
+                    if (importeConcepto < 0)
+                    {
+                        decimal cantFaltas = Math.Abs(importeConcepto) / (datosEmpleados.SDIMSS ?? 0);
+                        decimal faltasInsertar = Math.Ceiling(cantFaltas);
 
-                nominaTrabajo.ER += importeConcepto;
-                percepcionesEspecialesGravado = 0;
+                        InsertaIncidenciaConceptoCompensacionFaltas(conceptosConfigurados.IdConceptoFaltas ?? 0, faltasInsertar);
 
-                if(UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida ART 93)")
+                        nominaTrabajo.DiasTrabajados -= faltasInsertar;
+                        nominaTrabajo.DiasTrabajadosIMSS -= faltasInsertar;
+                        nominaTrabajo.SueldoPagado -= faltasInsertar * datosEmpleados.SDIMSS;
+                        nominaTrabajo.ER -= faltasInsertar * datosEmpleados.SDIMSS;
+                        nominaTrabajo.Faltas += faltasInsertar;
+                        DiasTrabajados_IMSS -= faltasInsertar;
+                        Dias_Faltados += faltasInsertar;
+
+                        Calcula_Cuotas_Obreras(nominaTrabajo.DiasTrabajadosIMSS);
+                        CalculaISR();
+                        imss = getIMSS();
+
+                        importeConcepto = getImporteConcepto(datosEmpleados, imss);
+                    }
+
+                    InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoArt93Fraclll ?? 0, importeConcepto);
+                    nominaTrabajo.ER += importeConcepto;
+                }
+                else
+                {
+                    decimal importeAPiramidar = 0;
+                    importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
+                    importeAPiramidar += imss;
+                    decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
+                    decimal importeConcepto = montoBruto - nominaTrabajo.SueldoPagado ?? 0;
+                    InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
+                    nominaTrabajo.ER += importeConcepto;
+                    percepcionesEspecialesGravado = 0;
                     percepcionesEspecialesGravado += importeConcepto;
 
-                CalculaISR();
+                    CalculaISR();
+                }
             }
+        }
+
+        private decimal getIMSS()
+        {
+            decimal imss = 0;
+            imss += nominaTrabajo.IMSS_Obrero ?? 0;
+            imss += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.ClaveSAT == "001").Select(X => X.Monto).Sum() ?? 0;
+            return imss;
         }
 
         /// <summary>
@@ -652,6 +694,21 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
+        private decimal getImporteConcepto(vEmpleados datosEmpleados, decimal imss)
+        {
+            decimal importeConcepto = 0;
+            importeConcepto += (datosEmpleados.NetoPagar ?? 0) - (nominaTrabajo.SueldoPagado ?? 0) + (nominaTrabajo.ImpuestoRetener ?? 0) + imss;
+            importeConcepto -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Monto).Sum() ?? 0;
+            importeConcepto += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum() ?? 0;
+            return importeConcepto;
+        }
+
+        /// <summary>
+        /// Función que piramida el ímporte dado.
+        /// </summary>
+        /// <param name="importe">Importe a piramidar</param>
+        /// <param name="FechaFin">Fecha que se utiliza para obtener las tablas mas recientes de impuestos.</param>
+        /// <returns></returns>
         public decimal Piramida(decimal importe, DateTime FechaFin)
         {
             decimal ISR_Asimilado;
@@ -676,6 +733,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             return apoyo;
         }
 
+        /// <summary>
+        /// Inserta conceptos de monto para las nominas que piramidan
+        /// </summary>
+        /// <param name="IdConcepto">Identificador del concepto al que se insertara la incidencia.</param>
+        /// <param name="Monto">Monto o importe que se insertara.</param>
         public void InsertaIncidenciaConceptoCompensacionPiramidar(int IdConcepto, decimal Monto)
         {
             if (IdConcepto != 0)
@@ -690,6 +752,30 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 model.Monto = Monto;
                 model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para las nominas que piramidan";
                 model.MontoEsquema = 0;
+
+                if (model.IdConcepto != 0)
+                    cins.NewIncindencia(model, IdUsuario);
+            }
+        }
+
+        /// <summary>
+        /// Inserta conceptos de cantidad para las nominas que piramidan.
+        /// </summary>
+        /// <param name="IdConcepto">Identificador del concepto al que se insertara la incidencia.</param>
+        /// <param name="Cantidad">CAntidad que se insertara.</param>
+        public void InsertaIncidenciaConceptoCompensacionFaltas(int IdConcepto, decimal Cantidad)
+        {
+            if (IdConcepto != 0)
+            {
+                ClassIncidencias cins = new ClassIncidencias();
+                ModelIncidencias model = new ModelIncidencias();
+                cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
+
+                model.IdEmpleado = IdEmpleado;
+                model.IdPeriodoNomina = IdPeriodoNomina;
+                model.IdConcepto = (int)IdConcepto;
+                model.Cantidad = Cantidad;
+                model.Observaciones = "PDUP SYSTEM Concepto creado por el sistema para las nominas que piramidan";                
 
                 if (model.IdConcepto != 0)
                     cins.NewIncindencia(model, IdUsuario);
