@@ -261,6 +261,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <param name="postedFile"> Actúa como clase base para las clases que proporcionan acceso a los archivos individuales que ha cargado un cliente.</param>
         /// <returns>Regresa la vista del archivo descargado.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BajaBatch(HttpPostedFileBase postedFile)
         {
             int IdCliente = 0;

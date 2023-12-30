@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Bibliography;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -1530,6 +1531,35 @@ namespace TadaNomina.Controllers.Reportes
                 {
                     wb.SaveAs(stream);
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+                }
+            }
+        }
+
+
+
+        public ActionResult AusentimosReporte()
+        {
+            ModelReporteByFechas m = new ModelReporteByFechas();
+            return View(m);
+        }
+
+
+
+        public FileResult AusentimosReportes(ModelReporteByFechas m)
+        {
+            int IdUnidadNegocio = int.Parse(Session["sIdUnidadNegocio"].ToString());
+            cReportesNomina reportes = new cReportesNomina();
+            DateTime fInicial = DateTime.Parse(m.fInicial);
+            DateTime fFinal = DateTime.Parse(m.fFinal);
+            DataTable dt = reportes.GetDataTableAusentimos(IdUnidadNegocio, fInicial, fFinal);
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt, "Reporte");
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Ausentismos.xls");
                 }
             }
         }
