@@ -52,7 +52,7 @@ namespace TadaNomina.Controllers.Administracion
         public ActionResult Create()
         {
             int IdCliente = (int)Session["sIdCliente"];
-
+            
             ClassConceptos conceptos = new ClassConceptos();
             ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos(IdCliente);
 
@@ -68,28 +68,26 @@ namespace TadaNomina.Controllers.Administracion
         [HttpPost]
         public ActionResult Create(ModelConceptos collection)
         {
+            int IdCliente = (int)Session["sIdCliente"];
+            collection.mensaje = string.Empty;
+            ClassConceptos cconceptos = new ClassConceptos();            
             try
-            {
-                int IdCliente = (int)Session["sIdCliente"];
+            {                
                 if (ModelState.IsValid)
-                {
-                    ClassConceptos cconceptos = new ClassConceptos();
+                {                    
                     int IdUsuario = (int)Session["sIdUsuario"];
                     cconceptos.AddConcepto(collection, IdCliente, IdUsuario);
                     return RedirectToAction("Index");
-                }
-                else
-                {
-                    ClassConceptos conceptos = new ClassConceptos();
-                    ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos(IdCliente);
-
-                    return View(modConcpetos);
-                }
+                }                
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                collection = cconceptos.LlenaListasConcpetos(IdCliente);
+                collection.mensaje = ex.Message;
             }
+
+            
+            return View(collection);
         }
 
         // GET: Conceptos/Edit/5

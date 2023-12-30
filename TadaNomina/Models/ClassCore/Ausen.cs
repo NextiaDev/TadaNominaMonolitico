@@ -443,13 +443,15 @@ namespace TadaNomina.Models.ClassCore
                        var dias = ObtenDias(iAusen.idempleado.Value);
                         var restad = (dias - iAusen.DiasSubsidioInicial) * iAusen.SD * (iAusen.PorcentajeSubsidioRestante);
                         try
-                        {IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad;
+                        {
+                            //IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad;
                         }
                         catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
                         AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, restad.Value, IdUsuario);
                     }
                     var operacion = (iAusen.SD * iAusen.DiasSubsidioInicial) * iAusen.PorcentajeSubsidioInicial;
-                    try { IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad; 
+                    try {
+                        //IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad; 
                     } catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
                     AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, operacion.Value, IdUsuario);
 
@@ -470,8 +472,6 @@ namespace TadaNomina.Models.ClassCore
                     return 0;
             }
         }
-
-
    
         public void DeleteIncidenciaAusentismos(int IdPeriodoNomina, int IdAusentismo)
         {
@@ -486,9 +486,6 @@ namespace TadaNomina.Models.ClassCore
 
         public void AgregaIncidenciaAusentismoEmpleado(sp_RegresaAusentismos_Result ausentismo, int IdPeriodoNomina, int IdUsuario)
         {
-
-
-
             Incidencias i = new Incidencias();
             i.IdEmpleado = ausentismo.idempleado;
             i.IdPeriodoNomina = IdPeriodoNomina;

@@ -14,35 +14,35 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public int IdCliente { get; set; }
         public string Cliente { get; set; }
         [Required]
-        [Display(Name = "Clave Agrupadora:")]
+        [Display(Name = "* Clave Agrupadora:")]
         public string ClaveGpo { get; set; }
         public List<SelectListItem> LAgrupador { get; set; }
         [Required]
-        [Display(Name = "Clave Concepto:")]
+        [Display(Name = "* Clave Concepto:")]
         public string ClaveConcepto { get; set; }
         [Required]
-        [Display(Name = "Clave SAT:")]
+        [Display(Name = "* Clave SAT:")]
         public string ClaveSAT { get; set; }
         [Required]
-        [Display(Name = "Nombre Concepto:")]
+        [Display(Name = "* Nombre Concepto:")]
         public string Concepto { get; set; }
         [Display(Name = "Información Concepto:")]
         [DataType(DataType.MultilineText)]
         public string Informacion { get; set; }
         [Required]
-        [Display(Name = "Tipo de Concepto:")]
+        [Display(Name = "* Tipo de Concepto:")]
         public string TipoConcepto { get; set; }
         public IList<SelectListItem> LTipoConcepto { get; set; }
         [Required]
-        [Display(Name = "Tipo de Dato:")]
+        [Display(Name = "* Tipo de Dato:")]
         public string TipoDato { get; set; }
         public IList<SelectListItem> LTipoDato { get; set; }
         [Required]
-        [Display(Name = "Tipo Esquema:")]
+        [Display(Name = "* Tipo Esquema:")]
         public string TipoEsquema { get; set; }
         public IList<SelectListItem> LTipoEsquema { get; set; }
         [Required]
-        [Display(Name = "¿Calcula Montos?:")]
+        [Display(Name = "* ¿Calcula Montos?:")]
         public string CalculaMontos { get; set; }
         public IList<SelectListItem> LCalculaMontos { get; set; }
         [Required]
@@ -53,26 +53,26 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public decimal SDEntre { get; set; }
 
         [Required]
-        [Display(Name = "¿Afecta días de sueldo?:")]
+        [Display(Name = "* ¿Afecta días de sueldo?:")]
         public string AfectaSueldo { get; set; }
         public IList<SelectListItem> LAfectaSueldo { get; set; }
         [Required]
-        [Display(Name = "¿Afecta carga social?:")]
+        [Display(Name = "* ¿Afecta carga social?:")]
         public string AfectaCargaSocial { get; set; }
         public IList<SelectListItem> LAfectaCargaSocial { get; set; }
         [Display(Name = "¿Suma al neto final?")]
         public string sumaNetoFinal { get; set; }
         public List<SelectListItem> lSumaNeto { get; set; }
         [Required]
-        [Display(Name = "¿Integra para la base gravada?:")]
+        [Display(Name = "* ¿Integra para la base gravada?:")]
         public string Integrable { get; set; }
         public IList<SelectListItem> LIntegra { get; set; }
         [Required]
-        [Display(Name = "¿Integra para la variabilidad?:")]
+        [Display(Name = "* ¿Integra para la variabilidad?:")]
         public string IntegraSDI { get; set; }
         public IList<SelectListItem> LIntegraSDI { get; set; }
         [Required]
-        [Display(Name = "¿Exenta?:")]
+        [Display(Name = "* ¿Exenta?:")]
         public string Exenta { get; set; }
         public IList<SelectListItem> LExenta { get; set; }
         [Display(Name = "Unidad por la que Exenta:")]
@@ -145,6 +145,8 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "¿Usa Tabla de Factores? :")]
         public string TablaFactores { get; set; }
         public List<SelectListItem> lstTablaFactores { get; set; }
+
+        public string mensaje { get; set; }
 
     }
 }

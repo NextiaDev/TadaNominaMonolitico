@@ -51,9 +51,17 @@ namespace TadaNomina.Models.ViewModels.Catalogos
 
 
 
-        [Display(Name = "Concepto para Compensación:")]
+        [Display(Name = "Concepto para Compensación(Piramidación):")]
         public int? IdConceptoCompensacion { get; set; }
         public List<SelectListItem> lConceptoCuotaCompensacion { get; set; }
+
+        [Display(Name = "Concepto para Faltas(Piramidación):")]
+        public int? IdConceptoFaltas { get; set; }
+        public List<SelectListItem> lConceptoFaltas { get; set; }
+
+        [Display(Name = "Concepto para Art 93 Frac lll(Piramidación):")]
+        public int? IdConceptoArt93Fraclll { get; set; }
+        public List<SelectListItem> lConceptoArt93Fraclll { get; set; }
 
 
         public bool validacion { get; set; }
