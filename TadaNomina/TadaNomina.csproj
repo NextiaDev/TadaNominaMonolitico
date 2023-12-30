@@ -6991,6 +6991,8 @@
     <Content Include="Views\ReportesDirectivos\Patrona.cshtml" />
     <Content Include="Views\UnidadesNegocio\Config.cshtml" />
     <Content Include="Views\Conceptos\TablaFactores.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\ReporteNomina\AusentimosReporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

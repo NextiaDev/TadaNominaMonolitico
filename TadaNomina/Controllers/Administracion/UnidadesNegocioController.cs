@@ -61,7 +61,7 @@ namespace TadaNomina.Controllers.Administracion
         {
 
             int IdUnidadNegocio = 0;
-            try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+            try { IdUnidadNegocio = (int)Session["sAsignada"]; } catch { IdUnidadNegocio = 0; }
 
 
             try
