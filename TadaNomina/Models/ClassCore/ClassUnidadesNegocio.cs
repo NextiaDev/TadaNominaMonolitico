@@ -28,7 +28,7 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int DImss, int DImssB, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, int pIdUsuario)
         {
 
             if (bool.Parse(AEC) == true)

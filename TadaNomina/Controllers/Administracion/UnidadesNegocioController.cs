@@ -57,7 +57,7 @@ namespace TadaNomina.Controllers.Administracion
         }
 
         [HttpPost]
-        public JsonResult GuardarEspeciales(string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int DImss, int DImssB)
+        public JsonResult GuardarEspeciales(string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB)
         {
 
             int IdUnidadNegocio = 0;

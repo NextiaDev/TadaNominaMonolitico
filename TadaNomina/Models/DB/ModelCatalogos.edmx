@@ -469,6 +469,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="BanderaDiasEquivalentes" Type="nvarchar" MaxLength="2" />
           <Property Name="BanderaCargasSocialesSinFaltas" Type="nvarchar" MaxLength="2" />
           <Property Name="BanderaCuotaSindical" Type="nvarchar" MaxLength="2" />
+          <Property Name="BanderaDiasAguinaldo" Type="nvarchar" MaxLength="2" />
+          <Property Name="DIasImss" Type="int" />
+          <Property Name="DiasMenosImss" Type="int" />
         </EntityType>
         <EntityType Name="Cliente_EmpresaEspecializada">
           <Key>
@@ -2542,6 +2545,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="BanderaDiasEquivalentes" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="BanderaCargasSocialesSinFaltas" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="BanderaCuotaSindical" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="BanderaDiasAguinaldo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DIasImss" Type="Int32" />
+          <Property Name="DiasMenosImss" Type="Int32" />
         </EntityType>
         <EntityType Name="Cat_SindicatoCliente">
           <Key>
@@ -3665,6 +3671,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="Cat_UnidadNegocio">
             <EntityTypeMapping TypeName="TadaNominaModel.Cat_UnidadNegocio">
               <MappingFragment StoreEntitySet="Cat_UnidadNegocio">
+                <ScalarProperty Name="DiasMenosImss" ColumnName="DiasMenosImss" />
+                <ScalarProperty Name="DIasImss" ColumnName="DIasImss" />
+                <ScalarProperty Name="BanderaDiasAguinaldo" ColumnName="BanderaDiasAguinaldo" />
                 <ScalarProperty Name="BanderaCuotaSindical" ColumnName="BanderaCuotaSindical" />
                 <ScalarProperty Name="BanderaCargasSocialesSinFaltas" ColumnName="BanderaCargasSocialesSinFaltas" />
                 <ScalarProperty Name="BanderaDiasEquivalentes" ColumnName="BanderaDiasEquivalentes" />
