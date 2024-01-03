@@ -521,7 +521,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
 
             nominaTrabajo.BaseGravadaLiquidacion = GravadoLiquidacion;
 
-            if (indem90d > 0 && indem20d > 0 && indemPA > 0)
+            
+            if ((indem90d > 0 && indem20d > 0 && indemPA > 0) || (indem90d > 0 && indem20d > 0) || (indem20d > 0 && indemPA > 0) || (indem90d > 0 && indemPA > 0))
             {
                 decimal SMO = SD_IMSS * 30;
                 decimal ISR_SMO = CalculaISR(SMO, Periodo.FechaFin, "05", false);
