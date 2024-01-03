@@ -25,6 +25,9 @@
             <table class="table table-hover table-condensed">
                 <tr>
                     <th>
+                        ID
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Cliente)
                     </th>
                     <th>
@@ -37,6 +40,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdPrestacion)
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Cliente)
                         </td>
