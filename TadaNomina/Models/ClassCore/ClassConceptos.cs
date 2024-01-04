@@ -14,6 +14,7 @@ namespace TadaNomina.Models.ClassCore
     /// Conceptos de Nomina
     /// Autor: Diego Rodríguez
     /// Fecha Ultima Modificación: 17/05/2022, Razón: Documentación del código
+    /// Fecha ultima modificación: 04/05/2024, Razón: Se corrigen detalles con la funcionalidad del CRUD
     /// </summary>
 	public class ClassConceptos
 	{
