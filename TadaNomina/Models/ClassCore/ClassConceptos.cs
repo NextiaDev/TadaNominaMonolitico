@@ -231,14 +231,10 @@ namespace TadaNomina.Models.ClassCore
             {
                 var conceptos = (from b in entidad.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdConceptoSistema == IdExistente && x.IdEstatus == 1) select b).FirstOrDefault();
 
-                if (conceptos != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                if (conceptos != null)                
+                    return true;                
+                else                
+                    return false;                
             }
         }
 
