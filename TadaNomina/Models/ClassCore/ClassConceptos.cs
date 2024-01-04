@@ -415,6 +415,8 @@ namespace TadaNomina.Models.ClassCore
                     entidad.SaveChanges();
                 }
             }
+            else
+                throw new Exception("La clave del concepto que intenta guardar ya existe para el cliente " + modelConceptos.IdCliente);
         }
 
         /// <summary>
