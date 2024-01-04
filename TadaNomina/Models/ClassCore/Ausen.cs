@@ -436,26 +436,26 @@ namespace TadaNomina.Models.ClassCore
                 int IdConcepto = 0;
                 DeleteIncidenciaAusentismos(IdPeriodoNomina, iAusen.IdAusentismo);
                 AgregaIncidenciaAusentismoEmpleado(iAusen, IdPeriodoNomina, IdUsuario);
-                if (iAusen.AplicaSubsidio == "Si")
-                {
-                    if (iAusen.PorcentajeSubsidioRestante != 0)
-                    {
-                       var dias = ObtenDias(iAusen.idempleado.Value);
-                        var restad = (dias - iAusen.DiasSubsidioInicial) * iAusen.SD * (iAusen.PorcentajeSubsidioRestante);
-                        try
-                        {
-                            //IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad;
-                        }
-                        catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
-                        AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, restad.Value, IdUsuario);
-                    }
-                    var operacion = (iAusen.SD * iAusen.DiasSubsidioInicial) * iAusen.PorcentajeSubsidioInicial;
-                    try {
-                        //IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad; 
-                    } catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
-                    AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, operacion.Value, IdUsuario);
+                //if (iAusen.AplicaSubsidio == "Si")
+                //{
+                //    if (iAusen.PorcentajeSubsidioRestante != 0)
+                //    {
+                //       var dias = ObtenDias(iAusen.idempleado.Value);
+                //        var restad = (dias - iAusen.DiasSubsidioInicial) * iAusen.SD * (iAusen.PorcentajeSubsidioRestante);
+                //        try
+                //        {
+                //            //IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad;
+                //        }
+                //        catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
+                //        AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, restad.Value, IdUsuario);
+                //    }
+                //    var operacion = (iAusen.SD * iAusen.DiasSubsidioInicial) * iAusen.PorcentajeSubsidioInicial;
+                //    try {
+                //        //IdConcepto = (int)conceptosConfigurados.idConceptoSubsidioIncapacidad; 
+                //    } catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
+                //    AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, operacion.Value, IdUsuario);
 
-                }
+                //}
             }
         }
 
