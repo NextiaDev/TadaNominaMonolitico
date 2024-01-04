@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="NominaModel.vIncidenciasProgramadas" Width="1.5" PointX="3.375" PointY="16.75" />
         <EntityTypeShape EntityType="NominaModel.vRegistroPatronal" Width="1.5" PointX="18.375" PointY="0.75" />
         <EntityTypeShape EntityType="NominaModel.Cat_CentroCostos" Width="1.5" PointX="18.375" PointY="4.75" />
-        <EntityTypeShape EntityType="NominaModel.Cat_Departamentos" Width="1.5" PointX="18.375" PointY="8.75" />
         <EntityTypeShape EntityType="NominaModel.vCreditoFonacot" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="NominaModel.CreditosFonacot" Width="1.5" PointX="15.375" PointY="0.75" />
         <EntityTypeShape EntityType="NominaModel.FactorIntegracion" Width="1.5" PointX="0.75" PointY="20.75" />
@@ -60,6 +59,7 @@
         <EntityTypeShape EntityType="NominaModel.vIncidencias_Consolidadas" Width="1.5" PointX="29.375" PointY="29.75" />
         <EntityTypeShape EntityType="NominaModel.Incidencias" Width="1.5" PointX="12.375" PointY="11.75" />
         <EntityTypeShape EntityType="NominaModel.Cat_TipoPeriodo" Width="1.5" PointX="5.375" PointY="23.75" />
+        <EntityTypeShape EntityType="NominaModel.Cat_Departamentos" Width="1.5" PointX="23.375" PointY="10.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

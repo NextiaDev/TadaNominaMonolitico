@@ -150,123 +150,130 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <param name="IdUsuario">Identificador del usuario del sistema que esta realizando el proceso.</param>
         public void GetListas(int IdPeriodo, int? IdEmpleado, int IdUsuario)
         {
-            GetPeriodoNomina(IdPeriodo);            
-            GetSueldosMinimos(Periodo.FechaFin);
-            ProcesaIncidenciasProgramadas(Periodo.DescuentosFijos, Periodo.IdUnidadNegocio, IdPeriodo, IdEmpleado, IdUsuario);
-            GetDatosUnidadNegocio(Periodo.IdUnidadNegocio);
-            GetConceptosConfigurados();
-
-            GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
-            GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
-            GetTablaEquivalencias(UnidadNegocio.IdCliente);
-            listEmpleadosSinAjuste = new List<vEmpleados>();
-
-            if (Periodo.TipoNomina == "Nomina")
+            try
             {
-                ProcesaVacaciones(Periodo.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, IdUsuario);
-                GetAusentismos(IdPeriodoNomina);
+                GetPeriodoNomina(IdPeriodo);
+                GetSueldosMinimos(Periodo.FechaFin);
+                ProcesaIncidenciasProgramadas(Periodo.DescuentosFijos, Periodo.IdUnidadNegocio, IdPeriodo, IdEmpleado, IdUsuario);
+                GetDatosUnidadNegocio(Periodo.IdUnidadNegocio);
+                GetConceptosConfigurados();
 
-                if (IdEmpleado != null)
-                    ProcesaAusentismos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
-                else
-                    ProcesaAusentismos(IdPeriodoNomina, IdUsuario);
+                GetListEmpleados(UnidadNegocio.IdUnidadNegocio);
+                GetListConceptosNominaFormula(UnidadNegocio.IdCliente);
+                GetTablaEquivalencias(UnidadNegocio.IdCliente);
+                listEmpleadosSinAjuste = new List<vEmpleados>();
 
-                if (IdEmpleado != null)
-                    ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
-                else
-                    ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
-            }
+                if (Periodo.TipoNomina == "Nomina")
+                {
+                    ProcesaVacaciones(Periodo.IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, IdUsuario);
+                    GetAusentismos(IdPeriodoNomina);
 
-            if (Periodo.TipoNomina == "Complemento")
-            {
-                if (IdEmpleado != null)
-                    ProcesoCompensaciones(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
-                else
-                    ProcesoCompensaciones(IdPeriodoNomina, IdUsuario);
-            }
+                    if (IdEmpleado != null)
+                        ProcesaAusentismos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
+                    else
+                        ProcesaAusentismos(IdPeriodoNomina, IdUsuario);
 
-            getPiramidados(IdPeriodo, IdEmpleado, IdUsuario);           
-            
-            if (UnidadNegocio.ConceptosSDILiquidacion != null && UnidadNegocio.ConceptosSDILiquidacion != string.Empty && Periodo.PeriodosIntegracionSDI != string.Empty && Periodo.PeriodosIntegracionSDI != null)
-            {
-                string[] periodo = new string[0];
-                if (Periodo.PeriodosIntegracionSDI != null)
-                    periodo = Periodo.PeriodosIntegracionSDI.Split(',').Where(x => x != string.Empty).ToArray();
+                    if (IdEmpleado != null)
+                        ProcesoCompensacionesPagos(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
+                    else
+                        ProcesoCompensacionesPagos(IdPeriodoNomina, IdUsuario);
+                }
 
-                periodoInt = Array.ConvertAll(periodo, int.Parse);
-               
-                if(UnidadNegocio.ConceptosSDILiquidacion != null)
-                    clves = UnidadNegocio.ConceptosSDILiquidacion.Split(',').Where(x => x != string.Empty).ToArray();
-                //getImporteIntegraSDI(clves, periodoInt);
-            }                
+                if (Periodo.TipoNomina == "Complemento")
+                {
+                    if (IdEmpleado != null)
+                        ProcesoCompensaciones(IdPeriodoNomina, (int)IdEmpleado, IdUsuario);
+                    else
+                        ProcesoCompensaciones(IdPeriodoNomina, IdUsuario);
+                }
 
-            GetTipoNomina(UnidadNegocio.IdTipoNomina);                       
-            GetPrestaciones(UnidadNegocio.IdCliente, Periodo.FechaFin);
+                getPiramidados(IdPeriodo, IdEmpleado, IdUsuario);
 
-            if (UnidadNegocio.FiniquitosTablaMensual == "S" && Periodo.TipoNomina == "Finiquitos")
-            {
-                GetImpuestosSAT(4, Periodo.FechaFin);
-                GetSubsidioSAT(4, Periodo.FechaFin);
-            }
-            else
-            {
-                if (Periodo.TablaDiaria == "S" || UnidadNegocio.ISRProyeccionMensual == "S")
+                if (UnidadNegocio.ConceptosSDILiquidacion != null && UnidadNegocio.ConceptosSDILiquidacion != string.Empty && Periodo.PeriodosIntegracionSDI != string.Empty && Periodo.PeriodosIntegracionSDI != null)
+                {
+                    string[] periodo = new string[0];
+                    if (Periodo.PeriodosIntegracionSDI != null)
+                        periodo = Periodo.PeriodosIntegracionSDI.Split(',').Where(x => x != string.Empty).ToArray();
+
+                    periodoInt = Array.ConvertAll(periodo, int.Parse);
+
+                    if (UnidadNegocio.ConceptosSDILiquidacion != null)
+                        clves = UnidadNegocio.ConceptosSDILiquidacion.Split(',').Where(x => x != string.Empty).ToArray();
+                    //getImporteIntegraSDI(clves, periodoInt);
+                }
+
+                GetTipoNomina(UnidadNegocio.IdTipoNomina);
+                GetPrestaciones(UnidadNegocio.IdCliente, Periodo.FechaFin);
+
+                if (UnidadNegocio.FiniquitosTablaMensual == "S" && Periodo.TipoNomina == "Finiquitos")
                 {
                     GetImpuestosSAT(4, Periodo.FechaFin);
                     GetSubsidioSAT(4, Periodo.FechaFin);
                 }
                 else
                 {
-                    GetImpuestosSAT(UnidadNegocio.IdTipoNomina, Periodo.FechaFin);
-                    GetSubsidioSAT(UnidadNegocio.IdTipoNomina, Periodo.FechaFin);
-                }
-            }
-                        
-            GetRegistrosPatronales(UnidadNegocio.IdCliente);
-            GetImpuestosIMSS();
-            GetFactoresCyVIMSS(Periodo.FechaFin);
-            GetCreditos(UnidadNegocio.IdUnidadNegocio);
-            GetPensiones(UnidadNegocio.IdUnidadNegocio);
-            GetCreditosFonacot(UnidadNegocio.IdUnidadNegocio);
-            getSaldos(UnidadNegocio.IdUnidadNegocio, Periodo.FechaInicio, Periodo.FechaFin);
-            GetConfiguracionNominaPeriodoEmpleado();            
-            GetListEntidades();
-            
-            if (Periodo.AjusteDeImpuestos == "SI")
-            {                
-                if (Periodo.AjusteAnual == "S")
-                {                    
-                    GetImpuestosSAT_Ajuste_Anual(Periodo.FechaFin);
-                    GetEmpleadosAjusteAnual(UnidadNegocio.IdUnidadNegocio, Periodo.FechaFin.Year);
-                    
-                    var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste != null && Periodo.EmpleadosSinAjuste != "" ? 
-                        Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList() : new List<string>();
-                    GetListEmpleadosSinAjuste(Periodo.IdUnidadNegocio, cvesEmpSinAjuste);
-
-                    if (Periodo.PeriodosAjusteSecundario != null && Periodo.PeriodosAjusteSecundario.Length > 0 && listEmpleadosSinAjuste.Count > 0)
+                    if (Periodo.TablaDiaria == "S" || UnidadNegocio.ISRProyeccionMensual == "S")
                     {
-                        AjusteSecundario = true;                        
-                        GetNominaAjusteSecundario(Periodo.PeriodosAjusteSecundario);
-                        GetImpuestosSAT_AjusteSecundario(Periodo.FechaFin);
+                        GetImpuestosSAT(4, Periodo.FechaFin);
+                        GetSubsidioSAT(4, Periodo.FechaFin);
+                    }
+                    else
+                    {
+                        GetImpuestosSAT(UnidadNegocio.IdTipoNomina, Periodo.FechaFin);
+                        GetSubsidioSAT(UnidadNegocio.IdTipoNomina, Periodo.FechaFin);
                     }
                 }
-                else
-                    GetImpuestosSAT_Ajuste(Periodo.FechaFin);
 
-                GetSubsidioSAT_Ajuste(Periodo.FechaFin);                
-                GetNominaAjuste(Periodo.SeAjustaraConPeriodo);
+                GetRegistrosPatronales(UnidadNegocio.IdCliente);
+                GetImpuestosIMSS();
+                GetFactoresCyVIMSS(Periodo.FechaFin);
+                GetCreditos(UnidadNegocio.IdUnidadNegocio);
+                GetPensiones(UnidadNegocio.IdUnidadNegocio);
+                GetCreditosFonacot(UnidadNegocio.IdUnidadNegocio);
+                getSaldos(UnidadNegocio.IdUnidadNegocio, Periodo.FechaInicio, Periodo.FechaFin);
+                GetConfiguracionNominaPeriodoEmpleado();
+                GetListEntidades();
 
-                if (ListaEmpleadosAjusteAnual != null)
-                    ListNominaAjuste = ListNominaAjuste.Where(x => ListaEmpleadosAjusteAnual.Select(y => y.Rfc).ToList().Contains(x.Rfc)).ToList();
+                if (Periodo.AjusteDeImpuestos == "SI")
+                {
+                    if (Periodo.AjusteAnual == "S")
+                    {
+                        GetImpuestosSAT_Ajuste_Anual(Periodo.FechaFin);
+                        GetEmpleadosAjusteAnual(UnidadNegocio.IdUnidadNegocio, Periodo.FechaFin.Year);
+
+                        var cvesEmpSinAjuste = Periodo.EmpleadosSinAjuste != null && Periodo.EmpleadosSinAjuste != "" ?
+                            Periodo.EmpleadosSinAjuste.Replace(" ", "").Split(',').ToList() : new List<string>();
+                        GetListEmpleadosSinAjuste(Periodo.IdUnidadNegocio, cvesEmpSinAjuste);
+
+                        if (Periodo.PeriodosAjusteSecundario != null && Periodo.PeriodosAjusteSecundario.Length > 0 && listEmpleadosSinAjuste.Count > 0)
+                        {
+                            AjusteSecundario = true;
+                            GetNominaAjusteSecundario(Periodo.PeriodosAjusteSecundario);
+                            GetImpuestosSAT_AjusteSecundario(Periodo.FechaFin);
+                        }
+                    }
+                    else
+                        GetImpuestosSAT_Ajuste(Periodo.FechaFin);
+
+                    GetSubsidioSAT_Ajuste(Periodo.FechaFin);
+                    GetNominaAjuste(Periodo.SeAjustaraConPeriodo);
+
+                    if (ListaEmpleadosAjusteAnual != null)
+                        ListNominaAjuste = ListNominaAjuste.Where(x => ListaEmpleadosAjusteAnual.Select(y => y.Rfc).ToList().Contains(x.Rfc)).ToList();
+                }
+
+                // Para el cao de una nomina de PTU cargamos tabla mensual para todos los calculos
+                if (Periodo.TipoNomina == "PTU")
+                {
+                    GetImpuestosSAT(4, Periodo.FechaFin);
+                    GetSubsidioSAT(4, Periodo.FechaFin);
+                    GetListEmpleadosPTU(Periodo.IdPeriodoNomina);
+                }
             }
-
-            // Para el cao de una nomina de PTU cargamos tabla mensual para todos los calculos
-            if (Periodo.TipoNomina == "PTU")
+            catch (Exception ex)
             {
-                GetImpuestosSAT(4, Periodo.FechaFin);
-                GetSubsidioSAT(4, Periodo.FechaFin);
-                GetListEmpleadosPTU(Periodo.IdPeriodoNomina);
-            }                       
+                throw new Exception("Error al llenar listas. " + ex.Message);
+            }
         }
 
         private void GetListConceptosNominaFormula(int idCliente)

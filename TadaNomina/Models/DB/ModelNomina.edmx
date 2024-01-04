@@ -45,9 +45,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.AdelantoNomina' no tiene defi
           <Property Name="FechaInicioAplicacion" Type="date" />
           <Property Name="FechaFinAplicacion" Type="date" />
           <Property Name="Dias" Type="int" />
-          <Property Name="DiasSubsidioInicial" Type="int" />
-          <Property Name="PorcentajeSubsidioInicial" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeSubsidioRestante" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Archivo" Type="nvarchar" MaxLength="1000" />
           <Property Name="TipoAusentismo" Type="nvarchar" MaxLength="50" />
           <Property Name="IdCaptura" Type="int" />
@@ -55,6 +52,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.AdelantoNomina' no tiene defi
           <Property Name="FechaCreacion" Type="datetime" />
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="AplicaSubsidio" Type="varchar" MaxLength="50" />
+          <Property Name="DiasSubsidioInicial" Type="int" />
+          <Property Name="PorcentajeSubsidioInicial" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeSubsidioRestante" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.Bimestres' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -139,8 +140,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Bimestres' no tiene definida 
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
-          <Property Name="IdDeptoPadre" Type="int" />
-          <Property Name="IdTipoDepto" Type="int" />
         </EntityType>
         <EntityType Name="Cat_HonorariosFacturas">
           <Key>
@@ -452,6 +451,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Bimestres' no tiene definida 
           <Property Name="FechaInicio" Type="date" />
           <Property Name="FechaFin" Type="date" />
           <Property Name="Folio" Type="nvarchar" MaxLength="50" />
+          <Property Name="FormulaEjecutada" Type="nvarchar" MaxLength="100" />
           <Property Name="Observaciones" Type="text" />
           <Property Name="BanderaFiniquitos" Type="int" />
           <Property Name="BanderaAguinaldos" Type="int" />
@@ -914,6 +914,11 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vAusentismos' no tiene defini
           <Property Name="SDIMSS" Type="decimal" Precision="18" Scale="4" />
           <Property Name="SDI" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TipoAusentismo" Type="nvarchar" MaxLength="50" />
+          <Property Name="AplicaSubsidio" Type="varchar" MaxLength="50" />
+          <Property Name="DiasSubsidioInicial" Type="int" />
+          <Property Name="PorcentajeSubsidioInicial" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeSubsidioRestante" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SD" Type="decimal" Precision="18" Scale="4" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vCompensaciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -1141,8 +1146,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vCreditoInfonavit' no tiene d
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
           <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" />
           <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
-          <Property Name="SDIMSS" Type="decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SDIMSS" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SDI" Type="decimal" Precision="18" Scale="4" />
           <Property Name="IdUnidadNegocio" Type="int" />
           <Property Name="IdCentroCostos" Type="int" />
           <Property Name="IdDepartamento" Type="int" />
@@ -1429,7 +1434,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidenciasProgramadas' no t
           <Key>
             <PropertyRef Name="IdIncidenciasProgramadas" />
             <PropertyRef Name="ClaveEmpleado" />
-            
             <PropertyRef Name="IdUnidadNegocio" />
             <PropertyRef Name="IdEntidad" />
           </Key>
@@ -1466,7 +1470,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidenciasProgramadas' no t
           <Property Name="CantidadExenta" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PorcentajeGravado" Type="decimal" Precision="18" Scale="4" />
           <Property Name="ClaveEmpleado" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="152" Nullable="false" />
+          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="152" />
           <Property Name="Curp" Type="nvarchar" MaxLength="18" />
           <Property Name="Rfc" Type="nvarchar" MaxLength="13" />
           <Property Name="Imss" Type="nvarchar" MaxLength="11" />
@@ -1758,7 +1762,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPensionAlimenticia' no tiene
             <PropertyRef Name="IdPensionAlimenticia" />
             <PropertyRef Name="IdEmpleado" />
             <PropertyRef Name="ClaveEmpleado" />
-            
             <PropertyRef Name="UnidadNegocio" />
             <PropertyRef Name="IdUnidadNegocio" />
             <PropertyRef Name="Nombre" />
@@ -1773,7 +1776,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPensionAlimenticia' no tiene
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="IdEmpleado" Type="int" Nullable="false" />
           <Property Name="ClaveEmpleado" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="152" Nullable="false" />
+          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="152" />
           <Property Name="Curp" Type="nvarchar" MaxLength="18" />
           <Property Name="Imss" Type="nvarchar" MaxLength="11" />
           <Property Name="Rfc" Type="nvarchar" MaxLength="13" />
@@ -1908,7 +1911,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vRecibosEsquema' no tiene def
           <Property Name="Total_Deducciones" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Total_Percepciones" Type="decimal" Precision="18" Scale="2" />
           <Property Name="CadenaXML" Type="varchar" MaxLength="8000" />
-          <Property Name="Periodo" Type="nvarchar" MaxLength="200" />
+          <Property Name="Periodo" Type="nvarchar" MaxLength="50" />
           <Property Name="FechaInicio" Type="date" />
           <Property Name="FechaFin" Type="date" />
           <Property Name="FechaCaptura" Type="datetime" />
@@ -2185,7 +2188,12 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
     [vAusentismos].[Imss] AS [Imss], 
     [vAusentismos].[SDIMSS] AS [SDIMSS], 
     [vAusentismos].[SDI] AS [SDI], 
-    [vAusentismos].[TipoAusentismo] AS [TipoAusentismo]
+    [vAusentismos].[TipoAusentismo] AS [TipoAusentismo], 
+    [vAusentismos].[AplicaSubsidio] AS [AplicaSubsidio], 
+    [vAusentismos].[DiasSubsidioInicial] AS [DiasSubsidioInicial], 
+    [vAusentismos].[PorcentajeSubsidioInicial] AS [PorcentajeSubsidioInicial], 
+    [vAusentismos].[PorcentajeSubsidioRestante] AS [PorcentajeSubsidioRestante], 
+    [vAusentismos].[SD] AS [SD]
     FROM [dbo].[vAusentismos] AS [vAusentismos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vCompensaciones" EntityType="Self.vCompensaciones" store:Type="Views" store:Schema="dbo">
@@ -3107,7 +3115,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           </FunctionImport>
           <EntitySet Name="vRegistroPatronal" EntityType="NominaModel.vRegistroPatronal" />
           <EntitySet Name="Cat_CentroCostos" EntityType="NominaModel.Cat_CentroCostos" />
-          <EntitySet Name="Cat_Departamentos" EntityType="NominaModel.Cat_Departamentos" />
           <FunctionImport Name="sp_ReportesHotelesSunset" ReturnType="Collection(NominaModel.sp_ReportesHotelesSunset_Result)">
           <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -3239,6 +3246,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="vIncidencias_Consolidadas" EntityType="NominaModel.vIncidencias_Consolidadas" />
           <EntitySet Name="Incidencias" EntityType="NominaModel.Incidencias" />
           <EntitySet Name="Cat_TipoPeriodo" EntityType="NominaModel.Cat_TipoPeriodo" />
+          <EntitySet Name="Cat_Departamentos" EntityType="NominaModel.Cat_Departamentos" />
         </EntityContainer>
         <EntityType Name="Sueldos_Minimos">
           <Key>
@@ -3356,7 +3364,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="CantidadExenta" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PorcentajeGravado" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="NombreCompleto" Type="String" MaxLength="152" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="152" FixedLength="false" Unicode="true" />
           <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
           <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
@@ -3401,25 +3409,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="IdUnidadNegocio" Type="Int32" />
           <Property Name="ClaveFinanciera" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ClaveRH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Cat_Departamentos">
-          <Key>
-            <PropertyRef Name="IdDepartamento" />
-          </Key>
-          <Property Name="IdDepartamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCliente" Type="Int32" />
-          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Departamento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <Property Name="IdUnidadNegocio" Type="Int32" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="ClaveRH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IdDeptoPadre" Type="Int32" />
-          <Property Name="IdTipoDepto" Type="Int32" />
         </EntityType>
         <ComplexType Name="sp_ReportesHotelesSunset_Result">
           <Property Type="String" Name="ClaveEmpleado" Nullable="false" MaxLength="10" />
@@ -3578,7 +3567,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
           <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
           <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="NombreCompleto" Type="String" MaxLength="152" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NombreCompleto" Type="String" MaxLength="152" FixedLength="false" Unicode="true" />
           <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
           <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
           <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
@@ -3688,7 +3677,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="Total_Deducciones" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Total_Percepciones" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="CadenaXML" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
-          <Property Name="Periodo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Periodo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FechaInicio" Type="DateTime" Precision="0" />
           <Property Name="FechaFin" Type="DateTime" Precision="0" />
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
@@ -3756,6 +3745,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="BanderaCompensaciones" Type="Int32" />
           <Property Name="Origen" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="BanderaIncidencia" Type="Int32" />
+          <Property Name="FormulaEjecutada" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="sp_ReciboRealPercepciones_Result">
           <Property Type="String" Name="Concepto" Nullable="true" MaxLength="50" />
@@ -3873,8 +3863,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SDIMSS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDIMSS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="IdUnidadNegocio" Type="Int32" />
           <Property Name="IdCentroCostos" Type="Int32" />
           <Property Name="IdDepartamento" Type="Int32" />
@@ -4882,6 +4872,11 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="SDIMSS" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="TipoAusentismo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AplicaSubsidio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DiasSubsidioInicial" Type="Int32" />
+          <Property Name="PorcentajeSubsidioInicial" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeSubsidioRestante" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SD" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="Cat_HonorariosFacturas">
           <Key>
@@ -5048,6 +5043,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="DiasSubsidioInicial" Type="Int32" />
           <Property Name="PorcentajeSubsidioInicial" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PorcentajeSubsidioRestante" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AplicaSubsidio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_RegresaIncidenciasCalculoIndividual_Result">
           <Property Type="Int32" Name="IdIncidencia" Nullable="false" />
@@ -5345,6 +5341,23 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="TipoPeriodo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IdEstatus" Type="Int32" />
         </EntityType>
+        <EntityType Name="Cat_Departamentos">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="ClaveRH" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5522,26 +5535,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Cat_Departamentos">
-            <EntityTypeMapping TypeName="NominaModel.Cat_Departamentos">
-              <MappingFragment StoreEntitySet="Cat_Departamentos">
-                <ScalarProperty Name="IdTipoDepto" ColumnName="IdTipoDepto" />
-                <ScalarProperty Name="IdDeptoPadre" ColumnName="IdDeptoPadre" />
-                <ScalarProperty Name="ClaveRH" ColumnName="ClaveRH" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -5822,6 +5815,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySetMapping Name="Incidencias_Consolidadas">
             <EntityTypeMapping TypeName="NominaModel.Incidencias_Consolidadas">
               <MappingFragment StoreEntitySet="Incidencias_Consolidadas">
+                <ScalarProperty Name="FormulaEjecutada" ColumnName="FormulaEjecutada" />
                 <ScalarProperty Name="BanderaIncidencia" ColumnName="BanderaIncidencia" />
                 <ScalarProperty Name="Origen" ColumnName="Origen" />
                 <ScalarProperty Name="BanderaCompensaciones" ColumnName="BanderaCompensaciones" />
@@ -6931,6 +6925,11 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySetMapping Name="vAusentismos">
             <EntityTypeMapping TypeName="NominaModel.vAusentismos">
               <MappingFragment StoreEntitySet="vAusentismos">
+                <ScalarProperty Name="SD" ColumnName="SD" />
+                <ScalarProperty Name="PorcentajeSubsidioRestante" ColumnName="PorcentajeSubsidioRestante" />
+                <ScalarProperty Name="PorcentajeSubsidioInicial" ColumnName="PorcentajeSubsidioInicial" />
+                <ScalarProperty Name="DiasSubsidioInicial" ColumnName="DiasSubsidioInicial" />
+                <ScalarProperty Name="AplicaSubsidio" ColumnName="AplicaSubsidio" />
                 <ScalarProperty Name="TipoAusentismo" ColumnName="TipoAusentismo" />
                 <ScalarProperty Name="SDI" ColumnName="SDI" />
                 <ScalarProperty Name="SDIMSS" ColumnName="SDIMSS" />
@@ -7107,6 +7106,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySetMapping Name="Ausentismos">
             <EntityTypeMapping TypeName="NominaModel.Ausentismos">
               <MappingFragment StoreEntitySet="Ausentismos">
+                <ScalarProperty Name="AplicaSubsidio" ColumnName="AplicaSubsidio" />
                 <ScalarProperty Name="PorcentajeSubsidioRestante" ColumnName="PorcentajeSubsidioRestante" />
                 <ScalarProperty Name="PorcentajeSubsidioInicial" ColumnName="PorcentajeSubsidioInicial" />
                 <ScalarProperty Name="DiasSubsidioInicial" ColumnName="DiasSubsidioInicial" />
@@ -7425,6 +7425,24 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
                 <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
                 <ScalarProperty Name="TipoPeriodo" ColumnName="TipoPeriodo" />
                 <ScalarProperty Name="IdTipoPeriodo" ColumnName="IdTipoPeriodo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cat_Departamentos">
+            <EntityTypeMapping TypeName="NominaModel.Cat_Departamentos">
+              <MappingFragment StoreEntitySet="Cat_Departamentos">
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="ClaveRH" ColumnName="ClaveRH" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
