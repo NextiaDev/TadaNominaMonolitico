@@ -48,6 +48,9 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string CURP { get; set; }
         [Display(Name = "NSS:")]
         public string NSS { get; set; }
+        public decimal SD {  get; set; }        
+        public decimal SDI {  get; set; }        
+        
         [Display(Name = "Dias Laborados:")]
         public decimal DiasLaborados { get; set; }
         [Display(Name = "Dias Vacaciones:")]
@@ -144,6 +147,8 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string NombrePeriodo { get; set; }
         [Display(Name = "Fechas:")]
         public string FechasPeriodo { get; set; }
+        [Display(Name = "Configuración de Sueldos:")]
+        public string ConfiguracionSueldos { get; set; }
 
         public bool validacion { get; set; }
         public string Mensaje { get; set; }

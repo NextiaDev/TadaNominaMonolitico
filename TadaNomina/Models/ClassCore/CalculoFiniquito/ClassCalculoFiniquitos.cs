@@ -481,7 +481,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         }
 
         /// <summary>
-        ///     
+        ///  Calcula la base gravada d los conceptos que involucran la liquidación.   
         /// </summary>
         /// <exception cref="Exception"></exception>
         private void CalculaBaseGravadaLiquidacion()
@@ -520,7 +520,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             }
 
             nominaTrabajo.BaseGravadaLiquidacion = GravadoLiquidacion;
-
+            nominaTrabajo.TotalLiquidacion = TotalLiquidacion;
+            nominaTrabajo.ExentoLiquidacion = ExentoLiquidacion;            
             
             if ((indem90d > 0 && indem20d > 0 && indemPA > 0) || (indem90d > 0 && indem20d > 0) || (indem20d > 0 && indemPA > 0) || (indem90d > 0 && indemPA > 0))
             {
