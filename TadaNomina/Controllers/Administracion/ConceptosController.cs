@@ -118,6 +118,7 @@ namespace TadaNomina.Controllers.Administracion
             {
                 ClassConceptos cconceptos = new ClassConceptos();
                 int IdUsuario = (int)Session["sIdUsuario"];
+                collection.IdCliente = (int)Session["sIdCliente"];
                 cconceptos.UpdateConcepto(collection, IdUsuario);
 
                 return RedirectToAction("Index");

@@ -14,6 +14,7 @@ namespace TadaNomina.Models.ClassCore
     /// Conceptos de Nomina
     /// Autor: Diego Rodríguez
     /// Fecha Ultima Modificación: 17/05/2022, Razón: Documentación del código
+    /// Fecha ultima modificación: 04/05/2024, Razón: Se corrigen detalles con la funcionalidad del CRUD
     /// </summary>
 	public class ClassConceptos
 	{
@@ -231,14 +232,10 @@ namespace TadaNomina.Models.ClassCore
             {
                 var conceptos = (from b in entidad.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdConceptoSistema == IdExistente && x.IdEstatus == 1) select b).FirstOrDefault();
 
-                if (conceptos != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                if (conceptos != null)                
+                    return true;                
+                else                
+                    return false;                
             }
         }
 
@@ -415,6 +412,8 @@ namespace TadaNomina.Models.ClassCore
                     entidad.SaveChanges();
                 }
             }
+            else
+                throw new Exception("La clave del concepto que intenta guardar ya existe para el cliente " + modelConceptos.IdCliente);
         }
 
         /// <summary>

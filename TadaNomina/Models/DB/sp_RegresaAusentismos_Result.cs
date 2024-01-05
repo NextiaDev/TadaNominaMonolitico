@@ -21,13 +21,8 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> fechafin { get; set; }
         public Nullable<System.DateTime> FechaInicioAplicacion { get; set; }
         public Nullable<System.DateTime> FechaFinAplicacion { get; set; }
-        public Nullable<decimal> SD { get; set; }
         public Nullable<decimal> sdimss { get; set; }
         public Nullable<decimal> sdi { get; set; }
-        public string AplicaSubsidio { get; set; }
-        public Nullable<int> DiasSubsidioInicial { get; set; }
-        public Nullable<decimal> PorcentajeSubsidioInicial { get; set; }
-        public Nullable<decimal> PorcentajeSubsidioRestante { get; set; }
         public Nullable<int> dias { get; set; }
         public Nullable<int> IdEstatus { get; set; }
     }
