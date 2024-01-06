@@ -72,10 +72,10 @@
                         <div class="col-md-2">
                             @Html.DisplayFor(model => model.Periodicidad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         </div>
-                        @*@Html.LabelFor(model => model.PorcentajeISN, htmlAttributes: new { @class = "control-label col-md-3" })
+                        @Html.LabelFor(model => model.ConfiguracionSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-2">
-                            @Html.DisplayFor(model => model.PorcentajeISN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>*@
+                            @Html.DisplayFor(model => model.ConfiguracionSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -198,13 +198,13 @@
                     <br />
                     <div class="panel-footer">
                         <div class="form-group" style="text-align:right">
-                            <input type="submit" value="Calcular" id="Aceptar" class="btn btn-primary btn-sm" />
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo">Elminar Calculo</button>
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteCalculoBajas">Elminar C. Bajas</button>
-                            @*<button class="btn btn-success btn-sm" onclick="generaReporte(@Model.IdPeriodoNomina)"> Descargar</button>*@
-                            @Html.ActionLink("Descargar", "Descargar", new { Id = Model.IdPeriodoNomina }, new { @class = "btn btn-success btn-sm" })
-                            @Html.ActionLink("Buscar Empleado", "BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm", id = "Load" })
-                            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm", id = "Back" })
+                            <button type="submit" id="Aceptar" class="btn btn-primary btn-sm"><span class="fa fa-refresh"></span> Calcular</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo"><span class="fa fa-trash"></span> Elminar Calculo</button>
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteCalculoBajas"><span class="fa fa-trash"></span> Elminar C. Bajas</button>
+                            <a href="@Url.Action("Descargar",  new { Id = Model.IdPeriodoNomina })" class="btn btn-success btn-sm"><span class="fa fa-download"></span> Descargar</a>                            
+                            <a href="@Url.Action("BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Load"><span class="fa fa-search"></span> Buscar Empleado</a>
+                            
+                            <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
                         </div>
                     </div>
                 </div>

@@ -40,6 +40,7 @@ namespace TadaNomina.Models.ClassCore
             model.AjusteImpuestos = periodo.AjusteDeImpuestos;
             model.Periodicidad = periodo.Periodicidad;
             model.AJusteAnual = periodo.AjusteAnual;
+            model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
             
             try { model.PorcentajeISN = (decimal)periodo.PorcentajeISN; } catch { model.PorcentajeISN = 0; }
 
@@ -234,6 +235,7 @@ namespace TadaNomina.Models.ClassCore
             try { model.FechaAltaImss = empleado.FechaAltaIMSS.Value.ToShortDateString(); } catch { model.FechaAltaImss = ""; }
             model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString();
             model.IdEstatus = empleado.IdEstatus;
+            model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
 
             model.ReciboTradicional = new ModelReciboTradicional();
             model.ReciboEsquema = new ModelReciboEsquema();
@@ -241,6 +243,8 @@ namespace TadaNomina.Models.ClassCore
             model.ReciboTradicional.CURP = empleado.Curp;
             model.ReciboTradicional.RFC = empleado.Rfc;
             model.ReciboTradicional.NSS = empleado.Imss;
+            model.ReciboTradicional.SD = empleado.SDIMSS ?? 0;
+            model.ReciboTradicional.SDI = empleado.SDI ?? 0;
 
             int IdCliente = empleado.IdCliente;
 

@@ -62,9 +62,8 @@
                                         if (item.TipoNomina == "Honorarios")
                                         {
                                             string actions = string.Empty;
-
-                                            @Html.ActionLink("Seleccionar", "index", "Honorarios", new { pIdPeriodoNomina = item.IdPeriodoNomina }, new { @class = "btn btn-primary btn-sm _Load" })
-
+                                            
+                                            <a href="@Url.Action("index", "Honorarios", new { pIdPeriodoNomina = item.IdPeriodoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-check-circle"></span> Seleccionar</a>
 
 
                                         }
@@ -80,7 +79,8 @@
                                                 action = "ProcesaNominaGeneral";
                                             }
 
-                                            @Html.ActionLink("Seleccionar", action, new { pIdPeriodoNomina = item.IdPeriodoNomina }, new { @class = "btn btn-primary btn-sm _Load" })
+                                            
+                                            <a href="@Url.Action(action, new { pIdPeriodoNomina = item.IdPeriodoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-check-circle"></span> Seleccionar</a>
                                         }
 
 

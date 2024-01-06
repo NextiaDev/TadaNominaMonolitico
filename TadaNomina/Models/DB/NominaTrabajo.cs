@@ -41,7 +41,9 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> Apoyo { get; set; }
         public Nullable<decimal> BaseGravada { get; set; }
         public Nullable<decimal> BaseGravadaP { get; set; }
+        public Nullable<decimal> TotalLiquidacion { get; set; }
         public Nullable<decimal> BaseGravadaLiquidacion { get; set; }
+        public Nullable<decimal> ExentoLiquidacion { get; set; }
         public Nullable<decimal> ISRLiquidacion { get; set; }
         public Nullable<decimal> SDI_Liquidacion { get; set; }
         public Nullable<decimal> LimiteInferior { get; set; }

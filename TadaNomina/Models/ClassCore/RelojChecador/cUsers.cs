@@ -14,6 +14,7 @@ using TadaNomina.Services;
 using TadaNomina.Models.ViewModels;
 using System.Threading;
 using RestSharp.Authenticators;
+using TadaNomina.Models.ViewModels.Nominas;
 
 namespace TadaNomina.Models.ClassCore.RelojChecador
 {
@@ -380,28 +381,30 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                     ClassIncidencias ci = new ClassIncidencias();
 
                     //Datos a insertar
-                    IncidenciasChecadorModel consulta = new IncidenciasChecadorModel
+                    ModelIncidencias consulta = new ModelIncidencias
                     {
-                        idPeriodoNomina = pIdPeriodoNomina,
-                        idEmpleado = int.Parse(ClaveEmpleado),
-                        idConcepto = lstIncidencias[item].Concepto,
-                        cantidad = lstIncidencias[item].Cantidad,
-                        banderaChecadores = 1,
-                        observaciones = "",
-                        folio = "",
-                        monto = 0,
-                        montoEsquema = 0,
-                        cantidadEsquema = 0,
+                        IdPeriodoNomina = pIdPeriodoNomina,
+                        IdEmpleado = int.Parse(ClaveEmpleado),
+                        IdConcepto = lstIncidencias[item].Concepto,
+                        Cantidad = (decimal)lstIncidencias[item].Cantidad,
+                        BanderaChecadores = 1,
+                        Observaciones = "",
+                        Folio = "",
+                        Monto = 0,
+                        MontoEsquema = 0,
+                        CantidadEsq = 0,
                     };
 
-                    string datos = JsonConvert.SerializeObject(consulta);
-                    string cadena = sStatics.relojChecador + "api/Incidencias/newIncidencia";
-                    Uri url = new Uri(cadena);
-                    WebClient wClient = new WebClient();
-                    wClient.Headers["Content-Type"] = "application/json";
-                    wClient.Headers["Authorization"] = nToken;
-                    string result = wClient.UploadString(url, datos);
+                    //string datos = JsonConvert.SerializeObject(consulta);
+                    //string cadena = sStatics.relojChecador + "api/Incidencias/newIncidencia";
+                    //Uri url = new Uri(cadena);
+                    //WebClient wClient = new WebClient();
+                    //wClient.Headers["Content-Type"] = "application/json";
+                    //wClient.Headers["Authorization"] = nToken;
+                    //string result = wClient.UploadString(url, datos);
                     //string r = JsonConvert.DeserializeObject<string>(result);
+
+                    ci.NewIncindencia(consulta, idUsuario);
 
                     resultado.Add(new SelectListItem
                     {
