@@ -50,11 +50,11 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.NombrePeriodo, htmlAttributes: new { @class = "control-label col-md-3" })
                 <div class="col-md-3">
-                    @Html.DisplayFor(model => model.NombrePeriodo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @(Model.NombrePeriodo + " (" + Model.FechasPeriodo + ")")
                 </div>
-                @Html.LabelFor(model => model.FechasPeriodo, htmlAttributes: new { @class = "control-label col-md-3" })
+                @Html.LabelFor(model => model.ConfiguracionSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
                 <div class="col-md-3">
-                    @Html.DisplayFor(model => model.FechasPeriodo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.DisplayFor(model => model.ConfiguracionSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 </div>
             </div>
 
@@ -135,6 +135,7 @@
                 @Html.Label("Recibo Real:", htmlAttributes: new { @class = "control-label col-md-3" })
                 <div class="col-md-3">
                     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboReal">
+                        <span class="fa fa-list"></span>
                         Abrir Recibo Real
                     </button>
                 </div>
@@ -144,12 +145,14 @@
                 @Html.Label("Recibo Tradicional:", new { @class = "control-label col-md-3" })
                 <div class="col-md-3">
                     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboTradicional">
+                        <span class="fa fa-list"></span>
                         Abrir Recibo Tradicional
                     </button>
                 </div>
                 @Html.Label("Recibo Esquema:", htmlAttributes: new { @class = "control-label col-md-3" })
                 <div class="col-md-3">
                     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboEsquema">
+                        <span class="fa fa-list"></span>
                         Abrir Recibo Esquema
                     </button>
                 </div>
@@ -166,7 +169,7 @@
                     Avanzado:
                 </div>
                 <div class="col-md-3">
-                    <a href="#" id="abrirConf" class="btn btn-dark">Abrir Configuración</a>
+                    <a href="#" id="abrirConf" class="btn btn-dark"><span class="fa fa-cog"></span> Abrir Configuración</a>
                 </div>
             </div>
 
@@ -194,12 +197,13 @@
             <br />
             <div class="panel-footer">
                 <div class="form-group" style="text-align:right">
-                    <input type="submit" id="Aceptar" value="Calcular" class="btn btn-primary btn-sm" />
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo">Elminar Calculo</button>
-                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteIncidencias">Elminar Incidencias</button>
+                    <button type="submit" id="Aceptar" class="btn btn-primary btn-sm"><span class="fa fa-refresh"></span> Calcular</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo"><span class="fa fa-trash"></span> Elminar Calculo</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteIncidencias"><span class="fa fa-trash"></span> Elminar Incidencias</button>
                     @*<a href="@Url.Action("getArchivoLog", new { Model.IdPeriodoNomina })" class="btn btn-dark btn-sm" >Resultado</a>*@
-                    @Html.ActionLink("Buscar Empleado", "BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm _Back" })
-                    @Html.ActionLink("Regresar", "ProcesaNominaGeneral", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm _Back" })
+                    
+                    <a href="@Url.Action("BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Back"><span class="fa fa-search"></span> Buscar Empleado</a>
+                    <a href="@Url.Action("ProcesaNominaGeneral", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
                    
                 </div>
             </div>
@@ -513,6 +517,21 @@
                 <br />
                 <div class="row">
                     <div class="col-md-3">
+                        @Html.LabelFor(x => x.ReciboTradicional.SD)
+                    </div>
+                    <div class="col-md-3">
+                        @Html.DisplayFor(x => x.ReciboTradicional.SD)
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(x => x.ReciboTradicional.SDI)
+                    </div>
+                    <div class="col-md-3">
+                        @Html.DisplayFor(x => x.ReciboTradicional.SDI)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
                         @Html.LabelFor(x => x.ReciboTradicional.DiasLaborados)
                     </div>
                     <div class="col-md-3">
@@ -580,33 +599,33 @@
                     <tbody>
                         @if (Model.ReciboTradicional != null)
                         {
-                        foreach (var item in Model.ReciboTradicional.IncidenciasRecibo)
-                        {
-                            if (item.Importe != 0)
+                            foreach (var item in Model.ReciboTradicional.IncidenciasRecibo)
                             {
-                                <tr>
-                                    <td>
-                                        @item.Concepto
-                                    </td>
-                                    <td>
-                                        @item.Descripcion
-                                    </td>
-                                    <td>
-                                        @string.Format("{0:C2}", (item.Excento))
-                                    </td>
-                                    <td>
-                                        @string.Format("{0:C2}", (item.Gravado))
-                                    </td>
-                                    <td class="text-right">
-                                        @string.Format("{0:C2}", item.Importe)
-                                    </td>
-                                </tr>
+                                if (item.Importe != 0)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.Concepto
+                                        </td>
+                                        <td>
+                                            @item.Descripcion
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:C2}", (item.Excento))
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:C2}", (item.Gravado))
+                                        </td>
+                                        <td class="text-right">
+                                            @string.Format("{0:C2}", item.Importe)
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
-                        }
-                        <tr >
+                        <tr>
                             <td colspan="4">
-                                <strong>Total de Percepciones</strong>                                                           
+                                <strong>Total de Percepciones</strong>
                             </td>
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.ER)</strong>
@@ -634,23 +653,23 @@
                     <tbody>
                         @if (Model.ReciboTradicional != null)
                         {
-                        foreach (var item in Model.ReciboTradicional.IncidenciasReciboDec)
-                        {
-                            if (item.Importe != 0)
+                            foreach (var item in Model.ReciboTradicional.IncidenciasReciboDec)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Concepto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Descripcion)
-                                    </td>
-                                    <td class="text-right">
-                                        @string.Format("{0:C2}", item.Importe)
-                                    </td>
-                                </tr>
+                                if (item.Importe != 0)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Concepto)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Descripcion)
+                                        </td>
+                                        <td class="text-right">
+                                            @string.Format("{0:C2}", item.Importe)
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
                         }
                         <tr>
                             <td colspan="2">

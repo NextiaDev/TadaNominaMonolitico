@@ -67,5 +67,6 @@ namespace TadaNomina.Models.DB
         public string BanderaNo90Dias { get; set; }
         public string BanderaNo20Dias { get; set; }
         public string BanderaNoPA { get; set; }
+        public string ConfiguracionSueldos { get; set; }
     }
 }

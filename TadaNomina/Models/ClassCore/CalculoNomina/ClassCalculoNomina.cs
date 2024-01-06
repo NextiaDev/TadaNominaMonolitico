@@ -361,8 +361,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     string Formula = string.Empty;
                     string Omitidos = string.Empty;
                     string Unicamente = string.Empty;
-                    string[] ClavesUnicamente = new string[0];
-                    string[] ClavesOmitidos = new string[0];
+                    List<string> ClavesEmpleadoUnicamente = new List<string>();
+                    List<string> ClavesConceptoUnicamente = new List<string>();
+                    List<string> ClavesEmpleadoOmitidos = new List<string>();
+                    List<string> ClavesConceptoOmitidos = new List<string>();
                     bool Calcular = true;
 
                     foreach (var line in lineas)
@@ -381,19 +383,71 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     }
 
                     if (Unicamente != string.Empty)
-                        try { ClavesUnicamente = Unicamente.ToUpper().Trim().Split(',').ToArray(); } catch { }
+                    {
+                        List<string> claves = new List<string>();
+
+                        try { claves = Unicamente.ToUpper().Trim().Split(',').ToList(); } catch { }
+                        if (claves.Count() > 0)
+                        {
+                            foreach (var clave in claves.Where(x=> x.Length > 3))
+                            {
+                                if (clave.Substring(0, 3) == "EMP")
+                                {
+                                    string nuevaClave = clave.Trim().Replace("EMP", "");
+                                    ClavesEmpleadoUnicamente.Add(nuevaClave);
+                                }
+
+                                if (clave.Substring(0, 3) == "CON")
+                                {
+                                    string nuevaClave = clave.Trim().Replace("CON", "");
+                                    ClavesConceptoUnicamente.Add(nuevaClave);
+                                }
+                            }                                    
+                        }
+                    }
 
                     if (Omitidos != string.Empty)
-                        try { ClavesOmitidos = Omitidos.ToUpper().Trim().Split(',').ToArray(); } catch { }
+                    {
+                        List<string> claves = new List<string>();
 
-                    if (ClavesUnicamente.Count() > 0)
+                        try { claves = Omitidos.ToUpper().Trim().Split(',').ToList(); } catch { }
+                        if (claves.Count() > 0)
+                        {
+                            foreach (var clave in claves.Where(x => x.Length > 3))
+                            {
+                                if (clave.Substring(0, 3) == "EMP")
+                                {
+                                    string nuevaClave = clave.Trim().Replace("EMP", "");
+                                    ClavesEmpleadoOmitidos.Add(nuevaClave);
+                                }
+
+                                if (clave.Substring(0, 3) == "CON")
+                                {
+                                    string nuevaClave = clave.Trim().Replace("CON", "");
+                                    ClavesConceptoOmitidos.Add(nuevaClave);
+                                }
+                            }
+                        }
+                    }
+
+                    if (ClavesEmpleadoUnicamente.Count() > 0)
                     {
                         Calcular = false;
-                        if (ClavesUnicamente.Contains(ClaveEmpleado))
+                        if (ClavesEmpleadoUnicamente.Contains(ClaveEmpleado))
                             Calcular = true;
                     }
 
-                    if (ClavesOmitidos.Contains(ClaveEmpleado))
+                    if (ClavesConceptoUnicamente.Count() > 0)
+                    {
+                        Calcular = false;
+                        if (incidenciasEmpleado.Select(x=> ClavesConceptoUnicamente.Contains(x.ClaveConcepto)).Any())
+                            Calcular = true;
+                    }
+
+                    if (ClavesEmpleadoOmitidos.Contains(ClaveEmpleado))
+                        Calcular = false;
+
+                    if (incidenciasEmpleado.Select(x => ClavesConceptoOmitidos.Contains(x.ClaveConcepto)).Any())
                         Calcular = false;
 
                     if (icform.CalculoAutomatico == "SI")

@@ -115,6 +115,7 @@
                     @Html.Label("Recibo Real:", htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-3">
                         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboReal">
+                            <span class="fa fa-list"></span>
                             Abrir Recibo Real
                         </button>
                     </div>
@@ -124,12 +125,14 @@
                     @Html.Label("Recibo Tradicional:", new { @class = "control-label col-md-3" })
                     <div class="col-md-3">
                         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboTradicional">
+                            <span class="fa fa-list"></span>
                             Abrir Recibo Tradicional
                         </button>
                     </div>
                     @Html.Label("Recibo Esquema:", htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-3">
                         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboEsquema">
+                            <span class="fa fa-list"></span>
                             Abrir Recibo Esquema
                         </button>
                     </div>
@@ -149,6 +152,7 @@
                     @Html.Label("Configuración Avanzada del Finiquito:", new { @class = "control-label col-md-3" })
                     <div class="col-md-3">
                         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#configuracionAvanzada">
+                            <span class="fa fa-cog"></span>
                             Configuración Avanzada
                         </button>
                     </div>
@@ -189,11 +193,12 @@
                 <br />
                 <div class="panel-footer">
                     <div class="form-group" style="text-align:right">
-                        <input type="submit" id="Aceptar" value="Procesar Calculo" class="btn btn-primary btn-sm" />
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo">Elminar Calculo</button>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteIncidencias">Elminar Incidencias</button>
+                        <button type="submit" id="Aceptar" class="btn btn-primary btn-sm"><span class="fa fa-refresh"></span> Calcular</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo"><span class="fa fa-trash"></span> Elminar Calculo</button>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteIncidencias"><span class="fa fa-trash"></span> Elminar Incidencias</button>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-file-pdf-o"></span>
                                 Formatos
                                 <span class="caret"></span>
                             </button>
@@ -203,10 +208,9 @@
                                 <li>@Html.ActionLink(" Real", "FormatoFiniquitoR", new { Model.IdPeriodoNomina, Model.IdEmpleado }, new { @class = "fa fa-file-pdf-o" })</li>
                             </ul>
                         </div>
-
-                        @Html.ActionLink("Proceso General", "ProcesaFiniquitos", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm _Back" })
-                        @Html.ActionLink("Regresar a Periodos", "Index", null, new { @class = "btn btn-info btn-sm", id = "Back" })
-
+                                                
+                        <a href="@Url.Action("ProcesaFiniquitos", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
+                        
                     </div>
                 </div>
                 <br />
@@ -219,10 +223,10 @@
                             <th>Concepto</th>
                             <th>Tipo</th>
                             <th>TipoDato</th>
-                            <th width="6%">Cantidad</th>
-                            <th width="6%">C. Esq</th>
-                            <th width="6%">Monto</th>
-                            <th width="6%">M. Esq</th>
+                            <th width="8%">Cantidad</th>
+                            <th width="8%">C. Esq</th>
+                            <th width="8%">Monto</th>
+                            <th width="8%">M. Esq</th>
                         </tr>
                     </thead>
                     <tbody>
