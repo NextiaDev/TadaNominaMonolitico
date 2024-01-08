@@ -410,7 +410,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     {
                         List<string> claves = new List<string>();
 
-                        try { ClavesEmpleadoOmitidos = Omitidos.ToUpper().Trim().Split(',').ToList(); } catch { }
+                        try { claves = Omitidos.ToUpper().Trim().Split(',').ToList(); } catch { }
                         if (claves.Count() > 0)
                         {
                             foreach (var clave in claves.Where(x => x.Length > 3))
@@ -447,7 +447,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (ClavesEmpleadoOmitidos.Contains(ClaveEmpleado))
                         Calcular = false;
 
-                    if (!incidenciasEmpleado.Select(x => ClavesConceptoOmitidos.Contains(x.ClaveConcepto)).Any())
+                    if (incidenciasEmpleado.Select(x => ClavesConceptoOmitidos.Contains(x.ClaveConcepto)).Any())
                         Calcular = false;
 
                     if (icform.CalculoAutomatico == "SI")
