@@ -15,9 +15,10 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
         public List<ConceptosChecadorModel> GetConceptos(int IdCliente)
         {
             TadaNominaEntities ctx = new TadaNominaEntities();
+            List<ConceptosChecadorModel> conceptos = new List<ConceptosChecadorModel>();
             using (ctx)
             {
-                var conceptos = (from ccn in ctx.Cat_ConceptosNomina
+                conceptos = (from ccn in ctx.Cat_ConceptosNomina
                                  join ccc in ctx.Cat_ConceptosChecador on ccn.IdConcepto equals ccc.IdConceptoNomina
                                  where ccn.IdCliente == IdCliente && ccn.IdEstatus == 1 && ccc.IdEstatus == 1
                                  select new ConceptosChecadorModel
