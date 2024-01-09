@@ -294,7 +294,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 int Adicional = 0;
                 if (modelConcepto.ConceptoAdicional == "SI")
-                    Adicional = int.Parse(modelConcepto.ClaveConceptos);
+                    Adicional = int.Parse(modelConcepto.ClaveConceptos ?? "0");
 
                 using (TadaNominaEntities entidad = new TadaNominaEntities())
                 {
@@ -360,7 +360,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 int Adicional = 0;
                 if (modelConceptos.ConceptoAdicional == "SI")
-                    Adicional = int.Parse(modelConceptos.ClaveConceptos);
+                    Adicional = int.Parse(modelConceptos.ClaveConceptos ?? "0");
 
                 using (TadaNominaEntities entidad = new TadaNominaEntities())
                 {
