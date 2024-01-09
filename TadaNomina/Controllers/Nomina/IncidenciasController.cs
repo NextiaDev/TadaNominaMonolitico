@@ -545,6 +545,12 @@ namespace TadaNomina.Controllers.Nomina
                 var c = cu.Consolidated(tokenGV, dat1, dat2, usuarios, usuXCon);
                 var a = cu.AtteBookXN(tokenGV, dat1, dat2, usuarios);
                 var lI = cu.LstIncidencias(c, a, (int)IdCliente);
+
+                if(IdCliente == 148 || IdCliente == 158 || IdCliente == 159)
+                {
+                    var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
+                }
+
                 var i = cu.IncidenciasGV(lI, token, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
 
                 //return View(i);
