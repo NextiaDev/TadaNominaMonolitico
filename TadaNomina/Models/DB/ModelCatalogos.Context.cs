@@ -70,8 +70,8 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vConceptos> vConceptos { get; set; }
         public virtual DbSet<FormulasEquivalencias> FormulasEquivalencias { get; set; }
         public virtual DbSet<Conceptos_Factores> Conceptos_Factores { get; set; }
-        public virtual DbSet<ConfiguracionConceptosFiniquito> ConfiguracionConceptosFiniquito { get; set; }
         public virtual DbSet<vConfiguracionConceptosFiniquitos> vConfiguracionConceptosFiniquitos { get; set; }
+        public virtual DbSet<ConfiguracionConceptosFiniquito> ConfiguracionConceptosFiniquito { get; set; }
     
         public virtual ObjectResult<sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result> sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS(Nullable<int> idCliente, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal)
         {

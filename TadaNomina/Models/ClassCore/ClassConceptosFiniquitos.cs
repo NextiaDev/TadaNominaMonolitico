@@ -102,7 +102,7 @@ namespace TadaNomina.Models.ClassCore
             model.lConceptoFaltas = lconceptosFaltas;
             try { model.IdConceptoArt93Fraclll = lconceptosConfigurados.IdConceptoArt93Fraclll; } catch { model.IdConceptoArt93Fraclll = null; }
             model.lConceptoArt93Fraclll = lconceptosArt93Fraclll;
-            try { model.IdConceptoSubAusentismo = null; /*lconceptosConfigurados.idConceptoSubsidioIncapacidad;*/ } catch { model.IdConceptoSubAusentismo = null; }
+            try { model.IdConceptoSubAusentismo = lconceptosConfigurados.IdConceptoSubsidioIncapacidad; } catch { model.IdConceptoSubAusentismo = null; }
             model.lConceptoSubAusen = lconceptosSubsidioInca;
 
             return model;
@@ -195,7 +195,7 @@ namespace TadaNomina.Models.ClassCore
                     IdConceptoCompensacion = model.IdConceptoCompensacion,
                     IdConceptoFaltas = model.IdConceptoFaltas,
                     IdConceptoArt93Fraclll = model.IdConceptoArt93Fraclll,
-                    //idConceptoSubsidioIncapacidad= model.IdConceptoSubAusentismo,
+                    idConceptoSubsidioIncapacidad= model.IdConceptoSubAusentismo,
                     IdEstatus = 1,
                     IdCaptura = IdUsuario,
                     FechaCaptura = DateTime.Now
@@ -230,7 +230,7 @@ namespace TadaNomina.Models.ClassCore
                 registro.IdConceptoCompensacion = model.IdConceptoCompensacion;
                 registro.IdConceptoFaltas = model.IdConceptoFaltas;
                 registro.IdConceptoArt93Fraclll = model.IdConceptoArt93Fraclll;
-                //registro.idConceptoSubsidioIncapacidad = model.IdConceptoSubAusentismo;
+                registro.idConceptoSubsidioIncapacidad = model.IdConceptoSubAusentismo;
                 entidad.SaveChanges();
             }
         }

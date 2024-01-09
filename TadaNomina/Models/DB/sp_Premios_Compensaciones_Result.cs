@@ -15,6 +15,6 @@ namespace TadaNomina.Models.DB
     {
         public Nullable<decimal> SumaGravado { get; set; }
         public Nullable<decimal> SumaExento { get; set; }
-        public Nullable<decimal> SumaEsquema { get; set; }
+        public decimal SumaEsquema { get; set; }
     }
 }

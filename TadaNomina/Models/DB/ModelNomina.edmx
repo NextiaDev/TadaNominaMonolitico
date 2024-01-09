@@ -1986,37 +1986,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="Observaciones" Type="nvarchar" MaxLength="4000" />
           <Property Name="IdEstatusEmpleado" Type="int" Nullable="false" />
         </EntityType>
-        <Function Name="Crea_Pass_LaNube" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
-          <Parameter Name="IdEmpleado" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_AcumuladoFaltasAnual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdUnidadNegocio" Type="int" Mode="In" />
-          <Parameter Name="Año" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_AcumulaPeriodoNomina" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
-          <Parameter Name="IdUsuario" Type="int" Mode="In" />
-          <Parameter Name="FechaDispersion" Type="date" Mode="In" />
-        </Function>
-        <Function Name="sp_CambioPeriodoFiniquito" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
-          <Parameter Name="IdEmpleado" Type="int" Mode="In" />
-          <Parameter Name="IdNuevoPeriodoNomina" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_CambioSueldos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdCaptura" Type="int" Mode="In" />
-          <Parameter Name="IdUnidadNegocio" Type="int" Mode="In" />
-          <Parameter Name="idempleado" Type="int" Mode="In" />
-          <Parameter Name="IdCliente" Type="int" Mode="In" />
-          <Parameter Name="fechaMovimiento" Type="datetime" Mode="In" />
-          <Parameter Name="SDIMS_Nuevo" Type="decimal" Mode="In" />
-          <Parameter Name="SDI_Nuevo" Type="decimal" Mode="In" />
-          <Parameter Name="SDIDiario" Type="decimal" Mode="In" />
-          <Parameter Name="Observaciones" Type="varchar(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_Crea_Pass_LaNube" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdEmpleado" Type="int" Mode="In" />
-        </Function>
         <Function Name="sp_DeduccionesEspeciales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUnidadnegocio" Type="int" Mode="In" />
           <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
@@ -2029,19 +1998,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Parameter Name="IdCaptura" Type="int" Mode="In" />
           <Parameter Name="IdCliente" Type="int" Mode="In" />
           <Parameter Name="IdCentroCostos" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_DesAcumulaPeriodoNomina" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_EmpleadosAjusteAnual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdUnidadNegocio" Type="int" Mode="In" />
-          <Parameter Name="year" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_NOMINA_IncidenciasFijasAgrupadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdUnidadNegocio" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_PDFSunset" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Premios_Compensaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUnidadnegocio" Type="int" Mode="In" />
@@ -2083,9 +2039,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Parameter Name="IdEmpleado" Type="int" Mode="In" />
           <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
           <Parameter Name="IdCliente" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_ReportesHotelesSunset" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="NominaModelStoreContainer">
           <EntitySet Name="Ausentismos" EntityType="Self.Ausentismos" Schema="dbo" store:Type="Tables" />
@@ -3193,19 +3146,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="vCreditoInfonavit" EntityType="NominaModel.vCreditoInfonavit" />
           <EntitySet Name="ConfiguracionFiniquito" EntityType="NominaModel.ConfiguracionFiniquito" />
           <EntitySet Name="vConfiguracionFiniquito" EntityType="NominaModel.vConfiguracionFiniquito" />
-          <FunctionImport Name="sp_Premios_Compensaciones" ReturnType="Collection(NominaModel.sp_Premios_Compensaciones_Result)">
-            <Parameter Name="IdUnidadnegocio" Mode="In" Type="Int32" />
-            <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
-            <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
-            <Parameter Name="IdPuesto" Mode="In" Type="Int32" />
-            <Parameter Name="CompensacionPuesto" Mode="In" Type="Decimal" />
-            <Parameter Name="DiasLaborados" Mode="In" Type="Decimal" />
-            <Parameter Name="Faltas" Mode="In" Type="Decimal" />
-            <Parameter Name="SDIMSS" Mode="In" Type="Decimal" />
-            <Parameter Name="IdCaptura" Mode="In" Type="Int32" />
-            <Parameter Name="IdCliente" Mode="In" Type="Int32" />
-            <Parameter Name="IdCentroCostos" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="vDesgloceVacaciones" EntityType="NominaModel.vDesgloceVacaciones" />
           <EntitySet Name="NominaProvision" EntityType="NominaModel.NominaProvision" />
           <EntitySet Name="vNominaTrabajo" EntityType="NominaModel.vNominaTrabajo" />
@@ -3235,9 +3175,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="HistoricoHonorarios" EntityType="NominaModel.HistoricoHonorarios" />
           <EntitySet Name="Honorarios" EntityType="NominaModel.Honorarios" />
           <EntitySet Name="vHonorarios" EntityType="NominaModel.vHonorarios" />
-          <FunctionImport Name="sp_RegresaAusentismos" ReturnType="Collection(NominaModel.sp_RegresaAusentismos_Result)">
-          <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Ausentismos" EntityType="NominaModel.Ausentismos" />
           <FunctionImport Name="sp_RegresaIncidenciasCalculoIndividual" ReturnType="Collection(NominaModel.sp_RegresaIncidenciasCalculoIndividual_Result)">
             <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
@@ -3253,6 +3190,22 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="vPeriodoNomina" EntityType="NominaModel.vPeriodoNomina" />
           <EntitySet Name="Nomina" EntityType="NominaModel.Nomina" />
           <EntitySet Name="NominaTrabajo" EntityType="NominaModel.NominaTrabajo" />
+          <FunctionImport Name="sp_Premios_Compensaciones" ReturnType="Collection(NominaModel.sp_Premios_Compensaciones_Result)">
+            <Parameter Name="IdUnidadnegocio" Mode="In" Type="Int32" />
+            <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
+            <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
+            <Parameter Name="IdPuesto" Mode="In" Type="Int32" />
+            <Parameter Name="CompensacionPuesto" Mode="In" Type="Decimal" />
+            <Parameter Name="DiasLaborados" Mode="In" Type="Decimal" />
+            <Parameter Name="Faltas" Mode="In" Type="Decimal" />
+            <Parameter Name="SDIMSS" Mode="In" Type="Decimal" />
+            <Parameter Name="IdCaptura" Mode="In" Type="Int32" />
+            <Parameter Name="IdCliente" Mode="In" Type="Int32" />
+            <Parameter Name="IdCentroCostos" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RegresaAusentismos" ReturnType="Collection(NominaModel.sp_RegresaAusentismos_Result)">
+          <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Sueldos_Minimos">
           <Key>
@@ -3966,11 +3919,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="Periodo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="LiquidacionSDI" Type="Int32" />
         </EntityType>
-        <ComplexType Name="sp_Premios_Compensaciones_Result">
-          <Property Type="Decimal" Name="SumaGravado" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="SumaExento" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Decimal" Name="SumaEsquema" Nullable="true" Precision="18" Scale="2" />
-        </ComplexType>
         <EntityType Name="vDesgloceVacaciones">
           <Key>
             <PropertyRef Name="IdDesglose" />
@@ -4714,20 +4662,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="RutaPDF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="RutaXML" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
-        <ComplexType Name="sp_RegresaAusentismos_Result">
-          <Property Type="Int32" Name="IdAusentismo" Nullable="false" />
-          <Property Type="String" Name="idconcepto" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="nofolio" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="idempleado" Nullable="true" />
-          <Property Type="DateTime" Name="fechaincio" Nullable="true" />
-          <Property Type="DateTime" Name="fechafin" Nullable="true" />
-          <Property Type="DateTime" Name="FechaInicioAplicacion" Nullable="true" />
-          <Property Type="DateTime" Name="FechaFinAplicacion" Nullable="true" />
-          <Property Type="Decimal" Name="sdimss" Nullable="true" Precision="18" Scale="4" />
-          <Property Type="Decimal" Name="sdi" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="dias" Nullable="true" />
-          <Property Type="Int32" Name="IdEstatus" Nullable="true" />
-        </ComplexType>
         <EntityType Name="Ausentismos">
           <Key>
             <PropertyRef Name="IdAusentismo" />
@@ -5369,6 +5303,30 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
           <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+        <ComplexType Name="sp_Premios_Compensaciones_Result">
+          <Property Type="Decimal" Name="SumaGravado" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="SumaExento" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="SumaEsquema" Nullable="false" Precision="1" Scale="1" />
+        </ComplexType>
+        <ComplexType Name="sp_RegresaAusentismos_Result">
+          <Property Type="Int32" Name="IdAusentismo" Nullable="false" />
+          <Property Type="String" Name="idconcepto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="nofolio" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="idempleado" Nullable="true" />
+          <Property Type="DateTime" Name="fechaincio" Nullable="true" />
+          <Property Type="DateTime" Name="fechafin" Nullable="true" />
+          <Property Type="DateTime" Name="FechaInicioAplicacion" Nullable="true" />
+          <Property Type="DateTime" Name="FechaFinAplicacion" Nullable="true" />
+          <Property Type="Decimal" Name="SD" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="sdimss" Nullable="true" Precision="18" Scale="4" />
+          <Property Type="Decimal" Name="sdi" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="AplicaSubsidio" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DiasSubsidioInicial" Nullable="true" />
+          <Property Type="Decimal" Name="PorcentajeSubsidioInicial" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="PorcentajeSubsidioRestante" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="dias" Nullable="true" />
+          <Property Type="Int32" Name="IdEstatus" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5436,16 +5394,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_AcumuladoFaltasAnual" FunctionName="NominaModel.Store.sp_AcumuladoFaltasAnual">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_AcumuladoFaltasAnual_Result">
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
-                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_DesAcumulaPeriodoNomina" FunctionName="NominaModel.Store.sp_DesAcumulaPeriodoNomina" />
           <EntitySetMapping Name="IncidenciasProgramadas">
             <EntityTypeMapping TypeName="NominaModel.IncidenciasProgramadas">
               <MappingFragment StoreEntitySet="IncidenciasProgramadas">
@@ -5517,7 +5465,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_AcumulaPeriodoNomina" FunctionName="NominaModel.Store.sp_AcumulaPeriodoNomina" />
           <EntitySetMapping Name="vRegistroPatronal">
             <EntityTypeMapping TypeName="NominaModel.vRegistroPatronal">
               <MappingFragment StoreEntitySet="vRegistroPatronal">
@@ -5549,34 +5496,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_ReportesHotelesSunset" FunctionName="NominaModel.Store.sp_ReportesHotelesSunset">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_ReportesHotelesSunset_Result">
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="Imss" ColumnName="Imss" />
-                <ScalarProperty Name="Curp" ColumnName="Curp" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
-                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="sueldoDiario" ColumnName="sueldoDiario" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="ER" ColumnName="ER" />
-                <ScalarProperty Name="DD" ColumnName="DD" />
-                <ScalarProperty Name="Neto" ColumnName="Neto" />
-                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
-                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
-                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
-                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_DeduccionesEspeciales" FunctionName="NominaModel.Store.sp_DeduccionesEspeciales" />
           <EntitySetMapping Name="vCreditoFonacot">
             <EntityTypeMapping TypeName="NominaModel.vCreditoFonacot">
@@ -5620,7 +5539,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SP_CambioSueldos" FunctionName="NominaModel.Store.SP_CambioSueldos" />
           <EntitySetMapping Name="FactorIntegracion">
             <EntityTypeMapping TypeName="NominaModel.FactorIntegracion">
               <MappingFragment StoreEntitySet="FactorIntegracion">
@@ -5886,39 +5804,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_PDFSunset1" FunctionName="NominaModel.Store.sp_PDFSunset">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_PDFSunset1_Result">
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="Imss" ColumnName="Imss" />
-                <ScalarProperty Name="Curp" ColumnName="Curp" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
-                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="sueldoDiario" ColumnName="sueldoDiario" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="ER" ColumnName="ER" />
-                <ScalarProperty Name="DD" ColumnName="DD" />
-                <ScalarProperty Name="Neto" ColumnName="Neto" />
-                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
-                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
-                <ScalarProperty Name="ISR" ColumnName="ISR" />
-                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
-                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
-                <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
-                <ScalarProperty Name="RFCPATRONA" ColumnName="RFCPATRONA" />
-                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_CambioPeriodoFiniquito" FunctionName="NominaModel.Store.sp_CambioPeriodoFiniquito" />
           <EntitySetMapping Name="vNominaSelectFiniquito">
             <EntityTypeMapping TypeName="NominaModel.vNominaSelectFiniquito">
               <MappingFragment StoreEntitySet="vNominaSelectFiniquito">
@@ -6089,15 +5974,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Premios_Compensaciones" FunctionName="NominaModel.Store.sp_Premios_Compensaciones">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_Premios_Compensaciones_Result">
-                <ScalarProperty Name="SumaGravado" ColumnName="SumaGravado" />
-                <ScalarProperty Name="SumaExento" ColumnName="SumaExento" />
-                <ScalarProperty Name="SumaEsquema" ColumnName="SumaEsquema" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="vDesgloceVacaciones">
             <EntityTypeMapping TypeName="NominaModel.vDesgloceVacaciones">
               <MappingFragment StoreEntitySet="vDesgloceVacaciones">
@@ -6245,7 +6121,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_Crea_Pass_LaNube" FunctionName="NominaModel.Store.sp_Crea_Pass_LaNube" />
           <EntitySetMapping Name="AdelantoNomina">
             <EntityTypeMapping TypeName="NominaModel.AdelantoNomina">
               <MappingFragment StoreEntitySet="AdelantoNomina">
@@ -6334,23 +6209,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_EmpleadosAjusteAnual" FunctionName="NominaModel.Store.sp_EmpleadosAjusteAnual">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_EmpleadosAjusteAnual_Result">
-                <ScalarProperty Name="idempleado" ColumnName="idempleado" />
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
-                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
-                <ScalarProperty Name="PeridosPropios" ColumnName="PeridosPropios" />
-                <ScalarProperty Name="PeridosCliente" ColumnName="PeridosCliente" />
-                <ScalarProperty Name="TotalPeriodos" ColumnName="TotalPeriodos" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="vNomina">
             <EntityTypeMapping TypeName="NominaModel.vNomina">
               <MappingFragment StoreEntitySet="vNomina">
@@ -6628,16 +6486,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_NOMINA_IncidenciasFijasAgrupadas" FunctionName="NominaModel.Store.sp_NOMINA_IncidenciasFijasAgrupadas">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_NOMINA_IncidenciasFijasAgrupadas_Result">
-                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
-                <ScalarProperty Name="ClaveConcepto" ColumnName="ClaveConcepto" />
-                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
-                <ScalarProperty Name="TotalIncidenciasFijas" ColumnName="TotalIncidenciasFijas" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="vCompensaciones">
             <EntityTypeMapping TypeName="NominaModel.vCompensaciones">
               <MappingFragment StoreEntitySet="vCompensaciones">
@@ -6820,24 +6668,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_RegresaAusentismos" FunctionName="NominaModel.Store.sp_RegresaAusentismos">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="NominaModel.sp_RegresaAusentismos_Result">
-                <ScalarProperty Name="IdAusentismo" ColumnName="IdAusentismo" />
-                <ScalarProperty Name="idconcepto" ColumnName="idconcepto" />
-                <ScalarProperty Name="nofolio" ColumnName="nofolio" />
-                <ScalarProperty Name="idempleado" ColumnName="idempleado" />
-                <ScalarProperty Name="fechaincio" ColumnName="fechaincio" />
-                <ScalarProperty Name="fechafin" ColumnName="fechafin" />
-                <ScalarProperty Name="FechaInicioAplicacion" ColumnName="FechaInicioAplicacion" />
-                <ScalarProperty Name="FechaFinAplicacion" ColumnName="FechaFinAplicacion" />
-                <ScalarProperty Name="sdimss" ColumnName="sdimss" />
-                <ScalarProperty Name="sdi" ColumnName="sdi" />
-                <ScalarProperty Name="dias" ColumnName="dias" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Ausentismos">
             <EntityTypeMapping TypeName="NominaModel.Ausentismos">
               <MappingFragment StoreEntitySet="Ausentismos">
@@ -7462,6 +7292,38 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Premios_Compensaciones" FunctionName="NominaModel.Store.sp_Premios_Compensaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NominaModel.sp_Premios_Compensaciones_Result">
+                <ScalarProperty Name="SumaGravado" ColumnName="SumaGravado" />
+                <ScalarProperty Name="SumaExento" ColumnName="SumaExento" />
+                <ScalarProperty Name="SumaEsquema" ColumnName="SumaEsquema" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_RegresaAusentismos" FunctionName="NominaModel.Store.sp_RegresaAusentismos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NominaModel.sp_RegresaAusentismos_Result">
+                <ScalarProperty Name="IdAusentismo" ColumnName="IdAusentismo" />
+                <ScalarProperty Name="idconcepto" ColumnName="idconcepto" />
+                <ScalarProperty Name="nofolio" ColumnName="nofolio" />
+                <ScalarProperty Name="idempleado" ColumnName="idempleado" />
+                <ScalarProperty Name="fechaincio" ColumnName="fechaincio" />
+                <ScalarProperty Name="fechafin" ColumnName="fechafin" />
+                <ScalarProperty Name="FechaInicioAplicacion" ColumnName="FechaInicioAplicacion" />
+                <ScalarProperty Name="FechaFinAplicacion" ColumnName="FechaFinAplicacion" />
+                <ScalarProperty Name="SD" ColumnName="SD" />
+                <ScalarProperty Name="sdimss" ColumnName="sdimss" />
+                <ScalarProperty Name="sdi" ColumnName="sdi" />
+                <ScalarProperty Name="AplicaSubsidio" ColumnName="AplicaSubsidio" />
+                <ScalarProperty Name="DiasSubsidioInicial" ColumnName="DiasSubsidioInicial" />
+                <ScalarProperty Name="PorcentajeSubsidioInicial" ColumnName="PorcentajeSubsidioInicial" />
+                <ScalarProperty Name="PorcentajeSubsidioRestante" ColumnName="PorcentajeSubsidioRestante" />
+                <ScalarProperty Name="dias" ColumnName="dias" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

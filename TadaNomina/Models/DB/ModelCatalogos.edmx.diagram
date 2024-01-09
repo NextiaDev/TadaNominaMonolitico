@@ -16,7 +16,7 @@
         <EntityTypeShape EntityType="TadaNominaModel.ImpuestoSat" Width="1.5" PointX="12.375" PointY="10.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_TipoNomina" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.FactorIntegracion" Width="2" PointX="10.375" PointY="14.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionFechasCalculos" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionFechasCalculos" Width="3" PointX="15.375" PointY="15.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Comunicados" Width="1.5" PointX="16.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vComunicados" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Puestos" Width="1.5" PointX="3.375" PointY="17.75" />
@@ -49,8 +49,8 @@
         <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="23.375" PointY="20.75" />
         <EntityTypeShape EntityType="TadaNominaModel.FormulasEquivalencias" Width="1.5" PointX="12.375" PointY="3.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Conceptos_Factores" Width="1.5" PointX="14.375" PointY="3.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" Width="1.5" PointX="20.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" Width="1.5" PointX="10.375" PointY="24.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" Width="1.5" PointX="20.375" PointY="8.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
