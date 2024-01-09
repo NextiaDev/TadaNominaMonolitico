@@ -15,6 +15,8 @@ using TadaNomina.Models.ViewModels;
 using System.Threading;
 using RestSharp.Authenticators;
 using TadaNomina.Models.ViewModels.Nominas;
+using System.Linq.Dynamic.Core.Tokenizer;
+using ServiceStack;
 
 namespace TadaNomina.Models.ClassCore.RelojChecador
 {
@@ -362,6 +364,128 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             }
 
             return lst;
+        }
+
+        public List<IncidenciasModel> IncidenciasBonoPuntualidad(List<IncidenciasModel> lstIncidencia, int pIdPeriodoNomina, int IdCliente, int idUsuario)
+        {
+            List<IncidenciasModel> lstbono = new List<IncidenciasModel>();
+            try
+            {
+                //List<IncidenciasModel> lstConceptoPaternidad = new List<IncidenciasModel>();
+                List<SelectListItem> resultado = new List<SelectListItem>();
+                var empleado = ClaveEmpl((int)IdCliente);
+                int falta;
+                var lstIds = IdEmplImss(empleado);
+                int? idBonoPuntualidad = null;
+                List<int> lstEmpleados = new List<int>();
+
+
+                using (TadaNominaEntities ctx = new TadaNominaEntities())
+                {
+                    falta = (from concepto in ctx.Cat_ConceptosNomina
+                             where concepto.ClaveConcepto == "500" && concepto.IdCliente == IdCliente
+                             select concepto.IdConcepto).FirstOrDefault();
+
+                    idBonoPuntualidad = ctx.Cat_ConceptosNomina.Where(x => x.IdConceptoSistema == 3346 && x.IdCliente == IdCliente && x.IdEstatus == 1).Select(x => x.IdConcepto).FirstOrDefault();
+                }
+
+                foreach (var item in lstIncidencia.Where(x => x.Concepto != falta))
+                {
+                    lstbono.Add(new IncidenciasModel
+                    {
+                        Cantidad = item.Cantidad,
+                        Identifier = item.Identifier,
+                        Concepto = item.Concepto,
+                    });
+                }
+
+                for (int item = 0; item < lstbono.Count; item++)
+                {
+                    string ClaveEmpleado = "";
+
+                    //Cambia Clave imss a Calve Empleado
+                    foreach (var i in lstIds.Where(m => m.Value == lstbono[item].Identifier))
+                    {
+                        ClaveEmpleado = i.Text;
+                    }
+
+                    //Inserta incidencias
+                    if (ClaveEmpleado != "" && idBonoPuntualidad != null)
+                    {
+                        decimal monto = CalculaMontoBonoPuntualidad(int.Parse(ClaveEmpleado), empleado);
+                        
+                        if(monto != 0 && !lstEmpleados.Contains(int.Parse(ClaveEmpleado)))
+                        {
+                            ClassIncidencias ci = new ClassIncidencias();
+
+                            //Datos a insertar
+                            ModelIncidencias consulta = new ModelIncidencias
+                            {
+                                IdPeriodoNomina = pIdPeriodoNomina,
+                                IdEmpleado = int.Parse(ClaveEmpleado),
+                                IdConcepto = (int)idBonoPuntualidad,
+                                Cantidad = 0,
+                                BanderaChecadores = 1,
+                                Observaciones = "",
+                                Folio = "",
+                                Monto = monto,
+                                MontoEsquema = 0,
+                                CantidadEsq = 0,
+                            };
+
+                            ci.NewIncindencia(consulta, idUsuario);
+
+                            lstEmpleados.Add(consulta.IdEmpleado);
+
+                            resultado.Add(new SelectListItem
+                            {
+                                Value = ClaveEmpleado + " | " + lstbono[item].Concepto,
+                                Text = "Successfull"
+                            });
+                        }
+                    }
+                    else
+                    {
+                        resultado.Add(new SelectListItem
+                        {
+                            Value = lstbono[item].Identifier + " | " + lstbono[item].Concepto,
+                            Text = "Failure"
+                        }
+                        );
+                    }
+                }
+
+                return lstbono;
+            }
+            catch (Exception)
+            {
+
+                return lstbono;
+            }
+        }
+
+        public decimal CalculaMontoBonoPuntualidad(int ClaveEmpleado, List<vEmpleados> lstEmp)
+        {
+            decimal res = 0m;
+            try
+            {
+                foreach (var item in lstEmp.Where(x => x.IdEmpleado == ClaveEmpleado))
+                {
+                    if (item.SD != null && item.SD != 0)
+                    {
+                        res = 7.0m * 0.1m * (decimal)item.SD;
+                    }
+                    else if (item.SDI != null && item.SDI != null)
+                    {
+                        res = 7.0m * 0.1m * (decimal)item.SDI;
+                    }
+                }
+                return res;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public List<SelectListItem> IncidenciasGV(List<IncidenciasModel> lstIncidencias, string token, int pIdPeriodoNomina, int IdCliente, int idUsuario)
