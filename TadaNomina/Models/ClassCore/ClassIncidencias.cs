@@ -1312,67 +1312,74 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="FactorDiasTrabajadosEjercicio">Valor proporcional de los dias trabajados durante el periodo por el empleado siendo 1 por los trabajar todos los días del periodo</param>
         private void ObtenExentosGravados(vConceptos concepto, DateTime fechaFinPeriodo, decimal? FactorDiasTrabajadosEjercicio, decimal? Cantidad, decimal? SDIMSS)
         {
-            if (concepto.TipoConcepto != "DD")
+            try
             {
-                if (concepto.Exenta == "SI")
+                if (concepto.TipoConcepto != "DD")
                 {
-                    GetSueldosMinimos(fechaFinPeriodo);
-                    decimal unidadExenta = 0;
-                    decimal exentoConcepto = 0;
-                    decimal porcentajeGravado = 0;
-                    decimal montoEvaluado = montoTradicional;
-                    decimal _exento = 0;
-                    decimal _gravado = 0;
-                    decimal aux = 0;
-                    decimal _exentoConcepto = 0;
+                    if (concepto.Exenta == "SI")
+                    {
+                        GetSueldosMinimos(fechaFinPeriodo);
+                        decimal unidadExenta = 0;
+                        decimal exentoConcepto = 0;
+                        decimal porcentajeGravado = 0;
+                        decimal montoEvaluado = montoTradicional;
+                        decimal _exento = 0;
+                        decimal _gravado = 0;
+                        decimal aux = 0;
+                        decimal _exentoConcepto = 0;
 
-                    unidadExenta = GetUnidadExenta(concepto);
-                    decimal cantidad = Cantidad != null && Cantidad != 0 && concepto.ExentaPorUnidad == "SI" ? (decimal)Cantidad : 1;
-                    _exentoConcepto = ((decimal)concepto.CantidadExenta * unidadExenta) * cantidad;
-                    if (FactorDiasTrabajadosEjercicio != null && FactorDiasTrabajadosEjercicio > 0)                    
-                        exentoConcepto = _exentoConcepto * (decimal)FactorDiasTrabajadosEjercicio;                    
+                        unidadExenta = GetUnidadExenta(concepto);
+                        decimal cantidad = Cantidad != null && Cantidad != 0 && concepto.ExentaPorUnidad == "SI" ? (decimal)Cantidad : 1;
+                        _exentoConcepto = ((decimal)concepto.CantidadExenta * unidadExenta) * cantidad;
+                        if (FactorDiasTrabajadosEjercicio != null && FactorDiasTrabajadosEjercicio > 0)
+                            exentoConcepto = _exentoConcepto * (decimal)FactorDiasTrabajadosEjercicio;
+                        else
+                            exentoConcepto = _exentoConcepto;
+
+                        porcentajeGravado = (decimal)concepto.PorcentajeGravado * .01M;
+
+                        if (porcentajeGravado > 0)
+                        {
+                            _gravado = montoEvaluado * porcentajeGravado;
+                            montoEvaluado = montoEvaluado = _gravado;
+                        }
+
+                        if (exentoConcepto >= montoEvaluado)
+                        {
+                            _exento = montoEvaluado;
+                            _gravado = montoTradicional - _exento;
+                        }
+                        else
+                        {
+                            aux = montoEvaluado - exentoConcepto;
+                            _gravado += aux;
+                            _exento = exentoConcepto;
+                        }
+
+                        if (SDIMSS <= SMGV && concepto.ExentoPorSueldoMinimo == "SI")
+                        {
+                            _exento = montoTradicional;
+                            _gravado = 0;
+                        }
+
+                        Exento = _exento;
+                        Gravado = _gravado;
+                    }
                     else
-                        exentoConcepto = _exentoConcepto;
-
-                    porcentajeGravado = (decimal)concepto.PorcentajeGravado * .01M;
-
-                    if (porcentajeGravado > 0)
                     {
-                        _gravado = montoEvaluado * porcentajeGravado;
-                        montoEvaluado = montoEvaluado = _gravado;
+                        Exento = 0;
+                        Gravado = montoTradicional;
                     }
-
-                    if (exentoConcepto >= montoEvaluado)
-                    {
-                        _exento = montoEvaluado;
-                        _gravado = montoTradicional - _exento;
-                    }
-                    else
-                    {
-                        aux = montoEvaluado - exentoConcepto;
-                        _gravado += aux;
-                        _exento = exentoConcepto;
-                    }
-
-                    if (SDIMSS <= SMGV && concepto.ExentoPorSueldoMinimo == "SI")
-                    {
-                        _exento = montoTradicional;
-                        _gravado = 0;
-                    }
-
-                    Exento = _exento;
-                    Gravado = _gravado;
                 }
                 else
                 {
-                    Exento = 0;
-                    Gravado = montoTradicional;
+                    Exento = montoTradicional;
+                    Gravado = 0;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Exento = montoTradicional;
-                Gravado = 0;
+                throw new Exception("No se pudo obtener los calculos de exentos y gravados para el concepto: " + concepto.IdConcepto + " - " + concepto.ClaveConcepto + " - " + concepto.Concepto + ". " + ex.Message);
             }
         }
 
