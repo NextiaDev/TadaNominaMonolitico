@@ -371,7 +371,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             List<IncidenciasModel> lstbono = new List<IncidenciasModel>();
             try
             {
-                //List<IncidenciasModel> lstConceptoPaternidad = new List<IncidenciasModel>();
                 List<SelectListItem> resultado = new List<SelectListItem>();
                 var empleado = ClaveEmpl((int)IdCliente);
                 int falta;
