@@ -447,7 +447,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (ClavesEmpleadoOmitidos.Contains(ClaveEmpleado))
                         Calcular = false;
 
-                    if (incidenciasEmpleado.Select(x => ClavesConceptoOmitidos.Contains(x.ClaveConcepto)).Any())
+                    if (incidenciasEmpleado.Where(x => ClavesConceptoOmitidos.Contains(x.ClaveConcepto)).Count() > 0)
                         Calcular = false;
 
                     if (icform.CalculoAutomatico == "SI")
