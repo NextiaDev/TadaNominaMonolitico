@@ -235,6 +235,14 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                                     });
                                 }
                             }
+                            if (r.Users[i].PlannedInterval[y].Holiday == "True")
+                            {
+                                z.Add(new SelectListItem
+                                {
+                                    Text = r.Users[i].Identifier,
+                                    Value = "2566"
+                                });
+                            }
                         }
                     }
                 }
