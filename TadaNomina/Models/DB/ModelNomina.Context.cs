@@ -321,6 +321,54 @@ namespace TadaNomina.Models.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_CambioPeriodoFiniquito", idPeriodoNominaParameter, idEmpleadoParameter, idNuevoPeriodoNominaParameter);
         }
     
+        public virtual int sp_Crea_Pass_LaNube(Nullable<int> idEmpleado)
+        {
+            var idEmpleadoParameter = idEmpleado.HasValue ?
+                new ObjectParameter("IdEmpleado", idEmpleado) :
+                new ObjectParameter("IdEmpleado", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Crea_Pass_LaNube", idEmpleadoParameter);
+        }
+    
+        public virtual ObjectResult<sp_EmpleadosAjusteAnual_Result> sp_EmpleadosAjusteAnual(Nullable<int> idUnidadNegocio, Nullable<int> year)
+        {
+            var idUnidadNegocioParameter = idUnidadNegocio.HasValue ?
+                new ObjectParameter("IdUnidadNegocio", idUnidadNegocio) :
+                new ObjectParameter("IdUnidadNegocio", typeof(int));
+    
+            var yearParameter = year.HasValue ?
+                new ObjectParameter("year", year) :
+                new ObjectParameter("year", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EmpleadosAjusteAnual_Result>("sp_EmpleadosAjusteAnual", idUnidadNegocioParameter, yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_NOMINA_IncidenciasFijasAgrupadas_Result> sp_NOMINA_IncidenciasFijasAgrupadas(Nullable<int> idUnidadNegocio)
+        {
+            var idUnidadNegocioParameter = idUnidadNegocio.HasValue ?
+                new ObjectParameter("IdUnidadNegocio", idUnidadNegocio) :
+                new ObjectParameter("IdUnidadNegocio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_NOMINA_IncidenciasFijasAgrupadas_Result>("sp_NOMINA_IncidenciasFijasAgrupadas", idUnidadNegocioParameter);
+        }
+    
+        public virtual ObjectResult<sp_RegresaIncidenciasCalculoIndividual_Result> sp_RegresaIncidenciasCalculoIndividual(Nullable<int> idEmpleado, Nullable<int> idPeriodoNomina, Nullable<int> idCliente)
+        {
+            var idEmpleadoParameter = idEmpleado.HasValue ?
+                new ObjectParameter("IdEmpleado", idEmpleado) :
+                new ObjectParameter("IdEmpleado", typeof(int));
+    
+            var idPeriodoNominaParameter = idPeriodoNomina.HasValue ?
+                new ObjectParameter("IdPeriodoNomina", idPeriodoNomina) :
+                new ObjectParameter("IdPeriodoNomina", typeof(int));
+    
+            var idClienteParameter = idCliente.HasValue ?
+                new ObjectParameter("IdCliente", idCliente) :
+                new ObjectParameter("IdCliente", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaIncidenciasCalculoIndividual_Result>("sp_RegresaIncidenciasCalculoIndividual", idEmpleadoParameter, idPeriodoNominaParameter, idClienteParameter);
+        }
+    
         public virtual ObjectResult<sp_Premios_Compensaciones_Result> sp_Premios_Compensaciones(Nullable<int> idUnidadnegocio, Nullable<int> idPeriodoNomina, Nullable<int> idEmpleado, Nullable<int> idPuesto, Nullable<decimal> compensacionPuesto, Nullable<decimal> diasLaborados, Nullable<decimal> faltas, Nullable<decimal> sDIMSS, Nullable<int> idCaptura, Nullable<int> idCliente, Nullable<int> idCentroCostos)
         {
             var idUnidadnegocioParameter = idUnidadnegocio.HasValue ?
@@ -370,37 +418,6 @@ namespace TadaNomina.Models.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Premios_Compensaciones_Result>("sp_Premios_Compensaciones", idUnidadnegocioParameter, idPeriodoNominaParameter, idEmpleadoParameter, idPuestoParameter, compensacionPuestoParameter, diasLaboradosParameter, faltasParameter, sDIMSSParameter, idCapturaParameter, idClienteParameter, idCentroCostosParameter);
         }
     
-        public virtual int sp_Crea_Pass_LaNube(Nullable<int> idEmpleado)
-        {
-            var idEmpleadoParameter = idEmpleado.HasValue ?
-                new ObjectParameter("IdEmpleado", idEmpleado) :
-                new ObjectParameter("IdEmpleado", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Crea_Pass_LaNube", idEmpleadoParameter);
-        }
-    
-        public virtual ObjectResult<sp_EmpleadosAjusteAnual_Result> sp_EmpleadosAjusteAnual(Nullable<int> idUnidadNegocio, Nullable<int> year)
-        {
-            var idUnidadNegocioParameter = idUnidadNegocio.HasValue ?
-                new ObjectParameter("IdUnidadNegocio", idUnidadNegocio) :
-                new ObjectParameter("IdUnidadNegocio", typeof(int));
-    
-            var yearParameter = year.HasValue ?
-                new ObjectParameter("year", year) :
-                new ObjectParameter("year", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EmpleadosAjusteAnual_Result>("sp_EmpleadosAjusteAnual", idUnidadNegocioParameter, yearParameter);
-        }
-    
-        public virtual ObjectResult<sp_NOMINA_IncidenciasFijasAgrupadas_Result> sp_NOMINA_IncidenciasFijasAgrupadas(Nullable<int> idUnidadNegocio)
-        {
-            var idUnidadNegocioParameter = idUnidadNegocio.HasValue ?
-                new ObjectParameter("IdUnidadNegocio", idUnidadNegocio) :
-                new ObjectParameter("IdUnidadNegocio", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_NOMINA_IncidenciasFijasAgrupadas_Result>("sp_NOMINA_IncidenciasFijasAgrupadas", idUnidadNegocioParameter);
-        }
-    
         public virtual ObjectResult<sp_RegresaAusentismos_Result> sp_RegresaAusentismos(Nullable<int> idPeriodoNomina)
         {
             var idPeriodoNominaParameter = idPeriodoNomina.HasValue ?
@@ -408,23 +425,6 @@ namespace TadaNomina.Models.DB
                 new ObjectParameter("IdPeriodoNomina", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaAusentismos_Result>("sp_RegresaAusentismos", idPeriodoNominaParameter);
-        }
-    
-        public virtual ObjectResult<sp_RegresaIncidenciasCalculoIndividual_Result> sp_RegresaIncidenciasCalculoIndividual(Nullable<int> idEmpleado, Nullable<int> idPeriodoNomina, Nullable<int> idCliente)
-        {
-            var idEmpleadoParameter = idEmpleado.HasValue ?
-                new ObjectParameter("IdEmpleado", idEmpleado) :
-                new ObjectParameter("IdEmpleado", typeof(int));
-    
-            var idPeriodoNominaParameter = idPeriodoNomina.HasValue ?
-                new ObjectParameter("IdPeriodoNomina", idPeriodoNomina) :
-                new ObjectParameter("IdPeriodoNomina", typeof(int));
-    
-            var idClienteParameter = idCliente.HasValue ?
-                new ObjectParameter("IdCliente", idCliente) :
-                new ObjectParameter("IdCliente", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaIncidenciasCalculoIndividual_Result>("sp_RegresaIncidenciasCalculoIndividual", idEmpleadoParameter, idPeriodoNominaParameter, idClienteParameter);
         }
     }
 }
