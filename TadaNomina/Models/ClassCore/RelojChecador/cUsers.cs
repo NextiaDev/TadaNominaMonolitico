@@ -811,5 +811,51 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                 return mre;
             }
         }
+
+        public List<IncidenciasModel> GetIncidenciasHorasExtra(List<RemuneracionesModel> listremu, int IdCliente)
+        {
+            var result = new List<IncidenciasModel>();
+
+            var conceptohoradoble = new Cat_ConceptosNomina();
+            var conceptohoratriple = new Cat_ConceptosNomina();
+            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                var conceptohoradoblecliente = ctx.Cat_ConceptosNomina.FirstOrDefault(p => p.IdConceptoSistema == 280 && p.IdCliente == IdCliente && p.IdEstatus == 1);
+                var conceptohoratriplecliente = ctx.Cat_ConceptosNomina.FirstOrDefault(p => p.IdConceptoSistema == 1547 && p.IdCliente == IdCliente && p.IdEstatus == 1);
+                conceptohoradoble = conceptohoradoblecliente != null ? conceptohoradoblecliente : ctx.Cat_ConceptosNomina.FirstOrDefault(p => p.IdConcepto == 280);
+                conceptohoratriple = conceptohoratriplecliente != null ? conceptohoratriplecliente : ctx.Cat_ConceptosNomina.FirstOrDefault(p => p.IdConcepto == 1547);
+            }
+            foreach (var item in listremu)
+            {
+                var horasextra = int.Parse(item.TotalAuthorizedExtraTime.Substring(0, 2));
+                if (horasextra > 0)
+                {
+                    if (horasextra > 9)
+                    {
+                        var listadoble = new List<IncidenciasModel>();
+                        var model1 = new IncidenciasModel();
+                        model1.Identifier = item.Identifier;
+                        model1.Concepto = conceptohoradoble.IdConcepto;
+                        model1.Cantidad = 9;
+                        listadoble.Add(model1);
+                        var model2 = new IncidenciasModel();
+                        model2.Identifier = item.Identifier;
+                        model2.Concepto = conceptohoratriple.IdConcepto;
+                        model2.Cantidad = horasextra - 9;
+                        listadoble.Add(model2);
+                        result.AddRange(listadoble);
+                    }
+                    else
+                    {
+                        var model = new IncidenciasModel();
+                        model.Identifier = item.Identifier;
+                        model.Concepto = conceptohoradoble.IdConcepto;
+                        model.Cantidad = horasextra;
+                        result.Add(model);
+                    }
+                }
+            }
+            return result;
+        }
     }
 }
