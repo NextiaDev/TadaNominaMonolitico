@@ -861,9 +861,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.IdSucursal = item.IdSucursal;
                 nominaTrabajo.IdSindicato = item.idSindicato;
                 nominaTrabajo.CuentaBancariaTrad = item.CuentaBancariaTrad;
-                nominaTrabajo.CuentaInterbancariaTrad = item.CuentaInterbancariaTrad;
-                nominaTrabajo.FechaAltaIMSS = item.FechaAltaIMSS;
-                nominaTrabajo.FechaReconocimientoAntiguedad = item.FechaReconocimientoAntiguedad;
+                nominaTrabajo.CuentaInterbancariaTrad = item.CuentaInterbancariaTrad;                
                 nominaTrabajo.AjusteImpuesto = Periodo.AjusteDeImpuestos;
 
                 nominaTrabajo.SDI = SDI;

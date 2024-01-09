@@ -440,7 +440,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (ClavesConceptoUnicamente.Count() > 0)
                     {
                         Calcular = false;
-                        if (incidenciasEmpleado.Select(x=> ClavesConceptoUnicamente.Contains(x.ClaveConcepto)).Any())
+                        if (incidenciasEmpleado.Where(x=> ClavesConceptoUnicamente.Contains(x.ClaveConcepto)).Any())
                             Calcular = true;
                     }
 

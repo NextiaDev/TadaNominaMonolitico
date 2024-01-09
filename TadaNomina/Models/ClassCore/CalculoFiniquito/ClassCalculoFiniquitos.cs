@@ -51,6 +51,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 SD_IMSS = GetSD(item.SDIMSS);
                 SD_Real = GetSD(item.SD);
                 AniosEsquema = 0;
+                nominaTrabajo.FechaAltaIMSS = item.FechaAltaIMSS;
+                nominaTrabajo.FechaReconocimientoAntiguedad = item.FechaReconocimientoAntiguedad;
 
                 configuracionFiniquito = ListConfiguracionFiniquito.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == _IdPeriodoNomina && x.IdEstatus == 1).FirstOrDefault();                                
                 try { _fechaBaja = (DateTime)configuracionFiniquito.FechaBajaFin; } catch { try { _fechaBaja = (DateTime)item.FechaBaja; } catch { _fechaBaja = DateTime.Now; } }
