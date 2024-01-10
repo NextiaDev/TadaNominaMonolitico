@@ -25,7 +25,9 @@ namespace TadaNomina.Models.ClassCore
             var fecha = DateTime.Parse(f);
             using (NominaEntities1 ctx = new NominaEntities1())
             {
-                var query = (from a in ctx.sp_NOMINA_IncidenciasFijasAgrupadas(idUnidad) select a).ToList();
+                string consulta = "sp_NOMINA_IncidenciasFijasAgrupadas " + idUnidad;
+                var query = ctx.Database.SqlQuery<sp_NOMINA_IncidenciasFijasAgrupadas_Result>(consulta).ToList();
+                //var query = (from a in ctx.sp_NOMINA_IncidenciasFijasAgrupadas(idUnidad) select a).ToList();
                 return query;
             }
         }

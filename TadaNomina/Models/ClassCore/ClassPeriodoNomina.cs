@@ -711,7 +711,9 @@ namespace TadaNomina.Models.ClassCore
             {
                 try
                 {
-                    entidad.sp_AcumulaPeriodoNomina(IdPeriodoNomina, IdUsuario, FechaDispersion);
+                    string fecha = FechaDispersion.ToString("yyyyMMdd");
+                    string consulta = "sp_AcumulaPeriodoNomina " + IdPeriodoNomina + ", " + IdUsuario + ", '" + fecha + "'";
+                    entidad.Database.ExecuteSqlCommand(consulta);
                 }
                 catch (Exception ex)
                 {
@@ -732,7 +734,8 @@ namespace TadaNomina.Models.ClassCore
             {
                 try
                 {
-                    entidad.sp_DesAcumulaPeriodoNomina(IdPeriodoNomina);
+                    string consulta = "sp_DesAcumulaPeriodoNomina" + IdPeriodoNomina;
+                    entidad.Database.ExecuteSqlCommand(consulta);
                 }
                 catch (Exception ex)
                 {
