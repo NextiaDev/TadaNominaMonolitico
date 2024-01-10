@@ -473,5 +473,8 @@ namespace TadaNomina.Models.ClassCore
                 return cliente;
             }
         }
+
+
+
     }
 }

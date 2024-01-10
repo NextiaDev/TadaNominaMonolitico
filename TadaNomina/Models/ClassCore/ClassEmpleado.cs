@@ -736,7 +736,25 @@ namespace TadaNomina.Models.ClassCore
                     {
                         DateTime FechaFinal = DateTime.Today;
                         DateTime FechaInicial = Convert.ToDateTime(empleado.FechaAltaIMSS).Date;
-                        if (FechaInicial <= FechaFinal)
+                        ClassUnidadesNegocio Unidad = new ClassUnidadesNegocio();
+
+                        var dias = Unidad.getUnidadesnegocioId(empleado.IdUnidadNegocio);
+
+                        if (dias.DIasImss != null &&  (dias.DIasImss > 0 || string.IsNullOrEmpty(dias.DIasImss.ToString())))
+                        {
+                            if (GetDiasHabiles(FechaInicial, FechaFinal) <= dias.DIasImss)
+                            {
+                                entity.Empleados.Add(emp);
+                                value = entity.SaveChanges();
+                                bool i = SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
+                            }
+                            else
+                            {
+                                value = -1;
+                            }
+                        }
+
+                        else if (FechaInicial <= FechaFinal)
                         {
                             if (GetDiasHabiles(FechaInicial, FechaFinal) <= 5)
                             {
