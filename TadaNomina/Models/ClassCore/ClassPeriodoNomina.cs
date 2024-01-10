@@ -734,7 +734,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 try
                 {
-                    string consulta = "sp_DesAcumulaPeriodoNomina" + IdPeriodoNomina;
+                    string consulta = "sp_DesAcumulaPeriodoNomina " + IdPeriodoNomina;
                     entidad.Database.ExecuteSqlCommand(consulta);
                 }
                 catch (Exception ex)

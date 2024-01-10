@@ -39,8 +39,7 @@ namespace TadaNomina.Controllers.Nomina
             {
                 if (model.IdTipo == "Periodo de Tiempo")
                 {
-                    cl.newSaldoPeriodo(model.IdEmpleado, model.IdConcepto, model.IdTipo, model.Monto, model.FechaIncio.ToString(), model.FechaFinal.ToString(),Convert.ToInt32(model.Indefinido) , model.Observaciones, IdUsuario);
-
+                    cl.newSaldoPeriodo(model.IdEmpleado, model.IdConcepto, model.IdTipo, model.Monto, model.FechaIncio.ToString(), model.FechaFinal.ToString(),Convert.ToInt32(model.Indefinido) , model.Observaciones, IdUsuario); 
                 }
                 else
                 {
