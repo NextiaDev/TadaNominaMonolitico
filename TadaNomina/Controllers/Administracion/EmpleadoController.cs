@@ -1227,7 +1227,10 @@ namespace TadaNomina.Controllers.Administracion
             {
                 using (NominaEntities1 tada = new NominaEntities1())
                 {
-                    resul = tada.SP_CambioSueldos(IdUsuario, IdUnidadNegocio, em.IdEmpleado, IdCliente, Convert.ToDateTime(em.FechaMovimiento), em.SDIMSSSueldos, em.SDISueldos, em.SDSueldos, em.Observaciones);
+                    string fecha = Convert.ToDateTime(em.FechaMovimiento).ToString("yyyyMMdd");
+                    string consulta = "SP_CambioSueldos " + IdUsuario + ", " + IdUnidadNegocio + ", " + em.IdEmpleado + ", " + IdCliente + ", '" + fecha + "', " + em.SDIMSSSueldos + ", " + em.SDISueldos + ", " + em.SDSueldos + ",'" + em.Observaciones + "'";
+                    resul = tada.Database.ExecuteSqlCommand(consulta);
+                    //resul = tada.SP_CambioSueldos(IdUsuario, IdUnidadNegocio, em.IdEmpleado, IdCliente, Convert.ToDateTime(em.FechaMovimiento), em.SDIMSSSueldos, em.SDISueldos, em.SDSueldos, em.Observaciones);
                 }
                 ViewBag.JavaScriptFunction = string.Format("mensajeAlerta('Actualiza Saldos', 'Se actualizo su saldo exitosamente!!', 'mint', 'bounceInRight', 'bounceOutLeft', 4500);");
                 return View();
