@@ -351,7 +351,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var ausentismos = entidad.sp_RegresaAusentismos(IdPeriodoNomina).ToList();
+                string consulta = "sp_RegresaAusentismos " + IdPeriodoNomina;
+                var ausentismos = entidad.Database.SqlQuery<sp_RegresaAusentismos_Result>(consulta).ToList();
 
                 this.ausentismos = ausentismos;
             }
@@ -499,7 +500,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var percepciones = (from b in entidad.sp_Premios_Compensaciones(IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, IdPuesto, compPuesto, diasLaborados, faltas, SDIMSS, IdUsuario, idCliente, idCentroCostos) select b).FirstOrDefault();
+                string consulta = "sp_Premios_Compensaciones " + IdUnidadNegocio + "," + IdPeriodoNomina + "," + IdEmpleado + "," + (IdPuesto ?? 0) + "," + (compPuesto ?? 0) + "," + (diasLaborados ?? 0) + "," + (faltas ?? 0) + "," + SDIMSS + "," + IdUsuario + "," + (idCliente ?? 0) + "," + (idCentroCostos ?? 0);
+                var percepciones = entidad.Database.SqlQuery<sp_Premios_Compensaciones_Result>(consulta).FirstOrDefault();
+                //var percepciones = (from b in entidad.sp_Premios_Compensaciones(IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, IdPuesto, compPuesto, diasLaborados, faltas, SDIMSS, IdUsuario, idCliente, idCentroCostos) select b).FirstOrDefault();
 
                 percepcionesEspecialesExcento = percepciones.SumaExento;
                 percepcionesEspecialesGravado = percepciones.SumaGravado;
@@ -526,7 +529,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var percepciones = (from b in entidad.sp_DeduccionesEspeciales(IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, IdPuesto, compPuesto, diasLaborados, faltas, SDIMSS, IdUsuario, idCliente, idCentroCostos) select b).FirstOrDefault();
+                string consulta = "sp_DeduccionesEspeciales " + IdUnidadNegocio + "," + IdPeriodoNomina + "," + IdEmpleado + "," + (IdPuesto ?? 0) + "," + (compPuesto ?? 0) + "," + (diasLaborados ?? 0) + "," + (faltas ?? 0) + "," + SDIMSS + "," + IdUsuario + "," + (idCliente ?? 0) + "," + (idCentroCostos ?? 0);
+                var percepciones = entidad.Database.SqlQuery<decimal?>(consulta).FirstOrDefault();
+                //var percepciones = (from b in entidad.sp_DeduccionesEspeciales(IdUnidadNegocio, IdPeriodoNomina, IdEmpleado, IdPuesto, compPuesto, diasLaborados, faltas, SDIMSS, IdUsuario, idCliente, idCentroCostos) select b).FirstOrDefault();
 
                 if (percepciones != null)
                     return percepciones.Value;
@@ -1582,7 +1587,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 _fechaReconocimientoAntiguedad = GetFechaIngreso(FechaReconocimientoAntiguedad, FechaAltaIMSS, null);
                 Antiguedad = Math.Round((Periodo.FechaFin.Subtract(_fechaReconocimientoAntiguedad).Days) / 365M, 4);
 
-
+                if (Antiguedad < 0) { throw new Exception("La antiguedad no puede ser negativa: " + Antiguedad); }
                 var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).First();
 
                 if (_factor != null)

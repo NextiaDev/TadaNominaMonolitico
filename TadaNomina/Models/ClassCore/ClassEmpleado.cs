@@ -2751,7 +2751,9 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 ctx = new NominaEntities1())
             {
-                return ctx.sp_Crea_Pass_LaNube(IdEmpleado);
+                string consulta = "sp_Crea_Pass_LaNube " + IdEmpleado;
+                return ctx.Database.ExecuteSqlCommand(consulta);
+                //return ctx.sp_Crea_Pass_LaNube(IdEmpleado);
             }
         }
 
