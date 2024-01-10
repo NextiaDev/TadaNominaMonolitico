@@ -74,9 +74,9 @@
                                 {
                                     <td>@item.Identifier</td>
                                 }
-                                @foreach (var i in lstNombres.Where(m => m.Value == item.Identifier))
+                                @for (var i = 0; i < 1; i++)
                                 {
-                                    <td>@i.Text</td>
+                                    <td>@lstNombres.Where(m => m.Value == item.Identifier).Select(m=>m.Text).FirstOrDefault()</td>
                                     banderaN = true;
                                 }
                                 @if (banderaN == false)
