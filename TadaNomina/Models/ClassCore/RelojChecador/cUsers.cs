@@ -988,5 +988,30 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             }
             return result;
         }
+
+        public List<IncidenciasModel> GetHrsNoTrabajadas(List<RemuneracionesModel> lstremu, int IdCliente)
+        {
+            List<IncidenciasModel> lst = new List<IncidenciasModel>();
+            string conConcepto = null;
+            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                conConcepto = ctx.Cat_ConceptosNomina.Where(x=> x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConcepto == 2912).Select(x=>x.CalculoDiasHoras).FirstOrDefault();
+            }
+            foreach(var item in lstremu)
+            {
+                int hrs = int.Parse(item.NonWorkedHours.Substring(0, 2));
+                if (hrs > 0)
+                {
+                    var model1 = new IncidenciasModel
+                    {
+                        Identifier = item.Identifier,
+                        Concepto = 2912,
+                        Cantidad = conConcepto == "Horas" ? hrs : (hrs / 8)
+                    };
+                    lst.Add(model1);
+                }
+            };
+            return lst;
+        }
     }
 }
