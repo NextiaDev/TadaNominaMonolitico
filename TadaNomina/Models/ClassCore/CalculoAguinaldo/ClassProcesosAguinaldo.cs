@@ -165,7 +165,8 @@ namespace TadaNomina.Models.ClassCore.CalculoAguinaldo
             using (NominaEntities1 context = new NominaEntities1())
             {
                 context.Database.CommandTimeout = 0;
-                var queryFaltas = (from b in context.sp_AcumuladoFaltasAnual(IdUnidadNegocio, Año) select b);
+                string consulta = "sp_AcumuladoFaltasAnual " + IdUnidadNegocio + "," + Año;
+                var queryFaltas = context.Database.SqlQuery<sp_AcumuladoFaltasAnual_Result>(consulta).ToList();
 
                 List<Faltas> Listado_faltas = new List<Faltas>();
                 foreach (var item in queryFaltas)

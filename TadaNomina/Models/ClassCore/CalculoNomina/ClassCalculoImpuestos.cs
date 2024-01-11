@@ -130,12 +130,17 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             //obtener base gravada cuando se hace proyeccion mensual.
             if (UnidadNegocio.ISRProyeccionMensual == "S")
             {
-                var baseGravDiaria = nominaTrabajo.BaseGravada / (DiasPago + 1);
+                decimal _diasPago = DiasPago;
+
+                if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
+                    _diasPago += 1;
+
+                var baseGravDiaria = nominaTrabajo.BaseGravada / _diasPago;
                 nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
             }
 
             if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0  && !listEmpleadosSinAjuste.Select(x=> x.ClaveEmpleado).Contains(ClaveEmpleado))
-                nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();
+                nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();            
         }
 
         private void procesoAjusteSecundario()
@@ -278,8 +283,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             //se obtiene el ISR mensualizado cuando hay proyeccion mensual
             if (UnidadNegocio.ISRProyeccionMensual == "S")
             {
-                var ISRDiario = nominaTrabajo.ISR / UnidadNegocio.FactorDiasMesISR;
-                nominaTrabajo.ISR = Math.Round((decimal)ISRDiario * (DiasPago + 1), 2);
+                var ISRDiario = nominaTrabajo.ISR / (UnidadNegocio.FactorDiasMesISR ?? 1);
+                
+                var _diasPago = DiasPago;
+                if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
+                    _diasPago += 1;
+
+                nominaTrabajo.ISR = Math.Round((decimal)ISRDiario * _diasPago, 2);
             }
 
             if (Periodo.AjusteDeImpuestos == "SI" && !listEmpleadosSinAjuste.Select(x => x.ClaveEmpleado).Contains(ClaveEmpleado) && !AjusteAnual)
@@ -387,7 +397,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.SubsidioPagar = 0;
             nominaTrabajo.ImpuestoRetener = 0;
-            decimal resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
+
+            decimal resultset = 0;
+            resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
+
+            //if(UnidadNegocio.SubsidioProyeccionMensual == "S")
+            //    resultset = (resultset / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 
 
             if (resultset < 0)
             {
@@ -399,6 +414,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.SubsidioPagar = 0;
                 nominaTrabajo.ImpuestoRetener = resultset;
             }
+
+
 
             if (AjusteAnual && Periodo.AjusteAnual == "S")
             {
