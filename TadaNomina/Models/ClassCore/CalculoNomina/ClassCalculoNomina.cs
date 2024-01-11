@@ -593,12 +593,15 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     nominaTrabajo.ER += importeConcepto;
                 }
                 else
-               {
+                {
                     decimal importeAPiramidar = 0;
                     importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
                     importeAPiramidar += imss;
+                    importeAPiramidar -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Monto).Sum() ?? 0;
+                    importeAPiramidar += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.MultiplicaDT != "SI" && x.ClaveSAT != "001").Select(X => X.Monto).Sum() ?? 0;
                     decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
                     decimal importeConcepto = montoBruto - nominaTrabajo.SueldoPagado ?? 0;
+                    
                     InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
                     nominaTrabajo.ER += importeConcepto;
                     percepcionesEspecialesGravado = 0;
@@ -793,7 +796,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             decimal datoCondicion = DatoAlQueLlegar;
             while (datoCondicion >= .005M)
             {
-                var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, TipoNomina.Clave_Sat, false);
+                var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, false);
 
                 apoyo = VarialbeGravada;
                 ISR_Asimilado = impuestoAsimilado;
