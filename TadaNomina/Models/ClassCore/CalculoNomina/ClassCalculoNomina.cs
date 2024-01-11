@@ -777,7 +777,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             decimal importeConcepto = 0;
             importeConcepto += (datosEmpleados.NetoPagar ?? 0) - (nominaTrabajo.SueldoPagado ?? 0) + (nominaTrabajo.ImpuestoRetener ?? 0) + imss;
             importeConcepto -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Monto).Sum() ?? 0;
-            importeConcepto += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.MultiplicaDT != "SI").Select(X => X.Monto).Sum() ?? 0;
+            importeConcepto += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.MultiplicaDT != "SI" && x.ClaveSAT != "001").Select(X => X.Monto).Sum() ?? 0;
             return importeConcepto;
         }
 
