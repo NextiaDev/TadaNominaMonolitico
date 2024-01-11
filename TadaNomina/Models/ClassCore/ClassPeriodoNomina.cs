@@ -467,14 +467,7 @@ namespace TadaNomina.Models.ClassCore
             List<SelectListItem> _TipoNomima = new List<SelectListItem>();
             var tipoPeriodo = getTipoPeriodoNomina();
             tipoPeriodo.ForEach(x => _TipoNomima.Add(new SelectListItem { Text = x.TipoPeriodo, Value = x.TipoPeriodo }));
-            //_TipoNomima.Add(new SelectListItem { Text = "Nomina", Value = "Nomina" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Complemento", Value = "Complemento" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Finiquitos", Value = "Finiquitos" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Aguinaldo", Value = "Aguinaldo" });
-            //_TipoNomima.Add(new SelectListItem { Text = "PTU", Value = "PTU" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Proyección", Value = "Proyeccion" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Honorarios", Value = "Honorarios" });
-
+            
             List<SelectListItem> _AjusteImp = new List<SelectListItem>();
             _AjusteImp.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _AjusteImp.Add(new SelectListItem { Text = "NO", Value = "NO" });
@@ -509,13 +502,7 @@ namespace TadaNomina.Models.ClassCore
             List<SelectListItem> _TipoNomima = new List<SelectListItem>();
             var tipoPeriodo = getTipoPeriodoNomina();
             tipoPeriodo.ForEach(x => _TipoNomima.Add(new SelectListItem { Text = x.TipoPeriodo, Value = x.TipoPeriodo }));
-            //_TipoNomima.Add(new SelectListItem { Text = "Nomina", Value = "Nomina" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Complemento", Value = "Complemento" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Finiquitos", Value = "Finiquitos" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Honorarios", Value = "Honorarios" });
-            //_TipoNomima.Add(new SelectListItem { Text = "Aguinaldo", Value = "Aguinaldo" });
-            //_TipoNomima.Add(new SelectListItem { Text = "PTU", Value = "PTU" });
-
+            
             List<SelectListItem> _AjusteImp = new List<SelectListItem>();
             _AjusteImp.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _AjusteImp.Add(new SelectListItem { Text = "NO", Value = "NO" });

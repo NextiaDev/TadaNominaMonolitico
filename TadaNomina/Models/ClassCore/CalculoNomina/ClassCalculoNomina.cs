@@ -593,7 +593,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     nominaTrabajo.ER += importeConcepto;
                 }
                 else
-                {
+               {
                     decimal importeAPiramidar = 0;
                     importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
                     importeAPiramidar += imss;
@@ -793,7 +793,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             decimal datoCondicion = DatoAlQueLlegar;
             while (datoCondicion >= .005M)
             {
-                var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, false);
+                var impuestoAsimilado = CalculaISR(VarialbeGravada, FechaFin, TipoNomina.Clave_Sat, false);
 
                 apoyo = VarialbeGravada;
                 ISR_Asimilado = impuestoAsimilado;
