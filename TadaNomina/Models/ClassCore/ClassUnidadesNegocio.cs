@@ -28,8 +28,64 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, decimal? ISRC, int pIdUsuario)
         {
+
+            if (bool.Parse(ISRM) == true)
+            {
+                ISRM = "S";
+            }
+            else
+            {
+                ISRM = "N";
+
+            }
+
+            if (bool.Parse(DaMasF) == true)
+            {
+                DaMasF = "S";
+            }
+            else
+            {
+                DaMasF = "N";
+
+            }
+
+
+            if (bool.Parse(DaMenosF) == true)
+            {
+                DaMenosF = "S";
+            }
+            else
+            {
+                DaMenosF = "N";
+
+            }
+
+
+            if (bool.Parse(DaMas) == true)
+            {
+                DaMas = "S";
+            }
+            else
+            {
+                DaMas = "N";
+
+            }
+
+
+            if (bool.Parse(DaMenos) == true)
+            {
+                DaMenos = "S";
+            }
+            else
+            {
+                DaMenos = "N";
+
+            }
+
+
+
 
             if (bool.Parse(AEC) == true)
             {
@@ -194,6 +250,12 @@ namespace TadaNomina.Models.ClassCore
                     unidad.FechaModificacion = DateTime.Now;
                     unidad.DIasImss = DImss;
                     unidad.DiasMenosImss = DImssB;
+                    unidad.DiasAltaMas = DaMas;
+                    unidad.DiasAltaMenos = DaMenos;
+                    unidad.DiasAltaMasFraccionados = DaMasF;
+                    unidad.DiasAltaMenosFraccionados = DaMenosF;
+                    unidad.ISRProyeccionMensual = ISRM;
+                    unidad.FactorDiasMesISR = ISRC;
                     entidad.SaveChanges();
                 }
 

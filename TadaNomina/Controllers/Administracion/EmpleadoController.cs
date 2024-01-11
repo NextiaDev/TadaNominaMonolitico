@@ -970,7 +970,7 @@ namespace TadaNomina.Controllers.Administracion
                             }
                             if (!string.IsNullOrEmpty(dr["[Sueldo_Diario_Base]"].ToString()))
                             {
-                                if (decimal.Parse(dr["[Sueldo_Diario_Base]"].ToString()) < SMV && decimal.Parse("[Sueldo_Diario_Base]") > 0)
+                                if (decimal.Parse(dr["[Sueldo_Diario_Base]"].ToString()) < SMV && decimal.Parse(dr["[Sueldo_Diario_Base]"].ToString()) > 0)
                                 {
                                     emp.SDIMSS = SMV;
                                 }
