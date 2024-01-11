@@ -221,6 +221,76 @@
 
         <div class="row">
             <div class="col-sm-8">
+                <p>Dias Alta Mas (Extemporáneos).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAM" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAM"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias alta Menos (Extemporáneos).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAME" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAME"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias alta Mas  (Fraccionados).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAMF" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAMF"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias alta Menos  (Fraccionados).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAMeF" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAMeF"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>ISR Proyeccion Mensual.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-ISRMENSUAL" class="toggle-switch" type="checkbox" onchange="ValidaCSF()" >
+                <label for="check-ISRMENSUAL">Activar Validacion</label>
+            </div>
+        </div>
+        <br />
+        <div class="row" id="factorISR" style="display: none">
+
+            <div class="col-md-3">* Factor Dias ISR:</div>
+            <div class="col-md-3">
+                <input type="text" id="factordiasISR" placeholder="Coloque una Cantidad" class="form-control" required />
+            </div>
+       
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
                 <p>Dias Alta Imss.</p>
 
             </div>
@@ -253,9 +323,13 @@
 
 <script>
 
+
+
     $(document).ready(function () {
         GetTipoInfo();
     });
+
+
 
     function GetTipoInfo() {
         $.ajax({
@@ -269,8 +343,6 @@
                 } else {
                     $("#check-CS").prop('checked', false);
                 }
-
-
 
                 if (data.BanderaCargasSocialesSinFaltas == 'S') {
                     $("#check-CSSF").prop('checked', true);
@@ -341,6 +413,36 @@
                 } else {
                     $("#check-AEC").prop('checked', false);
                 }
+                if (data.DiasAltaMas == 'S') {
+                    $("#check-DAM").prop('checked', true);
+                } else {
+                    $("#check-DAM").prop('checked', false);
+                }
+                if (data.DiasAltaMenos == 'S') {
+                    $("#check-DAME").prop('checked', true);
+                } else {
+                    $("#check-DAME").prop('checked', false);
+                }
+
+                if (data.DiasAltaMasFraccionados == 'S') {
+                    $("#check-DAMF").prop('checked', true);
+                } else {
+                    $("#check-DAMF").prop('checked', false);
+                }
+                if (data.DiasAltaMenosFraccionados == 'S') {
+                    $("#check-DAMeF").prop('checked', true);
+                } else {
+                    $("#check-DAMeF").prop('checked', false);
+                }
+
+                if (data.ISRProyeccionMensual == 'S') {
+                    $("#factorISR").show('');
+                    $("#check-ISRMENSUAL").prop('checked', true);
+                } else {
+                    $("#check-ISRMENSUAL").prop('checked', false);
+                }
+                $('#factordiasISR').val(data.FactorDiasMesISR);
+
                 $('#editFechaInicio_').val(data.FechaInicioValidacionSubir);
                 $('#editFechafin_').val(data.FechaFinValidacionSubir);
                 $('#idImssD').val(data.DIasImss);
@@ -350,6 +452,15 @@
         });
     }
 
+    function ValidaCSF() {
+        var ckbx = document.getElementById("check-ISRMENSUAL").checked;
+        if (ckbx == true)
+            $("#factorISR").show('');
+
+        else
+            $("#factorISR").hide('');
+
+    }
 
     $("#_GuardarDatos").click(function () {
 
@@ -372,11 +483,19 @@
         var AEC = $("#check-AEC").prop("checked");
         var DImss = $("#idImssD").val();
         var DImssB = $("#idImssDB").val();
+        var DaMas = $("#check-DAM").prop("checked");
+        var DaMenos = $("#check-DAME").prop("checked");
+        var DaMasF = $("#check-DAMF").prop("checked");
+        var DaMenosF = $("#check-DAMeF").prop("checked");
+        var ISRM = $("#check-ISRMENSUAL").prop("checked");
+        var ISRC = $("#factordiasISR").val();
+
+
 
         $.ajax({
             type: 'POST',
             url: '../GuardarEspeciales',
-            data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB },
+            data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC },
             dataType: 'json',
             async: false,
             success: function (result) {
