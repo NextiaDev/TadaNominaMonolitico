@@ -126,6 +126,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             nominaTrabajo.BaseGravada += montoIncidenciasMultiplicaDTGrabado;
             nominaTrabajo.BaseGravadaP = nominaTrabajo.BaseGravada;
+            baseMostrar = nominaTrabajo.BaseGravada ?? 0;
 
             //obtener base gravada cuando se hace proyeccion mensual.
             if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
@@ -138,7 +139,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (_diasPago == 0) { _diasPago++; }
 
                 var baseGravDiaria = nominaTrabajo.BaseGravada / _diasPago;
-                nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);                
             }
 
             if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0  && !listEmpleadosSinAjuste.Select(x=> x.ClaveEmpleado).Contains(ClaveEmpleado))
