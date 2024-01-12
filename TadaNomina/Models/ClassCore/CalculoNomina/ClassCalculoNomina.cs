@@ -611,6 +611,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     
                     CalculaISR();
                 }
+
+                nominaTrabajo.BaseGravada = baseMostrar;
+                nominaTrabajo.BaseGravadaP = baseMostrar;
             }
         }
 
