@@ -28,8 +28,54 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, decimal? ISRC, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, decimal? ISRC, string FFD, string FEC, string FS, string FTM, int pIdUsuario)
         {
+            if (bool.Parse(FFD) == true)
+            {
+                FFD = "S";
+            }
+            else
+            {
+                FFD = "N";
+
+            }
+
+            if (bool.Parse(FEC) == true)
+            {
+                FEC = "S";
+            }
+            else
+            {
+                FEC = "N";
+
+            }
+
+            if (bool.Parse(FS) == true)
+            {
+                FS = "S";
+            }
+            else
+            {
+                FS = "N";
+
+            }
+
+            if (bool.Parse(FTM) == true)
+            {
+                FTM = "S";
+            }
+            else
+            {
+                FTM = "N";
+
+            }
+
+
+
+
+
+
+
 
             if (bool.Parse(ISRM) == true)
             {
@@ -256,6 +302,10 @@ namespace TadaNomina.Models.ClassCore
                     unidad.DiasAltaMenosFraccionados = DaMenosF;
                     unidad.ISRProyeccionMensual = ISRM;
                     unidad.FactorDiasMesISR = ISRC;
+                    unidad.FiniquitosFechasDiferentes = FFD;
+                    unidad.FiniquitosExentoCompleto = FEC;
+                    unidad.FiniquitosSubsidio = FS;
+                    unidad.FiniquitosTablaMensual = FTM;
                     entidad.SaveChanges();
                 }
 
