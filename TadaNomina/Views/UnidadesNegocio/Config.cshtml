@@ -267,13 +267,68 @@
         </div>
         <hr />
 
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Fechas Diferentes.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FFD" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FFD"></label>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Excento Completo.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FEC" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FEC"></label>
+            </div>
+        </div>
+        <hr />
+
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Subsidio.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FS" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FS"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Tabla Mensual.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FTM" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FTM"></label>
+            </div>
+        </div>
+        <hr />
+
+
+
+
+
+
+
         <div class="row">
             <div class="col-sm-8">
                 <p>ISR Proyeccion Mensual.</p>
 
             </div>
             <div class="col-sm-3 col-sm-offset-1">
-                <input id="check-ISRMENSUAL" class="toggle-switch" type="checkbox" onchange="ValidaCSF()" >
+                <input id="check-ISRMENSUAL" class="toggle-switch" type="checkbox" onchange="ValidaCSF()">
                 <label for="check-ISRMENSUAL">Activar Validacion</label>
             </div>
         </div>
@@ -284,7 +339,7 @@
             <div class="col-md-3">
                 <input type="text" id="factordiasISR" placeholder="Coloque una Cantidad" class="form-control" required />
             </div>
-       
+
         </div>
 
         <hr />
@@ -441,6 +496,37 @@
                 } else {
                     $("#check-ISRMENSUAL").prop('checked', false);
                 }
+
+
+                if (data.FiniquitosFechasDiferentes == 'S') {
+                    $("#check-FFD").prop('checked', true);
+                } else {
+                    $("#check-FFD").prop('checked', false);
+                }
+
+                if (data.FiniquitosExentoCompleto == 'S') {
+                    $("#check-FEC").prop('checked', true);
+                } else {
+                    $("#check-FEC").prop('checked', false);
+                }
+
+
+                if (data.FiniquitosSubsidio == 'S') {
+                    $("#check-FS").prop('checked', true);
+                } else {
+                    $("#check-FS").prop('checked', false);
+                }
+
+
+
+                if (data.FiniquitosTablaMensual == 'S') {
+                    $("#check-FTM").prop('checked', true);
+                } else {
+                    $("#check-FTM").prop('checked', false);
+                }
+
+
+
                 $('#factordiasISR').val(data.FactorDiasMesISR);
 
                 $('#editFechaInicio_').val(data.FechaInicioValidacionSubir);
@@ -489,13 +575,19 @@
         var DaMenosF = $("#check-DAMeF").prop("checked");
         var ISRM = $("#check-ISRMENSUAL").prop("checked");
         var ISRC = $("#factordiasISR").val();
+        var FFD = $("#check-FFD").prop("checked");
+        var FEC = $("#check-FEC").prop("checked");
+        var FS = $("#check-FS").prop("checked");
+        var FTM = $("#check-FTM").prop("checked");
+
+
 
 
 
         $.ajax({
             type: 'POST',
             url: '../GuardarEspeciales',
-            data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC },
+            data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
             dataType: 'json',
             async: false,
             success: function (result) {
