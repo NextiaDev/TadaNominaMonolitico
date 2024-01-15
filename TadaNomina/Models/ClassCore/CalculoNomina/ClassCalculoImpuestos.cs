@@ -133,6 +133,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 decimal _diasPago = DiasPago;
 
+                //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
                 if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
                     _diasPago += 1;
 
@@ -289,6 +290,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 var ISRDiario = nominaTrabajo.ISR / (UnidadNegocio.FactorDiasMesISR ?? 1);
                 
                 var _diasPago = DiasPago;
+
+                //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
                 if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
                     _diasPago += 1;
 
@@ -1041,6 +1044,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     decimal _diasPago = DiasPago;
 
+                    //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
                     if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
                         _diasPago += 1;
 
@@ -1066,6 +1070,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     var ISRDiario = ISR / (UnidadNegocio.FactorDiasMesISR ?? 1);
 
                     var _diasPago = DiasPago;
+
+                    //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
                     if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
                         _diasPago += 1;
 
