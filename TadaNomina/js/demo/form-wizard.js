@@ -7,7 +7,7 @@
 // - ThemeOn.net -
 
 
-$(document).on('nifty.ready', function() {
+$(document).on('nifty.ready', function () {
 
 
 
@@ -21,27 +21,27 @@ $(document).on('nifty.ready', function() {
     // MAIN FORM WIZARD
     // =================================================================
     $('#demo-main-wz').bootstrapWizard({
-        tabClass		: 'wz-steps',
-        nextSelector	: '.next',
-        previousSelector	: '.previous',
-        onTabClick: function(tab, navigation, index) {
+        tabClass: 'wz-steps',
+        nextSelector: '.next',
+        previousSelector: '.previous',
+        onTabClick: function (tab, navigation, index) {
             return false;
         },
-        onInit : function(){
+        onInit: function () {
             $('#demo-main-wz').find('.finish').hide().prop('disabled', true);
         },
-        onTabShow: function(tab, navigation, index) {
+        onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
-            var $current = index+1;
-            var $percent = ($current/$total) * 100;
-            var wdt = 100/$total;
-            var lft = wdt*index;
+            var $current = index + 1;
+            var $percent = ($current / $total) * 100;
+            var wdt = 100 / $total;
+            var lft = wdt * index;
 
-            $('#demo-main-wz').find('.progress-bar').css({width:wdt+'%',left:lft+"%", 'position':'relative', 'transition':'all .5s'});
+            $('#demo-main-wz').find('.progress-bar').css({ width: wdt + '%', left: lft + "%", 'position': 'relative', 'transition': 'all .5s' });
 
 
             // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
+            if ($current >= $total) {
                 $('#demo-main-wz').find('.next').hide();
                 $('#demo-main-wz').find('.finish').show();
                 $('#demo-main-wz').find('.finish').prop('disabled', false);
@@ -58,25 +58,25 @@ $(document).on('nifty.ready', function() {
     // CLASSIC STYLE
     // =================================================================
     $('#demo-cls-wz').bootstrapWizard({
-        tabClass		: 'wz-classic',
-        nextSelector	: '.next',
-        previousSelector	: '.previous',
-        onTabClick: function(tab, navigation, index) {
+        tabClass: 'wz-classic',
+        nextSelector: '.next',
+        previousSelector: '.previous',
+        onTabClick: function (tab, navigation, index) {
             return false;
         },
-        onInit : function(){
+        onInit: function () {
             $('#demo-cls-wz').find('.finish').hide().prop('disabled', true);
         },
-        onTabShow: function(tab, navigation, index) {
+        onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
-            var $current = index+1;
-            var $percent = ($current/$total) * 100;
-            var wdt = 100/$total;
-            var lft = wdt*index;
-            $('#demo-cls-wz').find('.progress-bar').css({width:$percent+'%'});
+            var $current = index + 1;
+            var $percent = ($current / $total) * 100;
+            var wdt = 100 / $total;
+            var lft = wdt * index;
+            $('#demo-cls-wz').find('.progress-bar').css({ width: $percent + '%' });
 
             // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
+            if ($current >= $total) {
                 $('#demo-cls-wz').find('.next').hide();
                 $('#demo-cls-wz').find('.finish').show();
                 $('#demo-cls-wz').find('.finish').prop('disabled', false);
@@ -93,27 +93,27 @@ $(document).on('nifty.ready', function() {
     // BUBBLE NUMBERS
     // =================================================================
     $('#demo-step-wz').bootstrapWizard({
-        tabClass		: 'wz-steps',
-        nextSelector	: '.next',
-        previousSelector	: '.previous',
-        onTabClick: function(tab, navigation, index) {
+        tabClass: 'wz-steps',
+        nextSelector: '.next',
+        previousSelector: '.previous',
+        onTabClick: function (tab, navigation, index) {
             return false;
         },
-        onInit : function(){
+        onInit: function () {
             $('#demo-step-wz').find('.finish').hide().prop('disabled', true);
         },
-        onTabShow: function(tab, navigation, index) {
+        onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
-            var $current = index+1;
-            var $percent = (index/$total) * 100;
-            var wdt = 100/$total;
-            var lft = wdt*index;
-            var margin = (100/$total)/2;
-            $('#demo-step-wz').find('.progress-bar').css({width:$percent+'%', 'margin': 0 + 'px ' + margin + '%'});
+            var $current = index + 1;
+            var $percent = (index / $total) * 100;
+            var wdt = 100 / $total;
+            var lft = wdt * index;
+            var margin = (100 / $total) / 2;
+            $('#demo-step-wz').find('.progress-bar').css({ width: $percent + '%', 'margin': 0 + 'px ' + margin + '%' });
 
 
             // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
+            if ($current >= $total) {
                 $('#demo-step-wz').find('.next').hide();
                 $('#demo-step-wz').find('.finish').show();
                 $('#demo-step-wz').find('.finish').prop('disabled', false);
@@ -129,27 +129,27 @@ $(document).on('nifty.ready', function() {
     // FORM WIZARD WITH TOOLTIP
     // =================================================================
     $('#demo-cir-wz').bootstrapWizard({
-        tabClass		    : 'wz-steps',
-        nextSelector	    : '.next',
-        previousSelector    : '.previous',
-        onTabClick: function(tab, navigation, index) {
+        tabClass: 'wz-steps',
+        nextSelector: '.next',
+        previousSelector: '.previous',
+        onTabClick: function (tab, navigation, index) {
             return false;
         },
-        onInit : function(){
+        onInit: function () {
             $('#demo-cir-wz').find('.finish').hide().prop('disabled', true);
         },
-        onTabShow: function(tab, navigation, index) {
+        onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
-            var $current = index+1;
-            var $percent = (index/$total) * 100;
-            var margin = (100/$total)/2;
-            $('#demo-cir-wz').find('.progress-bar').css({width:$percent+'%', 'margin': 0 + 'px ' + margin + '%'});
+            var $current = index + 1;
+            var $percent = (index / $total) * 100;
+            var margin = (100 / $total) / 2;
+            $('#demo-cir-wz').find('.progress-bar').css({ width: $percent + '%', 'margin': 0 + 'px ' + margin + '%' });
 
-            navigation.find('li:eq('+index+') a').trigger('focus');
+            navigation.find('li:eq(' + index + ') a').trigger('focus');
 
 
             // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
+            if ($current >= $total) {
                 $('#demo-cir-wz').find('.next').hide();
                 $('#demo-cir-wz').find('.finish').show();
                 $('#demo-cir-wz').find('.finish').prop('disabled', false);
@@ -166,26 +166,26 @@ $(document).on('nifty.ready', function() {
     // FORM WIZARD WITH VALIDATION
     // =================================================================
     $('#demo-bv-wz').bootstrapWizard({
-        tabClass		    : 'wz-steps',
-        nextSelector	    : '.next',
-        previousSelector	: '.previous',
-        onTabClick          : function(tab, navigation, index) {
+        tabClass: 'wz-steps',
+        nextSelector: '.next',
+        previousSelector: '.previous',
+        onTabClick: function (tab, navigation, index) {
             return false;
         },
-        onInit : function(){
+        onInit: function () {
             $('#demo-bv-wz').find('.finish').hide().prop('disabled', true);
         },
-        onTabShow: function(tab, navigation, index) {
+        onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
-            var $current = index+1;
-            var $percent = ($current/$total) * 100;
-            var wdt = 100/$total;
-            var lft = wdt*index;
+            var $current = index + 1;
+            var $percent = ($current / $total) * 100;
+            var wdt = 100 / $total;
+            var lft = wdt * index;
 
-            $('#demo-bv-wz').find('.progress-bar').css({width:wdt+'%',left:lft+"%", 'position':'relative', 'transition':'all .5s'});
+            $('#demo-bv-wz').find('.progress-bar').css({ width: wdt + '%', left: lft + "%", 'position': 'relative', 'transition': 'all .5s' });
 
             // If it's the last tab then hide the last button and show the finish instead
-            if($current >= $total) {
+            if ($current >= $total) {
                 $('#demo-bv-wz').find('.next').hide();
                 $('#demo-bv-wz').find('.finish').show();
                 $('#demo-bv-wz').find('.finish').prop('disabled', false);
@@ -194,12 +194,12 @@ $(document).on('nifty.ready', function() {
                 $('#demo-bv-wz').find('.finish').hide().prop('disabled', true);
             }
         },
-        onNext: function(){
+        onNext: function () {
             isValid = null;
             $('#demo-bv-wz-form').bootstrapValidator('validate');
 
 
-            if(isValid === false)return false;
+            if (isValid === false) return false;
         }
     });
 
@@ -216,70 +216,101 @@ $(document).on('nifty.ready', function() {
     $('#demo-bv-wz-form').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
-        valid: 'fa fa-check-circle fa-lg text-success',
-        invalid: 'fa fa-times-circle fa-lg',
-        validating: 'fa fa-refresh'
+            valid: 'fa fa-check-circle fa-lg text-success',
+            invalid: 'fa fa-times-circle fa-lg',
+            validating: 'fa fa-refresh'
         },
         fields: {
-        username: {
-            message: 'The username is not valid',
-            validators: {
-                notEmpty: {
-                    message: 'The username is required.'
+            username: {
+                message: 'The username is not valid',
+                validators: {
+                    notEmpty: {
+                        message: 'The username is required.'
+                    }
                 }
-            }
-        },
-        email: {
-            validators: {
-                notEmpty: {
-                    message: 'The email address is required and can\'t be empty'
-                },
-                emailAddress: {
-                    message: 'The input is not a valid email address'
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'The email address is required and can\'t be empty'
+                    },
+                    emailAddress: {
+                        message: 'The input is not a valid email address'
+                    }
                 }
-            }
-        },
-        firstName: {
-            validators: {
-                notEmpty: {
-                    message: 'The first name is required and cannot be empty'
-                },
-                regexp: {
-                    regexp: /^[A-Z\s]+$/i,
-                    message: 'The first name can only consist of alphabetical characters and spaces'
+            },
+            firstName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The first name is required and cannot be empty'
+                    },
+                    regexp: {
+                        regexp: /^[A-Z\s]+$/i,
+                        message: 'The first name can only consist of alphabetical characters and spaces'
+                    }
                 }
-            }
-        },
-        lastName: {
-            validators: {
-                notEmpty: {
-                    message: 'The last name is required and cannot be empty'
-                },
-                regexp: {
-                    regexp: /^[A-Z\s]+$/i,
-                    message: 'The last name can only consist of alphabetical characters and spaces'
+            },
+            lastName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The last name is required and cannot be empty'
+                    },
+                    regexp: {
+                        regexp: /^[A-Z\s]+$/i,
+                        message: 'The last name can only consist of alphabetical characters and spaces'
+                    }
                 }
-            }
-        },
-        phoneNumber: {
-            validators: {
-                notEmpty: {
-                    message: 'The phone number is required and cannot be empty'
-                },
-                digits: {
-                    message: 'The value can contain only digits'
+            },
+            phoneNumber: {
+                validators: {
+                    notEmpty: {
+                        message: 'The phone number is required and cannot be empty'
+                    },
+                    digits: {
+                        message: 'The value can contain only digits'
+                    }
                 }
-            }
-        },
-        address: {
-            validators: {
-                notEmpty: {
-                    message: 'The address is required'
+            },
+            address: {
+                validators: {
+                    notEmpty: {
+                        message: 'The address is required'
+                    }
+                }
+            },
+            nombre: {
+                validators: {
+                    notEmpty: {
+                        message: 'El Nombre es requerido'
+                    },
+                }
+            },
+            apellidopaterno: {
+                validators: {
+                    notEmpty: {
+                        message: 'El apellido Paterno es requerido'
+                    }
+                }
+            },
+            correo: {
+                validators: {
+                    notEmpty: {
+                        message: 'El Correo es requerido'
+                    },
+                    emailAddress: {
+                        message: 'Correo invalido'
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: 'La Contrase&ntilde;a es requerida'
+                    }
                 }
             }
         }
-        }
-    }).on('success.field.bv', function(e, data) {
+    }).on('success.field.bv', function (e, data) {
         // $(e.target)  --> The field element
         // data.bv      --> The BootstrapValidator instance
         // data.field   --> The field name
@@ -293,7 +324,7 @@ $(document).on('nifty.ready', function() {
 
         // Hide the success icon
         //$parent.find('.form-control-feedback[data-bv-icon-for="' + data.field + '"]').hide();
-    }).on('error.form.bv', function(e) {
+    }).on('error.form.bv', function (e) {
         isValid = false;
     });
 

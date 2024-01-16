@@ -1185,14 +1185,13 @@ if (typeof jQuery === 'undefined') {
 		* @param {String|jQuery} container The container selector or element
 		* @returns {Boolean}
 		*/
-		isValidContainer: function(container) {
+		isValidContainer: function (container) {
 			var that       = this,
 				map        = {},
 				$container = ('string' === typeof container) ? $(container) : container;
 			if ($container.length === 0) {
 				return true;
 			}
-
 			$container.find('[data-bv-field]').each(function() {
 				var $field = $(this),
 					field  = $field.attr('data-bv-field');
