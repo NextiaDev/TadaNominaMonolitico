@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TadaNomina.Models.ViewModels.Catalogos
 {
@@ -33,5 +34,10 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "Correo:")]
         public string Correo { get; set; }        
 
+        public DateTime? FechaInicioProduccion { get; set; }
+
+        public List<SelectListItem> selectPAC { get; set; }
+
+        public int? IdPAC { get; set; }
     }
 }

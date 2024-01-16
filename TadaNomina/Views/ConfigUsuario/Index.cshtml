@@ -1,0 +1,198 @@
+﻿@model TadaNomina.Models.ViewModels.ConfigUsuario.MIndexUsuario
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div class="row pad-btm">
+    <div class="col-sm-6 toolbar-left">
+        <button class="btn btn-info" data-target="#addUser" data-toggle="modal">
+            Agregar
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model.Usuarios)
+    {
+        <div class="col-sm-4 col-md-3">
+            <div class="panel pos-rel">
+                <div class="pad-all text-center">
+                    <div>
+                        <img alt="Imagen defaul" class="img-lg img-circle mar-ver" src="~/assets/img/profile-photos/1.png" />
+                        <p class="text-lg text-semibold mar-no text-main">
+                            @item.Nombre @item.ApellidoPaterno
+                        </p>
+                        <p class="text-sm">@item.Usuario1</p>
+                        <p class="text-sm">@item.Correo</p>
+                    </div>
+                    <div class="pad-top btn-groups">
+                        <a href="#" class="btn btn-icon btn-primary fa fa-lg fa-edit icon-lg add-tooltip" data-original-title="Editar" data-container="body"></a>
+                        <a href="#" class="btn btn-icon btn-danger fa fa-lg fa-trash icon-lg add-tooltip" data-original-title="Eliminar" data-container="body"></a>
+                        @*<a href="#" class="btn btn-icon demo-pli-google-plus icon-lg add-tooltip" data-original-title="Google+" data-container="body"></a>
+                            <a href="#" class="btn btn-icon demo-pli-instagram icon-lg add-tooltip" data-original-title="Instagram" data-container="body"></a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="addUser" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addUser">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Agregar Usuario</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel">
+                    <div id="demo-bv-wz">
+                        <div class="wz-heading pad-top">
+                            <ul class="row wz-step wz-icon-bw wz-nav-off mar-top wz-steps">
+                                <li class="col-xs-3 active">
+                                    <a data-toggle="tab" href="#demo-by-tab1" aria-expanded="true">
+                                        <span class="text-warning"><i class="fa fa-3x fa-user"></i></span>
+                                        <p class="text-semibold mar-no">Usuario</p>
+                                    </a>
+                                </li>
+                                <li class="col-xs-3">
+                                    <a data-toggle="tab" href="#demo-bv-tab2">
+                                        <span class="text-primary"><i class="fa fa-3x fa-gear"></i></span>
+                                        <p class="text-semibold mar-no">Clientes</p>
+                                    </a>
+                                </li>
+                                <li class="col-xs-3">
+                                    <a data-toggle="tab" href="#demo-bv-tab3">
+                                        <span class="text-primary"><i class="fa fa-3x fa-gear"></i></span>
+                                        <p class="text-semibold mar-no">Unidades de Negocio</p>
+                                    </a>
+                                </li>
+                                <li class="col-xs-3">
+                                    <a data-toggle="tab" href="#demo-bv-tab4">
+                                        <span class="text-success"><i class="fa fa-3x fa-check"></i></span>
+                                        <p class="text-semibold mar-no">Finalizar</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar progress-bar-primary" style="width: 2 5%; left: 0%; position: relative; transition: all 0.5s ease 0s;"></div>
+                        </div>
+                        <form id="demo-bv-wz-form" class="form-horizontal bv-form" novalidate="novalidate">
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div id="demo-bv-tab1" class="tab-pane active in">
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Nombre</label>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="nombre" placeholder="Nombre" data-bv-field="nombre" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Apellido Paterno</label>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="apellidopaterno" placeholder="Apellido Paterno" data-bv-field="apellidopaterno" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Apellido Materno</label>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="ApellidoMaterno" placeholder="Apellido Materno" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Correo</label>
+                                            <div class="col-lg-7">
+                                                <input type="email" class="form-control" name="correo" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Usuario</label>
+                                            <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="Usuario" placeholder="Uasuario" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Contrase&ntilde;a</label>
+                                            <div class="col-lg-7">
+                                                <input type="password" class="form-control" name="password" placeholder="Contraseña" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="demo-bv-tab2" class="tab-pane">
+                                        <input type="hidden" name="IdCliente" id="clientesselect" value="" />
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4>Seleccione los clientes a asignar al usuario</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item in Model.ClientesToAsign)
+                                                {
+                                                    <div class="col-sm-3">
+                                                        <div id="cl-@item.IdCliente" class="checkbox">
+                                                            <input id="inpcl-@item.IdCliente" class="magic-checkbox" type="checkbox" onclick="addcliente(@item.IdCliente)" />
+                                                            <label for="inpcl-@item.IdCliente">
+                                                                @item.Cliente
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="demo-bv-tab3" class="tab-pane fade">
+                                        <input type="hidden" name="IdUnidadNegocio" id="unidadselect" value="" />
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4>Seleccione las Unidades de Negocio a asignar al usuario</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item in Model.UnidadNegocioToAsign)
+                                                {
+                                                    <div class="col-sm-3">
+                                                        <div id="un-@item.IdUnidadNegocio" class="checkbox">
+                                                            <input id="inpun-@item.IdUnidadNegocio" class="magic-checkbox" type="checkbox" onclick="addunidad(@item.IdUnidadNegocio)" />
+                                                            <label for="inp-@item.IdCliente">
+                                                                @item.UnidadNegocio
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="demo-bv-tab4" class="tab-pane fade">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <div class="box-inline">
+                                    <button type="button" class="previous btn btn-primary disabled">
+                                        Previo
+                                    </button>
+                                    <button type="button" class="next btn btn-primary">
+                                        Siguiente
+                                    </button>
+                                    <button type="button" class="finish btn btn-warning" style="display: none;" disabled>Crear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-primary btn-sm" type="button">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
+    <script src="~/plugins/bootstrap-validator/bootstrapValidator.js"></script>
+    <script src="~/js/demo/form-wizard.js"></script>
+    <script src="~/js/ConfigUsuarios/index.js"></script>
+}

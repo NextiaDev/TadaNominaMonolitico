@@ -47,5 +47,6 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> FechaModificacion { get; set; }
         public Nullable<int> IdGrupo { get; set; }
         public Nullable<int> IdPAC { get; set; }
+
     }
 }
