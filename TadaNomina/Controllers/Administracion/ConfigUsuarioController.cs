@@ -24,11 +24,11 @@ namespace TadaNomina.Controllers.Administracion
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult AddUsuario(MaddUsuario request)
-        {
+        //[HttpPost]
+        //public ActionResult AddUsuario(MaddUsuario request)
+        //{
 
-        }
+        //}
 
         //public JsonResult GetUnidadesToAsign(string clientes)
         //{
