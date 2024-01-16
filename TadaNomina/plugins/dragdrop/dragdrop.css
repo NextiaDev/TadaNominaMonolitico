@@ -1,0 +1,31 @@
+﻿.container-dd{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#dd-left, #dd-righ {
+    width: 300px;
+    min-height: 400px;
+    margin: 20px;
+    border: 2px dashed #1a75da;
+}
+
+.dd-list {
+    background: #1f6ebe;
+    height: 30px;
+    margin: 35px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: grab;
+    border-radius: 4px;
+}
+
+.dd-list i {
+    width: 10px;
+    margin-right: 15px;
+    margin-left: 20px;
+}

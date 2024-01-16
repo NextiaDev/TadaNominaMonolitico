@@ -320,6 +320,7 @@
     <Compile Include="Controllers\Administracion\ConceptosController.cs" />
     <Compile Include="Controllers\Administracion\ConceptosFiniquitosController.cs" />
     <Compile Include="Controllers\Administracion\ConfigurarCalculosController.cs" />
+    <Compile Include="Controllers\Administracion\ConfigUsuarioController.cs" />
     <Compile Include="Controllers\Administracion\DepartamentosController.cs" />
     <Compile Include="Controllers\Administracion\EmpleadoController.cs" />
     <Compile Include="Controllers\Administracion\EntidadFederativaController.cs" />
@@ -431,6 +432,7 @@
     <Compile Include="Models\ClassCore\cCompensaciones.cs" />
     <Compile Include="Models\ClassCore\cHonorarios.cs" />
     <Compile Include="Models\ClassCore\ClassActualizaNetos.cs" />
+    <Compile Include="Models\ClassCore\ConfigUsuarios.cs\CConfigUsuario.cs" />
     <Compile Include="Models\ClassCore\Reportes\ClassArchivoGV.cs" />
     <Compile Include="Models\ClassCore\ClassArchivosBancos.cs" />
     <Compile Include="Models\ClassCore\ClassArea.cs" />
@@ -1227,6 +1229,7 @@
     <Compile Include="Models\ViewModels\Catalogos\ModelConceptos.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelConceptosFiniquito.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelConfiguracionFechasCalculos.cs" />
+    <Compile Include="Models\ViewModels\Catalogos\ModelDeleteCliente.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelDepartamentos.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelErroresAreas.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelErroresCentroCostos.cs" />
@@ -1240,6 +1243,7 @@
     <Compile Include="Models\ViewModels\Catalogos\ModelFactorIntegracion.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelImpuestoSat.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelJornada.cs" />
+    <Compile Include="Models\ViewModels\Catalogos\ModelPAC.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelPrestaciones.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelPuestos.cs" />
     <Compile Include="Models\ViewModels\Catalogos\ModelRegistroPatronal.cs" />
@@ -1257,6 +1261,9 @@
     <Compile Include="Models\ViewModels\CFDI\ModelGetRecibos.cs" />
     <Compile Include="Models\ViewModels\CFDI\ModelRegistroPatronal.cs" />
     <Compile Include="Models\ViewModels\CFDI\ModelTimbradoNomina.cs" />
+    <Compile Include="Models\ViewModels\ConfigUsuario\MaddUsuario.cs" />
+    <Compile Include="Models\ViewModels\ConfigUsuario\MIndexUsuario.cs" />
+    <Compile Include="Models\ViewModels\ConfigUsuario\MInfoUsuario.cs" />
     <Compile Include="Models\ViewModels\Contabilidad\cAgregarCuentaContable.cs" />
     <Compile Include="Models\ViewModels\Contabilidad\Cat_NominaModel.cs" />
     <Compile Include="Models\ViewModels\Contabilidad\Cat_TipoCuentaModel.cs" />
@@ -4409,6 +4416,7 @@
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\chat.js" />
+    <Content Include="js\ConfigUsuarios\index.js" />
     <Content Include="js\Core\ActualizaEmpleados.js" />
     <Content Include="js\Core\Areas.js" />
     <Content Include="js\Core\Ausen.js" />
@@ -5189,6 +5197,7 @@
     <Content Include="plugins\datatables\media\js\jquery.dataTables.js" />
     <Content Include="plugins\datatables\media\js\jquery.dataTables.min.js" />
     <Content Include="plugins\datatables\media\js\jquery.js" />
+    <Content Include="plugins\dragdrop\dragdrop.css" />
     <Content Include="plugins\dropzone\dropzone.css" />
     <Content Include="plugins\dropzone\dropzone.js" />
     <Content Include="plugins\dropzone\dropzone.min.css" />
@@ -6940,6 +6949,7 @@
     <Content Include="Views\UnidadesNegocio\Config.cshtml" />
     <Content Include="Views\Conceptos\TablaFactores.cshtml" />
     <Content Include="Views\ReporteNomina\AusentimosReporte.cshtml" />
+    <Content Include="Views\ConfigUsuario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
