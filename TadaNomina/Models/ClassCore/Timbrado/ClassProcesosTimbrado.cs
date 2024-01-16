@@ -68,7 +68,65 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 entidad.SaveChanges();
             }
         }
-        
+
+        /// <summary>
+        /// Metodo para guardar error de timbrado
+        /// </summary>
+        /// <param name="i">Informacion XML</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="IdPeriodoNomina">Periodo de nomina</param>
+        /// <param name="Id"></param>
+        /// <param name="Codigo">Codigo de error</param>
+        /// <param name="Texto">Informacion error</param>
+        /// <param name="Observaciones"></param>
+        public void GuardaError(string Rfc, int IdUsuario, int IdPeriodoNomina, Guid Id, string Codigo, string Texto, string Observaciones)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                LogErrores le = new LogErrores();
+                le.Guid = Id;
+                le.IdPeriodoNomina = IdPeriodoNomina;
+                le.Modulo = "Timbrado";
+                le.Referencia = Rfc;
+                le.Descripcion = "Error: " + ((char)13) + Codigo + " - " + Texto + " - " + Observaciones;
+                le.Fecha = DateTime.Now;
+                le.IdUsuario = IdUsuario;
+                le.IdEstatus = 1;
+
+                entidad.LogErrores.Add(le);
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Metodo para guardar error de timbrado
+        /// </summary>
+        /// <param name="i">Informacion XML</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="IdPeriodoNomina">Periodo de nomina</param>
+        /// <param name="Id"></param>
+        /// <param name="Codigo">Codigo de error</param>
+        /// <param name="Texto">Informacion error</param>
+        /// <param name="Observaciones"></param>
+        public void GuardaError(vXmlNomina i, int IdUsuario, int IdPeriodoNomina, Guid Id, string Codigo, string Texto, string Observaciones)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                LogErrores le = new LogErrores();
+                le.Guid = Id;
+                le.IdPeriodoNomina = IdPeriodoNomina;
+                le.Modulo = "Timbrado";
+                le.Referencia = i.Rfc;
+                le.Descripcion = "Error: " + ((char)13) + Codigo + " - " + Texto + " - " + Observaciones;
+                le.Fecha = DateTime.Now;
+                le.IdUsuario = IdUsuario;
+                le.IdEstatus = 1;
+
+                entidad.LogErrores.Add(le);
+                entidad.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Guarda comprobante de timbrado
         /// </summary>
@@ -106,7 +164,46 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 entidad.TimbradoNomina.Add(tn);
                 entidad.SaveChanges();
             }
-        }        
+        }
+
+        /// <summary>
+        /// Guarda comprobante de timbrado
+        /// </summary>
+        /// <param name="i">Informacion timbrado</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="IdPeriodoNomina">Periodo nómina</param>
+        /// <param name="uuid"></param>
+        /// <param name="fechaTimbrado">Fecha timbrado</param>
+        /// <param name="anioMes">Año mes</param>
+        /// <param name="FacturaTimbrada">CDFI</param>
+        /// <param name="Leyenda">Leyenda timbrado</param>
+        public void GuardaTablaTimbrado(vXmlNomina i, int IdUsuario, int IdPeriodoNomina, string uuid, string fechaTimbrado, int anioMes, string FacturaTimbrada, string Leyenda)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                TimbradoNomina tn = new TimbradoNomina();
+                tn.IdPeriodoNomina = IdPeriodoNomina;
+                tn.IdEmpleado = (i.IdEmpleado);
+                tn.IdRegistroPatronal = (i.IdRegistroPatronal);
+                tn.RegistroPatronal = i.RegistroPatronal;
+                tn.NombrePatrona = i.NombrePatrona;
+                tn.RFC = i.Rfc;
+                tn.FechaTimbrado = fechaTimbrado;
+                tn.FolioUDDI = uuid;
+                tn.AnioMes = anioMes;
+                tn.Mensaje = "Comprobante timbrado exitosamente";
+                tn.IdEstatus = 1;
+                tn.IdCaptura = IdUsuario;
+                tn.FechaCaptura = DateTime.Now;
+                tn.FechaInicioPeriodo = i.FechaInicio;
+                tn.FechaFinPeriodo = i.FechaFin;
+                tn.CFDI_Timbrado = FacturaTimbrada;
+                tn.Leyenda = Leyenda;
+
+                entidad.TimbradoNomina.Add(tn);
+                entidad.SaveChanges();
+            }
+        }
 
         /// <summary>
         /// Metodo para obtener lista de timbrados por periodo de nomina

@@ -4,6 +4,14 @@
     $("form").submit();
 });
 
+$(document).ready(function () {
+    var mensaje = $("#mensajeError").attr("data-text");
+
+    if (mensaje.length > 0) {
+        mensajeAlerta("Atencion!", mensaje, "danger", "jelly", "fadeOut", 0);
+    }
+});
+
 $("#generarXML").click(function () {
     $.showLoading({ name: 'circle-fade' });
     var IdPeriodoNomina = $(this).attr('data-id');

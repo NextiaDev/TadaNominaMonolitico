@@ -17,8 +17,11 @@ namespace TadaNomina.Controllers.CFDI
     public class GeneraXMLController : BaseController
     {
         // GET: GeneraXML
-        public ActionResult Index( )
+        public ActionResult Index(string Mensaje)
         {
+            if(Mensaje != null && Mensaje.Length > 0)
+                ViewBag.MensajeError = Mensaje;
+
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
             ClassTimbradoNomina cperiodo = new ClassTimbradoNomina();
             ModelTimbradoNomina model = cperiodo.GetModeloTimbradoNomina(IdUnidadNegocio);
@@ -117,7 +120,7 @@ namespace TadaNomina.Controllers.CFDI
             }
             catch(Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { Mensaje = "Error al generar los archivos: " + ex.Message });
             }
         }
 
@@ -135,9 +138,9 @@ namespace TadaNomina.Controllers.CFDI
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 
             }
-            catch 
+            catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { Mensaje = "Error al generar los archivos: " + ex.Message });
             }
         }
     }

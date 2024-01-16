@@ -14,9 +14,11 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
         {
             var f = DateTime.Now.ToShortDateString();
             var fecha = DateTime.Parse(f);
+            var _fecha = fecha.ToString("yyyyMMdd");
             using (TadaNominaEntities ctx = new TadaNominaEntities())
             {
-                var query = (from a in ctx.sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS(IdCliente, fecha, fecha) select a).ToList();
+                string consulta = "sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS " + IdCliente + ", '" + _fecha + "', '" + _fecha + "'";
+                var query = ctx.Database.SqlQuery<sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result>(consulta).ToList();
                 return query;
             }
         }

@@ -39,7 +39,6 @@
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Sucursales" Width="1.5" PointX="21.375" PointY="19.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_HonorariosFacturas" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vUnidadesNegocio" Width="1.5" PointX="16.375" PointY="24.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_Clientes" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" Width="1.5" PointX="20.625" PointY="34.375" />
         <EntityTypeShape EntityType="TadaNominaModel.Empleados" Width="1.5" PointX="18.375" PointY="26.75" />
         <AssociationConnector Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" />
@@ -51,6 +50,7 @@
         <EntityTypeShape EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" Width="1.5" PointX="10.375" PointY="24.75" />
         <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" Width="1.5" PointX="20.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_Clientes" Width="1.5" PointX="25.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
