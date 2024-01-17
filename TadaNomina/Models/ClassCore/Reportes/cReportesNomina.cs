@@ -40,7 +40,8 @@ namespace TadaNomina.Models.ClassCore.Reportes
                         FechaInicio= item.FechaInicio.ToShortDateString(),
                         FechaFin= item.FechaFin.ToShortDateString(),
                         Cliente= item.Cliente,
-                        UnidadNegocio= item.UnidadNegocio
+                        UnidadNegocio= item.UnidadNegocio,
+                        IdEstatus = item.IdEstatus
                     };
 
                     resultado.Add(reporteNomina);
