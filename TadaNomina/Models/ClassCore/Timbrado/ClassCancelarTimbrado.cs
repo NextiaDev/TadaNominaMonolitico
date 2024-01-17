@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Xml;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.CFDI;
+using TadaNomina.Services.CFDI40;
 
 namespace TadaNomina.Models.ClassCore.Timbrado
 {
@@ -38,6 +39,59 @@ namespace TadaNomina.Models.ClassCore.Timbrado
             model.lMotivosCancalacion = lMotivos;
 
             return model;
+        }
+
+        /// <summary>
+        /// Metodo que obtiene los datos para cancelar timbrado
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Periodo de nómina</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="Id"></param>
+        /// <param name="Tipo"></param>
+        public void CancelaPeriodoNomina(int IdPeriodoNomina, string[] claves, int IdUsuario, Guid Id, string Tipo)
+        {
+            var timbrados = ObtenDatosTimbradoNominaPeriodo(IdPeriodoNomina);
+
+            if (claves != null && claves.Count() > 0)
+                timbrados = timbrados.Where(x => claves.Contains(x.ClaveEmpleado)).ToList();
+
+            foreach (var item in timbrados)
+            {
+                Cancelar(item, Id, Tipo, IdUsuario);
+            }
+        }
+
+        public void Cancelar(vTimbradoNomina datos, string ClaveSat, Guid id, int IdUsuario)
+        {
+            try
+            {
+                string Exito = string.Empty;
+                string uuid = string.Empty;
+
+                //try { creaPfx(datos.rutaCer, datos.rutaKey, datos.KeyPass.Trim(), datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se pudo crear el archivo PFX.", ex); }
+                //byte[] pfx = Array.Empty<byte>();
+                //try { pfx = File.ReadAllBytes(datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se puede leer el archivo PFX.", ex); }
+                //var xml = getXMLCancelacionSignature(datos.RfcPatronal, datos.FolioUddi, ClaveSat, "", pfx, datos.KeyPass);
+                //string base64EncodedExternalAccount = Statics.EncriptarUTF8(xml);
+
+                //var cancelar = CancelarTimbre(base64EncodedExternalAccount, datos.Neto, datos.Rfc);
+
+                //XmlDocument doc = new XmlDocument();
+                //doc.LoadXml(cancelar);
+                //XmlNodeList nExito = doc.GetElementsByTagName("exito");
+                //Exito = nExito[0].InnerText.ToUpper();
+
+                //if (Exito == "TRUE")
+                //    ActualizaRegistroTimbraado(datos.IdTimbradoNomina, IdUsuario);
+
+                //if (Exito == "FALSE")
+                //    GuardaErrorCancelacion(datos, id, IdUsuario);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         /// <summary>

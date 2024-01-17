@@ -36,14 +36,17 @@ namespace TadaNomina.Models.DB
         public string VersionCFDI { get; set; }
         public Nullable<int> Analitica { get; set; }
         public string CorreoAnalitica { get; set; }
+        public Nullable<System.DateTime> FechaInicioProduccion { get; set; }
         public Nullable<System.DateTime> FechaBaja { get; set; }
         public string MotivoBaja { get; set; }
+        public Nullable<int> RecibosTotalesRegPatronal { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
-        public Nullable<System.DateTime> FechaInicioProduccion { get; set; }
-        public Nullable<int> RecibosTotalesRegPatronal { get; set; }
+        public Nullable<int> IdGrupo { get; set; }
+        public Nullable<int> IdPAC { get; set; }
+
     }
 }

@@ -106,6 +106,8 @@
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
+          <Property Name="IdGrupo" Type="int" />
+          <Property Name="IdPAC" Type="int" />
         </EntityType>
         <EntityType Name="Cat_Comunicados">
           <Key>
@@ -408,7 +410,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           </Key>
           <Property Name="IdUnidadNegocio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCliente" Type="int" Nullable="false" />
-          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnidadNegocio" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="IdTipoNomina" Type="int" Nullable="false" />
           <Property Name="PorcentajeISN" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ConfiguracionSueldos" Type="nvarchar" MaxLength="50" />
@@ -1583,7 +1585,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="Cat_Sucursales" EntityType="TadaNominaModel.Cat_Sucursales" />
           <EntitySet Name="Cat_HonorariosFacturas" EntityType="TadaNominaModel.Cat_HonorariosFacturas" />
           <EntitySet Name="vUnidadesNegocio" EntityType="TadaNominaModel.vUnidadesNegocio" />
-          <EntitySet Name="Cat_Clientes" EntityType="TadaNominaModel.Cat_Clientes" />
           <EntitySet Name="EmpleadoInformacionComplementaria" EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" />
           <EntitySet Name="Empleados" EntityType="TadaNominaModel.Empleados" />
           <AssociationSet Name="FK_EmpleadoInformacionComplementaria_Empleados" Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados">
@@ -1598,6 +1599,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="vConfiguracionConceptosFiniquitos" EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" />
           <EntitySet Name="ConfiguracionConceptosFiniquito" EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" />
           <EntitySet Name="Cat_UnidadNegocio" EntityType="TadaNominaModel.Cat_UnidadNegocio" />
+          <EntitySet Name="Cat_Clientes" EntityType="TadaNominaModel.Cat_Clientes" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -2315,42 +2317,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="AcuerdoEconomico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="TipoCobro" Type="Int32" />
         </EntityType>
-        <EntityType Name="Cat_Clientes">
-          <Key>
-            <PropertyRef Name="IdCliente" />
-          </Key>
-          <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RazonSocial" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RFC" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
-          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ClienteAdministrado" Type="Int32" Nullable="false" />
-          <Property Name="IdCordinador" Type="Int32" />
-          <Property Name="Estructura" Type="Int32" />
-          <Property Name="Usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="Binary" MaxLength="255" FixedLength="false" />
-          <Property Name="Acceso" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Logo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="TituloPortal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="AnimacionPortal" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Nom_035" Type="Int32" />
-          <Property Name="ComentariosPublicaciones" Type="Int32" />
-          <Property Name="VersionCFDI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Analitica" Type="Int32" />
-          <Property Name="CorreoAnalitica" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
-          <Property Name="MotivoBaja" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <Property Name="FechaInicioProduccion" Type="DateTime" Precision="0" />
-          <Property Name="RecibosTotalesRegPatronal" Type="Int32" />
-        </EntityType>
         <EntityType Name="EmpleadoInformacionComplementaria">
           <Key>
             <PropertyRef Name="IdEmpleadoInfAdministrativa" />
@@ -2720,7 +2686,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           </Key>
           <Property Name="IdUnidadNegocio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCliente" Type="Int32" Nullable="false" />
-          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UnidadNegocio" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IdTipoNomina" Type="Int32" Nullable="false" />
           <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ConfiguracionSueldos" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2785,6 +2751,44 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="BanderaDiasAguinaldo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="DIasImss" Type="Int32" />
           <Property Name="DiasMenosImss" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Cat_Clientes">
+          <Key>
+            <PropertyRef Name="IdCliente" />
+          </Key>
+          <Property Name="IdCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RazonSocial" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RFC" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClienteAdministrado" Type="Int32" Nullable="false" />
+          <Property Name="IdCordinador" Type="Int32" />
+          <Property Name="Estructura" Type="Int32" />
+          <Property Name="Usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="Binary" MaxLength="255" FixedLength="false" />
+          <Property Name="Acceso" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Logo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TituloPortal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AnimacionPortal" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Nom_035" Type="Int32" />
+          <Property Name="ComentariosPublicaciones" Type="Int32" />
+          <Property Name="VersionCFDI" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Analitica" Type="Int32" />
+          <Property Name="CorreoAnalitica" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FechaInicioProduccion" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="MotivoBaja" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RecibosTotalesRegPatronal" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="IdGrupo" Type="Int32" />
+          <Property Name="IdPAC" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3486,43 +3490,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cat_Clientes">
-            <EntityTypeMapping TypeName="TadaNominaModel.Cat_Clientes">
-              <MappingFragment StoreEntitySet="Cat_Clientes">
-                <ScalarProperty Name="RecibosTotalesRegPatronal" ColumnName="RecibosTotalesRegPatronal" />
-                <ScalarProperty Name="FechaInicioProduccion" ColumnName="FechaInicioProduccion" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="MotivoBaja" ColumnName="MotivoBaja" />
-                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
-                <ScalarProperty Name="CorreoAnalitica" ColumnName="CorreoAnalitica" />
-                <ScalarProperty Name="Analitica" ColumnName="Analitica" />
-                <ScalarProperty Name="VersionCFDI" ColumnName="VersionCFDI" />
-                <ScalarProperty Name="ComentariosPublicaciones" ColumnName="ComentariosPublicaciones" />
-                <ScalarProperty Name="Nom_035" ColumnName="Nom_035" />
-                <ScalarProperty Name="AnimacionPortal" ColumnName="AnimacionPortal" />
-                <ScalarProperty Name="TituloPortal" ColumnName="TituloPortal" />
-                <ScalarProperty Name="Logo" ColumnName="Logo" />
-                <ScalarProperty Name="Acceso" ColumnName="Acceso" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Estructura" ColumnName="Estructura" />
-                <ScalarProperty Name="IdCordinador" ColumnName="IdCordinador" />
-                <ScalarProperty Name="ClienteAdministrado" ColumnName="ClienteAdministrado" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
-                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="EmpleadoInformacionComplementaria">
             <EntityTypeMapping TypeName="TadaNominaModel.EmpleadoInformacionComplementaria">
               <MappingFragment StoreEntitySet="EmpleadoInformacionComplementaria">
@@ -3951,6 +3918,45 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
                 <ScalarProperty Name="UnidadNegocio" ColumnName="UnidadNegocio" />
                 <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
                 <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cat_Clientes">
+            <EntityTypeMapping TypeName="TadaNominaModel.Cat_Clientes">
+              <MappingFragment StoreEntitySet="Cat_Clientes">
+                <ScalarProperty Name="IdPAC" ColumnName="IdPAC" />
+                <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="RecibosTotalesRegPatronal" ColumnName="RecibosTotalesRegPatronal" />
+                <ScalarProperty Name="MotivoBaja" ColumnName="MotivoBaja" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="FechaInicioProduccion" ColumnName="FechaInicioProduccion" />
+                <ScalarProperty Name="CorreoAnalitica" ColumnName="CorreoAnalitica" />
+                <ScalarProperty Name="Analitica" ColumnName="Analitica" />
+                <ScalarProperty Name="VersionCFDI" ColumnName="VersionCFDI" />
+                <ScalarProperty Name="ComentariosPublicaciones" ColumnName="ComentariosPublicaciones" />
+                <ScalarProperty Name="Nom_035" ColumnName="Nom_035" />
+                <ScalarProperty Name="AnimacionPortal" ColumnName="AnimacionPortal" />
+                <ScalarProperty Name="TituloPortal" ColumnName="TituloPortal" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Acceso" ColumnName="Acceso" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Estructura" ColumnName="Estructura" />
+                <ScalarProperty Name="IdCordinador" ColumnName="IdCordinador" />
+                <ScalarProperty Name="ClienteAdministrado" ColumnName="ClienteAdministrado" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
