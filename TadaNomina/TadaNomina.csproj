@@ -551,6 +551,7 @@
     <Compile Include="Models\ClassCore\TimbradoTP\DatosXML.cs" />
     <Compile Include="Models\ClassCore\TimbradoTP\GeneraXML.cs" />
     <Compile Include="Models\ClassCore\TimbradoTP\nodosOrdenados.cs" />
+    <Compile Include="Models\ClassCore\Timbrado\cCreaXMLCancelacion.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ClassCancelarTimbrado.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ClassGeneraJSON.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ClassGeneraJSONCancelacion.cs" />
@@ -584,6 +585,7 @@
     <Compile Include="Models\ClassCore\Timbrado\ModelosJSON\ModeloPercepcionesSeparacionIndemnizacion.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ModelosJSON\ModeloReceptor.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ModelosJSON\ModeloTextoCFDI.cs" />
+    <Compile Include="Models\ClassCore\Timbrado\Pfx.cs" />
     <Compile Include="Models\DB\ActividadEconomica.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
@@ -627,7 +629,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -651,7 +653,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
@@ -1142,7 +1144,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias_Consolidadas.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vNomina.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
