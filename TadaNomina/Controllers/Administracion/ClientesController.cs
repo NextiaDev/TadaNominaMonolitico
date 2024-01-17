@@ -12,15 +12,15 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa la vista con la lista de los clientes.</returns>
         public ActionResult Index()
         {
-            if (Session["sTipoUsuario"].ToString() != "System") { return RedirectToAction("Index", "Default"); }
-            else
-            {
+            //if (Session["sTipoUsuario"].ToString() != "System") { return RedirectToAction("Index", "Default"); }
+            //else
+            //{
                 string token = Session["sToken"].ToString();
                 var clsCliente = new sClientes();
                 var lClientes = clsCliente.getListClientes(token);
 
                 return View(lClientes);
-            }
+            //}
         }
                 
         /// <summary>
@@ -41,7 +41,9 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa la vista con el modelo del cliente.</returns>
         public ActionResult Create()
         {
-            var clientes = new ModelClientes();
+            sClientes service = new sClientes();
+            string token = Session["sToken"].ToString();
+            var clientes = service.GetInfoToCreate(token);
             return View(clientes);
         }
         
@@ -135,14 +137,14 @@ namespace TadaNomina.Controllers.Administracion
         /// <param name="id">Recibe el identificador del cliente.</param>
         /// <returns>Regresa la vista con la lista de clientes.</returns>
         [HttpPost]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(ModelDeleteCliente model)
         {
             try
             {
                 var clsClientes = new sClientes();
                 int idUsuario = (int)Session["sIdUsuario"];
                 string token = Session["sToken"].ToString();
-                clsClientes.DeleteCliente(id, token);
+                clsClientes.DeleteCliente(model, token);
                 return RedirectToAction("Index");
             }
             catch

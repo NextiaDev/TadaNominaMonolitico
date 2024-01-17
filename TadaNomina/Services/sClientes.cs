@@ -3,9 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
+using System.Web.Mvc;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Catalogos;
+using TadaNomina.Models.ViewModels.ConfigUsuario;
 
 namespace TadaNomina.Services
 {
@@ -95,6 +98,7 @@ namespace TadaNomina.Services
                     var result = wc.DownloadString(apiUrl);
 
                     var cli = JsonConvert.DeserializeObject<ModelClientes>(result);
+                    cli.selectPAC = GetSlectListPAC(token);
 
                     return cli;
                 }
@@ -118,7 +122,17 @@ namespace TadaNomina.Services
                 var servicio = "/api/Clientes/AddCliente";
                 Uri apiUrl = new Uri(sStatics.servidor + servicio);
 
-                var data = JsonConvert.SerializeObject(m);
+                var data = JsonConvert.SerializeObject( new
+                {
+                    Cliente = m.Cliente,
+                    RazonSocial = m.RazonSocial,
+                    RFC = m.RFC,
+                    Telefono = m.Telefono,
+                    Contacto = m.Contacto,
+                    Correo = m.Correo,
+                    FechaInicioProduccion = m.FechaInicioProduccion,
+                    IdPAC = m.IdPAC
+                });
 
                 using (var wc = new WebClient())
                 {
@@ -160,9 +174,7 @@ namespace TadaNomina.Services
                     wc.Headers["Authorization"] = "Bearer " + token;
                     var result = wc.UploadString(apiUrl, data);
 
-                    var cli = JsonConvert.DeserializeObject(result);
-
-                    return cli.ToString();
+                    return result.ToString();
                 }
             }
             catch (WebException ex)
@@ -177,29 +189,66 @@ namespace TadaNomina.Services
         /// <param name="IdCliente">Variable que contiene el id del cliente</param>
         /// <param name="token">Variable que contiene el JWT para consumir una API</param>
         /// <returns>Respuesta del movimiento</returns>
-        public string DeleteCliente(int IdCliente, string token)
+        public string DeleteCliente(ModelDeleteCliente model, string token)
         {
             try
             {
-                var servicio = "/api/Clientes/DeleteCliente?IdCliente=" + IdCliente;
+                var servicio = "/api/Clientes/DeleteCliente";
                 Uri apiUrl = new Uri(sStatics.servidor + servicio);
-                
+
+                var data = JsonConvert.SerializeObject(model);
+
                 using (var wc = new WebClient())
                 {
                     wc.Encoding = System.Text.Encoding.UTF8;
                     wc.Headers.Clear();
                     wc.Headers["Content-type"] = "application/json";
                     wc.Headers["Authorization"] = "Bearer " + token;
-                    var result = wc.UploadString(apiUrl, "");
+                    var result = wc.UploadString(apiUrl, "DELETE", data);
 
-                    var cli = JsonConvert.DeserializeObject(result);
-
-                    return cli.ToString();
+                    return result.ToString();
                 }
             }
             catch (WebException ex)
             {
                 throw sException.GetException(ex);
+            }
+        }
+
+        public ModelClientes GetInfoToCreate(string token)
+        {
+            var result = new ModelClientes();
+            result.selectPAC = GetSlectListPAC(token);
+            return result;
+        }
+
+        public List<SelectListItem> GetSlectListPAC(string token)
+        {
+            var result = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = "Seleccionar...",
+                    Value = ""
+                }
+            };
+            var pacs = GetPACs(token);
+            pacs.ForEach(p => result.Add(new SelectListItem { Text = p.PAC, Value = p.IdPAC.ToString() }));
+            return result;
+        }
+
+        public List<ModelPAC> GetPACs(string token)
+        {
+            var servicio = "/api/Clientes/GetPAC";
+            Uri apiUrl = new Uri(sStatics.servidor + servicio);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+                HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+                string responsebody = response.Content.ReadAsStringAsync().Result;
+                List<ModelPAC> result = new List<ModelPAC>();
+                try { result = JsonConvert.DeserializeObject<List<ModelPAC>>(responsebody); } catch { result = new List<ModelPAC>(); }
+                return result;
             }
         }
     }

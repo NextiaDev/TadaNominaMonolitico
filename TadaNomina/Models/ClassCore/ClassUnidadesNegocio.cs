@@ -195,7 +195,7 @@ namespace TadaNomina.Models.ClassCore
             }
             if (bool.Parse(DiasEquiv) == true)
             {
-                DiasEquiv = "S";
+                DiasEquiv = "SI";
             }
             else
             {

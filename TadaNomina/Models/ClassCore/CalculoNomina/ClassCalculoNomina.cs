@@ -279,6 +279,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 //configuracion para piramidar sueldos
                 PiramidaSueldosConCompensacion(datosEmpleados);
 
+                if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
+                {
+                    nominaTrabajo.BaseGravada = baseMostrar;
+                    nominaTrabajo.BaseGravadaP = baseMostrar;
+                }
+
                 if (Periodo.DescuentosFijos == "SI" && Periodo.TipoNomina == "Nomina")
                 {
                     if (datosEmpleados.IdEstatus == 1 || configuracionNominaEmpleado.IncidenciasAutomaticas == 1)
@@ -610,10 +616,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     percepcionesEspecialesGravado += importeConcepto;
                     
                     CalculaISR();
-                }
-
-                nominaTrabajo.BaseGravada = baseMostrar;
-                nominaTrabajo.BaseGravadaP = baseMostrar;
+                }                
             }
         }
 
