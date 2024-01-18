@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TadaNomina.Models.ClassCore;
 using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.ClassCore.TimbradoTP.CFDI40;
 using TadaNomina.Models.ViewModels.CFDI;
@@ -26,10 +27,15 @@ namespace TadaNomina.Controllers.CFDI
         public ActionResult Index(ModelCancelarTimbrado m)
         {
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+            int IdCliente = (int)Session["sIdCliente"];
             ClassCancelarTimbrado cperiodo = new ClassCancelarTimbrado();
             cCancelar cc = new cCancelar();
             ModelCancelarTimbrado model = cperiodo.GetModeloTimbradoNomina(IdUnidadNegocio);
             int IdUsuario = (int)Session["sIdUsuario"];
+
+            ClassUnidadesNegocio cun = new ClassUnidadesNegocio();
+            var cliente = cun.getClienteById(IdCliente);
+
             try
             {
                 Guid Id = Guid.NewGuid();
@@ -40,11 +46,19 @@ namespace TadaNomina.Controllers.CFDI
                     empleados = m.ClavesEmpleado.Trim();
                     _empleados = empleados.Replace(" ", "").Split(',');
                 } catch { }
-                
-                if (_empleados.Count() > 0)
-                    cc.CancelarPeriodoNominaClaves(m.IdPeriodoNomina, Id, IdUnidadNegocio, _empleados, m.motivoCancelacion, IdUsuario);                
-                else
-                    cc.CancelarPeriodoNomina(m.IdPeriodoNomina, Id, IdUnidadNegocio, m.motivoCancelacion, IdUsuario);
+
+                if (cliente.IdPAC == 1)
+                {
+                    if (_empleados.Count() > 0)
+                        cc.CancelarPeriodoNominaClaves(m.IdPeriodoNomina, Id, IdUnidadNegocio, _empleados, m.motivoCancelacion, IdUsuario);
+                    else
+                        cc.CancelarPeriodoNomina(m.IdPeriodoNomina, Id, IdUnidadNegocio, m.motivoCancelacion, IdUsuario);
+                }
+
+                if (cliente.IdPAC == 2)
+                {
+                    cperiodo.CancelaPeriodoNomina(m.IdPeriodoNomina, "02", _empleados, IdUsuario, Id);
+                }
 
                 var timbrados = cperiodo.GetCancelados(m.IdPeriodoNomina);
                 var errores = cperiodo.GetErrores(m.IdPeriodoNomina, Id);
