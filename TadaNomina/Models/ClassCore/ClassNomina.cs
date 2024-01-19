@@ -233,7 +233,7 @@ namespace TadaNomina.Models.ClassCore
             try { model.SueldoDiarioEsq = empleado.Esquema.Trim() != "100% TRADICIONAL" ? string.Format("{0:C2}", (empleado.SD - empleado.SDIMSS)) : "$0.00"; } catch { model.SueldoDiarioEsq = "$0.00"; }
             try { model.NetoPagar = empleado.NetoPagar.ToString(); } catch { model.NetoPagar = "0.00"; }
             try { model.FechaAltaImss = empleado.FechaAltaIMSS.Value.ToShortDateString(); } catch { model.FechaAltaImss = ""; }
-            model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString();
+            try { model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString(); } catch { model.FechaReconocimientoAntiguedad = ""; }
             model.IdEstatus = empleado.IdEstatus;
             model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
 
