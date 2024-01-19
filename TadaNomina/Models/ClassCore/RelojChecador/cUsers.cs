@@ -387,8 +387,8 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
 
                     idBonoPuntualidad = ctx.Cat_ConceptosNomina.Where(x => x.IdConceptoSistema == 3346 && x.IdCliente == IdCliente && x.IdEstatus == 1).Select(x => x.IdConcepto).FirstOrDefault();
                 }
-
-                foreach (var item in lstIncidencia.Where(x => x.Concepto != falta))
+                var lstEmpFalta = lstIncidencia.Where(x => x.Concepto == falta).Select(x => x.Identifier);
+                foreach (var item in lstIncidencia.Where(x => x.Concepto != falta && !lstEmpFalta.Contains(x.Identifier)))
                 {
                     lstbono.Add(new IncidenciasModel
                     {

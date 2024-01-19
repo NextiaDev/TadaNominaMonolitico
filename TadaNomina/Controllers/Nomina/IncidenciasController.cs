@@ -557,7 +557,7 @@ namespace TadaNomina.Controllers.Nomina
                 if (listahoradextra.Count > 0) lI.AddRange(listahoradextra);
 
                 var lstHrsNoTra = cu.GetHrsNoTrabajadas(c, (int)IdCliente);
-                if (lstHrsNoTra.Count > 0) lI.AddRange(listahoradextra);
+                if (lstHrsNoTra.Count > 0) lI.AddRange(lstHrsNoTra);
 
                 var i = cu.IncidenciasGV(lI, token, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
 
