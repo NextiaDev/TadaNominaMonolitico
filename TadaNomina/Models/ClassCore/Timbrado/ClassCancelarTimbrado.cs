@@ -48,7 +48,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
         /// <param name="IdUsuario">Usuario</param>
         /// <param name="Id"></param>
         /// <param name="Tipo"></param>
-        public void CancelaPeriodoNomina(int IdPeriodoNomina, string[] claves, int IdUsuario, Guid Id, string Tipo)
+        public void CancelaPeriodoNomina(int IdPeriodoNomina, string ClaveSAT, string[] claves, int IdUsuario, Guid Id)
         {
             var timbrados = ObtenDatosTimbradoNominaPeriodo(IdPeriodoNomina);
 
@@ -57,7 +57,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
 
             foreach (var item in timbrados)
             {
-                Cancelar(item, Id, Tipo, IdUsuario);
+                Cancelar(item, ClaveSAT, Id, IdUsuario);
             }
         }
 
@@ -68,29 +68,39 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 string Exito = string.Empty;
                 string uuid = string.Empty;
 
-                //try { creaPfx(datos.rutaCer, datos.rutaKey, datos.KeyPass.Trim(), datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se pudo crear el archivo PFX.", ex); }
-                //byte[] pfx = Array.Empty<byte>();
-                //try { pfx = File.ReadAllBytes(datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se puede leer el archivo PFX.", ex); }
-                //var xml = getXMLCancelacionSignature(datos.RfcPatronal, datos.FolioUddi, ClaveSat, "", pfx, datos.KeyPass);
-                //string base64EncodedExternalAccount = Statics.EncriptarUTF8(xml);
+                try { creaPfx(datos.rutaCer, datos.rutaKey, datos.KeyPass.Trim(), datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se pudo crear el archivo PFX.", ex); }
+                byte[] pfx = Array.Empty<byte>();
+                try { pfx = File.ReadAllBytes(datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se puede leer el archivo PFX.", ex); }
+                var xml = getXMLCancelacionSignature(datos.RFC_Patronal, datos.FolioUDDI, ClaveSat, "", pfx, datos.KeyPass);
+                string base64EncodedExternalAccount = Statics.Base64Encode(xml);
 
-                //var cancelar = CancelarTimbre(base64EncodedExternalAccount, datos.Neto, datos.Rfc);
+                var cancelar = CancelarTimbre(base64EncodedExternalAccount, datos.Neto, datos.RFC);
 
-                //XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(cancelar);
-                //XmlNodeList nExito = doc.GetElementsByTagName("exito");
-                //Exito = nExito[0].InnerText.ToUpper();
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(cancelar);
+                XmlNodeList nExito = doc.GetElementsByTagName("exito");
+                Exito = nExito[0].InnerText.ToUpper();
 
-                //if (Exito == "TRUE")
-                //    ActualizaRegistroTimbraado(datos.IdTimbradoNomina, IdUsuario);
+                if (Exito == "TRUE")
+                    ActualizaRegistroTimbraado(datos.FolioUDDI, IdUsuario);
 
-                //if (Exito == "FALSE")
-                //    GuardaErrorCancelacion(datos, id, IdUsuario);
+                if (Exito == "FALSE")
+                    GuardaErrorCancelacion(datos, id, IdUsuario);
 
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public void creaPfx(string rutaCer, string rutaKey, string pass, string ruta)
+        {
+            if (!File.Exists(ruta))
+            {
+                var oPFX = new Pfx(rutaCer, rutaKey, pass, ruta, Path.GetDirectoryName(ruta) + "/");
+
+                oPFX.creaPFX();
             }
         }
 
@@ -152,6 +162,11 @@ namespace TadaNomina.Models.ClassCore.Timbrado
             }
         }
 
+        private object CreaJSONCancelacion(vTimbradoNomina datos)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Metodo para solicitar cancelacion de timbrado
         /// </summary>
@@ -179,6 +194,55 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 contentXML += "</soapenv:Envelope>";
 
                 Uri uri = new Uri("https://face-timbre.masnegocio.com:8585/mn-pac-servicios/servicios");
+
+                WebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
+
+                webRequest.ContentType = "text/xml;charset=\"UTF-8\"";
+
+                webRequest.ContentLength = contentXML.Length;
+
+                webRequest.Headers.Add("SOAPAction", "\"http://www.masnegocio.com/servicios/cancelacion\"");
+                webRequest.Method = "POST";
+
+                webRequest.GetRequestStream().Write(Encoding.UTF8.GetBytes(contentXML), 0, contentXML.Length);
+
+                using (WebResponse webResponse = webRequest.GetResponse())
+                {
+                    using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
+                    {
+                        response = streamReader.ReadToEnd();
+                    }
+                }
+
+            }
+            catch { }
+
+            return response;
+        }
+
+        public string CancelarTimbre(string xmlb64, decimal? total, string rfcReceptor)
+        {
+            String contentXML = "";
+            String response = "";
+            Get_Token("Produccion");
+
+            try
+            {
+                contentXML += "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ser=\"http://www.masnegocio.com/servicios\">";
+                contentXML += "<soapenv:Header/>";
+                contentXML += "<soapenv:Body>";
+                contentXML += "<ser:CancelacionRequest>";
+                contentXML += "<ser:token>" + Token + "</ser:token>";
+                contentXML += "<ser:xmlB64>" + xmlb64 + "</ser:xmlB64>";
+                contentXML += "<ser:liberarNoControl>true</ser:liberarNoControl>";
+                contentXML += "<ser:total>" + total + "</ser:total>";
+                contentXML += "<ser:rfcReceptor>" + rfcReceptor + "</ser:rfcReceptor>";
+                contentXML += "<ser:version>3.3</ser:version>";
+                contentXML += "</ser:CancelacionRequest>";
+                contentXML += "</soapenv:Body>";
+                contentXML += "</soapenv:Envelope>";
+
+                Uri uri = new Uri(URI);
 
                 WebRequest webRequest = (HttpWebRequest)WebRequest.Create(uri);
 

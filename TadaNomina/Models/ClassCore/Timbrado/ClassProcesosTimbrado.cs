@@ -6,7 +6,7 @@ using TadaNomina.Models.DB;
 
 namespace TadaNomina.Models.ClassCore.Timbrado
 {
-    public class ClassProcesosTimbrado : ClassGeneraJSON
+    public class ClassProcesosTimbrado: cCreaXMLCancelacion
     {
         public string Token { get; set; }
         public string URI { get; set; }

@@ -71,6 +71,15 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "* ¿Integra para la variabilidad?:")]
         public string IntegraSDI { get; set; }
         public IList<SelectListItem> LIntegraSDI { get; set; }
+
+
+        [Required]
+        [Display(Name = "* ¿Integra ISN?:")]
+        public string IntegraISN { get; set; }
+        public IList<SelectListItem> LIntegraISN { get; set; }
+
+
+
         [Required]
         [Display(Name = "* ¿Exenta?:")]
         public string Exenta { get; set; }
