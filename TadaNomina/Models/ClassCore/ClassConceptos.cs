@@ -199,7 +199,9 @@ namespace TadaNomina.Models.ClassCore
                     CalculoAutomatico = conceptos.CalculoAutomatico,
                     VisibleEnReporte = conceptos.VisibleEnReporte,
                     ExcentoGravadoEnReporte = conceptos.ExcentoGravadoEnReporte,
-                    Orden = conceptos.Orden
+                    Orden = conceptos.Orden,
+                    IntegraISN = conceptos.IntegraISN,
+
                 };
 
                 return modelConceptos;
@@ -407,6 +409,7 @@ namespace TadaNomina.Models.ClassCore
                         concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
                         concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
                         concepto.Orden = modelConceptos.Orden;
+                        concepto.IntegraISN = modelConceptos.IntegraISN;
                     }
 
                     entidad.SaveChanges();
@@ -590,6 +593,10 @@ namespace TadaNomina.Models.ClassCore
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listISN = new List<SelectListItem>();
+            _listISN.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listISN.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             modelConceptos.LAgrupador = lagrupador;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
@@ -616,6 +623,7 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
             modelConceptos.lstTablaFactores = _listSINOTabFac;
+            modelConceptos.LIntegraISN = _listISN;
 
             return modelConceptos;
         }
