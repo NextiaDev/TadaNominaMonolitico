@@ -28,28 +28,29 @@ namespace TadaNomina.Models.DB
         public string CalculaMontos { get; set; }
         public Nullable<decimal> SDPor { get; set; }
         public Nullable<decimal> SDEntre { get; set; }
-        public Nullable<int> BanderaSDI { get; set; }
         public string Integrable { get; set; }
         public string IntegraSDI { get; set; }
-        public string IntegraISN { get; set; }
         public string AfectaSeldo { get; set; }
         public string AfectaCargaSocial { get; set; }
         public string Exenta { get; set; }
-        public string ExentaPorUnidad { get; set; }
         public string UnidadExenta { get; set; }
         public Nullable<decimal> CantidadExenta { get; set; }
         public Nullable<decimal> PorcentajeGravado { get; set; }
-        public string SumaNetoFinal { get; set; }
-        public string MultiplicaDT { get; set; }
-        public string ClaveContable { get; set; }
-        public string PagoEfectivo { get; set; }
-        public string Piramida { get; set; }
-        public string ExentoPorSueldoMinimo { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
+        public Nullable<int> BanderaSDI { get; set; }
+        public string SumaNetoFinal { get; set; }
+        public string MultiplicaDT { get; set; }
+        public string ClaveContable { get; set; }
+        public string IntegraISN { get; set; }
+        public string ExentaPorUnidad { get; set; }
+        public string PagoEfectivo { get; set; }
+        public string Piramida { get; set; }
+        public string ExentoPorSueldoMinimo { get; set; }
+        public string TablaFactores { get; set; }
         public string CalculoAutomatico { get; set; }
         public Nullable<int> Orden { get; set; }
         public string Formula { get; set; }
@@ -66,6 +67,5 @@ namespace TadaNomina.Models.DB
         public string IntegraPension { get; set; }
         public string VisibleEnReporte { get; set; }
         public string ExcentoGravadoEnReporte { get; set; }
-        public string TablaFactores { get; set; }
     }
 }

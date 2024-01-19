@@ -21,7 +21,9 @@ namespace TadaNomina.Services
             {
                 using (var errorReadStream = new StreamReader(errorResponseStream, Encoding.UTF8))
                 {
-                    return new Exception("Error en servicio: " + errorReadStream.ReadToEnd());
+                    var err = errorReadStream.ReadToEnd();
+                    var error = err != "" ? err : ex.Message;
+                    return new Exception("Error en servicio: " + error);
                 }
             }
         }
