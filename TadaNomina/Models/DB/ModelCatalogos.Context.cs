@@ -43,7 +43,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vComunicados> vComunicados { get; set; }
         public virtual DbSet<Cat_Puestos> Cat_Puestos { get; set; }
         public virtual DbSet<Cat_Bancos> Cat_Bancos { get; set; }
-        public virtual DbSet<Cat_RegistroPatronal> Cat_RegistroPatronal { get; set; }
         public virtual DbSet<Cat_TipoAusentismo> Cat_TipoAusentismo { get; set; }
         public virtual DbSet<Cat_TipoIncapacidad> Cat_TipoIncapacidad { get; set; }
         public virtual DbSet<vTipoAusentismo> vTipoAusentismo { get; set; }
@@ -72,6 +71,9 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<ConfiguracionConceptosFiniquito> ConfiguracionConceptosFiniquito { get; set; }
         public virtual DbSet<Cat_UnidadNegocio> Cat_UnidadNegocio { get; set; }
         public virtual DbSet<Cat_Clientes> Cat_Clientes { get; set; }
+        public virtual DbSet<Cat_NominaSAT> Cat_NominaSAT { get; set; }
+        public virtual DbSet<Cat_RegimenFiscal> Cat_RegimenFiscal { get; set; }
+        public virtual DbSet<Cat_RegistroPatronal> Cat_RegistroPatronal { get; set; }
     
         public virtual ObjectResult<sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result> sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS(Nullable<int> idCliente, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal)
         {

@@ -64,5 +64,6 @@ namespace TadaNomina.Models.DB
         public string PFXCancelacionTimbrado { get; set; }
         public Nullable<int> BanderaEnvioIndividual { get; set; }
         public string NombreRepresentante { get; set; }
+        public string RegimenFiscal { get; set; }
     }
 }

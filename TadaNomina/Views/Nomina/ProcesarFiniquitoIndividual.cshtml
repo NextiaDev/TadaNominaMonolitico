@@ -517,13 +517,19 @@
                 <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th>
+                            <th width="10%">
                                 Clave
                             </th>
                             <th>
                                 Descripción
                             </th>
-                            <th>
+                            <th width="15%">
+                                Exento
+                            </th>
+                            <th width="15%">
+                                Gravado
+                            </th>
+                            <th width="15%">
                                 Importe
                             </th>
                         </tr>
@@ -540,17 +546,23 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Descripcion)
                                     </td>
+                                    <td>
+                                        @string.Format("{0:C2}", (item.Excento))
+                                    </td>
+                                    <td>
+                                        @string.Format("{0:C2}", (item.Gravado))
+                                    </td>
                                     <td class="text-right">
-                                        @(string.Format("{0:C}", item.Importe))
+                                        @string.Format("{0:C2}", item.Importe)
                                     </td>
                                 </tr>
                             }
                         }
                         <tr>
-                            <td>
+                            <td colspan="4">
                                 <strong>Total de Percepciones</strong>
                             </td>
-                            <td></td>
+                            
 
                             <td class="text-right">
                                 <strong>@(string.Format("{0:C}", Model.ER))</strong>
@@ -564,13 +576,13 @@
                 <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th>
+                            <th width="10%">
                                 Clave
                             </th>
                             <th>
                                 Descripción
                             </th>
-                            <th>
+                            <th width="15%">
                                 Importe
                             </th>
                         </tr>
@@ -594,11 +606,10 @@
                             }
                         }
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <strong>Total de Deducciones</strong>
                             </td>
-                            <td></td>
-
+                         
                             <td class="text-right">
                                 <strong>@(string.Format("{0:C}", Model.DD))</strong>
                             </td>
