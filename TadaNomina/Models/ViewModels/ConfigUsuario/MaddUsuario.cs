@@ -8,6 +8,7 @@ namespace TadaNomina.Models.ViewModels.ConfigUsuario
 {
     public class MaddUsuario
     {
+        public int? IdUsuario { get; set; }
         [Required]
         public string IdCliente { get; set; }
         public string IdUnidadNegocio { get; set; }
@@ -21,7 +22,12 @@ namespace TadaNomina.Models.ViewModels.ConfigUsuario
         public string correo { get; set; }
         [Required]
         public string Usuario { get; set; }
-        [Required]
         public string Password { get; set; }
+        public bool Nomina { get; set; }
+        public bool RHCloud { get; set; }
+        public bool IMSS { get; set; }
+        public bool Contabilidad { get; set; }
+        public bool Tesoreria { get; set; }
+
     }
 }

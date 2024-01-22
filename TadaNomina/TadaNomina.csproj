@@ -1264,6 +1264,7 @@
     <Compile Include="Models\ViewModels\ConfigUsuario\MaddUsuario.cs" />
     <Compile Include="Models\ViewModels\ConfigUsuario\MIndexUsuario.cs" />
     <Compile Include="Models\ViewModels\ConfigUsuario\MInfoUsuario.cs" />
+    <Compile Include="Models\ViewModels\ConfigUsuario\MResultCRUD.cs" />
     <Compile Include="Models\ViewModels\Contabilidad\cAgregarCuentaContable.cs" />
     <Compile Include="Models\ViewModels\Contabilidad\Cat_NominaModel.cs" />
     <Compile Include="Models\ViewModels\Contabilidad\Cat_TipoCuentaModel.cs" />

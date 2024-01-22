@@ -13,7 +13,7 @@ namespace TadaNomina.Controllers.Administracion
     public class ConfigUsuarioController : BaseController
     {
         // GET: ConfigUsuario
-        public ActionResult Index()
+        public ActionResult Index(MResultCRUD inforequest)
         {
             string token = Session["sToken"].ToString();
             var model = new MIndexUsuario();
@@ -21,22 +21,44 @@ namespace TadaNomina.Controllers.Administracion
             model.Usuarios = cconfiguser.GetUsuariosActive(token);
             model.ClientesToAsign = cconfiguser.GetCklientesToSelect(token);
             model.UnidadNegocioToAsign = cconfiguser.GetUnidadesNegocioToAsign(token);
+            model.Result = string.IsNullOrEmpty(inforequest.Result) ? null : inforequest.Result;
+            model.MensajeResult = string.IsNullOrEmpty(inforequest.Mensaje) ? null : inforequest.Mensaje;
             return View(model);
         }
 
-        //[HttpPost]
-        //public ActionResult AddUsuario(MaddUsuario request)
-        //{
+        [HttpPost]
+        public ActionResult AddUsuario(MaddUsuario request)
+        {
+            var result = new MResultCRUD();
+            if (request.IdUsuario != 0)
+            {
+                result = EditUsuario(request);
+            }
+            else
+            {
+                string token = Session["sToken"].ToString();
+                CConfigUsuario configuser = new CConfigUsuario();
+                result = configuser.AddUsuario(token, request);
+            }
+            return RedirectToAction("Index", result);
+        }
 
-        //}
+        private MResultCRUD EditUsuario(MaddUsuario request)
+        {
+            string token = Session["sToken"].ToString();
+            CConfigUsuario configuser = new CConfigUsuario();
+            var result = configuser.EditUsuario(token,request);
+            return result;
+        }
 
-        //public JsonResult GetUnidadesToAsign(string clientes)
-        //{
-        //    if (string.IsNullOrEmpty(clientes)) return Json(new List<Cat_UnidadNegocio>(), JsonRequestBehavior.AllowGet);
-        //    string token = Session["sToken"].ToString();
-        //    CConfigUsuario configuser = new CConfigUsuario();
-        //    var result = configuser.GetUnidadesNegocioToAsign(token, clientes);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+        [HttpPost]
+        public ActionResult DeleteUsuario(int IdUsuario)
+        {
+            string token = Session["sToken"].ToString();
+            CConfigUsuario cuser = new CConfigUsuario();
+            var result = cuser.DeleteUsuario(token, IdUsuario);
+            return RedirectToAction("Index", result);
+        }
+
     }
 }

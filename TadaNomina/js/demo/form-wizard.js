@@ -302,10 +302,25 @@ $(document).on('nifty.ready', function () {
                     }
                 }
             },
+            usuario: {
+                validators: {
+                    notEmpty: {
+                        message: 'El usuario es requerido'
+                    },
+                    regexp: {
+                        regexp: /^[^\s]+$/,
+                        message: "El usuario no debe contener espacios"
+                    }
+                }
+            },
             password: {
                 validators: {
                     notEmpty: {
                         message: 'La Contrase&ntilde;a es requerida'
+                    },
+                    regexp: {
+                        regexp: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        message: "La contrase&ntilde;a debe de contener una Mayuscula y un carter especial (@$!%*?&)"
                     }
                 }
             }
