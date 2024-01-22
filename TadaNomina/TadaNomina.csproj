@@ -629,7 +629,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelTimbrado.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -649,11 +649,17 @@
     <Compile Include="Models\DB\Cat_MotivosCancelacionSAT.cs">
       <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\Cat_NominaSAT.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\Cat_Puestos.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\Cat_RegimenFiscal.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelTimbrado.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>

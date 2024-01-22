@@ -23,6 +23,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Required]
         [Display(Name = "* Clave SAT:")]
         public string ClaveSAT { get; set; }
+        public List<SelectListItem> lClaveSat { get; set; }
         [Required]
         [Display(Name = "* Nombre Concepto:")]
         public string Concepto { get; set; }
@@ -73,7 +74,6 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public IList<SelectListItem> LIntegraSDI { get; set; }
 
 
-        [Required]
         [Display(Name = "* ¿Integra ISN?:")]
         public string IntegraISN { get; set; }
         public IList<SelectListItem> LIntegraISN { get; set; }
