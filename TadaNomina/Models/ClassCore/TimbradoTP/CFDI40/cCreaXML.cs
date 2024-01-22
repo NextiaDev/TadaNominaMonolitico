@@ -36,7 +36,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 ObtenTotalesDeducciones(int.Parse(dat.IdPeriodo), int.Parse(dat.IdEmpleado), decimal.Parse(dat.IMSS), decimal.Parse(dat.ISPT));
 
                 decimal otrosPagos = 0;
-                try { otrosPagos = (decimal)incidencias.Where(x => x.ClaveSAT == "999").Select(x => x.Monto).Sum(); } catch { }
+                try { otrosPagos = (decimal)incidencias.Where(x => x.ClaveSAT == "999" && x.TipoConcepto == "ER").Select(x => x.Monto).Sum(); } catch { }
+                try { otrosPagos += (decimal)incidencias.Where(x => x.TipoConcepto == "OTRO").Select(x => x.Monto).Sum(); } catch { }
 
                 decimal Subtotal = (TotalExcentoPercepciones + TotalGravadoPercepciones) + decimal.Parse(dat.SubsidioPagar) + decimal.Parse(dat.ReintegroISR) + otrosPagos;
                 var tp = decimal.Parse(dat.totalPercepciones);
@@ -351,11 +352,23 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                         nomina.OtrosPagos[indiceOtros] = nOtrosPagosR;
                     }
 
-                    foreach (var oPagos in incidencias.Where(x => x.ClaveSAT == "999"))
+                    foreach (var oPagos in incidencias.Where(x => x.ClaveSAT == "999" && x.TipoConcepto == "ER"))
                     {
                         indiceOtros++;
                         NominaOtroPago nOtrosPagos3 = new NominaOtroPago();
                         nOtrosPagos3.TipoOtroPago = oPagos.ClaveConcepto == "003" ? tipos.ObtenTipoOtrosPagos("003") : tipos.ObtenTipoOtrosPagos("999");
+                        nOtrosPagos3.Clave = oPagos.ClaveConcepto;
+                        nOtrosPagos3.Concepto = oPagos.Concepto;
+
+                        nOtrosPagos3.Importe = (decimal)oPagos.Monto;
+                        nomina.OtrosPagos[indiceOtros] = nOtrosPagos3;
+                    }
+
+                    foreach (var oPagos in incidencias.Where(x => x.TipoConcepto == "OTRO"))
+                    {
+                        indiceOtros++;
+                        NominaOtroPago nOtrosPagos3 = new NominaOtroPago();
+                        nOtrosPagos3.TipoOtroPago = tipos.ObtenTipoOtrosPagos(oPagos.ClaveSAT);
                         nOtrosPagos3.Clave = oPagos.ClaveConcepto;
                         nOtrosPagos3.Concepto = oPagos.Concepto;
 

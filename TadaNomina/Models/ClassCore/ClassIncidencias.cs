@@ -429,6 +429,12 @@ namespace TadaNomina.Models.ClassCore
                 i.Gravado = 0;
             }
 
+            if (concepto.TipoConcepto == "OTRO")
+            {
+                i.Exento = 0;
+                i.Gravado = 0;
+            }
+
             if (cantidadAnt > 0)
                 i.Cantidad = cantidadAnt;
 
@@ -608,6 +614,12 @@ namespace TadaNomina.Models.ClassCore
                 i.Gravado = 0;
             }
 
+            if (concepto.TipoConcepto == "OTRO")
+            {
+                i.Exento = 0;
+                i.Gravado = 0;
+            }
+
             if (cantidadAnt > 0)
                 i.Cantidad = cantidadAnt;
 
@@ -735,6 +747,12 @@ namespace TadaNomina.Models.ClassCore
                 i.Gravado = Gravado;
 
                 if (concepto.ClaveSAT == "999")
+                {
+                    i.Exento = 0;
+                    i.Gravado = 0;
+                }
+
+                if (concepto.TipoConcepto == "OTRO")
                 {
                     i.Exento = 0;
                     i.Gravado = 0;
@@ -875,6 +893,12 @@ namespace TadaNomina.Models.ClassCore
             i.Gravado = Gravado;
 
             if (concepto.ClaveSAT == "999")
+            {
+                i.Exento = 0;
+                i.Gravado = 0;
+            }
+
+            if (concepto.TipoConcepto == "OTRO")
             {
                 i.Exento = 0;
                 i.Gravado = 0;
@@ -1067,6 +1091,12 @@ namespace TadaNomina.Models.ClassCore
             i.Gravado = Gravado;
 
             if (concepto.ClaveSAT == "999")
+            {
+                i.Exento = 0;
+                i.Gravado = 0;
+            }
+
+            if (concepto.TipoConcepto == "OTRO")
             {
                 i.Exento = 0;
                 i.Gravado = 0;
