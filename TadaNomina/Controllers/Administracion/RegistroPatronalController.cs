@@ -66,13 +66,11 @@ namespace TadaNomina.Controllers.Administracion
             try
             {
                 int IdCliente = (int)Session["sIdCliente"];
-                int idUsuario = (int)Session["sIdUsuario"];                
-
-                var riesgo = decimal.Parse(collection.RiesgoTrabajo.ToString());
+                int idUsuario = (int)Session["sIdUsuario"];
 
                 if (ModelState.IsValid)
                 {
-                    clsRegistroPatronal.AddRegistroPatronal(collection, idUsuario, IdCliente, riesgo);
+                    clsRegistroPatronal.AddRegistroPatronal(collection, idUsuario, IdCliente);
                    
                     return RedirectToAction("Index", "RegistroPatronal");
                 }

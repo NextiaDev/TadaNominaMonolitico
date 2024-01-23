@@ -100,7 +100,7 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="model">Recibe el modelo del registro patronal.</param>
         /// <param name="pIdUsuario">Recibe el identificador del usuario.</param>
         /// <param name="pIdCliente">Recibe el identificador del cliente.</param>
-        public void AddRegistroPatronal(ModelRegistroPatronal model, int pIdUsuario, int pIdCliente, decimal riesgo)
+        public void AddRegistroPatronal(ModelRegistroPatronal model, int pIdUsuario, int pIdCliente)
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
@@ -111,7 +111,7 @@ namespace TadaNomina.Models.ClassCore
                     RegistroPatronal = model.RegistroPatronal,
                     RFC = model.RFC,
                     Clase = model.Clase,
-                    RiesgoTrabajo = riesgo,
+                    RiesgoTrabajo = model.RiesgoTrabajo,
                     Direccion = model.Direccion,
                     CP = model.CP,
                     Pais = model.Pais,

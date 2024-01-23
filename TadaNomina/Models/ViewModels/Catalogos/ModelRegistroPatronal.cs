@@ -27,7 +27,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public int Clase { get; set; }
         [Required]
         [Display(Name = "Riesgo de Trabajo: ")]
-        public string RiesgoTrabajo { get; set; }
+        public decimal RiesgoTrabajo { get; set; }
 
         public string RiesgoTrabajoS { get; set; }
 
