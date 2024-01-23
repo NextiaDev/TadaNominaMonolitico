@@ -91,6 +91,44 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
+        public void CalculaISRComplementoProyMensual()
+        {
+            try
+            {
+                nominaTrabajo.Subsidio = 0;
+                nominaTrabajo.SubsidioPagar = 0;
+                nominaTrabajo.BaseGravada = 0;
+                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+
+                if (nominaTrabajo.BaseGravada > 0)
+                {
+                    var sueldoMensual = SD_IMSS * 30;
+                    var ISR_prev = CalculaISR((decimal)sueldoMensual, Periodo.FechaFin, "05", false);
+                    var importeComplemento = (nominaTrabajo.BaseGravada);
+                    var NetoSueldoOrdinario = sueldoMensual - ISR_prev;
+                    var sueldoMasComplemento = sueldoMensual + importeComplemento;
+                    var ISRCausado = CalculaISR((decimal)sueldoMasComplemento, Periodo.FechaFin, "05", false);
+                    var sueldoNetoMenosISR = sueldoMasComplemento - ISRCausado;
+                    var diferenciaRYAA = ISRCausado - ISR_prev;
+                    var Porcentaje = diferenciaRYAA / importeComplemento;
+                    var IsrRet = Porcentaje * nominaTrabajo.BaseGravada;
+
+                    nominaTrabajo.ISR = IsrRet;
+                    nominaTrabajo.ImpuestoRetener = IsrRet;
+                }
+                else
+                {
+                    nominaTrabajo.ISR = 0;
+                    nominaTrabajo.ImpuestoRetener = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al calcular el ISR L174 del empleado: " + IdEmpleado + " - " + ClaveEmpleado + ", ex: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Metodo para obtener la base gravada con la que se calcula el impuesto.
         /// </summary>
