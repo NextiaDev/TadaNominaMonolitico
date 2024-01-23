@@ -27,7 +27,7 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public int Clase { get; set; }
         [Required]
         [Display(Name = "Riesgo de Trabajo: ")]
-        public decimal RiesgoTrabajo { get; set; }
+        public string RiesgoTrabajo { get; set; }
 
         public string RiesgoTrabajoS { get; set; }
 
@@ -106,7 +106,12 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "Forma de aplicacion:")]
         public string FormaAplicacion { get; set; }
         public string RepresentanteLegal { get; set; }
-
+        public List<SelectListItem> RegimenesFiscales { get; set; }
+        [Required]
+        [Display(Name = "Régimen fiscal")]
+        public string RegimenFiscal { get; set; }
+        [Display(Name = "CURP persona fisica")]
+        public string CurpPersona { get; set; }
     }
 
 }

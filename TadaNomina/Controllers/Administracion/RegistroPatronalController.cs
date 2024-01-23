@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.EMMA;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -47,6 +48,7 @@ namespace TadaNomina.Controllers.Administracion
             int IdCliente = (int)Session["sIdCliente"];
             ClassRegistroPatronal clsRegistroPatronal = new ClassRegistroPatronal();
             ModelRegistroPatronal model = clsRegistroPatronal.LlenaListaActividadEconomica();
+            model.RegimenesFiscales = clsRegistroPatronal.GetRegimenesToSelect();
             ListadoDeBancos();
             ViewBag.LA = model.LActividadEconomica;
             return View(model);
@@ -65,10 +67,12 @@ namespace TadaNomina.Controllers.Administracion
             {
                 int IdCliente = (int)Session["sIdCliente"];
                 int idUsuario = (int)Session["sIdUsuario"];                
-                
+
+                var riesgo = decimal.Parse(collection.RiesgoTrabajo.ToString());
+
                 if (ModelState.IsValid)
                 {
-                    clsRegistroPatronal.AddRegistroPatronal(collection, idUsuario, IdCliente);
+                    clsRegistroPatronal.AddRegistroPatronal(collection, idUsuario, IdCliente, riesgo);
                    
                     return RedirectToAction("Index", "RegistroPatronal");
                 }
@@ -78,6 +82,9 @@ namespace TadaNomina.Controllers.Administracion
             catch(Exception ex)
             {                
                 var model = clsRegistroPatronal.LlenaListaActividadEconomica();
+                model.RegimenesFiscales = clsRegistroPatronal.GetRegimenesToSelect();
+                ListadoDeBancos();
+                ViewBag.LA = model.LActividadEconomica;
                 model.validacion = false;
                 model.Mensaje = "El Registro Patronal no se pudo insertar!" + ex.Message;
                 return View(model);
@@ -108,6 +115,7 @@ namespace TadaNomina.Controllers.Administracion
 
             ModelRegistroPatronal registro = clsRegistroPatronal.GetModelRegistroPatronal(id);
             ModelRegistroPatronal modelo = clsRegistroPatronal.LlenaListaActividadEconomica(registro);
+            modelo.RegimenesFiscales = clsRegistroPatronal.GetRegimenesToSelect();
             ListadoDeBancos();
             return View(modelo);
         }
