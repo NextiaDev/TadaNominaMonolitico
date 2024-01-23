@@ -126,7 +126,9 @@ namespace TadaNomina.Models.ClassCore
                     IdBanco = model.IdBanco,
                     CuentaBancaria = model.CuentaBancaria,
                     FechaCaptura = DateTime.Now,
-                    IdCaptura = pIdUsuario
+                    IdCaptura = pIdUsuario,
+                    RegimenFiscal = model.RegimenFiscal,
+                    CurpPersonaFisica = model.CurpPersona,
                 };
 
                 entidad.Cat_RegistroPatronal.Add(Patrona);
@@ -173,6 +175,8 @@ namespace TadaNomina.Models.ClassCore
                     modelRegistroPatronal.IdBanco = registro.IdBanco;
                     modelRegistroPatronal.CuentaBancaria = registro.CuentaBancaria;
                     modelRegistroPatronal.RepresentanteLegal = registro.NombreRepresentante;
+                    modelRegistroPatronal.CurpPersona = registro.CurpPersonaFisica;
+                    modelRegistroPatronal.RegimenFiscal = registro.RegimenFiscal;
 
                     return modelRegistroPatronal;
                 }
@@ -216,11 +220,12 @@ namespace TadaNomina.Models.ClassCore
                     registro.NombreRepresentante = model.RepresentanteLegal;
                     registro.IdBanco = model.IdBanco;
                     registro.CuentaBancaria = model.CuentaBancaria;
-
                     registro.FechaCaptura = DateTime.Now;
                     registro.IdCaptura = pIdUsuario;
                     registro.IdModificacion = pIdUsuario;
                     registro.FechaModificacion = DateTime.Now;
+                    registro.RegimenFiscal = model.RegimenFiscal;
+                    registro.CurpPersonaFisica = model.CurpPersona;
 
                     entidad.SaveChanges();
                 }
@@ -358,6 +363,18 @@ namespace TadaNomina.Models.ClassCore
 
                 return reg;
             }
+        }
+
+        public List<SelectListItem> GetRegimenesToSelect()
+        {
+            var result = new List<SelectListItem>() { new SelectListItem { Text = "Seleccionar...", Value = "" } };
+            var listareg = new List<Cat_RegimenFiscal>();
+            using(TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                listareg = ctx.Cat_RegimenFiscal.Where(p => p.IdEstatus == 1).ToList();
+            }
+            listareg.ForEach(p => result.Add(new SelectListItem { Value = p.c_RegimenFiscal, Text = p.Descripcion }));
+            return result;
         }
     }
 }
