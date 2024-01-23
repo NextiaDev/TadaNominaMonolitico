@@ -248,9 +248,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     CalculaISR_Piramidados();
                 }
-                else if (Periodo.TipoNomina == "Aguinaldo" && UnidadNegocio.ISRAguinaldoL174 == "S")
+                else if ((Periodo.TipoNomina == "Aguinaldo" && UnidadNegocio.ISRAguinaldoL174 == "S"))
                 {
                     CalculaISRAguinaldoL174();
+                }
+                else if ((Periodo.TipoNomina == "Complemento" && UnidadNegocio.ISRProyeccionMensual == "S"))
+                {
+                    CalculaISRComplementoProyMensual();
                 }
                 else
                 {

@@ -554,6 +554,7 @@ namespace TadaNomina.Models.ClassCore
 
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
+            _tipoConcpto.Add(new SelectListItem { Text = "Otro Pago", Value = "OTRO" });
             _tipoConcpto.Add(new SelectListItem { Text = "Deduccion", Value = "DD" });
             _tipoConcpto.Add(new SelectListItem { Text = "Informativo", Value = "IF" });
 
