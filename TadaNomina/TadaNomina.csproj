@@ -4448,6 +4448,7 @@
     <Content Include="js\Core\EmpleadoRecuperacionIMSS.js" />
     <Content Include="js\Core\Batch.js" />
     <Content Include="js\Core\factoresConceptos.js" />
+    <Content Include="js\Core\RegPatronal.js" />
     <Content Include="js\Core\Search.js" />
     <Content Include="js\Core\Employed.js" />
     <Content Include="js\Core\finiquitosGral.js" />
