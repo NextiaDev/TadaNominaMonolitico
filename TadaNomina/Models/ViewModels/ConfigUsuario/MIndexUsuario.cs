@@ -11,5 +11,7 @@ namespace TadaNomina.Models.ViewModels.ConfigUsuario
         public List<MInfoUsuario> Usuarios { get; set; }
         public List<Cat_Clientes> ClientesToAsign { get; set; }
         public List<Cat_UnidadNegocio> UnidadNegocioToAsign { get; set; }
+        public string Result { get; set; }
+        public string MensajeResult { get; set; }
     }
 }
