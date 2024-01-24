@@ -150,10 +150,10 @@ namespace TadaNomina.Models.ClassCore.Timbrado
         /// <param name="Id"></param>
         /// <param name="IdUsuario">Usuario</param>
         public void Timbra(sp_InformacionXML_Nomina1_Result i, Guid Id, int IdUsuario)
-        {            
-            string json = GetJSON(i);
+        {
+            string json = ""; //GetJSON(i);
             string SueldoMensual = (i.SueldoDiario * 30).ToString();
-            string JSONleyenda = JsonConvert.SerializeObject(ObtenLeyendaCFDI(i.Leyenda));
+            string JSONleyenda = ""; // JsonConvert.SerializeObject(ObtenLeyendaCFDI(i.Leyenda));
 
             string base64EncodedExternalAccount = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
             string LeyendaB64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(JSONleyenda));

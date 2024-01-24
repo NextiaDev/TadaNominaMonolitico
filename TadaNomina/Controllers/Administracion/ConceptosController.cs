@@ -101,6 +101,7 @@ namespace TadaNomina.Controllers.Administracion
             ClassConceptos cconceptos = new ClassConceptos();
             ModelConceptos model = cconceptos.GetModelConcepto(id);
             ModelConceptos _model = cconceptos.LlenaListasConcpetos(model);
+            
             return View(_model);
         }
 
@@ -271,6 +272,22 @@ namespace TadaNomina.Controllers.Administracion
             }
             catch (Exception ex)
             {
+                return Json(new { result = "Error", mensaje = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CargaCatalogoSAT(string tipo)
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                var catalogo = cc.getCatalogoSAT(tipo);
+                return Json(new { result = "Ok", catalogo });
+            }
+            catch (Exception ex)
+            {
+
                 return Json(new { result = "Error", mensaje = ex.Message });
             }
         }

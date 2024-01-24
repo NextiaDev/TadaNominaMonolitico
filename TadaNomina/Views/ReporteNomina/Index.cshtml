@@ -37,6 +37,9 @@
                             @Html.DisplayNameFor(model => model.FechaFin)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.IdEstatus)
+                        </th>
+                        <th>
 
                         </th>
                     </tr>
@@ -60,6 +63,20 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.FechaFin)
+                            </td>
+                            <td align="center">
+                                @if (item.IdEstatus == 1)
+                                {
+                                    <span class="badge bg-success">Abierto</span>
+                                }
+                                else if (item.IdEstatus == 2)
+                                {
+                                    <span class="badge bg-primary">Acumulado</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">N/A</span>
+                                }
                             </td>
                             <td>
                                 @*<button class="btn btn-success" onclick="generaReporte(@item.Id)"> Descargar</button>*@

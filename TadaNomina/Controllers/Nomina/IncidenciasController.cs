@@ -35,10 +35,13 @@ namespace TadaNomina.Controllers.Nomina
         }
 
         //GET: Incidencias
-        public ActionResult Index(int pIdPeriodoNomina, int? MostrarTodas, string TipoPeriodo)
+        public ActionResult Index(int pIdPeriodoNomina, int? MostrarTodas, string TipoPeriodo, string Mensaje)
         {
             ViewBag.pIdPeriodoNomina = pIdPeriodoNomina;
             ViewBag.TipoPeriodo = TipoPeriodo;
+            
+            if(Mensaje != null && Mensaje.Length > 0)
+                ViewBag.Mensaje = Mensaje;
 
             ClassPeriodoNomina cPeriodos = new ClassPeriodoNomina();
             ClassIncidencias cIncidencias = new ClassIncidencias();
@@ -216,9 +219,9 @@ namespace TadaNomina.Controllers.Nomina
 
                 return RedirectToAction("Index", new { pIdPeriodoNomina = IdPeriodoNomina });
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction("Index", new { pIdPeriodoNomina = IdPeriodoNomina });
+                return RedirectToAction("Index", new { pIdPeriodoNomina = IdPeriodoNomina, Mensaje = ex.Message });
             }
         }
 
@@ -554,7 +557,7 @@ namespace TadaNomina.Controllers.Nomina
                 if (listahoradextra.Count > 0) lI.AddRange(listahoradextra);
 
                 var lstHrsNoTra = cu.GetHrsNoTrabajadas(c, (int)IdCliente);
-                if (lstHrsNoTra.Count > 0) lI.AddRange(listahoradextra);
+                if (lstHrsNoTra.Count > 0) lI.AddRange(lstHrsNoTra);
 
                 var i = cu.IncidenciasGV(lI, token, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
 

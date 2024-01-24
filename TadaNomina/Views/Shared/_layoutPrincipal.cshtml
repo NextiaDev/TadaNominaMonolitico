@@ -1183,7 +1183,8 @@
                         {
                             <div>
                                 Cliente y Nómina: <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.ClienteSeleccionado (@Session["sIdCliente"])</span></a> &nbsp;
-                                -&nbsp; <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.NominaSeleccionada (@Session["sIdUnidadNegocio"])</span></a>
+                                -&nbsp; 
+                                <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.NominaSeleccionada (@Session["sIdUnidadNegocio"])</span></a>
                             </div>
                         }
                         else

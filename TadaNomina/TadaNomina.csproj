@@ -551,6 +551,7 @@
     <Compile Include="Models\ClassCore\TimbradoTP\DatosXML.cs" />
     <Compile Include="Models\ClassCore\TimbradoTP\GeneraXML.cs" />
     <Compile Include="Models\ClassCore\TimbradoTP\nodosOrdenados.cs" />
+    <Compile Include="Models\ClassCore\Timbrado\cCreaXMLCancelacion.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ClassCancelarTimbrado.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ClassGeneraJSON.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ClassGeneraJSONCancelacion.cs" />
@@ -584,6 +585,7 @@
     <Compile Include="Models\ClassCore\Timbrado\ModelosJSON\ModeloPercepcionesSeparacionIndemnizacion.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ModelosJSON\ModeloReceptor.cs" />
     <Compile Include="Models\ClassCore\Timbrado\ModelosJSON\ModeloTextoCFDI.cs" />
+    <Compile Include="Models\ClassCore\Timbrado\Pfx.cs" />
     <Compile Include="Models\DB\ActividadEconomica.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
@@ -647,7 +649,13 @@
     <Compile Include="Models\DB\Cat_MotivosCancelacionSAT.cs">
       <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\Cat_NominaSAT.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\Cat_Puestos.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\Cat_RegimenFiscal.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
@@ -1142,7 +1150,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias_Consolidadas.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vNomina.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -4441,6 +4449,7 @@
     <Content Include="js\Core\EmpleadoRecuperacionIMSS.js" />
     <Content Include="js\Core\Batch.js" />
     <Content Include="js\Core\factoresConceptos.js" />
+    <Content Include="js\Core\RegPatronal.js" />
     <Content Include="js\Core\Search.js" />
     <Content Include="js\Core\Employed.js" />
     <Content Include="js\Core\finiquitosGral.js" />

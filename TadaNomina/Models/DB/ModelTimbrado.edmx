@@ -17,7 +17,7 @@
           <Property Name="ClaveSAT" Type="nvarchar" MaxLength="10" />
           <Property Name="Concepto" Type="nvarchar" MaxLength="150" />
           <Property Name="Informacion" Type="text" />
-          <Property Name="TipoConcepto" Type="nchar" MaxLength="2" />
+          <Property Name="TipoConcepto" Type="nvarchar" MaxLength="4" />
           <Property Name="TipoDato" Type="nvarchar" MaxLength="50" />
           <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
           <Property Name="CalculaMontos" Type="nchar" MaxLength="2" />
@@ -45,6 +45,23 @@
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="IdModifica" Type="int" />
           <Property Name="FechaModifica" Type="datetime" />
+          <Property Name="TablaFactores" Type="nvarchar" MaxLength="2" />
+          <Property Name="CalculoAutomatico" Type="nvarchar" MaxLength="2" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="Formula" Type="nvarchar(max)" />
+          <Property Name="IncapacidadPagada" Type="nvarchar" MaxLength="2" />
+          <Property Name="DiasIniciales" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeDiasIniciales" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="DiasSubsecuentes" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeDiasSubsecuentes" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="IdConceptoPago" Type="int" />
+          <Property Name="FactoryValor" Type="nvarchar" MaxLength="2" />
+          <Property Name="CreaConceptoAdicional" Type="nvarchar" MaxLength="2" />
+          <Property Name="IdConceptoAdicional" Type="int" />
+          <Property Name="CalculoDiasHoras" Type="nvarchar" MaxLength="10" />
+          <Property Name="IntegraPension" Type="nvarchar" MaxLength="2" />
+          <Property Name="VisibleEnReporte" Type="nvarchar" MaxLength="2" />
+          <Property Name="ExcentoGravadoEnReporte" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="Cat_MotivosCancelacionSAT">
           <Key>
@@ -109,6 +126,7 @@
           <Property Name="PFXCancelacionTimbrado" Type="nvarchar" MaxLength="255" />
           <Property Name="BanderaEnvioIndividual" Type="int" />
           <Property Name="NombreRepresentante" Type="nvarchar" MaxLength="70" />
+          <Property Name="RegimenFiscal" Type="nvarchar" MaxLength="3" />
         </EntityType>
         <EntityType Name="Cat_Token_MasNegocio">
           <Key>
@@ -257,6 +275,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidencias_Consolidadas' no
           <Property Name="PagoEfectivo" Type="nchar" MaxLength="2" />
           <Property Name="UsuarioCaptura" Type="nvarchar" MaxLength="101" />
           <Property Name="IntegraISN" Type="nchar" MaxLength="2" />
+          <Property Name="CalculoAutomatico" Type="nvarchar" MaxLength="2" />
+          <Property Name="Orden" Type="int" />
+          <Property Name="Formula" Type="nvarchar(max)" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTimbradoNomina' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -272,6 +293,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTimbradoNomina' no tiene def
             <PropertyRef Name="Nombre" />
             <PropertyRef Name="ApellidoPaterno" />
             <PropertyRef Name="Periodo" />
+            <PropertyRef Name="TipoNomina" />
           </Key>
           <Property Name="IdTimbradoNomina" Type="int" Nullable="false" />
           <Property Name="IdPeriodoNomina" Type="int" />
@@ -331,6 +353,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTimbradoNomina' no tiene def
           <Property Name="IdCentroCostos" Type="int" />
           <Property Name="CentroCostos" Type="nvarchar" MaxLength="100" />
           <Property Name="IdXml" Type="int" />
+          <Property Name="TipoNomina" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Neto" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -460,7 +484,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
     [vIncidencias_Consolidadas].[IdDepartamento] AS [IdDepartamento], 
     [vIncidencias_Consolidadas].[PagoEfectivo] AS [PagoEfectivo], 
     [vIncidencias_Consolidadas].[UsuarioCaptura] AS [UsuarioCaptura], 
-    [vIncidencias_Consolidadas].[IntegraISN] AS [IntegraISN]
+    [vIncidencias_Consolidadas].[IntegraISN] AS [IntegraISN], 
+    [vIncidencias_Consolidadas].[CalculoAutomatico] AS [CalculoAutomatico], 
+    [vIncidencias_Consolidadas].[Orden] AS [Orden], 
+    [vIncidencias_Consolidadas].[Formula] AS [Formula]
     FROM [dbo].[vIncidencias_Consolidadas] AS [vIncidencias_Consolidadas]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vTimbradoNomina" EntityType="Self.vTimbradoNomina" store:Type="Views" store:Schema="dbo">
@@ -522,7 +549,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
     [vTimbradoNomina].[SueldoMensual] AS [SueldoMensual], 
     [vTimbradoNomina].[IdCentroCostos] AS [IdCentroCostos], 
     [vTimbradoNomina].[CentroCostos] AS [CentroCostos], 
-    [vTimbradoNomina].[IdXml] AS [IdXml]
+    [vTimbradoNomina].[IdXml] AS [IdXml], 
+    [vTimbradoNomina].[TipoNomina] AS [TipoNomina], 
+    [vTimbradoNomina].[Neto] AS [Neto]
     FROM [dbo].[vTimbradoNomina] AS [vTimbradoNomina]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vXmlNomina" EntityType="Self.vXmlNomina" store:Type="Views" store:Schema="dbo">
@@ -599,11 +628,11 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
             <Parameter Name="Texto" Mode="InOut" Type="String" />
           </FunctionImport>
           <EntitySet Name="Cat_MotivosCancelacionSAT" EntityType="TadaNominaTimbrado.Cat_MotivosCancelacionSAT" />
-          <EntitySet Name="Cat_RegistroPatronal" EntityType="TadaNominaTimbrado.Cat_RegistroPatronal" />
           <EntitySet Name="XmlNomina" EntityType="TadaNominaTimbrado.XmlNomina" />
           <EntitySet Name="vXmlNomina" EntityType="TadaNominaTimbrado.vXmlNomina" />
           <EntitySet Name="TimbradoNomina" EntityType="TadaNominaTimbrado.TimbradoNomina" />
           <EntitySet Name="vTimbradoNomina" EntityType="TadaNominaTimbrado.vTimbradoNomina" />
+          <EntitySet Name="Cat_RegistroPatronal" EntityType="TadaNominaTimbrado.Cat_RegistroPatronal" />
         </EntityContainer>
         <EntityType Name="Cat_Token_MasNegocio">
           <Key>
@@ -641,7 +670,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="TipoConcepto" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CalculaMontos" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
@@ -669,6 +698,23 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="PagoEfectivo" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="Piramida" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="ExentoPorSueldoMinimo" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="TablaFactores" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="Formula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IncapacidadPagada" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DiasIniciales" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeDiasIniciales" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DiasSubsecuentes" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeDiasSubsecuentes" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdConceptoPago" Type="Int32" />
+          <Property Name="FactoryValor" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="CreaConceptoAdicional" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdConceptoAdicional" Type="Int32" />
+          <Property Name="CalculoDiasHoras" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IntegraPension" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="VisibleEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ExcentoGravadoEnReporte" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vIncidencias_Consolidadas">
           <Key>
@@ -740,6 +786,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="PagoEfectivo" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="UsuarioCaptura" Type="String" MaxLength="101" FixedLength="false" Unicode="true" />
           <Property Name="IntegraISN" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Orden" Type="Int32" />
+          <Property Name="Formula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="sp_InformacionXML_Nomina1_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="152" />
@@ -961,61 +1010,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="IdEstatus" Type="Int32" />
         </EntityType>
-        <EntityType Name="Cat_RegistroPatronal">
-          <Key>
-            <PropertyRef Name="IdRegistroPatronal" />
-          </Key>
-          <Property Name="IdRegistroPatronal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCliente" Type="Int32" Nullable="false" />
-          <Property Name="IdBanco" Type="Int32" />
-          <Property Name="CuentaBancaria" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Name="NombrePatrona" Type="String" Nullable="false" MaxLength="175" FixedLength="false" Unicode="false" />
-          <Property Name="RegistroPatronal" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="RFC" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Clase" Type="Int32" Nullable="false" />
-          <Property Name="RiesgoTrabajo" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CP" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Pais" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EntidadFederativa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Municipio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Colonia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Calle" Type="String" MaxLength="110" FixedLength="false" Unicode="true" />
-          <Property Name="IdActividadEconomica" Type="Int32" Nullable="false" />
-          <Property Name="SelloDigital" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="rutaCer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="rutaKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="KeyPass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="rutaFielCer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="rutaFielKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="KeyPassFiel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Logo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Sucursal" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Plaza" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PlazaBanxico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Concepto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="EstadoCuenta" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ReferenciaOrdenante" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="FormaAplicacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CorreoElectronico" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PortalWeb" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdReferenciaCliente" Type="Int32" />
-          <Property Name="PersonaFisica" Type="Int32" />
-          <Property Name="CurpPersonaFisica" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModificacion" Type="Int32" />
-          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-          <Property Name="CertificadoIMSS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="KeyIMSS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UsuarioIMSS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContraseñaIMSS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PFXCancelacionTimbrado" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="BanderaEnvioIndividual" Type="Int32" />
-          <Property Name="NombreRepresentante" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="XmlNomina">
           <Key>
             <PropertyRef Name="IdXml" />
@@ -1110,6 +1104,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
             <PropertyRef Name="Nombre" />
             <PropertyRef Name="ApellidoPaterno" />
             <PropertyRef Name="Periodo" />
+            <PropertyRef Name="TipoNomina" />
           </Key>
           <Property Name="IdTimbradoNomina" Type="Int32" Nullable="false" />
           <Property Name="IdPeriodoNomina" Type="Int32" />
@@ -1169,6 +1164,64 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="IdCentroCostos" Type="Int32" />
           <Property Name="CentroCostos" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IdXml" Type="Int32" />
+          <Property Name="TipoNomina" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Cat_RegistroPatronal">
+          <Key>
+            <PropertyRef Name="IdRegistroPatronal" />
+          </Key>
+          <Property Name="IdRegistroPatronal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="IdBanco" Type="Int32" />
+          <Property Name="CuentaBancaria" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="NombrePatrona" Type="String" Nullable="false" MaxLength="175" FixedLength="false" Unicode="false" />
+          <Property Name="RegistroPatronal" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="RFC" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Clase" Type="Int32" Nullable="false" />
+          <Property Name="RiesgoTrabajo" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Direccion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CP" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Pais" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EntidadFederativa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Municipio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Colonia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Calle" Type="String" MaxLength="110" FixedLength="false" Unicode="true" />
+          <Property Name="IdActividadEconomica" Type="Int32" Nullable="false" />
+          <Property Name="SelloDigital" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="rutaCer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="rutaKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="KeyPass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rutaFielCer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="rutaFielKey" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="KeyPassFiel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Logo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Sucursal" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Plaza" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PlazaBanxico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Concepto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EstadoCuenta" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenciaOrdenante" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FormaAplicacion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PortalWeb" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdReferenciaCliente" Type="Int32" />
+          <Property Name="PersonaFisica" Type="Int32" />
+          <Property Name="CurpPersonaFisica" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModificacion" Type="Int32" />
+          <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+          <Property Name="CertificadoIMSS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="KeyIMSS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UsuarioIMSS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContraseñaIMSS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PFXCancelacionTimbrado" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BanderaEnvioIndividual" Type="Int32" />
+          <Property Name="NombreRepresentante" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="RegimenFiscal" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1205,6 +1258,23 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="Cat_ConceptosNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.Cat_ConceptosNomina">
               <MappingFragment StoreEntitySet="Cat_ConceptosNomina">
+                <ScalarProperty Name="ExcentoGravadoEnReporte" ColumnName="ExcentoGravadoEnReporte" />
+                <ScalarProperty Name="VisibleEnReporte" ColumnName="VisibleEnReporte" />
+                <ScalarProperty Name="IntegraPension" ColumnName="IntegraPension" />
+                <ScalarProperty Name="CalculoDiasHoras" ColumnName="CalculoDiasHoras" />
+                <ScalarProperty Name="IdConceptoAdicional" ColumnName="IdConceptoAdicional" />
+                <ScalarProperty Name="CreaConceptoAdicional" ColumnName="CreaConceptoAdicional" />
+                <ScalarProperty Name="FactoryValor" ColumnName="FactoryValor" />
+                <ScalarProperty Name="IdConceptoPago" ColumnName="IdConceptoPago" />
+                <ScalarProperty Name="PorcentajeDiasSubsecuentes" ColumnName="PorcentajeDiasSubsecuentes" />
+                <ScalarProperty Name="DiasSubsecuentes" ColumnName="DiasSubsecuentes" />
+                <ScalarProperty Name="PorcentajeDiasIniciales" ColumnName="PorcentajeDiasIniciales" />
+                <ScalarProperty Name="DiasIniciales" ColumnName="DiasIniciales" />
+                <ScalarProperty Name="IncapacidadPagada" ColumnName="IncapacidadPagada" />
+                <ScalarProperty Name="Formula" ColumnName="Formula" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
+                <ScalarProperty Name="TablaFactores" ColumnName="TablaFactores" />
                 <ScalarProperty Name="ExentoPorSueldoMinimo" ColumnName="ExentoPorSueldoMinimo" />
                 <ScalarProperty Name="Piramida" ColumnName="Piramida" />
                 <ScalarProperty Name="PagoEfectivo" ColumnName="PagoEfectivo" />
@@ -1247,6 +1317,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="vIncidencias_Consolidadas">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.vIncidencias_Consolidadas">
               <MappingFragment StoreEntitySet="vIncidencias_Consolidadas">
+                <ScalarProperty Name="Formula" ColumnName="Formula" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
                 <ScalarProperty Name="IntegraISN" ColumnName="IntegraISN" />
                 <ScalarProperty Name="UsuarioCaptura" ColumnName="UsuarioCaptura" />
                 <ScalarProperty Name="PagoEfectivo" ColumnName="PagoEfectivo" />
@@ -1498,62 +1571,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cat_RegistroPatronal">
-            <EntityTypeMapping TypeName="TadaNominaTimbrado.Cat_RegistroPatronal">
-              <MappingFragment StoreEntitySet="Cat_RegistroPatronal">
-                <ScalarProperty Name="NombreRepresentante" ColumnName="NombreRepresentante" />
-                <ScalarProperty Name="BanderaEnvioIndividual" ColumnName="BanderaEnvioIndividual" />
-                <ScalarProperty Name="PFXCancelacionTimbrado" ColumnName="PFXCancelacionTimbrado" />
-                <ScalarProperty Name="ContraseñaIMSS" ColumnName="ContraseñaIMSS" />
-                <ScalarProperty Name="UsuarioIMSS" ColumnName="UsuarioIMSS" />
-                <ScalarProperty Name="KeyIMSS" ColumnName="KeyIMSS" />
-                <ScalarProperty Name="CertificadoIMSS" ColumnName="CertificadoIMSS" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="CurpPersonaFisica" ColumnName="CurpPersonaFisica" />
-                <ScalarProperty Name="PersonaFisica" ColumnName="PersonaFisica" />
-                <ScalarProperty Name="IdReferenciaCliente" ColumnName="IdReferenciaCliente" />
-                <ScalarProperty Name="PortalWeb" ColumnName="PortalWeb" />
-                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="FormaAplicacion" ColumnName="FormaAplicacion" />
-                <ScalarProperty Name="ReferenciaOrdenante" ColumnName="ReferenciaOrdenante" />
-                <ScalarProperty Name="EstadoCuenta" ColumnName="EstadoCuenta" />
-                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
-                <ScalarProperty Name="PlazaBanxico" ColumnName="PlazaBanxico" />
-                <ScalarProperty Name="Plaza" ColumnName="Plaza" />
-                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
-                <ScalarProperty Name="Logo" ColumnName="Logo" />
-                <ScalarProperty Name="KeyPassFiel" ColumnName="KeyPassFiel" />
-                <ScalarProperty Name="rutaFielKey" ColumnName="rutaFielKey" />
-                <ScalarProperty Name="rutaFielCer" ColumnName="rutaFielCer" />
-                <ScalarProperty Name="KeyPass" ColumnName="KeyPass" />
-                <ScalarProperty Name="rutaKey" ColumnName="rutaKey" />
-                <ScalarProperty Name="rutaCer" ColumnName="rutaCer" />
-                <ScalarProperty Name="SelloDigital" ColumnName="SelloDigital" />
-                <ScalarProperty Name="IdActividadEconomica" ColumnName="IdActividadEconomica" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
-                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
-                <ScalarProperty Name="EntidadFederativa" ColumnName="EntidadFederativa" />
-                <ScalarProperty Name="Pais" ColumnName="Pais" />
-                <ScalarProperty Name="CP" ColumnName="CP" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
-                <ScalarProperty Name="Clase" ColumnName="Clase" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
-                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
-                <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
-                <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="XmlNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.XmlNomina">
               <MappingFragment StoreEntitySet="XmlNomina">
@@ -1642,6 +1659,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="vTimbradoNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.vTimbradoNomina">
               <MappingFragment StoreEntitySet="vTimbradoNomina">
+                <ScalarProperty Name="Neto" ColumnName="Neto" />
+                <ScalarProperty Name="TipoNomina" ColumnName="TipoNomina" />
                 <ScalarProperty Name="IdXml" ColumnName="IdXml" />
                 <ScalarProperty Name="CentroCostos" ColumnName="CentroCostos" />
                 <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
@@ -1700,6 +1719,63 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
                 <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
                 <ScalarProperty Name="IdTimbradoNomina" ColumnName="IdTimbradoNomina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cat_RegistroPatronal">
+            <EntityTypeMapping TypeName="TadaNominaTimbrado.Cat_RegistroPatronal">
+              <MappingFragment StoreEntitySet="Cat_RegistroPatronal">
+                <ScalarProperty Name="RegimenFiscal" ColumnName="RegimenFiscal" />
+                <ScalarProperty Name="NombreRepresentante" ColumnName="NombreRepresentante" />
+                <ScalarProperty Name="BanderaEnvioIndividual" ColumnName="BanderaEnvioIndividual" />
+                <ScalarProperty Name="PFXCancelacionTimbrado" ColumnName="PFXCancelacionTimbrado" />
+                <ScalarProperty Name="ContraseñaIMSS" ColumnName="ContraseñaIMSS" />
+                <ScalarProperty Name="UsuarioIMSS" ColumnName="UsuarioIMSS" />
+                <ScalarProperty Name="KeyIMSS" ColumnName="KeyIMSS" />
+                <ScalarProperty Name="CertificadoIMSS" ColumnName="CertificadoIMSS" />
+                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+                <ScalarProperty Name="IdModificacion" ColumnName="IdModificacion" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="CurpPersonaFisica" ColumnName="CurpPersonaFisica" />
+                <ScalarProperty Name="PersonaFisica" ColumnName="PersonaFisica" />
+                <ScalarProperty Name="IdReferenciaCliente" ColumnName="IdReferenciaCliente" />
+                <ScalarProperty Name="PortalWeb" ColumnName="PortalWeb" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FormaAplicacion" ColumnName="FormaAplicacion" />
+                <ScalarProperty Name="ReferenciaOrdenante" ColumnName="ReferenciaOrdenante" />
+                <ScalarProperty Name="EstadoCuenta" ColumnName="EstadoCuenta" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="PlazaBanxico" ColumnName="PlazaBanxico" />
+                <ScalarProperty Name="Plaza" ColumnName="Plaza" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="KeyPassFiel" ColumnName="KeyPassFiel" />
+                <ScalarProperty Name="rutaFielKey" ColumnName="rutaFielKey" />
+                <ScalarProperty Name="rutaFielCer" ColumnName="rutaFielCer" />
+                <ScalarProperty Name="KeyPass" ColumnName="KeyPass" />
+                <ScalarProperty Name="rutaKey" ColumnName="rutaKey" />
+                <ScalarProperty Name="rutaCer" ColumnName="rutaCer" />
+                <ScalarProperty Name="SelloDigital" ColumnName="SelloDigital" />
+                <ScalarProperty Name="IdActividadEconomica" ColumnName="IdActividadEconomica" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+                <ScalarProperty Name="EntidadFederativa" ColumnName="EntidadFederativa" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
+                <ScalarProperty Name="Clase" ColumnName="Clase" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
+                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
+                <ScalarProperty Name="CuentaBancaria" ColumnName="CuentaBancaria" />
+                <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

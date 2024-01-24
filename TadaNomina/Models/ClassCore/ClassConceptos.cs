@@ -199,7 +199,9 @@ namespace TadaNomina.Models.ClassCore
                     CalculoAutomatico = conceptos.CalculoAutomatico,
                     VisibleEnReporte = conceptos.VisibleEnReporte,
                     ExcentoGravadoEnReporte = conceptos.ExcentoGravadoEnReporte,
-                    Orden = conceptos.Orden
+                    Orden = conceptos.Orden,
+                    IntegraISN = conceptos.IntegraISN,
+
                 };
 
                 return modelConceptos;
@@ -338,7 +340,8 @@ namespace TadaNomina.Models.ClassCore
                         CalculoAutomatico = modelConcepto.CalculoAutomatico,
                         VisibleEnReporte = modelConcepto.VisibleEnReporte,
                         ExcentoGravadoEnReporte = modelConcepto.ExcentoGravadoEnReporte,
-                        Orden = modelConcepto.Orden
+                        Orden = modelConcepto.Orden,
+                        IntegraISN = modelConcepto.IntegraISN,
                     };
 
                     entidad.Cat_ConceptosNomina.Add(concepto);
@@ -407,6 +410,7 @@ namespace TadaNomina.Models.ClassCore
                         concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
                         concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
                         concepto.Orden = modelConceptos.Orden;
+                        concepto.IntegraISN = modelConceptos.IntegraISN;
                     }
 
                     entidad.SaveChanges();
@@ -424,14 +428,19 @@ namespace TadaNomina.Models.ClassCore
         {
             List<SelectListItem> lagrupador = new List<SelectListItem>();
             List<SelectListItem> lagrupadords = new List<SelectListItem>();
-            
+            List<SelectListItem> lConceptosSAT = new List<SelectListItem>();
+
             List<Cat_AgrupadorConceptos> grupo = GetAgrupadorConceptos();
             List<Cat_ConceptosNomina> grupod = GetConceptps(IdCliente);
+            List<Cat_NominaSAT> nominaSAT = getCatalogoSAT();
 
             grupo.ForEach(x=> { lagrupador.Add(new SelectListItem { Text=x.ClaveGpo + " - " + x.Descripcion, Value= x.ClaveGpo }); });
             grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            nominaSAT.ForEach(x => { lConceptosSAT.Add(new SelectListItem { Text = x.Clave + " - " + x.Descripcion, Value = x.Clave }); });
+
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
+            _tipoConcpto.Add(new SelectListItem { Text = "Otro Pago", Value = "OTRO" });
             _tipoConcpto.Add(new SelectListItem { Text = "Deduccion", Value = "DD" });
             _tipoConcpto.Add(new SelectListItem { Text = "Informativo", Value = "IF" });            
 
@@ -487,8 +496,13 @@ namespace TadaNomina.Models.ClassCore
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listISN = new List<SelectListItem>();
+            _listISN.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listISN.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
+            modelConceptos.lClaveSat = lConceptosSAT;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
             modelConceptos.LTipoDato = _TipoDato;            
@@ -514,7 +528,8 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
             modelConceptos.lstTablaFactores = _listSINOTabFac;
-
+            modelConceptos.LIntegraISN = _listISN;
+            
             return modelConceptos;
         }
 
@@ -527,15 +542,19 @@ namespace TadaNomina.Models.ClassCore
         {
             List<SelectListItem> lagrupador = new List<SelectListItem>();
             List<SelectListItem> lagrupadords = new List<SelectListItem>();
+            List<SelectListItem> lConceptosSAT = new List<SelectListItem>();
 
             List<Cat_AgrupadorConceptos> grupo = GetAgrupadorConceptos();
             List<Cat_ConceptosNomina> grupod = GetConceptps(modelConceptos.IdCliente);
+            List<Cat_NominaSAT> nominaSAT = getCatalogoSAT(modelConceptos.TipoConcepto);
 
             grupo.ForEach(x => { lagrupador.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Descripcion, Value = x.ClaveGpo }); });
             grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            nominaSAT.ForEach(x=> { lConceptosSAT.Add(new SelectListItem { Text = x.Clave + " - " + x.Descripcion, Value = x.Clave }); });
 
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
+            _tipoConcpto.Add(new SelectListItem { Text = "Otro Pago", Value = "OTRO" });
             _tipoConcpto.Add(new SelectListItem { Text = "Deduccion", Value = "DD" });
             _tipoConcpto.Add(new SelectListItem { Text = "Informativo", Value = "IF" });
 
@@ -590,7 +609,12 @@ namespace TadaNomina.Models.ClassCore
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
+            List<SelectListItem> _listISN = new List<SelectListItem>();
+            _listISN.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listISN.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
             modelConceptos.LAgrupador = lagrupador;
+            modelConceptos.lClaveSat = lConceptosSAT;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
             modelConceptos.LTipoDato = _TipoDato;            
@@ -616,7 +640,8 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
             modelConceptos.lstTablaFactores = _listSINOTabFac;
-
+            modelConceptos.LIntegraISN = _listISN;
+            
             return modelConceptos;
         }
 
@@ -830,6 +855,22 @@ namespace TadaNomina.Models.ClassCore
                 };
 
                 entidad.SaveChanges();
+            }
+        }
+
+        public List<Cat_NominaSAT> getCatalogoSAT(string tipo)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Cat_NominaSAT.Where(x => x.TipoCatalogoSAT == tipo && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        public List<Cat_NominaSAT> getCatalogoSAT()
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Cat_NominaSAT.Where(x => x.IdEstatus == 1).ToList();
             }
         }
     }

@@ -137,15 +137,30 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-2 text-right">
+                        <label class="control-label col-md-2">
                             Representante Legal:
-                        </div>
-                        
+                        </label>
+
                         <div class="col-md-4">
                             @Html.EditorFor(model => model.RepresentanteLegal, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.RepresentanteLegal, "", new { @class = "text-danger" })
                         </div>
-                       
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RegimenFiscal, htmlAttributes: new { @class = "control-label col-md-2"})
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.RegimenFiscal, Model.RegimenesFiscales, htmlAttributes: new { @class = "form-control", @id = "reginpt" } )
+                            @Html.ValidationMessageFor(model => model.RegimenFiscal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CurpPersona, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.CurpPersona, htmlAttributes: new { @class = "form-control", @id = "curpinpt" } )
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -182,3 +197,6 @@
     </div>
 </div>
 
+@section Scripts{
+    <script src="~/js/Core/RegPatronal.js"></script>
+    }

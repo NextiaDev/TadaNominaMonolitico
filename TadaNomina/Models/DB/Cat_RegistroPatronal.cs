@@ -16,6 +16,8 @@ namespace TadaNomina.Models.DB
     {
         public int IdRegistroPatronal { get; set; }
         public int IdCliente { get; set; }
+        public Nullable<int> IdBanco { get; set; }
+        public string CuentaBancaria { get; set; }
         public string NombrePatrona { get; set; }
         public string RegistroPatronal { get; set; }
         public string RFC { get; set; }
@@ -33,12 +35,10 @@ namespace TadaNomina.Models.DB
         public string rutaCer { get; set; }
         public string rutaKey { get; set; }
         public string KeyPass { get; set; }
+        public string rutaFielCer { get; set; }
+        public string rutaFielKey { get; set; }
+        public string KeyPassFiel { get; set; }
         public string Logo { get; set; }
-        public int IdEstatus { get; set; }
-        public Nullable<int> IdCaptura { get; set; }
-        public Nullable<System.DateTime> FechaCaptura { get; set; }
-        public Nullable<int> IdBanco { get; set; }
-        public string CuentaBancaria { get; set; }
         public string Sucursal { get; set; }
         public string Plaza { get; set; }
         public string PlazaBanxico { get; set; }
@@ -52,17 +52,18 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdReferenciaCliente { get; set; }
         public Nullable<int> PersonaFisica { get; set; }
         public string CurpPersonaFisica { get; set; }
+        public int IdEstatus { get; set; }
+        public Nullable<int> IdCaptura { get; set; }
+        public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
         public string CertificadoIMSS { get; set; }
+        public string KeyIMSS { get; set; }
         public string UsuarioIMSS { get; set; }
         public string ContraseñaIMSS { get; set; }
-        public string KeyIMSS { get; set; }
         public string PFXCancelacionTimbrado { get; set; }
         public Nullable<int> BanderaEnvioIndividual { get; set; }
         public string NombreRepresentante { get; set; }
-        public string rutaFielCer { get; set; }
-        public string rutaFielKey { get; set; }
-        public string KeyPassFiel { get; set; }
+        public string RegimenFiscal { get; set; }
     }
 }

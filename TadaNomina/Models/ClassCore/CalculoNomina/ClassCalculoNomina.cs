@@ -248,9 +248,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     CalculaISR_Piramidados();
                 }
-                else if (Periodo.TipoNomina == "Aguinaldo" && UnidadNegocio.ISRAguinaldoL174 == "S")
+                else if ((Periodo.TipoNomina == "Aguinaldo" && UnidadNegocio.ISRAguinaldoL174 == "S"))
                 {
                     CalculaISRAguinaldoL174();
+                }
+                else if ((Periodo.TipoNomina == "Complemento" && UnidadNegocio.ISRProyeccionMensual == "S"))
+                {
+                    CalculaISRComplementoProyMensual();
                 }
                 else
                 {
@@ -343,11 +347,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if ((conceptosConfigurados.IdConceptoCompensacion != null && conceptosConfigurados.IdConceptoCompensacion != 0) || (conceptosConfigurados.IdConceptoArt93Fraclll != null && conceptosConfigurados.IdConceptoArt93Fraclll != 0))
             {
                 decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll ).Select(X => X.Monto).Sum();
+                importeIncidencias += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "OTRO" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll ).Select(X => X.Monto).Sum();
                 nominaTrabajo.ER += importeIncidencias;
             }
             else
             {
                 decimal importeIncidencias = (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" ).Select(X => X.Monto).Sum();
+                importeIncidencias += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "OTRO" && x.MultiplicaDT != "SI" ).Select(X => X.Monto).Sum();
                 nominaTrabajo.ER += importeIncidencias;
             }
         }
@@ -529,6 +535,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 incidenciasEmpleado.AddRange(incidenciasAuto);
 
                 if(TipoConcepto == "ER")
+                    nominaTrabajo.ER += incidenciasAuto.Select(x => x.Monto).Sum();
+
+                if (TipoConcepto == "OTRO")
                     nominaTrabajo.ER += incidenciasAuto.Select(x => x.Monto).Sum();
 
                 if (TipoConcepto == "DD")
