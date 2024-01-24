@@ -76,9 +76,9 @@ namespace TadaNomina.Controllers.Nomina
             else
             {
 
-                Estatus_.Add(new SelectListItem { Text = "Completados", Value = "1" });
+                Estatus_.Add(new SelectListItem { Text = "Completados", Value = "3" });
                 Estatus_.Add(new SelectListItem { Text = "Rechazados", Value = "2" });
-                Estatus_.Add(new SelectListItem { Text = "Proceso", Value = "3" });
+                Estatus_.Add(new SelectListItem { Text = "Proceso", Value = "1" });
                 Estatus_.Add(new SelectListItem { Text = "Todos", Value = "1,2,3" });
 
 
