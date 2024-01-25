@@ -185,28 +185,29 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
 
         public List<SelectListItem> AtteBookXN(string token, string StartDate, string EndDate, List<string> UsersIds)
         {
-            string datos;
-            string cadena;
-            string result;
-            Uri url;
+            //string datos;
+            //string cadena;
+            //string result;
+            //Uri url;
             List<SelectListItem> z = new List<SelectListItem>();
             WebClient wClient = new WebClient();
             LibroDeAsistenciaModel r;
             for (int item = 0; item < UsersIds.Count; item++)
             {
-                LibroDeAsistenciaModel consulta = new LibroDeAsistenciaModel
-                {
-                    StartDate = StartDate,
-                    EndDate = EndDate,
-                    UserIds = UsersIds[item]
-                };
-                datos = JsonConvert.SerializeObject(consulta);
-                cadena = Statics.ServidorGeoVictoriaToken + "/api/v1/AttendanceBook";
-                url = new Uri(cadena);
-                wClient.Headers["Content-Type"] = "application/json";
-                wClient.Headers["Authorization"] = token;
-                result = wClient.UploadString(url, datos);
-                r = JsonConvert.DeserializeObject<LibroDeAsistenciaModel>(result);
+                r = AttendanceBook(token,StartDate,EndDate, UsersIds[item]);
+                //LibroDeAsistenciaModel consulta = new LibroDeAsistenciaModel
+                //{
+                //    StartDate = StartDate,
+                //    EndDate = EndDate,
+                //    UserIds = UsersIds[item]
+                //};
+                //datos = JsonConvert.SerializeObject(consulta);
+                //cadena = Statics.ServidorGeoVictoriaToken + "/api/v1/AttendanceBook";
+                //url = new Uri(cadena);
+                //wClient.Headers["Content-Type"] = "application/json";
+                //wClient.Headers["Authorization"] = token;
+                //result = wClient.UploadString(url, datos);
+                //r = JsonConvert.DeserializeObject<LibroDeAsistenciaModel>(result);
                 Thread.Sleep(250);
                 for (int i = 0; i < r.Users.Count; i++)
                 {
@@ -237,14 +238,14 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                                     });
                                 }
                             }
-                            if (r.Users[i].PlannedInterval[y].Holiday == "True")
-                            {
-                                z.Add(new SelectListItem
-                                {
-                                    Text = r.Users[i].Identifier,
-                                    Value = "2566"
-                                });
-                            }
+                            //if (r.Users[i].PlannedInterval[y].Holiday == "True" && r.Users[i].PlannedInterval[y].Shifts.Count > 0)
+                            //{
+                            //    z.Add(new SelectListItem
+                            //    {
+                            //        Text = r.Users[i].Identifier,
+                            //        Value = "2566"
+                            //    });
+                            //}
                         }
                     }
                 }
@@ -289,7 +290,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                     {
                         Identifier = RemuModel[item].Identifier, //Usuario
                         Concepto = falta,                        //Tipo de Incidencia
-                        //Cantidad = cantidadF
                         Cantidad = RemuModel[item].Absent
                     });
                 }
@@ -1011,6 +1011,41 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                     lst.Add(model1);
                 }
             };
+            return lst;
+        }
+
+        public List<IncidenciasModel> GetHolidaysDescansosTrabajados(string Token, string StartDate, string EndDate, string UserIds, int IdCliente)
+        {
+            LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token,StartDate,EndDate,UserIds);
+            List<IncidenciasModel> lst = new List<IncidenciasModel>();
+            string holyConcepto = null;
+            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                holyConcepto = ctx.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConcepto == 2912).Select(x => x.CalculoDiasHoras).FirstOrDefault();
+            }
+            for (int i = 0; i < LstIncidencias.Users.Count; i++)
+            {
+                if (LstIncidencias.Users[i].Enabled == 1)
+                {
+                    for (int y = 0; y < LstIncidencias.Users[i].PlannedInterval.Count; y++)
+                    {
+                        if (LstIncidencias.Users[i].PlannedInterval[y].Holiday == "True" && LstIncidencias.Users[i].PlannedInterval[y].Shifts.Count > 0)
+                        {
+                            int hrs = int.Parse(LstIncidencias.Users[i].PlannedInterval[y].WorkedHours.Substring(0, 2));
+                            int minE = int.Parse(LstIncidencias.Users[i].PlannedInterval[y].WorkedHours.Substring(2, 2));
+                            double r = minE > 0 ? minE / 60 : 0.00;
+                            double minD= Math.Round(r, 2);
+                            double cantidad = hrs + minD;
+                            lst.Add(new IncidenciasModel
+                            {
+                                Identifier = LstIncidencias.Users[i].Identifier,
+                                Concepto = 2566,
+                                Cantidad = cantidad
+                            });
+                        }
+                    }
+                }
+            }
             return lst;
         }
     }
