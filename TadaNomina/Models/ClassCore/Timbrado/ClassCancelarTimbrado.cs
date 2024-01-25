@@ -29,7 +29,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
             ModelCancelarTimbrado model = new ModelCancelarTimbrado();
             List<SelectListItem> lperiodos = new List<SelectListItem>();
             List<SelectListItem> lMotivos = new List<SelectListItem>();
-            List<vPeriodoNomina> lvperiodos = cperiodo.GetvPeriodoNominasAcumuladas(IdUnidadNegocio);
+            List<vPeriodoNomina> lvperiodos = cperiodo.GetvPeriodoNominasAcumuladas(IdUnidadNegocio).OrderByDescending(X=> X.IdPeriodoNomina).ToList();
             List<Cat_MotivosCancelacionSAT> lmotivos = cct.getMotivosCancelacionSAT();
 
             lvperiodos.ForEach(x => { lperiodos.Add(new SelectListItem { Value = x.IdPeriodoNomina.ToString(), Text = x.Periodo }); });
@@ -67,6 +67,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
             {
                 string Exito = string.Empty;
                 string uuid = string.Empty;
+                string Detalle = string.Empty;
 
                 try { creaPfx(datos.rutaCer, datos.rutaKey, datos.KeyPass.Trim(), datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se pudo crear el archivo PFX.", ex); }
                 byte[] pfx = Array.Empty<byte>();
@@ -78,14 +79,22 @@ namespace TadaNomina.Models.ClassCore.Timbrado
 
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(cancelar);
-                XmlNodeList nExito = doc.GetElementsByTagName("exito");
+                XmlNodeList nExito = doc.GetElementsByTagName("exito");                
                 Exito = nExito[0].InnerText.ToUpper();
-
+                
                 if (Exito == "TRUE")
                     ActualizaRegistroTimbraado(datos.FolioUDDI, IdUsuario);
 
                 if (Exito == "FALSE")
-                    GuardaErrorCancelacion(datos, id, IdUsuario);
+                {
+                    XmlNodeList nDetalle = doc.GetElementsByTagName("codigo");                    
+                    XmlNodeList nDetalleText = doc.GetElementsByTagName("texto");                    
+                    Detalle = nDetalle[0].InnerText.ToUpper();
+                    Detalle += " - ";
+                    Detalle += nDetalleText[0].InnerText.ToUpper();
+
+                    GuardaErrorCancelacion(datos, id, Detalle, IdUsuario);
+                }
 
             }
             catch (Exception ex)
@@ -153,7 +162,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 }
                 if (Exito == "FALSE")
                 {
-                    GuardaErrorCancelacion(datos, id, IdUsuario);
+                    GuardaErrorCancelacion(datos, id, "", IdUsuario);
                 }
             }
             catch (Exception ex)
@@ -237,7 +246,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 contentXML += "<ser:liberarNoControl>true</ser:liberarNoControl>";
                 contentXML += "<ser:total>" + total + "</ser:total>";
                 contentXML += "<ser:rfcReceptor>" + rfcReceptor + "</ser:rfcReceptor>";
-                contentXML += "<ser:version>3.3</ser:version>";
+                contentXML += "<ser:version>4.0</ser:version>";
                 contentXML += "</ser:CancelacionRequest>";
                 contentXML += "</soapenv:Body>";
                 contentXML += "</soapenv:Envelope>";
