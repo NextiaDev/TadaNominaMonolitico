@@ -92,7 +92,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         }
 
         public void CalculaISRComplementoProyMensual()
-        {
+       {
             try
             {
                 nominaTrabajo.Subsidio = 0;
@@ -102,16 +102,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 if (nominaTrabajo.BaseGravada > 0)
                 {
-                    var sueldoMensual = SD_IMSS * 30;
-                    var ISR_prev = CalculaISR((decimal)sueldoMensual, Periodo.FechaFin, "05", false);
-                    var importeComplemento = (nominaTrabajo.BaseGravada);
-                    var NetoSueldoOrdinario = sueldoMensual - ISR_prev;
-                    var sueldoMasComplemento = sueldoMensual + importeComplemento;
-                    var ISRCausado = CalculaISR((decimal)sueldoMasComplemento, Periodo.FechaFin, "05", false);
-                    var sueldoNetoMenosISR = sueldoMasComplemento - ISRCausado;
-                    var diferenciaRYAA = ISRCausado - ISR_prev;
-                    var Porcentaje = diferenciaRYAA / importeComplemento;
-                    var IsrRet = Porcentaje * nominaTrabajo.BaseGravada;
+                    var sueldoMensualFactor = SD_IMSS * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                    var sueldoMensual30 = SD_IMSS * 30;
+                    var ISR_SueldoBruto = CalculaISR((decimal)sueldoMensualFactor, Periodo.FechaFin, "05", false);
+                    var ISRDiasLaborados = (ISR_SueldoBruto / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;
+                    var importeComplemento = (nominaTrabajo.BaseGravada);                    
+                    var sueldoMensual30MasBrutoComplemento = sueldoMensual30 + (importeComplemento ?? 0);
+                    var sueldoMensual30MasBrutoComplementoFator = (sueldoMensual30MasBrutoComplemento / 30) * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                    var ISRTotalFactor = CalculaISR(sueldoMensual30MasBrutoComplementoFator, Periodo.FechaFin, "05", false);
+                    var ISRTotal30 = (ISRTotalFactor / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;                    
+                    var IsrRet = Math.Round(ISRTotal30 - ISRDiasLaborados, 2);
 
                     nominaTrabajo.ISR = IsrRet;
                     nominaTrabajo.ImpuestoRetener = IsrRet;

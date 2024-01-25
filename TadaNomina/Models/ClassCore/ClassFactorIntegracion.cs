@@ -227,7 +227,7 @@ namespace TadaNomina.Models.ClassCore
                     PrimaVacacional = model.PrimaVacacional,
                     PrimaVacacionalSDI = model.PrimaVacacionalSDI,
                     FactorIntegracion1 = _fi,
-
+                    FechaInicioVigencia = model.FechaInicioVigencia,
                     IdPrestaciones = model.IdPrestaciones,
                     IdEstatus = 1,
                     FechaCaptura = DateTime.Now,
@@ -266,7 +266,7 @@ namespace TadaNomina.Models.ClassCore
                     factor.FactorIntegracion1 = _fi;
                     factor.FechaCaptura = DateTime.Now;
                     factor.IdCaptura = pIdUsuario;
-
+                    factor.FechaInicioVigencia = model.FechaInicioVigencia;
                     entidad.SaveChanges();
                 }
             }
@@ -323,6 +323,7 @@ namespace TadaNomina.Models.ClassCore
                     modelFactorIntegracion.PrimaVacacional = (decimal)factor.PrimaVacacional;
                     modelFactorIntegracion.PrimaVacacionalSDI = (decimal)factor.PrimaVacacionalSDI;
                     modelFactorIntegracion.FactorIntegracion = (decimal)factor.FactorIntegracion1;
+                    modelFactorIntegracion.FechaInicioVigencia = factor.FechaInicioVigencia;
 
                     return modelFactorIntegracion;
                 }
