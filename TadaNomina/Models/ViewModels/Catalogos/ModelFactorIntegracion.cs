@@ -33,8 +33,9 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         [Display(Name = "Factor De Integración:"), DisplayFormat(DataFormatString = "{0:0.0000}", ApplyFormatInEditMode = true)]
         public decimal FactorIntegracion { get; set; }
 
+        [Display(Name = "Fecha de Inicio Vigencia:")]
+        public DateTime? FechaInicioVigencia { get; set; }
 
-   
         [Display(Name = "Seleccionar Archivo:")]
         public HttpPostedFileBase Archivo { get; set; }
 
