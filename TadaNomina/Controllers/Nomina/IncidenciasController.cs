@@ -559,6 +559,9 @@ namespace TadaNomina.Controllers.Nomina
                 var lstHrsNoTra = cu.GetHrsNoTrabajadas(c, (int)IdCliente);
                 if (lstHrsNoTra.Count > 0) lI.AddRange(lstHrsNoTra);
 
+                var lstHolyDescansos = cu.GetHolidaysDescansosTrabajados(tokenGV, dat1, dat2, usuarios[0], (int)IdCliente);
+                if (lstHolyDescansos.Count > 0) lI.AddRange(lstHolyDescansos);
+
                 var i = cu.IncidenciasGV(lI, token, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
 
                 //return View(i);
