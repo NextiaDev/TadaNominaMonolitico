@@ -1098,6 +1098,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             var reintISR = nominaTrabajo.ReintegroISR ?? 0;
             incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
+            incidenciasNOISN += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "OTRO" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
             decimal totalPercepcionesSinSubsidio = (decimal)(nominaTrabajo.ER - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
             nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje;
 

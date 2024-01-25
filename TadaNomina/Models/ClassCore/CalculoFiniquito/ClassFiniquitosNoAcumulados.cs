@@ -34,7 +34,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                entidad.sp_CambioPeriodoFiniquito(IdPeriodo, IdEmpleado, IdNuevoPeriodo);
+                var consulta = "sp_CambioPeriodoFiniquito " + IdPeriodo + ", " + IdEmpleado + ", " + IdNuevoPeriodo;
+                entidad.Database.ExecuteSqlCommand(consulta);
                 entidad.SaveChanges();
             }        
         }
