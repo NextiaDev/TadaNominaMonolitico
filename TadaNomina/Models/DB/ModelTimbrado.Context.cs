@@ -34,9 +34,9 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_MotivosCancelacionSAT> Cat_MotivosCancelacionSAT { get; set; }
         public virtual DbSet<XmlNomina> XmlNomina { get; set; }
         public virtual DbSet<vXmlNomina> vXmlNomina { get; set; }
-        public virtual DbSet<TimbradoNomina> TimbradoNomina { get; set; }
         public virtual DbSet<vTimbradoNomina> vTimbradoNomina { get; set; }
         public virtual DbSet<Cat_RegistroPatronal> Cat_RegistroPatronal { get; set; }
+        public virtual DbSet<TimbradoNomina> TimbradoNomina { get; set; }
     
         public virtual int sp_InformacionXML_Finiquitos(Nullable<int> idPeriodoNomina)
         {

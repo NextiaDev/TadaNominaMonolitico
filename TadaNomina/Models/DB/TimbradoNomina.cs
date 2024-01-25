@@ -43,5 +43,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdMotivoCancelacion { get; set; }
         public string UUID_Relacionado { get; set; }
         public Nullable<int> IdXml { get; set; }
+        public Nullable<int> IdPAC { get; set; }
     }
 }
