@@ -17,6 +17,7 @@ using RestSharp.Authenticators;
 using TadaNomina.Models.ViewModels.Nominas;
 using System.Linq.Dynamic.Core.Tokenizer;
 using ServiceStack;
+using System.Globalization;
 
 namespace TadaNomina.Models.ClassCore.RelojChecador
 {
@@ -1047,6 +1048,44 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                 }
             }
             return lst;
+        }
+
+        public List<IncidenciasModel> GetPrimaDominicalxHora(string Token, string StartDate, string EndDate, string UserIds, int IdCliente)
+        {
+            List<IncidenciasModel> result = new List<IncidenciasModel>();
+            var conceptoPrimaDominical = new Cat_ConceptosNomina();
+            try
+            {
+                LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, UserIds);
+                using (TadaNominaEntities ctx = new TadaNominaEntities())
+                {
+                    conceptoPrimaDominical = ctx.Cat_ConceptosNomina.Where(p => p.IdCliente == IdCliente && p.IdEstatus == 1 && p.IdConceptoSistema == 274).FirstOrDefault();
+                }
+                if(conceptoPrimaDominical != null)
+                {
+                    for(int i = 0; i < LstIncidencias.Users.Count; i++)
+                    {
+                        if(LstIncidencias.Users[i].Enabled == 1)
+                        {
+                            var listaplanned = LstIncidencias.Users[i].PlannedInterval;
+                            var domingos = listaplanned.Where(p => DateTime.Parse(p.Date).DayOfWeek.ToString() == "Sunday").ToList();
+                            var horasdate = domingos.Select(p => Convert.ToDecimal(TimeSpan.Parse(p.WorkedHours).TotalHours)).ToList();
+                            var totalhoras = horasdate.Sum(p => Convert.ToDouble(p));
+                            result.Add(new IncidenciasModel
+                            {
+                                Identifier = LstIncidencias.Users[i].Identifier,
+                                Concepto = conceptoPrimaDominical.IdConcepto,
+                                Cantidad = totalhoras
+                            });
+                        }
+                    }
+                }
+                return result;
+            }
+            catch
+            {
+                return result;
+            }
         }
     }
 }
