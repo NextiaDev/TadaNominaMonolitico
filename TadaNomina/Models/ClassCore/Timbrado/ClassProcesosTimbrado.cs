@@ -197,8 +197,10 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 tn.FechaCaptura = DateTime.Now;
                 tn.FechaInicioPeriodo = i.FechaInicio;
                 tn.FechaFinPeriodo = i.FechaFin;
+                tn.IdXml = i.IdXml;
                 tn.CFDI_Timbrado = FacturaTimbrada;
                 tn.Leyenda = Leyenda;
+                tn.IdPAC = 2;
 
                 entidad.TimbradoNomina.Add(tn);
                 entidad.SaveChanges();
@@ -287,7 +289,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
         /// <param name="datos">Datos del timbrado</param>
         /// <param name="id"></param>
         /// <param name="IdUsuario">usuario</param>
-        public void GuardaErrorCancelacion(vTimbradoNomina datos, Guid id, int IdUsuario)
+        public void GuardaErrorCancelacion(vTimbradoNomina datos, Guid id, string detalle, int IdUsuario)
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
@@ -295,8 +297,8 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 logErrores.Guid = id;
                 logErrores.IdPeriodoNomina = datos.IdPeriodoNomina;
                 logErrores.Modulo = "Cancelacion Timbrado";
-                logErrores.Referencia = datos.IdTimbradoNomina.ToString();
-                logErrores.Descripcion = "No se pudo cancelar el timbre";
+                logErrores.Referencia = datos.IdTimbradoNomina.ToString() + "-" + datos.RFC + "-" + datos.FolioUDDI;
+                logErrores.Descripcion = "No se pudo cancelar el timbre: " + detalle;
                 logErrores.Fecha = DateTime.Now;
                 logErrores.IdUsuario = IdUsuario;
                 logErrores.IdEstatus = 1;

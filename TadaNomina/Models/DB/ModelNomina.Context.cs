@@ -37,7 +37,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_CentroCostos> Cat_CentroCostos { get; set; }
         public virtual DbSet<vCreditoFonacot> vCreditoFonacot { get; set; }
         public virtual DbSet<CreditosFonacot> CreditosFonacot { get; set; }
-        public virtual DbSet<FactorIntegracion> FactorIntegracion { get; set; }
         public virtual DbSet<PensionAlimenticia> PensionAlimenticia { get; set; }
         public virtual DbSet<vPensionAlimenticia> vPensionAlimenticia { get; set; }
         public virtual DbSet<Cat_Areas> Cat_Areas { get; set; }
@@ -62,7 +61,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vNomina> vNomina { get; set; }
         public virtual DbSet<Cat_Jornadas> Cat_Jornadas { get; set; }
         public virtual DbSet<FactoresCyV_IMSS> FactoresCyV_IMSS { get; set; }
-        public virtual DbSet<vPrestacionesFactor> vPrestacionesFactor { get; set; }
         public virtual DbSet<PeriodoNomina> PeriodoNomina { get; set; }
         public virtual DbSet<Saldos> Saldos { get; set; }
         public virtual DbSet<vSaldos> vSaldos { get; set; }
@@ -82,6 +80,8 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vPeriodoNomina> vPeriodoNomina { get; set; }
         public virtual DbSet<Nomina> Nomina { get; set; }
         public virtual DbSet<NominaTrabajo> NominaTrabajo { get; set; }
+        public virtual DbSet<FactorIntegracion> FactorIntegracion { get; set; }
+        public virtual DbSet<vPrestacionesFactor> vPrestacionesFactor { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalDeducciones_Result> sp_ReciboTradicionalDeducciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {

@@ -340,7 +340,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 if (ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault() != null)
                 {
-                    var _isr = (from b in ListNominaAjuste.Where(b => b.Rfc == RFC) select b.ISR).Sum();
+                    var _isr = (from b in ListNominaAjuste.Where(b => b.Rfc == RFC) select b.ImpuestoRetener).Sum();
                     nominaTrabajo.ISR = nominaTrabajo.ISR - _isr;
 
                     if (nominaTrabajo.ISR < 0)
@@ -426,7 +426,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if (query != null)
             {
                 CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
-                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
+                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.SubsidioPagar).Sum();
                 if (queryAjuste != null) { CreditoSalario = CreditoSalario - (decimal)queryAjuste; }
                 if (CreditoSalario < 0) { CreditoSalario = 0; }
 
