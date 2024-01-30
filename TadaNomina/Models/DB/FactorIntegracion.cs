@@ -21,15 +21,15 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> Aguinaldo { get; set; }
         public Nullable<decimal> Vacaciones { get; set; }
         public Nullable<decimal> PrimaVacacional { get; set; }
-        public Nullable<decimal> PrimaVacacionalSDI { get; set; }
-        public Nullable<decimal> FactorIntegracion1 { get; set; }
-        public Nullable<int> IdEstatus { get; set; }
-        public Nullable<int> IdCaptura { get; set; }
-        public Nullable<System.DateTime> FechaCaptura { get; set; }
-        public Nullable<System.DateTime> FechaInicioVigencia { get; set; }
         public Nullable<decimal> PremioPuntualidad { get; set; }
         public Nullable<decimal> PremioAsistencia { get; set; }
         public Nullable<decimal> ValesDespensa { get; set; }
         public Nullable<decimal> FondoAhorro { get; set; }
+        public Nullable<decimal> PrimaVacacionalSDI { get; set; }
+        public Nullable<decimal> FactorIntegracion1 { get; set; }
+        public Nullable<System.DateTime> FechaInicioVigencia { get; set; }
+        public Nullable<int> IdEstatus { get; set; }
+        public Nullable<int> IdCaptura { get; set; }
+        public Nullable<System.DateTime> FechaCaptura { get; set; }
     }
 }
