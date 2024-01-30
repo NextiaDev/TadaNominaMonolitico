@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.EMMA;
 using Microsoft.Win32;
 using System;
@@ -7,6 +8,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels;
@@ -575,11 +577,17 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                int[] _clientes = { IdCliente, 0 };
-                var _prestacion = (from b in entidad.vPrestacionesFactor.Where(x => x.IdEstatus == 1 && _clientes.Contains((int)x.IdCliente) 
-                                   && x.FechaInicioVigencia == (from c in entidad.vPrestacionesFactor.Where(y => y.FechaInicioVigencia <= fechaFinPeriodo && y.IdEstatus == 1 && _clientes.Contains((int)x.IdCliente))
-                                                                select c.FechaInicioVigencia).OrderByDescending(z => z).FirstOrDefault())
-                                   select b).ToList();
+                //int[] _clientes = { IdCliente, 0 };
+                //var _prestacion = (from b in entidad.vPrestacionesFactor.Where(x => x.IdEstatus == 1 && _clientes.Contains((int)x.IdCliente) 
+                //                   && x.FechaInicioVigencia == (from c in entidad.vPrestacionesFactor.Where(y => y.FechaInicioVigencia <= fechaFinPeriodo && y.IdEstatus == 1 && _clientes.Contains((int)x.IdCliente))
+                //                                                select c.FechaInicioVigencia).OrderByDescending(z => z).FirstOrDefault()) select b).ToList();
+
+                var consulta = @"select* from vPrestacionesFactor 
+                                 where IdEstatus = 1 and IdCliente in (0, " + IdCliente + @") and FechaInicioVigencia in (
+                                    select top 1 FechaInicioVigencia from vPrestacionesFactor 
+                                    where FechaInicioVigencia <= '" + fechaFinPeriodo.ToString("yyyyMMdd") + "' and IdEstatus = 1 and IdCliente in (0, " + IdCliente + ") order by 1 desc)";
+
+                var _prestacion = entidad.Database.SqlQuery<vPrestacionesFactor>(consulta).ToList();
 
                 prestaciones = _prestacion;
             }

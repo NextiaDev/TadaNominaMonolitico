@@ -3106,7 +3106,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
             <Parameter Name="SDIDiario" Mode="In" Type="Decimal" />
             <Parameter Name="Observaciones" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="FactorIntegracion" EntityType="NominaModel.FactorIntegracion" />
           <EntitySet Name="PensionAlimenticia" EntityType="NominaModel.PensionAlimenticia" />
           <EntitySet Name="vPensionAlimenticia" EntityType="NominaModel.vPensionAlimenticia" />
           <FunctionImport Name="sp_ReciboEsquemaPercepciones" ReturnType="Collection(NominaModel.sp_ReciboEsquemaPercepciones_Result)">
@@ -3162,7 +3161,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="vNomina" EntityType="NominaModel.vNomina" />
           <EntitySet Name="Cat_Jornadas" EntityType="NominaModel.Cat_Jornadas" />
           <EntitySet Name="FactoresCyV_IMSS" EntityType="NominaModel.FactoresCyV_IMSS" />
-          <EntitySet Name="vPrestacionesFactor" EntityType="NominaModel.vPrestacionesFactor" />
           <EntitySet Name="PeriodoNomina" EntityType="NominaModel.PeriodoNomina" />
           <EntitySet Name="Saldos" EntityType="NominaModel.Saldos" />
           <EntitySet Name="vSaldos" EntityType="NominaModel.vSaldos" />
@@ -3206,6 +3204,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <FunctionImport Name="sp_RegresaAusentismos" ReturnType="Collection(NominaModel.sp_RegresaAusentismos_Result)">
           <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="FactorIntegracion" EntityType="NominaModel.FactorIntegracion" />
+          <EntitySet Name="vPrestacionesFactor" EntityType="NominaModel.vPrestacionesFactor" />
         </EntityContainer>
         <EntityType Name="Sueldos_Minimos">
           <Key>
@@ -3467,28 +3467,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
           <Property Name="IdModifica" Type="Int32" />
           <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="FactorIntegracion">
-          <Key>
-            <PropertyRef Name="IdFactorIntegracion" />
-          </Key>
-          <Property Name="IdFactorIntegracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdPrestaciones" Type="Int32" />
-          <Property Name="Limite_Inferior" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Limite_Superior" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Aguinaldo" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="Vacaciones" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="PrimaVacacional" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PrimaVacacionalSDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FactorIntegracion1" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="FechaInicioVigencia" Type="DateTime" Precision="3" />
-          <Property Name="PremioPuntualidad" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="PremioAsistencia" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="ValesDespensa" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="FondoAhorro" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="PensionAlimenticia">
           <Key>
@@ -4322,26 +4300,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="LimiteSuperior" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="Porcentaje" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
           <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="vPrestacionesFactor">
-          <Key>
-            <PropertyRef Name="IdFactorIntegracion" />
-            <PropertyRef Name="IdPrestaciones" />
-          </Key>
-          <Property Name="IdFactorIntegracion" Type="Int32" Nullable="false" />
-          <Property Name="IdPrestaciones" Type="Int32" Nullable="false" />
-          <Property Name="IdCliente" Type="Int32" />
-          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="Limite_Inferior" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Limite_Superior" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="Aguinaldo" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="Vacaciones" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="PrimaVacacional" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PrimaVacacionalSDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="IdEstatusFactor" Type="Int32" />
-          <Property Name="FechaInicioVigencia" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="PeriodoNomina">
           <Key>
@@ -5327,6 +5285,48 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Type="Int32" Name="dias" Nullable="true" />
           <Property Type="Int32" Name="IdEstatus" Nullable="true" />
         </ComplexType>
+        <EntityType Name="FactorIntegracion">
+          <Key>
+            <PropertyRef Name="IdFactorIntegracion" />
+          </Key>
+          <Property Name="IdFactorIntegracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPrestaciones" Type="Int32" />
+          <Property Name="Limite_Inferior" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Limite_Superior" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Aguinaldo" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Vacaciones" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="PrimaVacacional" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PremioPuntualidad" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PremioAsistencia" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ValesDespensa" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FondoAhorro" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PrimaVacacionalSDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FactorIntegracion1" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FechaInicioVigencia" Type="DateTime" Precision="3" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vPrestacionesFactor">
+          <Key>
+            <PropertyRef Name="IdFactorIntegracion" />
+            <PropertyRef Name="IdPrestaciones" />
+          </Key>
+          <Property Name="IdFactorIntegracion" Type="Int32" Nullable="false" />
+          <Property Name="IdPrestaciones" Type="Int32" Nullable="false" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="Limite_Inferior" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Limite_Superior" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Aguinaldo" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Vacaciones" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="PrimaVacacional" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PrimaVacacionalSDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdEstatusFactor" Type="Int32" />
+          <Property Name="FechaInicioVigencia" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -5536,29 +5536,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
                 <ScalarProperty Name="NoTrabajadorFonacot" ColumnName="NoTrabajadorFonacot" />
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
                 <ScalarProperty Name="IdCreditoFonacot" ColumnName="IdCreditoFonacot" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FactorIntegracion">
-            <EntityTypeMapping TypeName="NominaModel.FactorIntegracion">
-              <MappingFragment StoreEntitySet="FactorIntegracion">
-                <ScalarProperty Name="FondoAhorro" ColumnName="FondoAhorro" />
-                <ScalarProperty Name="ValesDespensa" ColumnName="ValesDespensa" />
-                <ScalarProperty Name="PremioAsistencia" ColumnName="PremioAsistencia" />
-                <ScalarProperty Name="PremioPuntualidad" ColumnName="PremioPuntualidad" />
-                <ScalarProperty Name="FechaInicioVigencia" ColumnName="FechaInicioVigencia" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="FactorIntegracion1" ColumnName="FactorIntegracion" />
-                <ScalarProperty Name="PrimaVacacionalSDI" ColumnName="PrimaVacacionalSDI" />
-                <ScalarProperty Name="PrimaVacacional" ColumnName="PrimaVacacional" />
-                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
-                <ScalarProperty Name="Aguinaldo" ColumnName="Aguinaldo" />
-                <ScalarProperty Name="Limite_Superior" ColumnName="Limite_Superior" />
-                <ScalarProperty Name="Limite_Inferior" ColumnName="Limite_Inferior" />
-                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
-                <ScalarProperty Name="IdFactorIntegracion" ColumnName="IdFactorIntegracion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6350,26 +6327,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
                 <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
                 <ScalarProperty Name="Ano" ColumnName="Ano" />
                 <ScalarProperty Name="IdFactorCyV" ColumnName="IdFactorCyV" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vPrestacionesFactor">
-            <EntityTypeMapping TypeName="NominaModel.vPrestacionesFactor">
-              <MappingFragment StoreEntitySet="vPrestacionesFactor">
-                <ScalarProperty Name="FechaInicioVigencia" ColumnName="FechaInicioVigencia" />
-                <ScalarProperty Name="IdEstatusFactor" ColumnName="IdEstatusFactor" />
-                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
-                <ScalarProperty Name="PrimaVacacionalSDI" ColumnName="PrimaVacacionalSDI" />
-                <ScalarProperty Name="PrimaVacacional" ColumnName="PrimaVacacional" />
-                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
-                <ScalarProperty Name="Aguinaldo" ColumnName="Aguinaldo" />
-                <ScalarProperty Name="Limite_Superior" ColumnName="Limite_Superior" />
-                <ScalarProperty Name="Limite_Inferior" ColumnName="Limite_Inferior" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
-                <ScalarProperty Name="IdFactorIntegracion" ColumnName="IdFactorIntegracion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7324,6 +7281,49 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="FactorIntegracion">
+            <EntityTypeMapping TypeName="NominaModel.FactorIntegracion">
+              <MappingFragment StoreEntitySet="FactorIntegracion">
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="FechaInicioVigencia" ColumnName="FechaInicioVigencia" />
+                <ScalarProperty Name="FactorIntegracion1" ColumnName="FactorIntegracion" />
+                <ScalarProperty Name="PrimaVacacionalSDI" ColumnName="PrimaVacacionalSDI" />
+                <ScalarProperty Name="FondoAhorro" ColumnName="FondoAhorro" />
+                <ScalarProperty Name="ValesDespensa" ColumnName="ValesDespensa" />
+                <ScalarProperty Name="PremioAsistencia" ColumnName="PremioAsistencia" />
+                <ScalarProperty Name="PremioPuntualidad" ColumnName="PremioPuntualidad" />
+                <ScalarProperty Name="PrimaVacacional" ColumnName="PrimaVacacional" />
+                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
+                <ScalarProperty Name="Aguinaldo" ColumnName="Aguinaldo" />
+                <ScalarProperty Name="Limite_Superior" ColumnName="Limite_Superior" />
+                <ScalarProperty Name="Limite_Inferior" ColumnName="Limite_Inferior" />
+                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
+                <ScalarProperty Name="IdFactorIntegracion" ColumnName="IdFactorIntegracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vPrestacionesFactor">
+            <EntityTypeMapping TypeName="NominaModel.vPrestacionesFactor">
+              <MappingFragment StoreEntitySet="vPrestacionesFactor">
+                <ScalarProperty Name="FechaInicioVigencia" ColumnName="FechaInicioVigencia" />
+                <ScalarProperty Name="IdEstatusFactor" ColumnName="IdEstatusFactor" />
+                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
+                <ScalarProperty Name="PrimaVacacionalSDI" ColumnName="PrimaVacacionalSDI" />
+                <ScalarProperty Name="PrimaVacacional" ColumnName="PrimaVacacional" />
+                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
+                <ScalarProperty Name="Aguinaldo" ColumnName="Aguinaldo" />
+                <ScalarProperty Name="Limite_Superior" ColumnName="Limite_Superior" />
+                <ScalarProperty Name="Limite_Inferior" ColumnName="Limite_Inferior" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
+                <ScalarProperty Name="IdFactorIntegracion" ColumnName="IdFactorIntegracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
