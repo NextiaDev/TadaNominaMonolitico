@@ -984,41 +984,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
-        public List<IncidenciasModel> GetHolidaysDescansosTrabajados(string Token, string StartDate, string EndDate, string UserIds, int IdCliente)
-        {
-            LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token,StartDate,EndDate,UserIds);
-            List<IncidenciasModel> lst = new List<IncidenciasModel>();
-            string holyConcepto = null;
-            using (TadaNominaEntities ctx = new TadaNominaEntities())
-            {
-                holyConcepto = ctx.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConcepto == 2912).Select(x => x.CalculoDiasHoras).FirstOrDefault();
-            }
-            for (int i = 0; i < LstIncidencias.Users.Count; i++)
-            {
-                if (LstIncidencias.Users[i].Enabled == 1)
-                {
-                    for (int y = 0; y < LstIncidencias.Users[i].PlannedInterval.Count; y++)
-                    {
-                        if (LstIncidencias.Users[i].PlannedInterval[y].Holiday == "True" && LstIncidencias.Users[i].PlannedInterval[y].Shifts.Count > 0)
-                        {
-                            int hrs = int.Parse(LstIncidencias.Users[i].PlannedInterval[y].WorkedHours.Substring(0, 2));
-                            int minE = int.Parse(LstIncidencias.Users[i].PlannedInterval[y].WorkedHours.Substring(2, 2));
-                            double r = minE > 0 ? minE / 60 : 0.00;
-                            double minD= Math.Round(r, 2);
-                            double cantidad = hrs + minD;
-                            lst.Add(new IncidenciasModel
-                            {
-                                Identifier = LstIncidencias.Users[i].Identifier,
-                                Concepto = 2566,
-                                Cantidad = cantidad
-                            });
-                        }
-                    }
-                }
-            }
-            return lst;
-        }
-
         public List<IncidenciasModel> GetHolidaysDescansosTrabajados(string Token, string StartDate, string EndDate, List<string> UserIds, int IdCliente, int IdUnidadN)
         {
             List<IncidenciasModel> lst = new List<IncidenciasModel>();
