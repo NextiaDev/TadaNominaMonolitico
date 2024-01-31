@@ -58,5 +58,6 @@ namespace TadaNomina.Models.ViewModels.RelojChecador
         //public string BreakEnd {get;set;} // Insert-Peticion
         public string BreakDelay { get; set; }
         public string EarlyLeave { get; set; }
+        public string Type { get; set; }
     }
 }
