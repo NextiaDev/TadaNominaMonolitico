@@ -113,7 +113,7 @@ namespace TadaNomina.Models
                     rowFile.Columns = new List<ColumnFile>();
                     rowFile.Row = index;
 
-                    if (Validate(row, rowFile, idCliente).Equals(Type.Success))
+                    if (Validate(row, rowFile, idCliente, pIdUnidadNegocio).Equals(Type.Success))
                     {
                         int? IdBancoViatico = null;
                         try { IdBancoViatico = idBancoViaticos(row.Split(',')[41].Trim()); } catch { IdBancoViatico = null; }
@@ -422,8 +422,9 @@ namespace TadaNomina.Models
         /// </summary>
         /// <param name="row">linea de texto a analizar</param>
         /// <param name="rowFile"></param>
+        /// <param name="IdUnidadNegocio">Identificador unico de la Unidad de Negocio (debera ser obtenida de la variable de session: ["sIdUnidad"]</param>
         /// <returns>Validacíon del archivo</returns>
-        public Type Validate(string row, RowFile rowFile, int idCliente)
+        public Type Validate(string row, RowFile rowFile, int idCliente, int IdUnidadNegocio)
         {
             if (ValidateRow(row, rowFile).Equals(Type.Error))
             {
@@ -500,7 +501,7 @@ namespace TadaNomina.Models
                 return Type.Error;
             }
 
-            if (ValidateFechaAltaIMSS(row.Split(',')[23].Trim(), rowFile).Equals(Type.Error))
+            if (ValidateFechaAltaIMSS(row.Split(',')[23].Trim(), rowFile, IdUnidadNegocio).Equals(Type.Error))
             {
                 return Type.Error;
             }
@@ -1759,8 +1760,9 @@ namespace TadaNomina.Models
         /// </summary>
         /// <param name="FechaAltaImss">Fecha de alta ante el imss del empleado</param>
         /// <param name="rowFile">Fila del archivo txt</param>
+        /// <param name="IdUnidadNegocio">Identificador unico de la Unidad de Negocio (debera ser obtenida de la variable de session: ["sIdUnidad"]</param>
         /// <returns>Texto par al afila del archivo txt</returns>
-        public Type ValidateFechaAltaIMSS(string FechaAltaImss, RowFile rowFile)
+        public Type ValidateFechaAltaIMSS(string FechaAltaImss, RowFile rowFile, int IdUnidadNegocio)
         {
             ColumnFile columnFile = new ColumnFile { Column = 24 };
 
@@ -1777,7 +1779,33 @@ namespace TadaNomina.Models
             DateTime FechaInicial = Convert.ToDateTime(FechaAltaImss);
             if (FechaInicial <= FechaFinal)
             {
-                if (GetDiasHabiles(FechaInicial, FechaFinal) <= 5)
+                //La siguente variable es para obtener los dias configurados por el cliente 
+                int diasConfigurados = DiasConfiguradosUnidadNegocio(IdUnidadNegocio);
+
+                //En la siguente condicion se valida que si el valor de diasConfigurados es igyual a 0 se admite cualquier fecha sin restriccion alguna, solo se validara que la fecha cuente con el formato correcto
+                if (diasConfigurados == 0)
+                {
+                    Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                    if (exp.IsMatch(FechaAltaImss))
+                    {
+                        columnFile.Field = "Fecha de Alta IMSS";
+                        columnFile.ColumnDetail = "Ok";
+                        columnFile.Type = Type.Success;
+                        rowFile.Columns.Add(columnFile);
+                        return Type.Success;
+                    }
+                    else
+                    {
+                        columnFile.Field = "Fecha de Alta IMSS";
+                        columnFile.ColumnDetail = "El campo Fecha de Alta IMSS debe tener el formato correcto \"dd/mm/aaaa\" se sustituye valor a nulo, valor leído: " + FechaAltaImss;
+                        columnFile.Type = Type.Invalid;
+                        rowFile.Columns.Add(columnFile);
+                        return Type.Invalid;
+                    }
+                }
+
+                if (GetDiasHabiles(FechaInicial, FechaFinal) <= diasConfigurados)
                 {
                     Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
 
@@ -1801,7 +1829,7 @@ namespace TadaNomina.Models
                 else
                 {
                     columnFile.Field = "Fecha de Alta IMSS";
-                    columnFile.ColumnDetail = "La fecha de alta ante el IMSS excede los 5 dias habiles extemporaneos";
+                    columnFile.ColumnDetail = $"La fecha de alta ante el IMSS excede los {diasConfigurados} dias habiles extemporaneos";
                     columnFile.Type = Type.Error;
                     rowFile.Columns.Add(columnFile);
                     return Type.Error;
@@ -3256,6 +3284,22 @@ namespace TadaNomina.Models
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// En este metodo de obtendran los dias configurados (DiasImss) por el cliente en la Unidad de Negocio
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Identificador unico de la Unidad de Negocio (debera ser obtenida de la variable de session: ["sIdUnidad"]</param>
+        /// <returns>Numero de dias configurados en la unidad de negocio</returns>
+        public int DiasConfiguradosUnidadNegocio(int IdUnidadNegocio)
+        {
+            int? unidadnegociovalue = null;
+            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                unidadnegociovalue = ctx.Cat_UnidadNegocio.Where(p => p.IdUnidadNegocio == IdUnidadNegocio).Select(p => p.DIasImss).FirstOrDefault();
+            }
+            int result = unidadnegociovalue == null ? 5 : unidadnegociovalue.Value;
+            return result;
         }
     }
 }
