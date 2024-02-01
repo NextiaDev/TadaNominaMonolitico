@@ -41,7 +41,7 @@ namespace TadaNomina.Controllers.Administracion
             cRegistroAsistencias cRegistro = new cRegistroAsistencias();
             ClassAccesosGV CAGV = new ClassAccesosGV();
 
-            int idCliente = int.Parse(Session["sIdClientes"].ToString());
+            int idCliente = int.Parse(Session["sIdCliente"].ToString());
             var Accesos = CAGV.DatosGV(idCliente);
             string tokenGV = cRegistro.GetToken(Accesos).token;
 
@@ -68,7 +68,7 @@ namespace TadaNomina.Controllers.Administracion
                 cRegistroAsistencias cRegistro = new cRegistroAsistencias();
                 ClassAccesosGV CAGV = new ClassAccesosGV();
 
-                int idCliente = int.Parse(Session["sIdClientes"].ToString());
+                int idCliente = int.Parse(Session["sIdCliente"].ToString());
                 var Accesos = CAGV.DatosGV(idCliente);
                 string tokenGV = cRegistro.GetToken(Accesos).token;
 
@@ -95,7 +95,7 @@ namespace TadaNomina.Controllers.Administracion
             cRegistroAsistencias cRegistro = new cRegistroAsistencias();
             ClassAccesosGV CAGV = new ClassAccesosGV();
 
-            int idCliente = int.Parse(Session["sIdClientes"].ToString());
+            int idCliente = int.Parse(Session["sIdCliente"].ToString());
             var Accesos = CAGV.DatosGV(idCliente);
             string tokenGV = cRegistro.GetToken(Accesos).token;
 
@@ -124,7 +124,7 @@ namespace TadaNomina.Controllers.Administracion
                 cRegistroAsistencias cRegistro = new cRegistroAsistencias();
                 ClassAccesosGV CAGV = new ClassAccesosGV();
 
-                int idCliente = int.Parse(Session["sIdClientes"].ToString());
+                int idCliente = int.Parse(Session["sIdCliente"].ToString());
                 var Accesos = CAGV.DatosGV(idCliente);
                 string tokenGV = cRegistro.GetToken(Accesos).token;
 

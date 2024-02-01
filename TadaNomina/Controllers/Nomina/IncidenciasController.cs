@@ -522,6 +522,7 @@ namespace TadaNomina.Controllers.Nomina
             vPeriodoNomina vPeriodoNom = classPeriodoNomina.GetvPeriodoNominasId(pIdPeriodoNomina);
             cUsers cu = new cUsers();
             int? IdCliente = int.Parse(Session["sIdCliente"].ToString());
+            int idUnidadN = int.Parse(Session["sIdUnidadNegocio"].ToString());
             int IdUsuario = int.Parse(Session["sIdUsuario"].ToString());
             string token = Session["sToken"].ToString();
             string tokenGV = Session["sTokenGeovictoria"].ToString();
@@ -551,13 +552,18 @@ namespace TadaNomina.Controllers.Nomina
                 if(IdCliente == 148 || IdCliente == 158 || IdCliente == 159)
                 {
                     var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
+                    var incPrimDominical = cu.GetPrimaDominicalxHora(tokenGV, dat1, dat2, usuarios, (int)IdCliente);
+                    if(incPrimDominical.Count > 0) lI.AddRange(incPrimDominical);
+
+                    var listahoradextra = cu.GetIncidenciasHorasExtra(c, (int)IdCliente);
+                    if (listahoradextra.Count > 0) lI.AddRange(listahoradextra);
+
+                    var lstHrsNoTra = cu.GetHrsNoTrabajadas(c, (int)IdCliente);
+                    if (lstHrsNoTra.Count > 0) lI.AddRange(lstHrsNoTra);
+
+                    var lstHolyDescansos = cu.GetHolidaysDescansosTrabajados(tokenGV, dat1, dat2, usuarios, (int)IdCliente, idUnidadN);
+                    if (lstHolyDescansos.Count > 0) lI.AddRange(lstHolyDescansos);
                 }
-
-                var listahoradextra = cu.GetIncidenciasHorasExtra(c, (int)IdCliente);
-                if (listahoradextra.Count > 0) lI.AddRange(listahoradextra);
-
-                var lstHrsNoTra = cu.GetHrsNoTrabajadas(c, (int)IdCliente);
-                if (lstHrsNoTra.Count > 0) lI.AddRange(lstHrsNoTra);
 
                 var i = cu.IncidenciasGV(lI, token, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
 
