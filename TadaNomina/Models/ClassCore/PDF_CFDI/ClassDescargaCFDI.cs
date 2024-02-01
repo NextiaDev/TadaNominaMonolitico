@@ -52,6 +52,8 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
             ClassTimbradoNomina ct = new ClassTimbradoNomina();
             var list = ct.GetvTimbrados(IdPeriodoNomina);
 
+            if (list.Count <= 0) { throw new Exception("No existen registros timbrados para este periodo."); }
+
             List<string> files = new List<string>();
 
             if (Directory.Exists(ruta_CFDI_ZIP + @"\" + IdPeriodoNomina + @".zip"))
@@ -192,7 +194,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                     string rutaArchivo = ruta + @"\" + NombreArchivo;
 
                     if (!Directory.Exists(ruta))
-                        System.IO.Directory.CreateDirectory(ruta);
+                        Directory.CreateDirectory(ruta);
 
                     WS_CFDI cga = new WS_CFDI();
                     cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual);

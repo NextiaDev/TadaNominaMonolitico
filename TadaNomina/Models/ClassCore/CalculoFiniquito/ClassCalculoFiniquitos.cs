@@ -261,6 +261,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         {
             try
             {
+                FechaBaja = DateTime.Parse(FechaBaja.ToString("dd/MM/yyyy"));
                 DateTime FechaIncio = DateTime.Parse(FechaAlta.Day + "/" + FechaAlta.Month + "/" + FechaBaja.Year);
                 int numeroDias = FechaBaja.Subtract(FechaIncio).Days;
                 if (numeroDias < 0)

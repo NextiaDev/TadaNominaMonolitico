@@ -17,6 +17,7 @@ using RestSharp.Authenticators;
 using TadaNomina.Models.ViewModels.Nominas;
 using System.Linq.Dynamic.Core.Tokenizer;
 using ServiceStack;
+using System.Globalization;
 
 namespace TadaNomina.Models.ClassCore.RelojChecador
 {
@@ -185,28 +186,11 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
 
         public List<SelectListItem> AtteBookXN(string token, string StartDate, string EndDate, List<string> UsersIds)
         {
-            string datos;
-            string cadena;
-            string result;
-            Uri url;
             List<SelectListItem> z = new List<SelectListItem>();
-            WebClient wClient = new WebClient();
             LibroDeAsistenciaModel r;
             for (int item = 0; item < UsersIds.Count; item++)
             {
-                LibroDeAsistenciaModel consulta = new LibroDeAsistenciaModel
-                {
-                    StartDate = StartDate,
-                    EndDate = EndDate,
-                    UserIds = UsersIds[item]
-                };
-                datos = JsonConvert.SerializeObject(consulta);
-                cadena = Statics.ServidorGeoVictoriaToken + "/api/v1/AttendanceBook";
-                url = new Uri(cadena);
-                wClient.Headers["Content-Type"] = "application/json";
-                wClient.Headers["Authorization"] = token;
-                result = wClient.UploadString(url, datos);
-                r = JsonConvert.DeserializeObject<LibroDeAsistenciaModel>(result);
+                r = AttendanceBook(token,StartDate,EndDate, UsersIds[item]);
                 Thread.Sleep(250);
                 for (int i = 0; i < r.Users.Count; i++)
                 {
@@ -236,14 +220,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                                         Value = r.Users[i].PlannedInterval[y].TimeOffs[w].TimeOffTypeId
                                     });
                                 }
-                            }
-                            if (r.Users[i].PlannedInterval[y].Holiday == "True")
-                            {
-                                z.Add(new SelectListItem
-                                {
-                                    Text = r.Users[i].Identifier,
-                                    Value = "2566"
-                                });
                             }
                         }
                     }
@@ -289,7 +265,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                     {
                         Identifier = RemuModel[item].Identifier, //Usuario
                         Concepto = falta,                        //Tipo de Incidencia
-                        //Cantidad = cantidadF
                         Cantidad = RemuModel[item].Absent
                     });
                 }
@@ -392,7 +367,7 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                 {
                     lstbono.Add(new IncidenciasModel
                     {
-                        Cantidad = item.Cantidad,
+                        Cantidad = 1,
                         Identifier = item.Identifier,
                         Concepto = item.Concepto,
                     });
@@ -423,7 +398,7 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                                 IdPeriodoNomina = pIdPeriodoNomina,
                                 IdEmpleado = int.Parse(ClaveEmpleado),
                                 IdConcepto = (int)idBonoPuntualidad,
-                                Cantidad = 0,
+                                Cantidad = 1,
                                 BanderaChecadores = 1,
                                 Observaciones = "",
                                 Folio = "",
@@ -525,15 +500,6 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                         MontoEsquema = 0,
                         CantidadEsq = 0,
                     };
-
-                    //string datos = JsonConvert.SerializeObject(consulta);
-                    //string cadena = sStatics.relojChecador + "api/Incidencias/newIncidencia";
-                    //Uri url = new Uri(cadena);
-                    //WebClient wClient = new WebClient();
-                    //wClient.Headers["Content-Type"] = "application/json";
-                    //wClient.Headers["Authorization"] = nToken;
-                    //string result = wClient.UploadString(url, datos);
-                    //string r = JsonConvert.DeserializeObject<string>(result);
 
                     ci.NewIncindencia(consulta, idUsuario);
 
@@ -1000,18 +966,168 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             foreach(var item in lstremu)
             {
                 int hrs = int.Parse(item.NonWorkedHours.Substring(0, 2));
+                int minE = int.Parse(item.NonWorkedHours.Substring(3, 2));
+                double r = (minE > 0) ? (minE / 60.00) : 0.00;
+                double minD = Math.Round(r, 2);
+                double cantidad = hrs + minD;
                 if (hrs > 0)
                 {
                     var model1 = new IncidenciasModel
                     {
                         Identifier = item.Identifier,
                         Concepto = 2912,
-                        Cantidad = conConcepto == "Horas" ? hrs : (hrs / 8)
+                        Cantidad = conConcepto == "Horas" ? cantidad : (cantidad / 8)
                     };
                     lst.Add(model1);
                 }
             };
             return lst;
+        }
+
+        public List<IncidenciasModel> GetHolidaysDescansosTrabajados(string Token, string StartDate, string EndDate, List<string> UserIds, int IdCliente, int IdUnidadN)
+        {
+            List<IncidenciasModel> lst = new List<IncidenciasModel>();
+            int holyConcepto = 0;
+            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                holyConcepto = ctx.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConceptoSistema == 3129).Select(x => x.IdConcepto).FirstOrDefault();
+                if(IdUnidadN == 278)
+                {
+                    holyConcepto = 2852;
+                }
+                else if (IdUnidadN == 299)
+                {
+                    holyConcepto = 2890;
+                }
+                else
+                {
+                    holyConcepto = 2566;
+                }
+            }
+            for (int i = 0; i < UserIds.Count; i++)
+            {
+                foreach(var item in UserIds[i].Split(','))
+                {
+                    LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, item);
+                    Thread.Sleep(250);
+                    if (LstIncidencias != null)
+                    {
+                        var id = item;
+                        if (LstIncidencias.Users[i].Enabled == 1)
+                        {
+                            for (int y = 0; y < LstIncidencias.Users[i].PlannedInterval.Count; y++)
+                            {
+                                if (LstIncidencias.Users[i].PlannedInterval[y].Holiday == "True" && LstIncidencias.Users[i].PlannedInterval[y].Punches.Count > 0)
+                                {
+                                    List<DateTime> tiempos = new List<DateTime>();
+                                    foreach(var punches in LstIncidencias.Users[i].PlannedInterval[y].Punches)
+                                    {
+                                        var yy = int.Parse(punches.Date.Substring(0, 4));
+                                        var mm = int.Parse(punches.Date.Substring(4, 2));
+                                        var dd = int.Parse(punches.Date.Substring(6, 2));
+                                        var h = int.Parse(punches.Date.Substring(8, 2));
+                                        var m = int.Parse(punches.Date.Substring(10, 2));
+                                        var s = int.Parse(punches.Date.Substring(12, 2));
+                                        var t = new DateTime(yy, mm, dd, h,m,s);
+                                        tiempos.Add(t);
+                                    }
+                                    if (tiempos.Count > 1)
+                                    {
+                                        var entrada = tiempos.OrderBy(x => x).FirstOrDefault();
+                                        var salida = tiempos.OrderByDescending(x => x).FirstOrDefault();
+                                        var whrs = salida - entrada;
+
+                                        int minE = whrs.Minutes;
+                                        double r = (minE > 0) ? (minE / 60.00) : 0.00;
+                                        double minD = Math.Round(r, 2);
+                                        double cantidad = whrs.Hours + minD;
+                                        lst.Add(new IncidenciasModel
+                                        {
+                                            Identifier = LstIncidencias.Users[i].Identifier,
+                                            Concepto = holyConcepto,
+                                            Cantidad = cantidad
+                                        });
+                                    }
+                                }
+                                if (LstIncidencias.Users[i].PlannedInterval[y].Shifts[0].Type == "NotWorking" && LstIncidencias.Users[i].PlannedInterval[y].Punches.Count > 0)
+                                {
+                                    List<DateTime> tiempos = new List<DateTime>();
+                                    foreach (var punches in LstIncidencias.Users[i].PlannedInterval[y].Punches)
+                                    {
+                                        var yy = int.Parse(punches.Date.Substring(0, 4));
+                                        var mm = int.Parse(punches.Date.Substring(4, 2));
+                                        var dd = int.Parse(punches.Date.Substring(6, 2));
+                                        var h = int.Parse(punches.Date.Substring(8, 2));
+                                        var m = int.Parse(punches.Date.Substring(10, 2));
+                                        var s = int.Parse(punches.Date.Substring(12, 2));
+                                        var t = new DateTime(yy, mm, dd, h, m, s);
+                                        tiempos.Add(t);
+                                    }
+                                    if (tiempos.Count > 1)
+                                    {
+                                        var entrada = tiempos.OrderBy(x => x).FirstOrDefault();
+                                        var salida = tiempos.OrderByDescending(x => x).FirstOrDefault();
+                                        var whrs = salida - entrada;
+
+                                        int minE = whrs.Minutes;
+                                        double r = (minE > 0) ? (minE / 60.00) : 0.00;
+                                        double minD = Math.Round(r, 2);
+                                        double cantidad = whrs.Hours + minD;
+                                        lst.Add(new IncidenciasModel
+                                        {
+                                            Identifier = LstIncidencias.Users[i].Identifier,
+                                            Concepto = holyConcepto,
+                                            Cantidad = cantidad
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return lst;
+        }
+
+        public List<IncidenciasModel> GetPrimaDominicalxHora(string Token, string StartDate, string EndDate, List<string> UserIds, int IdCliente)
+        {
+            List<IncidenciasModel> result = new List<IncidenciasModel>();
+            var conceptoPrimaDominical = new Cat_ConceptosNomina();
+            try
+            {
+                using (TadaNominaEntities ctx = new TadaNominaEntities())
+                {
+                    conceptoPrimaDominical = ctx.Cat_ConceptosNomina.Where(p => p.IdCliente == IdCliente && p.IdEstatus == 1 && p.IdConceptoSistema == 274).FirstOrDefault();
+                }
+                if(conceptoPrimaDominical != null)
+                {
+                    for(int i = 0; i < UserIds.Count; i++)
+                    {
+                        LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, UserIds[i]);
+                        if (LstIncidencias.Users[i].Enabled == 1)
+                        {
+                            var listaplanned = LstIncidencias.Users[i].PlannedInterval;
+                            // se filtran todos los registros que sean domingos validando el campo "Date" dentro del listado de "PlannedInterval" se espera que la fecha llegue en formato "yyyyMMddHHmmSS"
+                            var domingos = listaplanned.Where(p => DateTime.ParseExact(p.Date.Substring(0,8),"yyyyMMdd", CultureInfo.InvariantCulture).DayOfWeek.ToString() == "Sunday").ToList();
+                            // se parsea a decimal los valores de horas trabajadas que estan dentro del "PlannedInterval" de los marcajes indenfificados en domingo
+                            var horasdate = domingos.Select(p => Convert.ToDecimal(TimeSpan.Parse(p.WorkedHours).TotalHours)).ToList();
+                            // se suman las horas de detectadas en dias domingos
+                            var totalhoras = horasdate.Sum(p => Convert.ToDouble(p));
+                            result.Add(new IncidenciasModel
+                            {
+                                Identifier = LstIncidencias.Users[i].Identifier,
+                                Concepto = conceptoPrimaDominical.IdConcepto,
+                                Cantidad = totalhoras
+                            });
+                        }
+                    }
+                }
+                return result;
+            }
+            catch
+            {
+                return result;
+            }
         }
     }
 }
