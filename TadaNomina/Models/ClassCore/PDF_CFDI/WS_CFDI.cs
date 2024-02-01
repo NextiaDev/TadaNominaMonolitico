@@ -52,9 +52,12 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
 
             using (FileStream stream = new FileStream(ruta, FileMode.Create))
             {
-                BinaryWriter writer = new BinaryWriter(stream, Encoding.ASCII, false);
-                writer.Write(bytes, 0, bytes.Length);
-                writer.Close();
+                using (BinaryWriter writer = new BinaryWriter(stream, Encoding.ASCII, false))
+                {
+                    writer.Write(bytes, 0, bytes.Length);
+                    writer.Close();
+                }
+                   
             }
         }        
     }

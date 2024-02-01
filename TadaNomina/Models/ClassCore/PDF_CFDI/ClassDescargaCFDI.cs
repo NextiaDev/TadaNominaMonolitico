@@ -192,7 +192,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                     string rutaArchivo = ruta + @"\" + NombreArchivo;
 
                     if (!Directory.Exists(ruta))
-                        System.IO.Directory.CreateDirectory(ruta);
+                        Directory.CreateDirectory(ruta);
 
                     WS_CFDI cga = new WS_CFDI();
                     cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual);
