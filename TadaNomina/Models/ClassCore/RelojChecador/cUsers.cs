@@ -1107,8 +1107,11 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                         if (LstIncidencias.Users[i].Enabled == 1)
                         {
                             var listaplanned = LstIncidencias.Users[i].PlannedInterval;
-                            var domingos = listaplanned.Where(p => DateTime.Parse(p.Date).DayOfWeek.ToString() == "Sunday").ToList();
+                            // se filtran todos los registros que sean domingos validando el campo "Date" dentro del listado de "PlannedInterval" se espera que la fecha llegue en formato "yyyyMMddHHmmSS"
+                            var domingos = listaplanned.Where(p => DateTime.ParseExact(p.Date.Substring(0,8),"yyyyMMdd", CultureInfo.InvariantCulture).DayOfWeek.ToString() == "Sunday").ToList();
+                            // se parsea a decimal los valores de horas trabajadas que estan dentro del "PlannedInterval" de los marcajes indenfificados en domingo
                             var horasdate = domingos.Select(p => Convert.ToDecimal(TimeSpan.Parse(p.WorkedHours).TotalHours)).ToList();
+                            // se suman las horas de detectadas en dias domingos
                             var totalhoras = horasdate.Sum(p => Convert.ToDouble(p));
                             result.Add(new IncidenciasModel
                             {
