@@ -1089,6 +1089,15 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
+        /// <summary>
+        /// Metodo para obtener las incidencias de prima dominical por un rango de fechas
+        /// </summary>
+        /// <param name="Token">token GeoVictoria</param>
+        /// <param name="StartDate">Fecha Inicio Periodo</param>
+        /// <param name="EndDate">Fecha fin Periodo</param>
+        /// <param name="UserIds">Lista de identificadores de los colobordores(GeoVictoria)</param>
+        /// <param name="IdCliente">Identificador del cliente (variable de sesion)</param>
+        /// <returns></returns>
         public List<IncidenciasModel> GetPrimaDominicalxHora(string Token, string StartDate, string EndDate, List<string> UserIds, int IdCliente)
         {
             List<IncidenciasModel> result = new List<IncidenciasModel>();
@@ -1097,29 +1106,16 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             {
                 using (TadaNominaEntities ctx = new TadaNominaEntities())
                 {
+                    //Se toma el valor de IdConceptoSistema = 274 debido a que es un concepto de refiere a la prima dominical
                     conceptoPrimaDominical = ctx.Cat_ConceptosNomina.Where(p => p.IdCliente == IdCliente && p.IdEstatus == 1 && p.IdConceptoSistema == 274).FirstOrDefault();
                 }
                 if(conceptoPrimaDominical != null)
                 {
                     for(int i = 0; i < UserIds.Count; i++)
                     {
+                        //Se obtiene los registros de los colaboradores de los checadores de GeoVictoria
                         LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, UserIds[i]);
-                        if (LstIncidencias.Users[i].Enabled == 1)
-                        {
-                            var listaplanned = LstIncidencias.Users[i].PlannedInterval;
-                            // se filtran todos los registros que sean domingos validando el campo "Date" dentro del listado de "PlannedInterval" se espera que la fecha llegue en formato "yyyyMMddHHmmSS"
-                            var domingos = listaplanned.Where(p => DateTime.ParseExact(p.Date.Substring(0,8),"yyyyMMdd", CultureInfo.InvariantCulture).DayOfWeek.ToString() == "Sunday").ToList();
-                            // se parsea a decimal los valores de horas trabajadas que estan dentro del "PlannedInterval" de los marcajes indenfificados en domingo
-                            var horasdate = domingos.Select(p => Convert.ToDecimal(TimeSpan.Parse(p.WorkedHours).TotalHours)).ToList();
-                            // se suman las horas de detectadas en dias domingos
-                            var totalhoras = horasdate.Sum(p => Convert.ToDouble(p));
-                            result.Add(new IncidenciasModel
-                            {
-                                Identifier = LstIncidencias.Users[i].Identifier,
-                                Concepto = conceptoPrimaDominical.IdConcepto,
-                                Cantidad = totalhoras
-                            });
-                        }
+                        result = GetIncidenciasPrimaDominical(LstIncidencias, conceptoPrimaDominical.IdConcepto);
                     }
                 }
                 return result;
@@ -1128,6 +1124,60 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             {
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Metodo para tranformar los registros de GeoVictoria a incidencias de nomina
+        /// </summary>
+        /// <param name="listageovic">informacion obteniada de GeoVictoria</param>
+        /// <param name="IdConceptoPrimaDominical">IdConcepto prima dominical</param>
+        /// <returns></returns>
+        public List<IncidenciasModel> GetIncidenciasPrimaDominical(LibroDeAsistenciaModel listageovic, int IdConceptoPrimaDominical)
+        {
+            var result = new List<IncidenciasModel>();
+            if(listageovic.Users.Count == 0) return result;
+            foreach(var item in  listageovic.Users)
+            {
+                if (item.Enabled == 1)
+                {
+                    var listaplanned = item.PlannedInterval;
+                    // se filtran todos los registros que sean domingos validando el campo "Date" dentro del listado de "PlannedInterval" se espera que la fecha llegue en formato "yyyyMMddHHmmSS"
+                    var domingos = listaplanned.Where(p => DateTime.ParseExact(p.Date.Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture).DayOfWeek.ToString() == "Sunday" && p.Punches.Count > 0).ToList();
+                    if (domingos.Count > 0) 
+                    {
+                        var listadecimales = GetDecimalesHoras(domingos);
+                        var totalhoras = listadecimales.Sum(p => Convert.ToDouble(p));
+                        result.Add(new IncidenciasModel
+                        {
+                            Identifier = item.Identifier,
+                            Concepto = IdConceptoPrimaDominical,
+                            Cantidad = totalhoras
+                        });
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Metodo para obtener las horas trabajadas totales
+        /// </summary>
+        /// <param name="listainterval">listado de registros realizados en un dia domingo</param>
+        /// <returns></returns>
+        public List<decimal> GetDecimalesHoras(List<LAPlannedIntervalModel> listainterval)
+        {
+            var result = new List<decimal>();
+            if(listainterval.Count == 0) return result;
+            foreach (var item in listainterval)
+            {
+                var listaregistros = item.Punches;
+                var fechaInicio = DateTime.Parse(listaregistros[0].Date);
+                var fechaFin = DateTime.Parse(listaregistros[listaregistros.Count - 1].Date);
+                var resta = fechaFin - fechaInicio;
+                var decimalvalue = Convert.ToDecimal(resta);
+                result.Add(decimalvalue);
+            }
+            return result;
         }
     }
 }
