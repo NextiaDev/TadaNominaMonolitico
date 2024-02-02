@@ -37,13 +37,14 @@ namespace TadaNomina.Controllers.CFDI
             ClassTimbradoNomina cperiodo = new ClassTimbradoNomina();
             ModelTimbradoNomina model = cperiodo.GetModeloTimbradoNomina(IdUnidadNegocio);
             model.IdPeriodoNomina = timbrado.IdPeriodoNomina;
+            model.tipoTimbrado = timbrado.tipoTimbrado;
 
             cGeneraXML cgx = new cGeneraXML();
             var cantidad = cgx.getRegistrosXMLPeriodo(timbrado.IdPeriodoNomina).Count();
             model.MensajeContador = "XML que hay actualmente en este periodo : " + cantidad;
 
             var cantidadRegistrosNomina = cgx.obtenDatosTimbrado(timbrado.IdPeriodoNomina).Count();
-            model.RegistrosNomina = "Registros procesados en nómina para este periodo: " + cantidadRegistrosNomina;
+            model.RegistrosNomina = "Registros procesados en nómina para este periodo: " + cantidadRegistrosNomina;            
 
             var cantidadRegistrosTimbrados = cgx.getTimbrados(timbrado.IdPeriodoNomina);
             model.RegistrosYaTimbrados = "Registros ya timbrados para este periodo: " + cantidadRegistrosTimbrados.Count();
@@ -51,7 +52,7 @@ namespace TadaNomina.Controllers.CFDI
             return View(model);            
         }
 
-        public JsonResult GenerarArchivos(int IdPeriodoNomina)
+        public JsonResult GenerarArchivos(int IdPeriodoNomina, string tipoTimbrado)
         {
             int IdCliente = (int)Session["sIdCliente"];
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
@@ -59,9 +60,11 @@ namespace TadaNomina.Controllers.CFDI
             
             try
             {
+                if (tipoTimbrado == null || tipoTimbrado == string.Empty) { throw new Exception("Debe Elegir el Uso del XML"); }
                 Guid Id = Guid.NewGuid();
                 cGeneraXML ct = new cGeneraXML();
-                var errores = ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario);
+
+                var errores = ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, tipoTimbrado, IdUsuario);
                 var cantidad = ct.getRegistrosXMLPeriodo(IdPeriodoNomina).Count();
 
                 return Json(new { estatus = "Ok", mensaje = "Se generaron correctamente los archivos.", cantidad, errores });               
