@@ -556,7 +556,7 @@ namespace TadaNomina.Controllers.Nomina
 
                 if(IdCliente == 148 || IdCliente == 158 || IdCliente == 159)
                 {
-                    var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
+                    var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario, usuarios);
                     var incPrimDominical = cu.GetPrimaDominicalxHora(tokenGV, dat1, dat2, usuarios, (int)IdCliente);
                     if(incPrimDominical.Count > 0) lI.AddRange(incPrimDominical);
 
