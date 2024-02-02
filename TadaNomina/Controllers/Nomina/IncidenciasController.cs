@@ -515,6 +515,11 @@ namespace TadaNomina.Controllers.Nomina
             }
         }
 
+        /// <summary>
+        /// Accion para generar toda incidencia de un periodo de nomina proveniente de la informacion del reloj checador de GeoVictoria
+        /// </summary>
+        /// <param name="pIdPer">Periodo de nomina</param>
+        /// <returns>Lista de incidencias</returns>
         public ActionResult GeneraIncidencias(string pIdPer)
         {
             int pIdPeriodoNomina = int.Parse(Statics.DesEncriptar(pIdPer));
