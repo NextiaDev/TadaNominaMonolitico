@@ -341,6 +341,15 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
+        /// <summary>
+        /// Metodo para generar premios de puntualidad en un periodo de nomina
+        /// </summary>
+        /// <param name="lstIncidencia">Lista de faltas</param>
+        /// <param name="pIdPeriodoNomina">Periodo de nomina</param>
+        /// <param name="IdCliente">Cliente</param>
+        /// <param name="idUsuario">Usuario quien captura la incidencia</param>
+        /// <param name="usuarios">Lista de empleados</param>
+        /// <returns>Lista de incidencias generadas</returns>
         public List<IncidenciasModel> IncidenciasBonoPuntualidad(List<IncidenciasModel> lstIncidencia, int pIdPeriodoNomina, int IdCliente, int idUsuario, List<string> usuarios)
         {
             List<IncidenciasModel> lstbono = new List<IncidenciasModel>();

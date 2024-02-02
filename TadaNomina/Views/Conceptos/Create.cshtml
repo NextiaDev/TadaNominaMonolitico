@@ -13,17 +13,10 @@
 </div>
 
 <div id="page-content">
-    @using (Ajax.BeginForm("Create", "Conceptos", new AjaxOptions
-    {
-        HttpMethod = "POST",
-        OnBegin = "OnBegin",
-        OnComplete = "OnComplete",
-        OnSuccess = "OnSuccess",
-        OnFailure = "OnFailure"
-    }))
+    @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        <div class="panel">
+     <div class="panel">
             <div class="panel">
                 <div class="panel-heading">
                     <h3 class="panel-title">Información General</h3>
