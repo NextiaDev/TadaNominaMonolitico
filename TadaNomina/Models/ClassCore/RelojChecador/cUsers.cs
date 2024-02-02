@@ -341,7 +341,7 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
-        public List<IncidenciasModel> IncidenciasBonoPuntualidad(List<IncidenciasModel> lstIncidencia, int pIdPeriodoNomina, int IdCliente, int idUsuario)
+        public List<IncidenciasModel> IncidenciasBonoPuntualidad(List<IncidenciasModel> lstIncidencia, int pIdPeriodoNomina, int IdCliente, int idUsuario, List<string> usuarios)
         {
             List<IncidenciasModel> lstbono = new List<IncidenciasModel>();
             try
@@ -363,14 +363,17 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                     idBonoPuntualidad = ctx.Cat_ConceptosNomina.Where(x => x.IdConceptoSistema == 3346 && x.IdCliente == IdCliente && x.IdEstatus == 1).Select(x => x.IdConcepto).FirstOrDefault();
                 }
                 var lstEmpFalta = lstIncidencia.Where(x => x.Concepto == falta).Select(x => x.Identifier);
-                foreach (var item in lstIncidencia.Where(x => x.Concepto != falta && !lstEmpFalta.Contains(x.Identifier)))
+                for(var i = 0; i < usuarios.Count; i++)
                 {
-                    lstbono.Add(new IncidenciasModel
+                    foreach (var item in usuarios[i].Split(',').Where(x=>!lstEmpFalta.Contains(x)))
                     {
-                        Cantidad = 1,
-                        Identifier = item.Identifier,
-                        Concepto = item.Concepto,
-                    });
+                        lstbono.Add(new IncidenciasModel
+                        {
+                            Cantidad = 1,
+                            Identifier = item,
+                            Concepto = (int)idBonoPuntualidad,
+                        });
+                    }
                 }
 
                 for (int item = 0; item < lstbono.Count; item++)

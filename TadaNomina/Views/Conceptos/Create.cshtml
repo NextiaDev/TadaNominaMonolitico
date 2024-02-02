@@ -13,7 +13,14 @@
 </div>
 
 <div id="page-content">
-    @using (Html.BeginForm())
+    @using (Ajax.BeginForm("Create", "Conceptos", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "OnBegin",
+        OnComplete = "OnComplete",
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure"
+    }))
     {
         @Html.AntiForgeryToken()
         <div class="panel">
@@ -346,7 +353,7 @@
             <div class="panel">
                 <div class="panel-footer">
                     <div class="form-group" style="text-align:right">
-                        <button type="submit" class="btn btn-primary btn-sm _Aceptar" ><span class="fa fa-save"></span> Guardar</button>
+                        <button type="submit" class="btn btn-primary btn-sm" ><span class="fa fa-save"></span> Guardar</button>
                         <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
                         
                     </div>
@@ -478,5 +485,62 @@
             });
             $("#modalInfo").modal('show');
         });
+
+        function mensajeAlerta(icon, titulo, mensaje, tipo, animationIn, animationOut, time) {
+            $.niftyNoty({
+                type: tipo,
+                container: 'floating',
+                title: titulo,
+                message: mensaje,
+                closeBtn: true,
+                floating: {
+                    position: 'top-center',
+                    animationIn: animationIn,
+                    animationOut: animationOut
+                },
+                focus: true,
+                timer: time,
+                icon: icon
+            });
+        }
+
+        function OnBegin() {
+            $.showLoading();
+        }
+
+        function OnComplete() {
+            $.hideLoading();
+        }
+
+        function OnSuccess(data) {
+            if (data > 0) {
+                mensajeAlerta("fa fa-smile-o fa-2x", "Concepto", "El concepto fue agregado correctamente", "success", "fadeIn", "fadeOut", 2000);
+                setTimeout(function () {
+                    $('#ModalNuevo').modal('hide');
+                    location.reload();
+                }, 2000);
+            }
+            else if (data < 0) {
+                mensajeAlerta("fa fa-meh-o fa-2x", "Concepto", "Hubo problemas al guardar el registro, intente nuevamente", "warning", "fadeIn", "fadeOut", 2000);
+                setTimeout(function () {
+                    $('#ModalNuevo').modal('hide');
+                    location.reload();
+                }, 2000);
+            }
+            else {
+                mensajeAlerta("fa fa-meh-o fa-2x", "Concepto", data, "warning", "fadeIn", "fadeOut", 2000);
+                setTimeout(function () {
+                    $('#ModalNuevo').modal('hide');
+                    location.reload();
+                }, 2000);
+            }
+        }
+
+        function OnFailure() {
+            $.hideLoading();
+            mensajeAlerta("fa fa-frown-ofa-2x", "Concepto", "Huo problemas de conexion, favor de comunicarse con su administrador", "danger", "fadeIn", "fadeOut", 2000);
+            $('#ModalNuevo').modal('hide');
+        }
+
     </script>
 }
