@@ -203,6 +203,7 @@
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="IdModifica" Type="int" />
           <Property Name="FechaModifica" Type="datetime" />
+          <Property Name="UsoXML" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidencias_Consolidadas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -389,6 +390,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="NombrePatrona" Type="varchar" MaxLength="175" />
           <Property Name="RegistroPatronal" Type="varchar" MaxLength="15" />
           <Property Name="Rfc_Patrona" Type="nvarchar" MaxLength="15" />
+          <Property Name="UsoXML" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Function Name="sp_CosteoResumenMensual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdsPeriodoNomina" Type="varchar" Mode="In" />
@@ -582,7 +584,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
     [vXmlNomina].[Imss] AS [Imss], 
     [vXmlNomina].[NombrePatrona] AS [NombrePatrona], 
     [vXmlNomina].[RegistroPatronal] AS [RegistroPatronal], 
-    [vXmlNomina].[Rfc_Patrona] AS [Rfc_Patrona]
+    [vXmlNomina].[Rfc_Patrona] AS [Rfc_Patrona], 
+    [vXmlNomina].[UsoXML] AS [UsoXML]
     FROM [dbo].[vXmlNomina] AS [vXmlNomina]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -629,11 +632,11 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
             <Parameter Name="Texto" Mode="InOut" Type="String" />
           </FunctionImport>
           <EntitySet Name="Cat_MotivosCancelacionSAT" EntityType="TadaNominaTimbrado.Cat_MotivosCancelacionSAT" />
-          <EntitySet Name="XmlNomina" EntityType="TadaNominaTimbrado.XmlNomina" />
-          <EntitySet Name="vXmlNomina" EntityType="TadaNominaTimbrado.vXmlNomina" />
           <EntitySet Name="vTimbradoNomina" EntityType="TadaNominaTimbrado.vTimbradoNomina" />
           <EntitySet Name="Cat_RegistroPatronal" EntityType="TadaNominaTimbrado.Cat_RegistroPatronal" />
           <EntitySet Name="TimbradoNomina" EntityType="TadaNominaTimbrado.TimbradoNomina" />
+          <EntitySet Name="XmlNomina" EntityType="TadaNominaTimbrado.XmlNomina" />
+          <EntitySet Name="vXmlNomina" EntityType="TadaNominaTimbrado.vXmlNomina" />
         </EntityContainer>
         <EntityType Name="Cat_Token_MasNegocio">
           <Key>
@@ -1011,54 +1014,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="IdEstatus" Type="Int32" />
         </EntityType>
-        <EntityType Name="XmlNomina">
-          <Key>
-            <PropertyRef Name="IdXml" />
-          </Key>
-          <Property Name="IdXml" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdPeriodoNomina" Type="Int32" />
-          <Property Name="IdEmpleado" Type="Int32" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="XML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Leyenda" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
-          <Property Name="Guid" Type="Guid" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModifica" Type="Int32" />
-          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="vXmlNomina">
-          <Key>
-            <PropertyRef Name="IdXml" />
-          </Key>
-          <Property Name="IdXml" Type="Int32" Nullable="false" />
-          <Property Name="IdPeriodoNomina" Type="Int32" />
-          <Property Name="IdEmpleado" Type="Int32" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="XML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Leyenda" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
-          <Property Name="Guid" Type="Guid" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="IdModifica" Type="Int32" />
-          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
-          <Property Name="Periodo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="FechaInicio" Type="DateTime" Precision="0" />
-          <Property Name="FechaFin" Type="DateTime" Precision="0" />
-          <Property Name="IdUnidadNegocio" Type="Int32" />
-          <Property Name="ClaveEmpleado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
-          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="NombrePatrona" Type="String" MaxLength="175" FixedLength="false" Unicode="false" />
-          <Property Name="RegistroPatronal" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Rfc_Patrona" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="vTimbradoNomina">
           <Key>
             <PropertyRef Name="IdTimbradoNomina" />
@@ -1224,6 +1179,56 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="UUID_Relacionado" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="IdXml" Type="Int32" />
           <Property Name="IdPAC" Type="Int32" />
+        </EntityType>
+        <EntityType Name="XmlNomina">
+          <Key>
+            <PropertyRef Name="IdXml" />
+          </Key>
+          <Property Name="IdXml" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="IdEmpleado" Type="Int32" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="XML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Leyenda" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="Guid" Type="Guid" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="UsoXML" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="vXmlNomina">
+          <Key>
+            <PropertyRef Name="IdXml" />
+          </Key>
+          <Property Name="IdXml" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" />
+          <Property Name="IdEmpleado" Type="Int32" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="XML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Leyenda" Type="String" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="Guid" Type="Guid" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <Property Name="Periodo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FechaInicio" Type="DateTime" Precision="0" />
+          <Property Name="FechaFin" Type="DateTime" Precision="0" />
+          <Property Name="IdUnidadNegocio" Type="Int32" />
+          <Property Name="ClaveEmpleado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="NombrePatrona" Type="String" MaxLength="175" FixedLength="false" Unicode="false" />
+          <Property Name="RegistroPatronal" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Rfc_Patrona" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="UsoXML" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1573,56 +1578,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="XmlNomina">
-            <EntityTypeMapping TypeName="TadaNominaTimbrado.XmlNomina">
-              <MappingFragment StoreEntitySet="XmlNomina">
-                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
-                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="Guid" ColumnName="Guid" />
-                <ScalarProperty Name="Leyenda" ColumnName="Leyenda" />
-                <ScalarProperty Name="XML" ColumnName="XML" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
-                <ScalarProperty Name="IdXml" ColumnName="IdXml" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vXmlNomina">
-            <EntityTypeMapping TypeName="TadaNominaTimbrado.vXmlNomina">
-              <MappingFragment StoreEntitySet="vXmlNomina">
-                <ScalarProperty Name="Rfc_Patrona" ColumnName="Rfc_Patrona" />
-                <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
-                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
-                <ScalarProperty Name="Imss" ColumnName="Imss" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="Curp" ColumnName="Curp" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
-                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
-                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
-                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
-                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
-                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="Guid" ColumnName="Guid" />
-                <ScalarProperty Name="Leyenda" ColumnName="Leyenda" />
-                <ScalarProperty Name="XML" ColumnName="XML" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
-                <ScalarProperty Name="IdXml" ColumnName="IdXml" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="vTimbradoNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.vTimbradoNomina">
               <MappingFragment StoreEntitySet="vTimbradoNomina">
@@ -1779,6 +1734,58 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
                 <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
                 <ScalarProperty Name="IdTimbradoNomina" ColumnName="IdTimbradoNomina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="XmlNomina">
+            <EntityTypeMapping TypeName="TadaNominaTimbrado.XmlNomina">
+              <MappingFragment StoreEntitySet="XmlNomina">
+                <ScalarProperty Name="UsoXML" ColumnName="UsoXML" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="Leyenda" ColumnName="Leyenda" />
+                <ScalarProperty Name="XML" ColumnName="XML" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdXml" ColumnName="IdXml" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vXmlNomina">
+            <EntityTypeMapping TypeName="TadaNominaTimbrado.vXmlNomina">
+              <MappingFragment StoreEntitySet="vXmlNomina">
+                <ScalarProperty Name="UsoXML" ColumnName="UsoXML" />
+                <ScalarProperty Name="Rfc_Patrona" ColumnName="Rfc_Patrona" />
+                <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
+                <ScalarProperty Name="NombrePatrona" ColumnName="NombrePatrona" />
+                <ScalarProperty Name="Imss" ColumnName="Imss" />
+                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
+                <ScalarProperty Name="IdUnidadNegocio" ColumnName="IdUnidadNegocio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Guid" ColumnName="Guid" />
+                <ScalarProperty Name="Leyenda" ColumnName="Leyenda" />
+                <ScalarProperty Name="XML" ColumnName="XML" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdXml" ColumnName="IdXml" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

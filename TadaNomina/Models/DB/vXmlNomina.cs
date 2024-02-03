@@ -40,5 +40,6 @@ namespace TadaNomina.Models.DB
         public string NombrePatrona { get; set; }
         public string RegistroPatronal { get; set; }
         public string Rfc_Patrona { get; set; }
+        public string UsoXML { get; set; }
     }
 }

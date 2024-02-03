@@ -1,4 +1,4 @@
-﻿$("#IdPeriodoNomina").change(function () {
+$("#IdPeriodoNomina").change(function () {
     var IdPeriodo = $(this).val();    
     $.showLoading({ name: 'circle-fade' });
     $("form").submit();
@@ -15,11 +15,12 @@ $(document).ready(function () {
 $("#generarXML").click(function () {
     $.showLoading({ name: 'circle-fade' });
     var IdPeriodoNomina = $(this).attr('data-id');
+    var tipoTimbrado = $("#_tipo").val();
 
     $.ajax({
         type: 'POST',
         url: 'GeneraXML/GenerarArchivos',
-        data: { IdPeriodoNomina },
+        data: { IdPeriodoNomina, tipoTimbrado },
         dataType: 'json',
         async: true,
         success: function (result) {
