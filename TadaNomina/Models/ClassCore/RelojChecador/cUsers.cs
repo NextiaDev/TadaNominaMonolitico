@@ -341,7 +341,16 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
-        public List<IncidenciasModel> IncidenciasBonoPuntualidad(List<IncidenciasModel> lstIncidencia, int pIdPeriodoNomina, int IdCliente, int idUsuario)
+        /// <summary>
+        /// Metodo para generar premios de puntualidad en un periodo de nomina
+        /// </summary>
+        /// <param name="lstIncidencia">Lista de faltas</param>
+        /// <param name="pIdPeriodoNomina">Periodo de nomina</param>
+        /// <param name="IdCliente">Cliente</param>
+        /// <param name="idUsuario">Usuario quien captura la incidencia</param>
+        /// <param name="usuarios">Lista de empleados</param>
+        /// <returns>Lista de incidencias generadas</returns>
+        public List<IncidenciasModel> IncidenciasBonoPuntualidad(List<IncidenciasModel> lstIncidencia, int pIdPeriodoNomina, int IdCliente, int idUsuario, List<string> usuarios)
         {
             List<IncidenciasModel> lstbono = new List<IncidenciasModel>();
             try
@@ -363,14 +372,17 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
                     idBonoPuntualidad = ctx.Cat_ConceptosNomina.Where(x => x.IdConceptoSistema == 3346 && x.IdCliente == IdCliente && x.IdEstatus == 1).Select(x => x.IdConcepto).FirstOrDefault();
                 }
                 var lstEmpFalta = lstIncidencia.Where(x => x.Concepto == falta).Select(x => x.Identifier);
-                foreach (var item in lstIncidencia.Where(x => x.Concepto != falta && !lstEmpFalta.Contains(x.Identifier)))
+                for(var i = 0; i < usuarios.Count; i++)
                 {
-                    lstbono.Add(new IncidenciasModel
+                    foreach (var item in usuarios[i].Split(',').Where(x=>!lstEmpFalta.Contains(x)))
                     {
-                        Cantidad = 1,
-                        Identifier = item.Identifier,
-                        Concepto = item.Concepto,
-                    });
+                        lstbono.Add(new IncidenciasModel
+                        {
+                            Cantidad = 1,
+                            Identifier = item,
+                            Concepto = (int)idBonoPuntualidad,
+                        });
+                    }
                 }
 
                 for (int item = 0; item < lstbono.Count; item++)
@@ -984,13 +996,26 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
+        /// <summary>
+        /// Metodo para obtener las incidencias de descansos trabajados y días festivos trabajados en un periodo de nomina
+        /// </summary>
+        /// <param name="Token">Token GeoVictoria</param>
+        /// <param name="StartDate">Fecha de inicio del periodo</param>
+        /// <param name="EndDate">Fecga de fin del periodo</param>
+        /// <param name="UserIds">Empleados</param>
+        /// <param name="IdCliente">Cliente</param>
+        /// <param name="IdUnidadN">Unidad de negocio</param>
+        /// <returns>Lista de incidencias</returns>
         public List<IncidenciasModel> GetHolidaysDescansosTrabajados(string Token, string StartDate, string EndDate, List<string> UserIds, int IdCliente, int IdUnidadN)
         {
             List<IncidenciasModel> lst = new List<IncidenciasModel>();
+            //Variable de concepto de incidencia
             int holyConcepto = 0;
             using (TadaNominaEntities ctx = new TadaNominaEntities())
             {
+
                 holyConcepto = ctx.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConceptoSistema == 3129).Select(x => x.IdConcepto).FirstOrDefault();
+                //Cambia concepto dependiendo de la unidad de negocio
                 if(IdUnidadN == 278)
                 {
                     holyConcepto = 2852;
@@ -1006,80 +1031,85 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             }
             for (int i = 0; i < UserIds.Count; i++)
             {
-                foreach(var item in UserIds[i].Split(','))
+                //Incidencias de los colaboradores en el periodo de tiempo
+                LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, UserIds[i]);
+                Thread.Sleep(250);
+                foreach(var user in LstIncidencias.Users)
                 {
-                    LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, item);
-                    Thread.Sleep(250);
-                    if (LstIncidencias != null)
+                    if (user.Enabled == 1)
                     {
-                        var id = item;
-                        if (LstIncidencias.Users[i].Enabled == 1)
+                        for (int y = 0; y < user.PlannedInterval.Count; y++)
                         {
-                            for (int y = 0; y < LstIncidencias.Users[i].PlannedInterval.Count; y++)
+                            //Se valida que el día sea festivo y tenga registros para aplicar la incidencia
+                            if (user.PlannedInterval[y].Holiday == "True" && user.PlannedInterval[y].Punches.Count > 0)
                             {
-                                if (LstIncidencias.Users[i].PlannedInterval[y].Holiday == "True" && LstIncidencias.Users[i].PlannedInterval[y].Punches.Count > 0)
+                                //Lista para guardar todos los registros del colaborador
+                                List<DateTime> tiempos = new List<DateTime>();
+                                foreach (var punches in user.PlannedInterval[y].Punches)
                                 {
-                                    List<DateTime> tiempos = new List<DateTime>();
-                                    foreach(var punches in LstIncidencias.Users[i].PlannedInterval[y].Punches)
-                                    {
-                                        var yy = int.Parse(punches.Date.Substring(0, 4));
-                                        var mm = int.Parse(punches.Date.Substring(4, 2));
-                                        var dd = int.Parse(punches.Date.Substring(6, 2));
-                                        var h = int.Parse(punches.Date.Substring(8, 2));
-                                        var m = int.Parse(punches.Date.Substring(10, 2));
-                                        var s = int.Parse(punches.Date.Substring(12, 2));
-                                        var t = new DateTime(yy, mm, dd, h,m,s);
-                                        tiempos.Add(t);
-                                    }
-                                    if (tiempos.Count > 1)
-                                    {
-                                        var entrada = tiempos.OrderBy(x => x).FirstOrDefault();
-                                        var salida = tiempos.OrderByDescending(x => x).FirstOrDefault();
-                                        var whrs = salida - entrada;
-
-                                        int minE = whrs.Minutes;
-                                        double r = (minE > 0) ? (minE / 60.00) : 0.00;
-                                        double minD = Math.Round(r, 2);
-                                        double cantidad = whrs.Hours + minD;
-                                        lst.Add(new IncidenciasModel
-                                        {
-                                            Identifier = LstIncidencias.Users[i].Identifier,
-                                            Concepto = holyConcepto,
-                                            Cantidad = cantidad
-                                        });
-                                    }
+                                    var yy = int.Parse(punches.Date.Substring(0, 4));
+                                    var mm = int.Parse(punches.Date.Substring(4, 2));
+                                    var dd = int.Parse(punches.Date.Substring(6, 2));
+                                    var h = int.Parse(punches.Date.Substring(8, 2));
+                                    var m = int.Parse(punches.Date.Substring(10, 2));
+                                    var s = int.Parse(punches.Date.Substring(12, 2));
+                                    var t = new DateTime(yy, mm, dd, h, m, s);
+                                    tiempos.Add(t);
                                 }
-                                if (LstIncidencias.Users[i].PlannedInterval[y].Shifts[0].Type == "NotWorking" && LstIncidencias.Users[i].PlannedInterval[y].Punches.Count > 0)
+                                //Aplica si tiene mas de un registro y tener datos con que trabajar
+                                if (tiempos.Count > 1)
                                 {
-                                    List<DateTime> tiempos = new List<DateTime>();
-                                    foreach (var punches in LstIncidencias.Users[i].PlannedInterval[y].Punches)
-                                    {
-                                        var yy = int.Parse(punches.Date.Substring(0, 4));
-                                        var mm = int.Parse(punches.Date.Substring(4, 2));
-                                        var dd = int.Parse(punches.Date.Substring(6, 2));
-                                        var h = int.Parse(punches.Date.Substring(8, 2));
-                                        var m = int.Parse(punches.Date.Substring(10, 2));
-                                        var s = int.Parse(punches.Date.Substring(12, 2));
-                                        var t = new DateTime(yy, mm, dd, h, m, s);
-                                        tiempos.Add(t);
-                                    }
-                                    if (tiempos.Count > 1)
-                                    {
-                                        var entrada = tiempos.OrderBy(x => x).FirstOrDefault();
-                                        var salida = tiempos.OrderByDescending(x => x).FirstOrDefault();
-                                        var whrs = salida - entrada;
+                                    var entrada = tiempos.OrderBy(x => x).FirstOrDefault();
+                                    var salida = tiempos.OrderByDescending(x => x).FirstOrDefault();
+                                    var whrs = salida - entrada;
 
-                                        int minE = whrs.Minutes;
-                                        double r = (minE > 0) ? (minE / 60.00) : 0.00;
-                                        double minD = Math.Round(r, 2);
-                                        double cantidad = whrs.Hours + minD;
-                                        lst.Add(new IncidenciasModel
-                                        {
-                                            Identifier = LstIncidencias.Users[i].Identifier,
-                                            Concepto = holyConcepto,
-                                            Cantidad = cantidad
-                                        });
-                                    }
+                                    int minE = whrs.Minutes;
+                                    double r = (minE > 0) ? (minE / 60.00) : 0.00;
+                                    double minD = Math.Round(r, 2);
+                                    double cantidad = whrs.Hours + minD;
+                                    //Agrega incidencias
+                                    lst.Add(new IncidenciasModel
+                                    {
+                                        Identifier = user.Identifier,
+                                        Concepto = holyConcepto,
+                                        Cantidad = cantidad
+                                    });
+                                }
+                            }
+                            //Se valida si trabajó en sus descansos programados
+                            if (user.PlannedInterval[y].Shifts[0].Type == "NotWorking" && user.PlannedInterval[y].Punches.Count > 0)
+                            {
+                                //Lista para guardar todos los registros del colaborador
+                                List<DateTime> tiempos = new List<DateTime>();
+                                foreach (var punches in user.PlannedInterval[y].Punches)
+                                {
+                                    var yy = int.Parse(punches.Date.Substring(0, 4));
+                                    var mm = int.Parse(punches.Date.Substring(4, 2));
+                                    var dd = int.Parse(punches.Date.Substring(6, 2));
+                                    var h = int.Parse(punches.Date.Substring(8, 2));
+                                    var m = int.Parse(punches.Date.Substring(10, 2));
+                                    var s = int.Parse(punches.Date.Substring(12, 2));
+                                    var t = new DateTime(yy, mm, dd, h, m, s);
+                                    tiempos.Add(t);
+                                }
+                                //Aplica si tiene mas de un registro y tener datos con que trabajar
+                                if (tiempos.Count > 1)
+                                {
+                                    var entrada = tiempos.OrderBy(x => x).FirstOrDefault();
+                                    var salida = tiempos.OrderByDescending(x => x).FirstOrDefault();
+                                    var whrs = salida - entrada;
+
+                                    int minE = whrs.Minutes;
+                                    double r = (minE > 0) ? (minE / 60.00) : 0.00;
+                                    double minD = Math.Round(r, 2);
+                                    double cantidad = whrs.Hours + minD;
+                                    //Agrega incidencias
+                                    lst.Add(new IncidenciasModel
+                                    {
+                                        Identifier = user.Identifier,
+                                        Concepto = holyConcepto,
+                                        Cantidad = cantidad
+                                    });
                                 }
                             }
                         }
@@ -1089,6 +1119,15 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             return lst;
         }
 
+        /// <summary>
+        /// Metodo para obtener las incidencias de prima dominical por un rango de fechas
+        /// </summary>
+        /// <param name="Token">token GeoVictoria</param>
+        /// <param name="StartDate">Fecha Inicio Periodo</param>
+        /// <param name="EndDate">Fecha fin Periodo</param>
+        /// <param name="UserIds">Lista de identificadores de los colobordores(GeoVictoria)</param>
+        /// <param name="IdCliente">Identificador del cliente (variable de sesion)</param>
+        /// <returns></returns>
         public List<IncidenciasModel> GetPrimaDominicalxHora(string Token, string StartDate, string EndDate, List<string> UserIds, int IdCliente)
         {
             List<IncidenciasModel> result = new List<IncidenciasModel>();
@@ -1097,29 +1136,16 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             {
                 using (TadaNominaEntities ctx = new TadaNominaEntities())
                 {
+                    //Se toma el valor de IdConceptoSistema = 274 debido a que es un concepto de refiere a la prima dominical
                     conceptoPrimaDominical = ctx.Cat_ConceptosNomina.Where(p => p.IdCliente == IdCliente && p.IdEstatus == 1 && p.IdConceptoSistema == 274).FirstOrDefault();
                 }
                 if(conceptoPrimaDominical != null)
                 {
                     for(int i = 0; i < UserIds.Count; i++)
                     {
+                        //Se obtiene los registros de los colaboradores de los checadores de GeoVictoria
                         LibroDeAsistenciaModel LstIncidencias = AttendanceBook(Token, StartDate, EndDate, UserIds[i]);
-                        if (LstIncidencias.Users[i].Enabled == 1)
-                        {
-                            var listaplanned = LstIncidencias.Users[i].PlannedInterval;
-                            // se filtran todos los registros que sean domingos validando el campo "Date" dentro del listado de "PlannedInterval" se espera que la fecha llegue en formato "yyyyMMddHHmmSS"
-                            var domingos = listaplanned.Where(p => DateTime.ParseExact(p.Date.Substring(0,8),"yyyyMMdd", CultureInfo.InvariantCulture).DayOfWeek.ToString() == "Sunday").ToList();
-                            // se parsea a decimal los valores de horas trabajadas que estan dentro del "PlannedInterval" de los marcajes indenfificados en domingo
-                            var horasdate = domingos.Select(p => Convert.ToDecimal(TimeSpan.Parse(p.WorkedHours).TotalHours)).ToList();
-                            // se suman las horas de detectadas en dias domingos
-                            var totalhoras = horasdate.Sum(p => Convert.ToDouble(p));
-                            result.Add(new IncidenciasModel
-                            {
-                                Identifier = LstIncidencias.Users[i].Identifier,
-                                Concepto = conceptoPrimaDominical.IdConcepto,
-                                Cantidad = totalhoras
-                            });
-                        }
+                        result = GetIncidenciasPrimaDominical(LstIncidencias, conceptoPrimaDominical.IdConcepto);
                     }
                 }
                 return result;
@@ -1128,6 +1154,64 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
             {
                 return result;
             }
+        }
+
+        /// <summary>
+        /// Metodo para tranformar los registros de GeoVictoria a incidencias de nomina
+        /// </summary>
+        /// <param name="listageovic">informacion obteniada de GeoVictoria</param>
+        /// <param name="IdConceptoPrimaDominical">IdConcepto prima dominical</param>
+        /// <returns></returns>
+        public List<IncidenciasModel> GetIncidenciasPrimaDominical(LibroDeAsistenciaModel listageovic, int IdConceptoPrimaDominical)
+        {
+            var result = new List<IncidenciasModel>();
+            if(listageovic.Users.Count == 0) return result;
+            foreach(var item in  listageovic.Users)
+            {
+                if (item.Enabled == 1)
+                {
+                    var id = item.Identifier;
+                    var listaplanned = item.PlannedInterval;
+                    // se filtran todos los registros que sean domingos validando el campo "Date" dentro del listado de "PlannedInterval" se espera que la fecha llegue en formato "yyyyMMddHHmmSS"
+                    var domingos = listaplanned.Where(p => DateTime.ParseExact(p.Date.Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture).DayOfWeek.ToString() == "Sunday" && p.Punches.Count > 0).ToList();
+                    if (domingos.Count > 0) 
+                    {
+                        var listadecimales = GetDecimalesHoras(domingos);
+                        var totalhoras = listadecimales.Sum(p => Convert.ToDouble(p));
+                        result.Add(new IncidenciasModel
+                        {
+                            Identifier = item.Identifier,
+                            Concepto = IdConceptoPrimaDominical,
+                            Cantidad = totalhoras
+                        });
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Metodo para obtener las horas trabajadas totales
+        /// </summary>
+        /// <param name="listainterval">listado de registros realizados en un dia domingo</param>
+        /// <returns></returns>
+        public List<decimal> GetDecimalesHoras(List<LAPlannedIntervalModel> listainterval)
+        {
+            var result = new List<decimal>();
+            if(listainterval.Count == 0) return result;
+            foreach (var item in listainterval)
+            {
+                var listaregistros = item.Punches;
+                var fechaInicio = DateTime.ParseExact(listaregistros[0].Date, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                var fechaFin = DateTime.ParseExact(listaregistros[listaregistros.Count - 1].Date, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                var resta = fechaFin - fechaInicio;
+                int minE = resta.Minutes;
+                decimal r = (minE > 0) ? (minE / 60.00M) : 0.00M;
+                decimal minD = Math.Round(r, 2);
+                decimal cantidad = resta.Hours + minD;
+                result.Add(cantidad);
+            }
+            return result;
         }
     }
 }

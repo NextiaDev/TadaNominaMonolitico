@@ -515,6 +515,11 @@ namespace TadaNomina.Controllers.Nomina
             }
         }
 
+        /// <summary>
+        /// Accion para generar toda incidencia de un periodo de nomina proveniente de la informacion del reloj checador de GeoVictoria
+        /// </summary>
+        /// <param name="pIdPer">Periodo de nomina</param>
+        /// <returns>Lista de incidencias</returns>
         public ActionResult GeneraIncidencias(string pIdPer)
         {
             int pIdPeriodoNomina = int.Parse(Statics.DesEncriptar(pIdPer));
@@ -551,7 +556,7 @@ namespace TadaNomina.Controllers.Nomina
 
                 if(IdCliente == 148 || IdCliente == 158 || IdCliente == 159)
                 {
-                    var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
+                    var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario, usuarios);
                     var incPrimDominical = cu.GetPrimaDominicalxHora(tokenGV, dat1, dat2, usuarios, (int)IdCliente);
                     if(incPrimDominical.Count > 0) lI.AddRange(incPrimDominical);
 
