@@ -146,7 +146,7 @@ namespace TadaNomina.Models
                             Rfc = row.Split(',')[19].Trim().ToUpper(),
                             Imss = Imss(row.Split(',')[20].Trim()),
                             CorreoElectronico = CorreoElectronico(row.Split(',')[21].Trim().ToLower()),
-                            FechaReconocimientoAntiguedad = row.Split(',')[22].Trim(),
+                            FechaReconocimientoAntiguedad = Fecha(row.Split(',')[22].Trim()),
                             FechaAltaIMSS = Fecha(row.Split(',')[23].Trim()),
                             Esquema = row.Split(',')[24].Trim().ToUpper(),
                             TipoContrato = row.Split(',')[25].Trim().ToUpper(),
@@ -1216,20 +1216,33 @@ namespace TadaNomina.Models
                 return Type.Warning;
             }
 
-            Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
-
-            if (exp.IsMatch(FechaDeNaciemiento))
+            try
             {
-                columnFile.Field = "Fecha de Nacimiento";
-                columnFile.ColumnDetail = "Ok";
-                columnFile.Type = Type.Success;
-                rowFile.Columns.Add(columnFile);
-                return Type.Success;
+                DateTime? date = null;
+                date = Convert.ToDateTime(FechaDeNaciemiento);
+
+                Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                if (date != null && exp.IsMatch(FechaDeNaciemiento))
+                {
+                    columnFile.Field = "Fecha de Nacimiento";
+                    columnFile.ColumnDetail = "Ok";
+                    columnFile.Type = Type.Success;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Success;
+                }else
+                {
+                    columnFile.Field = "Fecha de Naciemiento";
+                    columnFile.ColumnDetail = "El campo Fecha de Nacimiento debe tener el formato correcto \"dd/mm/aaaa\" se sustituye valor a nulo, valor leído: " + FechaDeNaciemiento;
+                    columnFile.Type = Type.Invalid;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Invalid;
+                }
             }
-            else
+            catch
             {
                 columnFile.Field = "Fecha de Naciemiento";
-                columnFile.ColumnDetail = "El campo Fecha de Nacimiento debe tener el formato correcto \"dd/mm/aaaa\" se sustituye valor a nulo, valor leído: " + FechaDeNaciemiento;
+                columnFile.ColumnDetail = "El campo Fecha de Nacimiento es incorrecta, valor leído: " + FechaDeNaciemiento;
                 columnFile.Type = Type.Invalid;
                 rowFile.Columns.Add(columnFile);
                 return Type.Invalid;
@@ -1735,20 +1748,34 @@ namespace TadaNomina.Models
                 return Type.Error;
             }
 
-            Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+            try
+            {
+                DateTime? date = null;
+                date = Convert.ToDateTime(FechaReconocimientoAntiguedad);
 
-            if (exp.IsMatch(FechaReconocimientoAntiguedad))
-            {
-                columnFile.Field = "Fecha de Reconocimiento de Antigüedad";
-                columnFile.ColumnDetail = "Ok";
-                columnFile.Type = Type.Success;
-                rowFile.Columns.Add(columnFile);
-                return Type.Success;
+                Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                if (exp.IsMatch(FechaReconocimientoAntiguedad))
+                {
+                    columnFile.Field = "Fecha de Reconocimiento de Antigüedad";
+                    columnFile.ColumnDetail = "Ok";
+                    columnFile.Type = Type.Success;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Success;
+                }
+                else
+                {
+                    columnFile.Field = "Fecha de Reconocimiento de Antigüedad";
+                    columnFile.ColumnDetail = "El campo Fecha de Reconocimiento de Antigüedad debe tener el formato correcto \"dd/mm/aaaa\", empleado no insertado, valor leído: " + FechaReconocimientoAntiguedad;
+                    columnFile.Type = Type.Error;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Error;
+                }
             }
-            else
+            catch (Exception)
             {
                 columnFile.Field = "Fecha de Reconocimiento de Antigüedad";
-                columnFile.ColumnDetail = "El campo Fecha de Reconocimiento de Antigüedad debe tener el formato correcto \"dd/mm/aaaa\", empleado no insertado, valor leído: " + FechaReconocimientoAntiguedad;
+                columnFile.ColumnDetail = "El campo Fecha de Reconocimiento de Antigüedad es incorrecta, valor leído: " + FechaReconocimientoAntiguedad;
                 columnFile.Type = Type.Error;
                 rowFile.Columns.Add(columnFile);
                 return Type.Error;
@@ -2582,11 +2609,11 @@ namespace TadaNomina.Models
 
         }
 
-        public Type ValidateFechaTerinoContrato(string FechaDeNaciemiento, RowFile rowFile)
+        public Type ValidateFechaTerinoContrato(string FechaTerminoContrato, RowFile rowFile)
         {
             ColumnFile columnFile = new ColumnFile { Column = 41 };
 
-            if (string.IsNullOrEmpty(FechaDeNaciemiento))
+            if (string.IsNullOrEmpty(FechaTerminoContrato))
             {
                 columnFile.Field = "Fecha de término de contrato";
                 columnFile.ColumnDetail = "El campo Fecha de término de contrato es nulo";
@@ -2595,20 +2622,35 @@ namespace TadaNomina.Models
                 return Type.Warning;
             }
 
-            Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+            try
+            {
+                DateTime? date = null;
+                date = Convert.ToDateTime(FechaTerminoContrato);
 
-            if (exp.IsMatch(FechaDeNaciemiento))
-            {
-                columnFile.Field = "Fecha de término de contrato";
-                columnFile.ColumnDetail = "Ok";
-                columnFile.Type = Type.Success;
-                rowFile.Columns.Add(columnFile);
-                return Type.Success;
+                Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                if (exp.IsMatch(FechaTerminoContrato))
+                {
+                    columnFile.Field = "Fecha de término de contrato";
+                    columnFile.ColumnDetail = "Ok";
+                    columnFile.Type = Type.Success;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Success;
+                }
+                else
+                {
+                    columnFile.Field = "Fecha de término de contrato";
+                    columnFile.ColumnDetail = "El campo Fecha de término de contrato debe tener el formato correcto \"dd/mm/aaaa\" se sustituye valor a nulo, valor leído: " + FechaTerminoContrato;
+                    columnFile.Type = Type.Invalid;
+                    rowFile.Columns.Add(columnFile);
+                    return Type.Invalid;
+                }
+
             }
-            else
+            catch
             {
                 columnFile.Field = "Fecha de término de contrato";
-                columnFile.ColumnDetail = "El campo Fecha de término de contrato debe tener el formato correcto \"dd/mm/aaaa\" se sustituye valor a nulo, valor leído: " + FechaDeNaciemiento;
+                columnFile.ColumnDetail = "El campo Fecha de término de contrato es incorrecta, valor leído: " + FechaTerminoContrato;
                 columnFile.Type = Type.Invalid;
                 rowFile.Columns.Add(columnFile);
                 return Type.Invalid;
@@ -2890,6 +2932,15 @@ namespace TadaNomina.Models
 
             if (exp.IsMatch(Fecha))
             {
+                try
+                {
+                    DateTime? date = null;
+                    date = Convert.ToDateTime(Fecha);
+                }
+                catch
+                {
+                    return null;
+                }
                 return Fecha;
             }
             else
