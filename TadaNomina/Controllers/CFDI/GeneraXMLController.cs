@@ -52,7 +52,7 @@ namespace TadaNomina.Controllers.CFDI
             return View(model);            
         }
 
-        public JsonResult GenerarArchivos(int IdPeriodoNomina, string tipoTimbrado)
+        public JsonResult GenerarArchivos(int IdPeriodoNomina, string tipoTimbrado, string claves)
         {
             int IdCliente = (int)Session["sIdCliente"];
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
@@ -64,7 +64,12 @@ namespace TadaNomina.Controllers.CFDI
                 Guid Id = Guid.NewGuid();
                 cGeneraXML ct = new cGeneraXML();
 
-                var errores = ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, tipoTimbrado, IdUsuario);
+                claves = claves.Trim().Replace(" ", "");
+                string[] _claves = new string[0];
+                if(claves != string.Empty)
+                    _claves = claves.ToUpper().Split(',');
+
+                var errores = ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, tipoTimbrado, _claves, IdUsuario);
                 var cantidad = ct.getRegistrosXMLPeriodo(IdPeriodoNomina).Count();
 
                 return Json(new { estatus = "Ok", mensaje = "Se generaron correctamente los archivos.", cantidad, errores });               

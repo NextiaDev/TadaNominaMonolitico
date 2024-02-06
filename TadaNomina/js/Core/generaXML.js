@@ -16,11 +16,12 @@ $("#generarXML").click(function () {
     $.showLoading({ name: 'circle-fade' });
     var IdPeriodoNomina = $(this).attr('data-id');
     var tipoTimbrado = $("#_tipo").val();
+  var claves = $("#_claves").val();
 
     $.ajax({
         type: 'POST',
-        url: 'GeneraXML/GenerarArchivos',
-        data: { IdPeriodoNomina, tipoTimbrado },
+      url: 'GeneraXML/GenerarArchivos',
+      data: { IdPeriodoNomina, tipoTimbrado, claves },
         dataType: 'json',
         async: true,
         success: function (result) {

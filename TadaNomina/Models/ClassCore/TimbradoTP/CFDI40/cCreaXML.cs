@@ -322,11 +322,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 if (dat.TipoContrato != "09")
                 {
                     int cantidadIncidenciasOtrosPagos = incidencias.Where(x => x.ClaveSAT == "999").Count();
+                    int cantidadIncidenciasOtrosPagosO = incidencias.Where(x => x.TipoConcepto == "OTRO").Count();
 
                     int indiceOtros = 0;
                     int cantIndices = 1;
                     if (reintegro > 0) { cantIndices++; }
                     cantIndices += cantidadIncidenciasOtrosPagos;
+                    cantIndices += cantidadIncidenciasOtrosPagosO;
 
                     nomina.OtrosPagos = new NominaOtroPago[cantIndices];
 
