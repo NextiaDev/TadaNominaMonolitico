@@ -673,6 +673,10 @@ namespace TadaNomina.Models.ClassCore
 
             DateTime? fechaTerminoContrato = null;
             try { fechaTerminoContrato = DateTime.Parse(empleado.FechaTerminoContrato); } catch { }
+            try { empleado.ApellidoMaterno = empleado.ApellidoMaterno ?? " "; } catch { } /// Si el valor apellido materno viene null lo convierte en un espacio
+            try { empleado.Sexo = empleado.Sexo ?? " "; } catch { } /// Si el valor sexo  viene null lo convierte en un espacio
+
+
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
@@ -1392,9 +1396,9 @@ namespace TadaNomina.Models.ClassCore
                     emp.ClaveEmpleado = empleado.ClaveEmpleado;
                     emp.Nombre = empleado.Nombre.ToUpper();
                     emp.ApellidoPaterno = empleado.ApellidoPaterno.ToUpper();
-                    emp.ApellidoMaterno = empleado.ApellidoMaterno != null ? empleado.ApellidoMaterno.ToUpper() : "";
-                    //emp.Sexo = empleado.Sexo.ToUpper();
-                    //emp.EstadoCivil = empleado.EstadoCivil.ToUpper();                    
+                    emp.ApellidoMaterno = empleado.ApellidoMaterno != null ? empleado.ApellidoMaterno.ToUpper() : ""; /// Si el valor apellido materno viene null lo convierte en un espacio
+                    emp.Sexo = empleado.Sexo != null ? empleado.Sexo.ToUpper() : "";/// Si el valor sexo  viene null lo convierte en un espacio
+                    emp.EstadoCivil = empleado.EstadoCivil != null ? empleado.EstadoCivil.ToUpper() : ""; /// Si el valor EstadoCivil  viene null lo convierte en un espacio         
                     emp.SD = empleado.SD;
                     emp.SDIMSS = empleado.SDIMSS;
                     emp.IdBancoTrad = empleado.IdBancoTrad;
