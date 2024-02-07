@@ -148,7 +148,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             if (Comprobante != string.Empty)
             {
                 bool timbradoActivo = timbrados.Select(x => x.IdEstatus == 1).Any();
-                if (validaRegistro(IdPeriodo, IdEmpleado) && (timbrados.Count > 0 || !timbradoActivo))                
+                if (validaRegistro(IdPeriodo, IdEmpleado) && !timbradoActivo)                
                     updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);                
                 else                
                     GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);                
