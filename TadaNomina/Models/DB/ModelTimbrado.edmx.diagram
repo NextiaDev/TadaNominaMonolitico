@@ -10,11 +10,11 @@
         <EntityTypeShape EntityType="TadaNominaTimbrado.Cat_ConceptosNomina" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaTimbrado.vIncidencias_Consolidadas" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="TadaNominaTimbrado.Cat_MotivosCancelacionSAT" Width="1.5" PointX="7.375" PointY="8.75" />
-        <EntityTypeShape EntityType="TadaNominaTimbrado.XmlNomina" Width="1.5" PointX="11.375" PointY="0.75" />
-        <EntityTypeShape EntityType="TadaNominaTimbrado.vXmlNomina" Width="1.5" PointX="11.375" PointY="5.75" />
         <EntityTypeShape EntityType="TadaNominaTimbrado.vTimbradoNomina" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaTimbrado.Cat_RegistroPatronal" Width="1.5" PointX="5.375" PointY="12.75" />
         <EntityTypeShape EntityType="TadaNominaTimbrado.TimbradoNomina" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TadaNominaTimbrado.XmlNomina" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TadaNominaTimbrado.vXmlNomina" Width="1.5" PointX="9.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

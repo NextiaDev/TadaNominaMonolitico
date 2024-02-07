@@ -21,6 +21,12 @@ namespace TadaNomina.Models.ViewModels.CFDI
         public string version { get; set; }
         public List<SelectListItem> lversion { get; set; }
 
+        [Display(Name = "Uso del XML:")]
+        public string tipoTimbrado { get; set; }
+        public List<SelectListItem> ltipo { get; set; }
+        [Display(Name = "Claves Empleado (Separadas por coma):")]
+        public string ClavesEmpleado { get; set; }
+
         public string MensajeContador { get; set; }
         public string RegistrosNomina { get; set; }
         public string RegistrosYaTimbrados { get; set; }

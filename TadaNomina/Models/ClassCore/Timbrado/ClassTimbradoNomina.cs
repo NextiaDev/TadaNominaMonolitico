@@ -36,8 +36,16 @@ namespace TadaNomina.Models.ClassCore.Timbrado
             {
                 new SelectListItem { Text = "CFDI 3.3", Value = "3.3" },
                 new SelectListItem { Text = "CFDI 4.0", Value = "4.0" }
-            };            
+            };
 
+            List<SelectListItem> ltipoTimbrado = new List<SelectListItem>()
+            {
+                new SelectListItem {Text = "Timbrado - Genera el XML para timbrado sin relación", Value = "Timbrado" },
+                new SelectListItem {Text = "Timbrado con Relación y Cancelación - Genera el XML con el nodo de CFDI relacionado (Sustitución de los CFDI previos)", Value = "Timbrado CR" },
+                new SelectListItem {Text = "Timbrado con Relación ya Cancelados - Genera el XML con el nodo de CFDI relacionado (Sustitución de los CFDI previos)", Value = "Timbrado CRC" },
+            };
+
+            model.ltipo = ltipoTimbrado;
             model.lPeriodos = lperiodos;
             model.lversion = lversion;
 

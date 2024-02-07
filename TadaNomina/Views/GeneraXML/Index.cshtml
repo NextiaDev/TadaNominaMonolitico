@@ -11,7 +11,7 @@
 </div>
 
 <div id="page-content">
-    <div class="col-lg-10 col-lg-offset-1">
+    <div class="col-lg-12">
         <div class="panel">
             <div class="panel-heading">
                 <h3 class="panel-title">Periodos Disponibles.</h3>
@@ -27,34 +27,50 @@
                   
                        @Html.AntiForgeryToken()
 
-                       <div class="form-horizontal">
-                           <hr />
-                           @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+               <div class="form-horizontal">
+                   <hr />
+                   @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                           <div class="form-group">
-                               @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-4" })
-                               <div class="col-md-8">
-                                   @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control", id = "IdPeriodoNomina" })
-                                   @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
-                               </div>
-                           </div>
-
-                           @if (Model.MensajeContador != null)
-                           {
-                           <div class="alert alert-mint">
-                               <div class="text-center">
-                                   <h5 style="color:white">
-                                       <span class="fa fa-info-circle fa-2x" style="color:white"></span>
-                                   </h5>
-                               </div>
-                               <ul>
-                                   <li id="MensajeContador">@Model.MensajeContador </li>
-                                   <li id="MensajeRegistrosNomina">@Model.RegistrosNomina </li>
-                                   <li id="MensajeRegistrosTimbrados">@Model.RegistrosYaTimbrados </li>
-                               </ul>
-                           </div>
-                           }
+                   <div class="form-group">
+                       @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-3" })
+                       <div class="col-md-9">
+                           @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control", id = "IdPeriodoNomina" })
+                           @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
                        </div>
+                   </div>
+
+                   <div class="form-group">
+                       @Html.LabelFor(model => model.tipoTimbrado, htmlAttributes: new { @class = "control-label col-md-3" })
+                       <div class="col-md-9">
+                           @Html.DropDownListFor(model => model.tipoTimbrado, Model.ltipo, "Elegir...", htmlAttributes: new { @class = "form-control", id = "_tipo" })
+                           @Html.ValidationMessageFor(model => model.tipoTimbrado, "", new { @class = "text-danger" })
+                       </div>
+                   </div>
+
+                   <div class="form-group">
+                       @Html.LabelFor(model => model.ClavesEmpleado, htmlAttributes: new { @class = "control-label col-md-3" })
+                       <div class="col-md-9">
+                           @Html.TextAreaFor(model => model.ClavesEmpleado, htmlAttributes: new { @class = "form-control", @rows = "4", @id="_claves", @placeholder ="Ingrese las claves de los empleados separadas por coma (cve1, cve2, cv3, ...). Si no se captura nada se genera el XML de todos los registros dentro del periodo."  })
+                           @Html.ValidationMessageFor(model => model.ClavesEmpleado, "", new { @class = "text-danger" })
+                       </div>
+                   </div>
+
+                   @if (Model.MensajeContador != null)
+                   {
+                       <div class="alert alert-mint">
+                           <div class="text-center">
+                               <h5 style="color:white">
+                                   <span class="fa fa-info-circle fa-2x" style="color:white"></span>
+                               </h5>
+                           </div>
+                           <ul>
+                               <li id="MensajeContador">@Model.MensajeContador </li>
+                               <li id="MensajeRegistrosNomina">@Model.RegistrosNomina </li>
+                               <li id="MensajeRegistrosTimbrados">@Model.RegistrosYaTimbrados </li>
+                           </ul>
+                       </div>
+                   }
+               </div>
                        <br /><br />
                        <div class="form-group">
                            <div class="col-md-12">
@@ -81,7 +97,7 @@
 
                        <div class="panel-footer">
                            <div class="form-group" style="text-align:right">
-                               <a href="#" id="generarXML" data-id="@Model.IdPeriodoNomina" class="btn btn-primary btn-sm"><span class="fa fa-upload"></span> Generar Archivos XML</a>
+                               <a href="#" id="generarXML" data-id="@Model.IdPeriodoNomina" data-tipo="@Model.tipoTimbrado" class="btn btn-primary btn-sm"><span class="fa fa-upload"></span> Generar Archivos XML</a>
                                <a href="@Url.Action("DescargaXMLPrevio", new { Model.IdPeriodoNomina })" id="_descargaXML" class="btn btn-dark btn-sm"><span class="fa fa-file-code-o"></span> Descargar Archivos XML</a>
                                <a href="@Url.Action("DescargaCFDIPrevio", new { Model.IdPeriodoNomina })" class="btn btn-danger btn-sm"><span class="fa fa-file-pdf-o"></span> Descargar CFDI Previo</a>
                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModalEliminarArchivos"><span class="fa fa-trash"></span>Eliminar Archivos</button>

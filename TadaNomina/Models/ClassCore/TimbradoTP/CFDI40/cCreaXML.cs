@@ -24,7 +24,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
         /// <param name="IdPeriodo">Periodo de nómina</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public string GeneraXML40Nomina12(DatosXML dat, int IdUnidadNegocio, string TipoFechaFiniquito, int IdPeriodo)
+        public string GeneraXML40Nomina12(DatosXML dat, int IdUnidadNegocio, string TipoFechaFiniquito, int IdPeriodo, List<string> UUIDRelacionado)
         {
             try
             {
@@ -322,11 +322,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 if (dat.TipoContrato != "09")
                 {
                     int cantidadIncidenciasOtrosPagos = incidencias.Where(x => x.ClaveSAT == "999").Count();
+                    int cantidadIncidenciasOtrosPagosO = incidencias.Where(x => x.TipoConcepto == "OTRO").Count();
 
                     int indiceOtros = 0;
                     int cantIndices = 1;
                     if (reintegro > 0) { cantIndices++; }
                     cantIndices += cantidadIncidenciasOtrosPagos;
+                    cantIndices += cantidadIncidenciasOtrosPagosO;
 
                     nomina.OtrosPagos = new NominaOtroPago[cantIndices];
 
@@ -455,6 +457,25 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 comprobante.MetodoPagoSpecified = true;
                 comprobante.LugarExpedicion = dat.codigoPostalEmisor;
                 comprobante.Confirmacion = null;
+
+                if (UUIDRelacionado.Count > 0)
+                {
+                    ComprobanteCfdiRelacionados[] cfdiRel = new ComprobanteCfdiRelacionados[UUIDRelacionado.Count];
+                    
+                    for (int i=0; i<= UUIDRelacionado.Count - 1; i++)
+                    {
+                        ComprobanteCfdiRelacionadosCfdiRelacionado[] cfdiRelDat = new ComprobanteCfdiRelacionadosCfdiRelacionado[1];
+                        ComprobanteCfdiRelacionadosCfdiRelacionado cfdireldatint = new ComprobanteCfdiRelacionadosCfdiRelacionado();
+                        cfdireldatint.UUID = UUIDRelacionado[i];
+                        ComprobanteCfdiRelacionados cfdirelint = new ComprobanteCfdiRelacionados();
+                        cfdirelint.TipoRelacion = c_TipoRelacion.Item04;
+                        cfdiRel[i] = cfdirelint;
+                        cfdiRelDat[i] = cfdireldatint;
+                        cfdiRel[i].CfdiRelacionado = cfdiRelDat;
+                    }
+                    
+                    comprobante.CfdiRelacionados = cfdiRel;
+                }
 
                 xml = CreaXML(comprobante);
 
