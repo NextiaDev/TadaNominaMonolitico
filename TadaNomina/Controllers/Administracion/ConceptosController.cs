@@ -77,7 +77,7 @@ namespace TadaNomina.Controllers.Administracion
                 {                    
                     int IdUsuario = (int)Session["sIdUsuario"];
                     cconceptos.AddConcepto(collection, IdCliente, IdUsuario);
-                    return RedirectToAction("Index");
+                    return Json(1, JsonRequestBehavior.AllowGet);
                 }                
             }
             catch(Exception ex)
@@ -122,7 +122,7 @@ namespace TadaNomina.Controllers.Administracion
                 collection.IdCliente = (int)Session["sIdCliente"];
                 cconceptos.UpdateConcepto(collection, IdUsuario);
 
-                return RedirectToAction("Index");
+                return Json(1, JsonRequestBehavior.AllowGet);
             }
             catch
             {
