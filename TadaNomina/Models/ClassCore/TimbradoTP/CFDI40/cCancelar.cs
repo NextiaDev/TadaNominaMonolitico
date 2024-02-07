@@ -40,7 +40,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             }
         }
 
-        private void Cancelar40(Guid id, int IdUsuario, vTimbradoNomina item, string MotivoCancelacion)
+        public void Cancelar40(Guid id, int IdUsuario, vTimbradoNomina item, string MotivoCancelacion)
         {
             creaPfx(item.rutaCer, item.rutaKey, item.KeyPass.Trim(), item.PFXCancelacionTimbrado);
             var rutabytesPfx = item.PFXCancelacionTimbrado;
@@ -67,7 +67,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 errores.Add(item);
             }
         }
-
+        
         public List<vTimbradoNomina> ObtendatosTimbradoNomina(int IdPeriodoNomina)
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())

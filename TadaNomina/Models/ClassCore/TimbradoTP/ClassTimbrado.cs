@@ -18,24 +18,41 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
     {
         GeneraXML xml = new GeneraXML();
         cCreaXML cxml = new cCreaXML();
+
+        /// <summary>
+        /// Metodo para timbrar un periodo de nomina con el Id PAC 1
+        /// </summary>
+        /// <param name="IdPeriodo">Identificador del periodo de nómina.</param>
+        /// <param name="IdUnidadNegocio">Identificador de la unidad de negocio.</param>
+        /// <param name="IdCliente"></param>
+        /// <param name="Id"></param>
+        /// <param name="IdUsuario"></param>
+        /// <exception cref="Exception"></exception>
         public void TimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, int IdUsuario)
         {            
             var cunidad = new  ClassUnidadesNegocio();
             var cgxml = new cGeneraXML();
             
-            var yaTimbrados = getYaTimbradosPeriodo(IdPeriodo).Select(y => y.IdEmpleado).ToList();
-            var informacion = cgxml.getRegistrosvXMLPeriodo(IdPeriodo).Where(x=> !yaTimbrados.Contains(x.IdEmpleado)).ToList();
+            var yaTimbrados = getYaTimbradosPeriodo(IdPeriodo).Select(y => y.IdXml).ToList();
+            var informacion = cgxml.getRegistrosvXMLPeriodo(IdPeriodo).Where(x=> !yaTimbrados.Contains(x.IdXml)).ToList();
             var unidad = cunidad.getUnidadesnegocioId(IdUnidadNegocio);
             var cliente = cunidad.getClienteById(IdCliente);
 
             foreach (var i in informacion)
-            {                
-                if (cliente.VersionCFDI == "3.3")
+            {
+                if (cliente.VersionCFDI == "3.3")                
                     TimbraTP(i, IdUnidadNegocio, IdPeriodo, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);
                 else if (cliente.VersionCFDI == "4.0")
-                    TimbraTP40(i, IdUnidadNegocio, IdPeriodo, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);
+                
+                    TimbraTP40(i, IdUnidadNegocio, IdPeriodo, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);                
                 else
-                    throw new Exception("No se ha especificado la version del cfdi.");                                
+                    throw new Exception("No se ha especificado la version del cfdi.");
+
+                if (i.UsoXML == "Timbrado CR")
+                {
+                    //cCancelar cc = new cCancelar();
+                    //cc.Cancelar40()
+                }
             }
         }
 

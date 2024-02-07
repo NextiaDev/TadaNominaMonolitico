@@ -26,16 +26,37 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="IdPeriodo">Periodo de nómina</param>
         /// <param name="Id"></param>
         /// <param name="IdUsuario">Usuario</param>
-        public string GeneraXMLTimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, string tipoTimbrado, int IdUsuario)
+        public string GeneraXMLTimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, string tipoTimbrado, string[] Claves, int IdUsuario)
         {
             string result = string.Empty;
             var cunidad = new ClassUnidadesNegocio();
             var informacion = new List<DatosXML>();
+            var timbrados = getAllTimbrados(IdPeriodo);
 
-            if (tipoTimbrado == "Timbrado CRC")
-                informacion = obtenDatosTimbradoReTimbrar(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
-            else
-                informacion = obtenDatosTimbrado(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
+            switch (tipoTimbrado)
+            {
+                case "Timbrado CRC":
+                    informacion = obtenDatosTimbrado(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
+                    break;
+                case "Timbrado CR":                      
+                    int?[] _timbrados = timbrados.Where(x=> x.IdEstatus == 1).Select(t => t.IdEmpleado).ToArray();
+                    string[] _stimbrados = Array.ConvertAll(_timbrados, x=> x.Value.ToString());
+                    if (timbrados.Count > 0)                    
+                        informacion = obtenDatosTimbradoReTimbrar(IdPeriodo).Where(x => _stimbrados.Contains(x.IdEmpleado)).ToList();                   
+                    else
+                        throw new Exception("No se puede elegir la opción 'Timbrado con Relación y Cancelación' ya que no existen timbrados para este periodo.");
+                    
+                    break;
+                case "Timbrado":
+                    informacion = obtenDatosTimbrado(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
+                    break;
+            }
+
+            if (Claves.Count() > 0)
+                informacion = informacion.Where(x => Claves.Contains(x.NumEmpleado)).ToList();
+
+            if (informacion.Count <= 0)
+                throw new Exception("No existen registros con los datos ingresados o ya fueron timbrados.");
 
             var unidad = cunidad.getUnidadesnegocioId(IdUnidadNegocio);
 
@@ -67,12 +88,15 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 if (i.TipoContrato != "SIN RELACION LABORAL" && _sdi > 0)
                     validacion = true;
 
+                int IdEmpleado = int.Parse(i.IdEmpleado);
+                var timbrado = timbrados.Where(x => x.IdEmpleado == IdEmpleado).ToList();
+
                 if (_idRegistro != 0 && validacion && decimal.Parse(i.totalPercepciones) > 0)
                 {
                     if (i.vercionCFDI == "3.3")
                         CrearXML33(i, IdUnidadNegocio, IdPeriodo, _IdEmpleado, _idRegistro, Id, unidad.FiniquitosFechasDiferentes, tipoTimbrado, IdUsuario);
-                    else if (i.vercionCFDI == "4.0")
-                        result += CrearXML40(i, IdUnidadNegocio, IdPeriodo, _IdEmpleado, _idRegistro, Id, unidad.FiniquitosFechasDiferentes, uuidRel, tipoTimbrado, IdUsuario);
+                    else if (i.vercionCFDI == "4.0")                    
+                        result += CrearXML40(i, IdUnidadNegocio, IdPeriodo, _IdEmpleado, _idRegistro, Id, unidad.FiniquitosFechasDiferentes, uuidRel, tipoTimbrado, timbrado, IdUsuario);                    
                     else
                         throw new Exception("No se ha especificado la version del cfdi.");
                 }
@@ -114,19 +138,20 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="guid">identificador unico para dar seguimiento a estas solicitudes</param>
         /// <param name="tipoFechaFiniquito">tipo de fecha en caso de que sea un finiquito</param>
         /// <param name="IdUsuario">Identificador del usuario que esta ejecutando el proeceso</param>
-        private string CrearXML40(DatosXML dat, int IdUnidadNegocio, int IdPeriodo, int IdEmpleado, int IdRegistro, Guid guid, string tipoFechaFiniquito, List<string> UUIDRel, string UsoXML, int IdUsuario)
+        private string CrearXML40(DatosXML dat, int IdUnidadNegocio, int IdPeriodo, int IdEmpleado, int IdRegistro, Guid guid, string tipoFechaFiniquito, List<string> UUIDRel, string UsoXML, List<vTimbradoNomina> timbrados, int IdUsuario)
         {
             string result = string.Empty;
             cCreaXML cxml = new cCreaXML();
             string Comprobante = string.Empty;
             try { Comprobante = cxml.GeneraXML40Nomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo, UUIDRel); } catch (Exception ex) { result += ex.Message + " | \n"; }
-
+            
             if (Comprobante != string.Empty)
             {
-                if (validaRegistro(IdPeriodo, IdEmpleado))
-                    updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);
-                else
-                    GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);
+                bool timbradoActivo = timbrados.Select(x => x.IdEstatus == 1).Any();
+                if (validaRegistro(IdPeriodo, IdEmpleado) && (timbrados.Count > 0 || !timbradoActivo))                
+                    updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);                
+                else                
+                    GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);                
             }
 
             return result;
@@ -156,6 +181,14 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
                 return entidad.vTimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        public List<vTimbradoNomina> getAllTimbrados(int IdPeriodo)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                return entidad.vTimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && (x.IdEstatus == 1 || x.IdEstatus == 2)).ToList();
             }
         }
 

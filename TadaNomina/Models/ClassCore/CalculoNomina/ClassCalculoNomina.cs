@@ -474,7 +474,25 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                                 var claveConcepto  = "\"" + lc.ClaveConcepto.Trim().ToUpper() + "\"";
                                 if (Formula.Contains(claveConcepto))
-                                    monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).Select(x => x.Monto).Sum() ?? 0;
+                                {
+                                    var incidencias = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).ToList();
+
+                                    foreach (var item in incidencias)
+                                    {
+                                        switch (item.TipoDato)
+                                        {
+                                            case "Pesos":
+                                                monto += item.Monto ?? 0;
+                                                break;
+                                            case "Cantidades":                                                  
+                                                monto += item.Cantidad ?? 0;
+                                                break;
+                                            default:
+                                                monto += 0;
+                                                break;
+                                        }
+                                    }
+                                }                                    
 
                                 Formula = Formula.Replace(lc.ClaveConcepto, monto.ToString());
                             }
