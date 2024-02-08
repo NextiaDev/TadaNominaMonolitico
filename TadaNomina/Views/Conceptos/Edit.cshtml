@@ -15,7 +15,14 @@
 
 <div id="page-content">
     <div class="panel">
-        @using (Html.BeginForm())
+        @using (Ajax.BeginForm("Edit", "Conceptos", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnBegin = "OnBegin",
+            OnComplete = "OnComplete",
+            OnSuccess = "OnSuccess",
+            OnFailure = "OnFailure"
+        }))
         {
             @Html.AntiForgeryToken()
 
@@ -87,10 +94,10 @@
                         <hr />
                         <div class="form-group">
                             @*@Html.LabelFor(model => model.TipoConcepto, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(model => model.TipoConcepto, Model.LTipoConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.TipoConcepto, "", new { @class = "text-danger" })
-                            </div>*@
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.TipoConcepto, Model.LTipoConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoConcepto, "", new { @class = "text-danger" })
+                                </div>*@
                             @Html.LabelFor(model => model.TipoDato, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.TipoDato, Model.LTipoDato, "Elegir...", htmlAttributes: new { @class = "form-control", @onchange = "ValidaDiasHoras(this.value)", @Id = "IdTipoDato" })
@@ -281,28 +288,6 @@
                     <div class="form-horizontal">
                         <hr />
                         <div class="form-group">
-                            <div id="Pension">
-                                @Html.LabelFor(model => model.IntegraPension, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.DropDownListFor(model => model.IntegraPension, Model.lstPension, "Elegir...", htmlAttributes: new { @class = "form-control", id = "IdPension" })
-                                    @Html.ValidationMessageFor(model => model.IntegraPension, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            @Html.LabelFor(model => model.ConceptoAdicional, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(model => model.ConceptoAdicional, Model.lConceptoAdicional, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontress();", @id = "_Valorr" })
-                                @Html.ValidationMessageFor(model => model.ConceptoAdicional, "", new { @class = "text-danger" })
-                            </div>
-                            <div id="Conceptosd" style="display: none">
-                                @Html.LabelFor(model => model.ClaveConceptos, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.DropDownListFor(model => model.ClaveConceptos, Model.LClaveConcepto, "Elegir...", htmlAttributes: new { @class = "form-control", id="chosen" })
-                                    @Html.ValidationMessageFor(model => model.ClaveConceptos, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
                             @Html.LabelFor(model => model.Piramida, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.Piramida, Model.lPiramidal, "Elegir...", htmlAttributes: new { @class = "form-control" })
@@ -313,8 +298,29 @@
                                 @Html.DropDownListFor(model => model.PagoEfectivo, Model.lPagoEfectivo, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.PagoEfectivo, "", new { @class = "text-danger" })
                             </div>
+                            <div id="Pension">
+                                @Html.LabelFor(model => model.IntegraPension, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.IntegraPension, Model.lstPension, "Elegir...", htmlAttributes: new { @class = "form-control", id = "IdPension" })
+                                    @Html.ValidationMessageFor(model => model.IntegraPension, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
                         </div>
-                        
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConceptoAdicional, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.ConceptoAdicional, Model.lConceptoAdicional, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontress();", @id = "_Valorr" })
+                                @Html.ValidationMessageFor(model => model.ConceptoAdicional, "", new { @class = "text-danger" })
+                            </div>
+                            <div id="Conceptosd" style="display: none">
+                                @Html.LabelFor(model => model.ClaveConceptos, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(model => model.ClaveConceptos, Model.LClaveConcepto, "Elegir...", htmlAttributes: new { @class = "form-control", id = "chosen" })
+                                    @Html.ValidationMessageFor(model => model.ClaveConceptos, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -339,7 +345,7 @@
                             </div>
 
                         </div>
-                       
+
 
 
                     </div>
@@ -351,7 +357,7 @@
                     <div class="form-group" style="text-align:right">
                         <button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-save"></span> Guardar Cambios</button>
                         <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
-                        
+
                     </div>
                 </div>
             </div>
@@ -359,6 +365,8 @@
 
     </div>
 </div>
+
+<div id="ruta" data-redirect="@Url.Action("Index","Conceptos")"></div>
 
 <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -392,6 +400,10 @@
     </div>
 </div>
 
+<script src="~/js/jquery.loading.min.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script>
     $(document).ready(function () {
         console.log($('#IdPension').val());
@@ -401,7 +413,6 @@
             $("#IdDiasHoras").prop("disabled", false);
         }
     })
-
 
     function myFunctiontress() {
         var x = document.getElementById("_Valorr").value;
@@ -478,5 +489,58 @@
         });
         $("#modalInfo").modal('show');
     });
+
+    function mensajeAlerta(icon, titulo, mensaje, tipo, animationIn, animationOut, time) {
+        $.niftyNoty({
+            type: tipo,
+            container: 'floating',
+            title: titulo,
+            message: mensaje,
+            closeBtn: true,
+            floating: {
+                position: 'top-center',
+                animationIn: animationIn,
+                animationOut: animationOut
+            },
+            focus: true,
+            timer: time,
+            icon: icon
+        });
+    }
+
+    function OnBegin() {
+        $.showLoading({
+            name: 'jump-pulse'
+        });
+    }
+
+    function OnComplete() {
+        $.hideLoading();
+    }
+
+    function OnSuccess(data) {
+        if (data > 0) {
+            mensajeAlerta("fa fa-smile-o fa-2x", "Conceptos", "El concepto fue editado correctamente", "success", "fadeIn", "fadeOut", 2000);
+            setTimeout(function () {
+                window.location.replace($('#ruta').attr('data-redirect'));
+            }, 2000);
+        }
+        else if (data < 0) {
+            mensajeAlerta("fa fa-meh-o fa-2x", "Conceptos", "Hubo problemas al editar el registro, intente nuevamente", "warning", "fadeIn", "fadeOut", 2000);
+            setTimeout(function () {
+                window.location.replace($('#ruta').attr('data-redirect'));
+            }, 2000);
+        }
+        else {
+            mensajeAlerta("fa fa-meh-o fa-2x", "Conceptos", data, "warning", "fadeIn", "fadeOut", 2000);
+            setTimeout(function () {
+                window.location.replace($('#ruta').attr('data-redirect'));
+            }, 2000);
+        }
+    }
+
+    function OnFailure() {
+        $.hideLoading();
+        mensajeAlerta("fa fa-frown-ofa-2x", "Conceptos", "Huo problemas de conexion, favor de comunicarse con su administrador", "danger", "fadeIn", "fadeOut", 2000);
+    }
 </script>
-            
