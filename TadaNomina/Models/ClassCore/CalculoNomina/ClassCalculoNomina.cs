@@ -475,26 +475,39 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                                 var claveConcepto  = "\"" + lc.ClaveConcepto.Trim().ToUpper() + "\"";
                                 if (Formula.Contains(claveConcepto))
                                 {
-                                    var incidencias = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).ToList();
 
-                                    foreach (var item in incidencias)
+                                    //Se agrega una condiciones para calcular monto
+                                    if (lc.TipoDato == "Cantidades")
                                     {
-                                        switch (item.TipoDato)
-                                        {
-                                            case "Pesos":
-                                                monto += item.Monto ?? 0;
-                                                break;
-                                            case "Cantidades":                                                  
-                                                monto += item.Cantidad ?? 0;
-                                                break;
-                                            default:
-                                                monto += 0;
-                                                break;
-                                        }
+                                        monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).Select(x => x.Cantidad).Sum() ?? 0;
+
                                     }
+                                    else
+                                    {
+                                        monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).Select(x => x.Monto).Sum() ?? 0;
+
+                                    }
+                                    Formula = Formula.Replace(claveConcepto, monto.ToString());
+                                    //var incidencias = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).ToList();
+
+                                    //foreach (var item in incidencias)
+                                    //{
+                                    //    switch (item.TipoDato)
+                                    //    {
+                                    //        case "Pesos":
+                                    //            monto += item.Monto ?? 0;
+                                    //            break;
+                                    //        case "Cantidades":                                                  
+                                    //            monto += item.Cantidad ?? 0;
+                                    //            break;
+                                    //        default:
+                                    //            monto += 0;
+                                    //            break;
+                                    //    }
+                                    //}
                                 }                                    
 
-                                Formula = Formula.Replace(lc.ClaveConcepto, monto.ToString());
+                                //Formula = Formula.Replace(lc.ClaveConcepto, monto.ToString());
                             }
 
                             foreach (var iEquiv in tablaEquivalencias)
