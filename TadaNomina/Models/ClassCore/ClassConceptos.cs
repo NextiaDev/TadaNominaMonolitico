@@ -435,7 +435,7 @@ namespace TadaNomina.Models.ClassCore
             List<Cat_NominaSAT> nominaSAT = getCatalogoSAT();
 
             grupo.ForEach(x=> { lagrupador.Add(new SelectListItem { Text=x.ClaveGpo + " - " + x.Descripcion, Value= x.ClaveGpo }); });
-            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = "(GPO)" + x.ClaveGpo + " - (SAT)" + x.ClaveSAT + " - (Int)" + x.ClaveConcepto + " - (Tipo)" + x.TipoDato + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
             nominaSAT.ForEach(x => { lConceptosSAT.Add(new SelectListItem { Text = x.Clave + " - " + x.Descripcion, Value = x.Clave }); });
 
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
@@ -549,7 +549,7 @@ namespace TadaNomina.Models.ClassCore
             List<Cat_NominaSAT> nominaSAT = getCatalogoSAT(modelConceptos.TipoConcepto);
 
             grupo.ForEach(x => { lagrupador.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Descripcion, Value = x.ClaveGpo }); });
-            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = "(GPO)" + x.ClaveGpo + " - (SAT)" + x.ClaveSAT + " - (Int)" + x.ClaveConcepto + " - (Tipo)" + x.TipoDato + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); }); 
             nominaSAT.ForEach(x=> { lConceptosSAT.Add(new SelectListItem { Text = x.Clave + " - " + x.Descripcion, Value = x.Clave }); });
 
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
