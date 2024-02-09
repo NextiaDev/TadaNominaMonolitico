@@ -284,6 +284,20 @@ namespace TadaNomina.Models.ClassCore.Timbrado
         }
 
         /// <summary>
+        /// Obtiene los registros de timbrado en base a los folios UUID
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Identificador del periodo de nómina</param>
+        /// <param name="FoliosUUID">listado de folios UUID a buscar</param>
+        /// <returns></returns>
+        public List<vTimbradoNomina> ObtendatosTimbradoNominaByFoliosUUID(int IdPeriodoNomina, List<string> FoliosUUID)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                return entidad.vTimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.IdEstatus == 1 && FoliosUUID.Contains(x.FolioUDDI)).ToList();
+            }
+        }
+
+        /// <summary>
         /// Metodo para guardar error de cancelacion de timbrado de nómina
         /// </summary>
         /// <param name="datos">Datos del timbrado</param>

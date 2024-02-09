@@ -204,6 +204,7 @@
           <Property Name="IdModifica" Type="int" />
           <Property Name="FechaModifica" Type="datetime" />
           <Property Name="UsoXML" Type="nvarchar" MaxLength="50" />
+          <Property Name="FoliosUUIDRelacionados" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidencias_Consolidadas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -391,6 +392,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="RegistroPatronal" Type="varchar" MaxLength="15" />
           <Property Name="Rfc_Patrona" Type="nvarchar" MaxLength="15" />
           <Property Name="UsoXML" Type="nvarchar" MaxLength="50" />
+          <Property Name="FoliosUUIDRelacionados" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <Function Name="sp_CosteoResumenMensual" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdsPeriodoNomina" Type="varchar" Mode="In" />
@@ -585,7 +587,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
     [vXmlNomina].[NombrePatrona] AS [NombrePatrona], 
     [vXmlNomina].[RegistroPatronal] AS [RegistroPatronal], 
     [vXmlNomina].[Rfc_Patrona] AS [Rfc_Patrona], 
-    [vXmlNomina].[UsoXML] AS [UsoXML]
+    [vXmlNomina].[UsoXML] AS [UsoXML], 
+    [vXmlNomina].[FoliosUUIDRelacionados] AS [FoliosUUIDRelacionados]
     FROM [dbo].[vXmlNomina] AS [vXmlNomina]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -1197,6 +1200,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="IdModifica" Type="Int32" />
           <Property Name="FechaModifica" Type="DateTime" Precision="3" />
           <Property Name="UsoXML" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FoliosUUIDRelacionados" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vXmlNomina">
           <Key>
@@ -1229,6 +1233,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="RegistroPatronal" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Rfc_Patrona" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="UsoXML" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FoliosUUIDRelacionados" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1740,6 +1745,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="XmlNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.XmlNomina">
               <MappingFragment StoreEntitySet="XmlNomina">
+                <ScalarProperty Name="FoliosUUIDRelacionados" ColumnName="FoliosUUIDRelacionados" />
                 <ScalarProperty Name="UsoXML" ColumnName="UsoXML" />
                 <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
                 <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
@@ -1759,6 +1765,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="vXmlNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.vXmlNomina">
               <MappingFragment StoreEntitySet="vXmlNomina">
+                <ScalarProperty Name="FoliosUUIDRelacionados" ColumnName="FoliosUUIDRelacionados" />
                 <ScalarProperty Name="UsoXML" ColumnName="UsoXML" />
                 <ScalarProperty Name="Rfc_Patrona" ColumnName="Rfc_Patrona" />
                 <ScalarProperty Name="RegistroPatronal" ColumnName="RegistroPatronal" />
