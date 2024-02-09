@@ -18,6 +18,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
     {
         GeneraXML xml = new GeneraXML();
         cCreaXML cxml = new cCreaXML();
+        public string FolioUUIDNuevoTimbrado;
 
         /// <summary>
         /// Metodo para timbrar un periodo de nomina con el Id PAC 1
@@ -28,7 +29,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="Id"></param>
         /// <param name="IdUsuario"></param>
         /// <exception cref="Exception"></exception>
-        public void TimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, int IdUsuario)
+        public void TimbradoNomina(int IdPeriodo, int IdUnidadNegocio, int IdCliente, Guid Id, int IdPAC, int IdUsuario)
         {            
             var cunidad = new  ClassUnidadesNegocio();
             var cgxml = new cGeneraXML();
@@ -44,14 +45,15 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                     TimbraTP(i, IdUnidadNegocio, IdPeriodo, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);
                 else if (cliente.VersionCFDI == "4.0")
                 
-                    TimbraTP40(i, IdUnidadNegocio, IdPeriodo, Id, unidad.FiniquitosFechasDiferentes, IdUsuario);                
+                    TimbraTP40(i, Id, IdPAC, IdUsuario);                
                 else
                     throw new Exception("No se ha especificado la version del cfdi.");
 
-                if (i.UsoXML == "Timbrado CR")
-                {
-                    //cCancelar cc = new cCancelar();
-                    //cc.Cancelar40()
+                //FolioUUIDNuevoTimbrado = "274458ef-5bfa-0d00-06ab-6090f59083cf" // se puede poner un UUID directo para cancelar;
+                if (i.UsoXML == "Timbrado CR" && FolioUUIDNuevoTimbrado != null && FolioUUIDNuevoTimbrado != string.Empty)
+                {                    
+                    cCancelar cc = new cCancelar();
+                    cc.CancelarTimbradoNominaRelacion(IdPeriodo, i.FoliosUUIDRelacionados, FolioUUIDNuevoTimbrado, IdUsuario);
                 }
             }
         }
@@ -65,8 +67,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             RespuestaTimbrado respuesta = null;
 
             try 
-            {
-                //Comprobante = xml.GeneraXMLNomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo);
+            {                
                 Comprobante = dat.XML;
                 if (Comprobante != string.Empty) { timbra = true; }
             } 
@@ -89,8 +90,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 GuardaLogError(dat, respuesta, guid, IdUsuario);
         }
 
-        public void TimbraTP40(vXmlNomina dat, int IdUnidadNegocio, int IdPeriodo, Guid guid, string tipoFechaFiniquito, int IdUsuario)
-        {  
+        public void TimbraTP40(vXmlNomina dat, Guid guid, int IdPAC, int IdUsuario)
+        {
             string Comprobante = string.Empty;
             bool timbra = false;
             mTimbradoResult respuesta = null;
@@ -99,8 +100,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             var acceso = sgt.sGetAcceso();
 
             try
-            {
-                //Comprobante = cxml.GeneraXML40Nomina12(dat, IdUnidadNegocio, tipoFechaFiniquito, IdPeriodo);
+            {                
                 Comprobante = dat.XML;
                 if (Comprobante != string.Empty) { timbra = true; }
             }
@@ -124,7 +124,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 var comprobanteB64 = Statics.Base64Encode(Comprobante);
                 List<mFacturas> fac = new List<mFacturas>();
                 fac.Add(new mFacturas { Base64 = comprobanteB64 });
-                mTimbrar mTimbrar = new mTimbrar() { 
+                mTimbrar mTimbrar = new mTimbrar() {
                     Referencia = guid.ToString(),
                     Fecha = DateTime.Now.ToShortDateString(),
                     Facturas = fac
@@ -133,17 +133,21 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 respuesta = st.sTimbrado(mTimbrar, acceso.Access_Token); 
             }
 
-            if (respuesta.Facturas[0].XMLTimbrado != null)
+            try
             {
-                var xml = Statics.Base64Decode(respuesta.Facturas[0].XMLTimbrado).Replace("\n", "").Replace("\r", "");
-
-                GuardaTablaTimbrado(dat, xml, respuesta.Facturas[0].UUID, respuesta.Facturas[0].FechaSello, IdUsuario);
+                if (respuesta.Facturas[0].XMLTimbrado != null)
+                {
+                    var xml = Statics.Base64Decode(respuesta.Facturas[0].XMLTimbrado).Replace("\n", "").Replace("\r", "");
+                    FolioUUIDNuevoTimbrado = respuesta.Facturas[0].UUID;
+                    GuardaTablaTimbrado(dat, xml, respuesta.Facturas[0].UUID, respuesta.Facturas[0].FechaSello, IdPAC, IdUsuario);
+                }
+                else
+                    GuardaLogError(dat, respuesta.Facturas[0], guid, IdUsuario);
             }
-            else
-                GuardaLogError(dat, respuesta.Facturas[0], guid, IdUsuario);
+            catch { }
         }
 
-        public void GuardaTablaTimbrado(vXmlNomina dat, string xml, string UUID, string FechaTimbrado, int IdUsuario)
+        public void GuardaTablaTimbrado(vXmlNomina dat, string xml, string UUID, string FechaTimbrado, int IdPAC, int IdUsuario)
         {            
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
@@ -165,6 +169,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 tim.Leyenda = dat.Leyenda;
                 tim.FechaTimbrado = FechaTimbrado;
                 tim.IdXml = dat.IdXml;
+                tim.IdPAC = IdPAC;
 
                 entidad.TimbradoNomina.Add(tim);
                 entidad.SaveChanges();

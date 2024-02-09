@@ -40,12 +40,13 @@ namespace TadaNomina.Controllers.CFDI
 
             try
             {
+                if (cliente.IdPAC == null || cliente.IdPAC == 0) { throw new Exception("No se ha asignado PAC a este cliente. Por favor asigne el PAC con el que se timbrara."); }
                 Guid Id = Guid.NewGuid();
 
                 if (cliente.IdPAC == 1)
                 {
                     ClassTimbrado ct = new ClassTimbrado();
-                    ct.TimbradoNomina(timbrado.IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario);
+                    ct.TimbradoNomina(timbrado.IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, cliente.IdPAC ?? 1, IdUsuario);
                 }
 
                 if (cliente.IdPAC == 2)

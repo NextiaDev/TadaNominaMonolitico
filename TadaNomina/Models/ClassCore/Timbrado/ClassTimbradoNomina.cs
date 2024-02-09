@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using System.Xml;
 using TadaNomina.Models.ClassCore.TimbradoTP;
+using TadaNomina.Models.ClassCore.TimbradoTP.CFDI40;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.CFDI;
 using TadaNomina.Services;
@@ -17,7 +18,9 @@ using TadaNomina.Services;
 namespace TadaNomina.Models.ClassCore.Timbrado
 {
     public class ClassTimbradoNomina: ClassProcesosTimbrado
-    {          
+    {
+        public string FolioUUIDNuevoTimbrado;
+
         /// <summary>
         /// Metodo para agregar informacion de periodos acumulados en modelo ModelTimbradoNomina
         /// </summary>
@@ -124,7 +127,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 if (Exito.ToUpper() == "TRUE")
                 {
                     XmlNodeList nuuid = doc.GetElementsByTagName("uuid");
-                    try { uuid = nuuid[0].InnerText; } catch { uuid = string.Empty; }
+                    try { uuid = nuuid[0].InnerText; } catch { uuid = string.Empty; FolioUUIDNuevoTimbrado = uuid; }
                     XmlNodeList nfecha = doc.GetElementsByTagName("fechaTimbrado");
                     try { fechaTimbrado = nfecha[0].InnerText; } catch { fechaTimbrado = string.Empty; }
                     XmlNodeList nfacturaTimbrada = doc.GetElementsByTagName("facturaTimbradaB64");
@@ -137,6 +140,12 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                     string _facturaTimbrada = Statics.Base64Decode(facturaTimbrada);
 
                     GuardaTablaTimbrado(i, IdUsuario, (i.IdPeriodoNomina ?? 0), uuid, fechaTimbrado, anioMes, _facturaTimbrada, i.Leyenda);
+                }
+
+                if (i.UsoXML == "Timbrado CR" && FolioUUIDNuevoTimbrado != null && FolioUUIDNuevoTimbrado != string.Empty)
+                {
+                    ClassCancelarTimbrado cc = new ClassCancelarTimbrado();
+                    cc.CancelaPeriodoNominaRelacion(IdPeriodo, i.FoliosUUIDRelacionados, FolioUUIDNuevoTimbrado, "01", null, IdUsuario, Id);
                 }
             }
         }

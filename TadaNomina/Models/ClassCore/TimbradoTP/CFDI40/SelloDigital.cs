@@ -28,6 +28,7 @@ namespace XSDToXML.Utils
 
             SecureString lSecStr = new SecureString();
             SHA256Managed sham = new SHA256Managed();
+            
             // SHA1Managed sham = new SHA1Managed(); version 3.2
             lSecStr.Clear();
 

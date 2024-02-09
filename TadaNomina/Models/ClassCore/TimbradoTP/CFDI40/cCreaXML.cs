@@ -374,6 +374,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                         nOtrosPagos3.Clave = oPagos.ClaveConcepto;
                         nOtrosPagos3.Concepto = oPagos.Concepto;
 
+                        if (oPagos.ClaveSAT == "004")
+                        {
+                            //NominaOtroPagoCompensacionSaldosAFavor nopCompSaldofavor = new NominaOtroPagoCompensacionSaldosAFavor();
+                            //nopCompSaldofavor.SaldoAFavor = 
+                            //nOtrosPagos3.CompensacionSaldosAFavor 
+                        }
+
                         nOtrosPagos3.Importe = (decimal)oPagos.Monto;
                         nomina.OtrosPagos[indiceOtros] = nOtrosPagos3;
                     }
@@ -464,7 +471,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                     
                     for (int i=0; i<= UUIDRelacionado.Count - 1; i++)
                     {
-                        ComprobanteCfdiRelacionadosCfdiRelacionado[] cfdiRelDat = new ComprobanteCfdiRelacionadosCfdiRelacionado[1];
+                        ComprobanteCfdiRelacionadosCfdiRelacionado[] cfdiRelDat = new ComprobanteCfdiRelacionadosCfdiRelacionado[UUIDRelacionado.Count];
                         ComprobanteCfdiRelacionadosCfdiRelacionado cfdireldatint = new ComprobanteCfdiRelacionadosCfdiRelacionado();
                         cfdireldatint.UUID = UUIDRelacionado[i];
                         ComprobanteCfdiRelacionados cfdirelint = new ComprobanteCfdiRelacionados();
@@ -484,13 +491,14 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 
                 comprobante.Certificado = classAux._firmaSoftware256.CertToBase64String();
                 try { comprobante.Sello = classAux._firmaSoftware256.Sellar(CadenaOriginal); }
-                catch {
+                catch
+                {
                     ObtenCertificadosCfdi(dat.rutaCer, dat.rutaKey, dat.keyPass);
                     SelloDigital oselloDigital = new SelloDigital();
                     comprobante.Certificado = oselloDigital.Certificado(_cer);
                     comprobante.Sello = oselloDigital.Sellar(CadenaOriginal, _key, _KeyPass, int.Parse(dat.IdRegistroPatronal), dat.Emisor_Nombre);
                 }
-                
+
                 xml = CreaXML(comprobante);
 
                 guardaXML(dat.NumEmpleado, IdPeriodo, xml);
