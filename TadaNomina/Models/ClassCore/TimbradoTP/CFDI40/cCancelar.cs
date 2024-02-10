@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using TadaNomina.Models.DB;
+using TadaNomina.Models.ViewModels.CFDI;
 using TadaNomina.ServiceReferenceTPCancelacion20;
 
 namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
@@ -229,6 +230,57 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 }
 
                 entidad.SaveChanges();
+            }
+        }
+
+        public void cancelaCFDISRelacionadosPrevios(int IdPeriodoNomina, int IdUsuario)
+        {
+            var relacionados = getRelacionados(IdPeriodoNomina);
+
+            foreach (var item in relacionados)
+            { 
+                if(item.cantidad >= 2)
+                {
+                    var cfdis = getTimbradosPeriodoRFC(IdPeriodoNomina, item.rfc);
+                    var idXMl = cfdis[0].IdXml ?? 0;
+                    var uuidNuevo = cfdis[0].FolioUDDI;
+                    var CFDIRel = getXMlNomina(idXMl).FoliosUUIDRelacionados;
+                    
+                    if(CFDIRel != null && CFDIRel != string.Empty)
+                        CancelarTimbradoNominaRelacion(IdPeriodoNomina, CFDIRel, uuidNuevo, IdUsuario);
+                }                
+            }
+        }
+
+        public List<modelRelacionados> getRelacionados(int IdPeriodo)
+        {
+            var consulta = "select count(rfc) as cantidad, rfc from TimbradoNomina where IdPeriodoNomina = " + IdPeriodo + " and IdEstatus = 1 group by rfc";
+
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                var result = entidad.Database.SqlQuery<modelRelacionados>(consulta);
+
+                return result.ToList();
+            }
+        }
+
+        public List<TimbradoNomina> getTimbradosPeriodoRFC(int IdPeriodo, string RFC)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                var cfdis = entidad.TimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.RFC == RFC && x.IdEstatus == 1).OrderByDescending(x => x.FechaTimbrado);
+
+                return cfdis.ToList();
+            }
+        }
+
+        public XmlNomina getXMlNomina(int IdXMl)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                var registro = entidad.XmlNomina.Where(x => x.IdXml == IdXMl).FirstOrDefault();
+
+                return registro;
             }
         }
     }

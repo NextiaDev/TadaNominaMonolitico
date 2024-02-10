@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using System.Web;
 using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.ClassCore.TimbradoTP.CFDI40;
@@ -48,13 +49,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                     TimbraTP40(i, Id, IdPAC, IdUsuario);                
                 else
                     throw new Exception("No se ha especificado la version del cfdi.");
-
+                               
                 //FolioUUIDNuevoTimbrado = "274458ef-5bfa-0d00-06ab-6090f59083cf" // se puede poner un UUID directo para cancelar;
-                if (i.UsoXML == "Timbrado CR" && FolioUUIDNuevoTimbrado != null && FolioUUIDNuevoTimbrado != string.Empty)
-                {                    
-                    cCancelar cc = new cCancelar();
-                    cc.CancelarTimbradoNominaRelacion(IdPeriodo, i.FoliosUUIDRelacionados, FolioUUIDNuevoTimbrado, IdUsuario);
-                }
+                //if (i.UsoXML == "Timbrado CR" && FolioUUIDNuevoTimbrado != null && FolioUUIDNuevoTimbrado != string.Empty)
+                //{                    
+                //    cCancelar cc = new cCancelar();
+                //    cc.CancelarTimbradoNominaRelacion(IdPeriodo, i.FoliosUUIDRelacionados, FolioUUIDNuevoTimbrado, IdUsuario);
+                //}
             }
         }
 
@@ -169,7 +170,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 tim.Leyenda = dat.Leyenda;
                 tim.FechaTimbrado = FechaTimbrado;
                 tim.IdXml = dat.IdXml;
-                tim.IdPAC = IdPAC;
+                tim.IdPAC = IdPAC;                
 
                 entidad.TimbradoNomina.Add(tim);
                 entidad.SaveChanges();
