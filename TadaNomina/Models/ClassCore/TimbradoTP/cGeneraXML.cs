@@ -19,6 +19,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
     public class cGeneraXML
     {
         SqlConnection sqlconn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ModelNomina"].ConnectionString);
+        private int? IdXML;
+        private string FoliosUUID;
 
         /// <summary>
         /// Metodo para generar los xml a timbrar por periodo de nómina
@@ -122,10 +124,10 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
 
             if (Comprobante != string.Empty)
             {
-                if (validaRegistro(IdPeriodo, IdEmpleado))
-                    updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);
+                if (validaRegistro(IdPeriodo, IdEmpleado, null))
+                    updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, null, null, IdUsuario);
                 else
-                    GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);
+                    GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, null, IdUsuario);
             }
         }
 
@@ -147,11 +149,10 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             
             if (Comprobante != string.Empty)
             {
-                bool timbradoActivo = timbrados.Select(x => x.IdEstatus == 1).Any();
-                if (validaRegistro(IdPeriodo, IdEmpleado) && !timbradoActivo)                
-                    updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);                
-                else                
-                    GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdUsuario);                
+                if (validaRegistro(IdPeriodo, IdEmpleado, timbrados))                
+                    updateXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, IdXML, FoliosUUID, IdUsuario);                
+                else             
+                    GuardarXmlDB(IdPeriodo, IdEmpleado, IdRegistro, Comprobante, dat.Leyenda, guid, UsoXML, FoliosUUID, IdUsuario);                
             }
 
             return result;
@@ -163,14 +164,26 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="IdPeriodo">Identificador del periodo de nómina</param>
         /// <param name="IdEmpleado">Identificador del empleado</param>
         /// <returns></returns>
-        private bool validaRegistro(int IdPeriodo, int IdEmpleado)
+        private bool validaRegistro(int IdPeriodo, int IdEmpleado, List<vTimbradoNomina> timbrados)
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
-                var registro = entidad.XmlNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado && x.IdEstatus == 1).FirstOrDefault();
+                var registro = entidad.XmlNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado && x.IdEstatus == 1).ToList();
 
-                if (registro != null)
-                    return true;
+                if (timbrados != null && timbrados.Count > 0)
+                {
+                    var ids = timbrados.Where(x=> x.IdEstatus == 1).Select(x => x.IdXml).ToList();
+                    FoliosUUID = string.Join(",", timbrados.Where(x => x.IdEstatus == 1).Select(x => x.FolioUDDI).ToList());
+                    var _registro = registro.Where(x => !ids.Contains(x.IdXml)).ToList();
+
+                    if ( _registro.Count() > 0)
+                    {
+                        IdXML = _registro.Select(x => x.IdXml).FirstOrDefault();
+                        return true;
+                    }
+                    else
+                        return false;
+                }
                 else
                     return false;
             }
@@ -188,7 +201,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
-                return entidad.vTimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && (x.IdEstatus == 1 || x.IdEstatus == 2)).ToList();
+                int[] estatus = { 1, 2 };
+                return entidad.vTimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && estatus.Contains((int)x.IdEstatus)).ToList();
             }
         }
 
@@ -201,7 +215,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="XML">Archivo XML creado</param>
         /// <param name="Leyenda">Leyenda que aparecera en la representación grafica del CFDI</param>
         /// <param name="IdUsuario">Identificador del usuario que realiza esta acción</param>
-        private void GuardarXmlDB(int IdPeriodo, int IdEmpleado, int IdRegistro, string XML, string Leyenda, Guid Id, string UsoXML, int IdUsuario)
+        private void GuardarXmlDB(int IdPeriodo, int IdEmpleado, int IdRegistro, string XML, string Leyenda, Guid Id, string UsoXML, string FoliosUUIDRel, int IdUsuario)
         {
             XmlNomina xml = new XmlNomina() {
                 IdPeriodoNomina = IdPeriodo,
@@ -214,6 +228,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 FechaCaptura = DateTime.Now,
                 Guid = Id,
                 UsoXML = UsoXML,
+                FoliosUUIDRelacionados = FoliosUUIDRel
             };
 
             using (TadaTimbradoEntities entidaad = new TadaTimbradoEntities())
@@ -232,11 +247,15 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
         /// <param name="XML">Archivo XML creado</param>
         /// <param name="Leyenda">Leyenda que aparecera en la representación grafica del CFDI</param>
         /// <param name="IdUsuario">Identificador del usuario que realiza esta acción</param>
-        private void updateXmlDB(int IdPeriodo, int IdEmpleado, int IdRegistro, string XML, string Leyenda, Guid Id, string UsoXML, int IdUsuario)
+        private void updateXmlDB(int IdPeriodo, int IdEmpleado, int IdRegistro, string XML, string Leyenda, Guid Id, string UsoXML, int? IdXML, string FoliosUUIDRel, int IdUsuario)
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
-                var registro = entidad.XmlNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado && x.IdEstatus == 1).FirstOrDefault();
+                XmlNomina registro = null;
+                if(IdXML != null)
+                    registro = entidad.XmlNomina.Where(x => x.IdXml == IdXML).FirstOrDefault();
+                else
+                    registro = entidad.XmlNomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEmpleado == IdEmpleado && x.IdEstatus == 1).FirstOrDefault();
 
                 if (registro != null)
                 {
@@ -250,6 +269,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                     registro.FechaModifica = DateTime.Now;
                     registro.Guid = Id;
                     registro.UsoXML = UsoXML;
+                    registro.FoliosUUIDRelacionados = FoliosUUIDRel;
 
                     entidad.SaveChanges();
                 }
@@ -582,7 +602,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
             foreach (var item in timbrado)
             {
                 string xml = item.XML;
-                string NombreArchivo = "CFDI_" + item.IdPeriodoNomina + "_" + item.IdEmpleado + ".xml";
+                string NombreArchivo = "CFDI_" + item.IdPeriodoNomina + "_" + item.IdXml + ".xml";
                 string ruta = @"D:\TadaNomina\DescargaCFDINominaPrevio\" + item.IdPeriodoNomina;
                 if (filtro != string.Empty) { ruta += @"\" + filtro; }
                 string rutaArchivo = ruta + @"\" + NombreArchivo;

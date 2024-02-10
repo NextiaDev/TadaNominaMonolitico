@@ -57,11 +57,32 @@ namespace TadaNomina.Models.ClassCore.Timbrado
 
             foreach (var item in timbrados)
             {
-                Cancelar(item, ClaveSAT, Id, IdUsuario);
+                Cancelar(item, ClaveSAT, string.Empty, Id, IdUsuario);
             }
         }
 
-        public void Cancelar(vTimbradoNomina datos, string ClaveSat, Guid id, int IdUsuario)
+        /// <summary>
+        /// Metodo que obtiene los datos para cancelar timbrado con relacion o sustitución de CFDI.
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Periodo de nómina</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="Id"></param>
+        /// <param name="Tipo"></param>
+        public void CancelaPeriodoNominaRelacion(int IdPeriodoNomina, string FolioUUIDSeparadoComas, string FolioRelacionado, string ClaveSAT, string[] claves, int IdUsuario, Guid Id)
+        {
+            List<string> folios = FolioUUIDSeparadoComas.Split(',').ToList();
+            var timbrados = ObtendatosTimbradoNominaByFoliosUUID(IdPeriodoNomina, folios);
+
+            if (claves != null && claves.Count() > 0)
+                timbrados = timbrados.Where(x => claves.Contains(x.ClaveEmpleado)).ToList();
+
+            foreach (var item in timbrados)
+            {
+                Cancelar(item, ClaveSAT, FolioRelacionado, Id, IdUsuario);
+            }
+        }
+
+        public void Cancelar(vTimbradoNomina datos, string ClaveSat, string FolioRelacionado, Guid id, int IdUsuario)
         {
             try
             {
@@ -72,7 +93,7 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 try { creaPfx(datos.rutaCer, datos.rutaKey, datos.KeyPass.Trim(), datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se pudo crear el archivo PFX.", ex); }
                 byte[] pfx = Array.Empty<byte>();
                 try { pfx = File.ReadAllBytes(datos.PFXCancelacionTimbrado); } catch (Exception ex) { throw new Exception("No se puede leer el archivo PFX.", ex); }
-                var xml = getXMLCancelacionSignature(datos.RFC_Patronal, datos.FolioUDDI, ClaveSat, "", pfx, datos.KeyPass);
+                var xml = getXMLCancelacionSignature(datos.RFC_Patronal, datos.FolioUDDI, ClaveSat, FolioRelacionado, pfx, datos.KeyPass);
                 string base64EncodedExternalAccount = Statics.Base64Encode(xml);
 
                 var cancelar = CancelarTimbre(base64EncodedExternalAccount, datos.Neto, datos.RFC);

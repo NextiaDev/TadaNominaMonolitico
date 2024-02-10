@@ -1,4 +1,5 @@
 ﻿using Delva.AppCode.TimbradoTurboPAC;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,32 @@ namespace TadaNomina.Controllers.CFDI
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult CancelaRelacionados(int? IdPeriodo)
+        {
+            try
+            {
+                if (IdPeriodo == null || IdPeriodo == 0) {throw new Exception("Debe elegir el periodo a cancelar."); }
+
+                int IdUsuario = (int)Session["sIdUsuario"];
+                cCancelar cc = new cCancelar();
+                cc.cancelaCFDISRelacionadosPrevios((int)IdPeriodo, IdUsuario);
+
+                ClassCancelarTimbrado cperiodo = new ClassCancelarTimbrado();
+                var timbradosCancelados = cperiodo.GetCancelados((int)IdPeriodo);
+                var timbrados = cperiodo.GetvTimbrados((int)IdPeriodo);
+                string mensaje = "Timbres cancelados en el periodo: " + timbradosCancelados.Count + ", Timbres Activos en el periodo: " + timbrados.Count;
+                return Json(new { result = "Ok", mensaje });
+               
+                
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "error", mensaje = ex.Message });
+            }
+            
         }
     }    
 }
