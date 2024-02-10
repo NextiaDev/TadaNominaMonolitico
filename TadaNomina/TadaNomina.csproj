@@ -1268,6 +1268,7 @@
     <Compile Include="Models\ViewModels\CFDI\ModelDetalleTimbradoInicio.cs" />
     <Compile Include="Models\ViewModels\CFDI\ModelGetRecibos.cs" />
     <Compile Include="Models\ViewModels\CFDI\ModelRegistroPatronal.cs" />
+    <Compile Include="Models\ViewModels\CFDI\modelRelacionados.cs" />
     <Compile Include="Models\ViewModels\CFDI\ModelTimbradoNomina.cs" />
     <Compile Include="Models\ViewModels\ConfigUsuario\MaddUsuario.cs" />
     <Compile Include="Models\ViewModels\ConfigUsuario\MIndexUsuario.cs" />
@@ -4434,6 +4435,7 @@
     <Content Include="js\Core\cambioUnidadNegocio.js" />
     <Content Include="js\Core\cargaCertificados.js" />
     <Content Include="js\Core\centrosCostos.js" />
+    <Content Include="js\Core\cfdisRelacionados.js" />
     <Content Include="js\Core\Chek.js" />
     <Content Include="js\Core\ConfHoras.js" />
     <Content Include="js\Core\confiAvanzadaNomina.js" />
