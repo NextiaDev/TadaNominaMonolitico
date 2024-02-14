@@ -20,11 +20,17 @@ namespace TadaNomina.Controllers.CFDI
 
             return View(model);
         }
-        
+
+        /// <summary>
+        ///     Acción que descarga un zip con los CFDI de un cliente
+        /// </summary>
+        /// <param name="model">Modelo con información para la descarga</param>
+        /// <returns>Zip con los CFDI o XML del cliente</returns>
         [HttpPost]
         public ActionResult Index(ModelDescargaCFDI model)
         {   
             int IdUnidad = (int)Session["sIdUnidadNegocio"];
+            int IdCliente = (int)Session["sIdCliente"];
             ClassDescargaCFDI cDescarga = new ClassDescargaCFDI();
             ModelDescargaCFDI modelo = cDescarga.GetModel(IdUnidad);
             ViewBag.IdPeriodoNomina = model.IdPeriodoNomina;
@@ -34,14 +40,14 @@ namespace TadaNomina.Controllers.CFDI
 
                 switch (model.DividirPor)
                 {
-                    case "General":                        
-                        cd.GetZip(model.IdPeriodoNomina, model.TipoArchivo, IdUnidad);
+                    case "General":
+                        cd.GetZip(model.IdPeriodoNomina, model.TipoArchivo, IdCliente);
                         break;
                     case "RegistroPatronal":                       
-                        cd.GetZipReg(model.IdPeriodoNomina, model.TipoArchivo, IdUnidad);
+                        cd.GetZipReg(model.IdPeriodoNomina, model.TipoArchivo, IdCliente);
                         break;
                     case "CentroCostos":
-                        cd.GetZipCC(model.IdPeriodoNomina, model.TipoArchivo, IdUnidad);
+                        cd.GetZipCC(model.IdPeriodoNomina, model.TipoArchivo, IdCliente);
                         break;
                 }
                                 
