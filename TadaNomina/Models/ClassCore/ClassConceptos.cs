@@ -201,7 +201,7 @@ namespace TadaNomina.Models.ClassCore
                     ExcentoGravadoEnReporte = conceptos.ExcentoGravadoEnReporte,
                     Orden = conceptos.Orden,
                     IntegraISN = conceptos.IntegraISN,
-
+                    AfectaCargaSocial = conceptos.AfectaCargaSocial,
                 };
 
                 return modelConceptos;
@@ -489,8 +489,8 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+            _listSINOMDT.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOMDT.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
@@ -602,8 +602,8 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+            _listSINOMDT.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOMDT.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
