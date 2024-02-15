@@ -267,6 +267,13 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+        /// <summary>
+        /// Metodo para validar que la clave de concepto no se repita
+        /// </summary>
+        /// <param name="clave">Calve del concepto</param>
+        /// <param name="IdCliente">Identificador del cliente</param>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <returns></returns>
         public bool validaClaveExistente(string clave, int IdCliente, int? IdConcepto)
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
