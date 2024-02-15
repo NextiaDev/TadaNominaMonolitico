@@ -84,7 +84,7 @@
     @RenderSection("Styles", false)
 
 </head>
-<body>
+<body onunload="cerrarSesionesServer()">
 
     <div id="userName" val="@ViewBag.NombreUsuario" val2="@Session["sLogin"].ToString()" style="display:none"></div>
     <div id="nomSelect" val="@ViewBag.ClienteSeleccionado" val2="@ViewBag.NominaSeleccionada" style="display:none"></div>
@@ -92,6 +92,7 @@
         <div id="rutaHome" data-id="@Url.Action("Index", "Index")"></div>
         <div id="rutaLogin" data-id="@Url.Action("Index", "Login")"></div>
         <div id="rutaValidaSesion" data-id="@Url.Action("ValidaSession", "Base")"></div>
+        <div id="rutaCerrarSesion" data-id="@Url.Action("CerrarSession", "Base")"></div>
 
 
         <div id="container">

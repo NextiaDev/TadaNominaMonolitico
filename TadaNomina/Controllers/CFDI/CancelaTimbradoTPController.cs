@@ -9,6 +9,7 @@ using TadaNomina.Models.ClassCore;
 using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.ClassCore.TimbradoTP.CFDI40;
 using TadaNomina.Models.ViewModels.CFDI;
+using TadaNomina.Services;
 
 namespace TadaNomina.Controllers.CFDI
 {
@@ -84,18 +85,29 @@ namespace TadaNomina.Controllers.CFDI
             try
             {
                 if (IdPeriodo == null || IdPeriodo == 0) {throw new Exception("Debe elegir el periodo a cancelar."); }
-
-                int IdUsuario = (int)Session["sIdUsuario"];
-                cCancelar cc = new cCancelar();
-                cc.cancelaCFDISRelacionadosPrevios((int)IdPeriodo, IdUsuario);
-
                 ClassCancelarTimbrado cperiodo = new ClassCancelarTimbrado();
+                int IdUsuario = (int)Session["sIdUsuario"];
+                int IdCliente = (int)Session["sIdCliente"];
+
+                ClassUnidadesNegocio cun = new ClassUnidadesNegocio();
+                var cliente = cun.getClienteById(IdCliente);
+                Guid id = Guid.NewGuid();
+
+                if (cliente.IdPAC == 1)
+                {
+                    cCancelar cc = new cCancelar();
+                    cc.cancelaCFDISRelacionadosPrevios((int)IdPeriodo, id, IdUsuario);
+                }
+
+                if (cliente.IdPAC == 2)
+                {
+                    cperiodo.cancelaCFDISRelacionadosPrevios((int)IdPeriodo, id, IdUsuario);
+                }
+                
                 var timbradosCancelados = cperiodo.GetCancelados((int)IdPeriodo);
                 var timbrados = cperiodo.GetvTimbrados((int)IdPeriodo);
                 string mensaje = "Timbres cancelados en el periodo: " + timbradosCancelados.Count + ", Timbres Activos en el periodo: " + timbrados.Count;
-                return Json(new { result = "Ok", mensaje });
-               
-                
+                return Json(new { result = "Ok", mensaje });  
             }
             catch (Exception ex)
             {
