@@ -201,7 +201,7 @@ namespace TadaNomina.Models.ClassCore
                     ExcentoGravadoEnReporte = conceptos.ExcentoGravadoEnReporte,
                     Orden = conceptos.Orden,
                     IntegraISN = conceptos.IntegraISN,
-
+                    AfectaCargaSocial = conceptos.AfectaCargaSocial,
                 };
 
                 return modelConceptos;
@@ -267,6 +267,13 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+        /// <summary>
+        /// Metodo para validar que la clave de concepto no se repita
+        /// </summary>
+        /// <param name="clave">Calve del concepto</param>
+        /// <param name="IdCliente">Identificador del cliente</param>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <returns></returns>
         public bool validaClaveExistente(string clave, int IdCliente, int? IdConcepto)
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
@@ -274,9 +281,9 @@ namespace TadaNomina.Models.ClassCore
                 var concepto = new Cat_ConceptosNomina();
 
                 if (IdConcepto == null)
-                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente).FirstOrDefault();
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdEstatus == 1).FirstOrDefault();
                 else
-                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdConcepto != IdConcepto).FirstOrDefault();
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConcepto != IdConcepto).FirstOrDefault();
 
                 if (concepto != null)
                     return false;
@@ -489,8 +496,8 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+            _listSINOMDT.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOMDT.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
@@ -602,8 +609,8 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+            _listSINOMDT.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOMDT.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
             _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
