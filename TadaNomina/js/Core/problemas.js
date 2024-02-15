@@ -1,4 +1,4 @@
-﻿$("#EnviarProblema").click(function () {
+$("#EnviarProblema").click(function () {
     var mensaje = $("#mensajeProblema").val();
 
     alert(mensaje);
@@ -132,4 +132,15 @@ function mensajeAlertaSesion(icon, titulo, mensaje, tipo, animationIn, animation
 function redirigir() {
     var rutaLogin = $("#rutaLogin").attr('data-id');
     window.location.href = rutaLogin;
+}
+
+function cerrarSesionesServer() {
+  var rutaValida = $("#rutaCerrarSesion").attr('data-id');
+  $.ajax({
+    ype: 'POST',
+    url: rutaValida,
+    success: function () {
+
+    }
+  });
 }

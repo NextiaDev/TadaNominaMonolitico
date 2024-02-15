@@ -41,7 +41,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             }
         }
 
-        public void CancelarTimbradoNominaRelacion(int IdPeriodoNomina, string FolioUUIDSeparadoComas, string FolioRelacion, int IdUsuario)
+        public void CancelarTimbradoNominaRelacion(int IdPeriodoNomina, Guid id, string FolioUUIDSeparadoComas, string FolioRelacion, int IdUsuario)
         {
             List<string> folios = FolioUUIDSeparadoComas.Split(',').ToList();
             List<vTimbradoNomina> timbrado = ObtendatosTimbradoNominaByFoliosUUID(IdPeriodoNomina, folios);
@@ -49,7 +49,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             errores = new List<vTimbradoNomina>();
             foreach (var item in timbrado)
             {
-                Cancelar40Relacion(IdUsuario, item, FolioRelacion);
+                Cancelar40Relacion(IdUsuario, item, FolioRelacion, id);
             }
         }
 
@@ -59,7 +59,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
         /// <param name="IdUsuario">Identificador del usuario que realiza la operación</param>
         /// <param name="item">datos del timbrado de nómina</param>
         /// <param name="FolioRelacion">folio del nuevo timbrado que sutituye al anterior.</param>
-        public void Cancelar40Relacion(int IdUsuario, vTimbradoNomina item, string FolioRelacion)
+        public void Cancelar40Relacion(int IdUsuario, vTimbradoNomina item, string FolioRelacion, Guid id)
         {
             creaPfx(item.rutaCer, item.rutaKey, item.KeyPass.Trim(), item.PFXCancelacionTimbrado);
             var rutabytesPfx = item.PFXCancelacionTimbrado;
@@ -80,8 +80,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 correctos.Add(item);
             }
             else
-            {
-                Guid id = Guid.NewGuid();
+            {               
                 GuardaErrorCancelacion(item, _codigoRespuesta + ":" + item.keyRespuesta, id, IdUsuario);
                 errores.Add(item);
             }
@@ -233,10 +232,10 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             }
         }
 
-        public void cancelaCFDISRelacionadosPrevios(int IdPeriodoNomina, int IdUsuario)
+        public void cancelaCFDISRelacionadosPrevios(int IdPeriodoNomina, Guid id, int IdUsuario)
         {
             var relacionados = getRelacionados(IdPeriodoNomina);
-
+            
             foreach (var item in relacionados)
             { 
                 if(item.cantidad >= 2)
@@ -247,7 +246,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                     var CFDIRel = getXMlNomina(idXMl).FoliosUUIDRelacionados;
                     
                     if(CFDIRel != null && CFDIRel != string.Empty)
-                        CancelarTimbradoNominaRelacion(IdPeriodoNomina, CFDIRel, uuidNuevo, IdUsuario);
+                        CancelarTimbradoNominaRelacion(IdPeriodoNomina, id, CFDIRel, uuidNuevo, IdUsuario);
                 }                
             }
         }

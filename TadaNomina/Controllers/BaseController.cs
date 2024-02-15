@@ -100,5 +100,11 @@ namespace TadaNomina.Controllers
             else
                 return Json("Error");
         }
+
+        public JsonResult CerrarSession()
+        {
+            Session.Clear();
+            return Json("Ok");
+        }
     }
 }
