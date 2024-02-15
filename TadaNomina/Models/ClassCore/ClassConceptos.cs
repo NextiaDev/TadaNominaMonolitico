@@ -274,9 +274,9 @@ namespace TadaNomina.Models.ClassCore
                 var concepto = new Cat_ConceptosNomina();
 
                 if (IdConcepto == null)
-                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente).FirstOrDefault();
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdEstatus == 1).FirstOrDefault();
                 else
-                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdConcepto != IdConcepto).FirstOrDefault();
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConcepto != IdConcepto).FirstOrDefault();
 
                 if (concepto != null)
                     return false;
