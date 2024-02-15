@@ -142,11 +142,11 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                     GuardaTablaTimbrado(i, IdUsuario, (i.IdPeriodoNomina ?? 0), uuid, fechaTimbrado, anioMes, _facturaTimbrada, i.Leyenda);
                 }
 
-                if (i.UsoXML == "Timbrado CR" && FolioUUIDNuevoTimbrado != null && FolioUUIDNuevoTimbrado != string.Empty)
-                {
-                    ClassCancelarTimbrado cc = new ClassCancelarTimbrado();
-                    cc.CancelaPeriodoNominaRelacion(IdPeriodo, i.FoliosUUIDRelacionados, FolioUUIDNuevoTimbrado, "01", null, IdUsuario, Id);
-                }
+                //if (i.UsoXML == "Timbrado CR" && FolioUUIDNuevoTimbrado != null && FolioUUIDNuevoTimbrado != string.Empty)
+                //{
+                //    ClassCancelarTimbrado cc = new ClassCancelarTimbrado();
+                //    cc.CancelaPeriodoNominaRelacion(IdPeriodo, i.FoliosUUIDRelacionados, FolioUUIDNuevoTimbrado, "01", null, IdUsuario, Id);
+                //}
             }
         }
 

@@ -373,15 +373,17 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                         nOtrosPagos3.TipoOtroPago = tipos.ObtenTipoOtrosPagos(oPagos.ClaveSAT);
                         nOtrosPagos3.Clave = oPagos.ClaveConcepto;
                         nOtrosPagos3.Concepto = oPagos.Concepto;
+                        nOtrosPagos3.Importe = (decimal)oPagos.Monto;
 
                         if (oPagos.ClaveSAT == "004")
                         {
-                            //NominaOtroPagoCompensacionSaldosAFavor nopCompSaldofavor = new NominaOtroPagoCompensacionSaldosAFavor();
-                            //nopCompSaldofavor.SaldoAFavor = 
-                            //nOtrosPagos3.CompensacionSaldosAFavor 
+                            NominaOtroPagoCompensacionSaldosAFavor nopCompSaldofavor = new NominaOtroPagoCompensacionSaldosAFavor();
+                            nopCompSaldofavor.SaldoAFavor = (decimal)oPagos.Monto;
+                            nopCompSaldofavor.Año = nomina.FechaPago.Month == 12 ? (short)nomina.FechaPago.Year : (short)nomina.FechaPago.AddYears(-1).Year;
+                            nopCompSaldofavor.RemanenteSalFav = incidencias.Where(x => x.ClaveConcepto == "004R" && x.TipoConcepto == "IF").Select(x=> x.Monto).Sum() ?? 0;
+                            nOtrosPagos3.CompensacionSaldosAFavor = nopCompSaldofavor;
                         }
 
-                        nOtrosPagos3.Importe = (decimal)oPagos.Monto;
                         nomina.OtrosPagos[indiceOtros] = nOtrosPagos3;
                     }
                 }
