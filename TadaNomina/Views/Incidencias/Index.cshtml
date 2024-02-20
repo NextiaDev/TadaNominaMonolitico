@@ -7,7 +7,7 @@
     string FlagRelojChecador = ViewBag.FlagRelojChecador;
     var periodo = (int)ViewBag.pIdPeriodoNomina;
 
-    
+
 }
 
 
@@ -23,8 +23,9 @@
         <div class="panel-heading">
             <h3 class="panel-title">Incidencias para el periodo.</h3>
         </div>
-        
+
         <div class="panel-body">
+            <div id="mensajeError" data-text="@ViewBag.Mensaje" style="display:none"></div>
             @if (ViewBag.Bandera)
             {
                 <div class="alert alert-info">
@@ -33,7 +34,7 @@
                 </div>
             }
             @if (FlagRelojChecador == "Empty")
-            { 
+            {
                 <div class="alert alert-info">
                     <span class="fa fa-info-circle"></span> <strong> ¡Atención!</strong> Es necesario llenar las fechas para el reloj checador en el periodo de nómina
                 </div>
@@ -44,7 +45,8 @@
             @Html.ActionLink("PreNomina", "Index", "IncidenciasPrenomina", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, TipoPeriodo = ViewBag.TipoPeriodo }, new { @class="btn btn-primary btn-sm _Load"})
             <button class="btn btn-success btn-sm" onclick="generaReporte(@ViewBag.pIdPeriodoNomina)"> Descargar</button>
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAll">Elminar Todas</button>
-            @if (Session["sRelojChecador"].ToString() == "SI" && bandera == "OK") {
+            @if (Session["sRelojChecador"].ToString() == "SI" && bandera == "OK")
+            {
                 @Html.ActionLink(" Checador", "Checador", new { pIdPer = TadaNomina.Models.ClassCore.Statics.Encriptar(periodo.ToString()) }, new { @class = "btn btn-mint btn-sm _Load" })
             }
             @Html.ActionLink(" Regresar", "SelecionaPeriodo", null, new { @class = "btn btn-info btn-sm _Back" })
@@ -77,7 +79,7 @@
                             </th>
 
 
-                            <th></th>
+                            <th width="10%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,7 +113,7 @@
 
                                 <td>
                                     @*@Html.ActionLink(" ", "Edit", new { id = item.IdIncidencia }, new { @class = "fa fa-edit", @rel = "tooltip", @title = "Editar" }) |*@
-                                    <a href="#" class="anchorDetail" data-id="@item.IdIncidencia" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |
+                                    <a href="#" class="anchorDetail" data-id="@item.IdIncidencia" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a>
                                     <a href="#" class="anchorDelete" data-id="@item.IdIncidencia" rel="tooltip" , title="Eliminar"><span class="btn btn-primary btn-sm fa fa-remove"></span></a>
                                 </td>
                             </tr>
@@ -147,7 +149,7 @@
         <div class="modal-content">
             @using (Html.BeginForm("DeleteAll", "Incidencias"))
             {
-                @Html.HiddenFor(x=> x.IdPeridoNomina);
+                @Html.HiddenFor(x => x.IdPeridoNomina);
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
                     <h4 class="modal-title">Eliminar todas las incidencias.</h4>
@@ -173,9 +175,13 @@
                     </div>
                 </div>
             }
-            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script> 
+
 
 <script type="text/javascript">
 
@@ -265,4 +271,14 @@
     }
 
 
+
+    $(document).ready(function () {
+        var mensaje = $("#mensajeError").attr("data-text");
+
+        if (mensaje.length > 0) {
+            mensajeAlerta("Atencion!", mensaje, "danger", "jelly", "fadeOut", 0);
+        }
+    });
+
 </script>
+    }

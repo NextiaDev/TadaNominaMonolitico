@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace TadaNomina.Models.ClassCore
     /// Conceptos de Nomina
     /// Autor: Diego Rodríguez
     /// Fecha Ultima Modificación: 17/05/2022, Razón: Documentación del código
+    /// Fecha ultima modificación: 04/05/2024, Razón: Se corrigen detalles con la funcionalidad del CRUD
     /// </summary>
 	public class ClassConceptos
 	{
@@ -197,7 +199,9 @@ namespace TadaNomina.Models.ClassCore
                     CalculoAutomatico = conceptos.CalculoAutomatico,
                     VisibleEnReporte = conceptos.VisibleEnReporte,
                     ExcentoGravadoEnReporte = conceptos.ExcentoGravadoEnReporte,
-                    Orden = conceptos.Orden
+                    Orden = conceptos.Orden,
+                    IntegraISN = conceptos.IntegraISN,
+                    AfectaCargaSocial = conceptos.AfectaCargaSocial,
                 };
 
                 return modelConceptos;
@@ -230,14 +234,10 @@ namespace TadaNomina.Models.ClassCore
             {
                 var conceptos = (from b in entidad.Cat_ConceptosNomina.Where(x => x.IdCliente == IdCliente && x.IdConceptoSistema == IdExistente && x.IdEstatus == 1) select b).FirstOrDefault();
 
-                if (conceptos != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                if (conceptos != null)                
+                    return true;                
+                else                
+                    return false;                
             }
         }
 
@@ -266,6 +266,30 @@ namespace TadaNomina.Models.ClassCore
                 }
             }
         }
+
+        /// <summary>
+        /// Metodo para validar que la clave de concepto no se repita
+        /// </summary>
+        /// <param name="clave">Calve del concepto</param>
+        /// <param name="IdCliente">Identificador del cliente</param>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <returns></returns>
+        public bool validaClaveExistente(string clave, int IdCliente, int? IdConcepto)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var concepto = new Cat_ConceptosNomina();
+
+                if (IdConcepto == null)
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdEstatus == 1).FirstOrDefault();
+                else
+                    concepto = entidad.Cat_ConceptosNomina.Where(x => x.ClaveConcepto == clave && x.IdCliente == IdCliente && x.IdEstatus == 1 && x.IdConcepto != IdConcepto).FirstOrDefault();
+
+                if (concepto != null)
+                    return false;
+                else return true;
+            }
+        }
         
         /// <summary>
         /// Método para agregar un concepto base
@@ -275,63 +299,64 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Identificador usuario</param>
         public void AddConcepto(ModelConceptos modelConcepto, int IdCliente, int IdUsuario)
         {
-            int Adicional = 0;
-            if (modelConcepto.ConceptoAdicional == "SI")
+            if (validaClaveExistente(modelConcepto.ClaveConcepto, IdCliente, null))
             {
-                
-                 Adicional = int.Parse(modelConcepto.ClaveConceptos);
-            }
-        
+                int Adicional = 0;
+                if (modelConcepto.ConceptoAdicional == "SI")
+                    Adicional = int.Parse(modelConcepto.ClaveConceptos ?? "0");
 
-
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
-            {
-                Cat_ConceptosNomina concepto = new Cat_ConceptosNomina()
+                using (TadaNominaEntities entidad = new TadaNominaEntities())
                 {
-                    IdCliente = IdCliente,
-                    ClaveGpo = modelConcepto.ClaveGpo,
-                    ClaveConcepto = modelConcepto.ClaveConcepto,
-                    ClaveSAT = modelConcepto.ClaveSAT,
-                    Concepto = modelConcepto.Concepto,
-                    Informacion = modelConcepto.Informacion,
-                    TipoConcepto = modelConcepto.TipoConcepto,
-                    TipoDato = modelConcepto.TipoDato,
-                    TipoEsquema = modelConcepto.TipoEsquema,
-                    CalculaMontos = modelConcepto.CalculaMontos,
-                    SDPor = modelConcepto.SDPor,
-                    SDEntre = modelConcepto.SDEntre,
-                    Integrable = modelConcepto.Integrable,
-                    IntegraSDI = modelConcepto.IntegraSDI,
-                    AfectaSeldo = modelConcepto.AfectaSueldo,
-                    AfectaCargaSocial = modelConcepto.AfectaCargaSocial,
-                    Exenta = modelConcepto.Exenta,
-                    UnidadExenta = modelConcepto.UnidadExenta,
-                    CantidadExenta = modelConcepto.CantidadExenta,
-                    PorcentajeGravado = modelConcepto.PorcentajeGravado,
-                    MultiplicaDT = modelConcepto.MultiplicacDiasTrabajados,
-                    IdEstatus = 1,
-                    IdCaptura = IdUsuario,
-                    FechaCaptura = DateTime.Now,
-                    SumaNetoFinal = modelConcepto.sumaNetoFinal,
-                    ExentaPorUnidad = modelConcepto.ExcentaPorUnidad,
-                    FactoryValor = modelConcepto.FactoryValor,
-                    Piramida = modelConcepto.Piramida,
-                    PagoEfectivo = modelConcepto.PagoEfectivo,
-                    ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
-                    CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
-                    IdConceptoAdicional = Adicional,
-                    CalculoDiasHoras = modelConcepto.DiasHoras,
-                    IntegraPension = modelConcepto.IntegraPension,
-                    Formula = modelConcepto.Formula,
-                    CalculoAutomatico = modelConcepto.CalculoAutomatico,
-                    VisibleEnReporte = modelConcepto.VisibleEnReporte,
-                    ExcentoGravadoEnReporte = modelConcepto.ExcentoGravadoEnReporte,
-                    Orden = modelConcepto.Orden
-                };
+                    Cat_ConceptosNomina concepto = new Cat_ConceptosNomina()
+                    {
+                        IdCliente = IdCliente,
+                        ClaveGpo = modelConcepto.ClaveGpo,
+                        ClaveConcepto = modelConcepto.ClaveConcepto,
+                        ClaveSAT = modelConcepto.ClaveSAT,
+                        Concepto = modelConcepto.Concepto,
+                        Informacion = modelConcepto.Informacion,
+                        TipoConcepto = modelConcepto.TipoConcepto,
+                        TipoDato = modelConcepto.TipoDato,
+                        TipoEsquema = modelConcepto.TipoEsquema,
+                        CalculaMontos = modelConcepto.CalculaMontos,
+                        SDPor = modelConcepto.SDPor,
+                        SDEntre = modelConcepto.SDEntre,
+                        Integrable = modelConcepto.Integrable,
+                        IntegraSDI = modelConcepto.IntegraSDI,
+                        AfectaSeldo = modelConcepto.AfectaSueldo,
+                        AfectaCargaSocial = modelConcepto.AfectaCargaSocial,
+                        Exenta = modelConcepto.Exenta,
+                        UnidadExenta = modelConcepto.UnidadExenta,
+                        CantidadExenta = modelConcepto.CantidadExenta,
+                        PorcentajeGravado = modelConcepto.PorcentajeGravado,
+                        MultiplicaDT = modelConcepto.MultiplicacDiasTrabajados,
+                        IdEstatus = 1,
+                        IdCaptura = IdUsuario,
+                        FechaCaptura = DateTime.Now,
+                        SumaNetoFinal = modelConcepto.sumaNetoFinal,
+                        ExentaPorUnidad = modelConcepto.ExcentaPorUnidad,
+                        FactoryValor = modelConcepto.FactoryValor,
+                        Piramida = modelConcepto.Piramida,
+                        PagoEfectivo = modelConcepto.PagoEfectivo,
+                        ExentoPorSueldoMinimo = modelConcepto.smgvalcien,
+                        CreaConceptoAdicional = modelConcepto.ConceptoAdicional,
+                        IdConceptoAdicional = Adicional,
+                        CalculoDiasHoras = modelConcepto.DiasHoras,
+                        IntegraPension = modelConcepto.IntegraPension,
+                        Formula = modelConcepto.Formula,
+                        CalculoAutomatico = modelConcepto.CalculoAutomatico,
+                        VisibleEnReporte = modelConcepto.VisibleEnReporte,
+                        ExcentoGravadoEnReporte = modelConcepto.ExcentoGravadoEnReporte,
+                        Orden = modelConcepto.Orden,
+                        IntegraISN = modelConcepto.IntegraISN,
+                    };
 
-                entidad.Cat_ConceptosNomina.Add(concepto);
-                entidad.SaveChanges();
+                    entidad.Cat_ConceptosNomina.Add(concepto);
+                    entidad.SaveChanges();
+                }
             }
+            else
+                throw new Exception("La clave del concepto que desea agregar ya existe.");
         }
 
         /// <summary>
@@ -341,62 +366,65 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Identificador usuario</param>
         public void UpdateConcepto(ModelConceptos modelConceptos, int IdUsuario)
         {
-            int Adicional = 0;
-            if (modelConceptos.ConceptoAdicional == "SI")
+            if (validaClaveExistente(modelConceptos.ClaveConcepto, modelConceptos.IdCliente, modelConceptos.IdConcepto))
             {
+                int Adicional = 0;
+                if (modelConceptos.ConceptoAdicional == "SI")
+                    Adicional = int.Parse(modelConceptos.ClaveConceptos ?? "0");
 
-                Adicional = int.Parse(modelConceptos.ClaveConceptos);
-            }
-
-            using (TadaNominaEntities entidad = new TadaNominaEntities())
-            {
-                var concepto = (from b in entidad.Cat_ConceptosNomina.Where(x => x.IdConcepto == modelConceptos.IdConcepto) select b).FirstOrDefault();
-
-                if (concepto != null)
+                using (TadaNominaEntities entidad = new TadaNominaEntities())
                 {
-                    concepto.ClaveGpo = modelConceptos.ClaveGpo;
-                    concepto.ClaveConcepto = modelConceptos.ClaveConcepto;
-                    concepto.ClaveSAT = modelConceptos.ClaveSAT;
-                    concepto.Concepto = modelConceptos.Concepto;
-                    concepto.Informacion = modelConceptos.Informacion;
-                    concepto.TipoConcepto = modelConceptos.TipoConcepto;
-                    concepto.TipoDato = modelConceptos.TipoDato;
-                    concepto.TipoEsquema = modelConceptos.TipoEsquema;
-                    concepto.CalculaMontos = modelConceptos.CalculaMontos;
-                    concepto.SDPor = modelConceptos.SDPor;
-                    concepto.SDEntre = modelConceptos.SDEntre;
-                    concepto.SDPor = modelConceptos.SDPor;
-                    concepto.SDEntre = modelConceptos.SDEntre;                    
-                    concepto.Integrable = modelConceptos.Integrable;
-                    concepto.IntegraSDI = modelConceptos.IntegraSDI;
-                    concepto.AfectaSeldo = modelConceptos.AfectaSueldo;
-                    concepto.AfectaCargaSocial = modelConceptos.AfectaCargaSocial;
-                    concepto.Exenta = modelConceptos.Exenta;
-                    concepto.UnidadExenta = modelConceptos.UnidadExenta;
-                    concepto.CantidadExenta = modelConceptos.CantidadExenta;
-                    concepto.PorcentajeGravado = modelConceptos.PorcentajeGravado;
-                    concepto.IdModifica = IdUsuario;
-                    concepto.FechaModifica = DateTime.Now;
-                    concepto.SumaNetoFinal = modelConceptos.sumaNetoFinal;
-                    concepto.MultiplicaDT = modelConceptos.MultiplicacDiasTrabajados;
-                    concepto.ExentaPorUnidad = modelConceptos.ExcentaPorUnidad;
-                    concepto.FactoryValor = modelConceptos.FactoryValor;
-                    concepto.Piramida = modelConceptos.Piramida;
-                    concepto.PagoEfectivo = modelConceptos.PagoEfectivo;
-                    concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
-                    concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
-                    concepto.IdConceptoAdicional = Adicional;
-                    concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
-                    concepto.IntegraPension = modelConceptos.IntegraPension;
-                    concepto.Formula = modelConceptos.Formula;
-                    concepto.CalculoAutomatico = modelConceptos.CalculoAutomatico;
-                    concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
-                    concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
-                    concepto.Orden = modelConceptos.Orden;
-                }
+                    var concepto = entidad.Cat_ConceptosNomina.Where(x => x.IdConcepto == modelConceptos.IdConcepto).FirstOrDefault();
 
-                entidad.SaveChanges();
+                    if (concepto != null)
+                    {
+                        concepto.ClaveGpo = modelConceptos.ClaveGpo;
+                        concepto.ClaveConcepto = modelConceptos.ClaveConcepto;
+                        concepto.ClaveSAT = modelConceptos.ClaveSAT;
+                        concepto.Concepto = modelConceptos.Concepto;
+                        concepto.Informacion = modelConceptos.Informacion;
+                        concepto.TipoConcepto = modelConceptos.TipoConcepto;
+                        concepto.TipoDato = modelConceptos.TipoDato;
+                        concepto.TipoEsquema = modelConceptos.TipoEsquema;
+                        concepto.CalculaMontos = modelConceptos.CalculaMontos;
+                        concepto.SDPor = modelConceptos.SDPor;
+                        concepto.SDEntre = modelConceptos.SDEntre;
+                        concepto.SDPor = modelConceptos.SDPor;
+                        concepto.SDEntre = modelConceptos.SDEntre;
+                        concepto.Integrable = modelConceptos.Integrable;
+                        concepto.IntegraSDI = modelConceptos.IntegraSDI;
+                        concepto.AfectaSeldo = modelConceptos.AfectaSueldo;
+                        concepto.AfectaCargaSocial = modelConceptos.AfectaCargaSocial;
+                        concepto.Exenta = modelConceptos.Exenta;
+                        concepto.UnidadExenta = modelConceptos.UnidadExenta;
+                        concepto.CantidadExenta = modelConceptos.CantidadExenta;
+                        concepto.PorcentajeGravado = modelConceptos.PorcentajeGravado;
+                        concepto.IdModifica = IdUsuario;
+                        concepto.FechaModifica = DateTime.Now;
+                        concepto.SumaNetoFinal = modelConceptos.sumaNetoFinal;
+                        concepto.MultiplicaDT = modelConceptos.MultiplicacDiasTrabajados;
+                        concepto.ExentaPorUnidad = modelConceptos.ExcentaPorUnidad;
+                        concepto.FactoryValor = modelConceptos.FactoryValor;
+                        concepto.Piramida = modelConceptos.Piramida;
+                        concepto.PagoEfectivo = modelConceptos.PagoEfectivo;
+                        concepto.ExentoPorSueldoMinimo = modelConceptos.smgvalcien;
+                        concepto.CreaConceptoAdicional = modelConceptos.ConceptoAdicional;
+                        concepto.IdConceptoAdicional = Adicional;
+                        concepto.CalculoDiasHoras = modelConceptos.DiasHoras;
+                        concepto.IntegraPension = modelConceptos.IntegraPension;
+                        concepto.Formula = modelConceptos.Formula;
+                        concepto.CalculoAutomatico = modelConceptos.CalculoAutomatico;
+                        concepto.VisibleEnReporte = modelConceptos.VisibleEnReporte;
+                        concepto.ExcentoGravadoEnReporte = modelConceptos.ExcentoGravadoEnReporte;
+                        concepto.Orden = modelConceptos.Orden;
+                        concepto.IntegraISN = modelConceptos.IntegraISN;
+                    }
+
+                    entidad.SaveChanges();
+                }
             }
+            else
+                throw new Exception("La clave del concepto que intenta guardar ya existe para el cliente " + modelConceptos.IdCliente);
         }
 
         /// <summary>
@@ -407,14 +435,19 @@ namespace TadaNomina.Models.ClassCore
         {
             List<SelectListItem> lagrupador = new List<SelectListItem>();
             List<SelectListItem> lagrupadords = new List<SelectListItem>();
-            
+            List<SelectListItem> lConceptosSAT = new List<SelectListItem>();
+
             List<Cat_AgrupadorConceptos> grupo = GetAgrupadorConceptos();
             List<Cat_ConceptosNomina> grupod = GetConceptps(IdCliente);
+            List<Cat_NominaSAT> nominaSAT = getCatalogoSAT();
 
             grupo.ForEach(x=> { lagrupador.Add(new SelectListItem { Text=x.ClaveGpo + " - " + x.Descripcion, Value= x.ClaveGpo }); });
-            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = "(GPO)" + x.ClaveGpo + " - (SAT)" + x.ClaveSAT + " - (Int)" + x.ClaveConcepto + " - (Tipo)" + x.TipoDato + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            nominaSAT.ForEach(x => { lConceptosSAT.Add(new SelectListItem { Text = x.Clave + " - " + x.Descripcion, Value = x.Clave }); });
+
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
+            _tipoConcpto.Add(new SelectListItem { Text = "Otro Pago", Value = "OTRO" });
             _tipoConcpto.Add(new SelectListItem { Text = "Deduccion", Value = "DD" });
             _tipoConcpto.Add(new SelectListItem { Text = "Informativo", Value = "IF" });            
 
@@ -463,11 +496,20 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+            _listSINOMDT.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOMDT.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
+            _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listISN = new List<SelectListItem>();
+            _listISN.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listISN.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             ModelConceptos modelConceptos = new ModelConceptos();
             modelConceptos.LAgrupador = lagrupador;
+            modelConceptos.lClaveSat = lConceptosSAT;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
             modelConceptos.LTipoDato = _TipoDato;            
@@ -492,7 +534,9 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstPagoAutomatico = _listSINOPA;
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
-
+            modelConceptos.lstTablaFactores = _listSINOTabFac;
+            modelConceptos.LIntegraISN = _listISN;
+            
             return modelConceptos;
         }
 
@@ -505,15 +549,19 @@ namespace TadaNomina.Models.ClassCore
         {
             List<SelectListItem> lagrupador = new List<SelectListItem>();
             List<SelectListItem> lagrupadords = new List<SelectListItem>();
+            List<SelectListItem> lConceptosSAT = new List<SelectListItem>();
 
             List<Cat_AgrupadorConceptos> grupo = GetAgrupadorConceptos();
             List<Cat_ConceptosNomina> grupod = GetConceptps(modelConceptos.IdCliente);
+            List<Cat_NominaSAT> nominaSAT = getCatalogoSAT(modelConceptos.TipoConcepto);
 
             grupo.ForEach(x => { lagrupador.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Descripcion, Value = x.ClaveGpo }); });
-            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = x.ClaveGpo + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); });
+            grupod.ForEach(x => { lagrupadords.Add(new SelectListItem { Text = "(GPO)" + x.ClaveGpo + " - (SAT)" + x.ClaveSAT + " - (Int)" + x.ClaveConcepto + " - (Tipo)" + x.TipoDato + " - " + x.Concepto, Value = x.IdConcepto.ToString() }); }); 
+            nominaSAT.ForEach(x=> { lConceptosSAT.Add(new SelectListItem { Text = x.Clave + " - " + x.Descripcion, Value = x.Clave }); });
 
             List<SelectListItem> _tipoConcpto = new List<SelectListItem>();
             _tipoConcpto.Add(new SelectListItem { Text = "Percepcion", Value = "ER" });
+            _tipoConcpto.Add(new SelectListItem { Text = "Otro Pago", Value = "OTRO" });
             _tipoConcpto.Add(new SelectListItem { Text = "Deduccion", Value = "DD" });
             _tipoConcpto.Add(new SelectListItem { Text = "Informativo", Value = "IF" });
 
@@ -561,10 +609,19 @@ namespace TadaNomina.Models.ClassCore
             _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             List<SelectListItem> _listSINOMDT = new List<SelectListItem>();
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "SI", Value = "SI" });
-            _listSINOExcentoGravado.Add(new SelectListItem { Text = "NO", Value = "NO" });
+            _listSINOMDT.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOMDT.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listSINOTabFac = new List<SelectListItem>();
+            _listSINOTabFac.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listSINOTabFac.Add(new SelectListItem { Text = "NO", Value = "NO" });
+
+            List<SelectListItem> _listISN = new List<SelectListItem>();
+            _listISN.Add(new SelectListItem { Text = "SI", Value = "SI" });
+            _listISN.Add(new SelectListItem { Text = "NO", Value = "NO" });
 
             modelConceptos.LAgrupador = lagrupador;
+            modelConceptos.lClaveSat = lConceptosSAT;
             modelConceptos.LClaveConcepto = lagrupadords;
             modelConceptos.LTipoConcepto = _tipoConcpto;
             modelConceptos.LTipoDato = _TipoDato;            
@@ -589,7 +646,9 @@ namespace TadaNomina.Models.ClassCore
             modelConceptos.lstPagoAutomatico = _listSINOPA;
             modelConceptos.lstVisibleReporte = _listSINOVisible;
             modelConceptos.lstDesgloceGravadoExento = _listSINOExcentoGravado;
-
+            modelConceptos.lstTablaFactores = _listSINOTabFac;
+            modelConceptos.LIntegraISN = _listISN;
+            
             return modelConceptos;
         }
 
@@ -683,11 +742,142 @@ namespace TadaNomina.Models.ClassCore
             return list;
         }
 
+
+        /// <summary>
+        /// Obtiene los conceptos que se formulan
+        /// </summary>
+        /// <param name="IdCliente">Identificador del cliente al que pertenece el concepto</param>
+        /// <returns></returns>
         public List<FormulasEquivalencias> getConceptosFormulacion(int IdCliente)
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 return entidad.FormulasEquivalencias.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene los factores que corresponde a cierto concepto
+        /// </summary>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <returns></returns>
+        public List<Conceptos_Factores> getFactoresByConcepto(int IdConcepto)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Conceptos_Factores.Where(x => x.IdConcepto == IdConcepto && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene la informacion del factor en base a su ID
+        /// </summary>
+        /// <param name="IdConceptoFactor">Identificador del factor</param>
+        /// <returns></returns>
+        public Conceptos_Factores getFactoresByIDFactorConcepto(int IdConceptoFactor)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Conceptos_Factores.Where(x => x.IdConceptoFactor == IdConceptoFactor && x.IdEstatus == 1).FirstOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// metodo para agregar un factor a un concepto
+        /// </summary>
+        /// <param name="IdConcepto">Identificador del concepto</param>
+        /// <param name="limInferior">limite inferior del factor</param>
+        /// <param name="limiteSuperior">limite superior del factor</param>
+        /// <param name="tipoDato">tipo de dato</param>
+        /// <param name="Valor">valor que aplica</param>
+        /// <param name="fIniVig">fecha inicio de vigencia</param>
+        /// <param name="IdUsuario">Identificador del usuario que captura</param>
+        public void addFactorConcepto(int IdConcepto, decimal limInferior, decimal limiteSuperior, string tipoDato, decimal Valor, string fIniVig, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Conceptos_Factores cf = new Conceptos_Factores()
+                {
+                    IdConcepto = IdConcepto,
+                    Limite_Inferior = limInferior,
+                    Limite_Superior = limiteSuperior,
+                    TipoDato = tipoDato,
+                    Valor = Valor,
+                    FechaInicioVigencia = DateTime.Parse(fIniVig),
+                    IdEstatus = 1,
+                    IdCaptura = IdUsuario,
+                    FechaCaptura = DateTime.Now,
+                };
+
+                entidad.Conceptos_Factores.Add(cf);
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// metodo para editar un factor de un concepto
+        /// </summary>
+        /// <param name="IdConceptoFactor">Identificador del factor que se va a modificar</param>
+        /// <param name="limInferior">limite inferior del factor</param>
+        /// <param name="limiteSuperior">limite superior del factor</param>
+        /// <param name="tipoDato">tipo de dato</param>
+        /// <param name="Valor">valor que aplica</param>
+        /// <param name="fIniVig">fecha inicio de vigencia</param>
+        /// <param name="IdUsuario">Identificador del usuario que captura</param>
+        public void editFactorConcepto(int IdConceptoFactor, decimal limInferior, decimal limiteSuperior, string tipoDato, decimal Valor, string fIniVig, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Conceptos_Factores cf = entidad.Conceptos_Factores.Where(x => x.IdConceptoFactor == IdConceptoFactor).FirstOrDefault();
+                if (cf != null)
+                {
+                    cf.Limite_Inferior = limInferior;
+                    cf.Limite_Superior = limiteSuperior;
+                    cf.TipoDato = tipoDato;
+                    cf.Valor = Valor;
+                    cf.FechaInicioVigencia = DateTime.Parse(fIniVig);
+                    cf.IdModifica = IdUsuario;
+                    cf.FechaModifica = DateTime.Now;
+                };
+
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// metodo para eliminar un factor a un concepto
+        /// </summary>
+        /// <param name="IdConceptoFactor">Identificador del factor que se va a eliminar</param>       
+        /// <param name="IdUsuario">Identificador del usuario que captura</param>
+        public void deleteFactorConcepto(int IdConceptoFactor, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                Conceptos_Factores cf = entidad.Conceptos_Factores.Where(x => x.IdConceptoFactor == IdConceptoFactor).FirstOrDefault();
+                if (cf != null)
+                {
+                    cf.IdEstatus = 2;
+                    cf.IdModifica = IdUsuario;
+                    cf.FechaModifica = DateTime.Now;
+                };
+
+                entidad.SaveChanges();
+            }
+        }
+
+        public List<Cat_NominaSAT> getCatalogoSAT(string tipo)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Cat_NominaSAT.Where(x => x.TipoCatalogoSAT == tipo && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        public List<Cat_NominaSAT> getCatalogoSAT()
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                return entidad.Cat_NominaSAT.Where(x => x.IdEstatus == 1).ToList();
             }
         }
     }

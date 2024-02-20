@@ -84,7 +84,7 @@
     @RenderSection("Styles", false)
 
 </head>
-<body>
+<body onunload="cerrarSesionesServer()">
 
     <div id="userName" val="@ViewBag.NombreUsuario" val2="@Session["sLogin"].ToString()" style="display:none"></div>
     <div id="nomSelect" val="@ViewBag.ClienteSeleccionado" val2="@ViewBag.NominaSeleccionada" style="display:none"></div>
@@ -92,6 +92,7 @@
         <div id="rutaHome" data-id="@Url.Action("Index", "Index")"></div>
         <div id="rutaLogin" data-id="@Url.Action("Index", "Login")"></div>
         <div id="rutaValidaSesion" data-id="@Url.Action("ValidaSession", "Base")"></div>
+        <div id="rutaCerrarSesion" data-id="@Url.Action("CerrarSession", "Base")"></div>
 
 
         <div id="container">
@@ -655,6 +656,8 @@
                                                                 <li><a class="_Load" href="@Url.Action("ReporteEspecialAgrupadoPorCC", "ReporteNomina")">Reporte Especial Acumulado Por CC</a></li>
                                                                 <li><a class="_Load" href="@Url.Action("HonorariosPeriodos", "Honorarios")">Archivos Honorarios</a></li>
                                                                 <li><a class="_Load" href="@Url.Action("ReportesHonorarios", "Honorarios")">Reporte Honorarios</a></li>
+                                                                <li><a class="_Load" href="@Url.Action("AusentimosReporte", "ReporteNomina")">Reporte Ausentimos</a></li>
+
                                                             </ul>
                                                         </li>
 
@@ -884,18 +887,20 @@
                                                     if (Session["sTipoUsuario"].ToString() == "System")
                                                     {
                                                         <li class="_subMenu" data-menu="Administración" data-text="Usuarios">
-                                                            <a class="_Load" href="@Url.Action("Index", "Usuarios")">
+                                                            <a class="_Load" href="@Url.Action("Index", "ConfigUsuario")">
                                                                 Usuarios
                                                             </a>
                                                         </li>
+
                                                         <li class="_subMenu" data-menu="Administración" data-text="Clientes">
                                                             <a class="_Load" href="@Url.Action("Index", "Clientes")">
                                                                 Clientes
                                                             </a>
                                                         </li>
-
                                                     }
                                                 }
+
+
 
                                                 <li class="_subMenu" data-menu="Administración" data-text="Sindicatos Clientes">
                                                     <a class="_Load" href="@Url.Action("Index", "SindicatosClientes")">
@@ -1179,7 +1184,8 @@
                         {
                             <div>
                                 Cliente y Nómina: <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.ClienteSeleccionado (@Session["sIdCliente"])</span></a> &nbsp;
-                                -&nbsp; <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.NominaSeleccionada (@Session["sIdUnidadNegocio"])</span></a>
+                                -&nbsp; 
+                                <a href="@Url.Action("Index", "Default")" class="text-main" onclick="borraLocalStorage()"><span class="badge badge-mint">@ViewBag.NominaSeleccionada (@Session["sIdUnidadNegocio"])</span></a>
                             </div>
                         }
                         else

@@ -25,7 +25,7 @@ namespace TadaNomina.Controllers.Administracion
             else
             {
                 ClassConceptos ccon = new ClassConceptos();
-                List<vConceptos> lconceptos = ccon.GetvConceptos(IdCliente).OrderBy(x=>x.Concepto).ToList();
+                List<vConceptos> lconceptos = ccon.GetvConceptos(IdCliente).OrderBy(x => x.Concepto).ToList();
 
                 return View(lconceptos);
             }
@@ -52,7 +52,7 @@ namespace TadaNomina.Controllers.Administracion
         public ActionResult Create()
         {
             int IdCliente = (int)Session["sIdCliente"];
-
+            
             ClassConceptos conceptos = new ClassConceptos();
             ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos(IdCliente);
 
@@ -68,28 +68,26 @@ namespace TadaNomina.Controllers.Administracion
         [HttpPost]
         public ActionResult Create(ModelConceptos collection)
         {
+            int IdCliente = (int)Session["sIdCliente"];
+            collection.mensaje = string.Empty;
+            ClassConceptos cconceptos = new ClassConceptos();            
             try
-            {
-                int IdCliente = (int)Session["sIdCliente"];
+            {                
                 if (ModelState.IsValid)
-                {
-                    ClassConceptos cconceptos = new ClassConceptos();
+                {                    
                     int IdUsuario = (int)Session["sIdUsuario"];
                     cconceptos.AddConcepto(collection, IdCliente, IdUsuario);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ClassConceptos conceptos = new ClassConceptos();
-                    ModelConceptos modConcpetos = conceptos.LlenaListasConcpetos(IdCliente);
-
-                    return View(modConcpetos);
-                }
+                    return Json(1, JsonRequestBehavior.AllowGet);
+                }                
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                collection = cconceptos.LlenaListasConcpetos(IdCliente);
+                collection.mensaje = ex.Message;
             }
+
+            
+            return View(collection);
         }
 
         // GET: Conceptos/Edit/5
@@ -103,6 +101,7 @@ namespace TadaNomina.Controllers.Administracion
             ClassConceptos cconceptos = new ClassConceptos();
             ModelConceptos model = cconceptos.GetModelConcepto(id);
             ModelConceptos _model = cconceptos.LlenaListasConcpetos(model);
+            
             return View(_model);
         }
 
@@ -120,9 +119,10 @@ namespace TadaNomina.Controllers.Administracion
             {
                 ClassConceptos cconceptos = new ClassConceptos();
                 int IdUsuario = (int)Session["sIdUsuario"];
+                collection.IdCliente = (int)Session["sIdCliente"];
                 cconceptos.UpdateConcepto(collection, IdUsuario);
 
-                return RedirectToAction("Index");
+                return Json(1, JsonRequestBehavior.AllowGet);
             }
             catch
             {
@@ -158,11 +158,11 @@ namespace TadaNomina.Controllers.Administracion
                 // TODO: Add delete logic here
                 int IdUsuario = (int)Session["sIdUsuario"];
                 ClassConceptos cc = new ClassConceptos();
-                cc.deleteConcepto(id, IdUsuario);                
+                cc.deleteConcepto(id, IdUsuario);
             }
             catch
             {
-                
+
             }
 
             return RedirectToAction("Index");
@@ -174,7 +174,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <param name="id">Recibe el identificador del concepto.</param>
         /// <returns>Regresa una vista con la lista de los conceptos existentes.</returns>
         public ActionResult AgregarExistente(int? id)
-         {
+        {
             ClassConceptos ccon = new ClassConceptos();
             int IdCliente = (int)Session["sIdCliente"];
             int IdUsuario = (int)Session["sIdUsuario"];
@@ -182,7 +182,7 @@ namespace TadaNomina.Controllers.Administracion
             {
                 ccon.AgregaExistente((int)id, IdCliente, IdUsuario);
             }
-            
+
             List<vConceptos> lconceptos = ccon.GetvConceptos(0).OrderBy(x => x.Concepto).ToList();
 
             return View(lconceptos);
@@ -199,6 +199,96 @@ namespace TadaNomina.Controllers.Administracion
             catch (Exception ex)
             {
                 return Json(ex.Message);
+            }
+        }
+
+        public ActionResult TablaFactores(int IdConcepto, string NombreConcepto)
+        {
+            ClassConceptos cc = new ClassConceptos();
+            ModelFactores modelFactores = new ModelFactores();
+            modelFactores.IdConcepto = IdConcepto;
+            modelFactores.NombreConcepto = NombreConcepto;
+            modelFactores.lFactores = cc.getFactoresByConcepto(IdConcepto);
+            return View(modelFactores);
+        }
+
+        [HttpPost]
+        public JsonResult guardaFactor(int? IdConcepto, decimal? limInferior, decimal? limSuperior, string tipoDato, decimal? Valor, string fIniVig)
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                cc.addFactorConcepto((int)IdConcepto, (decimal)limInferior, (decimal)limSuperior, tipoDato, (decimal)Valor, fIniVig, (int)Session["sIdUsuario"]);
+                return Json(new { result = "Ok", mensaje = "Se guardo correctamente el factor para este concepto." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "Error", mensaje = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult getFactor(int IdConceptoFactor)
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                var factor = cc.getFactoresByIDFactorConcepto(IdConceptoFactor);
+                var fecha = string.Empty;
+                fecha = ((DateTime)factor.FechaInicioVigencia).ToShortDateString();
+                return Json(new { result = "Ok", factor, fecha });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "Error", mensaje = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult editFactor(int IdConceptoFactor, decimal? limInferior, decimal? limSuperior, string tipoDato, decimal? Valor, string fIniVig)
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                cc.editFactorConcepto(IdConceptoFactor, (decimal)limInferior, (decimal)limSuperior, tipoDato, (decimal)Valor, fIniVig, (int)Session["sIdUsuario"]);
+                
+                return Json(new { result = "Ok", mensaje = "Se actualizo correctamente la informacion del factor." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "Error", mensaje = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult deleteFactor(int IdConceptoFactor)
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                cc.deleteFactorConcepto(IdConceptoFactor, (int)Session["sIdUsuario"]);
+
+                return Json(new { result = "Ok", mensaje = "Se elimino correctamente la informacion del factor." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "Error", mensaje = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CargaCatalogoSAT(string tipo)
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                var catalogo = cc.getCatalogoSAT(tipo);
+                return Json(new { result = "Ok", catalogo });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { result = "Error", mensaje = ex.Message });
             }
         }
     }

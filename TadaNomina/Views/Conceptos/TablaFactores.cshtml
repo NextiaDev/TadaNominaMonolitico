@@ -1,0 +1,176 @@
+﻿@model TadaNomina.Models.ViewModels.Catalogos.ModelFactores
+@{
+    ViewBag.Title = "TablaFactores";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Factores</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.NombreConcepto</h3>
+            </div>
+            <div class="panel-body">
+                <a href="@Url.Action("Edit", new { id = Model.IdConcepto })" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar</a>
+                <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalCargarFactor"><span class="fa fa-plus"></span> Nuevo Factor</a>
+                <br /><br />
+                <table id="demo-dt-selection" class="table table-hover table-sm" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>L.Inferior</th>
+                            <th>L.Superior</th>
+                            <th>T.Dato</th>
+                            <th>Valor</th>
+                            <th>F.Vigencia</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.lFactores)
+                        {
+                            <tr>
+                                <td>@item.Limite_Inferior</td>
+                                <td>@item.Limite_Superior</td>
+                                <td>@item.TipoDato</td>
+                                <td>@item.Valor</td>
+                                <td>@item.FechaInicioVigencia</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm add-tooltip _editFactor" data-id="@item.IdConceptoFactor" title="Editar factor"><span class="fa fa-edit"></span></a>
+                                    <a href="#" class="btn btn-sm add-tooltip _deletefactor" data-text="@(item.Limite_Inferior + " - " + item.Limite_Superior)" data-id="@item.IdConceptoFactor" title="Eliminar factor"><span class="fa fa-trash"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCargarFactor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Nuevo Factor</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3 text-right">Limite Inferior</div>
+                    <div class="col-md-3"><input id="_limInf" type="text" maxlength="6" class="form-control" /></div>
+                    <div class="col-md-3 text-right">Limite Superior</div>
+                    <div class="col-md-3"><input type="text" id="_limSup" maxlength="6" class="form-control" /></div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-3 text-right">Tipo Dato</div>
+                    <div class="col-md-3">
+                        <select id="_tipoDato" class="form-control">
+                            <option>Elegir...</option>
+                            <option value="Dias">Dias</option>
+                            <option value="Porcentaje">Porcentaje</option>
+                            <option value="Pesos">Pesos</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 text-right">Valor</div>
+                    <div class="col-md-3"><input id="_valor" type="text" class="form-control" /></div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-md-3 text-right">F. Inicio Vigencia</div>
+                    <div class="col-md-3"><input type="text" id="fIniVig" class="form-control calendar" /></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" id="_cerrar" type="button">Cerrar</button>
+                    <input type="button" id="guardaFactor" valor="@Model.IdConcepto" value="Guardar Factor" class="btn btn-success btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarFactor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Editar Factor</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="_IdFactorEdit" />
+                <div class="row">
+                    <div class="col-md-3 text-right">Limite Inferior</div>
+                    <div class="col-md-3"><input id="_limInfE" type="text" maxlength="6" class="form-control" /></div>
+                    <div class="col-md-3 text-right">Limite Superior</div>
+                    <div class="col-md-3"><input type="text" id="_limSupE" maxlength="6" class="form-control" /></div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-3 text-right">Tipo Dato</div>
+                    <div class="col-md-3">
+                        <select id="_tipoDatoE" class="form-control">
+                            <option>Elegir...</option>
+                            <option value="Dias">Dias</option>
+                            <option value="Porcentaje">Porcentaje</option>
+                            <option value="Pesos">Pesos</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 text-right">Valor</div>
+                    <div class="col-md-3"><input id="_valorE" type="text" class="form-control" /></div>
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-md-3 text-right">F. Inicio Vigencia</div>
+                    <div class="col-md-3"><input type="text" id="fIniVigE" class="form-control calendar" /></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" id="_cerrarE" type="button">Cerrar</button>
+                    <input type="button" id="editFactor" value="Actualizar Factor" class="btn btn-success btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDeleteFactor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Eliminar Factor</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="_IdFactorDelete" />
+                ¿Esta seguro que desea eliminar este factor?
+                <label id="_infoEliminar"></label>
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" id="_cerrarD" type="button">Cerrar</button>
+                    <input type="button" id="deleteFactor" value="Eliminar Factor" class="btn btn-danger btn-sm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Procesando.js"></script>
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/factoresConceptos.js"></script>
+}  

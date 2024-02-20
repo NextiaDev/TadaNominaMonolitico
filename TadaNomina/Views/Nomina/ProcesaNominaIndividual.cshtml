@@ -34,296 +34,320 @@
                 @Html.HiddenFor(model => model.IdEmpleado, new { @id = "_IdEmpleado" })
                 @Html.HiddenFor(model => model.IdEstatus, new { @id = "_IdEstatus" })
 
-                <div class="form-horizontal">
+        <div class="form-horizontal">
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.NombreCompletoEmpleado, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.NombreCompletoEmpleado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.claveEmpleado, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.claveEmpleado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.FechaAltaImss, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.FechaAltaImss, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.FechaReconocimientoAntiguedad, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.FechaReconocimientoAntiguedad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SueldoDiarioIMSS, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.SueldoDiarioIMSS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.SDI, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.SDI, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.SueldoDiario, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.SueldoDiario, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.SueldoDiarioEsq, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.SueldoDiarioEsq, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ER, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.ER, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.ERS, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.ERS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.DD, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.DD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.DDS, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.DDS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Neto, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.Neto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                        @Html.LabelFor(model => model.NetoS, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.DisplayFor(model => model.NetoS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-
-                        @Html.LabelFor(model => model.TotalRecibir, htmlAttributes: new { @class = "control-label col-md-3 text-bold" })
-                        <div class="col-md-3">
-                            <strong>
-                                @Html.DisplayFor(model => model.TotalRecibir, new { htmlAttributes = new { @class = "form-control" } })
-                            </strong>
-                        </div>
-                        @Html.Label("Recibo Real:", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboReal">
-                                Abrir Recibo Real
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.Label("Recibo Tradicional:", new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboTradicional">
-                                Abrir Recibo Tradicional
-                            </button>
-                        </div>
-                        @Html.Label("Recibo Esquema:", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboEsquema">
-                                Abrir Recibo Esquema
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-
-                        @Html.LabelFor(model => model.NetoPagar, htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-3">
-                            @Html.EditorFor(model => model.NetoPagar, new { htmlAttributes = new { @class = "form-control", style = "width:150px", @autocomplete = "off", @placeholder = "0.00" } })
-                        </div>
-
-                        <div class="col-md-3 control-label">
-                            Avanzado:
-                        </div>
-                        <div class="col-md-3">
-                            <a href="#" id="abrirConf" class="btn btn-dark">Abrir Configuración</a>
-                        </div>
-                    </div>
-
-
-                    <br />
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @if (Model.Mensaje != null)
-                            {
-                                if (Model.validacion)
-                                {
-                                    <div class="alert alert-info">
-                                        @Model.Mensaje
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="alert alert-danger">
-                                        @Model.Mensaje
-                                    </div>
-                                }
-                            }
-                        </div>
-                    </div>
-                    <br />
-                    <div class="panel-footer">
-                        <div class="form-group" style="text-align:right">
-                            <input type="submit" id="Aceptar" value="Calcular" class="btn btn-primary btn-sm" />
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo">Elminar Calculo</button>
-                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteIncidencias">Elminar Incidencias</button>
-                            @Html.ActionLink("Nueva Busqueda", "BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm _Back" })
-                            @Html.ActionLink("Proceso General", "ProcesaNominaGeneral", new { pIdPeriodoNomina = Model.IdPeriodoNomina }, new { @class = "btn btn-info btn-sm _Back" })
-                            @Html.ActionLink("Regresar a Periodos", "Index", null, new { @class = "btn btn-info btn-sm", id = "Back" })
-                        </div>
-                    </div>
-                    <br />
-                    <hr />
-                    <table class="table table-striped table-hover table-striped table-condensed table-sm" cellpadding="0" , width="100%">
-                        <thead>
-                            <tr style="border:double" class="text-bold">
-
-                                <th width="6%">Clave</th>
-                                <th>Concepto</th>
-                                <th width="10%"></th>
-                                <th width="6%">Tipo</th>
-                                <th width="6%">TipoDato</th>
-                                <th width="6%">Cantidad</th>
-                                <th width="10%">Monto</th>
-                                <th width="10%">M. Esq</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @{ for (int i = 0; i < Model.ListIncidencias.Count; i++)
-                                {
-                                    if (Model.ListIncidencias[i].BanderaIncidenciasFijas != null || Model.ListIncidencias[i].BanderaConceptoEspecial != null || Model.ListIncidencias[i].BanderaInfonavit != null || Model.ListIncidencias[i].BanderaFonacot != null || Model.ListIncidencias[i].BanderaPensionAlimenticia != null || Model.ListIncidencias[i].BanderaVacaciones != null || Model.ListIncidencias[i].BanderaAusentismos != null || Model.ListIncidencias[i].BanderaAdelantoPULPI != null || Model.ListIncidencias[i].BanderaPiramidacion != null || Model.ListIncidencias[i].BanderaSaldos != null || Model.ListIncidencias[i].BanderaCompensaciones != null || Model.ListIncidencias[i].BanderaIncidencia != null)
-                                    {
-                                        <tr style="background-color:gray; color:white">
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].Id)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].IdConcepto)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAguinaldo)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFiniquitos)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidenciasFijas)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaConceptoEspecial)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaInfonavit)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFonacot)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPensionAlimenticia)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAusentismos)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAdelantoPULPI)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPiramidacion)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaSaldos)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaCompensaciones)
-                                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidencia)
-
-
-                                            <td>
-                                                <a href="#" style="color:white" class="add-tooltip" data-toggle="tooltip" data-container="body" data-placement="right" data-original-title="Esta Incidencia es creada por el sistema y no puede ser modificada desde aquí.">
-                                                    <span class="fa fa-info-circle"></span>
-                                                </a>&nbsp;
-                                                @Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)
-                                            </td>
-                                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
-                                            <td>
-                                                <strong> @Html.DisplayFor(model => model.ListIncidencias[i].ModuloCaptura)</strong>
-                                            </td>
-                                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoConcepto)</td>
-                                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoDato)</td>
-                                            <td>
-
-                                                @Html.EditorFor(model => model.ListIncidencias[i].Cantidad, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
-
-                                            </td>
-                                            <td>
-
-                                                @Html.EditorFor(model => model.ListIncidencias[i].Monto, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
-
-                                            </td>
-                                            <td>
-
-                                                @Html.EditorFor(model => model.ListIncidencias[i].MontoEsq, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
-
-                                            </td>
-                                        </tr>
-                                    }
-                                    else
-                                    {
-                        <tr>
-                            @Html.HiddenFor(model => model.ListIncidencias[i].Id)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].IdConcepto)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAguinaldo)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFiniquitos)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidenciasFijas)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaConceptoEspecial)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaInfonavit)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFonacot)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPensionAlimenticia)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAdelantoPULPI)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPiramidacion)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaSaldos)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaCompensaciones)
-                            @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidencia)
-
-                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)</td>
-                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
-                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].ModuloCaptura)</td>
-                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoConcepto)</td>
-                            <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoDato)</td>
-                            <td>
-                                @if (Model.ListIncidencias[i].TipoDato == "Cantidades" || Model.ListIncidencias[i].MultiplicaDT == "SI")
-                                {
-                                    @Html.EditorFor(model => model.ListIncidencias[i].Cantidad, new { htmlAttributes = new { @class = "form-control input-sm" } })
-                                }
-                                else
-                                {
-                                    @Html.EditorFor(model => model.ListIncidencias[i].Cantidad, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
-                                }
-                            </td>
-                            <td>
-                                @if (Model.ListIncidencias[i].TipoDato == "Pesos" && (Model.ListIncidencias[i].TipoEsquema == "Mixto" || Model.ListIncidencias[i].TipoEsquema == "Tradicional") && Model.ListIncidencias[i].MultiplicaDT != "SI")
-                                {
-                                    @Html.EditorFor(model => model.ListIncidencias[i].Monto, new { htmlAttributes = new { @class = "form-control input-sm" } })
-                                }
-                                else
-                                {
-                                    @Html.EditorFor(model => model.ListIncidencias[i].Monto, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
-                                }
-                            </td>
-                            <td>
-                                @if (Model.ListIncidencias[i].TipoDato == "Pesos" && (Model.ListIncidencias[i].TipoEsquema == "Mixto" || Model.ListIncidencias[i].TipoEsquema == "Esquema") && Model.ListIncidencias[i].MultiplicaDT != "SI")
-                                {
-                                    @Html.EditorFor(model => model.ListIncidencias[i].MontoEsq, new { htmlAttributes = new { @class = "form-control input-sm" } })
-                                }
-                                else
-                                {
-                                    @Html.EditorFor(model => model.ListIncidencias[i].MontoEsq, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
-                                }
-                            </td>
-                        </tr>
-                                    }
-
-                                }
-                            }
-
-                        </tbody>
-                    </table>
-
-
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombreCompletoEmpleado, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.NombreCompletoEmpleado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 </div>
+                @Html.LabelFor(model => model.claveEmpleado, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-3">
+                @if (Session["sTipoUsuario"].ToString() == "System")
+                {                    
+                    @Model.claveEmpleado <b>(</b> @Model.IdEmpleado <b>)</b>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.claveEmpleado, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                }
+
+            </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombrePeriodo, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @(Model.NombrePeriodo + " (" + Model.FechasPeriodo + ")")
+                </div>
+                @Html.LabelFor(model => model.ConfiguracionSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.ConfiguracionSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaAltaImss, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.FechaAltaImss, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                @Html.LabelFor(model => model.FechaReconocimientoAntiguedad, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.FechaReconocimientoAntiguedad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SueldoDiarioIMSS, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.SueldoDiarioIMSS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                @Html.LabelFor(model => model.SDI, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.SDI, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SueldoDiario, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.SueldoDiario, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                @Html.LabelFor(model => model.SueldoDiarioEsq, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.SueldoDiarioEsq, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ER, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.ER, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                @Html.LabelFor(model => model.ERS, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.ERS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DD, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.DD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                @Html.LabelFor(model => model.DDS, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.DDS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Neto, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.Neto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+                @Html.LabelFor(model => model.NetoS, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.NetoS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.TotalRecibir, htmlAttributes: new { @class = "control-label col-md-3 text-bold" })
+                <div class="col-md-3">
+                    <strong>
+                        @Html.DisplayFor(model => model.TotalRecibir, new { htmlAttributes = new { @class = "form-control" } })
+                    </strong>
+                </div>
+                @Html.Label("Recibo Real:", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboReal">
+                        <span class="fa fa-list"></span>
+                        Abrir Recibo Real
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Recibo Tradicional:", new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboTradicional">
+                        <span class="fa fa-list"></span>
+                        Abrir Recibo Tradicional
+                    </button>
+                </div>
+                @Html.Label("Recibo Esquema:", htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reciboEsquema">
+                        <span class="fa fa-list"></span>
+                        Abrir Recibo Esquema
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                @Html.LabelFor(model => model.NetoPagar, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.NetoPagar, new { htmlAttributes = new { @class = "form-control", style = "width:150px", @autocomplete = "off", @placeholder = "0.00" } })
+                </div>
+
+                <div class="col-md-3 control-label">
+                    Avanzado:
+                </div>
+                <div class="col-md-3">
+                    <a href="#" id="abrirConf" class="btn btn-dark"><span class="fa fa-cog"></span> Abrir Configuración</a>
+                </div>
+            </div>
+
+
+            <br />
+            <div class="form-group">
+                <div class="col-md-12">
+                    @if (Model.Mensaje != null)
+                    {
+                        if (Model.validacion)
+                        {
+                            <div class="alert alert-info">
+                                @Model.Mensaje
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger">
+                                @Model.Mensaje
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <br />
+            <div class="panel-footer">
+                <div class="form-group" style="text-align:right">
+                    <button type="submit" id="Aceptar" class="btn btn-primary btn-sm"><span class="fa fa-refresh"></span> Calcular</button>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo"><span class="fa fa-trash"></span> Elminar Calculo</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteIncidencias"><span class="fa fa-trash"></span> Elminar Incidencias</button>
+                    @*<a href="@Url.Action("getArchivoLog", new { Model.IdPeriodoNomina })" class="btn btn-dark btn-sm" >Resultado</a>*@
+                    
+                    <a href="@Url.Action("BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Back"><span class="fa fa-search"></span> Buscar Empleado</a>
+                    <a href="@Url.Action("ProcesaNominaGeneral", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
+                   
+                </div>
+            </div>
+            <br />
+            <hr />
+            <table class="table table-striped table-hover table-striped table-condensed table-sm" cellpadding="0" , width="100%">
+                <thead>
+                    <tr style="border:double" class="text-bold">
+
+                        <th width="6%">Clave</th>
+                        <th>Concepto</th>
+                        <th width="10%"></th>
+                        <th width="6%">Tipo</th>
+                        <th width="6%">TipoDato</th>
+                        <th width="6%">Cantidad</th>
+                        <th width="10%">Monto</th>
+                        <th width="10%">M. Esq</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{ for (int i = 0; i < Model.ListIncidencias.Count; i++)
+                        {
+                            if (Model.ListIncidencias[i].BanderaIncidenciasFijas != null || Model.ListIncidencias[i].BanderaConceptoEspecial != null || Model.ListIncidencias[i].BanderaInfonavit != null || Model.ListIncidencias[i].BanderaFonacot != null || Model.ListIncidencias[i].BanderaPensionAlimenticia != null || Model.ListIncidencias[i].BanderaVacaciones != null || Model.ListIncidencias[i].BanderaAusentismos != null || Model.ListIncidencias[i].BanderaAdelantoPULPI != null || Model.ListIncidencias[i].BanderaPiramidacion != null || Model.ListIncidencias[i].BanderaSaldos != null || Model.ListIncidencias[i].BanderaCompensaciones != null || Model.ListIncidencias[i].BanderaIncidencia != null)
+                            {
+                                <tr style="background-color:gray; color:white">
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].Id)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].IdConcepto)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAguinaldo)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFiniquitos)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidenciasFijas)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaConceptoEspecial)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaInfonavit)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFonacot)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPensionAlimenticia)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAusentismos)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAdelantoPULPI)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPiramidacion)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaSaldos)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaCompensaciones)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidencia)
+
+
+                                    <td>
+                                        <a href="#" style="color:white" class="add-tooltip" data-toggle="tooltip" data-container="body" data-placement="right" data-original-title="Esta Incidencia es creada por el sistema y no puede ser modificada desde aquí.">
+                                            <span class="fa fa-info-circle"></span>
+                                        </a>&nbsp;
+                                        @Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)
+                                    </td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
+                                    <td>
+                                        <strong> @Html.DisplayFor(model => model.ListIncidencias[i].ModuloCaptura)</strong>
+                                    </td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoConcepto)</td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoDato)</td>
+                                    <td>
+
+                                        @Html.EditorFor(model => model.ListIncidencias[i].Cantidad, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+
+                                    </td>
+                                    <td>
+
+                                        @Html.EditorFor(model => model.ListIncidencias[i].Monto, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+
+                                    </td>
+                                    <td>
+
+                                        @Html.EditorFor(model => model.ListIncidencias[i].MontoEsq, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].Id)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].IdConcepto)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAguinaldo)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFiniquitos)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidenciasFijas)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaConceptoEspecial)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaInfonavit)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaFonacot)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPensionAlimenticia)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaAdelantoPULPI)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaPiramidacion)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaSaldos)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaCompensaciones)
+                                    @Html.HiddenFor(model => model.ListIncidencias[i].BanderaIncidencia)
+
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].ClaveConcepto)</td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].Concepto)</td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].ModuloCaptura)</td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoConcepto)</td>
+                                    <td>@Html.DisplayFor(model => model.ListIncidencias[i].TipoDato)</td>
+                                    <td>
+                                        @if (Model.ListIncidencias[i].TipoDato == "Cantidades" || Model.ListIncidencias[i].MultiplicaDT == "SI")
+                                        {
+                                            @Html.EditorFor(model => model.ListIncidencias[i].Cantidad, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        }
+                                        else
+                                        {
+                                            @Html.EditorFor(model => model.ListIncidencias[i].Cantidad, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.ListIncidencias[i].TipoDato == "Pesos" && (Model.ListIncidencias[i].TipoEsquema == "Mixto" || Model.ListIncidencias[i].TipoEsquema == "Tradicional") && Model.ListIncidencias[i].MultiplicaDT != "SI")
+                                        {
+                                            @Html.EditorFor(model => model.ListIncidencias[i].Monto, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        }
+                                        else
+                                        {
+                                            @Html.EditorFor(model => model.ListIncidencias[i].Monto, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.ListIncidencias[i].TipoDato == "Pesos" && (Model.ListIncidencias[i].TipoEsquema == "Mixto" || Model.ListIncidencias[i].TipoEsquema == "Esquema") && Model.ListIncidencias[i].MultiplicaDT != "SI")
+                                        {
+                                            @Html.EditorFor(model => model.ListIncidencias[i].MontoEsq, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                                        }
+                                        else
+                                        {
+                                            @Html.EditorFor(model => model.ListIncidencias[i].MontoEsq, new { htmlAttributes = new { @class = "form-control input-sm", @readonly = "readonly" } })
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+
+        </div>
             }
 
         </div>
@@ -331,7 +355,7 @@
 </div>
 
 <div class="modal fade" id="deleteIncidencias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
@@ -501,6 +525,21 @@
                 <br />
                 <div class="row">
                     <div class="col-md-3">
+                        @Html.LabelFor(x => x.ReciboTradicional.SD)
+                    </div>
+                    <div class="col-md-3">
+                        @Html.DisplayFor(x => x.ReciboTradicional.SD)
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(x => x.ReciboTradicional.SDI)
+                    </div>
+                    <div class="col-md-3">
+                        @Html.DisplayFor(x => x.ReciboTradicional.SDI)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
                         @Html.LabelFor(x => x.ReciboTradicional.DiasLaborados)
                     </div>
                     <div class="col-md-3">
@@ -534,13 +573,13 @@
                         @Html.LabelFor(x => x.ReciboTradicional.BaseGravada)
                     </div>
                     <div class="col-md-3">
-                        @Html.DisplayFor(x => x.ReciboTradicional.BaseGravada)
+                        @string.Format("{0:C2}", Model.ReciboTradicional.BaseGravada)
                     </div>
                     <div class="col-md-3">
                         @Html.LabelFor(x => x.ReciboTradicional.TotalPatron)
                     </div>
                     <div class="col-md-3">
-                        @Html.DisplayFor(x => x.ReciboTradicional.TotalPatron)
+                        @string.Format("{0:C2}", Model.ReciboTradicional.TotalPatron)
                     </div>
                 </div>
                 <hr />
@@ -548,13 +587,19 @@
                 <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th>
+                            <th width="10%">
                                 Clave
                             </th>
                             <th>
                                 Descripción
                             </th>
-                            <th>
+                            <th width="15%">
+                                Exento
+                            </th>
+                            <th width="15%">
+                                Gravado
+                            </th>
+                            <th width="15%">
                                 Importe
                             </th>
                         </tr>
@@ -562,30 +607,34 @@
                     <tbody>
                         @if (Model.ReciboTradicional != null)
                         {
-                        foreach (var item in Model.ReciboTradicional.IncidenciasRecibo)
-                        {
-                            if (item.Importe != 0)
+                            foreach (var item in Model.ReciboTradicional.IncidenciasRecibo)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Concepto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Descripcion)
-                                    </td>
-                                    <td class="text-right">
-                                        @Html.DisplayFor(modelItem => item.Importe)
-                                    </td>
-                                </tr>
+                                if (item.Importe != 0)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.Concepto
+                                        </td>
+                                        <td>
+                                            @item.Descripcion
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:C2}", (item.Excento))
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:C2}", (item.Gravado))
+                                        </td>
+                                        <td class="text-right">
+                                            @string.Format("{0:C2}", item.Importe)
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
-                        }
                         <tr>
-                            <td>
+                            <td colspan="4">
                                 <strong>Total de Percepciones</strong>
                             </td>
-                            <td></td>
-
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.ER)</strong>
                             </td>
@@ -598,13 +647,13 @@
                 <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th>
+                            <th width="10%">
                                 Clave
                             </th>
                             <th>
                                 Descripción
                             </th>
-                            <th>
+                            <th width="15%">
                                 Importe
                             </th>
                         </tr>
@@ -612,31 +661,28 @@
                     <tbody>
                         @if (Model.ReciboTradicional != null)
                         {
-                        foreach (var item in Model.ReciboTradicional.IncidenciasReciboDec)
-                        {
-                            if (item.Importe != 0)
+                            foreach (var item in Model.ReciboTradicional.IncidenciasReciboDec)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Concepto)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Descripcion)
-                                    </td>
-                                    <td class="text-right">
-                                        @Html.DisplayFor(modelItem => item.Importe)
-                                    </td>
-                                </tr>
+                                if (item.Importe != 0)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Concepto)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Descripcion)
+                                        </td>
+                                        <td class="text-right">
+                                            @string.Format("{0:C2}", item.Importe)
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
-                        }
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <strong>Total de Deducciones</strong>
                             </td>
-                            <td>
-                            </td>
-
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.DD)</strong>
                             </td>
@@ -715,24 +761,24 @@
                                 if (item.Importe != 0)
                                 {
                                 <tr>
-                                    <td>
+                                    <td width="10%">
                                         @Html.DisplayFor(modelItem => item.Concepto)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Descripcion)
                                     </td>
-                                    <td class="text-right">
-                                        @Html.DisplayFor(modelItem => item.Importe)
+                                    <td width="15%" class="text-right">
+                                        @string.Format("{0:C2}", item.Importe)
                                     </td>
                                 </tr>
                                 }
                             }
                         }
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <strong>Total de Percepciones</strong>
                             </td>
-                            <td></td>
+                          
 
                             <td class="text-right">
 
@@ -766,25 +812,24 @@
                                 if (item.MontoEsquema != 0)
                                 {
                                 <tr>
-                                    <td>
+                                    <td width="10%">
                                         @Html.DisplayFor(modelItem => item.Concepto)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Descripcion)
                                     </td>
-                                    <td class="text-right">
-                                        @Html.DisplayFor(modelItem => item.MontoEsquema)
+                                    <td width="15%" class="text-right">
+                                        @string.Format("{0:C2}", item.MontoEsquema)
                                     </td>
                                 </tr>
                                 }
                             }
                         }
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <strong>Total de Deducciones</strong>
                             </td>
-                            <td></td>
-
+                          
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.DDS)</strong>
                             </td>
@@ -864,24 +909,24 @@
                                 if (item.Importe != 0)
                                 {
                                     <tr>
-                                        <td>
+                                        <td width="10%">
                                             @Html.DisplayFor(modelItem => item.Concepto)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Descripcion)
                                         </td>
-                                        <td class="text-right">
-                                            @Html.DisplayFor(modelItem => item.Importe)
+                                        <td width="15%" class="text-right">
+                                            @string.Format("{0:C2}", item.Importe)
                                         </td>
                                     </tr>
                                 }
                             }
                         }
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <strong>Total de Percepciones</strong>
                             </td>
-                            <td></td>
+                           
 
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.ERR)</strong>
@@ -914,24 +959,24 @@
                                 if (item.Importe != 0)
                                 {
                                     <tr>
-                                        <td>
+                                        <td width="10%">
                                             @Html.DisplayFor(modelItem => item.Concepto)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Descripcion)
                                         </td>
-                                        <td class="text-right">
-                                            @Html.DisplayFor(modelItem => item.Importe)
+                                        <td width="15%" class="text-right">
+                                            @string.Format("{0:C2}", item.Importe)
                                         </td>
                                     </tr>
                                 }
                             }
                         }
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <strong>Total de Deducciones</strong>
                             </td>
-                            <td></td>
+                           
 
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.DDR)</strong>

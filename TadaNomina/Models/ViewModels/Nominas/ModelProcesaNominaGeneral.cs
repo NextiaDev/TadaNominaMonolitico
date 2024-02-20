@@ -54,7 +54,9 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public List<ModelEmpleadoFiniquito> empleados { get; set; }
         public List<ModelEmpleadoFiniquito> empleadosOtros { get; set; }
         public string _empleadosOtros { get; set; }
-        public string AJusteAnual { get; set; }        
+        public string AJusteAnual { get; set; }
+        [Display(Name = "Configuración de Sueldos:")]
+        public string ConfiguracionSueldos {  get; set; }
         
         public bool validacion { get; set; }
         public string Mensaje { get; set; }

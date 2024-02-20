@@ -18,10 +18,17 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa la vista con la lista de los conceptos del cjecador.</returns>
         public ActionResult Index()
         {
-            cConceptosChecador ccc = new cConceptosChecador();
-            int idCliente = int.Parse(Session["sIdClientes"].ToString());
-            ViewBag.LstConceptos = ccc.GetConceptos(idCliente);
-            return View();
+            try
+            {
+                cConceptosChecador ccc = new cConceptosChecador();
+                int idCliente = int.Parse(Session["sIdCliente"].ToString());
+                ViewBag.LstConceptos = ccc.GetConceptos(idCliente);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
         }
 
         /// <summary>
@@ -34,7 +41,7 @@ namespace TadaNomina.Controllers.Administracion
             cRegistroAsistencias cRegistro = new cRegistroAsistencias();
             ClassAccesosGV CAGV = new ClassAccesosGV();
 
-            int idCliente = int.Parse(Session["sIdClientes"].ToString());
+            int idCliente = int.Parse(Session["sIdCliente"].ToString());
             var Accesos = CAGV.DatosGV(idCliente);
             string tokenGV = cRegistro.GetToken(Accesos).token;
 
@@ -61,7 +68,7 @@ namespace TadaNomina.Controllers.Administracion
                 cRegistroAsistencias cRegistro = new cRegistroAsistencias();
                 ClassAccesosGV CAGV = new ClassAccesosGV();
 
-                int idCliente = int.Parse(Session["sIdClientes"].ToString());
+                int idCliente = int.Parse(Session["sIdCliente"].ToString());
                 var Accesos = CAGV.DatosGV(idCliente);
                 string tokenGV = cRegistro.GetToken(Accesos).token;
 
@@ -88,7 +95,7 @@ namespace TadaNomina.Controllers.Administracion
             cRegistroAsistencias cRegistro = new cRegistroAsistencias();
             ClassAccesosGV CAGV = new ClassAccesosGV();
 
-            int idCliente = int.Parse(Session["sIdClientes"].ToString());
+            int idCliente = int.Parse(Session["sIdCliente"].ToString());
             var Accesos = CAGV.DatosGV(idCliente);
             string tokenGV = cRegistro.GetToken(Accesos).token;
 
@@ -117,7 +124,7 @@ namespace TadaNomina.Controllers.Administracion
                 cRegistroAsistencias cRegistro = new cRegistroAsistencias();
                 ClassAccesosGV CAGV = new ClassAccesosGV();
 
-                int idCliente = int.Parse(Session["sIdClientes"].ToString());
+                int idCliente = int.Parse(Session["sIdCliente"].ToString());
                 var Accesos = CAGV.DatosGV(idCliente);
                 string tokenGV = cRegistro.GetToken(Accesos).token;
 

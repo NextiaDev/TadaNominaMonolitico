@@ -1,0 +1,315 @@
+﻿@model TadaNomina.Models.ViewModels.ConfigUsuario.MIndexUsuario
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+@if (Model.Result != null)
+{
+    if (Model.Result == "OK")
+    {
+        <div class="alert-wrap animated jellyIn in">
+            <div class="alert alert-success" role="alert">
+                <button class="close" type="button"><i class="pci-cross pci-circle"></i></button>
+                <div class="media">
+                    <strong>Correcto!</strong> @Model.MensajeResult
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert-wrap animated jellyIn in">
+            <div class="alert alert-warning" role="alert">
+                <button class="close" type="button"><i class="pci-cross pci-circle"></i></button>
+                <div class="media">
+                    <strong>Invalido!</strong> @Model.MensajeResult
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<br />
+<br />
+
+<div class="row pad-btm">
+    <div class="col-sm-6 toolbar-left">
+        <button class="btn btn-info" data-target="#addUser" data-toggle="modal">
+            Agregar
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var item in Model.Usuarios)
+    {
+        <div class="col-sm-4 col-md-3">
+            <div class="panel pos-rel">
+                <div class="pad-all text-center">
+                    <div>
+                        <img alt="Imagen defaul" class="img-lg img-circle mar-ver" src="~/assets/img/profile-photos/1.png" />
+                        <p class="text-lg text-semibold mar-no text-main">
+                            @item.Nombre @item.ApellidoPaterno
+                        </p>
+                        <p class="text-sm">@item.Usuario1</p>
+                        <p class="text-sm">@item.Correo</p>
+                    </div>
+                    <div class="pad-top btn-groups">
+                        <button class="btn btn-icon btn-primary fa fa-lg fa-edit icon-lg add-tooltip" data-original-title="Editar" data-container="body" onclick="EditarUser('@item.IdUsuario','@item.Nombre','@item.ApellidoPaterno','@item.ApellidoMaterno','@item.Correo','@item.Usuario1','@item.IdCliente','@item.IdUnidadNegocio','@item.Nomina', '@item.Rhcloud', '@item.IMSS', '@item.Contabilidad', '@item.Tesoreria' )"></button>
+                        <button class="btn btn-icon btn-danger fa fa-lg fa-trash icon-lg add-tooltip" data-original-title="Eliminar" data-container="body" onclick="EliminarUsuario(@item.IdUsuario)"></button>'
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div id="addUser" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="addUser">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Agregar/Editar Usuario</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel">
+                    <div id="demo-bv-wz">
+                        <div class="wz-heading pad-top">
+                            <ul class="row wz-step wz-icon-bw wz-nav-off mar-top wz-steps">
+                                <li class="col-xs-3 active">
+                                    <a data-toggle="tab" href="#demo-by-tab1" aria-expanded="true">
+                                        <span class="text-warning"><i class="fa fa-3x fa-user"></i></span>
+                                        <p class="text-semibold mar-no">Usuario</p>
+                                    </a>
+                                </li>
+                                <li class="col-xs-3">
+                                    <a data-toggle="tab" href="#demo-bv-tab2">
+                                        <span class="text-primary"><i class="fa fa-3x fa-gear"></i></span>
+                                        <p class="text-semibold mar-no">Clientes</p>
+                                    </a>
+                                </li>
+                                <li class="col-xs-3">
+                                    <a data-toggle="tab" href="#demo-bv-tab3">
+                                        <span class="text-primary"><i class="fa fa-3x fa-gear"></i></span>
+                                        <p class="text-semibold mar-no">Unidades de Negocio</p>
+                                    </a>
+                                </li>
+                                <li class="col-xs-3">
+                                    <a data-toggle="tab" href="#demo-bv-tab4">
+                                        <span class="text-success"><i class="fa fa-3x fa-check"></i></span>
+                                        <p class="text-semibold mar-no">Finalizar</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="progress progress-xs">
+                            <div class="progress-bar progress-bar-primary" style="width: 2 5%; left: 0%; position: relative; transition: all 0.5s ease 0s;"></div>
+                        </div>
+                        <form id="demo-bv-wz-form" class="form-horizontal bv-form" novalidate="novalidate" action="~/ConfigUsuario/AddUsuario" method="post">
+                            <input type="hidden" id="idUser" value="0" name="IdUsuario" />
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div id="demo-bv-tab1" class="tab-pane active in">
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Nombre</label>
+                                            <div class="col-lg-7">
+                                                <input id="inpt_nom" type="text" class="form-control" name="nombre" placeholder="Nombre" data-bv-field="nombre" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Apellido Paterno</label>
+                                            <div class="col-lg-7">
+                                                <input id="inpt_appat" type="text" class="form-control" name="apellidopaterno" placeholder="Apellido Paterno" data-bv-field="apellidopaterno" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Apellido Materno</label>
+                                            <div class="col-lg-7">
+                                                <input id="inpt_apmat" type="text" class="form-control" name="ApellidoMaterno" placeholder="Apellido Materno" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Correo</label>
+                                            <div class="col-lg-7">
+                                                <input id="inpt_corr" type="email" class="form-control" name="correo" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label">Usuario</label>
+                                            <div class="col-lg-7">
+                                                <input id="inpt_usu" type="text" class="form-control" name="usuario" placeholder="Uasuario" required>
+                                            </div>
+                                        </div>
+                                        <div id="div_inpt_pass" class="form-group has-feedback">
+                                            <label class="col-lg-3 control-label">Contrase&ntilde;a</label>
+                                            <div class="col-lg-7">
+                                                <input id="inpt_pass" type="password" class="form-control" name="password" placeholder="Contraseña" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="demo-bv-tab2" class="tab-pane">
+                                        <input type="hidden" name="IdCliente" id="clientesselect" value="" />
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4>Seleccione los clientes a asignar al usuario</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item in Model.ClientesToAsign)
+                                                {
+                                                    <div class="col-sm-3">
+                                                        <div id="cl-@item.IdCliente" class="checkbox">
+                                                            <input id="inpcl-@item.IdCliente" class="magic-checkbox" type="checkbox" onclick="addcliente(@item.IdCliente)" />
+                                                            <label for="inpcl-@item.IdCliente">
+                                                                @item.Cliente
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="demo-bv-tab3" class="tab-pane fade">
+                                        <input type="hidden" name="IdUnidadNegocio" id="unidadselect" value="" />
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4>Seleccione las Unidades de Negocio a asignar al usuario</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @foreach (var item1 in Model.ClientesToAsign)
+                                                {
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                            <div class="panel-control">
+                                                                <button id="btncoll-@item1.IdCliente" class="btn btn-default" onclick="OpenPanel('panel-collapse-@item1.Cliente')" aria-expanded="false"><i class="demo-psi-chevron-down"></i></button>
+                                                            </div>
+                                                            <h4 class="panel-title">Cliente: @item1.Cliente</h4>
+                                                        </div>
+                                                        <div class="collapse" id="panel-collapse-@item1.Cliente">
+                                                            <div class="panel-body">
+                                                                @foreach (var item in Model.UnidadNegocioToAsign.Where(p => p.IdCliente == item1.IdCliente))
+                                                                {
+                                                                    <div class="col-sm-2 col-md-3">
+                                                                        <div id="un-@item.IdUnidadNegocio" class="checkbox">
+                                                                            <input id="inpun-@item.IdUnidadNegocio" class="magic-checkbox" type="checkbox" onclick="addunidad(@item.IdUnidadNegocio)" />
+                                                                            <label for="inpun-@item.IdUnidadNegocio">
+                                                                                @item.UnidadNegocio
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="demo-bv-tab4" class="tab-pane fade">
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4>Seleccione los Modulos a los que tendrá acceso</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="col-sm-2 col-md-3">
+                                                    <div class="checkbox">
+                                                        <input id="mod-Nom" class="magic-checkbox" type="checkbox" name="Nomina" value="false" onclick="setvaluetextbox('mod-Nom')" />
+                                                        <label for="mod-Nom">
+                                                            N&oacute;mina
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-md-3">
+                                                    <div class="checkbox">
+                                                        <input id="mod-RH" class="magic-checkbox" type="checkbox" name="RHCloud" value="false" onclick="setvaluetextbox('mod-RH')" />
+                                                        <label for="mod-RH">
+                                                            RHCloud
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-md-3">
+                                                    <div class="checkbox">
+                                                        <input id="mod-IMSS" class="magic-checkbox" type="checkbox" name="IMSS" value="false" onclick="setvaluetextbox('mod-IMSS')" />
+                                                        <label for="mod-IMSS">
+                                                            IMSS
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-md-3">
+                                                    <div class="checkbox">
+                                                        <input id="mod-Conta" class="magic-checkbox" type="checkbox" name="Contabilidad" value="false" onclick="setvaluetextbox('mod-Conta')" />
+                                                        <label for="mod-Conta">
+                                                            Contabilidad
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-md-3">
+                                                    <div class="checkbox">
+                                                        <input id="mod-Teso" class="magic-checkbox" type="checkbox" name="Tesoreria" value="false" onclick="setvaluetextbox('mod-Teso')" />
+                                                        <label for="mod-Teso">
+                                                            Tesorer&iacute;a
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <div class="box-inline">
+                                    <a href="~/ConfigUsuario/Index" class="btn btn-danger" type="button">Cancelar</a>
+                                    <button type="button" class="previous btn btn-primary disabled">
+                                        Previo
+                                    </button>
+                                    <button type="button" class="next btn btn-primary">
+                                        Siguiente
+                                    </button>
+                                    <button type="submit" class="finish btn btn-success" style="display: none;" disabled>Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteUsuario", "ConfigUsuario", FormMethod.Post))
+{
+    <div id="ModalEliminar" class="modal fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eliminar</h4>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="idusuariodel" name="IdUsuario">
+                    <div class="row text-center">
+                        ¿Esta seguro que desea eliminar al Usuario?
+                    </div>
+                    <br>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="form-actions no-color">
+                        <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cancelar</button>
+                        <input type="submit" value="Eliminar" class="btn btn-danger btn-sm _Aceptar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@section Scripts{
+    <script src="~/plugins/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
+    <script src="~/plugins/bootstrap-validator/bootstrapValidator.js"></script>
+    <script src="~/js/demo/form-wizard.js"></script>
+    <script src="~/js/ConfigUsuarios/index.js"></script>
+}

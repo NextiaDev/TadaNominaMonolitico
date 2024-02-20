@@ -17,8 +17,11 @@ namespace TadaNomina.Controllers.CFDI
     public class GeneraXMLController : BaseController
     {
         // GET: GeneraXML
-        public ActionResult Index( )
+        public ActionResult Index(string Mensaje)
         {
+            if(Mensaje != null && Mensaje.Length > 0)
+                ViewBag.MensajeError = Mensaje;
+
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
             ClassTimbradoNomina cperiodo = new ClassTimbradoNomina();
             ModelTimbradoNomina model = cperiodo.GetModeloTimbradoNomina(IdUnidadNegocio);
@@ -34,13 +37,14 @@ namespace TadaNomina.Controllers.CFDI
             ClassTimbradoNomina cperiodo = new ClassTimbradoNomina();
             ModelTimbradoNomina model = cperiodo.GetModeloTimbradoNomina(IdUnidadNegocio);
             model.IdPeriodoNomina = timbrado.IdPeriodoNomina;
+            model.tipoTimbrado = timbrado.tipoTimbrado;
 
             cGeneraXML cgx = new cGeneraXML();
             var cantidad = cgx.getRegistrosXMLPeriodo(timbrado.IdPeriodoNomina).Count();
             model.MensajeContador = "XML que hay actualmente en este periodo : " + cantidad;
 
             var cantidadRegistrosNomina = cgx.obtenDatosTimbrado(timbrado.IdPeriodoNomina).Count();
-            model.RegistrosNomina = "Registros procesados en nómina para este periodo: " + cantidadRegistrosNomina;
+            model.RegistrosNomina = "Registros procesados en nómina para este periodo: " + cantidadRegistrosNomina;            
 
             var cantidadRegistrosTimbrados = cgx.getTimbrados(timbrado.IdPeriodoNomina);
             model.RegistrosYaTimbrados = "Registros ya timbrados para este periodo: " + cantidadRegistrosTimbrados.Count();
@@ -48,7 +52,7 @@ namespace TadaNomina.Controllers.CFDI
             return View(model);            
         }
 
-        public JsonResult GenerarArchivos(int IdPeriodoNomina)
+        public JsonResult GenerarArchivos(int IdPeriodoNomina, string tipoTimbrado, string claves)
         {
             int IdCliente = (int)Session["sIdCliente"];
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
@@ -56,12 +60,19 @@ namespace TadaNomina.Controllers.CFDI
             
             try
             {
+                if (tipoTimbrado == null || tipoTimbrado == string.Empty) { throw new Exception("Debe Elegir el Uso del XML"); }
                 Guid Id = Guid.NewGuid();
                 cGeneraXML ct = new cGeneraXML();
-                ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario);
+
+                claves = claves.Trim().Replace(" ", "");
+                string[] _claves = new string[0];
+                if(claves != string.Empty)
+                    _claves = claves.ToUpper().Split(',');
+
+                var errores = ct.GeneraXMLTimbradoNomina(IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, tipoTimbrado, _claves, IdUsuario);
                 var cantidad = ct.getRegistrosXMLPeriodo(IdPeriodoNomina).Count();
 
-                return Json(new { estatus = "Ok", mensaje = "Se generaron correctamente los archivos.", cantidad });               
+                return Json(new { estatus = "Ok", mensaje = "Se generaron correctamente los archivos.", cantidad, errores });               
             }
             catch (Exception ex)
             {
@@ -115,9 +126,9 @@ namespace TadaNomina.Controllers.CFDI
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
                 
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { Mensaje = "Error al generar los archivos: " + ex.Message });
             }
         }
 
@@ -135,9 +146,9 @@ namespace TadaNomina.Controllers.CFDI
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 
             }
-            catch 
+            catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { Mensaje = "Error al generar los archivos: " + ex.Message });
             }
         }
     }

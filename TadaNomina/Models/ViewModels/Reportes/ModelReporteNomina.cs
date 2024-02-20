@@ -24,6 +24,11 @@ namespace TadaNomina.Models.ViewModels.Reportes
         public string FechaInicio { get; set; }
 
         [Display(Name = "Fecha Final")]
-        public string FechaFin { get; set; }        
+        public string FechaFin { get; set; }
+        [Display(Name = "Estatus")]
+        public int IdEstatus { get; set; }
+
+        public bool Validacion { get; set; }
+        public string Mensaje { get; set; }
     }
 }

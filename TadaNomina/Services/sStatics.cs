@@ -32,8 +32,5 @@ namespace TadaNomina.Services
 
         public static string username = "Tadamx";
         public static string password = "BTKfA6ZStvwAy%2BUXkWldYA%3D%3D";
-
-
-
     }
 }

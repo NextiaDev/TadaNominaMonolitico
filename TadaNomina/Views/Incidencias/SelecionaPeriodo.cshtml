@@ -62,7 +62,8 @@
                             </td>
 
                             <td>
-                                @Html.ActionLink("Seleccionar", "Index", new { pIdPeriodoNomina = item.IdPeriodoNomina, TipoPeriodo = item.TipoNomina }, new { @class = "btn btn-primary btn-sm", @id = "Load" })
+                                
+                                <a href="@Url.Action("Index", new { pIdPeriodoNomina = item.IdPeriodoNomina, TipoPeriodo = item.TipoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-check-circle"></span> Seleccionar</a>
                             </td>
                         </tr>
                     }

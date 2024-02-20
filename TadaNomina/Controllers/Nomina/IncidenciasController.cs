@@ -13,6 +13,7 @@ using TadaNomina.Models.ViewModels.Nominas;
 using TadaNomina.Models.ViewModels.Reportes;
 using TadaNomina.Models.ViewModels.RelojChecador;
 using TadaNomina.Models.ClassCore.RelojChecador;
+using System.Threading.Tasks;
 
 namespace TadaNomina.Controllers.Nomina
 {
@@ -34,16 +35,19 @@ namespace TadaNomina.Controllers.Nomina
         }
 
         //GET: Incidencias
-        public ActionResult Index(int pIdPeriodoNomina, int? MostrarTodas, string TipoPeriodo)
+        public ActionResult Index(int pIdPeriodoNomina, int? MostrarTodas, string TipoPeriodo, string Mensaje)
         {
             ViewBag.pIdPeriodoNomina = pIdPeriodoNomina;
             ViewBag.TipoPeriodo = TipoPeriodo;
+            
+            if(Mensaje != null && Mensaje.Length > 0)
+                ViewBag.Mensaje = Mensaje;
 
             ClassPeriodoNomina cPeriodos = new ClassPeriodoNomina();
             ClassIncidencias cIncidencias = new ClassIncidencias();
 
             PeriodoNomina periodo = cPeriodos.GetPeriodo(pIdPeriodoNomina);
-            
+
             if (periodo.TipoNomina == "Nomina")
             {
                 ViewBag.TipoNomina = "OK";
@@ -53,11 +57,11 @@ namespace TadaNomina.Controllers.Nomina
                 ViewBag.TipoNomina = "ERROR";
             }
 
-            if (Session["FlagFechasRelojChecador"]== null)
+            if (Session["FlagFechasRelojChecador"] == null)
             {
-                Session["FlagFechasRelojChecador"] = "OK"; 
+                Session["FlagFechasRelojChecador"] = "OK";
             }
-            
+
             string flagChecador = Session["FlagFechasRelojChecador"].ToString();
             if (flagChecador == "OK")
             {
@@ -74,23 +78,23 @@ namespace TadaNomina.Controllers.Nomina
             List<PeriodoNomina> lperiodos = cPeriodos.GetPeriodoNominas(pIdPeriodoNomina);
             List<ModelIncidencias> lincidencias = new List<ModelIncidencias>();
             try { lincidencias = cIncidencias.GetModelIncidencias(pIdPeriodoNomina, token).OrderByDescending(x => x.IdIncidencia).ToList(); } catch { }
-                       
 
-           
+
+
             ClassConceptos cc = new ClassConceptos();
-             
+
             mii.LConcepto = cc.getSelectConceptos((int)Session["sIdCliente"]);
-            
-            
+
+
             ViewBag.Bandera = false;
-            if (lincidencias.Count > 500 )
+            if (lincidencias.Count > 500)
             {
                 if (MostrarTodas == null)
                 {
                     ViewBag.Bandera = true;
                     lincidencias = lincidencias.Take(500).ToList();
-                }                
-            }            
+                }
+            }
 
             ViewBag.SeleccionarPeriodo = lperiodos;
 
@@ -136,9 +140,9 @@ namespace TadaNomina.Controllers.Nomina
                     ClassIncidencias cins = new ClassIncidencias();
                     int IdUsuario = (int)Session["sIdUsuario"];
                     cins.NewIncindencia(collection, IdUsuario);
-                    
+
                     ModelIncidencias modelo = cins.LlenaListasIncidencias(IdUnidad, IdCliente);
-                    
+
                     modelo.validacion = true;
                     modelo.Mensaje = "La incidencia se guardo de forma correcta!";
                     return View(modelo);
@@ -152,7 +156,7 @@ namespace TadaNomina.Controllers.Nomina
                     return View(modelo);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ClassIncidencias cincidencias = new ClassIncidencias();
                 ModelIncidencias modelo = cincidencias.LlenaListasIncidencias(IdUnidad, IdCliente);
@@ -212,12 +216,12 @@ namespace TadaNomina.Controllers.Nomina
                 string token = Session["sToken"].ToString();
                 ClassIncidencias cIncidencias = new ClassIncidencias();
                 cIncidencias.DeleteIncidencia(id, token);
-                
+
                 return RedirectToAction("Index", new { pIdPeriodoNomina = IdPeriodoNomina });
             }
-            catch
+            catch(Exception ex)
             {
-                return RedirectToAction("Index", new { pIdPeriodoNomina = IdPeriodoNomina });
+                return RedirectToAction("Index", new { pIdPeriodoNomina = IdPeriodoNomina, Mensaje = ex.Message });
             }
         }
 
@@ -296,7 +300,7 @@ namespace TadaNomina.Controllers.Nomina
 
                         return TextFile(errores);
                     }
-                }                
+                }
             }
 
             return View(modelo);
@@ -310,7 +314,7 @@ namespace TadaNomina.Controllers.Nomina
                 string token = Session["sToken"].ToString();
                 ClassIncidencias cincidencias = new ClassIncidencias();
 
-                if(model.IdConcepto != null)
+                if (model.IdConcepto != null)
                     cincidencias.DeleteAllIdConcepto(model.IdPeridoNomina, (int)model.IdConcepto);
                 else
                     cincidencias.DeleteAll(model.IdPeridoNomina, token);
@@ -328,7 +332,7 @@ namespace TadaNomina.Controllers.Nomina
             MemoryStream memoryStream = new MemoryStream();
             TextWriter tw = new StreamWriter(memoryStream);
             List<string> list = model.listErrores;
-            
+
             tw.WriteLine("DETALLE DE CARGA DE INCIDENCIAS DEL ARCHIVO: " + model.Path);
             tw.WriteLine("");
             tw.WriteLine("----------------------------------------");
@@ -511,6 +515,11 @@ namespace TadaNomina.Controllers.Nomina
             }
         }
 
+        /// <summary>
+        /// Accion para generar toda incidencia de un periodo de nomina proveniente de la informacion del reloj checador de GeoVictoria
+        /// </summary>
+        /// <param name="pIdPer">Periodo de nomina</param>
+        /// <returns>Lista de incidencias</returns>
         public ActionResult GeneraIncidencias(string pIdPer)
         {
             int pIdPeriodoNomina = int.Parse(Statics.DesEncriptar(pIdPer));
@@ -518,6 +527,7 @@ namespace TadaNomina.Controllers.Nomina
             vPeriodoNomina vPeriodoNom = classPeriodoNomina.GetvPeriodoNominasId(pIdPeriodoNomina);
             cUsers cu = new cUsers();
             int? IdCliente = int.Parse(Session["sIdCliente"].ToString());
+            int idUnidadN = int.Parse(Session["sIdUnidadNegocio"].ToString());
             int IdUsuario = int.Parse(Session["sIdUsuario"].ToString());
             string token = Session["sToken"].ToString();
             string tokenGV = Session["sTokenGeovictoria"].ToString();
@@ -537,14 +547,29 @@ namespace TadaNomina.Controllers.Nomina
             try
             {
                 int usuXCon = cu.UsuariosXConsulta(FechaFinChecador, FechaInicioChecador);
-
                 string dat1 = cu.FechaChecador(FechaInicioChecador, 'I');
                 string dat2 = cu.FechaChecador(FechaFinChecador, 'F');
-
                 var usuarios = cu.LstUsuarios(usuXCon);
                 var c = cu.Consolidated(tokenGV, dat1, dat2, usuarios, usuXCon);
                 var a = cu.AtteBookXN(tokenGV, dat1, dat2, usuarios);
                 var lI = cu.LstIncidencias(c, a, (int)IdCliente);
+
+                if(IdCliente == 148 || IdCliente == 158 || IdCliente == 159)
+                {
+                    var incBono = cu.IncidenciasBonoPuntualidad(lI, pIdPeriodoNomina, (int)IdCliente, IdUsuario, usuarios);
+                    var incPrimDominical = cu.GetPrimaDominicalxHora(tokenGV, dat1, dat2, usuarios, (int)IdCliente);
+                    if(incPrimDominical.Count > 0) lI.AddRange(incPrimDominical);
+
+                    var listahoradextra = cu.GetIncidenciasHorasExtra(c, (int)IdCliente);
+                    if (listahoradextra.Count > 0) lI.AddRange(listahoradextra);
+
+                    var lstHrsNoTra = cu.GetHrsNoTrabajadas(c, (int)IdCliente);
+                    if (lstHrsNoTra.Count > 0) lI.AddRange(lstHrsNoTra);
+
+                    var lstHolyDescansos = cu.GetHolidaysDescansosTrabajados(tokenGV, dat1, dat2, usuarios, (int)IdCliente, idUnidadN);
+                    if (lstHolyDescansos.Count > 0) lI.AddRange(lstHolyDescansos);
+                }
+
                 var i = cu.IncidenciasGV(lI, token, pIdPeriodoNomina, (int)IdCliente, IdUsuario);
 
                 //return View(i);
@@ -555,5 +580,6 @@ namespace TadaNomina.Controllers.Nomina
                 return RedirectToAction("Index", "Default");
             }
         }
+
     }
 }

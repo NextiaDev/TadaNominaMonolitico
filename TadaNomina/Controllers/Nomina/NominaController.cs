@@ -1104,5 +1104,13 @@ namespace TadaNomina.Controllers.Nomina
                 return Json(new { result = "er", mensaje = ex.Message });
             }
         }
+
+        public ActionResult getArchivoLog(int IdPeriodoNomina)
+        {
+            string path = @"C:\TadaNomina\LogsFRONT\Nomina\";
+            string nombre = "Periodo_" + IdPeriodoNomina + "_IdUsuario_" + Session["sIdUsuario"] + ".txt";
+
+            return File(path + nombre, "text/plain", "nomina.txt");
+        }
     }
 }

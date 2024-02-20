@@ -1,4 +1,6 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.EMMA;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -29,6 +31,9 @@ namespace TadaNomina.Controllers.Reportes
             cReportesNomina cReportes = new cReportesNomina();
             List<ModelReporteNomina> model = cReportes.GetListaPeriodosAcumulados((int)Session["sIdUnidadNegocio"]);
 
+           
+
+
             return View(model);
         }
 
@@ -37,7 +42,7 @@ namespace TadaNomina.Controllers.Reportes
         /// </summary>
         /// <param name="id">Identificador de la nomina</param>
         /// <returns>Reporte de nomina acumulada formato excel</returns>
-        public FileResult Descargar(int id)
+        public ActionResult Descargar(int id)
         {
             try
             {
@@ -83,220 +88,251 @@ namespace TadaNomina.Controllers.Reportes
         /// Descarga reporte de nomina acumulada en formato PDF
         /// </summary>
         /// <returns>Reporte de nomina en formato PDF</returns>
-        public ActionResult ReporteTipoPDf()
+        public ActionResult ReporteTipoPDf(string validacion)
         {
             int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
             cReportesNomina cempleados = new cReportesNomina();
             List<ModelReporteNomina> model = cempleados.GetListaPeriodosAcumuladosActivos(IdUnidadnegocio);
 
+            if (validacion != null)
+            {
+                ViewBag.Mensaje = "Error: " + validacion;
 
+            }
             return View(model);
         }
-
-        public FileResult DescargaUnidadNegocio(int id)
+        public ActionResult DescargaUnidadNegocio(int id)
         {
-            int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
-            int Cliente = (int)Session["sIdCliente"];
-            string nomina = Session["sNomina"].ToString();
-            cReportesNomina cReportes = new cReportesNomina();
-            var listPer = cReportes.GetPeriodosActivosyCerrados(IdUnidadnegocio);
-            PeriodoNomina act = new PeriodoNomina();
-            act = listPer.Where(x => x.IdPeriodoNomina == id).FirstOrDefault();
-            vRegistroPatronal vista = new vRegistroPatronal();
-            var LisR = cReportes.GetRegistroPatronal(IdUnidadnegocio);
-            vista = LisR.Where(x => x.IdUnidadNegocio == IdUnidadnegocio).FirstOrDefault();
+            string validacion;
 
-            ClassReportesPDF pdf = new ClassReportesPDF(act, vista);
-
-
-            List<string> files = new List<string>();
-            string formato = "-FORMATO-VariosArchivos";
-            string ruta_PDFS = string.Empty;
-            string ruta_PDFS_ZIP = string.Empty;
-
-            string ruta_Principal = @"C:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\";
-            ruta_PDFS = @"C:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id + @"\PDFS\";
-            ruta_PDFS_ZIP = @"C:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id;
-
-            if (!Directory.Exists(ruta_Principal))
+            try
             {
-                System.IO.Directory.CreateDirectory(ruta_Principal);
-            }
-            else
-            {
-                System.IO.Directory.Delete(ruta_Principal, true);
-            }
+                int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
+                int Cliente = (int)Session["sIdCliente"];
+                string nomina = Session["sNomina"].ToString();
+                cReportesNomina cReportes = new cReportesNomina();
+                var listPer = cReportes.GetPeriodosActivosyCerrados(IdUnidadnegocio);
+                PeriodoNomina act = new PeriodoNomina();
+                act = listPer.Where(x => x.IdPeriodoNomina == id).FirstOrDefault();
+                vRegistroPatronal vista = new vRegistroPatronal();
+                var LisR = cReportes.GetRegistroPatronal(IdUnidadnegocio);
+                vista = LisR.Where(x => x.IdUnidadNegocio == IdUnidadnegocio).FirstOrDefault();
+
+                ClassReportesPDF pdf = new ClassReportesPDF(act, vista);
 
 
-            if (!Directory.Exists(ruta_PDFS))
-            {
-                System.IO.Directory.CreateDirectory(ruta_PDFS);
-            }
-            else
-            {
-                System.IO.Directory.Delete(ruta_PDFS, true);
-            }
+                List<string> files = new List<string>();
+                string formato = "-FORMATO-VariosArchivos";
+                string ruta_PDFS = string.Empty;
+                string ruta_PDFS_ZIP = string.Empty;
 
+                string ruta_Principal = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\";
+                ruta_PDFS = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id + @"\PDFS\";
+                ruta_PDFS_ZIP = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id;
 
-            using (NominaEntities1 entidad1 = new NominaEntities1())
-            {
-                var query = from b in entidad1.Cat_CentroCostos
-                            where b.IdCliente == Cliente && b.IdEstatus == 1
-                            select b;
-
-
-
-
-
-
-                List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
-
-                using (NominaEntities1 entidad = new NominaEntities1())
+                if (!Directory.Exists(ruta_Principal))
                 {
-                    string consulta = "sp_PDFSunset " + id;
-                    datos = entidad.Database.SqlQuery<sp_PDFSunset1_Result>(consulta).ToList();
+                    System.IO.Directory.CreateDirectory(ruta_Principal);
                 }
-                List<string> archivos = new List<string>();
-
-
-                if (datos.Count() > 0)
+                else
                 {
-                    string archivoFisicotmp = ruta_PDFS + id + "-" + nomina.Replace("\"", "").Trim();
-                    archivos.Add(nomina);
-                    cReportesNomina cn = new cReportesNomina();
-                    int[] periodos = new int[1];
-                    periodos[0] = id;
-
-
-                    var ins = cn.GetvInsidenciasPeriodo(periodos);
-
-                    pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, datos, act);
-                    files.Add(archivoFisicotmp + ".pdf");
-
-
-
-                    CreateZipFile(files, ruta_PDFS_ZIP + @"\" + nomina.Replace("\"", "") + @".zip");
+                    System.IO.Directory.Delete(ruta_Principal, true);
                 }
 
 
-                byte[] fileBytes = null;
-                string fileName = string.Empty;
-                if (archivos.Count > 0)
+                if (!Directory.Exists(ruta_PDFS))
                 {
-                    foreach (var item in archivos)
+                    System.IO.Directory.CreateDirectory(ruta_PDFS);
+                }
+                else
+                {
+                    System.IO.Directory.Delete(ruta_PDFS, true);
+                }
+
+
+                using (NominaEntities1 entidad1 = new NominaEntities1())
+                {
+                    var query = from b in entidad1.Cat_CentroCostos
+                                where b.IdCliente == Cliente && b.IdEstatus == 1
+                                select b;
+
+
+
+
+
+
+                    List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
+
+                    using (NominaEntities1 entidad = new NominaEntities1())
                     {
-                        fileBytes = System.IO.File.ReadAllBytes(ruta_PDFS_ZIP + @"\" + item + ".zip");
-                        fileName = item + ".zip";
+                        string consulta = "sp_PDFSunset " + id;
+                        datos = entidad.Database.SqlQuery<sp_PDFSunset1_Result>(consulta).ToList();
                     }
+                    List<string> archivos = new List<string>();
+
+
+                    if (datos.Count() > 0)
+                    {
+                        string archivoFisicotmp = ruta_PDFS + id + "-" + nomina.Replace("\"", "").Trim();
+                        archivos.Add(nomina);
+                        cReportesNomina cn = new cReportesNomina();
+                        int[] periodos = new int[1];
+                        periodos[0] = id;
+
+
+                        var ins = cn.GetvInsidenciasPeriodo(periodos);
+
+                        pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, datos, act);
+                        files.Add(archivoFisicotmp + ".pdf");
+
+
+
+                        CreateZipFile(files, ruta_PDFS_ZIP + @"\" + nomina.Replace("\"", "") + @".zip");
+                    }
+
+
+                    byte[] fileBytes = null;
+                    string fileName = string.Empty;
+                    if (archivos.Count > 0)
+                    {
+                        foreach (var item in archivos)
+                        {
+                            fileBytes = System.IO.File.ReadAllBytes(ruta_PDFS_ZIP + @"\" + item + ".zip");
+                            fileName = item + ".zip";
+                        }
+                    }
+
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
                 }
-
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-
             }
+            catch (Exception ex)
+            {
+
+                validacion = ex.Message.ToString();
+
+                return RedirectToAction("ReporteTipoPDf", "ReporteNomina", new { validacion });
+            }
+
 
 
         }
         /// <summary>
         /// Reporte nomina por centros de costos en formato PDF
+        ///         /// Se  agrega un try y un catch
+
         /// </summary>
         /// <param name="id">Periodo de nomina</param>
         /// <returns>Reporte en formato PDF</returns>
-        public FileResult DescargaCentros(int id)
+        public ActionResult DescargaCentros(int id)
         {
-            int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
-            int Cliente = (int)Session["sIdCliente"];
 
-            cReportesNomina cReportes = new cReportesNomina();
-            var listPer = cReportes.GetPeriodosActivosyCerrados(IdUnidadnegocio);
-            PeriodoNomina act = new PeriodoNomina();
-            act = listPer.Where(x => x.IdPeriodoNomina == id).FirstOrDefault();
-            vRegistroPatronal vista = new vRegistroPatronal();
-            var LisR = cReportes.GetRegistroPatronal(IdUnidadnegocio);
-            vista = LisR.Where(x => x.IdUnidadNegocio == IdUnidadnegocio).FirstOrDefault();
-
-            ClassReportesPDF pdf = new ClassReportesPDF(act, vista);
-
-
-            List<string> files = new List<string>();
-            string formato = "-FORMATO-VariosArchivos";
-            string ruta_PDFS = string.Empty;
-            string ruta_PDFS_ZIP = string.Empty;
-
-            string ruta_Principal = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\";
-            ruta_PDFS = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id + @"\PDFS\";
-            ruta_PDFS_ZIP = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id;
-
-            if (!Directory.Exists(ruta_Principal))
+            string validacion;
+            try
             {
-                System.IO.Directory.CreateDirectory(ruta_Principal);
-            }
-            else
-            {
-                System.IO.Directory.Delete(ruta_Principal, true);
-            }
+                int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
+                int Cliente = (int)Session["sIdCliente"];
+
+                cReportesNomina cReportes = new cReportesNomina();
+                var listPer = cReportes.GetPeriodosActivosyCerrados(IdUnidadnegocio);
+                PeriodoNomina act = new PeriodoNomina();
+                act = listPer.Where(x => x.IdPeriodoNomina == id).FirstOrDefault();
+                vRegistroPatronal vista = new vRegistroPatronal();
+                var LisR = cReportes.GetRegistroPatronal(IdUnidadnegocio);
+                vista = LisR.Where(x => x.IdUnidadNegocio == IdUnidadnegocio).FirstOrDefault();
+
+                ClassReportesPDF pdf = new ClassReportesPDF(act, vista);
 
 
-            if (!Directory.Exists(ruta_PDFS))
-            {
-                System.IO.Directory.CreateDirectory(ruta_PDFS);
-            }
-            else
-            {
-                System.IO.Directory.Delete(ruta_PDFS, true);
-            }
+                List<string> files = new List<string>();
+                string formato = "-FORMATO-VariosArchivos";
+                string ruta_PDFS = string.Empty;
+                string ruta_PDFS_ZIP = string.Empty;
 
+                string ruta_Principal = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\";
+                ruta_PDFS = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id + @"\PDFS\";
+                ruta_PDFS_ZIP = @"D:\Apps\TadaNomina\XML\" + Session["sIdUnidades"].ToString() + formato + @"\" + id;
 
-            using (NominaEntities1 entidad1 = new NominaEntities1())
-            {
-                var query = from b in entidad1.Cat_CentroCostos
-                            where b.IdCliente == Cliente && b.IdEstatus == 1
-                            select b;
-
-                List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
-
-                using (NominaEntities1 entidad = new NominaEntities1())
+                if (!Directory.Exists(ruta_Principal))
                 {
-                    string consulta = "sp_PDFSunset " + id;
-                    datos = entidad.Database.SqlQuery<sp_PDFSunset1_Result>(consulta).ToList();
+                    System.IO.Directory.CreateDirectory(ruta_Principal);
                 }
-                List<string> archivos = new List<string>();
-                foreach (var item in query)
+                else
                 {
-                    List<sp_PDFSunset1_Result> queryPorCentroCostos = (from myRow in datos
-                                                                       where myRow.IdCentroCostos == item.IdCentroCostos
-                                                                       orderby myRow.Nombre ascending
-                                                                       select myRow).OrderBy(x => x.Puesto).ToList();
+                    System.IO.Directory.Delete(ruta_Principal, true);
+                }
 
-                    if (queryPorCentroCostos.Count() > 0)
+
+                if (!Directory.Exists(ruta_PDFS))
+                {
+                    System.IO.Directory.CreateDirectory(ruta_PDFS);
+                }
+                else
+                {
+                    System.IO.Directory.Delete(ruta_PDFS, true);
+                }
+
+
+                using (NominaEntities1 entidad1 = new NominaEntities1())
+                {
+                    var query = from b in entidad1.Cat_CentroCostos
+                                where b.IdCliente == Cliente && b.IdEstatus == 1
+                                select b;
+
+                    List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
+
+                    using (NominaEntities1 entidad = new NominaEntities1())
                     {
-                        string archivoFisicotmp = ruta_PDFS + id + "-" + item.CentroCostos.Replace("\"", "").Trim();
-                        archivos.Add(item.CentroCostos);
-                        cReportesNomina cn = new cReportesNomina();
-                        int[] periodos = new int[1];
-                        periodos[0] = id;
-
-                        var ins = cn.GetvInsidencias(periodos, item.IdCentroCostos);
-
-                        pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, queryPorCentroCostos, act);
-                        files.Add(archivoFisicotmp + ".pdf");
-
-                        CreateZipFile(files, ruta_PDFS_ZIP + @"\" + item.CentroCostos.Replace("\"", "") + @".zip");
-                        Session["Query"] = queryPorCentroCostos;
+                        string consulta = "sp_PDFSunset " + id;
+                        datos = entidad.Database.SqlQuery<sp_PDFSunset1_Result>(consulta).ToList();
                     }
-                }
-                byte[] fileBytes = null;
-                string fileName = string.Empty;
-                if (archivos.Count > 0)
-                {
-                    foreach (var item in archivos)
+                    List<string> archivos = new List<string>();
+                    foreach (var item in query)
                     {
-                        fileBytes = System.IO.File.ReadAllBytes(ruta_PDFS_ZIP + @"\" + item + ".zip");
-                        fileName = item + ".zip";
-                    }
-                }
+                        List<sp_PDFSunset1_Result> queryPorCentroCostos = (from myRow in datos
+                                                                           where myRow.IdCentroCostos == item.IdCentroCostos
+                                                                           orderby myRow.Nombre ascending
+                                                                           select myRow).OrderBy(x => x.Puesto).ToList();
 
-                return File(fileBytes ?? new byte[0], System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                        if (queryPorCentroCostos.Count() > 0)
+                        {
+                            string archivoFisicotmp = ruta_PDFS + id + "-" + item.CentroCostos.Replace("\"", "").Trim();
+                            archivos.Add(item.CentroCostos);
+                            cReportesNomina cn = new cReportesNomina();
+                            int[] periodos = new int[1];
+                            periodos[0] = id;
+
+                            var ins = cn.GetvInsidencias(periodos, item.IdCentroCostos);
+
+                            pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, queryPorCentroCostos, act);
+                            files.Add(archivoFisicotmp + ".pdf");
+
+                            CreateZipFile(files, ruta_PDFS_ZIP + @"\" + item.CentroCostos.Replace("\"", "") + @".zip");
+                            Session["Query"] = queryPorCentroCostos;
+                        }
+                    }
+                    byte[] fileBytes = null;
+                    string fileName = string.Empty;
+                    if (archivos.Count > 0)
+                    {
+                        foreach (var item in archivos)
+                        {
+                            fileBytes = System.IO.File.ReadAllBytes(ruta_PDFS_ZIP + @"\" + item + ".zip");
+                            fileName = item + ".zip";
+                        }
+                    }
+
+                    return File(fileBytes ?? new byte[0], System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                }
             }
+            catch (Exception ex)
+            {
+                validacion = ex.Message.ToString();
+
+                return RedirectToAction("ReporteTipoPDf", "ReporteNomina", new { validacion });
+
+            }
+
 
 
         }
@@ -306,108 +342,124 @@ namespace TadaNomina.Controllers.Reportes
         /// </summary>
         /// <param name="id">Periodo de nomina</param>
         /// <returns>Reporte de nomina en formato PDF</returns>
-        public FileResult DescargaDepart(int id)
+        ///         /// Se  agrega un try y un catch
+
+        public ActionResult DescargaDepart(int id)
         {
-            int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
-            int Cliente = (int)Session["sIdCliente"];
+            string validacion;
 
-            cReportesNomina cReportes = new cReportesNomina();
-            var listPer = cReportes.GetPeriodosActivosyCerrados(IdUnidadnegocio);
-            PeriodoNomina act = new PeriodoNomina();
-            act = listPer.Where(x => x.IdPeriodoNomina == id).FirstOrDefault();
-            vRegistroPatronal vista = new vRegistroPatronal();
-            var LisR = cReportes.GetRegistroPatronal(IdUnidadnegocio);
-            vista = LisR.Where(x => x.IdUnidadNegocio == IdUnidadnegocio).FirstOrDefault();
-
-            ClassReportesPDF pdf = new ClassReportesPDF(act, vista);
-
-
-            List<string> files = new List<string>();
-            string formato = "-FORMATO-VariosArchivos";
-            string ruta_PDFS = string.Empty;
-            string ruta_PDFS_ZIP = string.Empty;
-
-            string ruta_Principal = Statics.rutaGralArchivos + @"PDF\" + Session["sIdUnidades"].ToString() + formato + @"\";
-            ruta_PDFS = Statics.rutaGralArchivos + @"PDF\" + Session["sIdUnidades"].ToString() + formato + @"\" + id + @"\PDFS\";
-            ruta_PDFS_ZIP = Statics.rutaGralArchivos + @"PDF\" + Session["sIdUnidades"].ToString() + formato + @"\" + id;
-
-            if (!Directory.Exists(ruta_Principal))
+            try
             {
-                System.IO.Directory.CreateDirectory(ruta_Principal);
-            }
-            else
-            {
-                System.IO.Directory.Delete(ruta_Principal, true);
-            }
+                int IdUnidadnegocio = (int)Session["sIdUnidadNegocio"];
+                int Cliente = (int)Session["sIdCliente"];
+
+                cReportesNomina cReportes = new cReportesNomina();
+                var listPer = cReportes.GetPeriodosActivosyCerrados(IdUnidadnegocio);
+                PeriodoNomina act = new PeriodoNomina();
+                act = listPer.Where(x => x.IdPeriodoNomina == id).FirstOrDefault();
+                vRegistroPatronal vista = new vRegistroPatronal();
+                var LisR = cReportes.GetRegistroPatronal(IdUnidadnegocio);
+                vista = LisR.Where(x => x.IdUnidadNegocio == IdUnidadnegocio).FirstOrDefault();
+
+                ClassReportesPDF pdf = new ClassReportesPDF(act, vista);
 
 
-            if (!Directory.Exists(ruta_PDFS))
-            {
-                System.IO.Directory.CreateDirectory(ruta_PDFS);
-            }
-            else
-            {
-                System.IO.Directory.Delete(ruta_PDFS, true);
-            }
+                List<string> files = new List<string>();
+                string formato = "-FORMATO-VariosArchivos";
+                string ruta_PDFS = string.Empty;
+                string ruta_PDFS_ZIP = string.Empty;
 
+                string ruta_Principal = Statics.rutaGralArchivos + @"PDF\" + Session["sIdUnidades"].ToString() + formato + @"\";
+                ruta_PDFS = Statics.rutaGralArchivos + @"PDF\" + Session["sIdUnidades"].ToString() + formato + @"\" + id + @"\PDFS\";
+                ruta_PDFS_ZIP = Statics.rutaGralArchivos + @"PDF\" + Session["sIdUnidades"].ToString() + formato + @"\" + id;
 
-            using (NominaEntities1 entidad1 = new NominaEntities1())
-            {
-                var query = from b in entidad1.Cat_Departamentos
-                            where b.IdCliente == Cliente
-                            select b;
-
-
-                List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
-
-                using (NominaEntities1 entidad = new NominaEntities1())
+                if (!Directory.Exists(ruta_Principal))
                 {
-                    string consulta = "sp_PDFSunset " + id;
-                    datos = entidad.Database.SqlQuery<sp_PDFSunset1_Result>(consulta).ToList();
+                    System.IO.Directory.CreateDirectory(ruta_Principal);
                 }
-                List<string> archivos = new List<string>();
-                foreach (var item in query)
+                else
                 {
+                    System.IO.Directory.Delete(ruta_Principal, true);
+                }
 
 
-                    List<sp_PDFSunset1_Result> queryPorCentroCostos = (from myRow in datos
-                                                                       where myRow.IdDepartamento == item.IdDepartamento
-                                                                       orderby myRow.Nombre ascending
-                                                                       select myRow).OrderBy(x => x.Puesto).ToList();
+                if (!Directory.Exists(ruta_PDFS))
+                {
+                    System.IO.Directory.CreateDirectory(ruta_PDFS);
+                }
+                else
+                {
+                    System.IO.Directory.Delete(ruta_PDFS, true);
+                }
 
-                    if (queryPorCentroCostos.Count() > 0)
+
+                using (NominaEntities1 entidad1 = new NominaEntities1())
+                {
+                    var query = from b in entidad1.Cat_Departamentos
+                                where b.IdCliente == Cliente
+                                select b;
+
+
+                    List<sp_PDFSunset1_Result> datos = new List<sp_PDFSunset1_Result>();
+
+                    using (NominaEntities1 entidad = new NominaEntities1())
                     {
-                        string archivoFisicotmp = ruta_PDFS + id + "-" + item.Departamento.Replace("\"", "").Trim();
-                        archivos.Add(item.Departamento);
-                        cReportesNomina cn = new cReportesNomina();
-                        int[] periodos = new int[1];
-                        periodos[0] = id;
-                        var ins = cn.GetvInsidenciasdepar(periodos, item.IdDepartamento);
-
-                        pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, queryPorCentroCostos, act);
-                        files.Add(archivoFisicotmp + ".pdf");
+                        string consulta = "sp_PDFSunset " + id;
+                        datos = entidad.Database.SqlQuery<sp_PDFSunset1_Result>(consulta).ToList();
+                    }
+                    List<string> archivos = new List<string>();
+                    foreach (var item in query)
+                    {
 
 
+                        List<sp_PDFSunset1_Result> queryPorCentroCostos = (from myRow in datos
+                                                                           where myRow.IdDepartamento == item.IdDepartamento
+                                                                           orderby myRow.Nombre ascending
+                                                                           select myRow).OrderBy(x => x.Puesto).ToList();
 
-                        CreateZipFile(files, ruta_PDFS_ZIP + @"\" + item.Departamento.Replace("\"", "") + @".zip");
-                        Session["Query"] = queryPorCentroCostos;
+                        if (queryPorCentroCostos.Count() > 0)
+                        {
+                            string archivoFisicotmp = ruta_PDFS + id + "-" + item.Departamento.Replace("\"", "").Trim();
+                            archivos.Add(item.Departamento);
+                            cReportesNomina cn = new cReportesNomina();
+                            int[] periodos = new int[1];
+                            periodos[0] = id;
+                            var ins = cn.GetvInsidenciasdepar(periodos, item.IdDepartamento);
+
+                            pdf.CrearPdf(archivoFisicotmp + ".pdf", ins, queryPorCentroCostos, act);
+                            files.Add(archivoFisicotmp + ".pdf");
+
+
+
+                            CreateZipFile(files, ruta_PDFS_ZIP + @"\" + item.Departamento.Replace("\"", "") + @".zip");
+                            Session["Query"] = queryPorCentroCostos;
+                        }
+
+                    }
+                    byte[] fileBytes = null;
+                    string fileName = string.Empty;
+                    if (archivos.Count > 0)
+                    {
+                        foreach (var item in archivos)
+                        {
+                            fileBytes = System.IO.File.ReadAllBytes(ruta_PDFS_ZIP + @"\" + item + ".zip");
+                            fileName = item + ".zip";
+                        }
                     }
 
-                }
-                byte[] fileBytes = null;
-                string fileName = string.Empty;
-                if (archivos.Count > 0)
-                {
-                    foreach (var item in archivos)
-                    {
-                        fileBytes = System.IO.File.ReadAllBytes(ruta_PDFS_ZIP + @"\" + item + ".zip");
-                        fileName = item + ".zip";
-                    }
-                }
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                validacion = ex.Message.ToString();
+
+                return RedirectToAction("ReporteTipoPDf", "ReporteNomina", new { validacion });
 
             }
+
+
 
 
         }
@@ -1530,6 +1582,35 @@ namespace TadaNomina.Controllers.Reportes
                 {
                     wb.SaveAs(stream);
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+                }
+            }
+        }
+
+
+
+        public ActionResult AusentimosReporte()
+        {
+            ModelReporteByFechas m = new ModelReporteByFechas();
+            return View(m);
+        }
+
+
+
+        public FileResult AusentimosReportes(ModelReporteByFechas m)
+        {
+            int IdUnidadNegocio = int.Parse(Session["sIdUnidadNegocio"].ToString());
+            cReportesNomina reportes = new cReportesNomina();
+            DateTime fInicial = DateTime.Parse(m.fInicial);
+            DateTime fFinal = DateTime.Parse(m.fFinal);
+            DataTable dt = reportes.GetDataTableAusentimos(IdUnidadNegocio, fInicial, fFinal);
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt, "Reporte");
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Ausentismos.xls");
                 }
             }
         }

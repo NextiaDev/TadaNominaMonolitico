@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /TadaNomina/Models/ClassCore/cLog.cs
 /TadaNomina/TadaNomina.csproj
 /TadaNomina/Web.config
+/TadaNomina/Views/_ViewStart.cshtml

@@ -40,6 +40,7 @@ namespace TadaNomina.Models.ClassCore
             model.AjusteImpuestos = periodo.AjusteDeImpuestos;
             model.Periodicidad = periodo.Periodicidad;
             model.AJusteAnual = periodo.AjusteAnual;
+            model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
             
             try { model.PorcentajeISN = (decimal)periodo.PorcentajeISN; } catch { model.PorcentajeISN = 0; }
 
@@ -178,6 +179,8 @@ namespace TadaNomina.Models.ClassCore
                     item.ModuloCaptura = "Comp. RH";
                 if (item.BanderaIncidencia != null)
                     item.ModuloCaptura = "Incidencia";
+                if (item.BanderaConceptoEspecial != null)
+                    item.ModuloCaptura = "Automatica";
             }
 
             return model;
@@ -211,21 +214,28 @@ namespace TadaNomina.Models.ClassCore
         {
             ModelNominaIndividual model = new ModelNominaIndividual();
 
+            ClassPeriodoNomina cperiod = new ClassPeriodoNomina();
             ClassEmpleado classEmpleado = new ClassEmpleado(); 
             vEmpleados empleado = classEmpleado.GetvEmpleado(pIdEmpleado);
 
+            var periodo = cperiod.GetvPeriodoNominasId(pIdPeriodoNomina);
+
             model.IdPeriodoNomina = pIdPeriodoNomina;
+
+            model.NombrePeriodo = periodo.Periodo;
+            model.FechasPeriodo = periodo.FechaInicio.ToShortDateString() + " - " + periodo.FechaFin.ToShortDateString();
             model.IdEmpleado = empleado.IdEmpleado;
             model.claveEmpleado = empleado.ClaveEmpleado;
             model.NombreCompletoEmpleado = empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno + " " + empleado.Nombre;
             try { model.SueldoDiario = string.Format("{0:C2}", empleado.SD); } catch { model.SueldoDiario = "$0.00"; }
             try { model.SueldoDiarioIMSS = string.Format("{0:C2}", empleado.SDIMSS); } catch { model.SueldoDiarioIMSS = "$0.00"; }
             try { model.SDI = string.Format("{0:C2}", empleado.SDI); } catch { model.SDI = "$0.00"; }
-            try { model.SueldoDiarioEsq = string.Format("{0:C2}", (empleado.SD - empleado.SDIMSS)); } catch { model.SueldoDiarioEsq = "$0.00"; }
+            try { model.SueldoDiarioEsq = empleado.Esquema.Trim() != "100% TRADICIONAL" ? string.Format("{0:C2}", (empleado.SD - empleado.SDIMSS)) : "$0.00"; } catch { model.SueldoDiarioEsq = "$0.00"; }
             try { model.NetoPagar = empleado.NetoPagar.ToString(); } catch { model.NetoPagar = "0.00"; }
             try { model.FechaAltaImss = empleado.FechaAltaIMSS.Value.ToShortDateString(); } catch { model.FechaAltaImss = ""; }
-            model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString();
+            try { model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString(); } catch { model.FechaReconocimientoAntiguedad = ""; }
             model.IdEstatus = empleado.IdEstatus;
+            model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
 
             model.ReciboTradicional = new ModelReciboTradicional();
             model.ReciboEsquema = new ModelReciboEsquema();
@@ -233,6 +243,8 @@ namespace TadaNomina.Models.ClassCore
             model.ReciboTradicional.CURP = empleado.Curp;
             model.ReciboTradicional.RFC = empleado.Rfc;
             model.ReciboTradicional.NSS = empleado.Imss;
+            model.ReciboTradicional.SD = empleado.SDIMSS ?? 0;
+            model.ReciboTradicional.SDI = empleado.SDI ?? 0;
 
             int IdCliente = empleado.IdCliente;
 
@@ -319,7 +331,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var incidencias = (from b in entidad.sp_ReciboTradicionalPercepciones(IdPeriodo, IdEmpleado) select b).ToList();
+                var incidencias = entidad.Database.SqlQuery<sp_ReciboTradicionalPercepciones_Result>("sp_ReciboTradicionalPercepciones " + IdPeriodo + ", " + IdEmpleado).ToList();
 
                 return incidencias;
             }

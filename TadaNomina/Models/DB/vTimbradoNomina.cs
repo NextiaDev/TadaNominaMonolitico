@@ -72,5 +72,11 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdCentroCostos { get; set; }
         public string CentroCostos { get; set; }
         public Nullable<int> IdXml { get; set; }
+        public string TipoNomina { get; set; }
+        public Nullable<decimal> Neto { get; set; }
+        public Nullable<decimal> SD { get; set; }
+        public Nullable<int> idSincatosClientes { get; set; }
+        public string BanderaSindicalizados { get; set; }
+        public Nullable<int> IdGrupo { get; set; }
     }
 }

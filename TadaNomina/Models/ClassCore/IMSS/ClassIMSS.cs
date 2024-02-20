@@ -318,6 +318,7 @@ namespace TadaNomina.Models.ClassCore.IMSS
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdCliente", SqlDbType.Int).Value = IdCliente;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;
@@ -339,6 +340,7 @@ namespace TadaNomina.Models.ClassCore.IMSS
                 con.Open();
                 using (SqlCommand cmd = new SqlCommand(sp, con))
                 {
+                    cmd.CommandTimeout = 0;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("IdUnidadNegocio", SqlDbType.Int).Value = IdUnidadNegocio;
                     cmd.Parameters.Add("FechaInicial", SqlDbType.Date).Value = pFechaInicial;

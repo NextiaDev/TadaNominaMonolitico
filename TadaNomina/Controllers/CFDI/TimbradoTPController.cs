@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TadaNomina.Models.ClassCore;
 using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.ClassCore.TimbradoTP;
 using TadaNomina.Models.ViewModels.CFDI;
+using TadaNomina.Services;
 
 namespace TadaNomina.Controllers.CFDI
 {
@@ -27,15 +29,30 @@ namespace TadaNomina.Controllers.CFDI
             int IdCliente = (int)Session["sIdCliente"];
             int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
             int IdUsuario = (int)Session["sIdUsuario"];
+
+            ClassUnidadesNegocio cun = new ClassUnidadesNegocio();
+            var cliente = cun.getClienteById(IdCliente);
+
             ClassTimbradoNomina cperiodo = new ClassTimbradoNomina();
             ModelTimbradoNomina model = cperiodo.GetModeloTimbradoNomina(IdUnidadNegocio);
+
             timbrado.lPeriodos = model.lPeriodos;
 
             try
             {
+                if (cliente.IdPAC == null || cliente.IdPAC == 0) { throw new Exception("No se ha asignado PAC a este cliente. Por favor asigne el PAC con el que se timbrara."); }
                 Guid Id = Guid.NewGuid();
-                ClassTimbrado ct = new ClassTimbrado();
-                ct.TimbradoNomina(timbrado.IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario); 
+
+                if (cliente.IdPAC == 1)
+                {
+                    ClassTimbrado ct = new ClassTimbrado();
+                    ct.TimbradoNomina(timbrado.IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, cliente.IdPAC ?? 1, IdUsuario);
+                }
+
+                if (cliente.IdPAC == 2)
+                {
+                    cperiodo.TimbradoPeriodoNomina(timbrado.IdPeriodoNomina, IdUnidadNegocio, IdCliente, Id, IdUsuario);
+                }
 
                 var timbrados = cperiodo.GetTimbrados(timbrado.IdPeriodoNomina);
                 var errores = cperiodo.GetErrores(timbrado.IdPeriodoNomina, Id);

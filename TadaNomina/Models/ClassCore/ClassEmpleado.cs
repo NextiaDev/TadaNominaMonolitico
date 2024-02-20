@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using TadaNomina.Services;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using System.Data.Entity;
+using System.Linq.Dynamic.Core.Tokenizer;
 
 namespace TadaNomina.Models.ClassCore
 {
@@ -570,7 +571,7 @@ namespace TadaNomina.Models.ClassCore
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                empleados = (from b in entity.Empleados where b.IdUnidadNegocio.Equals(IdUnidadNegocio) && b.IdEstatus == 1 select b).ToList();
+                empleados = entity.Empleados.Where(b=> b.IdUnidadNegocio.Equals(IdUnidadNegocio) && b.IdEstatus == 1).ToList();
             }
 
             return empleados;
@@ -672,6 +673,10 @@ namespace TadaNomina.Models.ClassCore
 
             DateTime? fechaTerminoContrato = null;
             try { fechaTerminoContrato = DateTime.Parse(empleado.FechaTerminoContrato); } catch { }
+            try { empleado.ApellidoMaterno = empleado.ApellidoMaterno ?? " "; } catch { } /// Si el valor apellido materno viene null lo convierte en un espacio
+            try { empleado.Sexo = empleado.Sexo ?? " "; } catch { } /// Si el valor sexo  viene null lo convierte en un espacio
+
+
 
             using (TadaEmpleados entity = new TadaEmpleados())
             {
@@ -736,7 +741,55 @@ namespace TadaNomina.Models.ClassCore
                     {
                         DateTime FechaFinal = DateTime.Today;
                         DateTime FechaInicial = Convert.ToDateTime(empleado.FechaAltaIMSS).Date;
-                        if (FechaInicial <= FechaFinal)
+                        ClassUnidadesNegocio Unidad = new ClassUnidadesNegocio();
+
+                        var dias = Unidad.getUnidadesnegocioId(empleado.IdUnidadNegocio);
+
+                        if (dias.DIasImss != null &&  (dias.DIasImss >= 0 || string.IsNullOrEmpty(dias.DIasImss.ToString())))
+                        {
+
+                            if (dias.DIasImss == 0)
+                            {
+                                entity.Empleados.Add(emp);
+                                value = entity.SaveChanges();
+                                bool i = SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
+                            }
+                            else
+                            {
+                                if (FechaInicial > FechaFinal)
+                                {
+                                    if (GetDiasAdelatados(FechaInicial, FechaFinal) == 1)
+                                    {
+                                        entity.Empleados.Add(emp);
+                                        value = entity.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        value = -2;
+                                    }
+
+                                }
+
+
+                                if (GetDiasHabiles(FechaInicial, FechaFinal) <= dias.DIasImss)
+                                {
+                                    entity.Empleados.Add(emp);
+                                    value = entity.SaveChanges();
+                                    bool i = SetPassEmpleado(emp.IdEmpleado, IdCliente, emp.CorreoElectronico, token);
+                                }
+                                else
+                                {
+                                    value = -1;
+                                }
+
+                            }
+
+
+
+                               
+                        }
+
+                        else if (FechaInicial <= FechaFinal)
                         {
                             if (GetDiasHabiles(FechaInicial, FechaFinal) <= 5)
                             {
@@ -1343,9 +1396,9 @@ namespace TadaNomina.Models.ClassCore
                     emp.ClaveEmpleado = empleado.ClaveEmpleado;
                     emp.Nombre = empleado.Nombre.ToUpper();
                     emp.ApellidoPaterno = empleado.ApellidoPaterno.ToUpper();
-                    emp.ApellidoMaterno = empleado.ApellidoMaterno != null ? empleado.ApellidoMaterno.ToUpper() : "";
-                    //emp.Sexo = empleado.Sexo.ToUpper();
-                    //emp.EstadoCivil = empleado.EstadoCivil.ToUpper();                    
+                    emp.ApellidoMaterno = empleado.ApellidoMaterno != null ? empleado.ApellidoMaterno.ToUpper() : ""; /// Si el valor apellido materno viene null lo convierte en un espacio
+                    emp.Sexo = empleado.Sexo != null ? empleado.Sexo.ToUpper() : "";/// Si el valor sexo  viene null lo convierte en un espacio
+                    emp.EstadoCivil = empleado.EstadoCivil != null ? empleado.EstadoCivil.ToUpper() : ""; /// Si el valor EstadoCivil  viene null lo convierte en un espacio         
                     emp.SD = empleado.SD;
                     emp.SDIMSS = empleado.SDIMSS;
                     emp.IdBancoTrad = empleado.IdBancoTrad;
@@ -1421,8 +1474,62 @@ namespace TadaNomina.Models.ClassCore
                         string resultado = string.Empty;//Validacion de los 5 dias habiles para bajas DRR
                         DateTime FechaFinal = DateTime.Today;//Validacion de los 5 dias habiles para bajas DRR
                         DateTime FechaInicial = Convert.ToDateTime(empleado.FechaBaja);//Validacion de los 5 dias habiles para bajas DRR
+                        ClassUnidadesNegocio Unidad = new ClassUnidadesNegocio();
 
-                        if (FechaInicial <= FechaFinal)
+                        var dias = Unidad.getUnidadesnegocioId(empleado.IdUnidadNegocio);
+
+                        if (dias.DiasMenosImss != null && (dias.DiasMenosImss >= 0 || string.IsNullOrEmpty(dias.DIasImss.ToString())))
+                        {
+                         
+                            if (dias.DiasMenosImss == 0)
+                            {
+                                emp.IdEstatus = empleado.IdEstatus;
+                                emp.FechaBaja = Convert.ToDateTime(empleado.FechaBaja).Date;
+                                emp.MotivoBaja = empleado.MotivoBaja;
+                                emp.Recontratable = empleado.Recontratable;
+                            }
+                            
+                            else
+                            {
+
+                                if(FechaInicial > FechaFinal)
+                                {
+
+                                    if (GetDiasAdelatados(FechaInicial, FechaFinal) <= 1)
+                                    {
+                                        emp.IdEstatus = empleado.IdEstatus;
+                                        emp.FechaBaja = Convert.ToDateTime(empleado.FechaBaja).Date;
+                                        emp.MotivoBaja = empleado.MotivoBaja;
+                                        emp.Recontratable = empleado.Recontratable;
+                                    }
+                                    else
+                                    {
+                                        return -2;
+                                    }
+
+                                }    
+
+
+                               else if (GetDiasHabiles(FechaInicial, FechaFinal) <= dias.DiasMenosImss)
+                                {
+                                    emp.IdEstatus = empleado.IdEstatus;
+                                    emp.FechaBaja = Convert.ToDateTime(empleado.FechaBaja).Date;
+                                    emp.MotivoBaja = empleado.MotivoBaja;
+                                    emp.Recontratable = empleado.Recontratable;
+                                }
+                                else
+                                {
+                                    return -1;
+                                }
+
+                                
+                            }
+
+                            
+                        }
+
+
+                        else if(FechaInicial <= FechaFinal)
                         {
                             if (GetDiasHabiles(FechaInicial, FechaFinal) <= 5)//Validacion de los 5 dias habiles para bajas DRR
                             {
@@ -2751,7 +2858,9 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 ctx = new NominaEntities1())
             {
-                return ctx.sp_Crea_Pass_LaNube(IdEmpleado);
+                string consulta = "sp_Crea_Pass_LaNube " + IdEmpleado;
+                return ctx.Database.ExecuteSqlCommand(consulta);
+                //return ctx.sp_Crea_Pass_LaNube(IdEmpleado);
             }
         }
 

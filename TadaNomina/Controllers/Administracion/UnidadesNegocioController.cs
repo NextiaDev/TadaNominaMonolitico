@@ -33,8 +33,7 @@ namespace TadaNomina.Controllers.Administracion
 
         public ActionResult Config(int id)
         {
-
-
+            Session["sAsignada"] = id;
             return View();
         }
 
@@ -44,7 +43,7 @@ namespace TadaNomina.Controllers.Administracion
             try
             {
                 int IdUnidadNegocio = 0;
-                try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+                try { IdUnidadNegocio = (int)Session["sAsignada"]; } catch { IdUnidadNegocio = 0; }
 
                 var cs = new ClassUnidadesNegocio();
                 var emp = cs.getUnidadesnegocioId(IdUnidadNegocio);
@@ -58,20 +57,24 @@ namespace TadaNomina.Controllers.Administracion
         }
 
         [HttpPost]
-        public JsonResult GuardarEspeciales(string CuotaSindical,  string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA)
+        public JsonResult GuardarEspeciales(string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas ,string DaMenos, string DaMasF, string DaMenosF, string ISRM, string ISRC, string FFD, string FEC, string FS, string FTM)
         {
 
             int IdUnidadNegocio = 0;
-            try { IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch { IdUnidadNegocio = 0; }
+            decimal isrms = 0;
+            try { IdUnidadNegocio = (int)Session["sAsignada"]; } catch { IdUnidadNegocio = 0; }
+            try { isrms = isrms = decimal.Parse(ISRC); } catch { isrms = 0; }
 
 
+           
+            ;
             try
             {
                 if (ModelState.IsValid)
                 {
                     int idUsuario = (int)Session["sIdUsuario"];
                     ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
-                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin,PS,DE, CAA, idUsuario);
+                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, isrms, FFD, FEC, FS, FTM, idUsuario);
 
                     return Json("Exito", JsonRequestBehavior.AllowGet);
                 }
@@ -150,8 +153,8 @@ namespace TadaNomina.Controllers.Administracion
                     ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
                     int idUsuario = (int)Session["sIdUsuario"];
                     int IdCliente = (int)Session["sIdCliente"];
-                    clsUnidad.AddUnidadNegocio(collection, idUsuario, IdCliente);
-                    return RedirectToAction("Index");
+                    clsUnidad.AddUnidadNegocio(collection, idUsuario, IdCliente); 
+                    return RedirectToAction("Index");  
                 }
                 else
                 {
@@ -293,8 +296,10 @@ namespace TadaNomina.Controllers.Administracion
         {
             List<SelectListItem> listConfiguracionSueldos = new List<SelectListItem>();
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Brutos", Value = "Brutos" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Real)", Value = "Netos(Real)" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos)", Value = "Netos(Impuestos)" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida)", Value = "Netos Tradicional(Piramida)" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida ART 93)", Value = "Netos Tradicional(Piramida ART 93)" });
             return listConfiguracionSueldos;
         }
     }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4d82e768d5fb447790b86f5a043f3350" Name="Diagram1" ZoomLevel="80">
+      <Diagram DiagramId="4d82e768d5fb447790b86f5a043f3350" Name="Diagram1" ZoomLevel="105">
         <EntityTypeShape EntityType="TadaNominaModel.vDepartamentos" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_AgrupadorConceptos" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Departamentos" Width="1.5" PointX="8" PointY="9" />
@@ -15,13 +15,11 @@
         <EntityTypeShape EntityType="TadaNominaModel.ActividadEconomica" Width="1.5" PointX="12.375" PointY="7.75" />
         <EntityTypeShape EntityType="TadaNominaModel.ImpuestoSat" Width="1.5" PointX="12.375" PointY="10.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_TipoNomina" Width="1.5" PointX="14.375" PointY="0.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.FactorIntegracion" Width="2" PointX="10.375" PointY="14.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionFechasCalculos" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionFechasCalculos" Width="3" PointX="15.375" PointY="15.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Comunicados" Width="1.5" PointX="16.375" PointY="8.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vComunicados" Width="1.5" PointX="0.75" PointY="17.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Puestos" Width="1.5" PointX="3.375" PointY="17.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Bancos" Width="1.5" PointX="8.75" PointY="5.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_RegistroPatronal" Width="1.5" PointX="7.75" PointY="17.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_TipoAusentismo" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_TipoIncapacidad" Width="1.5" PointX="18.75" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vTipoAusentismo" Width="1.5" PointX="18.75" PointY="3.75" />
@@ -39,17 +37,22 @@
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Sucursales" Width="1.5" PointX="21.375" PointY="19.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_HonorariosFacturas" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.vUnidadesNegocio" Width="1.5" PointX="16.375" PointY="24.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_Clientes" Width="1.5" PointX="23.375" PointY="0.75" />
         <EntityTypeShape EntityType="TadaNominaModel.EmpleadoInformacionComplementaria" Width="1.5" PointX="20.625" PointY="34.375" />
         <EntityTypeShape EntityType="TadaNominaModel.Empleados" Width="1.5" PointX="18.375" PointY="26.75" />
         <AssociationConnector Association="TadaNominaModel.FK_EmpleadoInformacionComplementaria_Empleados" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_SindicatoCliente" Width="1.5" PointX="0.75" PointY="13.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" Width="1.5" PointX="20.375" PointY="8.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" Width="1.5" PointX="10.375" PointY="24.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="23.375" PointY="8.75" />
-        <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="23.375" PointY="20.75" />
         <EntityTypeShape EntityType="TadaNominaModel.FormulasEquivalencias" Width="1.5" PointX="12.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Conceptos_Factores" Width="1.5" PointX="14.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.vConfiguracionConceptosFiniquitos" Width="1.5" PointX="10.375" PointY="24.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.ConfiguracionConceptosFiniquito" Width="1.5" PointX="20.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_UnidadNegocio" Width="1.5" PointX="3.375" PointY="22.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_Clientes" Width="1.5" PointX="25.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_NominaSAT" Width="1.5" PointX="25.375" PointY="9.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_RegimenFiscal" Width="1.5" PointX="3.375" PointY="14.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_RegistroPatronal" Width="1.5" PointX="5.375" PointY="17.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.Cat_ConceptosNomina" Width="1.5" PointX="7.375" PointY="17.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="22.375" PointY="7.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.FactorIntegracion" Width="1.5" PointX="9.375" PointY="17.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

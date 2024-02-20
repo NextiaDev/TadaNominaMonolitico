@@ -20,27 +20,25 @@
         </div>
 
         <div class="panel-body">
-            @Html.ActionLink(" Crear Nueva Unidad de Negocio", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <a href="@Url.Action("Create")" class="btn btn-info btn-sm _Load"><span class="fa fa-plus"></span> Crear Nueva Unidad de Negocio</a>           
             <br />
             <br />
             <table id="demo-dt-selection" class="table table-striped table-hover table-sm" cellpadding="0" width="100%">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Cliente)
+                            Cliente
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.UnidadNegocio)
+                            Unidad
                         </th>
 
                         <th>
-                            @Html.DisplayNameFor(model => model.TipoNomina)
+                            Tipo Nómina
                         </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.PorcentajeISN)
-                        </th>*@
+                      
                         <th>
-                            @Html.DisplayNameFor(model => model.ConfiguracionSueldos)
+                            Conf. Sueldos
                         </th>
                         <th></th>
                     </tr>
@@ -59,18 +57,17 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.TipoNomina)
                             </td>
-                             @*<td>
-                                @Html.DisplayFor(modelItem => item.PorcentajeISN)
-                            </td>*@
+                           
                               <td>
                                 @Html.DisplayFor(modelItem => item.ConfiguracionSueldos)
                             </td>
-                              <td>
-                                  @Html.ActionLink("  ", "Edit", new { id = item.IdUnidadNegocio }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @tittle = "Editar" }) |
-                                  @Html.ActionLink("  ", "Config", new { id = item.IdUnidadNegocio }, new { @class = "btn btn-default btn-sm fa fa-gear _Load", @rel = "tooltip", @tittle = "Configurar" }) |
+                              <td>                                  
+                                  <a href="@Url.Action("Edit", new { id = item.IdUnidadNegocio })" class="add-tooltip" data-id="@item.IdUnidadNegocio" title="Editar"><span class="btn btn-default btn-sm fa fa-edit"></span></a> |
 
-                                  <a href="#" class="anchorDetail" data-id="@item.IdUnidadNegocio" rel="tooltip" , title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a> |
-                                  <a href="#" class="anchorDelete" data-id="@item.IdUnidadNegocio" rel="tooltip" , title="Eliminar"><span class="btn btn-default btn-sm fa fa-remove"></span></a>
+                                  <a href="#" class="anchorDetail add-tooltip" data-id="@item.IdUnidadNegocio" title="Detalle"><span class="btn btn-default btn-sm fa fa-search"></span></a> |
+                                  <a href="#" class="anchorDelete add-tooltip" data-id="@item.IdUnidadNegocio" title="Eliminar"><span class="btn btn-danger btn-sm fa fa-trash"></span></a> |
+                                  <a href="@Url.Action("Config", new { id = item.IdUnidadNegocio })" class="add-tooltip" data-id="@item.IdUnidadNegocio" title="Configurar"><span class="btn btn-dark btn-sm fa fa-gear"></span></a> 
+                                  
                               </td>
                         </tr>
                     }

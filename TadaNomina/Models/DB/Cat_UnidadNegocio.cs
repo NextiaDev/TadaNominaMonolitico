@@ -62,6 +62,7 @@ namespace TadaNomina.Models.DB
         public string CalcularLiquidacionSDI { get; set; }
         public string ISRAguinaldoL174 { get; set; }
         public string ISRProyeccionMensual { get; set; }
+        public string SubsidioProyeccionMensual { get; set; }
         public Nullable<decimal> FactorDiasMesISR { get; set; }
         public string GenerarIntegradoPVyAgui { get; set; }
         public string ValidaFechaSubirArchivo { get; set; }
@@ -77,5 +78,8 @@ namespace TadaNomina.Models.DB
         public string BanderaDiasEquivalentes { get; set; }
         public string BanderaCargasSocialesSinFaltas { get; set; }
         public string BanderaCuotaSindical { get; set; }
+        public string BanderaDiasAguinaldo { get; set; }
+        public Nullable<int> DIasImss { get; set; }
+        public Nullable<int> DiasMenosImss { get; set; }
     }
 }

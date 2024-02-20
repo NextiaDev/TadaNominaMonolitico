@@ -59,6 +59,18 @@ namespace TadaNomina.Models.ClassCore
         }
 
         /// <summary>
+        /// Obtiene los tipos de periodo que se pueden ejecutar en el sistema.
+        /// </summary>
+        /// <returns></returns>
+        public List<Cat_TipoPeriodo> getTipoPeriodoNomina()
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                return entidad.Cat_TipoPeriodo.Where(x => x.IdEstatus == 1).ToList();
+            }
+        }
+
+        /// <summary>
         /// Método que lista los periodo de nómina por unidad de negocio que contenga los estatus del arreglo.
         /// </summary>
         /// <param name="IdUnidadNegocio">Recibe el identificador de la unidad negocio.</param>
@@ -453,14 +465,9 @@ namespace TadaNomina.Models.ClassCore
         public ModelPeriodoNomina FindListPeriodos(int IdUnidadNegocio)
         {
             List<SelectListItem> _TipoNomima = new List<SelectListItem>();
-            _TipoNomima.Add(new SelectListItem { Text = "Nomina", Value = "Nomina" });
-            _TipoNomima.Add(new SelectListItem { Text = "Complemento", Value = "Complemento" });
-            _TipoNomima.Add(new SelectListItem { Text = "Finiquitos", Value = "Finiquitos" });
-            _TipoNomima.Add(new SelectListItem { Text = "Aguinaldo", Value = "Aguinaldo" });
-            _TipoNomima.Add(new SelectListItem { Text = "PTU", Value = "PTU" });
-            _TipoNomima.Add(new SelectListItem { Text = "Proyección", Value = "Proyeccion" });
-            _TipoNomima.Add(new SelectListItem { Text = "Honorarios", Value = "Honorarios" });
-
+            var tipoPeriodo = getTipoPeriodoNomina();
+            tipoPeriodo.ForEach(x => _TipoNomima.Add(new SelectListItem { Text = x.TipoPeriodo, Value = x.TipoPeriodo }));
+            
             List<SelectListItem> _AjusteImp = new List<SelectListItem>();
             _AjusteImp.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _AjusteImp.Add(new SelectListItem { Text = "NO", Value = "NO" });
@@ -493,13 +500,9 @@ namespace TadaNomina.Models.ClassCore
         public ModelPeriodoNomina FindListPeriodos(ModelPeriodoNomina model, int IdUnidadNegocio)
         {
             List<SelectListItem> _TipoNomima = new List<SelectListItem>();
-            _TipoNomima.Add(new SelectListItem { Text = "Nomina", Value = "Nomina" });
-            _TipoNomima.Add(new SelectListItem { Text = "Complemento", Value = "Complemento" });
-            _TipoNomima.Add(new SelectListItem { Text = "Finiquitos", Value = "Finiquitos" });
-            _TipoNomima.Add(new SelectListItem { Text = "Honorarios", Value = "Honorarios" });
-            _TipoNomima.Add(new SelectListItem { Text = "Aguinaldo", Value = "Aguinaldo" });
-            _TipoNomima.Add(new SelectListItem { Text = "PTU", Value = "PTU" });
-
+            var tipoPeriodo = getTipoPeriodoNomina();
+            tipoPeriodo.ForEach(x => _TipoNomima.Add(new SelectListItem { Text = x.TipoPeriodo, Value = x.TipoPeriodo }));
+            
             List<SelectListItem> _AjusteImp = new List<SelectListItem>();
             _AjusteImp.Add(new SelectListItem { Text = "SI", Value = "SI" });
             _AjusteImp.Add(new SelectListItem { Text = "NO", Value = "NO" });
@@ -695,7 +698,9 @@ namespace TadaNomina.Models.ClassCore
             {
                 try
                 {
-                    entidad.sp_AcumulaPeriodoNomina(IdPeriodoNomina, IdUsuario, FechaDispersion);
+                    string fecha = FechaDispersion.ToString("yyyyMMdd");
+                    string consulta = "sp_AcumulaPeriodoNomina " + IdPeriodoNomina + ", " + IdUsuario + ", '" + fecha + "'";
+                    entidad.Database.ExecuteSqlCommand(consulta);
                 }
                 catch (Exception ex)
                 {
@@ -716,7 +721,8 @@ namespace TadaNomina.Models.ClassCore
             {
                 try
                 {
-                    entidad.sp_DesAcumulaPeriodoNomina(IdPeriodoNomina);
+                    string consulta = "sp_DesAcumulaPeriodoNomina " + IdPeriodoNomina;
+                    entidad.Database.ExecuteSqlCommand(consulta);
                 }
                 catch (Exception ex)
                 {

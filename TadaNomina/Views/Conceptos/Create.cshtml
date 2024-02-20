@@ -13,7 +13,14 @@
 </div>
 
 <div id="page-content">
-    @using (Html.BeginForm())
+    @using (Ajax.BeginForm("Create", "Conceptos", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "OnBegin",
+        OnComplete = "OnComplete",
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure"
+    }))
     {
         @Html.AntiForgeryToken()
         <div class="panel">
@@ -22,8 +29,24 @@
                     <h3 class="panel-title">Información General</h3>
                 </div>
                 <div class="panel-body">
+                    <i>* Campos obligatorios</i>
+                    <br />
+                    <div id="mensajeError" data-text="@Model.mensaje"></div>
                     <div class="form-horizontal">
                         <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TipoConcepto, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.TipoConcepto, Model.LTipoConcepto, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "_TipoConcepto" })
+                                @Html.ValidationMessageFor(model => model.TipoConcepto, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.ClaveSAT, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(model => model.ClaveSAT, Model.lClaveSat, "Elegir...", htmlAttributes: new { @class = "form-control", @id = "IdCatSat" })
+                                @Html.ValidationMessageFor(model => model.ClaveSAT, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.ClaveGpo, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
@@ -35,11 +58,7 @@
                                 @Html.EditorFor(model => model.ClaveConcepto, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
                                 @Html.ValidationMessageFor(model => model.ClaveConcepto, "", new { @class = "text-danger" })
                             </div>
-                            @Html.LabelFor(model => model.ClaveSAT, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.EditorFor(model => model.ClaveSAT, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                                @Html.ValidationMessageFor(model => model.ClaveSAT, "", new { @class = "text-danger" })
-                            </div>
+
                         </div>
 
                         <div class="form-group">
@@ -70,11 +89,11 @@
                     <div class="form-horizontal">
                         <hr />
                         <div class="form-group">
-                            @Html.LabelFor(model => model.TipoConcepto, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(model => model.TipoConcepto, Model.LTipoConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.TipoConcepto, "", new { @class = "text-danger" })
-                            </div>
+                            @*@Html.LabelFor(model => model.TipoConcepto, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-2">
+                                    @Html.DropDownListFor(model => model.TipoConcepto, Model.LTipoConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoConcepto, "", new { @class = "text-danger" })
+                                </div>*@
                             @Html.LabelFor(model => model.TipoDato, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.TipoDato, Model.LTipoDato, "Elegir...", htmlAttributes: new { @class = "form-control", @onchange = "ValidaDiasHoras(this.value)" })
@@ -124,17 +143,65 @@
                         </div>
 
                         <div class="form-group">
+
                             @Html.LabelFor(model => model.sumaNetoFinal, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.sumaNetoFinal, Model.lSumaNeto, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.sumaNetoFinal, "", new { @class = "text-danger" })
                             </div>
+
+                            @Html.LabelFor(model => model.MultiplicacDiasTrabajados, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.MultiplicacDiasTrabajados, Model.lMultiplicaDiasTrabajados, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MultiplicacDiasTrabajados, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TablaFactores, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.TablaFactores, Model.lstTablaFactores, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TablaFactores, "", new { @class = "text-danger" })
+                            </div>
+
+
                             @Html.LabelFor(model => model.FactoryValor, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.FactoryValor, Model.lFactoryValor, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.FactoryValor, "", new { @class = "text-danger" })
                             </div>
+                            @*<div class="col-md-4">
+                                    <a href="#" class="btn btn-dark btn-sm"><span class="fa fa-cogs"></span> Configurar Tabla de Factores</a>
+                                </div>*@
                         </div>
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CalculoAutomatico, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.CalculoAutomatico, Model.lstPagoAutomatico, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CalculoAutomatico, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.Orden, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Orden, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Orden, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Formula, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-9">
+                                @Html.TextAreaFor(model => model.Formula, new { @class = "form-control", @rows = 5 })
+
+                            </div>
+                            <div class="col-md-1">
+                                <span class="fa fa-info-circle fa-2x" id="infoEquivalencias"></span>
+                            </div>
+                        </div>
+
                         <br />
                     </div>
                 </div>
@@ -158,6 +225,11 @@
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.IntegraSDI, Model.LIntegraSDI, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.IntegraSDI, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IntegraISN, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.IntegraISN, Model.LIntegraISN, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IntegraISN, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -212,11 +284,7 @@
                     <div class="form-horizontal">
                         <hr />
                         <div class="form-group">
-                            @Html.LabelFor(model => model.MultiplicacDiasTrabajados, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(model => model.MultiplicacDiasTrabajados, Model.lMultiplicaDiasTrabajados, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.MultiplicacDiasTrabajados, "", new { @class = "text-danger" })
-                            </div>
+
                             @Html.LabelFor(model => model.Piramida, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.Piramida, Model.lPiramidal, "Elegir...", htmlAttributes: new { @class = "form-control" })
@@ -227,9 +295,6 @@
                                 @Html.DropDownListFor(model => model.PagoEfectivo, Model.lPagoEfectivo, "Elegir...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.PagoEfectivo, "", new { @class = "text-danger" })
                             </div>
-                        </div>
-
-                        <div class="form-group">
                             <div id="Pension">
                                 @Html.LabelFor(model => model.IntegraPension, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-2">
@@ -237,6 +302,9 @@
                                     @Html.ValidationMessageFor(model => model.IntegraPension, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group">
                             @Html.LabelFor(model => model.ConceptoAdicional, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 @Html.DropDownListFor(model => model.ConceptoAdicional, Model.lConceptoAdicional, "Elegir...", htmlAttributes: new { @class = "form-control", onchange = "myFunctiontres();", @id = "_Valor" })
@@ -244,38 +312,13 @@
                             </div>
                             <div id="Conceptosd" style="display: none">
                                 @Html.LabelFor(model => model.ClaveConceptos, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.DropDownListFor(model => model.ClaveConceptos, Model.LClaveConcepto, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(model => model.ClaveConceptos, Model.LClaveConcepto, "Elegir...", htmlAttributes: new { @class = "form-control", id = "chosen" })
                                     @Html.ValidationMessageFor(model => model.ClaveConceptos, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                         </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.CalculoAutomatico, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(model => model.CalculoAutomatico, Model.lstPagoAutomatico, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.CalculoAutomatico, "", new { @class = "text-danger" })
-                            </div>
-                            @Html.LabelFor(model => model.Orden, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.EditorFor(model => model.Orden, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Orden, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Formula, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-9">
-                                @Html.TextAreaFor(model => model.Formula, new { @class = "form-control", @rows = 5 })
-
-                            </div>
-                            <div class="col-md-1">
-                                <span class="fa fa-info-circle fa-2x" id="infoEquivalencias"></span>
-                            </div>
-                        </div>
-
 
                     </div>
                 </div>
@@ -310,14 +353,17 @@
             <div class="panel">
                 <div class="panel-footer">
                     <div class="form-group" style="text-align:right">
-                        <input type="submit" value="Guardar" class="btn btn-primary btn-sm _Aceptar" />
-                        @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm _Back" })
+                        <button type="submit" class="btn btn-primary btn-sm"><span class="fa fa-save"></span> Guardar</button>
+                        <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
+
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
+
+<div id="ruta" data-redirect="@Url.Action("Index","Conceptos")"></div>
 
 <div class="modal fade" id="modalInfo" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -345,64 +391,159 @@
                 <strong>EXCEPTO:001, 002, 003</strong>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
 
+@section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/jquery.loading.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
 
-<script>
-    function myFunctiontres() {
-        var x = document.getElementById("_Valor").value;
+        $(document).ready(function () {
+            var mensaaje = $("#mensajeError").attr('data-text');
 
-        if (x == "SI") {
-            $('#Conceptosd').css("display", "block");
-
-
-        }
-        else {
-            $('#Conceptosd').css("display", "none");
-
-        }
-    }
-
-    function ValidaDiasHoras(TipoDato) {
-        debugger;
-        if (TipoDato == "Cantidades") {
-            $("#IdDiasHoras").prop("disabled", false);
-        } else {
-            $("#IdDiasHoras").prop("disabled", true);
-            $("#IdDiasHoras").val(null);
-        }
-    }
-
-    $("#infoEquivalencias").click(function () {
-        $.ajax({
-            type: 'POST',
-            url: 'getPalabrasReservadas',
-            success: function (result) {
-                var table = "<div class='text-right'>";
-                table += "</div><br />";
-                table += "<table class='table table-hover table-sm'>";
-                table += "<tr style='background-color:#CCCCCC'><th>Clave</th><th>Descripcion</th></tr>";
-
-                for (var i = 0; i < result.length; i++) {
-                    var cve = result[i].ClaveEmpleado;
-                    var cls = "";
-                    if (result[i].Estatus == "ACTIVO") { cls = "success" } else { cls = "danger" }
-                    table += "<tr>";
-                    table += "<td>" + result[i].Clave + "</<td>";
-                    table += "<td>" + result[i].Descripcion + "</td>";
-                    
-                    table += "</tr>"
-                }
-
-                table += "</table>";
-
-                $("#tablaEquiv").html(table);                
+            if (mensaaje.length > 0) {
+                mensajeAlerta("Atencion!", mensaaje, "danger", "jelly", "fadeOut", 4500);
             }
         });
-        $("#modalInfo").modal('show');
-    });
-</script>
+
+        function myFunctiontres() {
+            var x = document.getElementById("_Valor").value;
+
+            if (x == "SI") {
+                $('#Conceptosd').css("display", "block");
+                $('#chosen').chosen({
+                    width: '100%'
+                });
+                $('#chosen').val('');
+                $("#chosen").trigger("chosen:updated");
+            }
+            else {
+                $('#Conceptosd').css("display", "none");
+
+            }
+        }
+
+        $("#_TipoConcepto").change(function () {
+            var tipo = $(this).val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'CargaCatalogoSAT',
+                data: { tipo },
+                success: function (result) {
+
+                    $('#IdCatSat').empty();
+                    var newItemElegir = $('<option/>').text("Elegir...").val("0");
+                    $('#IdCatSat').append(newItemElegir);
+                    $.each(result.catalogo, function (index, value) {
+                        var newItem = $('<option/>').text(value.Clave + ' - ' + value.Descripcion).val(value.Clave);
+                        $('#IdCatSat').append(newItem);
+                    });
+                },
+                error(ex) {
+
+                }
+            });
+        });
+
+        function ValidaDiasHoras(TipoDato) {
+            debugger;
+            if (TipoDato == "Cantidades") {
+                $("#IdDiasHoras").prop("disabled", false);
+            } else {
+                $("#IdDiasHoras").prop("disabled", true);
+                $("#IdDiasHoras").val(null);
+            }
+        }
+
+        $("#infoEquivalencias").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: 'getPalabrasReservadas',
+                success: function (result) {
+                    var table = "<div class='text-right'>";
+                    table += "</div><br />";
+                    table += "<table class='table table-hover table-sm'>";
+                    table += "<tr style='background-color:#CCCCCC'><th>Clave</th><th>Descripcion</th></tr>";
+
+                    for (var i = 0; i < result.length; i++) {
+                        var cve = result[i].ClaveEmpleado;
+                        var cls = "";
+                        if (result[i].Estatus == "ACTIVO") { cls = "success" } else { cls = "danger" }
+                        table += "<tr>";
+                        table += "<td>" + result[i].Clave + "</<td>";
+                        table += "<td>" + result[i].Descripcion + "</td>";
+
+                        table += "</tr>"
+                    }
+
+                    table += "</table>";
+
+                    $("#tablaEquiv").html(table);
+                }
+            });
+            $("#modalInfo").modal('show');
+        });
+
+        function mensajeAlerta(icon, titulo, mensaje, tipo, animationIn, animationOut, time) {
+            $.niftyNoty({
+                type: tipo,
+                container: 'floating',
+                title: titulo,
+                message: mensaje,
+                closeBtn: true,
+                floating: {
+                    position: 'top-center',
+                    animationIn: animationIn,
+                    animationOut: animationOut
+                },
+                focus: true,
+                timer: time,
+                icon: icon
+            });
+        }
+
+        function OnBegin() {
+            $.showLoading({
+                name: 'jump-pulse'
+            });
+        }
+
+        function OnComplete() {
+            $.hideLoading();
+        }
+
+        function OnSuccess(data) {
+            if (data > 0) {
+                mensajeAlerta("fa fa-smile-o fa-2x", "Conceptos", "El concepto fue agregado correctamente", "success", "fadeIn", "fadeOut", 2000);
+                setTimeout(function () {
+                    window.location.replace($('#ruta').attr('data-redirect'));
+                }, 2000);
+            }
+            else if (data < 0) {
+                mensajeAlerta("fa fa-meh-o fa-2x", "Conceptos", "Hubo problemas al guardar el registro, intente nuevamente", "warning", "fadeIn", "fadeOut", 2000);
+                setTimeout(function () {
+                    window.location.replace($('#ruta').attr('data-redirect'));
+                }, 2000);
+            }
+            else {
+                mensajeAlerta("fa fa-meh-o fa-2x", "Conceptos", data, "warning", "fadeIn", "fadeOut", 2000);
+                setTimeout(function () {
+                    window.location.replace($('#ruta').attr('data-redirect'));
+                }, 2000);
+            }
+        }
+
+        function OnFailure() {
+            $.hideLoading();
+            mensajeAlerta("fa fa-frown-ofa-2x", "Conceptos", "Huo problemas de conexion, favor de comunicarse con su administrador", "danger", "fadeIn", "fadeOut", 2000);
+        }
+    </script>
+}

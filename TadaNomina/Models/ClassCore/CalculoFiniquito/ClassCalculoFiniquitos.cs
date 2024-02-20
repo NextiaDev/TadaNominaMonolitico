@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -51,6 +52,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 SD_IMSS = GetSD(item.SDIMSS);
                 SD_Real = GetSD(item.SD);
                 AniosEsquema = 0;
+                nominaTrabajo.FechaAltaIMSS = item.FechaAltaIMSS;
+                nominaTrabajo.FechaReconocimientoAntiguedad = item.FechaReconocimientoAntiguedad;
 
                 configuracionFiniquito = ListConfiguracionFiniquito.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == _IdPeriodoNomina && x.IdEstatus == 1).FirstOrDefault();                                
                 try { _fechaBaja = (DateTime)configuracionFiniquito.FechaBajaFin; } catch { try { _fechaBaja = (DateTime)item.FechaBaja; } catch { _fechaBaja = DateTime.Now; } }
@@ -126,7 +129,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
 
             CalculaBaseGravadaLiquidacion();            
             CalculaISR();
-            Calcula_Cuotas_Obreras();
+            Calcula_Cuotas_Obreras(null);
 
 
             nominaTrabajo.ER += nominaTrabajo.SubsidioPagar;
@@ -258,6 +261,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         {
             try
             {
+                FechaBaja = DateTime.Parse(FechaBaja.ToString("dd/MM/yyyy"));
                 DateTime FechaIncio = DateTime.Parse(FechaAlta.Day + "/" + FechaAlta.Month + "/" + FechaBaja.Year);
                 int numeroDias = FechaBaja.Subtract(FechaIncio).Days;
                 if (numeroDias < 0)
@@ -481,7 +485,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         }
 
         /// <summary>
-        ///     
+        ///  Calcula la base gravada d los conceptos que involucran la liquidación.   
         /// </summary>
         /// <exception cref="Exception"></exception>
         private void CalculaBaseGravadaLiquidacion()
@@ -493,11 +497,12 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             decimal TotalLiquidacion = 0;
             int? IdConceptoI90d = null;
             int? IdConcepto20d = null;  
-            int? IdConceptoPA = null;  
-
-            try { IdConceptoI90d = conceptosFiniquitos.IdConceptoIndem3M; } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
-            try { IdConcepto20d = conceptosFiniquitos.IdConceptoIndem20D; } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
-            try { IdConceptoPA = conceptosFiniquitos.IdConceptoIndemPA; } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
+            int? IdConceptoPA = null; 
+            List<int?> idsLiquidacion = new List<int?>();
+            
+            try { IdConceptoI90d = conceptosFiniquitos.IdConceptoIndem3M; idsLiquidacion.Add(IdConceptoI90d); } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
+            try { IdConcepto20d = conceptosFiniquitos.IdConceptoIndem20D; idsLiquidacion.Add(IdConcepto20d); } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
+            try { IdConceptoPA = conceptosFiniquitos.IdConceptoIndemPA; idsLiquidacion.Add(IdConceptoPA); } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
 
             indem90d = (decimal)incidenciasEmpleado.Where(x => x.IdConcepto == IdConceptoI90d).Select(x => x.Monto).Sum();
             indem20d = (decimal)incidenciasEmpleado.Where(x => x.IdConcepto == IdConcepto20d).Select(x => x.Monto).Sum();
@@ -520,8 +525,10 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             }
 
             nominaTrabajo.BaseGravadaLiquidacion = GravadoLiquidacion;
-
-            if (indem90d > 0 && indem20d > 0 && indemPA > 0)
+            nominaTrabajo.TotalLiquidacion = TotalLiquidacion;
+            nominaTrabajo.ExentoLiquidacion = ExentoLiquidacion;            
+            
+            if ((indem90d > 0 && indem20d > 0 && indemPA > 0) || (indem90d > 0 && indem20d > 0) || (indem20d > 0 && indemPA > 0) || (indem90d > 0 && indemPA > 0))
             {
                 decimal SMO = SD_IMSS * 30;
                 decimal ISR_SMO = CalculaISR(SMO, Periodo.FechaFin, "05", false);
@@ -530,6 +537,55 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             }
             else
                 nominaTrabajo.ISRLiquidacion = CalculaISR((decimal)nominaTrabajo.BaseGravadaLiquidacion, Periodo.FechaFin, "05", false);
+
+            updateExentosGravadosLiquidacion(idsLiquidacion.ToArray());
+        }
+
+        /// <summary>
+        /// se actualizan los gravados y excentos en los conceptos de liquidación de forma proporcional.
+        /// </summary>
+        /// <param name="indem90d">importe del concepto 3 meses de indemnización</param>
+        /// <param name="indem20d">importe del copncepto 20 dias por año</param>
+        /// <param name="indemPA">importe del concepto prima de antiguedad</param>
+        /// <param name="TotalLiquidacion">importe total de la liquidación</param>
+        /// <param name="ExentoLiquidacion">importe total exento de la liquidación</param>
+        public void updateExentosGravadosLiquidacion(decimal indem90d, decimal indem20d, decimal indemPA, decimal TotalLiquidacion, decimal ExentoLiquidacion)
+        {
+            decimal cienPorciento = 100;
+            decimal porcentajeindem90d = ((indem90d * cienPorciento) / TotalLiquidacion) * 0.01M;
+            decimal porcentajeindem20d = ((indem20d * cienPorciento) / TotalLiquidacion) * 0.01M;
+            decimal porcentajeindemPA = ((indemPA * cienPorciento) / TotalLiquidacion) * 0.01M;            
+        }
+
+        public void updateExentosGravadosLiquidacion(int?[] idsConceptosLiquidacion)
+        {
+            List<vIncidencias> incidenciasLiquidacion = incidenciasEmpleado.Where(x => idsConceptosLiquidacion.Contains((int)x.IdConcepto)).ToList();
+
+            decimal cienPorciento = 100;
+            foreach (var i in incidenciasLiquidacion)
+            { 
+                decimal porcentajeIndem = (((i.Monto ?? 0) * cienPorciento) / (nominaTrabajo.TotalLiquidacion ?? 1 )) * 0.01M;
+                decimal exento = Math.Round(porcentajeIndem * (nominaTrabajo.ExentoLiquidacion ?? 1), 2);
+                decimal gravado = (i.Monto ?? 0) - exento;
+
+                updateExentosGravadoLiquidacion(i.IdIncidencia, exento, gravado);
+            }
+        }
+
+        public void updateExentosGravadoLiquidacion(int IdIncidencia, decimal Exento, decimal Gravado)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var incidencia = entidad.Incidencias.Where(x => x.IdIncidencia == IdIncidencia).FirstOrDefault();
+
+                if (incidencia != null)
+                {
+                    incidencia.Exento = Exento;
+                    incidencia.Gravado = Gravado;
+
+                    entidad.SaveChanges();
+                }
+            }
         }
 
         /// <summary>

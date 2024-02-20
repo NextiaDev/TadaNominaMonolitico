@@ -28,8 +28,120 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE,string CAA, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, decimal? ISRC, string FFD, string FEC, string FS, string FTM, int pIdUsuario)
         {
+            if (bool.Parse(FFD) == true)
+            {
+                FFD = "S";
+            }
+            else
+            {
+                FFD = "N";
+
+            }
+
+            if (bool.Parse(FEC) == true)
+            {
+                FEC = "S";
+            }
+            else
+            {
+                FEC = "N";
+
+            }
+
+            if (bool.Parse(FS) == true)
+            {
+                FS = "S";
+            }
+            else
+            {
+                FS = "N";
+
+            }
+
+            if (bool.Parse(FTM) == true)
+            {
+                FTM = "S";
+            }
+            else
+            {
+                FTM = "N";
+
+            }
+
+
+
+
+
+
+
+
+            if (bool.Parse(ISRM) == true)
+            {
+                ISRM = "S";
+            }
+            else
+            {
+                ISRM = "N";
+
+            }
+
+            if (bool.Parse(DaMasF) == true)
+            {
+                DaMasF = "S";
+            }
+            else
+            {
+                DaMasF = "N";
+
+            }
+
+
+            if (bool.Parse(DaMenosF) == true)
+            {
+                DaMenosF = "S";
+            }
+            else
+            {
+                DaMenosF = "N";
+
+            }
+
+
+            if (bool.Parse(DaMas) == true)
+            {
+                DaMas = "S";
+            }
+            else
+            {
+                DaMas = "N";
+
+            }
+
+
+            if (bool.Parse(DaMenos) == true)
+            {
+                DaMenos = "S";
+            }
+            else
+            {
+                DaMenos = "N";
+
+            }
+
+
+
+
+            if (bool.Parse(AEC) == true)
+            {
+                AEC = "S";
+            }
+            else
+            {
+                AEC = "N";
+
+            }
 
             if (bool.Parse(PS) == true)
             {
@@ -71,7 +183,7 @@ namespace TadaNomina.Models.ClassCore
                 CuotaSindical = "N";
 
             }
-       
+
             if (bool.Parse(CargasSFaltas) == true)
             {
                 CargasSFaltas = "S";
@@ -83,7 +195,7 @@ namespace TadaNomina.Models.ClassCore
             }
             if (bool.Parse(DiasEquiv) == true)
             {
-                DiasEquiv = "S";
+                DiasEquiv = "SI";
             }
             else
             {
@@ -180,13 +292,26 @@ namespace TadaNomina.Models.ClassCore
                     unidad.PercepcionesEspeciales = PS;
                     unidad.DeduccionesEspeciales = DE;
                     unidad.ConsideraAusentismosEnAguinaldo = CAA;
+                    unidad.AguinaldoExentoCompleto = AEC;
                     unidad.FechaModificacion = DateTime.Now;
-
+                    unidad.DIasImss = DImss;
+                    unidad.DiasMenosImss = DImssB;
+                    unidad.DiasAltaMas = DaMas;
+                    unidad.DiasAltaMenos = DaMenos;
+                    unidad.DiasAltaMasFraccionados = DaMasF;
+                    unidad.DiasAltaMenosFraccionados = DaMenosF;
+                    unidad.ISRProyeccionMensual = ISRM;
+                    unidad.FactorDiasMesISR = ISRC;
+                    unidad.FiniquitosFechasDiferentes = FFD;
+                    unidad.FiniquitosExentoCompleto = FEC;
+                    unidad.FiniquitosSubsidio = FS;
+                    unidad.FiniquitosTablaMensual = FTM;
                     entidad.SaveChanges();
                 }
 
             }
         }
+
 
 
         /// <summary>
@@ -460,5 +585,8 @@ namespace TadaNomina.Models.ClassCore
                 return cliente;
             }
         }
+
+
+
     }
 }

@@ -24,7 +24,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
         /// <param name="IdPeriodo">Periodo de nómina</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public string GeneraXML40Nomina12(DatosXML dat, int IdUnidadNegocio, string TipoFechaFiniquito, int IdPeriodo)
+        public string GeneraXML40Nomina12(DatosXML dat, int IdUnidadNegocio, string TipoFechaFiniquito, int IdPeriodo, List<string> UUIDRelacionado)
         {
             try
             {
@@ -36,7 +36,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 ObtenTotalesDeducciones(int.Parse(dat.IdPeriodo), int.Parse(dat.IdEmpleado), decimal.Parse(dat.IMSS), decimal.Parse(dat.ISPT));
 
                 decimal otrosPagos = 0;
-                try { otrosPagos = (decimal)incidencias.Where(x => x.ClaveSAT == "999").Select(x => x.Monto).Sum(); } catch { }
+                try { otrosPagos = (decimal)incidencias.Where(x => x.ClaveSAT == "999" && x.TipoConcepto == "ER").Select(x => x.Monto).Sum(); } catch { }
+                try { otrosPagos += (decimal)incidencias.Where(x => x.TipoConcepto == "OTRO").Select(x => x.Monto).Sum(); } catch { }
 
                 decimal Subtotal = (TotalExcentoPercepciones + TotalGravadoPercepciones) + decimal.Parse(dat.SubsidioPagar) + decimal.Parse(dat.ReintegroISR) + otrosPagos;
                 var tp = decimal.Parse(dat.totalPercepciones);
@@ -321,11 +322,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 if (dat.TipoContrato != "09")
                 {
                     int cantidadIncidenciasOtrosPagos = incidencias.Where(x => x.ClaveSAT == "999").Count();
+                    int cantidadIncidenciasOtrosPagosO = incidencias.Where(x => x.TipoConcepto == "OTRO").Count();
 
                     int indiceOtros = 0;
                     int cantIndices = 1;
                     if (reintegro > 0) { cantIndices++; }
                     cantIndices += cantidadIncidenciasOtrosPagos;
+                    cantIndices += cantidadIncidenciasOtrosPagosO;
 
                     nomina.OtrosPagos = new NominaOtroPago[cantIndices];
 
@@ -351,7 +354,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                         nomina.OtrosPagos[indiceOtros] = nOtrosPagosR;
                     }
 
-                    foreach (var oPagos in incidencias.Where(x => x.ClaveSAT == "999"))
+                    foreach (var oPagos in incidencias.Where(x => x.ClaveSAT == "999" && x.TipoConcepto == "ER"))
                     {
                         indiceOtros++;
                         NominaOtroPago nOtrosPagos3 = new NominaOtroPago();
@@ -360,6 +363,27 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                         nOtrosPagos3.Concepto = oPagos.Concepto;
 
                         nOtrosPagos3.Importe = (decimal)oPagos.Monto;
+                        nomina.OtrosPagos[indiceOtros] = nOtrosPagos3;
+                    }
+
+                    foreach (var oPagos in incidencias.Where(x => x.TipoConcepto == "OTRO"))
+                    {
+                        indiceOtros++;
+                        NominaOtroPago nOtrosPagos3 = new NominaOtroPago();
+                        nOtrosPagos3.TipoOtroPago = tipos.ObtenTipoOtrosPagos(oPagos.ClaveSAT);
+                        nOtrosPagos3.Clave = oPagos.ClaveConcepto;
+                        nOtrosPagos3.Concepto = oPagos.Concepto;
+                        nOtrosPagos3.Importe = (decimal)oPagos.Monto;
+
+                        if (oPagos.ClaveSAT == "004")
+                        {
+                            NominaOtroPagoCompensacionSaldosAFavor nopCompSaldofavor = new NominaOtroPagoCompensacionSaldosAFavor();
+                            nopCompSaldofavor.SaldoAFavor = (decimal)oPagos.Monto;
+                            nopCompSaldofavor.Año = nomina.FechaPago.Month == 12 ? (short)nomina.FechaPago.Year : (short)nomina.FechaPago.AddYears(-1).Year;
+                            nopCompSaldofavor.RemanenteSalFav = incidencias.Where(x => x.ClaveConcepto == "004R" && x.TipoConcepto == "IF").Select(x=> x.Monto).Sum() ?? 0;
+                            nOtrosPagos3.CompensacionSaldosAFavor = nopCompSaldofavor;
+                        }
+
                         nomina.OtrosPagos[indiceOtros] = nOtrosPagos3;
                     }
                 }
@@ -443,6 +467,25 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 comprobante.LugarExpedicion = dat.codigoPostalEmisor;
                 comprobante.Confirmacion = null;
 
+                if (UUIDRelacionado.Count > 0)
+                {
+                    ComprobanteCfdiRelacionados[] cfdiRel = new ComprobanteCfdiRelacionados[UUIDRelacionado.Count];
+                    
+                    for (int i=0; i<= UUIDRelacionado.Count - 1; i++)
+                    {
+                        ComprobanteCfdiRelacionadosCfdiRelacionado[] cfdiRelDat = new ComprobanteCfdiRelacionadosCfdiRelacionado[UUIDRelacionado.Count];
+                        ComprobanteCfdiRelacionadosCfdiRelacionado cfdireldatint = new ComprobanteCfdiRelacionadosCfdiRelacionado();
+                        cfdireldatint.UUID = UUIDRelacionado[i];
+                        ComprobanteCfdiRelacionados cfdirelint = new ComprobanteCfdiRelacionados();
+                        cfdirelint.TipoRelacion = c_TipoRelacion.Item04;
+                        cfdiRel[i] = cfdirelint;
+                        cfdiRelDat[i] = cfdireldatint;
+                        cfdiRel[i].CfdiRelacionado = cfdiRelDat;
+                    }
+                    
+                    comprobante.CfdiRelacionados = cfdiRel;
+                }
+
                 xml = CreaXML(comprobante);
 
                 string CadenaOriginal = getCadenaOriginal40(xml);
@@ -450,13 +493,14 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 
                 comprobante.Certificado = classAux._firmaSoftware256.CertToBase64String();
                 try { comprobante.Sello = classAux._firmaSoftware256.Sellar(CadenaOriginal); }
-                catch {
+                catch
+                {
                     ObtenCertificadosCfdi(dat.rutaCer, dat.rutaKey, dat.keyPass);
                     SelloDigital oselloDigital = new SelloDigital();
                     comprobante.Certificado = oselloDigital.Certificado(_cer);
                     comprobante.Sello = oselloDigital.Sellar(CadenaOriginal, _key, _KeyPass, int.Parse(dat.IdRegistroPatronal), dat.Emisor_Nombre);
                 }
-                
+
                 xml = CreaXML(comprobante);
 
                 guardaXML(dat.NumEmpleado, IdPeriodo, xml);
@@ -465,7 +509,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception(ex.Message + " ref." + dat.IdEmpleado + "-" + dat.NumEmpleado + "-" + dat.Nombre);
             }
         }
 

@@ -46,11 +46,19 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
             return model;
         }
 
-        public void GetZip(int IdPeriodoNomina, string formato, int IdUnidad)
+        /// <summary>
+        ///     Método que obtiene un zip con los CFDI o XML seleccionados
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Id del periodo de nómina</param>
+        /// <param name="formato">Tipo de formato que se va a descargar</param>
+        /// <param name="IdCliente">Id del Cliente</param>
+        public void GetZip(int IdPeriodoNomina, string formato, int IdCliente)
         {
             string ruta_CFDI_ZIP = @"D:\TadaNomina\DescargaCFDINomina";
             ClassTimbradoNomina ct = new ClassTimbradoNomina();
             var list = ct.GetvTimbrados(IdPeriodoNomina);
+
+            if (list.Count <= 0) { throw new Exception("No existen registros timbrados para este periodo."); }
 
             List<string> files = new List<string>();
 
@@ -59,12 +67,59 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
 
             if (list.Count > 0)
             {
+                //Se filtra el cliente BSD (grupo 2) y se agrega la leyenda para el PDF
+                try { list = GetCliente(IdCliente, list); } catch { }
+
                 files = getFiles(list, formato, string.Empty);
                 CreateZipFile(files, ruta_CFDI_ZIP + @"\" + IdPeriodoNomina + @".zip");
             }
         }
 
-        public void GetZipReg(int IdPeriodoNomina, string formato, int IdUnidad)
+        /// <summary>
+        ///     Método que obtiene la leyenda para el CFDI dependiendo del grupo al que pertenezca el cliente
+        /// </summary>
+        /// <param name="IdCliente">Id del cliente</param>
+        /// <param name="list">Lista de empleados con los datos del timbrado</param>
+        /// <returns>Lista de empleados con los datos del timbrado</returns>
+        public List<vTimbradoNomina> GetCliente(int IdCliente, List<vTimbradoNomina> list)
+        {
+            string leyenda = "";
+            List<vTimbradoNomina> res = new List<vTimbradoNomina>();
+            res = list;
+            try
+            {
+                using (TadaNominaEntities ctx = new TadaNominaEntities())
+                {
+                    var cl = ctx.Cat_Clientes.Where(x => x.IdCliente == IdCliente && x.IdGrupo == 2).FirstOrDefault();
+
+                    if (cl != null)
+                        leyenda = "Se puso a mi disposicion el archivo XML correspondiente y recibi de la empresa arriba mencionada la cantidad neta\r\na que este documento se refiere estando conforme con las percepciones y deducciones que en el aparecen\r\nespecificados";
+                    else
+                        leyenda = "";
+                }
+
+                if (leyenda != "")
+                {
+                    foreach (var item in res)
+                        item.Leyenda = leyenda;
+
+                    return res;
+                }
+            }
+            catch
+            {
+                return list;
+            }
+            return list;
+        }
+
+        /// <summary>
+        ///     Método que obtiene el CFDI de un registro patronal
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Id del periodo de nómina</param>
+        /// <param name="formato">Tipo de archivo que se generará PDF o XML</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        public void GetZipReg(int IdPeriodoNomina, string formato, int IdCliente)
         {
             string ruta_CFDI_ZIP = @"D:\TadaNomina\DescargaCFDINomina";
             ClassTimbradoNomina ct = new ClassTimbradoNomina();
@@ -77,12 +132,21 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
 
             if (list.Count > 0)
             {
+                //Se filtra el cliente BSD (grupo 2) y se agrega la leyenda para el PDF
+                try { list = GetCliente(IdCliente, list); } catch { }
+
                 files = getFilesReg(list, formato, string.Empty);
                 CreateZipFile(files, ruta_CFDI_ZIP + @"\" + IdPeriodoNomina + @".zip");
             }
         }
 
-        public void GetZipCC(int IdPeriodoNomina, string formato, int IdUnidad)
+        /// <summary>
+        ///     Método que genera los archivos por centro de costos
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Id del periodo de nómina</param>
+        /// <param name="formato">Tipo de archivo que se generará PDF o XML</param>
+        /// <param name="IdCliente">Id del cliente</param>
+        public void GetZipCC(int IdPeriodoNomina, string formato, int IdCliente)
         {
             string ruta_CFDI_ZIP = @"D:\TadaNomina\DescargaCFDINomina";
             ClassTimbradoNomina ct = new ClassTimbradoNomina();
@@ -95,11 +159,21 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
 
             if (list.Count > 0)
             {
+                //Se filtra el cliente BSD (grupo 2) y se agrega la leyenda para el PDF
+                try { list = GetCliente(IdCliente, list); } catch { }
+
                 files = getFilesCC(list, formato, string.Empty);
                 CreateZipFile(files, ruta_CFDI_ZIP + @"\" + IdPeriodoNomina + @".zip");
             }
         }
 
+        /// <summary>
+        ///     Método que obtiene los archivos solicitados
+        /// </summary>
+        /// <param name="timbrado">Lista con la información de los empleados y del timbrado</param>
+        /// <param name="formato">Formato que se va a descargar</param>
+        /// <param name="filtro"></param>
+        /// <returns>Archivos solicitados</returns>
         public List<string> getFiles(List<vTimbradoNomina> timbrado, string formato, string filtro)
         {  
             List<string> files = new List<string>();
@@ -112,6 +186,13 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
             return files;
         }
 
+        /// <summary>
+        ///     Método que obtiene los archivos solicitados por registro patronal
+        /// </summary>
+        /// <param name="timbrado">Lista con información del timbrado</param>
+        /// <param name="formato">Formato que se va a descargar</param>
+        /// <param name="filtro"></param>
+        /// <returns>Erchivos solicitados</returns>
         public List<string> getFilesReg(List<vTimbradoNomina> timbrado, string formato, string filtro)
         {
             List<string> files = new List<string>();
@@ -124,6 +205,13 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
             return files;
         }
 
+        /// <summary>
+        ///     Método que obtiene los archivos solicitados por centro de costos
+        /// </summary>
+        /// <param name="timbrado">Lista con información del timbrado</param>
+        /// <param name="formato">Formato que se va a descargar</param>
+        /// <param name="filtro"></param>
+        /// <returns>Erchivos solicitados</returns>
         public List<string> getFilesCC(List<vTimbradoNomina> timbrado, string formato, string filtro)
         {
             List<string> files = new List<string>();
@@ -136,6 +224,12 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
             return files;
         }
 
+        /// <summary>
+        ///     Método que guarda en una ruta física los archivos y posteriormente los descarga
+        /// </summary>
+        /// <param name="timbrado">Lista con información del timbrado uy de los empleados</param>
+        /// <param name="filtro"></param>
+        /// <returns>Lista con las rutas de los archivos</returns>
         public List<string> GetPDFId(List<vTimbradoNomina> timbrado, string filtro)
         {
             List<string> lista = new List<string>();
@@ -153,13 +247,18 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                     System.IO.Directory.CreateDirectory(ruta);                
 
                 WS_CFDI cga = new WS_CFDI();
-                cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual);
+                cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo);
                 lista.Add(rutaArchivo);
             }
-
             return lista;
         }
 
+        /// <summary>
+        ///     Método que guarda en una ruta física los archivos y posteriormente los descarga por registor patronal
+        /// </summary>
+        /// <param name="timbrado">Lista con información del timbrado uy de los empleados</param>
+        /// <param name="filtro"></param>
+        /// <returns>Lista con las rutas de los archivos</returns>
         public List<string> GetPDFIdReg(List<vTimbradoNomina> timbrado, string filtro)
         {
             List<string> lista = new List<string>();
@@ -192,16 +291,22 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                     string rutaArchivo = ruta + @"\" + NombreArchivo;
 
                     if (!Directory.Exists(ruta))
-                        System.IO.Directory.CreateDirectory(ruta);
+                        Directory.CreateDirectory(ruta);
 
-                    WS_CFDI cga = new WS_CFDI();
-                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual);
+                    WS_CFDI cga = new WS_CFDI(); 
+                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo);
                 }
                 lista.Add(carpeta);
             }
             return lista;
         }
 
+        /// <summary>
+        ///     Método que guarda en una ruta física los archivos y posteriormente los descarga por centro de costos
+        /// </summary>
+        /// <param name="timbrado">Lista con información del timbrado uy de los empleados</param>
+        /// <param name="filtro"></param>
+        /// <returns>Lista con las rutas de los archivos</returns>
         public List<string> GetPDFIdCC(List<vTimbradoNomina> timbrado, string filtro)
         {
             List<string> lista = new List<string>();
@@ -237,7 +342,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                         System.IO.Directory.CreateDirectory(ruta);
 
                     WS_CFDI cga = new WS_CFDI();
-                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual);
+                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo);
                 }
                 lista.Add(carpeta);
             }
@@ -610,6 +715,11 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
 
         }
 
+        /// <summary>
+        ///     Método que genera la carpeta en zip
+        /// </summary>
+        /// <param name="items">archivos en base 64</param>
+        /// <param name="destination">Carpeta de destino</param>
         public void CreateZipFile(List<string> items, string destination)
         {
             using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())

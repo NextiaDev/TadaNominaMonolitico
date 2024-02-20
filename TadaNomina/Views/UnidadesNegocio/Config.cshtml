@@ -24,333 +24,590 @@
 <br />
 <br />
 @*<div class="container" id="app">*@
-    <div class="panel">
-        @*<div class="panel-heading">
+<div class="panel">
+    @*<div class="panel-heading">
             <h3 class="panel-title">Resumen de Finiquitos</h3>
         </div>*@
-        <div class="panel-body">
-            <div align="center" style="padding-bottom:30px;">
-                <vue-toggle :toggled.sync="toggled_1" label="Enabled"></vue-toggle> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <vue-toggle :toggled.sync="toggled_2" label="Disabled"></vue-toggle>
+    <div class="panel-body">
+        <div align="center" style="padding-bottom:30px;">
+            <vue-toggle :toggled.sync="toggled_1" label="Enabled"></vue-toggle> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <vue-toggle :toggled.sync="toggled_2" label="Disabled"></vue-toggle>
+        </div>
+        <center>
+            <h3>Configuracion Especial para el Calculo de la Unidad de Negocio</h3>
+        </center>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Se activa para el Calculo de la Cuota Sindical en la Nomina.</p>
             </div>
-            <center>
-                <h3>Configuracion Especial para el Calculo de la Unidad de Negocio</h3>
-            </center>
-            <br />
-            <br />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Se activa para el Calculo de la Cuota Sindical en la Nomina.</p>
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-CS" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-CS">Cuota Sindical</label>
-                </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-CS" class="toggle-switch" type="checkbox" checked>
+                <label for="check-CS">Cuota Sindical</label>
             </div>
+        </div>
 
-            <hr />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Se calcula Cargas Sociales sin Falta.</p>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Se calcula Cargas Sociales sin Falta.</p>
 
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-CSSF" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-CSSF">Cargas Sociales S/F</label>
-                </div>
             </div>
-            <hr />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Bandera Dias Equivalentes.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-DE" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-DE">Dias Equivalentes</label>
-                </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-CSSF" class="toggle-switch" type="checkbox" checked>
+                <label for="check-CSSF">Cargas Sociales S/F</label>
             </div>
-            <hr />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Cobra Cargas Obreras y Cargas Patronales cuando el empleado tiene un Sueldo Minimo General Vigente.</p>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Bandera Dias Equivalentes.</p>
 
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-SMGV" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-SMGV">Cobra COPS a Empleado con SMGV</label>
-                </div>
             </div>
-
-            <hr />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Retencion del ISR SMGV .</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-RIS" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-RIS">Retencion ISR SMGV</label>
-                </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DE" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DE">Dias Equivalentes</label>
             </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Cobra Cargas Obreras y Cargas Patronales cuando el empleado tiene un Sueldo Minimo General Vigente.</p>
 
-            <hr />
-            <div class="row">
-                <div class="col-sm-12">
-                    <p>Fechas para Validacion de Honorarios.</p>
-                </div>
-                <br />
-                <br />
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-SMGV" class="toggle-switch" type="checkbox" checked>
+                <label for="check-SMGV">Cobra COPS a Empleado con SMGV</label>
+            </div>
+        </div>
 
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Retencion del ISR SMGV .</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-RIS" class="toggle-switch" type="checkbox" checked>
+                <label for="check-RIS">Retencion ISR SMGV</label>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Fechas para Validacion de Honorarios.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
                 <input id="check-Hono" class="toggle-switch" type="checkbox" checked>
                 <label for="check-Hono">Activar Validacion</label>
-                <br />
-                <br />
-   
-                <div class="col-md-3">* Fecha Inicial:</div>
-                <div class="col-md-3">
-                    <input type="text" id="editFechaInicio_" placeholder="Coloque un numero del 01 al 31" class="form-control" required />
-                </div>
-                <div class="col-md-3">* Fecha Final:</div>
-                <div class="col-md-3">
-                    <input type="text" id="editFechafin_" placeholder="Coloque un numero del 01 al 31" class="form-control" required />
-                </div>
             </div>
-
-            <hr />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Generar Integrado PV y Auinaldo.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-GIPA" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-GIPA">General Integrado PV y Agui</label>
-                </div>
-            </div>
-
-            <hr />
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Calcular ISR Aguinaldo ley 74.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-Al74" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-Al74">Calcula Aguinaldo</label>
-                </div>
-            </div>
-
-
-            <hr />
-
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>No calcula Carga Obrera.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-NCO" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-NCO"></label>
-                </div>
-            </div>
-
-            <hr />
-
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>No calcula Carga Patronal.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-NCP" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-NCP"></label>
-                </div>
-            </div>
-            <hr />
-
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Percepciones Especiales.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-PE" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-PE"></label>
-                </div>
-            </div>
-            <hr />
-
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Deducciones Especiales.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-DES" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-DES"></label>
-                </div>
-            </div>
-            <hr />
-
-            <div class="row">
-                <div class="col-sm-8">
-                    <p>Considera Ausentismos en Aguinaldo.</p>
-
-                </div>
-                <div class="col-sm-3 col-sm-offset-1">
-                    <input id="check-CAA" class="toggle-switch" type="checkbox" checked>
-                    <label for="check-CAA"></label>
-                </div>
-            </div>
-            <center>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-primary btn-sm" id="_GuardarDatos" value="Guardar" />
-                    @Html.ActionLink("Regresar a lista", "Index", null, new { @class = "btn btn-info btn-sm" })
-
-                </div>
-            </center>
         </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-3">* Fecha Inicial:</div>
+            <div class="col-md-3">
+                <input type="text" id="editFechaInicio_" placeholder="Coloque un numero del 01 al 31" class="form-control" required />
+            </div>
+            <div class="col-md-3">* Fecha Final:</div>
+            <div class="col-md-3">
+                <input type="text" id="editFechafin_" placeholder="Coloque un numero del 01 al 31" class="form-control" required />
+            </div>
         </div>
-    @*</div>*@
 
-        <script>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Generar Integrado PV y Auinaldo.</p>
 
-            $(document).ready(function () {
-                GetTipoInfo();
-            });
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-GIPA" class="toggle-switch" type="checkbox" checked>
+                <label for="check-GIPA">General Integrado PV y Agui</label>
+            </div>
+        </div>
 
-            function GetTipoInfo() {
-                $.ajax({
-                    type: 'GET',
-                    url: '../GetTipoInfoUnidad',
-                    dataType: 'json',
-                    success: function (data) {
-                        console.log(data);
-                        if (data.BanderaCuotaSindical == 'S') {
-                            $("#check-CS").prop('checked', true);
-                        } else {
-                            $("#check-CS").prop('checked', false);
-                        }
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Calcular ISR Aguinaldo ley 74.</p>
 
-
-
-                        if (data.BanderaCargasSocialesSinFaltas == 'S') {
-                            $("#check-CSSF").prop('checked', true);
-                        } else {
-                            $("#check-CSSF").prop('checked', false);
-                        }
-
-                        if (data.BanderaDiasEquivalentes == 'SI') {
-                            $("#check-DE").prop('checked', true);
-                        } else {
-                            $("#check-DE").prop('checked', false);
-                        }
-
-                        if (data.CobraCOPS_Empleado_SMGV == 'SI') {
-                            $("#check-SMGV").prop('checked', true);
-                        } else {
-                            $("#check-SMGV").prop('checked', false);
-                        }
-                        if (data.RetencionISR_SMGV == 'S') {
-                            $("#check-RIS").prop('checked', true);
-                        } else {
-                            $("#check-RIS").prop('checked', false);
-                        }
-                        if (data.ValidaFechaSubirArchivo == 'S') {
-                            $("#check-Hono").prop('checked', true);
-                        } else {
-                            $("#check-Hono").prop('checked', false);
-                        }
-
-                        if (data.GenerarIntegradoPVyAgui == 'S') {
-                            $("#check-GIPA").prop('checked', true);
-                        } else {
-                            $("#check-GIPA").prop('checked', false);
-                        }
-
-                        if (data.ISRAguinaldoL174 == 'S') {
-                            $("#check-Al74").prop('checked', true);
-                        } else {
-                            $("#check-Al74").prop('checked', false);
-                        }
-                        if (data.NoCalcularCargaObrera == 'S') {
-                            $("#check-NCO").prop('checked', true);
-                        } else {
-                            $("#check-NCO").prop('checked', false);
-                        }
-                        if (data.NoCalcularCargaPatronal == 'S') {
-                            $("#check-NCP").prop('checked', true);
-                        } else {
-                            $("#check-NCP").prop('checked', false);
-                        }
-                        if (data.PercepcionesEspeciales == 'S') {
-                            $("#check-PE").prop('checked', true);
-                        } else {
-                            $("#check-PE").prop('checked', false);
-                        }
-                        if (data.DeduccionesEspeciales == 'S') {
-                            $("#check-DES").prop('checked', true);
-                        } else {
-                            $("#check-DES").prop('checked', false);
-                        }
-                        if (data.ConsideraAusentismosEnAguinaldo == 'S') {
-                            $("#check-CAA").prop('checked', true);
-                        } else {
-                            $("#check-CAA").prop('checked', false);
-                        }
-                        $('#editFechaInicio_').val(data.FechaInicioValidacionSubir);
-                        $('#editFechafin_').val(data.FechaFinValidacionSubir);
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-Al74" class="toggle-switch" type="checkbox" checked>
+                <label for="check-Al74">Calcula Aguinaldo</label>
+            </div>
+        </div>
 
 
-                    }
-                });
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>No calcula Carga Obrera.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-NCO" class="toggle-switch" type="checkbox" checked>
+                <label for="check-NCO"></label>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>No calcula Carga Patronal.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-NCP" class="toggle-switch" type="checkbox" checked>
+                <label for="check-NCP"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Percepciones Especiales.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-PE" class="toggle-switch" type="checkbox" checked>
+                <label for="check-PE"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Deducciones Especiales.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DES" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DES"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Considera Ausentismos en Aguinaldo.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-CAA" class="toggle-switch" type="checkbox" checked>
+                <label for="check-CAA"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Aguinaldo Exento Completo.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-AEC" class="toggle-switch" type="checkbox" checked>
+                <label for="check-AEC"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias Alta Mas (Extemporáneos).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAM" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAM"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias alta Menos (Extemporáneos).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAME" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAME"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias alta Mas  (Fraccionados).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAMF" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAMF"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias alta Menos  (Fraccionados).</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-DAMeF" class="toggle-switch" type="checkbox" checked>
+                <label for="check-DAMeF"></label>
+            </div>
+        </div>
+        <hr />
+
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Fechas Diferentes.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FFD" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FFD"></label>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Excento Completo.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FEC" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FEC"></label>
+            </div>
+        </div>
+        <hr />
+
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Subsidio.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FS" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FS"></label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Finiquitos Tabla Mensual.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-FTM" class="toggle-switch" type="checkbox" checked>
+                <label for="check-FTM"></label>
+            </div>
+        </div>
+        <hr />
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>ISR Proyeccion Mensual.</p>
+
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-ISRMENSUAL" class="toggle-switch" type="checkbox" onchange="ValidaCSF()">
+                <label for="check-ISRMENSUAL">Activar Validacion</label>
+            </div>
+        </div>
+        <br />
+        <div class="row" id="factorISR" style="display: none">
+
+            <div class="col-md-3">* Factor Dias ISR:</div>
+            <div class="col-md-3">
+                <input type="text" id="factordiasISR" placeholder="Coloque una Cantidad" class="form-control" required />
+            </div>
+
+        </div>
+
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias Alta Imss.</p>
+
+            </div>
+            <div class="col-sm-2 col-sm-offset-1">
+                <input type="text" id="idImssD" placeholder="Coloque los dias" class="form-control" required />
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
+                <p>Dias Bajas  Imss.</p>
+
+            </div>
+            <div class="col-sm-2 col-sm-offset-1">
+                <input type="text" id="idImssDB" placeholder="Coloque los dias" class="form-control" required />
+            </div>
+        </div>
+        <hr />
+        <center>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-primary btn-sm" id="_GuardarDatos" value="Guardar" />
+                @Html.ActionLink("Regresar a lista", "Index", null, new { @class = "btn btn-info btn-sm" })
+
+            </div>
+        </center>
+    </div>
+</div>
+@*</div>*@
+
+
+<script>
+
+
+
+    $(document).ready(function () {
+        GetTipoInfo();
+    });
+
+
+
+    function GetTipoInfo() {
+        $.ajax({
+            type: 'GET',
+            url: '../GetTipoInfoUnidad',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if (data.BanderaCuotaSindical == 'S') {
+                    $("#check-CS").prop('checked', true);
+                } else {
+                    $("#check-CS").prop('checked', false);
+                }
+
+                if (data.BanderaCargasSocialesSinFaltas == 'S') {
+                    $("#check-CSSF").prop('checked', true);
+                } else {
+                    $("#check-CSSF").prop('checked', false);
+                }
+
+                if (data.BanderaDiasEquivalentes == 'SI') {
+                    $("#check-DE").prop('checked', true);
+                } else {
+                    $("#check-DE").prop('checked', false);
+                }
+
+                if (data.CobraCOPS_Empleado_SMGV == 'S') {
+                    $("#check-SMGV").prop('checked', true);
+                } else {
+                    $("#check-SMGV").prop('checked', false);
+                }
+                if (data.RetencionISR_SMGV == 'S') {
+                    $("#check-RIS").prop('checked', true);
+                } else {
+                    $("#check-RIS").prop('checked', false);
+                }
+                if (data.ValidaFechaSubirArchivo == 'S') {
+                    $("#check-Hono").prop('checked', true);
+                } else {
+                    $("#check-Hono").prop('checked', false);
+                }
+
+                if (data.GenerarIntegradoPVyAgui == 'S') {
+                    $("#check-GIPA").prop('checked', true);
+                } else {
+                    $("#check-GIPA").prop('checked', false);
+                }
+
+                if (data.ISRAguinaldoL174 == 'S') {
+                    $("#check-Al74").prop('checked', true);
+                } else {
+                    $("#check-Al74").prop('checked', false);
+                }
+                if (data.NoCalcularCargaObrera == 'S') {
+                    $("#check-NCO").prop('checked', true);
+                } else {
+                    $("#check-NCO").prop('checked', false);
+                }
+                if (data.NoCalcularCargaPatronal == 'S') {
+                    $("#check-NCP").prop('checked', true);
+                } else {
+                    $("#check-NCP").prop('checked', false);
+                }
+                if (data.PercepcionesEspeciales == 'S') {
+                    $("#check-PE").prop('checked', true);
+                } else {
+                    $("#check-PE").prop('checked', false);
+                }
+                if (data.DeduccionesEspeciales == 'S') {
+                    $("#check-DES").prop('checked', true);
+                } else {
+                    $("#check-DES").prop('checked', false);
+                }
+                if (data.ConsideraAusentismosEnAguinaldo == 'S') {
+                    $("#check-CAA").prop('checked', true);
+                } else {
+                    $("#check-CAA").prop('checked', false);
+                }
+                if (data.AguinaldoExentoCompleto == 'S') {
+                    $("#check-AEC").prop('checked', true);
+                } else {
+                    $("#check-AEC").prop('checked', false);
+                }
+                if (data.DiasAltaMas == 'S') {
+                    $("#check-DAM").prop('checked', true);
+                } else {
+                    $("#check-DAM").prop('checked', false);
+                }
+                if (data.DiasAltaMenos == 'S') {
+                    $("#check-DAME").prop('checked', true);
+                } else {
+                    $("#check-DAME").prop('checked', false);
+                }
+
+                if (data.DiasAltaMasFraccionados == 'S') {
+                    $("#check-DAMF").prop('checked', true);
+                } else {
+                    $("#check-DAMF").prop('checked', false);
+                }
+                if (data.DiasAltaMenosFraccionados == 'S') {
+                    $("#check-DAMeF").prop('checked', true);
+                } else {
+                    $("#check-DAMeF").prop('checked', false);
+                }
+
+                if (data.ISRProyeccionMensual == 'S') {
+                    $("#factorISR").show('');
+                    $("#check-ISRMENSUAL").prop('checked', true);
+                } else {
+                    $("#check-ISRMENSUAL").prop('checked', false);
+                }
+
+
+                if (data.FiniquitosFechasDiferentes == 'S') {
+                    $("#check-FFD").prop('checked', true);
+                } else {
+                    $("#check-FFD").prop('checked', false);
+                }
+
+                if (data.FiniquitosExentoCompleto == 'S') {
+                    $("#check-FEC").prop('checked', true);
+                } else {
+                    $("#check-FEC").prop('checked', false);
+                }
+
+
+                if (data.FiniquitosSubsidio == 'S') {
+                    $("#check-FS").prop('checked', true);
+                } else {
+                    $("#check-FS").prop('checked', false);
+                }
+
+
+
+                if (data.FiniquitosTablaMensual == 'S') {
+                    $("#check-FTM").prop('checked', true);
+                } else {
+                    $("#check-FTM").prop('checked', false);
+                }
+
+
+
+                $('#factordiasISR').val(data.FactorDiasMesISR);
+
+                $('#editFechaInicio_').val(data.FechaInicioValidacionSubir);
+                $('#editFechafin_').val(data.FechaFinValidacionSubir);
+                $('#idImssD').val(data.DIasImss);
+                $('#idImssDB').val(data.DiasMenosImss);
+
             }
+        });
+    }
+
+    function ValidaCSF() {
+        var ckbx = document.getElementById("check-ISRMENSUAL").checked;
+        if (ckbx == true)
+            $("#factorISR").show('');
+
+        else
+            $("#factorISR").hide('');
+
+    }
+
+    $("#_GuardarDatos").click(function () {
+
+        var CuotaSindical = $("#check-CS").prop("checked");
+        var FondoAhorro = $("#check-FH").prop("checked");
+        var CargasSFaltas = $("#check-CSSF").prop("checked");
+        var DiasEquiv = $("#check-DE").prop("checked");
+        var CobroCops = $("#check-SMGV").prop("checked");
+        var RetenciISRSMGV = $("#check-RIS").prop("checked");
+        var SubirArchivo = $("#check-Hono").prop("checked");
+        var GeneraIntegrado = $("#check-GIPA").prop("checked");
+        var Isr74 = $("#check-Al74").prop("checked");
+        var NCargaObrera = $("#check-NCO").prop("checked");
+        var NCargaPatronal = $("#check-NCP").prop("checked");
+        var FechaInicio = $("#editFechaInicio_").val();
+        var FechaFin = $("#editFechafin_").val();
+        var PS = $("#check-PE").prop("checked");
+        var DE = $("#check-DES").prop("checked");
+        var CAA = $("#check-CAA").prop("checked");
+        var AEC = $("#check-AEC").prop("checked");
+        var DImss = $("#idImssD").val();
+        var DImssB = $("#idImssDB").val();
+        var DaMas = $("#check-DAM").prop("checked");
+        var DaMenos = $("#check-DAME").prop("checked");
+        var DaMasF = $("#check-DAMF").prop("checked");
+        var DaMenosF = $("#check-DAMeF").prop("checked");
+        var ISRM = $("#check-ISRMENSUAL").prop("checked");
+        var ISRC = $("#factordiasISR").val();
+        var FFD = $("#check-FFD").prop("checked");
+        var FEC = $("#check-FEC").prop("checked");
+        var FS = $("#check-FS").prop("checked");
+        var FTM = $("#check-FTM").prop("checked");
 
 
-            $("#_GuardarDatos").click(function () {
 
-                var CuotaSindical = $("#check-CS").prop("checked");
-                var FondoAhorro = $("#check-FH").prop("checked");
-                var CargasSFaltas = $("#check-CSSF").prop("checked");
-                var DiasEquiv = $("#check-DE").prop("checked");
-                var CobroCops = $("#check-SMGV").prop("checked");
-                var RetenciISRSMGV = $("#check-RIS").prop("checked");
-                var SubirArchivo = $("#check-Hono").prop("checked");
-                var GeneraIntegrado = $("#check-GIPA").prop("checked");
-                var Isr74 = $("#check-Al74").prop("checked");
-                var NCargaObrera = $("#check-NCO").prop("checked");
-                var NCargaPatronal = $("#check-NCP").prop("checked");
-                var FechaInicio = $("#editFechaInicio_").val();
-                var FechaFin = $("#editFechafin_").val();
-                var PS = $("#check-PE").prop("checked");
-                var DE = $("#check-DES").prop("checked");
-                var CAA = $("#check-CAA").prop("checked");
 
-                $.ajax({
-                    type: 'POST',
-                    url: '../GuardarEspeciales',
-                    data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA },
-                    dataType: 'json',
-                    async: false,
-                    success: function (result) {
-                        if (result == "Exito") {
 
-                            mensajeAlerta("Atencion!", "Se guardo la informacion de la Unidad de Negocio.", "mint", "bounce", "fadeOut", 2000);
-                        } else {
+        $.ajax({
+            type: 'POST',
+            url: '../GuardarEspeciales',
+            data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
+            dataType: 'json',
+            async: false,
+            success: function (result) {
+                if (result == "Exito") {
 
-                            $.hideLoading();
-                            mensajeAlerta("Atencion!", result, "danger", "bounce", "fadeOut", 2100);
-                        }
-                    }
-                });
+                    mensajeAlerta("Atencion!", "Se guardo la informacion de la Unidad de Negocio.", "mint", "bounce", "fadeOut", 2000);
+                } else {
 
-            });
-
-            function redirigir() {
-                window.location.reload();
-
+                    $.hideLoading();
+                    mensajeAlerta("Atencion!", result, "danger", "bounce", "fadeOut", 2100);
+                }
             }
+        });
+
+    });
+
+    function redirigir() {
+        window.location.reload();
+
+    }
 
 
-        </script>
+</script>

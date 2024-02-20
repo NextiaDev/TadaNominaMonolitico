@@ -6,7 +6,7 @@ using TadaNomina.Models.DB;
 
 namespace TadaNomina.Models.ClassCore.Timbrado
 {
-    public class ClassProcesosTimbrado : ClassGeneraJSON
+    public class ClassProcesosTimbrado: cCreaXMLCancelacion
     {
         public string Token { get; set; }
         public string URI { get; set; }
@@ -68,7 +68,65 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 entidad.SaveChanges();
             }
         }
-        
+
+        /// <summary>
+        /// Metodo para guardar error de timbrado
+        /// </summary>
+        /// <param name="i">Informacion XML</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="IdPeriodoNomina">Periodo de nomina</param>
+        /// <param name="Id"></param>
+        /// <param name="Codigo">Codigo de error</param>
+        /// <param name="Texto">Informacion error</param>
+        /// <param name="Observaciones"></param>
+        public void GuardaError(string Rfc, int IdUsuario, int IdPeriodoNomina, Guid Id, string Codigo, string Texto, string Observaciones)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                LogErrores le = new LogErrores();
+                le.Guid = Id;
+                le.IdPeriodoNomina = IdPeriodoNomina;
+                le.Modulo = "Timbrado";
+                le.Referencia = Rfc;
+                le.Descripcion = "Error: " + ((char)13) + Codigo + " - " + Texto + " - " + Observaciones;
+                le.Fecha = DateTime.Now;
+                le.IdUsuario = IdUsuario;
+                le.IdEstatus = 1;
+
+                entidad.LogErrores.Add(le);
+                entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Metodo para guardar error de timbrado
+        /// </summary>
+        /// <param name="i">Informacion XML</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="IdPeriodoNomina">Periodo de nomina</param>
+        /// <param name="Id"></param>
+        /// <param name="Codigo">Codigo de error</param>
+        /// <param name="Texto">Informacion error</param>
+        /// <param name="Observaciones"></param>
+        public void GuardaError(vXmlNomina i, int IdUsuario, int IdPeriodoNomina, Guid Id, string Codigo, string Texto, string Observaciones)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                LogErrores le = new LogErrores();
+                le.Guid = Id;
+                le.IdPeriodoNomina = IdPeriodoNomina;
+                le.Modulo = "Timbrado";
+                le.Referencia = i.Rfc;
+                le.Descripcion = "Error: " + ((char)13) + Codigo + " - " + Texto + " - " + Observaciones;
+                le.Fecha = DateTime.Now;
+                le.IdUsuario = IdUsuario;
+                le.IdEstatus = 1;
+
+                entidad.LogErrores.Add(le);
+                entidad.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Guarda comprobante de timbrado
         /// </summary>
@@ -106,7 +164,48 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 entidad.TimbradoNomina.Add(tn);
                 entidad.SaveChanges();
             }
-        }        
+        }
+
+        /// <summary>
+        /// Guarda comprobante de timbrado
+        /// </summary>
+        /// <param name="i">Informacion timbrado</param>
+        /// <param name="IdUsuario">Usuario</param>
+        /// <param name="IdPeriodoNomina">Periodo nómina</param>
+        /// <param name="uuid"></param>
+        /// <param name="fechaTimbrado">Fecha timbrado</param>
+        /// <param name="anioMes">Año mes</param>
+        /// <param name="FacturaTimbrada">CDFI</param>
+        /// <param name="Leyenda">Leyenda timbrado</param>
+        public void GuardaTablaTimbrado(vXmlNomina i, int IdUsuario, int IdPeriodoNomina, string uuid, string fechaTimbrado, int anioMes, string FacturaTimbrada, string Leyenda)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                TimbradoNomina tn = new TimbradoNomina();
+                tn.IdPeriodoNomina = IdPeriodoNomina;
+                tn.IdEmpleado = (i.IdEmpleado);
+                tn.IdRegistroPatronal = (i.IdRegistroPatronal);
+                tn.RegistroPatronal = i.RegistroPatronal;
+                tn.NombrePatrona = i.NombrePatrona;
+                tn.RFC = i.Rfc;
+                tn.FechaTimbrado = fechaTimbrado;
+                tn.FolioUDDI = uuid;
+                tn.AnioMes = anioMes;
+                tn.Mensaje = "Comprobante timbrado exitosamente";
+                tn.IdEstatus = 1;
+                tn.IdCaptura = IdUsuario;
+                tn.FechaCaptura = DateTime.Now;
+                tn.FechaInicioPeriodo = i.FechaInicio;
+                tn.FechaFinPeriodo = i.FechaFin;
+                tn.IdXml = i.IdXml;
+                tn.CFDI_Timbrado = FacturaTimbrada;
+                tn.Leyenda = Leyenda;
+                tn.IdPAC = 2;
+
+                entidad.TimbradoNomina.Add(tn);
+                entidad.SaveChanges();
+            }
+        }
 
         /// <summary>
         /// Metodo para obtener lista de timbrados por periodo de nomina
@@ -185,12 +284,26 @@ namespace TadaNomina.Models.ClassCore.Timbrado
         }
 
         /// <summary>
+        /// Obtiene los registros de timbrado en base a los folios UUID
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Identificador del periodo de nómina</param>
+        /// <param name="FoliosUUID">listado de folios UUID a buscar</param>
+        /// <returns></returns>
+        public List<vTimbradoNomina> ObtendatosTimbradoNominaByFoliosUUID(int IdPeriodoNomina, List<string> FoliosUUID)
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {
+                return entidad.vTimbradoNomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina && x.IdEstatus == 1 && FoliosUUID.Contains(x.FolioUDDI)).ToList();
+            }
+        }
+
+        /// <summary>
         /// Metodo para guardar error de cancelacion de timbrado de nómina
         /// </summary>
         /// <param name="datos">Datos del timbrado</param>
         /// <param name="id"></param>
         /// <param name="IdUsuario">usuario</param>
-        public void GuardaErrorCancelacion(vTimbradoNomina datos, Guid id, int IdUsuario)
+        public void GuardaErrorCancelacion(vTimbradoNomina datos, Guid id, string detalle, int IdUsuario)
         {
             using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
             {
@@ -198,8 +311,8 @@ namespace TadaNomina.Models.ClassCore.Timbrado
                 logErrores.Guid = id;
                 logErrores.IdPeriodoNomina = datos.IdPeriodoNomina;
                 logErrores.Modulo = "Cancelacion Timbrado";
-                logErrores.Referencia = datos.IdTimbradoNomina.ToString();
-                logErrores.Descripcion = "No se pudo cancelar el timbre";
+                logErrores.Referencia = datos.IdTimbradoNomina.ToString() + "-" + datos.RFC + "-" + datos.FolioUDDI;
+                logErrores.Descripcion = "No se pudo cancelar el timbre: " + detalle;
                 logErrores.Fecha = DateTime.Now;
                 logErrores.IdUsuario = IdUsuario;
                 logErrores.IdEstatus = 1;

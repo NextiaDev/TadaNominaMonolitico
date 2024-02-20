@@ -83,3 +83,11 @@
 
     <div id="dvjson"></div>
 </div>
+<div class="d-flex justify-content-between mt-4">
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Mensaje
+        </div>
+    }
+</div>

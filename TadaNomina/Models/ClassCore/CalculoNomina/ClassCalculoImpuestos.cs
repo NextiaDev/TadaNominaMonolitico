@@ -91,6 +91,44 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
+        public void CalculaISRComplementoProyMensual()
+       {
+            try
+            {
+                nominaTrabajo.Subsidio = 0;
+                nominaTrabajo.SubsidioPagar = 0;
+                nominaTrabajo.BaseGravada = 0;
+                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+
+                if (nominaTrabajo.BaseGravada > 0)
+                {
+                    var sueldoMensualFactor = SD_IMSS * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                    var sueldoMensual30 = SD_IMSS * 30;
+                    var ISR_SueldoBruto = CalculaISR((decimal)sueldoMensualFactor, Periodo.FechaFin, "05", false);
+                    var ISRDiasLaborados = (ISR_SueldoBruto / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;
+                    var importeComplemento = (nominaTrabajo.BaseGravada);                    
+                    var sueldoMensual30MasBrutoComplemento = sueldoMensual30 + (importeComplemento ?? 0);
+                    var sueldoMensual30MasBrutoComplementoFator = (sueldoMensual30MasBrutoComplemento / 30) * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                    var ISRTotalFactor = CalculaISR(sueldoMensual30MasBrutoComplementoFator, Periodo.FechaFin, "05", false);
+                    var ISRTotal30 = (ISRTotalFactor / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;                    
+                    var IsrRet = Math.Round(ISRTotal30 - ISRDiasLaborados, 2);
+
+                    nominaTrabajo.ISR = IsrRet;
+                    nominaTrabajo.ImpuestoRetener = IsrRet;
+                }
+                else
+                {
+                    nominaTrabajo.ISR = 0;
+                    nominaTrabajo.ImpuestoRetener = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al calcular el ISR L174 del empleado: " + IdEmpleado + " - " + ClaveEmpleado + ", ex: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Metodo para obtener la base gravada con la que se calcula el impuesto.
         /// </summary>
@@ -116,28 +154,40 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             try { IdConceptoCompensacionPiramida = conceptosConfigurados.IdConceptoCompensacion ?? 0; } catch { }
             nominaTrabajo.BaseGravada += percepcionesEspecialesGravado;
 
-            if(IdConceptoCompensacionPiramida != 0)
-                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(x => x.Gravado).Sum();
-            else
-                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+            if (UnidadNegocio.ConfiguracionSueldos != "Netos Tradicional(Piramida ART 93)")
+            {
+                if (IdConceptoCompensacionPiramida != 0)
+                    nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003" && x.IdConcepto != IdConceptoCompensacionPiramida).Select(x => x.Gravado).Sum();
+                else
+                    nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+            }
 
             nominaTrabajo.BaseGravada += montoIncidenciasMultiplicaDTGrabado;
             nominaTrabajo.BaseGravadaP = nominaTrabajo.BaseGravada;
+            baseMostrar = nominaTrabajo.BaseGravada ?? 0;
 
             //obtener base gravada cuando se hace proyeccion mensual.
-            if (UnidadNegocio.ISRProyeccionMensual == "S")
+            if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
             {
-                var baseGravDiaria = nominaTrabajo.BaseGravada / (DiasPago + 1);
-                nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                decimal _diasPago = DiasPago;
+
+                //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
+                if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
+                    _diasPago += 1;
+
+                if (_diasPago == 0) { _diasPago++; }
+
+                var baseGravDiaria = nominaTrabajo.BaseGravada / _diasPago;
+                nominaTrabajo.BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);                
             }
 
-            if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0)
-                nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();
+            if (Periodo.AjusteDeImpuestos == "SI" && nominaTrabajo.BaseGravada > 0  && !listEmpleadosSinAjuste.Select(x=> x.ClaveEmpleado).Contains(ClaveEmpleado))
+                nominaTrabajo.BaseGravada += ListNominaAjuste.Where(x => x.Rfc == RFC).Select(x => x.BaseGravadaP).Sum();            
         }
 
         private void procesoAjusteSecundario()
         {
-            if (listEmpleadosSinAjuste != null)
+            if (listEmpleadosSinAjuste != null && listEmpleadosSinAjuste.Count > 0)
                 AjusteAnual = listEmpleadosSinAjuste.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault() != null ? false : true;
 
             ListNominaAjusteAnterior = ListNominaAjuste;
@@ -169,7 +219,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             try
             {
-                if (Periodo.AjusteDeImpuestos == "SI")
+                if (Periodo.AjusteDeImpuestos == "SI" && !listEmpleadosSinAjuste.Select(x => x.ClaveEmpleado).Contains(ClaveEmpleado))
                 {
                     if (ListNominaAjuste.Where(x => x.Rfc == RFC).FirstOrDefault() == null)
                     {
@@ -273,17 +323,24 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.ISR = nominaTrabajo.CuotaFija + nominaTrabajo.PorcentajeCalculado;
 
             //se obtiene el ISR mensualizado cuando hay proyeccion mensual
-            if (UnidadNegocio.ISRProyeccionMensual == "S")
+            if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
             {
-                var ISRDiario = nominaTrabajo.ISR / UnidadNegocio.FactorDiasMesISR;
-                nominaTrabajo.ISR = Math.Round((decimal)ISRDiario * (DiasPago + 1), 2);
+                var ISRDiario = nominaTrabajo.ISR / (UnidadNegocio.FactorDiasMesISR ?? 1);
+                
+                var _diasPago = DiasPago;
+
+                //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
+                if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
+                    _diasPago += 1;
+
+                nominaTrabajo.ISR = Math.Round((decimal)ISRDiario * _diasPago, 2);
             }
 
-            if (Periodo.AjusteDeImpuestos == "SI" && !AjusteAnual)
+            if (Periodo.AjusteDeImpuestos == "SI" && !listEmpleadosSinAjuste.Select(x => x.ClaveEmpleado).Contains(ClaveEmpleado) && !AjusteAnual)
             {
                 if (ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault() != null)
                 {
-                    var _isr = (from b in ListNominaAjuste.Where(b => b.Rfc == RFC) select b.ISR).Sum();
+                    var _isr = (from b in ListNominaAjuste.Where(b => b.Rfc == RFC) select b.ImpuestoRetener).Sum();
                     nominaTrabajo.ISR = nominaTrabajo.ISR - _isr;
 
                     if (nominaTrabajo.ISR < 0)
@@ -369,7 +426,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if (query != null)
             {
                 CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
-                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
+                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.SubsidioPagar).Sum();
                 if (queryAjuste != null) { CreditoSalario = CreditoSalario - (decimal)queryAjuste; }
                 if (CreditoSalario < 0) { CreditoSalario = 0; }
 
@@ -384,8 +441,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.SubsidioPagar = 0;
             nominaTrabajo.ImpuestoRetener = 0;
-            decimal resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
 
+            decimal resultset = 0;
+            resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
+                        
             if (resultset < 0)
             {
                 nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
@@ -396,6 +455,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.SubsidioPagar = 0;
                 nominaTrabajo.ImpuestoRetener = resultset;
             }
+
+
 
             if (AjusteAnual && Periodo.AjusteAnual == "S")
             {
@@ -436,13 +497,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <summary>
         /// Metodo para calcular las Cargas Sociales que corresponden al trabajador.
         /// </summary>
-        protected void Calcula_Cuotas_Obreras()
+        protected void Calcula_Cuotas_Obreras(decimal? _DiasTrabajados)
         {
             UMA = (decimal)SueldosMinimos.UMA;
             Sueldo_Minimo = (decimal)SueldosMinimos.SalarioMinimoGeneral;
 
-            Calcula_Dias_IMSS();
-            Evalua_Tipo_Insidencia();
+            if (_DiasTrabajados == null)
+            {
+                Calcula_Dias_IMSS();
+                Evalua_Tipo_Insidencia();
+            }
 
             if (UnidadNegocio.BanderaCargasSocialesSinFaltas == "S")
             {
@@ -832,10 +896,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             string[] grupos = { "500", "501" };
 
-            DiasTrabajados_IMSS = DiasTrabajados_IMSS + (decimal)listIncidencias.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades"
+            DiasTrabajados_IMSS = DiasTrabajados_IMSS + (decimal)incidenciasEmpleado.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades"
                                                                                         && x.TipoConcepto == "ER" && x.AfectaCargaSocial == "SI" && x.IdEstatus == 1 && !grupos.Contains(x.ClaveGpo)).Sum(x => x.Cantidad);
 
-            DiasTrabajados_IMSS = DiasTrabajados_IMSS - (decimal)listIncidencias.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades"
+            DiasTrabajados_IMSS = DiasTrabajados_IMSS - (decimal)incidenciasEmpleado.Where(x => x.IdEmpleado == IdEmpleado && _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoDato == "Cantidades" && x.IdConcepto != conceptosConfigurados.IdConceptoFaltas
                                                                                         && x.TipoConcepto == "DD" && x.AfectaCargaSocial == "SI" && x.IdEstatus == 1 && !grupos.Contains(x.ClaveGpo)).Sum(x => x.Cantidad);
 
             if (configuracionNominaEmpleado.DiasCargaSocial > 0) { DiasTrabajados_IMSS += (decimal)configuracionNominaEmpleado.DiasCargaSocial; }
@@ -918,7 +982,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         private void Evalua_Tipo_Insidencia()
         {
-            Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD"
+            Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD" && b.IdConcepto != conceptosConfigurados.IdConceptoFaltas
                                                                 && b.IdEstatus == 1 && _tipoEsquemaT.Contains(b.TipoEsquema) && b.ClaveGpo == "500" && b.AfectaCargaSocial == "SI").Sum(x => x.Cantidad);
 
             Dias_Faltados_IMSS = Dias_Faltados;
@@ -1014,6 +1078,20 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if (BaseGravada > 0)
             {
 
+                if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
+                {
+                    decimal _diasPago = DiasPago;
+
+                    //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
+                    if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
+                        _diasPago += 1;
+
+                    if (_diasPago == 0) { _diasPago++; }
+
+                    var baseGravDiaria = BaseGravada / _diasPago;
+                    BaseGravada = baseGravDiaria * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                }
+
                 LimiteInferior += ListImpuestos.Where(x => x.LimiteSuperior >= BaseGravada && x.LimiteInferior <= BaseGravada).FirstOrDefault().LimiteInferior;
                 Porcentaje += ListImpuestos.Where(x => x.LimiteSuperior >= BaseGravada && x.LimiteInferior <= BaseGravada).FirstOrDefault().Porcentaje;
                 CuotaFija += ListImpuestos.Where(x => x.LimiteSuperior >= BaseGravada && x.LimiteInferior <= BaseGravada).FirstOrDefault().CuotaFija;
@@ -1024,6 +1102,19 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 PorcentajeCalculado = decimal.Round(resultset, 2);
 
                 ISR = CuotaFija + PorcentajeCalculado;
+
+                if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
+                {
+                    var ISRDiario = ISR / (UnidadNegocio.FactorDiasMesISR ?? 1);
+
+                    var _diasPago = DiasPago;
+
+                    //agrega un dia solo en caso de que la nomina sea semanal y se calcule con 7mo día.
+                    if (TipoNomina.Clave_Sat == "02" && UnidadNegocio.SeptimoDia == "S")
+                        _diasPago += 1;
+
+                    ISR = Math.Round((decimal)ISRDiario * _diasPago, 2);
+                }
 
                 if (CalculaSubsidio)
                 {

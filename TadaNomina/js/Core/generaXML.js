@@ -1,17 +1,27 @@
-﻿$("#IdPeriodoNomina").change(function () {
+$("#IdPeriodoNomina").change(function () {
     var IdPeriodo = $(this).val();    
     $.showLoading({ name: 'circle-fade' });
     $("form").submit();
 });
 
+$(document).ready(function () {
+    var mensaje = $("#mensajeError").attr("data-text");
+
+    if (mensaje.length > 0) {
+        mensajeAlerta("Atencion!", mensaje, "danger", "jelly", "fadeOut", 0);
+    }
+});
+
 $("#generarXML").click(function () {
     $.showLoading({ name: 'circle-fade' });
     var IdPeriodoNomina = $(this).attr('data-id');
+    var tipoTimbrado = $("#_tipo").val();
+  var claves = $("#_claves").val();
 
     $.ajax({
         type: 'POST',
-        url: 'GeneraXML/GenerarArchivos',
-        data: { IdPeriodoNomina },
+      url: 'GeneraXML/GenerarArchivos',
+      data: { IdPeriodoNomina, tipoTimbrado, claves },
         dataType: 'json',
         async: true,
         success: function (result) {
@@ -20,6 +30,10 @@ $("#generarXML").click(function () {
 
                 $("#MensajeContador").text("XML que hay actualmente en este periodo :" + result.cantidad);
                 mensajeAlerta("Atencion!", result.mensaje, "success", "jelly", "fadeOut", 0);
+
+                if (result.errores.length > 0) {
+                    mensajeAlerta("Atencion!", "Se generaron los siguientes errores: " + result.errores, "warning", "jelly", "fadeOut", 0);
+                }
             }
             else {
                 mensajeAlerta("Atencion!", result.mensaje, "danger", "jelly", "fadeOut", 0);
