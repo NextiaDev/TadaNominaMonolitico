@@ -26,5 +26,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdArea { get; set; }
         public Nullable<int> IdUnidadNegocio { get; set; }
         public string ClaveRH { get; set; }
+        public Nullable<int> IdDeptoPadre { get; set; }
+        public Nullable<int> IdTipoDepto { get; set; }
     }
 }
