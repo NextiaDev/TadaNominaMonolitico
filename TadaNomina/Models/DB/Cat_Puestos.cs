@@ -27,5 +27,6 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> Compensacion_Dia_Trabajado { get; set; }
         public Nullable<int> IdUnidadNegocio { get; set; }
         public string ClaveRH { get; set; }
+        public Nullable<int> IdNivelPuesto { get; set; }
     }
 }

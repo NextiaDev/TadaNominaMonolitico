@@ -322,7 +322,7 @@ namespace TadaNomina.Models.ClassCore
                         DateTime? FechaIngreso = null;
                         FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
                         decimal Antiguedad = periodo.FechaFin.Subtract((DateTime)FechaIngreso).Days / 365M;
-                        cpv.GetDias(IdPrestaciones, Antiguedad);
+                        cpv.GetDias(IdPrestaciones, Antiguedad, periodo.IdUnidadNegocio);
 
                         if (concepto.SDPor != 0 && concepto.SDPor != null)
                         {
@@ -501,7 +501,7 @@ namespace TadaNomina.Models.ClassCore
                         DateTime? FechaIngreso = null;
                         FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
                         decimal Antiguedad = periodo.FechaFin.Subtract((DateTime)FechaIngreso).Days / 365M;
-                        cpv.GetDias(IdPrestaciones, Antiguedad);
+                        cpv.GetDias(IdPrestaciones, Antiguedad, periodo.IdUnidadNegocio);
 
                         if (concepto.SDPor != 0 && concepto.SDPor != null)
                         {
@@ -671,7 +671,7 @@ namespace TadaNomina.Models.ClassCore
                             DateTime? FechaIngreso = null;
                             FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
                             decimal Antiguedad = periodo.FechaFin.Subtract((DateTime)FechaIngreso).Days / 365M;
-                            cpv.GetDias(IdPrestaciones, Antiguedad);
+                            cpv.GetDias(IdPrestaciones, Antiguedad, periodo.IdUnidadNegocio);
 
                             if (concepto.SDPor != 0 && concepto.SDPor != null)
                             {
@@ -813,7 +813,7 @@ namespace TadaNomina.Models.ClassCore
                         DateTime? FechaIngreso = null;
                         FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
                         decimal Antiguedad = periodo.FechaFin.Subtract((DateTime)FechaIngreso).Days / 365M;
-                        cpv.GetDias(IdPrestaciones, Antiguedad);
+                        cpv.GetDias(IdPrestaciones, Antiguedad, periodo.IdUnidadNegocio);
 
                         if (concepto.SDPor != 0 && concepto.SDPor != null)
                         {
@@ -989,7 +989,7 @@ namespace TadaNomina.Models.ClassCore
                         DateTime? FechaIngreso = null;
                         FechaIngreso = cpv.ObtenFechaCalculo(vEmp, conf, "Real");
                         decimal Antiguedad = periodo.FechaFin.Subtract((DateTime)FechaIngreso).Days / 365M;
-                        cpv.GetDias(IdPrestaciones, Antiguedad);
+                        cpv.GetDias(IdPrestaciones, Antiguedad, periodo.IdUnidadNegocio);
 
                         if (concepto.SDPor != 0 && concepto.SDPor != null)
                         {
