@@ -631,7 +631,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelTimbrado.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -661,7 +661,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelTimbrado.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>

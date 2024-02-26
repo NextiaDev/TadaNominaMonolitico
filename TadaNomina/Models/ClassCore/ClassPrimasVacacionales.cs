@@ -66,7 +66,7 @@ namespace TadaNomina.Models.ClassCore
                         mPrimas.IdEmpleado = item.IdEmpleado;
                         mPrimas.ClaveEmpleado = item.ClaveEmpleado;
                         mPrimas.Nombre = item.ApellidoPaterno + " " + item.ApellidoMaterno + " " + item.Nombre;
-                        CalculaPV(IdPrestaciones, (decimal)item.SDIMSS, Antiguedad);
+                        CalculaPV(IdPrestaciones, (decimal)item.SDIMSS, Antiguedad, periodo.IdUnidadNegocio);
                         mPrimas.PV = PV;
                         mPrimas.PVReal = PV;
                         mPrimas.DiasVacaciones = DiasVacaciones;
@@ -165,11 +165,11 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdPrestaciones">Recibe el identificador de la prestación.</param>
         /// <param name="SD">Recibe una variable decimal.</param>
         /// <param name="Antiguedad">Recibe una variable decimal.</param>
-        public void CalculaPV(int IdPrestaciones, decimal SD, decimal Antiguedad)
+        public void CalculaPV(int IdPrestaciones, decimal SD, decimal Antiguedad, int? idunidad)
         {
-            
+
             if (Antiguedad < 0) { Antiguedad = 0; }
-            GetDias(IdPrestaciones, Antiguedad);
+            GetDias(IdPrestaciones, Antiguedad, idunidad);
 
             PV = (DiasVacaciones * SD) * Porcentaje;
            
@@ -203,16 +203,31 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="IdPrestaciones">Recibe el identificador de la prestación.</param>
         /// <param name="Antiguedad">Recibe la variable decimal.</param>
-        public void GetDias(int IdPrestaciones, decimal Antiguedad)
+        public void GetDias(int IdPrestaciones, decimal Antiguedad, int? Idunidad)
         {
             DiasVacaciones = 0;
             Porcentaje = 0;
-            if (Antiguedad > 1)               
+            var factor = new FactorIntegracion();
+            if (Antiguedad > 1)
                 Antiguedad -= 1;
 
-            //var factor = GetFactorIntegracion(IdPrestaciones).Where(x=> x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad).FirstOrDefault();
+
+            var cs = new ClassUnidadesNegocio();
+
+            var unidad = cs.getUnidadesnegocioId(Idunidad.Value);
+
+            if (unidad.BanderaPrestacionesPatronEnteros == "S")
+            {
+                factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior > Antiguedad && x.Limite_Inferior <= Antiguedad).FirstOrDefault();
+
+            }
+            else
+            {
+                factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad).FirstOrDefault();
+
+            }
+
             decimal _antiguedad = Math.Round(Antiguedad, 4);
-            var factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad).FirstOrDefault();
 
             if (factor != null)
             {
@@ -223,6 +238,8 @@ namespace TadaNomina.Models.ClassCore
             if (_factorConcepto > 0)
                 Porcentaje = _factorConcepto;
         }
+
+
 
         /// <summary>
         /// Método que lista el valor del factor de integración para la prima vacacional.
