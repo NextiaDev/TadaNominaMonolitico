@@ -51,6 +51,17 @@
         <hr />
         <div class="row">
             <div class="col-sm-8">
+                <p>Calcular Prestaciones con Enteros.</p>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-CPE" class="toggle-switch" type="checkbox" checked>
+                <label for="check-CPE">Con enteros</label>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col-sm-8">
                 <p>Se calcula Cargas Sociales sin Falta.</p>
 
             </div>
@@ -393,6 +404,13 @@
             dataType: 'json',
             success: function (data) {
                 console.log(data);
+
+                if (data.BanderaPrestacionesPatronEnteros == 'S') {
+                    $("#check-CPE").prop('checked', true);
+                } else {
+                    $("#check-CPE").prop('checked', false);
+                }
+
                 if (data.BanderaCuotaSindical == 'S') {
                     $("#check-CS").prop('checked', true);
                 } else {
@@ -550,6 +568,8 @@
 
     $("#_GuardarDatos").click(function () {
 
+
+        var PrestacionesEntero = $("#check-CPE").prop("checked");
         var CuotaSindical = $("#check-CS").prop("checked");
         var FondoAhorro = $("#check-FH").prop("checked");
         var CargasSFaltas = $("#check-CSSF").prop("checked");
@@ -587,7 +607,7 @@
         $.ajax({
             type: 'POST',
             url: '../GuardarEspeciales',
-            data: { CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
+            data: { PrestacionesEntero, CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
             dataType: 'json',
             async: false,
             success: function (result) {

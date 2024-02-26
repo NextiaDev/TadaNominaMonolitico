@@ -27,5 +27,9 @@ namespace TadaNomina.Models.DB
         public System.DateTime FechaCaptura { get; set; }
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
+        public Nullable<int> IdCentroCosto { get; set; }
+        public Nullable<int> IdSucursal { get; set; }
+        public Nullable<int> IdTipoPlaza { get; set; }
+        public Nullable<int> IdJornada { get; set; }
     }
 }
