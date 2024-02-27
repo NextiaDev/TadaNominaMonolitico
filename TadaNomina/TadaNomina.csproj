@@ -6971,7 +6971,6 @@
     <Content Include="Views\Conceptos\TablaFactores.cshtml" />
     <Content Include="Views\ReporteNomina\AusentimosReporte.cshtml" />
     <Content Include="Views\ConfigUsuario\Index.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\NominasAcumuladas\Index.cshtml" />
     <Content Include="Views\NominasAcumuladas\NominaGeneral.cshtml" />
   </ItemGroup>
