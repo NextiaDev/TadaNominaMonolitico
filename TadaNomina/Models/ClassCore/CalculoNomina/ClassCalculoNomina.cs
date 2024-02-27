@@ -518,6 +518,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             decimal importeConcepto = 0;
             importeConcepto += (datosEmpleados.NetoPagar ?? 0) - (nominaTrabajo.SueldoPagado ?? 0) + (nominaTrabajo.ImpuestoRetener ?? 0) + imss;
             importeConcepto -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Monto).Sum() ?? 0;
+            importeConcepto -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "OTRO" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Monto).Sum() ?? 0;
             importeConcepto += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.MultiplicaDT != "SI" && x.ClaveSAT != "001").Select(X => X.Monto).Sum() ?? 0;
             return importeConcepto;
         }
@@ -1019,6 +1020,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                     decimal incidenciasPercepcion = 0;
                     incidenciasPercepcion = incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Gravado).Sum() ?? 0;
+                    incidenciasPercepcion += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "OTRO" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Gravado).Sum() ?? 0;
                     decimal importeConcepto = montoBruto - ((nominaTrabajo.SueldoPagado ?? 0) + incidenciasPercepcion);
                     InsertaIncidenciaConceptoCompensacionPiramidar(conceptosConfigurados.IdConceptoCompensacion ?? 0, importeConcepto);
                     nominaTrabajo.ER += importeConcepto;
