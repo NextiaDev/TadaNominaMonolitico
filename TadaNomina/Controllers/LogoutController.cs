@@ -11,7 +11,7 @@ namespace TadaNomina.Controllers
         // GET: Logout
         public ActionResult Index()
         {
-            Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Index", "Login"); 
         }
     }

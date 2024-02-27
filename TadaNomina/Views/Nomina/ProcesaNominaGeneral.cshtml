@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
 }
 
+@section Styles{
+    <link href="~/css/principal.css" rel="stylesheet" />
+    }
+
 <div id="page-head">
     <div id="page-title">
         <h1 class="page-header text-overflow">Proceso de Nómina</h1>
@@ -133,6 +137,23 @@
                         </div>
                     </div>
 
+                    @if (Model.TotalEmpleados <= 50)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-3 text-right">
+                                Neto a Pagar:
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" class="btn btn-dark btn-sm" id="_pagarNetos">
+                                    <span class="fa fa-dollar"></span>
+                                    Cargar Netos
+                                </a>
+                            </div>
+
+                        </div>
+                    }
+
+
                     @if (Model.TipoNomina == "Aguinaldo")
                     {
                         <div class="form-group">
@@ -165,9 +186,7 @@
                             <div class="control-label col-md-3">
                                 Configurar Ajuste
                             </div>
-                            @*<div class="col-md-5">
-                            @Html.TextAreaFor(x=> x.empleadosSinAjuste, new { @class="form-control", @placeholder="Escriba aqui las claves separadas por coma(,) de los empleados que a los que no se realizara el ajuste..." })
-                        </div>*@
+
                             <div class="col-md-4">
                                 <a href="#" id="configurarAjuste" data-id="@Model.IdPeriodoNomina" class="btn btn-dark btn-sm add-tooltip" title="Guardar Claves"><span class="fa fa-cogs"></span></a>
 
@@ -201,17 +220,79 @@
                             <button type="submit" id="Aceptar" class="btn btn-primary btn-sm"><span class="fa fa-refresh"></span> Calcular</button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteCalculo"><span class="fa fa-trash"></span> Elminar Calculo</button>
                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#deleteCalculoBajas"><span class="fa fa-trash"></span> Elminar C. Bajas</button>
-                            <a href="@Url.Action("Descargar",  new { Id = Model.IdPeriodoNomina })" class="btn btn-success btn-sm"><span class="fa fa-download"></span> Descargar</a>                            
+                            <a href="@Url.Action("Descargar",  new { Id = Model.IdPeriodoNomina })" class="btn btn-success btn-sm"><span class="fa fa-download"></span> Descargar</a>
                             <a href="@Url.Action("BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Load"><span class="fa fa-search"></span> Buscar Empleado</a>
-                            
+
                             <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
                         </div>
                     </div>
                 </div>
+
+                
             }
         </div>
     </div>
 
+</div>
+
+<div class="modal fade" id="modalCargarSueldosNetos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
+                <h4 class="modal-title">Cargar Netos</h4>
+            </div>
+            <div class="modal-body">
+                <hr />
+                <table class="table table-sm table-striped table panel-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Clave
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Neto
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="_body">
+                        @foreach (var item in Model.lempleadosNetos)
+                        {
+                            <tr>
+                                <td class="_idEmp">
+                                    @item.IdEmpleado
+                                </td>
+                                <td>
+                                    @item.ClaveEmpleado
+                                </td>
+                                <td>
+                                    @item.Nombre
+                                </td>
+                                <td class="_netoEmps">
+                                    @Html.EditorFor(model => item.Neto, new { htmlAttributes = new { @class = "form-control _neto" } })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <div class="form-actions no-color">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Cerrar</button>
+                    <a href="#" id="ActualizaNetos" class="btn btn-success btn-sm">Guardar Netos</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="modalCargarSueldosProy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -272,14 +353,13 @@
                 <div class="alert alert-purple">
                     Si se requiere un ajuste mensual en estos empleados, por favor elija los periodos contra los que se ajustara.
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-2">
                         Periodos:
                     </div>
                     <div class="col-md-4">
                         <select class="form-control" id="_selectPeriodo">
-                                
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -302,7 +382,7 @@
                         <textarea id="_peridoosAjuste" class="form-control" readonly></textarea>
                     </div>
                 </div>
-                
+
             </div>
             <div class="modal-footer">
                 <div class="form-actions no-color">
