@@ -109,8 +109,7 @@ namespace TadaNomina.Models.ClassCore
         public List<vPeriodoNomina> GetvPeriodoNominas(int IdUnidadNegocio)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
-            {
-                
+            {                
                 var periodos = from b in entidad.vPeriodoNomina.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1 && x.TipoNomina != "Especial") select b;
 
                 return periodos.ToList();
@@ -126,9 +125,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var periodos = from b in entidad.vPeriodoNomina.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 2) select b;
-
-                return periodos.ToList();
+                return entidad.vPeriodoNomina.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 2).ToList();
             }
         }
 
@@ -141,9 +138,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var periodos = (from b in entidad.vPeriodoNomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina) select b).FirstOrDefault();
-
-                return periodos;
+                return entidad.vPeriodoNomina.Where(x => x.IdPeriodoNomina == IdPeriodoNomina).FirstOrDefault();
             }
         }
 
@@ -196,6 +191,7 @@ namespace TadaNomina.Models.ClassCore
                     TipoNomina = x.TipoNomina,
                     FechaInicio = x.FechaInicio.ToShortDateString(),
                     FechaFin = x.FechaFin.ToShortDateString(),
+                    FechaDispersion_ = ((DateTime)x.FechaDispersion).ToShortDateString(),
                     AjusteImpuestos = x.AjusteDeImpuestos,
                     IdsPeriodosAjuste = x.SeAjustaraConPeriodo,
                     Observaciones = x.Observaciones,
@@ -265,7 +261,6 @@ namespace TadaNomina.Models.ClassCore
             return new { lperiodos.IdPeriodoNomina, lperiodos.EmpleadosSinAjuste, lperiodos.PeriodosAjusteSecundario, lSPeriodos, descPeriodos };            
         }
 
-
         /// <summary>
         /// Método para agregar un periodo de nómina con pago de utilidades.
         /// </summary>
@@ -328,7 +323,6 @@ namespace TadaNomina.Models.ClassCore
                 entidad.SaveChanges();
             }
         }
-
 
         /// <summary>
         /// Método que agrega un identificador de periodo de nómina.

@@ -666,7 +666,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                     if (SD_IMSS <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1) || faltasIncapacidades >= diasPago_)
                     {
-                        if (UnidadNegocio.CobraCOPS_Empleado_SMGV == "S" && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS, SDI))
+                        if (UnidadNegocio.CobraCOPS_Empleado_SMGV == "S") // && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS, SDI)) // se omite temporalmente para ver su funcionamiento
                         {
                             nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
                             nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal
@@ -690,9 +690,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     if (UnidadNegocio.NoCalcularCargaObrera == "S")
                         SincargaObrera();
                 }
-
-
-
             }
             else
             {
@@ -850,7 +847,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                     if (SD_IMSS <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1) || faltasIncapacidades >= diasPago_)
                     {
-                        if (UnidadNegocio.CobraCOPS_Empleado_SMGV == "S" && ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS, SDI))
+                        if (UnidadNegocio.CobraCOPS_Empleado_SMGV == "S" )//&& ValidaCobroCOPS(IdPrestacionesEmpleado, nominaTrabajo.FechaReconocimientoAntiguedad, nominaTrabajo.FechaAltaIMSS, SD_IMSS, SDI) // se omite temporalmente para ver su funcionamiento
                         {
                             nominaTrabajo.IMSS_Obrero = nominaTrabajo.Excedente_Obrera + nominaTrabajo.Prestaciones_Dinero + nominaTrabajo.Gastos_Med_Pension + nominaTrabajo.Invalidez_Vida + nominaTrabajo.Cesantia_Vejez;
                             nominaTrabajo.Total_Patron = nominaTrabajo.Cuota_Fija_Patronal + nominaTrabajo.Excedente_Patronal + nominaTrabajo.Prestamo_Dinero_Patronal + nominaTrabajo.Gastos_Med_Pension_Patronal + nominaTrabajo.Invalidez_Vida_Patronal

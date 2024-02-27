@@ -55,20 +55,51 @@ namespace TadaNomina.Models.ClassCore
 
             ClassPeriodoNomina cper = new ClassPeriodoNomina();
             model.PeriodoAjuste = cper.GetDescripcionPeriodos(periodo.SeAjustaraConPeriodo);
-            var empleados = classEmpleado.GetEmpleadoByUnidadNegocio(periodo.IdUnidadNegocio).Where(x => x.IdEstatus == 1);
+            var empleados = classEmpleado.GetEmpleadoByUnidadNegocio(periodo.IdUnidadNegocio).Where(x => x.IdEstatus == 1);                        
             model.TotalEmpleados = empleados.Count();
+            List<ModelEmpleadosNetos> empNetos = new List<ModelEmpleadosNetos>();
+
+            if (model.TotalEmpleados <= 50)
+            {
+                empleados.ForEach(x => empNetos.Add(new ModelEmpleadosNetos
+                {
+                    IdEmpleado = x.IdEmpleado,
+                    ClaveEmpleado = x.ClaveEmpleado,
+                    Nombre = x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre,
+                    Neto = x.NetoPagar
+                }));
+            }
+
+            model.lempleadosNetos = empNetos;
             model.EmpleadosSinSDI = empleados.Where(x=> x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0) ).Count();
             model.LEmpleadosSinSDI = new Dictionary<string, string>();
             empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).ForEach(x=> { model.LEmpleadosSinSDI.Add(x.ClaveEmpleado, x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre); });
-            List<NominaTrabajo> dataNomina = GetDataNominaTrabajo(periodo.IdPeriodoNomina);
-            if (periodo.TipoNomina == "Finiquitos")
-                dataNomina = GetDataNominaTrabajoFiniquitos(periodo.IdPeriodoNomina);
 
-            model.TotalPagarSueldos = string.Format("{0:C2}", dataNomina.Select(x => x.Neto).Sum());
-            model.TotalISR = string.Format("{0:C2}", dataNomina.Select(x => x.ImpuestoRetener).Sum());
-            model.TotalIMSS = string.Format("{0:C2}", dataNomina.Select(x => x.IMSS_Obrero).Sum());
-            model.TotalIMSS_P = string.Format("{0:C2}", dataNomina.Select(x => x.Total_Patron).Sum());
-            model.TotalISN = string.Format("{0:C2}", dataNomina.Select(x => x.ISN).Sum());
+            if (periodo.IdEstatus == 1)
+            {
+                List<NominaTrabajo> dataNomina = GetDataNominaTrabajo(periodo.IdPeriodoNomina);
+                if (periodo.TipoNomina == "Finiquitos")
+                    dataNomina = GetDataNominaTrabajoFiniquitos(periodo.IdPeriodoNomina);
+
+                model.TotalPagarSueldos = string.Format("{0:C2}", dataNomina.Select(x => x.Neto).Sum());
+                model.TotalISR = string.Format("{0:C2}", dataNomina.Select(x => x.ImpuestoRetener).Sum());
+                model.TotalIMSS = string.Format("{0:C2}", dataNomina.Select(x => x.IMSS_Obrero).Sum());
+                model.TotalIMSS_P = string.Format("{0:C2}", dataNomina.Select(x => x.Total_Patron).Sum());
+                model.TotalISN = string.Format("{0:C2}", dataNomina.Select(x => x.ISN).Sum());
+            }
+
+            if (periodo.IdEstatus == 2)
+            {
+                List<Nomina> dataNomina = GetDatosNomina(periodo.IdPeriodoNomina);
+                if (periodo.TipoNomina == "Finiquitos")
+                    dataNomina = GetDataNominaFiniquitos(periodo.IdPeriodoNomina);
+
+                model.TotalPagarSueldos = string.Format("{0:C2}", dataNomina.Select(x => x.Neto).Sum());
+                model.TotalISR = string.Format("{0:C2}", dataNomina.Select(x => x.ImpuestoRetener).Sum());
+                model.TotalIMSS = string.Format("{0:C2}", dataNomina.Select(x => x.IMSS_Obrero).Sum());
+                model.TotalIMSS_P = string.Format("{0:C2}", dataNomina.Select(x => x.Total_Patron).Sum());
+                model.TotalISN = string.Format("{0:C2}", dataNomina.Select(x => x.ISN).Sum());
+            }
 
             return model;
         }
@@ -99,6 +130,22 @@ namespace TadaNomina.Models.ClassCore
             {
                 int[] estatus = { 1, 2, 4 };
                 var nomina = (from b in entidad.NominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodo && estatus.Contains((int)x.IdEstatus)) select b).ToList();
+
+                return nomina;
+            }
+        }
+
+        /// <summary>
+        /// Método para extraer la información de todo lo que esta procesado en el periodo de nómina considerando diferentes estatus especiales de los finiquitos de la tabla NominaTrabajo 
+        /// </summary>
+        /// <param name="IdPeriodo">Identificador del periodo de nómina</param>
+        /// <returns>información de todo lo que esta procesado en el periodo de nómina considerando diferentes estatus especiales de los finiquitos de la tabla NominaTrabajo</returns>
+        public List<Nomina> GetDataNominaFiniquitos(int IdPeriodo)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                int[] estatus = { 1, 2, 4 };
+                var nomina = (from b in entidad.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodo && estatus.Contains((int)x.IdEstatus)) select b).ToList();
 
                 return nomina;
             }

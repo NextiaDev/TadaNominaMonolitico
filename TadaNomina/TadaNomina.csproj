@@ -399,6 +399,7 @@
     <Compile Include="Controllers\Nomina\IncidenciasProgramadasController.cs" />
     <Compile Include="Controllers\Nomina\InfonavitController.cs" />
     <Compile Include="Controllers\Nomina\NominaController.cs" />
+    <Compile Include="Controllers\Nomina\NominasAcumuladasController.cs" />
     <Compile Include="Controllers\Nomina\PagoHorasController.cs" />
     <Compile Include="Controllers\Nomina\PensionAlimenticiaController.cs" />
     <Compile Include="Controllers\Nomina\PeriodosController.cs" />
@@ -1373,6 +1374,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelConfEmpleadoHoras.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelDiasTrabajadosAguinaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadoFiniquito.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelEmpleadosNetos.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelErroresIncidencias.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelFonacot.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelIncidenciaIndividual.cs" />
@@ -4189,6 +4191,7 @@
     <Content Include="css\nifty.css" />
     <Content Include="css\nifty.min.css" />
     <Content Include="css\pdfhtml.css" />
+    <Content Include="css\principal.css" />
     <Content Include="css\themes\type-a\theme-coffee.css" />
     <Content Include="css\themes\type-a\theme-coffee.min.css" />
     <Content Include="css\themes\type-a\theme-dark.css" />
@@ -6968,6 +6971,9 @@
     <Content Include="Views\Conceptos\TablaFactores.cshtml" />
     <Content Include="Views\ReporteNomina\AusentimosReporte.cshtml" />
     <Content Include="Views\ConfigUsuario\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\NominasAcumuladas\Index.cshtml" />
+    <Content Include="Views\NominasAcumuladas\NominaGeneral.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

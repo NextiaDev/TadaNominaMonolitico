@@ -78,6 +78,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public decimal? TotalPercepciones { get; set; }
         public decimal? TotalDeducciones { get; set; }
         public decimal? NetoPagar { get; set; }
+        public string FechaDispersion_ {  get; set; }
 
         public bool Validacion { get; set; }
         public string Mensaje { get; set; }

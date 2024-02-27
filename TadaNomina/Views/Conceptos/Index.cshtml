@@ -51,10 +51,11 @@
                             <th>
                                 T.Dato
                             </th>
-
+                            
                             <th>
                                 @Html.DisplayNameFor(model => model.Exenta)
                             </th>
+                            <th></th>
                             <th width="15%"></th>
                         </tr>
                     </thead>
@@ -81,6 +82,13 @@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Exenta)
+                                </td>
+                                <td>
+                                    @if(item.Formula != null && item.Formula.Length > 0)
+                                    {
+                                        <label class="label label-success">Formulado</label>
+                                    }
+                                    
                                 </td>
                                 <td>
                                     @if (Session["sTipoUsuario"].ToString() == "System")

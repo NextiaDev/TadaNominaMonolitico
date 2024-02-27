@@ -103,7 +103,7 @@ namespace TadaNomina.Controllers
 
         public JsonResult CerrarSession()
         {
-            Session.Clear();
+            Session.Abandon();
             return Json("Ok");
         }
     }
