@@ -6,11 +6,51 @@ using System.Linq;
 using System.Web;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Nominas;
+using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore
 {
     public class ClassActualizaNetos
     {
+        public void ActualizaNetosString(string valores)
+        {
+            valores = valores.Trim();
+            if (valores != string.Empty)
+            {
+                valores.Replace(" ", "");
+                List<string> _datos = valores.Trim().Split(',').ToList();
+
+                foreach (var item in _datos)
+                {
+                    if (item != string.Empty)
+                    {
+                        string[] datos = item.Split(':');
+                        if (datos[0] != string.Empty)
+                        {
+                            int IdEmpleado = int.Parse(datos[0]);
+                            decimal? netoPagar = null;
+                            try { netoPagar = decimal.Parse(datos[1]); } catch { }
+                            ActualizaNetosByIdEmpleado(IdEmpleado, netoPagar);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ActualizaNetosByIdEmpleado(int IdEmpleado, decimal? NetoPagar)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var emp = entidad.Empleados.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault();
+
+                if (emp != null)
+                { 
+                    emp.NetoPagar = NetoPagar;
+                    entidad.SaveChanges();
+                }
+            }
+        }
+
         public void ActualizaNetos(string path, int IdUnidadNegocio)
         {
             ClassEmpleado cemp = new ClassEmpleado();
@@ -25,7 +65,7 @@ namespace TadaNomina.Models.ClassCore
                     string ClaveEmp = campos[0].Trim();
                     try { neto = decimal.Parse(campos[1].Trim()); } catch { }                    
 
-                    var emp = (from b in entidad.Empleados.Where(x => x.ClaveEmpleado == ClaveEmp && x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1) select b).FirstOrDefault();
+                    var emp = entidad.Empleados.Where(x => x.ClaveEmpleado == ClaveEmp && x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1).FirstOrDefault();
 
                     if (emp != null)
                     {       

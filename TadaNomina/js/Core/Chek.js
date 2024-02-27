@@ -1,4 +1,4 @@
-﻿
+
 
 $("#IncidenciasAguinaldoAutomaticas").change(function () {
     var sino = false;
@@ -200,4 +200,45 @@ $("#_guardarConfAjuste").click(function () {
             mensajeAlerta("Atencion!", er, "danger", "jelly", "fadeOut", 2500);
         }
     });    
+});
+
+$("#_pagarNetos").click(function () {
+  $("#modalCargarSueldosNetos").modal('show');
+});
+
+$("#ActualizaNetos").click(function () {
+  var valores = "";
+  $.showLoading();
+  $("#modalCargarSueldosNetos").modal('hide');
+  $("._body").find("tr").each(function () {
+    $(this).find("td").each(function () {
+      if ($(this).attr("class") == "_idEmp") {
+        valores += $(this).html().trim() + ":";
+      }
+
+      if ($(this).attr("class") == "_netoEmps") {
+        valores += $(this).children("._neto").val() + ",";
+      }
+    });    
+  });
+
+  $.ajax({
+    type: 'POST',
+    url: 'ActualizaNetos',
+    data: { valores },
+    dataType: 'json',
+    success: function (data) {
+      $.hideLoading();
+      if (data.result == "Ok") {
+        mensajeAlerta("Atencion!", data.mensaje, "mint", "jelly", "fadeOut", 2500);
+      }
+      else {
+        mensajeAlerta("Atencion!", data.mensaje, "danger", "jelly", "fadeOut", 2500);
+      }
+    },
+    error(er) {
+      $.hideLoading();
+      mensajeAlerta("Atencion!", er, "danger", "jelly", "fadeOut", 2500);
+    }
+  });
 });

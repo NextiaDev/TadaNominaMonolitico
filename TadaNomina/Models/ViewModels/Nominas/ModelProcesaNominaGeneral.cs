@@ -78,5 +78,6 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         public int EmpleadosSinSDI { get; set; }
         public Dictionary<string, string> LEmpleadosSinSDI { get; set; }
+        public List<ModelEmpleadosNetos> lempleadosNetos { get; set; }
     }
 }

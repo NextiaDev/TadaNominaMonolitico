@@ -65,6 +65,9 @@ namespace TadaNomina.Controllers.Nomina
 
                 ModelProcesaNominaGeneral modelo = classNomina.GetModelProcesaNominaGeneral(classPeriodoNomina.GetvPeriodoNominasId(pIdPeriodoNomina));
 
+                if (Session["sTipoUsuario"].ToString() == "System")
+                    modelo.Periodo += " (" + modelo.IdPeriodoNomina + ")";
+
                 return View(modelo);
             }
         }
@@ -99,6 +102,21 @@ namespace TadaNomina.Controllers.Nomina
             }
 
             return View(modelo);
+        }
+
+        [HttpPost]
+        public JsonResult ActualizaNetos(string valores)
+        { 
+            try
+            {                
+                ClassActualizaNetos can = new ClassActualizaNetos();
+                can.ActualizaNetosString(valores);
+                return Json(new { result = "Ok", mensaje = "Se actualizaron los netos de forma correcta." });   
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "Error", mensaje = ex.Message });
+            }
         }
 
         /// <summary>

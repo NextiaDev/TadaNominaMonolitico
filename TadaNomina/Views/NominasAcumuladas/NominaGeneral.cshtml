@@ -1,0 +1,126 @@
+﻿@model TadaNomina.Models.ViewModels.Nominas.ModelProcesaNominaGeneral
+@{
+    ViewBag.Title = "NominaGeneral";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Nomina</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+
+<div id="page-content">
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Resumen de Nómina</h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <hr />
+
+                @Html.HiddenFor(model => model.IdPeriodoNomina)
+                @Html.HiddenFor(model => model.TipoNomina)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cliente, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.Cliente, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.UnidadNegocio, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.UnidadNegocio, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        <u> <strong> @Html.DisplayFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })</strong></u>
+                    </div>
+                    @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TipoNomina, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Periodicidad, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.Periodicidad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.ConfiguracionSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.ConfiguracionSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaInicial, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.FechaInicial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.FechaFinal, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.FechaFinal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AjusteImpuestos, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.AjusteImpuestos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.PeriodoAjuste, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.PeriodoAjuste, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalEmpleados, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalEmpleados, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.TotalPagarSueldos, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalPagarSueldos, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalISR, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalISR, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.TotalISN, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalISN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TotalIMSS, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalIMSS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                    @Html.LabelFor(model => model.TotalIMSS_P, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.TotalIMSS_P, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="panel-footer">
+                    <div class="form-group" style="text-align:right">
+                        <a href="@Url.Action("BuscarEmpleadoIndividual", new { pIdPeriodoNomina = Model.IdPeriodoNomina })" class="btn btn-info btn-sm _Load"><span class="fa fa-search"></span> Buscar Empleado</a>
+                        <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

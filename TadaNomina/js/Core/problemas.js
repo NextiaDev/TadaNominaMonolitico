@@ -134,13 +134,13 @@ function redirigir() {
     window.location.href = rutaLogin;
 }
 
-function cerrarSesionesServer() {
-  var rutaValida = $("#rutaCerrarSesion").attr('data-id');
-  $.ajax({
-    ype: 'POST',
-    url: rutaValida,
-    success: function () {
+//function cerrarSesionesServer() {
+//  var rutaValida = $("#rutaCerrarSesion").attr('data-id');
+//  $.ajax({
+//    ype: 'POST',
+//    url: rutaValida,
+//    success: function () {
 
-    }
-  });
-}
+//    }
+//  });
+//}
