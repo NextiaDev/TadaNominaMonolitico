@@ -395,6 +395,7 @@
     <Compile Include="Controllers\Nomina\FonacotController.cs" />
     <Compile Include="Controllers\Nomina\HonorariosController.cs" />
     <Compile Include="Controllers\Nomina\IncidenciasController.cs" />
+    <Compile Include="Controllers\Nomina\IncidenciasPrenominaController.cs" />
     <Compile Include="Controllers\Nomina\IncidenciasProgramadasController.cs" />
     <Compile Include="Controllers\Nomina\InfonavitController.cs" />
     <Compile Include="Controllers\Nomina\NominaController.cs" />
@@ -497,6 +498,7 @@
     <Compile Include="Models\ClassCore\Herramientas\cMigracionRP.cs" />
     <Compile Include="Models\ClassCore\IMSS\ClassIMSS.cs" />
     <Compile Include="Models\ClassCore\IMSS\ClassRecuperacionesIMSS.cs" />
+    <Compile Include="Models\ClassCore\IncidenciasPrenomina\cIncidenciasPrenomina.cs" />
     <Compile Include="Models\ClassCore\LayoutB\cArchivosDispersion.cs" />
     <Compile Include="Models\ClassCore\LayoutB\ClassBajio.cs" />
     <Compile Include="Models\ClassCore\LayoutB\ClassBanamex.cs" />
@@ -630,7 +632,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelTimbrado.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -660,7 +662,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelTimbrado.tt</DependentUpon>
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
@@ -6958,6 +6960,8 @@
     <Content Include="Views\SindicatosClientes\Details.cshtml" />
     <Content Include="Views\SindicatosClientes\Edit.cshtml" />
     <Content Include="Views\SindicatosClientes\Index.cshtml" />
+    <Content Include="Views\IncidenciasPrenomina\Index.cshtml" />
+    <Content Include="Views\IncidenciasPrenomina\SeleccionarPeriodo.cshtml" />
     <Content Include="Views\ReporteGV\Index.cshtml" />
     <Content Include="Views\ReportesDirectivos\Index.cshtml" />
     <Content Include="Views\ReportesDirectivos\Entidades.cshtml" />
