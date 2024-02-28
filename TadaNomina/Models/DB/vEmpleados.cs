@@ -128,5 +128,10 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> FechaTerminoContrato { get; set; }
         public Nullable<int> IdOcupacionSTPS { get; set; }
         public Nullable<decimal> PorcentajeSindicato { get; set; }
+        public string Calle { get; set; }
+        public string noExt { get; set; }
+        public string noInt { get; set; }
+        public string Colonia { get; set; }
+        public string Municipio { get; set; }
     }
 }

@@ -115,6 +115,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> NoPlaza { get; set; }
         public Nullable<int> IdMotivoBajaEmpleadoInterno { get; set; }
         public string BajaEmpleadoObservaciones { get; set; }
+        public string TimbradoEmpleado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmpleadoInformacionComplementaria> EmpleadoInformacionComplementaria { get; set; }
