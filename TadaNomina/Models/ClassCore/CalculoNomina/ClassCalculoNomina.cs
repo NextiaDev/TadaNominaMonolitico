@@ -646,7 +646,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     decimal? valorCalculo = null;
 
                     GetAccionRealizar(lineas, ref Formula, ref Omitidos, ref Unicamente, ref Condicion);
-                    GetCondiciones(Condicion);
+                    GetCondiciones(Condicion, ref Calcular, ref valorCalculo);
                     GetDatosUnicamente(Unicamente, ClavesEmpleadoUnicamente, ClavesConceptoUnicamente);
                     GetDatosOmitidos(Omitidos, ClavesEmpleadoOmitidos, ClavesConceptoOmitidos);
 
@@ -678,6 +678,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                         {
                             Formula = GetFormulaConceptosNominaIncidencias(Formula);
                             Formula = GetFormulaTablaEquivalencias(datosEmpleados, icform, Formula);
+                            Formula = Formula.Replace("VALOR_CONDICION", (valorCalculo ?? 0).ToString());
 
                             IDynamicExpression e = context.CompileDynamic(Formula);
                             var resul = Math.Round(Convert.ToDecimal(e.Evaluate()), 2);
@@ -770,7 +771,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             return Formula;
         }
 
-        private void GetCondiciones(string Condicion)
+        private void GetCondiciones(string Condicion, ref bool Calcular, ref decimal? valorCalculo)
         {
             if (Condicion != string.Empty)
             {
@@ -779,11 +780,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 try { condiciones = Condicion.ToUpper().Trim().Split(',').ToList(); } catch { }
                 if (condiciones.Count() > 0)
                 {
+                    Calcular = false;
                     foreach (var cond in condiciones)
                     {
                         if (cond != null && cond != string.Empty)
                         {
-                            //la cadena se puede componer por 6 campos -> TABLA|CAMPO DE LA TABLA|TIPO DE CAMPO RESULTADO(NUMERICO, TEXTO)|VALOR DEL REGISTRO|VALOR SE TOMA DE OTRO CAMPO DE LA TABLA
+                            //la cadena se puede componer por 6 campos -> TABLA|CAMPO DE LA TABLA|TIPO DE CAMPO RESULTADO(NUMERICO, TEXTO)|VALOR DEL REGISTRO(val1=x&val2=y)|VALOR SE TOMA DE OTRO CAMPO DE LA TABLA
                             string[] datosCond = cond.Trim().Split('|');
                             string tabla = string.Empty;
                             string campo = string.Empty;
@@ -809,7 +811,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                                     if (v != string.Empty)
                                     {
                                         string[] vdatos = v.Trim().Split('=');
-                                        dvalores.Add(vdatos[0], vdatos[1]);
+                                        string _key = null;
+                                        string _value = null;
+                                        try { _key = vdatos[0]; } catch { }
+                                        try { _value = vdatos[1]; } catch { }
+                                        dvalores.Add(_key, _value);
                                     }
                                 }
                             }
@@ -823,6 +829,22 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             {
                                 int resul = (int)resultado;
 
+                                if (dvalores.Select(x => int.Parse(x.Key)).ToList().Contains(resul))
+                                {
+                                    var _valor = dvalores.Where(x => int.Parse(x.Key) == resul).Select(x => x.Value).FirstOrDefault();
+
+                                    if (_valor != null)
+                                    {
+                                        try { valorCalculo = decimal.Parse(_valor); } catch { }
+                                    }
+
+                                    if (valorCampo != string.Empty)
+                                    {
+                                        try { valorCalculo = (decimal)GetConsultaCondicion(tabla, valorCampo, TipoValor); } catch { }
+                                    }
+
+                                    Calcular = true;   
+                                }
                             }
                         }
                     }
@@ -916,8 +938,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <summary>
         /// Obtiene la consulta para la condición capturada en la formula
         /// </summary>
-        /// <param name="tabla"></param>
-        /// <param name="campo"></param>
+        /// <param name="tabla">tabla a la que se hara la consulta</param>
+        /// <param name="campo">campo contra el que se hace la validación</param>
         /// <returns></returns>
         private dynamic GetConsultaCondicion(string tabla, string campo, string tipoDato)
         {
@@ -927,8 +949,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 
                 if (tipoDato == "NUMERICO")
                 {
-                    var resutl = entidad.Database.SqlQuery<int?>(consulta).FirstOrDefault();
-                    dynamic result = resutl;
+                    decimal? _result = 0;
+                    try { _result = entidad.Database.SqlQuery<decimal?>(consulta).FirstOrDefault(); }
+                    catch { _result = entidad.Database.SqlQuery<int?>(consulta).FirstOrDefault(); }
+                    dynamic result = _result;
                     return result;
                 }
 

@@ -76,7 +76,10 @@ namespace TadaNomina.Controllers.Administracion
                 if (ModelState.IsValid)
                 {                    
                     int IdUsuario = (int)Session["sIdUsuario"];
-                    collection.Formula = collection.Formula.Trim();
+
+                    if (collection.Formula != null)
+                        collection.Formula = collection.Formula.Trim();
+
                     cconceptos.AddConcepto(collection, IdCliente, IdUsuario);
                     return Json(1, JsonRequestBehavior.AllowGet);
                 }                
@@ -121,7 +124,10 @@ namespace TadaNomina.Controllers.Administracion
                 ClassConceptos cconceptos = new ClassConceptos();
                 int IdUsuario = (int)Session["sIdUsuario"];
                 collection.IdCliente = (int)Session["sIdCliente"];
-                collection.Formula = collection.Formula.Trim();
+                           
+                if(collection.Formula != null)
+                    collection.Formula = collection.Formula.Trim();
+
                 cconceptos.UpdateConcepto(collection, IdUsuario);
 
                 return Json(1, JsonRequestBehavior.AllowGet);
