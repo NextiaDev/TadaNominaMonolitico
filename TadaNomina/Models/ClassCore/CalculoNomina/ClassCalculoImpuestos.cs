@@ -979,12 +979,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         private void Evalua_Tipo_Insidencia()
         {
-            Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD" && b.IdConcepto != conceptosConfigurados.IdConceptoFaltas
+            Dias_Faltados = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD" && b.CalculoDiasHoras != "Horas" && b.IdConcepto != conceptosConfigurados.IdConceptoFaltas
                                                                 && b.IdEstatus == 1 && _tipoEsquemaT.Contains(b.TipoEsquema) && b.ClaveGpo == "500" && b.AfectaCargaSocial == "SI").Sum(x => x.Cantidad);
 
             Dias_Faltados_IMSS = Dias_Faltados;
 
-            Incapacidades = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD"
+            Incapacidades = (decimal)listIncidencias.Where(b => b.IdPeriodoNomina == IdPeriodoNomina && b.IdEmpleado == IdEmpleado && b.TipoDato == "Cantidades" && b.TipoConcepto == "DD" && b.CalculoDiasHoras != "Horas"
                                                                 && b.IdEstatus == 1 && _tipoEsquemaT.Contains(b.TipoEsquema) && b.ClaveGpo == "501" && b.AfectaCargaSocial == "SI").Sum(x => x.Cantidad);
 
             if (Incapacidades == 15 && DiasTrabajados_IMSS == 15.20M) { Incapacidades += .20M; }
