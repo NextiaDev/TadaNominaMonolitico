@@ -1,6 +1,8 @@
-﻿
-
-
+﻿$(document).ready(function () {
+    if ($("#PremioP").val()) {
+        $("#PremioP").prop("disabled", false);
+    }
+});
 
 function ValidaDepartamentos(IdDepto) {
     if (IdDepto == "AAA") {
@@ -137,3 +139,12 @@ $("#ApellidoPaterno").on("paste keyup", function (event) {
         }
     }
 });
+
+function Premio(valor) {
+    if (valor.checked == true) {
+        document.getElementById('PremioP').disabled = false;
+    } else {
+        document.getElementById('PremioP').checked = false;
+        document.getElementById('PremioP').disabled = true;
+    }
+}
