@@ -1064,6 +1064,11 @@ namespace TadaNomina.Controllers.Administracion
                                 emp.IdPrestaciones = int.Parse(dr["[IdPrestaciones]"].ToString());
                             }
 
+                            if (!string.IsNullOrEmpty(dr["[TimbradoNomina]"].ToString()))
+                            {
+                                emp.TimbradoEmpleado = dr["[TimbradoNomina]"].ToString();
+                            }
+
                             //Viaticos
                             if (!string.IsNullOrEmpty(IdBancoViaticos))
                             {
@@ -1095,6 +1100,11 @@ namespace TadaNomina.Controllers.Administracion
                                 {
                                 }
                             }
+
+                            //if (!string.IsNullOrEmpty(dr["[TimbradoNomina]"].ToString()))
+                            //{
+                            //    emp.TimbradoEmpleado = dr["[TimbradoNomina]"].ToString();
+                            //}
                         }
                     }
 
