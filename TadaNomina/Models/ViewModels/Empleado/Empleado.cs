@@ -347,6 +347,10 @@ namespace TadaNomina.Models.ViewModels
         public List<SelectListItem> NacionalidadList { get; set; }
         public List<SelectListItem> SindicatosoList { get; set; }
 
+        [Display(Name = "Participa en el Timbrado")]
+        public string IdTimbrado { get; set; }
+        public List<SelectListItem> TimbradoList { get; set; }
+
 
     }
 }

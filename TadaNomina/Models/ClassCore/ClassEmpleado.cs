@@ -45,11 +45,9 @@ namespace TadaNomina.Models.ClassCore
             empleado.BancosList = GetBancos();
             empleado.EsquemasList = GetEsquema();
             empleado.NacionalidadList = GetNacionalidad();
-
-
+            try { empleado.TimbradoList = GetTImbrado(); } catch { empleado.TimbradoList = new List<SelectListItem>(); }
             try { empleado.DepartamentoList = GetDepartamentos(IdCliente); } catch { empleado.DepartamentoList = new List<SelectListItem>(); }
             try { empleado.SindicatosoList = GetSindicatosClientes(IdCliente); } catch { empleado.SindicatosoList = new List<SelectListItem>(); }
-
             try { empleado.PuestosList = GetPuestos(IdCliente); } catch { empleado.PuestosList = new List<SelectListItem>(); }
             try { empleado.SucursalList = GetSucursales(IdCliente); } catch { empleado.SucursalList = new List<SelectListItem>(); }
             try { empleado.CentrosCostosList = GetCentrosCostos(IdCliente); } catch { empleado.CentrosCostosList = new List<SelectListItem>(); }
@@ -63,6 +61,21 @@ namespace TadaNomina.Models.ClassCore
 
             return empleado;
         }
+
+
+        /// Método para obter una lisa tipo SelectListItem con el Catalogo Recontraatable
+        /// </summary>
+        /// <returns>lisa tipo SelectListItem con el Catalogo Recontraatable</returns>
+        public List<SelectListItem> GetTImbrado()
+        {
+            List<SelectListItem> sexo = new List<SelectListItem>
+            {
+                new SelectListItem() { Text = "SI", Value = "S" },
+                new SelectListItem() { Text = "NO", Value = "N" }
+            };
+            return sexo;
+        }
+
 
         /// <summary>
         /// Método para obter una lisa tipo SelectListItem con los estatus
@@ -731,7 +744,9 @@ namespace TadaNomina.Models.ClassCore
                     CP = empleado.CodigoPostalFiscal,
                     Nacionalidad = empleado.Nacionalidad,
                     idSincatosClientes = empleado.IdSindicatos,
-                    PorcentajeSindicato = empleado.NSindicato
+                    PorcentajeSindicato = empleado.NSindicato,
+                    TimbradoEmpleado = empleado.IdTimbrado
+
                 };
 
                 if (empleado.IdRegistroPatronal != null)
@@ -1164,6 +1179,10 @@ namespace TadaNomina.Models.ClassCore
                 empleado.Idsindicato = emp.idSindicato;
                 empleado.SindicatoList = GetSindicato();
 
+                empleado.IdTimbrado = emp.TimbradoEmpleado;
+                empleado.TimbradoList = GetTImbrado();
+
+
                 empleado.IdPuesto = emp.IdPuesto;
                 //empleado.PuestosList = GetPuestos(IdCliente);
                 empleado.PuestosList = GetPuestosActivosInactivos(emp.IdPuesto, IdCliente);
@@ -1467,6 +1486,7 @@ namespace TadaNomina.Models.ClassCore
                     emp.noExt = empleado.NumeroExtFiscal;
                     emp.noInt = empleado.NumeroIntFiscal;
                     emp.CP = empleado.CodigoPostalFiscal;
+                    emp.TimbradoEmpleado = empleado.IdTimbrado;
 
                     if (empleado.IdEstatus == 2 || empleado.IdEstatus == 3)
                     {
@@ -1784,6 +1804,7 @@ namespace TadaNomina.Models.ClassCore
                         emp.IdArea = empleado.idArea;
                         emp.IdJornada = empleado.IdJornada;
                         emp.idSindicato = empleado.Idsindicato;
+                        emp.TimbradoEmpleado = empleado.IdTimbrado;
 
                         if (empleado.FechaTerminoContrato != null)
                             try { emp.FechaTerminoContrato = Convert.ToDateTime(empleado.FechaTerminoContrato); } catch { }
