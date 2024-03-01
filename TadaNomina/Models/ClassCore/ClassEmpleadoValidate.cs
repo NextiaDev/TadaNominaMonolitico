@@ -173,6 +173,8 @@ namespace TadaNomina.Models
                             CuentaInterBancariaViaticos = CuentaInterViatico,
                             Nacionalidad = ValidaNacionalidad(row.Split(',')[39].Trim()),
                             FechaTerminoContrato = Fecha(row.Split(',')[40].Trim()),
+                            IdTimbrado = row.Split(',')[44].Trim().ToUpper(),
+
                         });
 
                         InsertedCount++;
@@ -526,6 +528,7 @@ namespace TadaNomina.Models
             ValidateNumeroExt(row.Split(',')[32].Trim().ToUpper(), rowFile, "Personal", 32);
             ValidateNumeroInt(row.Split(',')[33].Trim().ToUpper(), rowFile, "Personal", 33);
             ValidateCodigoPostal(row.Split(',')[34].Trim().ToUpper(), rowFile, "Personal", 34);
+            ValidateTimbradoNomna(row.Split(',')[44].Trim(), rowFile);
 
             ValidateIdArea(row.Split(',')[35].Trim().ToUpper(), rowFile);
             ValidateSindicato(row.Split(',')[36].Trim().ToUpper(), rowFile);
@@ -617,13 +620,13 @@ namespace TadaNomina.Models
             ColumnFile columnFile = new ColumnFile { Column = 1 };
 
 
-            if (commas.Equals(43))
+            if (commas.Equals(44))
             {
                 rowFile.RowValidation = Type.Success;
                 rowFile.RowDetail = "Ok";
                 return Type.Success;
             }
-            else if (commas < 43)
+            else if (commas < 44)
             {
 
                 rowFile.RowValidation = Type.Error;
@@ -3351,6 +3354,39 @@ namespace TadaNomina.Models
             }
             int result = unidadnegociovalue == null ? 5 : unidadnegociovalue.Value;
             return result;
+        }
+
+
+        public Type ValidateTimbradoNomna(string Valida, RowFile rowFile)
+        {
+            ColumnFile columnFile = new ColumnFile { Column = 4 };
+
+            if (string.IsNullOrEmpty(Valida))
+            {
+                columnFile.Field = "Timbrado";
+                columnFile.ColumnDetail = "El campo Recontratable es nulo.";
+                columnFile.Type = Type.Warning;
+                rowFile.Columns.Add(columnFile);
+                return Type.Warning;
+            }
+
+            if (Valida.Equals("SI") || Valida.Equals("NO"))
+            {
+                columnFile.Field = "Timbrado";
+                columnFile.ColumnDetail = "Ok";
+                columnFile.Type = Type.Success;
+                rowFile.Columns.Add(columnFile);
+                return Type.Success;
+            }
+            else
+            {
+                columnFile.Field = "Timbrado";
+                columnFile.ColumnDetail = "El campo Recontratable solo puede contener la palabra \"SI\" o \"NO\" se sustituye valor a nulo, valor leído: " + Valida;
+                columnFile.Type = Type.Invalid;
+                rowFile.Columns.Add(columnFile);
+                return Type.Invalid;
+            }
+
         }
     }
 }
