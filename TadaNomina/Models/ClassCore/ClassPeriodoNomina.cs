@@ -180,7 +180,7 @@ namespace TadaNomina.Models.ClassCore
         {
             ClassTimbradoNomina ctimbrado = new ClassTimbradoNomina();
             List<ModelPeriodoNomina> _periodos = new List<ModelPeriodoNomina>();
-            List<vPeriodoNomina> lperiodos = GetvPeriodoNominasAcumuladas(IdUnidadNegocio);
+            List<vPeriodoNomina> lperiodos = GetvPeriodoNominasAcumuladas(IdUnidadNegocio).OrderByDescending(x=> x.IdPeriodoNomina).ToList();
             lperiodos.ForEach(x => {
                 _periodos.Add(new ModelPeriodoNomina
                 {

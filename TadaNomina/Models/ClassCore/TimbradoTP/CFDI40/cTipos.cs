@@ -842,19 +842,19 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                     otroPago = c_TipoOtroPago.Item004;
                     break;
                 case "005":
-                    otroPago = c_TipoOtroPago.Item004;
+                    otroPago = c_TipoOtroPago.Item005;
                     break;
                 case "006":
-                    otroPago = c_TipoOtroPago.Item004;
+                    otroPago = c_TipoOtroPago.Item006;
                     break;
                 case "007":
-                    otroPago = c_TipoOtroPago.Item004;
+                    otroPago = c_TipoOtroPago.Item007;
                     break;
                 case "008":
-                    otroPago = c_TipoOtroPago.Item004;
+                    otroPago = c_TipoOtroPago.Item008;
                     break;
                 case "009":
-                    otroPago = c_TipoOtroPago.Item004;
+                    otroPago = c_TipoOtroPago.Item009;
                     break;
                 default:
                     otroPago = c_TipoOtroPago.Item999;

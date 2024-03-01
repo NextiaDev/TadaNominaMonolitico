@@ -101,10 +101,10 @@
       <HintPath>..\packages\Flee.2.0.0\lib\netstandard2.0\Flee.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\Ionic.Zip.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\itextsharp.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -150,13 +150,13 @@
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SAT.Services">
-      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\SAT.Services.dll</HintPath>
+      <HintPath>..\..\NubeHoy\LaNube\bin\SAT.Services.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.5.10.4\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="SW-sdk">
-      <HintPath>..\..\TadaNominaResp\TadaNomina\bin\SW-sdk.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SW-sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -614,16 +614,16 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Bancos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CamposModificaEmp.cs">
       <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_CentroCostos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Clientes.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Comunicados.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -632,13 +632,13 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_EntidadFederativa.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ErroresIMSS.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -656,13 +656,13 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Puestos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegimenFiscal.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
@@ -671,7 +671,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Sucursales.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_TipoAusentismo.cs">
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
@@ -752,10 +752,10 @@
       <DependentUpon>ModelEAM.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\EmpleadoInformacionComplementaria.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Empleados.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\FactoresCyV_IMSS.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -972,7 +972,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Prestaciones.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\RecibosEsquema.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -987,7 +987,7 @@
       <DependentUpon>ModelAcceso.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Sindicatos.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\SolicitudCheque.cs">
       <DependentUpon>ModelContabilidad.tt</DependentUpon>
@@ -1147,7 +1147,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidencias.cs">
-      <DependentUpon>ModelNomina.tt</DependentUpon>
+      <DependentUpon>TadaEmpleados.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\vIncidenciasProgramadas.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -6973,6 +6973,8 @@
     <Content Include="Views\ConfigUsuario\Index.cshtml" />
     <Content Include="Views\NominasAcumuladas\Index.cshtml" />
     <Content Include="Views\NominasAcumuladas\NominaGeneral.cshtml" />
+    <Content Include="Views\NominasAcumuladas\BuscarEmpleadoIndividual.cshtml" />
+    <Content Include="Views\NominasAcumuladas\NominaIndividual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
