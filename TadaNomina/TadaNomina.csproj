@@ -6973,6 +6973,8 @@
     <Content Include="Views\ConfigUsuario\Index.cshtml" />
     <Content Include="Views\NominasAcumuladas\Index.cshtml" />
     <Content Include="Views\NominasAcumuladas\NominaGeneral.cshtml" />
+    <Content Include="Views\NominasAcumuladas\BuscarEmpleadoIndividual.cshtml" />
+    <Content Include="Views\NominasAcumuladas\NominaIndividual.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
