@@ -511,7 +511,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if (UnidadNegocio.BanderaCargasSocialesSinFaltas == "S")
             {
 
-                decimal dias = (decimal)nominaTrabajo.DiasTrabajados;
+                decimal dias = (decimal)nominaTrabajo.DiasTrabajados + (decimal)nominaTrabajo.Dias_Vacaciones;
                 if ((Periodo.TipoNomina == "Complemento" && DiasTrabajados_IMSS < 1) || (UnidadNegocio.NoCalcularCargaObrera == "S" && UnidadNegocio.NoCalcularCargaPatronal == "S"))
                 {
                     SinCargarObreroPatronal();

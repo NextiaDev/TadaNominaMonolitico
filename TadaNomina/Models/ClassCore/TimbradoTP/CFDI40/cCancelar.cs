@@ -158,12 +158,13 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
         /// <param name="ruta">Ruta donde se almacena el archivo PFX</param>
         public void creaPfx(string rutaCer, string rutaKey, string pass, string ruta)
         {
-            if (!File.Exists(ruta))
-            {
+            //Ahora cada que se cancele se genera nuevamente el PFX
+            //if (!File.Exists(ruta))
+            //{
                 var oPFX = new Pfx(rutaCer, rutaKey, pass, ruta, Path.GetDirectoryName(ruta) + "/");
 
                 oPFX.creaPFX();
-            }
+            //}
         }
 
         public ServiceReferenceTPCancelado31082023.ResponseCancel CancelarTimbrado40(string rfc_Emisor, string UUID, byte[] pfx, string pass)
