@@ -30,6 +30,10 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string FechaInicial { get; set; }
         [Display(Name = "Fecha Fin Periodo:")]
         public string FechaFinal { get; set; }
+        [Display(Name = "Fecha Cierre:")]
+        public string FechaCierre { get; set; }
+        [Display(Name = "Fecha Pago:")]
+        public string FechaPago { get; set; }
         [Display(Name = "Nombre de la Unidad de Negocio:")]
         public string UnidadNegocio { get; set; }
         [Display(Name = "Total de empleados a Procesar:")]

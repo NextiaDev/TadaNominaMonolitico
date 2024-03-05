@@ -28,8 +28,7 @@ namespace TadaNomina.Models.ClassCore
         public ModelProcesaNominaGeneral GetModelProcesaNominaGeneral( vPeriodoNomina periodo)
         {
             ModelProcesaNominaGeneral model = new ModelProcesaNominaGeneral();
-            ClassEmpleado classEmpleado = new ClassEmpleado();
-            
+                        
             model.Cliente = periodo.Cliente;
             model.IdPeriodoNomina = periodo.IdPeriodoNomina;
             model.Periodo = periodo.Periodo;
@@ -55,28 +54,31 @@ namespace TadaNomina.Models.ClassCore
 
             ClassPeriodoNomina cper = new ClassPeriodoNomina();
             model.PeriodoAjuste = cper.GetDescripcionPeriodos(periodo.SeAjustaraConPeriodo);
-            var empleados = classEmpleado.GetEmpleadoByUnidadNegocio(periodo.IdUnidadNegocio).Where(x => x.IdEstatus == 1);                        
-            model.TotalEmpleados = empleados.Count();
+            
             List<ModelEmpleadosNetos> empNetos = new List<ModelEmpleadosNetos>();
-
-            if (model.TotalEmpleados <= 50)
-            {
-                empleados.ForEach(x => empNetos.Add(new ModelEmpleadosNetos
-                {
-                    IdEmpleado = x.IdEmpleado,
-                    ClaveEmpleado = x.ClaveEmpleado,
-                    Nombre = x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre,
-                    Neto = x.NetoPagar
-                }));
-            }
-
-            model.lempleadosNetos = empNetos;
-            model.EmpleadosSinSDI = empleados.Where(x=> x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0) ).Count();
-            model.LEmpleadosSinSDI = new Dictionary<string, string>();
-            empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).ForEach(x=> { model.LEmpleadosSinSDI.Add(x.ClaveEmpleado, x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre); });
-
+           
             if (periodo.IdEstatus == 1)
             {
+                ClassEmpleado classEmpleado = new ClassEmpleado();
+                var empleados = classEmpleado.GetEmpleadoByUnidadNegocio(periodo.IdUnidadNegocio).Where(x => x.IdEstatus == 1);
+                model.TotalEmpleados = empleados.Count();
+
+                if (model.TotalEmpleados <= 50)
+                {
+                    empleados.ForEach(x => empNetos.Add(new ModelEmpleadosNetos
+                    {
+                        IdEmpleado = x.IdEmpleado,
+                        ClaveEmpleado = x.ClaveEmpleado,
+                        Nombre = x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre,
+                        Neto = x.NetoPagar
+                    }));
+                }
+
+                model.lempleadosNetos = empNetos;
+                model.EmpleadosSinSDI = empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).Count();
+                model.LEmpleadosSinSDI = new Dictionary<string, string>();
+                empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).ForEach(x => { model.LEmpleadosSinSDI.Add(x.ClaveEmpleado, x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre); });
+
                 List<NominaTrabajo> dataNomina = GetDataNominaTrabajo(periodo.IdPeriodoNomina);
                 if (periodo.TipoNomina == "Finiquitos")
                     dataNomina = GetDataNominaTrabajoFiniquitos(periodo.IdPeriodoNomina);
@@ -94,6 +96,9 @@ namespace TadaNomina.Models.ClassCore
                 if (periodo.TipoNomina == "Finiquitos")
                     dataNomina = GetDataNominaFiniquitos(periodo.IdPeriodoNomina);
 
+                try { model.FechaCierre = ((DateTime)periodo.FechaCierre).ToShortDateString(); } catch { }
+                try { model.FechaPago = ((DateTime)periodo.FechaDispersion).ToShortDateString(); } catch { }
+                model.TotalEmpleados = dataNomina.Count();
                 model.TotalPagarSueldos = string.Format("{0:C2}", dataNomina.Select(x => x.Neto).Sum());
                 model.TotalISR = string.Format("{0:C2}", dataNomina.Select(x => x.ImpuestoRetener).Sum());
                 model.TotalIMSS = string.Format("{0:C2}", dataNomina.Select(x => x.IMSS_Obrero).Sum());
@@ -113,9 +118,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var nomina = (from b in entidad.NominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1) select b).ToList();
-
-                return nomina;
+                return entidad.NominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
             }
         }
 
@@ -176,9 +179,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var nomina = (from b in entidad.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1) select b).ToList();
-
-                return nomina;
+                return entidad.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
             }
         }
 
@@ -368,6 +369,117 @@ namespace TadaNomina.Models.ClassCore
             return model;
         }
 
+        public ModelNominaIndividual GetModelNominaIndividualAcumulado(int pIdEmpleado, int pIdPeriodoNomina, string TipoNomina)
+        {
+            ModelNominaIndividual model = new ModelNominaIndividual();
+
+            ClassPeriodoNomina cperiod = new ClassPeriodoNomina();
+            ClassEmpleado classEmpleado = new ClassEmpleado();
+            vEmpleados empleado = classEmpleado.GetvEmpleado(pIdEmpleado);
+
+            var periodo = cperiod.GetvPeriodoNominasId(pIdPeriodoNomina);
+
+            model.IdPeriodoNomina = pIdPeriodoNomina;
+
+            model.NombrePeriodo = periodo.Periodo;
+            model.FechasPeriodo = periodo.FechaInicio.ToShortDateString() + " - " + periodo.FechaFin.ToShortDateString();
+            model.IdEmpleado = empleado.IdEmpleado;
+            model.claveEmpleado = empleado.ClaveEmpleado;
+            model.NombreCompletoEmpleado = empleado.ApellidoPaterno + " " + empleado.ApellidoMaterno + " " + empleado.Nombre;
+            try { model.SueldoDiario = string.Format("{0:C2}", empleado.SD); } catch { model.SueldoDiario = "$0.00"; }
+            try { model.SueldoDiarioIMSS = string.Format("{0:C2}", empleado.SDIMSS); } catch { model.SueldoDiarioIMSS = "$0.00"; }
+            try { model.SDI = string.Format("{0:C2}", empleado.SDI); } catch { model.SDI = "$0.00"; }
+            try { model.SueldoDiarioEsq = empleado.Esquema.Trim() != "100% TRADICIONAL" ? string.Format("{0:C2}", (empleado.SD - empleado.SDIMSS)) : "$0.00"; } catch { model.SueldoDiarioEsq = "$0.00"; }
+            try { model.NetoPagar = empleado.NetoPagar.ToString(); } catch { model.NetoPagar = "0.00"; }
+            try { model.FechaAltaImss = empleado.FechaAltaIMSS.Value.ToShortDateString(); } catch { model.FechaAltaImss = ""; }
+            try { model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString(); } catch { model.FechaReconocimientoAntiguedad = ""; }
+            model.IdEstatus = empleado.IdEstatus;
+            model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
+
+            model.ReciboTradicional = new ModelReciboTradicional();
+            model.ReciboEsquema = new ModelReciboEsquema();
+            model.ReciboReal = new ModelReciboReal();
+            model.ReciboTradicional.CURP = empleado.Curp;
+            model.ReciboTradicional.RFC = empleado.Rfc;
+            model.ReciboTradicional.NSS = empleado.Imss;
+            model.ReciboTradicional.SD = empleado.SDIMSS ?? 0;
+            model.ReciboTradicional.SDI = empleado.SDI ?? 0;
+
+            int IdCliente = empleado.IdCliente;
+
+            Nomina nom = GetNomina(pIdEmpleado, pIdPeriodoNomina);
+            if (TipoNomina == "Finiquitos")
+                nom = GetNominaFiniquitos(pIdEmpleado, pIdPeriodoNomina);
+
+            if (nom != null)
+            {
+                model.ER = string.Format("{0:C2}", nom.ER);
+                model.ERS = string.Format("{0:C2}", nom.ERS);
+                model.ERR = string.Format("{0:C2}", (nom.ER + nom.ERS));
+                model.DD = string.Format("{0:C2}", nom.DD);
+                model.DDS = string.Format("{0:C2}", nom.DDS);
+                model.DDR = string.Format("{0:C2}", (nom.DDS + nom.DD));
+                model.Neto = string.Format("{0:C2}", nom.Neto);
+                model.NetoS = string.Format("{0:C2}", nom.Netos);
+                model.NetoR = string.Format("{0:C2}", (nom.Netos + nom.Neto));
+                model.TotalRecibir = string.Format("{0:C2}", (decimal)nom.Neto + (decimal)nom.Netos);
+
+                try { model.ReciboTradicional.DiasLaborados = (decimal)nom.DiasTrabajados; } catch { model.ReciboTradicional.DiasLaborados = 0; }
+                try { model.ReciboTradicional.DiasVacaciones = (decimal)nom.Dias_Vacaciones; } catch { model.ReciboTradicional.DiasVacaciones = 0; }
+                try { model.ReciboTradicional.Incapacidades = (decimal)nom.Incapacidades; } catch { model.ReciboTradicional.Incapacidades = 0; }
+                try { model.ReciboTradicional.Faltas = (decimal)nom.Faltas; } catch { model.ReciboTradicional.Faltas = 0; }
+                try { model.ReciboTradicional.DiasLaborados = (decimal)nom.DiasTrabajados; } catch { model.ReciboTradicional.DiasLaborados = 0; }
+                try { model.ReciboTradicional.BaseGravada = (decimal)nom.BaseGravada; } catch { model.ReciboTradicional.BaseGravada = 0; }
+                try { model.ReciboTradicional.TotalPatron = (decimal)nom.Total_Patron; } catch { model.ReciboTradicional.TotalPatron = 0; }
+            }
+            else
+            {
+                model.ER = "$0.00";
+                model.ERS = "$0.00";
+                model.DD = "$0.00";
+                model.DDS = "$0.00";
+                model.Neto = "$0.00";
+                model.NetoS = "$0.00";
+
+                model.ReciboTradicional.DiasLaborados = 0;
+                model.ReciboTradicional.DiasVacaciones = 0;
+                model.ReciboTradicional.Incapacidades = 0;
+                model.ReciboTradicional.Faltas = 0;
+                model.ReciboTradicional.DiasLaborados = 0;
+                model.ReciboTradicional.BaseGravada = 0;
+                model.ReciboTradicional.TotalPatron = 0;
+            }
+
+            model.ListIncidencias = GetIncidenciasIndividuales(pIdEmpleado, pIdPeriodoNomina, IdCliente).Where(x => x.Agrupador != "003").ToList();
+            model.ReciboTradicional.IncidenciasRecibo = GetIncidenciasRecibo(pIdEmpleado, pIdPeriodoNomina);
+            model.ReciboTradicional.IncidenciasReciboDec = GetIncidenciasReciboDeduc(pIdEmpleado, pIdPeriodoNomina);
+            model.ReciboEsquema.IncidenciasReciboEsquema = GetIncidenciasReciboEsquema(pIdEmpleado, pIdPeriodoNomina);
+            model.ReciboEsquema.IncidenciasReciboDecEsquema = GetIncidenciasReciboDeducEsquema(pIdEmpleado, pIdPeriodoNomina);
+            model.ReciboReal.IncidenciasReciboReal = GetIncidenciasReciboReal(pIdEmpleado, pIdPeriodoNomina);
+            model.ReciboReal.IncidenciasReciboDecReal = GetIncidenciasReciboDeducReal(pIdEmpleado, pIdPeriodoNomina);
+
+            if (TipoNomina == "Finiquitos")
+            {
+                model.ListIncidencias = GetIncidenciasIndividuales(pIdEmpleado, pIdPeriodoNomina, IdCliente);
+                ClassProcesosFiniquitos cfiniquitos = new ClassProcesosFiniquitos();
+                vConfiguracionFiniquito conf = cfiniquitos.GetFiniquitoConfigurado(pIdPeriodoNomina, pIdEmpleado);
+                try { model.FechaBaja = conf.FechaBajaFin.Value.ToShortDateString(); } catch { model.FechaBaja = null; }
+
+                try { model.IdConfiguracionFiniquito = (int)conf.IdConfiguracionFiniquito; } catch { }
+                try { if (conf.BanderaVac == 1) { model.banderaVac = true; } } catch { }
+                try { if (conf.BanderaPV == 1) { model.banderaPV = true; } } catch { }
+                try { if (conf.BanderaAguinaldo == 1) { model.banderaAgui = true; } } catch { }
+                try { if (conf.BanderaAguinaldoEsq == 1) { model.banderaAguiEsq = true; } } catch { }
+                try { if (conf.Bandera90d == 1) { model.bandera90d = true; } } catch { }
+                try { if (conf.Bandera20d == 1) { model.bandera20d = true; } } catch { }
+                try { if (conf.BanderaPA == 1) { model.banderaPA = true; } } catch { }
+                try { if (conf.BanderaLiquidacion == 1) { model.Liquidacion = true; } } catch { }
+                try { if (conf.LiquidacionSDI == 1) { model.LiquidacionSDI = true; } } catch { }
+            }
+
+            return model;
+        }
+
         /// <summary>
         /// Método para obter la información del recibo del empleado
         /// </summary>
@@ -518,6 +630,23 @@ namespace TadaNomina.Models.ClassCore
         }
 
         /// <summary>
+        /// Método para extraer la información de todo lo que esta procesado en el periodo de nómina de la tabla NominaTrabajo por empleado 
+        /// </summary>
+        /// <param name="IdEmpleado">Identificador del empleado</param>
+        /// <param name="IdPeriodo">Identificador del periodo de nómina</param>
+        /// <returns>información de todo lo que esta procesado en el periodo de nómina de la tabla NominaTrabajo por empleado 
+        /// </summary></returns>
+        public Nomina GetNomina(int IdEmpleado, int IdPeriodo)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var nomina = (from b in entidad.Nomina.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1) select b).FirstOrDefault();
+
+                return nomina;
+            }
+        }
+
+        /// <summary>
         /// Método para extraer la información de todo lo que esta procesado en el periodo de nómina considerando diferentes estatus especiales de los finiquitos de la tabla NominaTrabajo por empleado
         /// </summary>
         /// <param name="IdEmpleado">Identificador del empleado</param>
@@ -529,6 +658,23 @@ namespace TadaNomina.Models.ClassCore
             {
                 int[] estatus = { 1, 2, 4 };
                 var nomina = (from b in entidad.NominaTrabajo.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == IdPeriodo && estatus.Contains((int)x.IdEstatus)) select b).FirstOrDefault();
+
+                return nomina;
+            }
+        }
+
+        /// <summary>
+        /// Método para extraer la información de todo lo que esta procesado en el periodo de nómina considerando diferentes estatus especiales de los finiquitos de la tabla NominaTrabajo por empleado
+        /// </summary>
+        /// <param name="IdEmpleado">Identificador del empleado</param>
+        /// <param name="IdPeriodo">Identificador del periodo de nómina</param>
+        /// <returns>información de todo lo que esta procesado en el periodo de nómina considerando diferentes estatus especiales de los finiquitos de la tabla NominaTrabajo por empleado</returns>
+        public Nomina GetNominaFiniquitos(int IdEmpleado, int IdPeriodo)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                int[] estatus = { 1, 2, 4 };
+                var nomina = (from b in entidad.Nomina.Where(x => x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == IdPeriodo && estatus.Contains((int)x.IdEstatus)) select b).FirstOrDefault();
 
                 return nomina;
             }

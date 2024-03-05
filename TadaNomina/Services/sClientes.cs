@@ -26,7 +26,7 @@ namespace TadaNomina.Services
                 var servicio = "/api/Clientes/getClientes";
                 Uri apiUrl = new Uri(sStatics.servidor + servicio);
 
-                using (var wc = new WebClient())
+                using (var wc = new MyWebClient())
                 {
                     wc.Encoding = System.Text.Encoding.UTF8;
                     wc.Headers.Clear();

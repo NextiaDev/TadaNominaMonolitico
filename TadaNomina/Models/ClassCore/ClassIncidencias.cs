@@ -1506,6 +1506,24 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+        public void DeleteBanderaIncidencia(int IdConcepto, int IdEmpleado, int IdPeriodoNomina)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                var incidencia = entidad.Incidencias.Where(x => x.IdConcepto == IdConcepto && x.IdEmpleado == IdEmpleado && x.IdPeriodoNomina == IdPeriodoNomina).ToList();
+
+                if (incidencia.Count > 0)
+                {
+                    foreach (var x in incidencia)
+                    {
+                        x.BanderaConceptoEspecial = null;                        
+                    }
+
+                    entidad.SaveChanges();
+                }
+            }
+        }
+
         /// <summary>
         /// Método para obtener la sincidencias por empleado presentadas en el periodo de nómina
         /// </summary>

@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "BuscarEmpleadoIndividual";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Busqueda por Empleado</h1>
+    </div>
+    <div id="rutaPrincipal"></div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Buscar Empleado.</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="pIdPeriodoNomina" value="@ViewBag.IdPeriodoProcesar" />
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="control-label col-md-2">
+                                Empleado:
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" name="inpBuscar" class="form-control" placeholder="Clave del empleado" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <br />
+                        <br />
+                        <div class="panel-footer">
+                            <div class="form-group" style="text-align:right">
+                                <button type="submit" id="Load" class="btn btn-primary btn-sm"><span class="fa fa-search"></span> Buscar</button>
+                                <a href="@Url.Action("ProcesaNominaGeneral", new { pIdPeriodoNomina = ViewBag.IdPeriodoProcesar })" class="btn btn-info btn-sm"><span class="fa fa-arrow-left"></span> Regresar</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
