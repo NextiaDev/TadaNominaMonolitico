@@ -50,6 +50,11 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public List<SelectListItem> lConceptoSubAusen { get; set; }
 
 
+        [Display(Name = "Concepto para SeptimoDia:")]
+        public int? IdConceptoSeptimoDia { get; set; }
+        public List<SelectListItem> lConceptoSeptimoDias { get; set; }
+
+
 
         [Display(Name = "Concepto para Compensación(Piramidación):")]
         public int? IdConceptoCompensacion { get; set; }

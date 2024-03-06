@@ -28,8 +28,17 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio, string PrestacionesEntero, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, decimal? ISRC, string FFD, string FEC, string FS, string FTM, int pIdUsuario)
+        public void UpdateUnidadNegocioEspeciales(int pIdUnidadNegocio,string SeptimoDia, string PrestacionesEntero, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, decimal? ISRC, string FFD, string FEC, string FS, string FTM, int pIdUsuario)
         {
+            if (bool.Parse(SeptimoDia) == true)
+            {
+                SeptimoDia = "S";
+            }
+            else
+            {
+                SeptimoDia = "N";
+
+            }
 
             if (bool.Parse(PrestacionesEntero) == true)
             {
@@ -289,6 +298,7 @@ namespace TadaNomina.Models.ClassCore
 
                 if (unidad != null)
                 {
+                    unidad.SeptimoDia = SeptimoDia;
                     unidad.BanderaCuotaSindical = CuotaSindical;
                     unidad.BanderaCargasSocialesSinFaltas = CargasSFaltas;
                     unidad.BanderaDiasEquivalentes = DiasEquiv;

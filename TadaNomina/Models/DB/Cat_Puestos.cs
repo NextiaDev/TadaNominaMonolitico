@@ -16,6 +16,7 @@ namespace TadaNomina.Models.DB
     {
         public int IdPuesto { get; set; }
         public Nullable<int> IdCliente { get; set; }
+        public Nullable<int> IdDepartamento { get; set; }
         public string Clave { get; set; }
         public string Puesto { get; set; }
         public Nullable<int> IdEstatus { get; set; }
@@ -23,7 +24,6 @@ namespace TadaNomina.Models.DB
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
-        public Nullable<int> IdDepartamento { get; set; }
         public Nullable<decimal> Compensacion_Dia_Trabajado { get; set; }
         public Nullable<int> IdUnidadNegocio { get; set; }
         public string ClaveRH { get; set; }
