@@ -118,9 +118,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var nomina = (from b in entidad.NominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1) select b).ToList();
-
-                return nomina;
+                return entidad.NominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
             }
         }
 
@@ -181,9 +179,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var nomina = (from b in entidad.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1) select b).ToList();
-
-                return nomina;
+                return entidad.Nomina.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
             }
         }
 

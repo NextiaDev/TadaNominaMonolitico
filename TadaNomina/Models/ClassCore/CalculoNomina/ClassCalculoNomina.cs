@@ -606,14 +606,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// Elimina la incidencia creada automaticamente por los conceptos formulados.
         /// </summary>
         /// <param name="IdConcepto">Id del concepto formulado.</param>
-        public void DeleteIncidencia(int IdConcepto)
+        public void DeleteIncidencia(int IdConcepto, bool Calcular)
         {
-            if (IdConcepto != 0)
-            {
-                ClassIncidencias cins = new ClassIncidencias();
+            ClassIncidencias cins = new ClassIncidencias();
+            if (IdConcepto != 0 && Calcular)
+            {   
                 ModelIncidencias model = new ModelIncidencias();
                 cins.DeleteIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);
             }
+            else             
+                cins.DeleteBanderaIncidencia(IdConcepto, IdEmpleado, IdPeriodoNomina);            
         }
 
         /// <summary>
@@ -672,7 +674,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                     if (icform.CalculoAutomatico == "SI")
                     {
-                        DeleteIncidencia(icform.IdConcepto);
+                        DeleteIncidencia(icform.IdConcepto, Calcular);
 
                         if (Calcular)
                         {

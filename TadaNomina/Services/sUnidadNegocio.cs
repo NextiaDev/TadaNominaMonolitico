@@ -23,7 +23,7 @@ namespace TadaNomina.Services
                 var servicio = "/api/UnidadNegocio/getSelectUnidadNegocio?IdCliente=" + IdCliente;
                 Uri apiUrl = new Uri(sStatics.servidor + servicio);
 
-                using (var wc = new WebClient())
+                using (var wc = new MyWebClient())
                 {                    
                     wc.Headers.Clear();
                     wc.Encoding = System.Text.Encoding.UTF8;
