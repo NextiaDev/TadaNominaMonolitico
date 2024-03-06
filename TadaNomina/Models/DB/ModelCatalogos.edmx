@@ -560,6 +560,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="IdConceptoArt93Fraclll" Type="int" />
           <Property Name="IdConceptoFaltas" Type="int" />
           <Property Name="idConceptoSubsidioIncapacidad" Type="int" />
+          <Property Name="idConceptoSeptimoDia" Type="int" />
           <Property Name="IdEstatus" Type="int" />
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
@@ -727,6 +728,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="NoPlaza" Type="int" />
           <Property Name="IdMotivoBajaEmpleadoInterno" Type="int" />
           <Property Name="BajaEmpleadoObservaciones" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TimbradoEmpleado" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="FactorIntegracion">
           <Key>
@@ -998,6 +1000,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vConfiguracionConceptosFiniqu
           <Property Name="ClaveConceptoArt93Fraclll" Type="nvarchar" MaxLength="50" />
           <Property Name="ConceptoArt93Fraclll" Type="nvarchar" MaxLength="150" />
           <Property Name="IdConceptoSubsidioIncapacidad" Type="int" />
+          <Property Name="idConceptoSeptimoDia" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vDepartamentos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -1409,7 +1412,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
     [vConfiguracionConceptosFiniquitos].[IdConceptoArt93Fraclll] AS [IdConceptoArt93Fraclll], 
     [vConfiguracionConceptosFiniquitos].[ClaveConceptoArt93Fraclll] AS [ClaveConceptoArt93Fraclll], 
     [vConfiguracionConceptosFiniquitos].[ConceptoArt93Fraclll] AS [ConceptoArt93Fraclll], 
-    [vConfiguracionConceptosFiniquitos].[IdConceptoSubsidioIncapacidad] AS [IdConceptoSubsidioIncapacidad]
+    [vConfiguracionConceptosFiniquitos].[IdConceptoSubsidioIncapacidad] AS [IdConceptoSubsidioIncapacidad], 
+    [vConfiguracionConceptosFiniquitos].[idConceptoSeptimoDia] AS [idConceptoSeptimoDia]
     FROM [dbo].[vConfiguracionConceptosFiniquitos] AS [vConfiguracionConceptosFiniquitos]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vDepartamentos" EntityType="Self.vDepartamentos" store:Type="Views" store:Schema="dbo">
@@ -2424,6 +2428,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="NoPlaza" Type="Int32" />
           <Property Name="IdMotivoBajaEmpleadoInterno" Type="Int32" />
           <Property Name="BajaEmpleadoObservaciones" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TimbradoEmpleado" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_EmpleadoInformacionComplementaria_Empleados">
           <End Type="TadaNominaModel.Empleados" Role="Empleados" Multiplicity="1" />
@@ -2533,6 +2538,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="ClaveConceptoArt93Fraclll" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ConceptoArt93Fraclll" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="IdConceptoSubsidioIncapacidad" Type="Int32" />
+          <Property Name="idConceptoSeptimoDia" Type="Int32" />
         </EntityType>
         <EntityType Name="ConfiguracionConceptosFiniquito">
           <Key>
@@ -2563,6 +2569,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="IdModifica" Type="Int32" />
           <Property Name="FechaModifica" Type="DateTime" Precision="3" />
           <Property Name="idConceptoSubsidioIncapacidad" Type="Int32" />
+          <Property Name="idConceptoSeptimoDia" Type="Int32" />
         </EntityType>
         <EntityType Name="Cat_UnidadNegocio">
           <Key>
@@ -3542,6 +3549,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="Empleados">
             <EntityTypeMapping TypeName="TadaNominaModel.Empleados">
               <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="TimbradoEmpleado" ColumnName="TimbradoEmpleado" />
                 <ScalarProperty Name="BajaEmpleadoObservaciones" ColumnName="BajaEmpleadoObservaciones" />
                 <ScalarProperty Name="IdMotivoBajaEmpleadoInterno" ColumnName="IdMotivoBajaEmpleadoInterno" />
                 <ScalarProperty Name="NoPlaza" ColumnName="NoPlaza" />
@@ -3689,6 +3697,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="vConfiguracionConceptosFiniquitos">
             <EntityTypeMapping TypeName="TadaNominaModel.vConfiguracionConceptosFiniquitos">
               <MappingFragment StoreEntitySet="vConfiguracionConceptosFiniquitos">
+                <ScalarProperty Name="idConceptoSeptimoDia" ColumnName="idConceptoSeptimoDia" />
                 <ScalarProperty Name="IdConceptoSubsidioIncapacidad" ColumnName="IdConceptoSubsidioIncapacidad" />
                 <ScalarProperty Name="ConceptoArt93Fraclll" ColumnName="ConceptoArt93Fraclll" />
                 <ScalarProperty Name="ClaveConceptoArt93Fraclll" ColumnName="ClaveConceptoArt93Fraclll" />
@@ -3744,6 +3753,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="ConfiguracionConceptosFiniquito">
             <EntityTypeMapping TypeName="TadaNominaModel.ConfiguracionConceptosFiniquito">
               <MappingFragment StoreEntitySet="ConfiguracionConceptosFiniquito">
+                <ScalarProperty Name="idConceptoSeptimoDia" ColumnName="idConceptoSeptimoDia" />
                 <ScalarProperty Name="idConceptoSubsidioIncapacidad" ColumnName="idConceptoSubsidioIncapacidad" />
                 <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
                 <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
