@@ -39,5 +39,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
         public Nullable<int> idConceptoSubsidioIncapacidad { get; set; }
+        public Nullable<int> idConceptoSeptimoDia { get; set; }
     }
 }

@@ -220,7 +220,7 @@ namespace TadaNomina.Models
                     rowFile.Columns = new List<ColumnFile>();
                     rowFile.Row = index;
 
-                    if (ValidateBaja(row, rowFile).Equals(Type.Success))
+                    if (ValidateBaja(row, rowFile, IdUnidadNegocio).Equals(Type.Success))
                     {
                         empleadosBaja.Add(new Empleado
                         {
@@ -546,7 +546,7 @@ namespace TadaNomina.Models
         /// <param name="row">linea de texto a analizar</param>
         /// <param name="rowFile"></param>
         /// <returns>Validacíon del archivo</returns>
-        public Type ValidateBaja(string row, RowFile rowFile)
+        public Type ValidateBaja(string row, RowFile rowFile,int IdUnidadNegocio)
         {
 
             if (ValidateRowBaja(row, rowFile).Equals(Type.Error))
@@ -559,7 +559,7 @@ namespace TadaNomina.Models
                 return Type.Error;
             }
 
-            if (ValidateFechaBaja(row.Split(',')[1].Trim(), rowFile).Equals(Type.Error))
+            if (ValidateFechaBaja(row.Split(',')[1].Trim(), rowFile, IdUnidadNegocio).Equals(Type.Error))
             {
                 return Type.Error;
             }
@@ -2408,7 +2408,7 @@ namespace TadaNomina.Models
         /// <param name="FechaBaja">Fecha de baja del empleado</param>
         /// <param name="rowFile">Fila del archivo txt</param>
         /// <returns>Texto par al afila del archivo txt</returns>
-        public Type ValidateFechaBaja(string FechaBaja, RowFile rowFile)
+        public Type ValidateFechaBaja(string FechaBaja, RowFile rowFile, int IdUnidadNegocio)
         {
             ColumnFile columnFile = new ColumnFile { Column = 2 };
 
@@ -2423,7 +2423,110 @@ namespace TadaNomina.Models
 
             DateTime FechaFinal = DateTime.Today;//Validacion de los 5 dias habiles para bajas DRR
             DateTime FechaInicial = Convert.ToDateTime(FechaBaja);//Validacion de los 5 dias habiles para bajas DRR
-            if (FechaInicial <= FechaFinal)
+            ClassUnidadesNegocio Unidad = new ClassUnidadesNegocio();
+            var dias = Unidad.getUnidadesnegocioId(IdUnidadNegocio);
+
+            if (dias.DiasMenosImss != null && (dias.DiasMenosImss >= 0 || string.IsNullOrEmpty(dias.DIasImss.ToString())))
+            {
+                if (dias.DiasMenosImss == 0)
+                {
+                    Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                    if (exp.IsMatch(FechaBaja))
+                    {
+                        columnFile.Field = "Fecha de Baja";
+                        columnFile.ColumnDetail = "Ok";
+                        columnFile.Type = Type.Success;
+                        rowFile.Columns.Add(columnFile);
+                        return Type.Success;
+                    }
+                    else
+                    {
+                        columnFile.Field = "Fecha de Baja";
+                        columnFile.ColumnDetail = "El campo Fecha de Baja debe tener el formato correcto \"dd/mm/aaaa\", baja no realizada, valor leído: " + FechaBaja;
+                        columnFile.Type = Type.Invalid;
+                        rowFile.Columns.Add(columnFile);
+                        return Type.Invalid;
+                    }
+
+                }
+
+                else
+                {
+
+                    if (FechaInicial > FechaFinal)
+                    {
+
+                        if (GetDiasAdelatados(FechaInicial, FechaFinal) <= 1)
+                        {
+                            Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                            if (exp.IsMatch(FechaBaja))
+                            {
+                                columnFile.Field = "Fecha de Baja";
+                                columnFile.ColumnDetail = "Ok";
+                                columnFile.Type = Type.Success;
+                                rowFile.Columns.Add(columnFile);
+                                return Type.Success;
+                            }
+                            else
+                            {
+                                columnFile.Field = "Fecha de Baja";
+                                columnFile.ColumnDetail = "El campo Fecha de Baja debe tener el formato correcto \"dd/mm/aaaa\", baja no realizada, valor leído: " + FechaBaja;
+                                columnFile.Type = Type.Invalid;
+                                rowFile.Columns.Add(columnFile);
+                                return Type.Invalid;
+                            }
+                        }
+                        else
+                        {
+                            columnFile.Field = "Fecha de Baja";
+                            columnFile.ColumnDetail = "El campo de Fecha Baja no debe de exceder de los 5 dias habiles";
+                            columnFile.Type = Type.Error;
+                            rowFile.Columns.Add(columnFile);
+                            return Type.Error;//Validacion de los 5 dias habiles para bajas DRR
+                        }
+
+                    }
+
+
+                    else if (GetDiasHabiles(FechaInicial, FechaFinal) <= dias.DiasMenosImss)
+                    {
+                        Regex exp = new Regex(@"^([0]?[0-9]|[12][0-9]|[3][01])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$");
+
+                        if (exp.IsMatch(FechaBaja))
+                        {
+                            columnFile.Field = "Fecha de Baja";
+                            columnFile.ColumnDetail = "Ok";
+                            columnFile.Type = Type.Success;
+                            rowFile.Columns.Add(columnFile);
+                            return Type.Success;
+                        }
+                        else
+                        {
+                            columnFile.Field = "Fecha de Baja";
+                            columnFile.ColumnDetail = "El campo Fecha de Baja debe tener el formato correcto \"dd/mm/aaaa\", baja no realizada, valor leído: " + FechaBaja;
+                            columnFile.Type = Type.Invalid;
+                            rowFile.Columns.Add(columnFile);
+                            return Type.Invalid;
+                        }
+                    }
+                    else
+                    {
+                        columnFile.Field = "Fecha de Baja";
+                        columnFile.ColumnDetail = "El campo de Fecha Baja no debe de exceder de los 5 dias habiles";
+                        columnFile.Type = Type.Error;
+                        rowFile.Columns.Add(columnFile);
+                        return Type.Error;//Validacion de los 5 dias habiles para bajas DRR
+                    }
+
+
+                }
+            }
+
+
+
+             else   if (FechaInicial <= FechaFinal)
             {
                 if (GetDiasHabiles(FechaInicial, FechaFinal) <= 5)//Validacion de los 5 dias habiles para bajas DRR
                 {

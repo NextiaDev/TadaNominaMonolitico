@@ -40,6 +40,17 @@
         <br />
         <div class="row">
             <div class="col-sm-8">
+                <p>Se activa para el Calculo del Septimo Dia.</p>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <input id="check-SepDia" class="toggle-switch" type="checkbox" checked>
+                <label for="check-SepDia">Septimo Dia</label>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <div class="col-sm-8">
                 <p>Se activa para el Calculo de la Cuota Sindical en la Nomina.</p>
             </div>
             <div class="col-sm-3 col-sm-offset-1">
@@ -405,6 +416,12 @@
             success: function (data) {
                 console.log(data);
 
+                if (data.SeptimoDia == 'S') {
+                    $("#check-SepDia").prop('checked', true);
+                } else {
+                    $("#check-SepDia").prop('checked', false);
+                }
+
                 if (data.BanderaPrestacionesPatronEnteros == 'S') {
                     $("#check-CPE").prop('checked', true);
                 } else {
@@ -568,7 +585,7 @@
 
     $("#_GuardarDatos").click(function () {
 
-
+        var SeptimoDia = $("#check-SepDia").prop("checked");
         var PrestacionesEntero = $("#check-CPE").prop("checked");
         var CuotaSindical = $("#check-CS").prop("checked");
         var FondoAhorro = $("#check-FH").prop("checked");
@@ -607,7 +624,7 @@
         $.ajax({
             type: 'POST',
             url: '../GuardarEspeciales',
-            data: { PrestacionesEntero, CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
+            data: { SeptimoDia,PrestacionesEntero, CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
             dataType: 'json',
             async: false,
             success: function (result) {
