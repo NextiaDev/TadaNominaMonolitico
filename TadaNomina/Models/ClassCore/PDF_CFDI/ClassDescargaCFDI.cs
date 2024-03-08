@@ -244,13 +244,67 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                 string rutaArchivo = ruta + @"\" + NombreArchivo;
                 
                 if (!Directory.Exists(ruta))                
-                    System.IO.Directory.CreateDirectory(ruta);                
+                    System.IO.Directory.CreateDirectory(ruta);
+
+                string direccionEmpleado = "";
+                if (item.IdGrupo == 2)
+                    direccionEmpleado = GetDireccionEmpleado(item.IdEmpleado);
 
                 WS_CFDI cga = new WS_CFDI();
-                cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo);
+                cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo, direccionEmpleado);
                 lista.Add(rutaArchivo);
             }
             return lista;
+        }
+
+        /// <summary>
+        ///     Obtiene la dirección del empleado
+        /// </summary>
+        /// <param name="IdEmpleado">Id del empleado</param>
+        /// <returns>Cadena con la dirección del empleado</returns>
+        public string GetDireccionEmpleado(int? IdEmpleado)
+        {
+            vEmpleados emp = new vEmpleados();
+            string direccion = "";
+            try
+            {
+                using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
+                {
+                    emp = ctx.vEmpleados.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault();
+                }
+
+                if (emp != null)
+                {
+                    if (emp.Calle != null && emp.Calle != "")
+                        direccion += emp.Calle + ", ";
+
+                    if (emp.noExt != null && emp.noExt != "")
+                        direccion += emp.noExt + ", ";
+
+                    if (emp.noInt != null && emp.noInt != "")
+                        direccion += "INT. " + emp.noInt + ", ";
+
+                    if (emp.Colonia != null && emp.Colonia != "")
+                        direccion += "COL. " + emp.Colonia + ", ";
+
+                    if (emp.Municipio != null && emp.Municipio != "")
+                        direccion += emp.Municipio + ", ";
+
+                    if (emp.EntidadFederativa != null && emp.EntidadFederativa != "")
+                        direccion += emp.EntidadFederativa + ", ";
+
+                    if (emp.CodigoPostal != null && emp.CodigoPostal != "")
+                        direccion += "C.P. " + emp.CodigoPostal;
+                }
+                if (direccion != "" && direccion != null)
+                    direccion.ToUpper();
+
+                return direccion;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -293,8 +347,12 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                     if (!Directory.Exists(ruta))
                         Directory.CreateDirectory(ruta);
 
-                    WS_CFDI cga = new WS_CFDI(); 
-                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo);
+                    string direccionEmpleado = "";
+                    if (item.IdGrupo == 2)
+                        direccionEmpleado = GetDireccionEmpleado(item.IdEmpleado);
+
+                    WS_CFDI cga = new WS_CFDI();
+                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo, direccionEmpleado);
                 }
                 lista.Add(carpeta);
             }
@@ -341,8 +399,12 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                     if (!Directory.Exists(ruta))
                         System.IO.Directory.CreateDirectory(ruta);
 
+                    string direccionEmpleado = "";
+                    if (item.IdGrupo == 2)
+                        direccionEmpleado = GetDireccionEmpleado(item.IdEmpleado);
+
                     WS_CFDI cga = new WS_CFDI();
-                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo);
+                    cga.guardaPDF(item.CFDI_Timbrado, item.Leyenda, rutaArchivo, item.Firma, item.SueldoMensual, item.Direccion, item.SD, item.idSincatosClientes, item.BanderaSindicalizados, item.IdGrupo, direccionEmpleado);
                 }
                 lista.Add(carpeta);
             }
