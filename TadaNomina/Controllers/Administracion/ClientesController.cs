@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using TadaNomina.Models.ViewModels.Catalogos;
 using TadaNomina.Services;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TadaNomina.Controllers.Administracion
 {
@@ -43,7 +44,8 @@ namespace TadaNomina.Controllers.Administracion
         {
             sClientes service = new sClientes();
             string token = Session["sToken"].ToString();
-            var clientes = service.GetInfoToCreate(token);
+            string Usuario = Session["sTipoUsuario"].ToString();
+            var clientes = service.GetInfoToCreate(token, Usuario);
             return View(clientes);
         }
         
@@ -55,13 +57,15 @@ namespace TadaNomina.Controllers.Administracion
         [HttpPost]
         public ActionResult Create(ModelClientes collection)
         {
+            string Usuario = Session["sTipoUsuario"].ToString();
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     var clsClientes = new sClientes();
                     string token = Session["sToken"].ToString();
-                    clsClientes.AddCliente(collection, token);
+                    clsClientes.AddCliente(collection, token, Usuario);
                     return RedirectToAction("Index");
                 }
                 else
