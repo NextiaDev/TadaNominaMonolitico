@@ -139,7 +139,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
-                var configuracion = (from b in entidad.vConfiguracionConceptosFiniquitos.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b).FirstOrDefault();
+                var configuracion = entidad.vConfiguracionConceptosFiniquitos.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1).FirstOrDefault();
 
                 return configuracion;
             }
