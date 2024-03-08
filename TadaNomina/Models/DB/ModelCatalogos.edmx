@@ -235,6 +235,18 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="CodigoERROR" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <EntityType Name="Cat_Grupos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdEstatus" Type="int" Nullable="false" />
+          <Property Name="IdCaptura" Type="int" Nullable="false" />
+          <Property Name="FechaCaptura" Type="datetime" Nullable="false" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
         <EntityType Name="Cat_HonorariosFacturas">
           <Key>
             <PropertyRef Name="IdFactura" />
@@ -1242,6 +1254,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="Cat_ConceptosNomina" EntityType="Self.Cat_ConceptosNomina" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_Departamentos" EntityType="Self.Cat_Departamentos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_ErroresIMSS" EntityType="Self.Cat_ErroresIMSS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cat_Grupos" EntityType="Self.Cat_Grupos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_HonorariosFacturas" EntityType="Self.Cat_HonorariosFacturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_Jornadas" EntityType="Self.Cat_Jornadas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_NominaSAT" EntityType="Self.Cat_NominaSAT" Schema="dbo" store:Type="Tables" />
@@ -1658,6 +1671,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="Cat_ConceptosNomina" EntityType="TadaNominaModel.Cat_ConceptosNomina" />
           <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
           <EntitySet Name="FactorIntegracion" EntityType="TadaNominaModel.FactorIntegracion" />
+          <EntitySet Name="Cat_Grupos" EntityType="TadaNominaModel.Cat_Grupos" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -2895,6 +2909,18 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="IdCaptura" Type="Int32" />
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="Cat_Grupos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdEstatus" Type="Int32" Nullable="false" />
+          <Property Name="IdCaptura" Type="Int32" Nullable="false" />
+          <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4111,6 +4137,19 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
                 <ScalarProperty Name="Limite_Inferior" ColumnName="Limite_Inferior" />
                 <ScalarProperty Name="IdPrestaciones" ColumnName="IdPrestaciones" />
                 <ScalarProperty Name="IdFactorIntegracion" ColumnName="IdFactorIntegracion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cat_Grupos">
+            <EntityTypeMapping TypeName="TadaNominaModel.Cat_Grupos">
+              <MappingFragment StoreEntitySet="Cat_Grupos">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
