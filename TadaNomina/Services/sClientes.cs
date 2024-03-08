@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
+using TadaNomina.Models.ClassCore;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Catalogos;
 using TadaNomina.Models.ViewModels.ConfigUsuario;
@@ -115,8 +116,13 @@ namespace TadaNomina.Services
         /// <param name="m">Variable que contiene la información de los clientes</param>
         /// <param name="token">Variable que contieneel JWT para consumir una API</param>
         /// <returns>mensaje del movimiento</returns>
-        public string AddCliente(ModelClientes m, string token)
+        public string AddCliente(ModelClientes m, string token, string usuario)
         {
+            if (usuario == "usuario")
+            {
+                m.IdGrupo = null;
+            }
+
             try
             {
                 var servicio = "/api/Clientes/AddCliente";
@@ -131,7 +137,8 @@ namespace TadaNomina.Services
                     Contacto = m.Contacto,
                     Correo = m.Correo,
                     FechaInicioProduccion = m.FechaInicioProduccion,
-                    IdPAC = m.IdPAC
+                    IdPAC = m.IdPAC,
+                    IdGrupo = m.IdGrupo
                 });
 
                 using (var wc = new WebClient())
@@ -215,10 +222,15 @@ namespace TadaNomina.Services
             }
         }
 
-        public ModelClientes GetInfoToCreate(string token)
+        public ModelClientes GetInfoToCreate(string token, string TipoUsuario)
         {
             var result = new ModelClientes();
+            cGrupos cl = new cGrupos();
+            List<SelectListItem> _grupos = new List<SelectListItem>();
+            List<Cat_Grupos> lgrupos = cl.getGrupos();
+            lgrupos.ForEach(x => { _grupos.Add(new SelectListItem { Text = x.Nombre, Value = x.Id.ToString() }); });
             result.selectPAC = GetSlectListPAC(token);
+            result.LGrupos = _grupos;
             return result;
         }
 
