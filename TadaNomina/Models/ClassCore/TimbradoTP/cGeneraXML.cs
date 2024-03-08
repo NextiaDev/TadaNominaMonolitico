@@ -13,6 +13,7 @@ using TadaNomina.Models.ClassCore.TimbradoTP.CFDI40;
 using System.Net.NetworkInformation;
 using System.IO;
 using TadaNomina.Models.ClassCore.Timbrado;
+using Microsoft.Win32;
 
 namespace TadaNomina.Models.ClassCore.TimbradoTP
 {
@@ -40,7 +41,7 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                 case "Timbrado CRC":
                     informacion = obtenDatosTimbrado(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
                     break;
-                case "Timbrado CR":                      
+                case "Timbrado CR":                    
                     int?[] _timbrados = timbrados.Where(x=> x.IdEstatus == 1).Select(t => t.IdEmpleado).ToArray();
                     string[] _stimbrados = Array.ConvertAll(_timbrados, x=> x.Value.ToString());
                     if (timbrados.Count > 0)                    
@@ -49,8 +50,8 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                         throw new Exception("No se puede elegir la opción 'Timbrado con Relación y Cancelación' ya que no existen timbrados para este periodo.");
                     
                     break;
-                case "Timbrado":
-                    informacion = obtenDatosTimbrado(IdPeriodo).OrderBy(x => x.Receptor_Rfc).ToList();
+                case "Timbrado":                   
+                    informacion = obtenDatosTimbrado(IdPeriodo).ToList().OrderBy(x => x.Receptor_Rfc).ToList();                    
                     break;
             }
 
@@ -172,11 +173,11 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
 
                 if (timbrados != null && timbrados.Count > 0)
                 {
-                    var ids = timbrados.Where(x=> x.IdEstatus == 1).Select(x => x.IdXml).ToList();
+                    var ids = timbrados.Where(x => x.IdEstatus == 1).Select(x => x.IdXml).ToList();
                     FoliosUUID = string.Join(",", timbrados.Where(x => x.IdEstatus == 1).Select(x => x.FolioUDDI).ToList());
                     var _registro = registro.Where(x => !ids.Contains(x.IdXml)).ToList();
 
-                    if ( _registro.Count() > 0)
+                    if (_registro.Count() > 0)
                     {
                         IdXML = _registro.Select(x => x.IdXml).FirstOrDefault();
                         return true;
@@ -185,7 +186,15 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP
                         return false;
                 }
                 else
-                    return false;
+                {
+                    if (registro.Count() > 0)
+                    {
+                        IdXML = registro.Select(x => x.IdXml).FirstOrDefault();
+                        return true;
+                    }
+                    else
+                        return false;
+                }
             }
         }
 

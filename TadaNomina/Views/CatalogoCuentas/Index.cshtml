@@ -21,13 +21,16 @@
 
         </div>
         <div class="panel-body">
-            <div class="text-right">
-                <a href="@Url.Action("newCuenta", "CatalogoCuentas")" class="btn btn-primary _Load"><span class="fa fa-plus"></span> Agregar Cuenta</a>
-            </div>
+            
+            
+            
             <br />
             @using (Html.BeginForm())
             {
                 <div class="row">
+                    <div class="col-md-4">
+                        <a href="@Url.Action("newCuenta", "CatalogoCuentas")" class="btn btn-primary btn-sm _Load"><span class="fa fa-plus"></span> Agregar Cuenta</a>
+                    </div>
                     <div class="col-md-2">
                         Registro Patronal:
                     </div>
@@ -35,7 +38,7 @@
                         @Html.DropDownListFor(x => x.IdRegistroPatronal, Model.lRegistros, "Elegir...", new { @class = "form-control" })
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-mint"><span class="fa fa-search"></span> Buscar</button>
+                        <button type="submit" class="btn btn-mint btn-sm"><span class="fa fa-search"></span> Buscar</button>
                     </div>
                 </div>
             }
@@ -51,9 +54,9 @@
                                 <th>Descripción</th>
                                 <th>Tipo Cuenta</th>
                                 <th>Tipo Nomina</th>
-                                <th>Ver Subcuentas</th>
-                                <th>Editar</th>
-                                <th>Eliminar</th>
+                                <th width="5%">Subcuentas</th>
+                                <th width="5%">Editar</th>
+                                <th width="5%">Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,7 +93,7 @@
     <input type="hidden" id="Nivel_" name="Nivel_" />
     <input type="hidden" id="_Descripcion_" name="_Descripcion_" />
     <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Confirmación de eliminación</h5>

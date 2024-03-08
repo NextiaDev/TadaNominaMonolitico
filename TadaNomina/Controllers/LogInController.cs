@@ -65,7 +65,7 @@ namespace TadaNomina.Controllers
                     try { model = clog.sGetAcceso(login); } catch (Exception ex) { throw new Exception(ex.Message); }
                     if (model != null)
                     {
-                        string[] user = { "System", "Usuario" };
+                        string[] user = { "System", "Usuario", "Administrador" };
                         if (user.Contains(model.User.Tipo))
                         {
                             if (model.Modulo.Contains("NOMINA") )
