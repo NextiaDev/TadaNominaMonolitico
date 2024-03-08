@@ -39,5 +39,10 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public List<SelectListItem> selectPAC { get; set; }
 
         public int? IdPAC { get; set; }
+
+
+        public List<SelectListItem> LGrupos { get; set; }
+
+        public int? IdGrupo { get; set; }
     }
 }

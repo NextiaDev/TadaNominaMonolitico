@@ -71,6 +71,10 @@ namespace TadaNomina.Models.ClassCore
             List<vConceptos> lconceptosSubInca = lconceptosNomina.Where(x => x.ClaveGpo == "900").ToList();
             lconceptosSubInca.ForEach(x => { lconceptosSubsidioInca.Add(new SelectListItem { Text = x.ClaveConcepto + "-" + x.Concepto, Value = x.IdConcepto.ToString() }); });
 
+            List<SelectListItem> lconceptosSepti = new List<SelectListItem>();
+            List<vConceptos> lconceptosSeptimo = lconceptosNomina.Where(x => x.ClaveGpo == "001").ToList();
+            lconceptosSeptimo.ForEach(x => { lconceptosSepti.Add(new SelectListItem { Text = x.ClaveConcepto + "-" + x.Concepto, Value = x.IdConcepto.ToString() }); });
+
 
             vConfiguracionConceptosFiniquitos lconceptosConfigurados = GetvConfiguracionConceptosFiniquitos(IdCliente);
 
@@ -105,6 +109,9 @@ namespace TadaNomina.Models.ClassCore
             try { model.IdConceptoSubAusentismo = lconceptosConfigurados.IdConceptoSubsidioIncapacidad; } catch { model.IdConceptoSubAusentismo = null; }
             model.lConceptoSubAusen = lconceptosSubsidioInca;
 
+            try { model.IdConceptoSeptimoDia = lconceptosConfigurados.idConceptoSeptimoDia; } catch { model.IdConceptoSeptimoDia = null; }
+            model.lConceptoSeptimoDias = lconceptosSepti;
+
             return model;
         }
 
@@ -132,7 +139,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
-                var configuracion = (from b in entidad.vConfiguracionConceptosFiniquitos.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b).FirstOrDefault();
+                var configuracion = entidad.vConfiguracionConceptosFiniquitos.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1).FirstOrDefault();
 
                 return configuracion;
             }
@@ -196,6 +203,7 @@ namespace TadaNomina.Models.ClassCore
                     IdConceptoFaltas = model.IdConceptoFaltas,
                     IdConceptoArt93Fraclll = model.IdConceptoArt93Fraclll,
                     idConceptoSubsidioIncapacidad= model.IdConceptoSubAusentismo,
+                    idConceptoSeptimoDia= model.IdConceptoSeptimoDia,
                     IdEstatus = 1,
                     IdCaptura = IdUsuario,
                     FechaCaptura = DateTime.Now
@@ -231,6 +239,7 @@ namespace TadaNomina.Models.ClassCore
                 registro.IdConceptoFaltas = model.IdConceptoFaltas;
                 registro.IdConceptoArt93Fraclll = model.IdConceptoArt93Fraclll;
                 registro.idConceptoSubsidioIncapacidad = model.IdConceptoSubAusentismo;
+                registro.idConceptoSeptimoDia= model.IdConceptoSeptimoDia;
                 entidad.SaveChanges();
             }
         }

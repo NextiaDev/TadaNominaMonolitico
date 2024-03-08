@@ -888,7 +888,7 @@
                                             <ul class="collapse _menu1" data-menu1="Administración">
                                                 @if (Session["sTipoUsuario"] != null)
                                                 {
-                                                    if (Session["sTipoUsuario"].ToString() == "System")
+                                                    if (Session["sTipoUsuario"].ToString() == "System" || Session["sTipoUsuario"].ToString() == "Administrador")
                                                     {
                                                         <li class="_subMenu" data-menu="Administración" data-text="Usuarios">
                                                             <a class="_Load" href="@Url.Action("Index", "ConfigUsuario")">
@@ -903,8 +903,6 @@
                                                         </li>
                                                     }
                                                 }
-
-
 
                                                 <li class="_subMenu" data-menu="Administración" data-text="Sindicatos Clientes">
                                                     <a class="_Load" href="@Url.Action("Index", "SindicatosClientes")">

@@ -763,7 +763,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         private void GetNominaAjuste(string periodosAjuste)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
-            {
+            {                
                 string[] _periodos = periodosAjuste.Replace(" ", "").Split(',');
                 _periodos = _periodos.Where(x => x != "").ToArray();
                 int[] idsPeriodos = Array.ConvertAll(_periodos, int.Parse);
