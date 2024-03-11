@@ -61,7 +61,7 @@ namespace TadaNomina.Controllers
             mensaje += ViewBag.mensaje ?? "N/A";
             mensaje += mensaje == "N/A" ? "N/A" : ViewBag.Mensaje ?? "N/A";
 
-            generaLog("Normal", controlador, accion, method, mensaje, IP);
+            //generaLog("Normal", controlador, accion, method, mensaje, IP);
 
             base.OnActionExecuted(filterContext);
         }
@@ -74,7 +74,7 @@ namespace TadaNomina.Controllers
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
             
-            generaLog("Error", controlador, accion, method, error, IP);
+            //generaLog("Error", controlador, accion, method, error, IP);
             base.OnException(filterContext);
         }
 

@@ -449,7 +449,7 @@ namespace TadaNomina.Models.ClassCore
                         catch { throw new Exception(" Subsidio Por Incapacidad , no se configuro ningun concepto. "); }
                         AgregaIncidenciaAusentismoEmpleadoSubsidio(iAusen, IdPeriodoNomina, IdConcepto, restad.Value, IdUsuario);
                     }
-                    var operacion = (iAusen.SD * iAusen.DiasSubsidioInicial) * iAusen.PorcentajeSubsidioInicial;
+                    var operacion = (iAusen.SD * iAusen.DiasSubsidioInicial) * iAusen.PorcentajeSubsidioInicial / 100;
                     try
                     {
                         IdConcepto = (int)conceptosConfigurados.IdConceptoSubsidioIncapacidad; 
@@ -520,9 +520,9 @@ namespace TadaNomina.Models.ClassCore
             Incidencias i = new Incidencias();
             i.IdEmpleado = ausentismo.idempleado;
             i.IdPeriodoNomina = IdPeriodoNomina;
-            i.IdConcepto = int.Parse(ausentismo.idconcepto);
-            i.Cantidad = ausentismo.dias;
-            i.Monto = 0;
+            i.IdConcepto = incidencia;
+            i.Cantidad = 0;
+            i.Monto = monto;
             i.Exento = 0;
             i.Gravado = 0;
             i.MontoEsquema = 0;

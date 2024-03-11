@@ -1041,6 +1041,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     importeAPiramidar += datosEmpleados.NetoPagar ?? 0;
                     importeAPiramidar += imss;
                     importeAPiramidar -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Exento).Sum() ?? 0;
+                    importeAPiramidar -= incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "OTRO" && x.MultiplicaDT != "SI" && x.IdConcepto != conceptosConfigurados.IdConceptoCompensacion && x.IdConcepto != conceptosConfigurados.IdConceptoArt93Fraclll).Select(X => X.Monto).Sum() ?? 0;
                     importeAPiramidar += incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.MultiplicaDT != "SI" && x.ClaveSAT != "001").Select(X => X.Monto).Sum() ?? 0;
                     decimal montoBruto = Piramida(importeAPiramidar, Periodo.FechaFin);
 
