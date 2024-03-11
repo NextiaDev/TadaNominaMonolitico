@@ -16,5 +16,6 @@ namespace TadaNomina.Models.ViewModels.CFDI
         public int? IdSindicatoClientes { get; set; }
         public int? IdGrupo { get; set; }
         public string BanderaSindicalizados { get; set; }
+        public string DireccionEmpleado { get; set; }
     }
 }
