@@ -218,7 +218,7 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdCreditoInfonavit">Identificador del credito</param>
         /// <param name="IdUsuario">Identificador del usuario</param>
         /// <param name="porcentaje">Nuevo porcentaje</param>
-        public void UpdatePorcentaje(int IdCreditoInfonavit, int IdUsuario, decimal porcentaje)
+        public void UpdatePorcentaje(int IdCreditoInfonavit, int IdUsuario, decimal porcentaje, decimal? cantidadUnidad)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
@@ -227,6 +227,10 @@ namespace TadaNomina.Models.ClassCore
                 if (credito != null && porcentaje>0 && porcentaje<=100)
                 {
                     credito.PorcentajeTradicional = porcentaje;
+                    
+                    if(cantidadUnidad != null && cantidadUnidad > 0)
+                        credito.CantidadUnidad = cantidadUnidad;
+
                     credito.IdModifica = IdUsuario;
                     credito.FechaModifica = DateTime.Now;
 
