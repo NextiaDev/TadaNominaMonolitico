@@ -390,7 +390,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                         if (UnidadNegocio.ConfiguracionSueldos == "Netos(Impuestos)")
                         {
                             if (nominaTrabajo.DiasTrabajados > 0)
-                                nominaTrabajo.Apoyo += (SD_Real * (nominaTrabajo.DiasTrabajados)) - (nominaTrabajo.ER - nominaTrabajo.ImpuestoRetener - nominaTrabajo.IMSS_Obrero);                            
+                                nominaTrabajo.Apoyo += (SD_Real * (nominaTrabajo.DiasTrabajados)) - (nominaTrabajo.ER - nominaTrabajo.ImpuestoRetener - nominaTrabajo.IMSS_Obrero);
+
+                            if (nominaTrabajo.Apoyo < 0)
+                                nominaTrabajo.Apoyo = 0;
                         }
                         else if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)")
                         {
@@ -398,14 +401,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             nominaTrabajo.Apoyo += nominaTrabajo.IMSS_Obrero;
                             nominaTrabajo.Apoyo += nominaTrabajo.ImpuestoRetener;
                             nominaTrabajo.Apoyo -= nominaTrabajo.SubsidioPagar;
+
+                            if (nominaTrabajo.Apoyo < 0)
+                                nominaTrabajo.Apoyo = 0;
                         }
                         else
                         {
                             nominaTrabajo.Apoyo += nominaTrabajo.DiasTrabajados * SD_Esquema;
                         }
-
-                        if (nominaTrabajo.Apoyo < 0)
-                            nominaTrabajo.Apoyo = 0;
                     }
                 }
             }
