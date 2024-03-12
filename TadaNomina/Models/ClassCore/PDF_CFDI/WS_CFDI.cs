@@ -58,7 +58,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
         /// <param name="banderaSindicalizados">Bandera para saber si aparece el dato "Sindicalizado" en el CFDI</param>
         /// <param name="idGrupo">Id del grupo al que pertenece el cliente</param>
         /// <returns>Cadena con el archivo en b64</returns>
-        public string getPDF(string xml, string leyenda, string Firma, decimal? SMO, string direccionPatrona, decimal? SD, int? IdSindicatoClientes, string banderaSindicalizados, int? idGrupo)
+        public string getPDF(string xml, string leyenda, string Firma, decimal? SMO, string direccionPatrona, decimal? SD, int? IdSindicatoClientes, string banderaSindicalizados, int? idGrupo, string DireccionEmpleado)
         {
             string xmlB64 = Statics.Base64Encode(xml);
             string servidor = ClassSistema.getUrlSistema() + "/WS_CFDI";
@@ -75,7 +75,8 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                 DireccionPatrona = direccionPatrona,
                 IdSindicatoClientes = IdSindicatoClientes,
                 BanderaSindicalizados = banderaSindicalizados,
-                IdGrupo = idGrupo
+                IdGrupo = idGrupo,
+                DireccionEmpleado = DireccionEmpleado
             };
 
             var _datos = JsonConvert.SerializeObject(datos);
@@ -136,7 +137,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
         /// <param name="IdSindicatoClientes">Id sindicato del cliente</param>
         /// <param name="banderaSindicalizados">Bandera para saber si aparece el dato "Sindicalizado" en el CFDI</param>
         /// <param name="idGrupo">Id del grupo al que pertenece el cliente</param>
-        public void guardaPDF(string xml, string leyenda, string ruta, string Firma, decimal? SMO, string direccionPatrona, decimal? SD, int? IdSindicatoClientes, string banderaSindicalizados, int? idGrupo)
+        public void guardaPDF(string xml, string leyenda, string ruta, string Firma, decimal? SMO, string direccionPatrona, decimal? SD, int? IdSindicatoClientes, string banderaSindicalizados, int? idGrupo, string direccionEmpleado)
         {
             string[] firmas;
             string _firma = string.Empty;
@@ -146,7 +147,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                 _firma = firmas[1];
             }
 
-            string b64 = getPDF(xml, leyenda, _firma, SMO, direccionPatrona, SD, IdSindicatoClientes, banderaSindicalizados, idGrupo);
+            string b64 = getPDF(xml, leyenda, _firma, SMO, direccionPatrona, SD, IdSindicatoClientes, banderaSindicalizados, idGrupo, direccionEmpleado);
             byte[] bytes = System.Convert.FromBase64String(b64);
 
             using (FileStream stream = new FileStream(ruta, FileMode.Create))
