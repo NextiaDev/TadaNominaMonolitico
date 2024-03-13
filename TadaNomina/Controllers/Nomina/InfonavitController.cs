@@ -112,8 +112,7 @@ namespace TadaNomina.Controllers.Nomina
             try
             {
                 ClassInfonavit ci = new ClassInfonavit();
-                ci.UpdatePorcentaje(model.IdCreditoInfonavit, (int)Session["sIdUsuario"], model.PorcentajeTradicional);
-
+                ci.UpdatePorcentaje(model.IdCreditoInfonavit, (int)Session["sIdUsuario"], model.PorcentajeTradicional, model.CantidadUnidad);
             }
             catch { }
 
