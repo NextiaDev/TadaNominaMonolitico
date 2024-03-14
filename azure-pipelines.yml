@@ -9,16 +9,23 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  buildConfiguration: 'Release'
+  system.debug: true
+
 steps:
+- powershell: Write-Host "BUILD $env:Build-SourceBranch - $env:Build.SourceBranchName"
+
 - task: SonarQubePrepare@5
   inputs:
     SonarQube: 'TadaSonarQube'
     scannerMode: 'MSBuild'
     projectKey: 'TadaNomina_TadaNomina_AY4-Sz5r39RMu7PzHEnN'
     projectName: 'TadaNomina'
+- task: MSBuild@1
+  inputs:
+    solution: 'TadaNomina/*.sln'
 
-- script: dotnet build $(Build.SourcesDirectory)/TadaNomina/TadaNomina.sln --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
 - task: SonarQubeAnalyze@5
 
 - task: SonarQubePublish@5
