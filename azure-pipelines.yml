@@ -17,6 +17,8 @@ steps:
     projectKey: 'TadaNomina_TadaNomina_AY4-Sz5r39RMu7PzHEnN'
     projectName: 'TadaNomina'
 
+- script: dotnet build $(Build.SourcesDirectory)/TadaNomina/TadaNomina.sln --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
 - task: SonarQubeAnalyze@5
 
 - task: SonarQubePublish@5
