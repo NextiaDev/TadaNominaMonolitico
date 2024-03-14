@@ -31,7 +31,7 @@ steps:
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
+    feedsToUse: 'config'
 - task: SonarQubeAnalyze@5
 
 - task: SonarQubePublish@5
