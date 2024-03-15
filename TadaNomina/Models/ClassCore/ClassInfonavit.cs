@@ -109,7 +109,7 @@ namespace TadaNomina.Models.ClassCore
         {
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "VSM", Value="VSM" } );
-            list.Add(new SelectListItem { Text = "Couta Fija", Value = "Couta Fija" });
+            list.Add(new SelectListItem { Text = "Cuota Fija", Value = "Couta Fija" });
             list.Add(new SelectListItem { Text = "Porcentaje", Value = "Porcentaje" });
 
             return list;

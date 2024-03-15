@@ -23,6 +23,8 @@ namespace TadaNomina.Models.ViewModels.ConfigUsuario
         [Required]
         public string Usuario { get; set; }
         public string Password { get; set; }
+        public bool TIPO { get; set; }
+
         public bool Nomina { get; set; }
         public bool RHCloud { get; set; }
         public bool IMSS { get; set; }

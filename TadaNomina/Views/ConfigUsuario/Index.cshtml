@@ -56,7 +56,7 @@
                         <p class="text-sm">@item.Correo</p>
                     </div>
                     <div class="pad-top btn-groups">
-                        <button class="btn btn-icon btn-primary fa fa-lg fa-edit icon-lg add-tooltip" data-original-title="Editar" data-container="body" onclick="EditarUser('@item.IdUsuario','@item.Nombre','@item.ApellidoPaterno','@item.ApellidoMaterno','@item.Correo','@item.Usuario1','@item.IdCliente','@item.IdUnidadNegocio','@item.Nomina', '@item.Rhcloud', '@item.IMSS', '@item.Contabilidad', '@item.Tesoreria' )"></button>
+                        <button class="btn btn-icon btn-primary fa fa-lg fa-edit icon-lg add-tooltip" data-original-title="Editar" data-container="body" onclick="EditarUser('@item.IdUsuario','@item.Nombre','@item.ApellidoPaterno','@item.ApellidoMaterno','@item.Correo','@item.Usuario1','@item.IdCliente','@item.IdUnidadNegocio','@item.Nomina', '@item.Rhcloud', '@item.IMSS', '@item.Contabilidad', '@item.Tesoreria','@item.Tipo' )"></button>
                         <button class="btn btn-icon btn-danger fa fa-lg fa-trash icon-lg add-tooltip" data-original-title="Eliminar" data-container="body" onclick="EliminarUsuario(@item.IdUsuario)"></button>'
                     </div>
                 </div>
@@ -137,13 +137,25 @@
                                         <div class="form-group">
                                             <label class="col-lg-3 control-label">Usuario</label>
                                             <div class="col-lg-7">
-                                                <input id="inpt_usu" type="text" class="form-control" name="usuario" placeholder="Uasuario" required>
+                                                <input id="inpt_usu" type="text" class="form-control" name="usuario" placeholder="Usuario" required>
                                             </div>
                                         </div>
+
                                         <div id="div_inpt_pass" class="form-group has-feedback">
                                             <label class="col-lg-3 control-label">Contrase&ntilde;a</label>
                                             <div class="col-lg-7">
                                                 <input id="inpt_pass" type="password" class="form-control" name="password" placeholder="Contraseña" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-3 control-label"></label>
+                                            <div class="col-lg-8">
+                                                <div class="checkbox">
+                                                    <input id="_tipoUser" class="magic-checkbox" type="checkbox" name="TIPO" value="false" onclick="setvaluetextboxTipo('_tipoUser')" />
+                                                    <label for="_tipoUser">
+                                                        Administrador
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -218,7 +230,7 @@
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2 col-md-3">
+                                                @*<div class="col-sm-2 col-md-3">
                                                     <div class="checkbox">
                                                         <input id="mod-RH" class="magic-checkbox" type="checkbox" name="RHCloud" value="false" onclick="setvaluetextbox('mod-RH')" />
                                                         <label for="mod-RH">
@@ -249,7 +261,7 @@
                                                             Tesorer&iacute;a
                                                         </label>
                                                     </div>
-                                                </div>
+                                                </div>*@
                                             </div>
                                         </div>
                                     </div>
