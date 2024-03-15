@@ -401,6 +401,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             nominaTrabajo.Apoyo += nominaTrabajo.IMSS_Obrero;
                             nominaTrabajo.Apoyo += nominaTrabajo.ImpuestoRetener;
                             nominaTrabajo.Apoyo -= nominaTrabajo.SubsidioPagar;
+
+                            if (nominaTrabajo.Apoyo < 0)
+                                nominaTrabajo.Apoyo = 0;
                         }
                         else
                         {

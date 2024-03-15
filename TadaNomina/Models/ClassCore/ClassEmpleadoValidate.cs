@@ -3473,7 +3473,7 @@ namespace TadaNomina.Models
                 return Type.Warning;
             }
 
-            if (Valida.Equals("SI") || Valida.Equals("NO"))
+            if (Valida.Equals("S") || Valida.Equals("N"))
             {
                 columnFile.Field = "Timbrado";
                 columnFile.ColumnDetail = "Ok";
@@ -3484,7 +3484,7 @@ namespace TadaNomina.Models
             else
             {
                 columnFile.Field = "Timbrado";
-                columnFile.ColumnDetail = "El campo Recontratable solo puede contener la palabra \"SI\" o \"NO\" se sustituye valor a nulo, valor leído: " + Valida;
+                columnFile.ColumnDetail = "El campo Recontratable solo puede contener la palabra \"S\" o \"N\" se sustituye valor a nulo, valor leído: " + Valida;
                 columnFile.Type = Type.Invalid;
                 rowFile.Columns.Add(columnFile);
                 return Type.Invalid;
