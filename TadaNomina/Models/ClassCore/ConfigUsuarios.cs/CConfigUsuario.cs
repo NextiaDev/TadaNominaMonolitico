@@ -150,6 +150,8 @@ namespace TadaNomina.Models.ClassCore.ConfigUsuarios.cs
                     imss = request.IMSS,
                     contabilidad = request.Contabilidad,
                     tesoreria = request.Tesoreria,
+                    tipo = request.TIPO
+
                 };
                 var data = JsonConvert.SerializeObject(modelrequest);
                 using (var wc = new WebClient())
