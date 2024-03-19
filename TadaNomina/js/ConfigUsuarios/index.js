@@ -88,30 +88,30 @@ function EditarUser(idUsuario, Nombre, apellidoPat, apellidoMat, correo, usuario
         inptmodnom.value = true;
     }
 
-    var inptmodnrh = document.getElementById('mod-RH');
-    if (!!rhcloud) {
-        inptmodnrh.setAttribute('checked', 'true');
-        inptmodnrh.value = true;
+    //var inptmodnrh = document.getElementById('mod-RH');
+    //if (!!rhcloud) {
+    //    inptmodnrh.setAttribute('checked', 'true');
+    //    inptmodnrh.value = true;
 
-    }
+    //}
 
-    var inptmodnimss = document.getElementById('mod-IMSS');
-    if (!!imss) {
-        inptmodnimss.setAttribute('checked', 'true');
-        inptmodnimss.value = true;
-    }
+    //var inptmodnimss = document.getElementById('mod-IMSS');
+    //if (!!imss) {
+    //    inptmodnimss.setAttribute('checked', 'true');
+    //    inptmodnimss.value = true;
+    //}
 
-    var inptmodconta = document.getElementById('mod-Conta');
-    if (!!contabilidad) {
-        inptmodconta.setAttribute('checked', 'true');
-        inptmodconta.value = true;
-    }
+    //var inptmodconta = document.getElementById('mod-Conta');
+    //if (!!contabilidad) {
+    //    inptmodconta.setAttribute('checked', 'true');
+    //    inptmodconta.value = true;
+    //}
 
-    var inptmodteso = document.getElementById('mod-Teso');
-    if (!!tesoreria) {
-        inptmodteso.setAttribute('checked', 'true');
-        inptmodteso.value = true;
-    }
+    //var inptmodteso = document.getElementById('mod-Teso');
+    //if (!!tesoreria) {
+    //    inptmodteso.setAttribute('checked', 'true');
+    //    inptmodteso.value = true;
+    //}
 
     $('#addUser').modal('show');
 }
