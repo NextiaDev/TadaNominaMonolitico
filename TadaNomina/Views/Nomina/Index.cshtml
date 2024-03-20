@@ -62,11 +62,20 @@
                                         if (item.TipoNomina == "Honorarios")
                                         {
                                             string actions = string.Empty;
-                                            
+
                                             <a href="@Url.Action("index", "Honorarios", new { pIdPeriodoNomina = item.IdPeriodoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-sign-in"></span> Seleccionar</a>
 
 
                                         }
+
+                                        else if (item.TipoNomina == "Cargada")
+                                        {
+                                            string actions = string.Empty;
+
+                                            <a href="@Url.Action("CargaNomina", "NominaCargada", new { pIdPeriodoNomina = item.IdPeriodoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-sign-in"></span> Seleccionar</a>
+                                        }
+
+
                                         else
                                         {
                                             string action = string.Empty;
@@ -79,7 +88,7 @@
                                                 action = "ProcesaNominaGeneral";
                                             }
 
-                                            
+
                                             <a href="@Url.Action(action, new { pIdPeriodoNomina = item.IdPeriodoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-sign-in"></span> Seleccionar</a>
                                         }
 
