@@ -20,7 +20,7 @@
         <div class="panel-body">
            
 
-            @if (Session["sTipoUsuario"].ToString() == "System")
+            @if (Session["sTipoUsuario"].ToString() == "System" || Session["sTipoUsuario"].ToString() == "Administrador")
             {
                 @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-primary btn-sm fa fa-plus _Load" })
             }
@@ -91,7 +91,7 @@
                                     
                                 </td>
                                 <td>
-                                    @if (Session["sTipoUsuario"].ToString() == "System")
+                                    @if (Session["sTipoUsuario"].ToString() == "System" || Session["sTipoUsuario"].ToString() == "Administrador")
                                     {
                                         @Html.ActionLink(" ", "Edit", new { id = item.IdConcepto }, new { @class = "btn btn-default btn-sm fa fa-edit _Load", @rel = "tooltip", @title = "Editar" })
                                     }

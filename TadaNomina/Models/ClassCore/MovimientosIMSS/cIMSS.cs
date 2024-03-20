@@ -28,6 +28,13 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                 //string noLote = RegresaNoLote();
                 List<vEmpleados> empleados = GetAllVEmpleadosByIdUnidadNegocio(IdUnidadNegocio);
 
+                if (empleados.Count <= 0)
+                {
+                    r.listErrores.Add("NO SE ENCONTRARON A LOS COLABORADORES EN LA UNIDAD DE NEGOCIO");
+                    return r;
+                }
+
+
                 foreach (var item in array)
                 {
                     r.noRegistros++;
@@ -76,8 +83,21 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                                      where b.IdEmpleado == _IdEmpleado
                                      select b).FirstOrDefault();
 
-                    //Se asignan variables para registrar variables anteriores
-                    _sdiAnterior = (decimal)emp.SDI;
+                    if (emp.SDI == null)
+                    {
+                        // Si el SDI (Salario Diario Integrado) del empleado es nulo,
+                        // establecemos el valor de _sdiAnterior a 0.
+                        _sdiAnterior = 0;
+                    }
+                    else
+                    {
+                        // Si el SDI del empleado no es nulo, lo convertimos a decimal
+                        // y lo asignamos a _sdiAnterior.
+                        _sdiAnterior = (decimal)emp.SDI;
+                    }
+
+                    // Se retira este parseo ya que existen SDI de colaboradores con valores nulos
+                    //_sdiAnterior = (decimal)emp.SDI;
 
                     emp.SDI = _sdi;
                     emp.IdModificacion = IdUsuario;

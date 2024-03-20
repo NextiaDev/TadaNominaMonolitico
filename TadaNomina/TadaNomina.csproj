@@ -398,6 +398,7 @@
     <Compile Include="Controllers\Nomina\IncidenciasPrenominaController.cs" />
     <Compile Include="Controllers\Nomina\IncidenciasProgramadasController.cs" />
     <Compile Include="Controllers\Nomina\InfonavitController.cs" />
+    <Compile Include="Controllers\Nomina\NominaCargadaController.cs" />
     <Compile Include="Controllers\Nomina\NominaController.cs" />
     <Compile Include="Controllers\Nomina\NominasAcumuladasController.cs" />
     <Compile Include="Controllers\Nomina\PagoHorasController.cs" />
@@ -436,6 +437,7 @@
     <Compile Include="Models\ClassCore\cHonorarios.cs" />
     <Compile Include="Models\ClassCore\ClassActualizaNetos.cs" />
     <Compile Include="Models\ClassCore\ConfigUsuarios.cs\CConfigUsuario.cs" />
+    <Compile Include="Models\ClassCore\NominasCargadas\ClassNominasCargadas.cs" />
     <Compile Include="Models\ClassCore\Reportes\ClassArchivoGV.cs" />
     <Compile Include="Models\ClassCore\ClassArchivosBancos.cs" />
     <Compile Include="Models\ClassCore\ClassArea.cs" />
@@ -1375,6 +1377,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelAcumularPeriodo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelAusentismos.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelBusquedaEmpleado.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelCargaLayoutNominas.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelConfEmpleadoHoras.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelDiasTrabajadosAguinaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadoFiniquito.cs" />
@@ -1391,6 +1394,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelNewSaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelNomina.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelNomina2.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelNominasCargadas.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModeloSaldos.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelPensionAlimenticia.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelPeriodoNomina.cs" />
@@ -1667,7 +1671,6 @@
     <Content Include="assets\vendors\zangdar\zangdar.css.map" />
     <Content Include="assets\vendors\zangdar\zangdar.min.css.map" />
     <Content Include="bin\ApplicationInsights.config" />
-    <Content Include="bin\TadaNomina.dll.config" />
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service.wsdl" />
     <None Include="Connected Services\ServiceReferenceCancelacionTPTest2\service.xsd">
       <SubType>Designer</SubType>
@@ -7082,6 +7085,10 @@
     <Content Include="Views\NominasAcumuladas\NominaGeneral.cshtml" />
     <Content Include="Views\NominasAcumuladas\BuscarEmpleadoIndividual.cshtml" />
     <Content Include="Views\NominasAcumuladas\NominaIndividual.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\NominaCargada\CargaNomina.cshtml" />
+    <Content Include="Views\NominaCargada\CargaLayoutNomina.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
