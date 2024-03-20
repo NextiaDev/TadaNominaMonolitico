@@ -2056,7 +2056,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (TadaEmpleados entity = new TadaEmpleados())
             {
-                int[] IdEstatus = { 1, 2, 3 };
+                int[] IdEstatus = { 1, 2, 3, 5 };
                 var query = (from b in entity.vEmpleados.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && IdEstatus.Contains(x.IdEstatus)) select b).OrderBy(x=> x.IdEstatus).ToList();
 
                 return query;
