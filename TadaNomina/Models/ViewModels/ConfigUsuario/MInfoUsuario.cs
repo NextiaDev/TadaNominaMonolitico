@@ -20,5 +20,6 @@ namespace TadaNomina.Models.ViewModels.ConfigUsuario
         public string IMSS { get; set; }
         public string Contabilidad { get; set; }
         public string Tesoreria { get; set; }
+        public string Tipo { get; set; }
     }
 }
