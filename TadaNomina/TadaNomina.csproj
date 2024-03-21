@@ -7085,8 +7085,6 @@
     <Content Include="Views\NominasAcumuladas\NominaGeneral.cshtml" />
     <Content Include="Views\NominasAcumuladas\BuscarEmpleadoIndividual.cshtml" />
     <Content Include="Views\NominasAcumuladas\NominaIndividual.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\NominaCargada\CargaNomina.cshtml" />
     <Content Include="Views\NominaCargada\CargaLayoutNomina.cshtml" />
   </ItemGroup>
