@@ -18,6 +18,116 @@ namespace TadaNomina.Controllers.Nomina
             return View(model);
         }
 
+        public ActionResult BaseAlimenticia()
+        {
+            int IdCliente = 0;
+            try { IdCliente = (int)Session["sIdCliente"]; } catch { IdCliente = 0; }
+
+            if (IdCliente == 0)
+            {
+                return RedirectToAction("Index", "Default");
+            }
+            else
+            {
+                ClassPensionAlimenticia clsPension = new ClassPensionAlimenticia();
+                return View(clsPension.getBasePensiones(IdCliente));
+            }
+        }
+
+        public ActionResult CreateBasePension()
+        {
+            int IdCliente = 0;
+            try { IdCliente = (int)Session["sIdCliente"]; } catch { IdCliente = 0; }
+            ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+            return View(ci.FindListConceptos(IdCliente));
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateBasePension(ModelBasePensionAlimenticia model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int idCliente = (int)Session["sIdCliente"];
+                    int idUsuario = (int)Session["sIdUsuario"];
+                    ClassPensionAlimenticia classs = new ClassPensionAlimenticia();
+                    classs.AddBasePension(model, idCliente, idUsuario);
+                    return RedirectToAction("BaseAlimenticia", "PensionAlimenticia");
+                }
+                else
+                {
+                    int IdCliente = 0;
+                    try { IdCliente = (int)Session["sIdCliente"]; } catch { IdCliente = 0; }
+                    ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+                    return View(ci.FindListConceptos(IdCliente));
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult EditBase(int id)
+        {
+            int IdCliente = 0;
+            try { IdCliente = (int)Session["sIdCliente"]; } catch { IdCliente = 0; }
+            ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+            ModelBasePensionAlimenticia modelo = ci.getModelBasePensionAlimenticiaId(id);
+            ModelBasePensionAlimenticia modelos = ci.FindListConceptosbase(IdCliente, modelo);
+            return View(modelos);
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult EditBase(ModelBasePensionAlimenticia model)
+        {
+            int IdCliente = 0;
+            try { IdCliente = (int)Session["sIdCliente"]; } catch { IdCliente = 0; }
+            ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+            int IdUsuario = (int)Session["sIdUsuario"];
+            try
+            {
+                if (model != null)
+                {
+                    ci.editPensionBase(model, IdUsuario);
+                    return RedirectToAction("BaseAlimenticia", "PensionAlimenticia");
+
+                }
+                else
+                {
+                    model.Validacion = false;
+                    model.Mensaje = "Error: No se encuentra al empleado, favor de verificar!";
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Validacion = false;
+                model.Mensaje = "Error: " + ex.Message;
+            }
+
+            return View(model);
+        }
+
+        public JsonResult getPalabrasReservadas()
+        {
+            try
+            {
+                ClassConceptos cc = new ClassConceptos();
+                var conceptos = cc.getConceptosFormulacion((int)Session["sIdCliente"]);
+                return Json(conceptos);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+
+
         public ActionResult Create()
         {
             ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
@@ -111,6 +221,35 @@ namespace TadaNomina.Controllers.Nomina
             var model = ci.getModelPensionAlimenticiaId(id);
             return PartialView(model);
         }
+
+        public ActionResult Detailsbase(int id)
+        {
+            ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+            var model = ci.getModelBasePensionAlimenticiaId(id);
+            return PartialView(model);
+        }
+
+        public ActionResult DeleteBase(int id)
+        {
+            ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+            var model = ci.getModelBasePensionAlimenticiaId(id);
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteBase(ModelBasePensionAlimenticia model)
+        {
+            try
+            {
+                ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+                ci.DeletePensionBase(model.IdBasePensionAlimenticia, (int)Session["sIdUsuario"]);
+            }
+            catch { }
+
+            return RedirectToAction("BaseAlimenticia");
+        }
+
+
 
         public ActionResult Delete(int id)
         {
