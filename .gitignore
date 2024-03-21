@@ -367,3 +367,5 @@ FodyWeavers.xsd
 /TadaNomina/Web.config
 /TadaNomina/Views/_ViewStart.cshtml
 azure-pipelines.yml
+/TadaNomina/Views/_ViewStart.cshtml
+/TadaNomina/Views/Shared/_Layout.cshtml

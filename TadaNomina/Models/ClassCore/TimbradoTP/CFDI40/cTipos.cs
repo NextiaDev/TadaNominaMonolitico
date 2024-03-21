@@ -811,6 +811,27 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
                 case "100":
                     deduccion = c_TipoDeduccion.Item100;
                     break;
+                case "101":
+                    deduccion = c_TipoDeduccion.Item101;
+                    break;
+                case "102":
+                    deduccion = c_TipoDeduccion.Item102;
+                    break;
+                case "103":
+                    deduccion = c_TipoDeduccion.Item103;
+                    break;
+                case "104":
+                    deduccion = c_TipoDeduccion.Item104;
+                    break;
+                case "105":
+                    deduccion = c_TipoDeduccion.Item105;
+                    break;
+                case "106":
+                    deduccion = c_TipoDeduccion.Item106;
+                    break;
+                case "107":
+                    deduccion = c_TipoDeduccion.Item107;
+                    break;
                 default:
                     deduccion = c_TipoDeduccion.Item004;
                     break;
