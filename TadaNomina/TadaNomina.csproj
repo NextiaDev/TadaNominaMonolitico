@@ -150,7 +150,7 @@
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SAT.Services">
-      <HintPath>..\..\NubeHoy\LaNube\bin\SAT.Services.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SAT.Services.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.5.10.4\lib\net45\ServiceStack.Text.dll</HintPath>
@@ -603,6 +603,9 @@
     </Compile>
     <Compile Include="Models\DB\Ausentismos.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\BasePensionAlimenticia.cs">
+      <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Bimestres.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -1376,6 +1379,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelActualizaNetos.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelAcumularPeriodo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelAusentismos.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelBasePensionAlimenticia.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelBusquedaEmpleado.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelCargaLayoutNominas.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelConfEmpleadoHoras.cs" />
@@ -4566,6 +4570,7 @@
     <Content Include="js\Core\EmpleadoRecuperacionIMSS.js" />
     <Content Include="js\Core\Batch.js" />
     <Content Include="js\Core\factoresConceptos.js" />
+    <Content Include="js\Core\pensionBase.js" />
     <Content Include="js\Core\RegPatronal.js" />
     <Content Include="js\Core\Search.js" />
     <Content Include="js\Core\Employed.js" />

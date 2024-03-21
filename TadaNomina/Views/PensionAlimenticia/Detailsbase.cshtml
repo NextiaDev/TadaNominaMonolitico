@@ -1,0 +1,76 @@
+﻿
+@model TadaNomina.Models.ViewModels.Nominas.ModelBasePensionAlimenticia
+
+<div class="modal-header">
+
+    <h4 class="modal-title">Detalle de la Pensión</h4>
+    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-window-close"></i></button>
+</div>
+
+<div class="modal-body">
+
+
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Formula)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Formula)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCaptura)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCaptura)
+        </dd>
+
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.Estatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fechaCaptura)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fechaCaptura)
+        </dd>
+
+
+    </dl>
+
+    <div class="modal-footer">
+        <div class="form-actions no-color">
+            <button class="btn btn-default btn-sm" data-dismiss="modal" type="button">Cerrar</button>
+
+        </div>
+    </div>
+</div>
+
+
