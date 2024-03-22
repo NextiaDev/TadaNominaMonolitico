@@ -75,6 +75,7 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vConceptos> vConceptos { get; set; }
         public virtual DbSet<FactorIntegracion> FactorIntegracion { get; set; }
         public virtual DbSet<Cat_Grupos> Cat_Grupos { get; set; }
+        public virtual DbSet<BasePensionAlimenticia> BasePensionAlimenticia { get; set; }
     
         public virtual ObjectResult<sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result> sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS(Nullable<int> idCliente, Nullable<System.DateTime> fechaInicial, Nullable<System.DateTime> fechaFinal)
         {

@@ -54,6 +54,7 @@
         <EntityTypeShape EntityType="TadaNominaModel.vConceptos" Width="1.5" PointX="22.375" PointY="7.75" />
         <EntityTypeShape EntityType="TadaNominaModel.FactorIntegracion" Width="1.5" PointX="9.375" PointY="17.75" />
         <EntityTypeShape EntityType="TadaNominaModel.Cat_Grupos" Width="1.5" PointX="11.375" PointY="14.75" />
+        <EntityTypeShape EntityType="TadaNominaModel.BasePensionAlimenticia" Width="1.5" PointX="23.375" PointY="18.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

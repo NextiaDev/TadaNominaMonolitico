@@ -371,5 +371,34 @@ namespace TadaNomina.Models.ClassCore
 
 
         }
+
+
+        public void editFonacot(ModelFonacot inf, int IdUsuario)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                try
+                {
+                    var fonacot = (from b in entidad.CreditosFonacot where b.IdCreditoFonacot == inf.IdCreditoFonacot select b).FirstOrDefault();
+
+                    if (fonacot != null)
+                    {
+
+                        fonacot.RetencionMensual = inf.RetencionMensual;
+                        fonacot.IdModifica = IdUsuario;
+                        fonacot.FechaModifica = DateTime.Now;
+                    }
+
+                    entidad.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
+               
+            }
+        }
     }
 }
