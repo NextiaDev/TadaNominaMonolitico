@@ -483,16 +483,16 @@
                 } else {
                     $("#check-NCP").prop('checked', false);
                 }
-                if (data.PercepcionesEspeciales == 'S') {
-                    $("#check-PE").prop('checked', true);
-                } else {
-                    $("#check-PE").prop('checked', false);
-                }
-                if (data.DeduccionesEspeciales == 'S') {
-                    $("#check-DES").prop('checked', true);
-                } else {
-                    $("#check-DES").prop('checked', false);
-                }
+                //if (data.PercepcionesEspeciales == 'S') {
+                //    $("#check-PE").prop('checked', true);
+                //} else {
+                //    $("#check-PE").prop('checked', false);
+                //}
+                //if (data.DeduccionesEspeciales == 'S') {
+                //    $("#check-DES").prop('checked', true);
+                //} else {
+                //    $("#check-DES").prop('checked', false);
+                //}
                 if (data.ConsideraAusentismosEnAguinaldo == 'S') {
                     $("#check-CAA").prop('checked', true);
                 } else {
@@ -600,8 +600,8 @@
         var NCargaPatronal = $("#check-NCP").prop("checked");
         var FechaInicio = $("#editFechaInicio_").val();
         var FechaFin = $("#editFechafin_").val();
-        var PS = $("#check-PE").prop("checked");
-        var DE = $("#check-DES").prop("checked");
+        //var PS = $("#check-PE").prop("checked");
+        //var DE = $("#check-DES").prop("checked");
         var CAA = $("#check-CAA").prop("checked");
         var AEC = $("#check-AEC").prop("checked");
         var DImss = $("#idImssD").val();
@@ -624,7 +624,7 @@
         $.ajax({
             type: 'POST',
             url: '../GuardarEspeciales',
-            data: { SeptimoDia,PrestacionesEntero, CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
+            data: { SeptimoDia,PrestacionesEntero, CuotaSindical, FondoAhorro, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin,  CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, ISRC, FFD, FEC, FS, FTM },
             dataType: 'json',
             async: false,
             success: function (result) {

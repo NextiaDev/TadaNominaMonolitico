@@ -15,6 +15,21 @@
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
         </EntityType>
+        <EntityType Name="BasePensionAlimenticia">
+          <Key>
+            <PropertyRef Name="IdBasePensionAlimenticia" />
+          </Key>
+          <Property Name="IdBasePensionAlimenticia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="500" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="500" />
+          <Property Name="Formula" Type="nvarchar(max)" />
+          <Property Name="idCliente" Type="int" />
+          <Property Name="IdEstatus" Type="int" />
+          <Property Name="IdCaptura" Type="int" />
+          <Property Name="FechaCaptura" Type="datetime" />
+          <Property Name="IdModifica" Type="int" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
         <EntityType Name="Cat_AgrupadorConceptos">
           <Key>
             <PropertyRef Name="IdAgrupador" />
@@ -741,6 +756,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Cat_EntidadFederativa' no tie
           <Property Name="IdMotivoBajaEmpleadoInterno" Type="int" />
           <Property Name="BajaEmpleadoObservaciones" Type="nvarchar" MaxLength="1000" />
           <Property Name="TimbradoEmpleado" Type="nvarchar" MaxLength="2" />
+          <Property Name="IdUnico" Type="int" />
         </EntityType>
         <EntityType Name="FactorIntegracion">
           <Key>
@@ -1244,6 +1260,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
         </Association>
         <EntityContainer Name="TadaNominaModelStoreContainer">
           <EntitySet Name="ActividadEconomica" EntityType="Self.ActividadEconomica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BasePensionAlimenticia" EntityType="Self.BasePensionAlimenticia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_AgrupadorConceptos" EntityType="Self.Cat_AgrupadorConceptos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_Areas" EntityType="Self.Cat_Areas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_Bancos" EntityType="Self.Cat_Bancos" Schema="dbo" store:Type="Tables" />
@@ -1672,6 +1689,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySet Name="vConceptos" EntityType="TadaNominaModel.vConceptos" />
           <EntitySet Name="FactorIntegracion" EntityType="TadaNominaModel.FactorIntegracion" />
           <EntitySet Name="Cat_Grupos" EntityType="TadaNominaModel.Cat_Grupos" />
+          <EntitySet Name="BasePensionAlimenticia" EntityType="TadaNominaModel.BasePensionAlimenticia" />
           </EntityContainer>
         <EntityType Name="vDepartamentos">
           <Key>
@@ -2443,6 +2461,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="IdMotivoBajaEmpleadoInterno" Type="Int32" />
           <Property Name="BajaEmpleadoObservaciones" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="TimbradoEmpleado" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="IdUnico" Type="Int32" />
         </EntityType>
         <Association Name="FK_EmpleadoInformacionComplementaria_Empleados">
           <End Type="TadaNominaModel.Empleados" Role="Empleados" Multiplicity="1" />
@@ -2918,6 +2937,21 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <Property Name="IdEstatus" Type="Int32" Nullable="false" />
           <Property Name="IdCaptura" Type="Int32" Nullable="false" />
           <Property Name="FechaCaptura" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdModifica" Type="Int32" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="BasePensionAlimenticia">
+          <Key>
+            <PropertyRef Name="IdBasePensionAlimenticia" />
+          </Key>
+          <Property Name="IdBasePensionAlimenticia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Formula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="idCliente" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
           <Property Name="IdModifica" Type="Int32" />
           <Property Name="FechaModifica" Type="DateTime" Precision="3" />
         </EntityType>
@@ -3575,6 +3609,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
           <EntitySetMapping Name="Empleados">
             <EntityTypeMapping TypeName="TadaNominaModel.Empleados">
               <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="IdUnico" ColumnName="IdUnico" />
                 <ScalarProperty Name="TimbradoEmpleado" ColumnName="TimbradoEmpleado" />
                 <ScalarProperty Name="BajaEmpleadoObservaciones" ColumnName="BajaEmpleadoObservaciones" />
                 <ScalarProperty Name="IdMotivoBajaEmpleadoInterno" ColumnName="IdMotivoBajaEmpleadoInterno" />
@@ -4150,6 +4185,22 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vUnidadesNegocio' no tiene de
                 <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BasePensionAlimenticia">
+            <EntityTypeMapping TypeName="TadaNominaModel.BasePensionAlimenticia">
+              <MappingFragment StoreEntitySet="BasePensionAlimenticia">
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="IdModifica" ColumnName="IdModifica" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="Formula" ColumnName="Formula" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdBasePensionAlimenticia" ColumnName="IdBasePensionAlimenticia" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

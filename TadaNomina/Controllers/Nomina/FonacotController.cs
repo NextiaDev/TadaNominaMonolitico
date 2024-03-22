@@ -26,15 +26,58 @@ namespace TadaNomina.Controllers.Nomina
             return View(model);
         }
 
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                ClassFonacot cf = new ClassFonacot();
+                var model = cf.getCreditoFonacotById(id);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ModelFonacot model)
+        {
+            ClassFonacot ci = new ClassFonacot();
+            int IdUsuario = (int)Session["sIdUsuario"];
+            try
+            {
+                if (model != null)
+                {
+                    ci.editFonacot(model, IdUsuario);
+                    model.Validacion = true;
+                    model.Mensaje = "Se guardo correctamente la información del Credito!";
+                }
+                else
+                {
+                    model.Validacion = false;
+                    model.Mensaje = "Error: No se encuentra al empleado, favor de verificar!";
+                }
+            }
+            catch (Exception ex)
+            {
+                model.Validacion = false;
+                model.Mensaje = "Error: " + ex.Message;
+            }
+
+            return View(model);
+        }
+
         [HttpPost]
         public ActionResult Create(ModelFonacot model)
         {
-            ClassFonacot cf = new ClassFonacot();            
+            ClassFonacot cf = new ClassFonacot();
             int IdUsuario = (int)Session["sIdUsuario"];
 
             try
             {
-                if (model.IdEmpleado>0)
+                if (model.IdEmpleado > 0)
                 {
                     cf.newCreditoFonacot(model, IdUsuario);
                     model.Validacion = true;
@@ -71,14 +114,14 @@ namespace TadaNomina.Controllers.Nomina
         {
             ClassFonacot cf = new ClassFonacot();
             var model = cf.getCreditoFonacotById(id);
-            return View(model);
+            return PartialView(model);
         }
 
         public ActionResult Delete(int id)
         {
             ClassFonacot cf = new ClassFonacot();
             var model = cf.getCreditoFonacotById(id);
-            return View(model);
+            return PartialView(model);
         }
 
         [HttpPost]
