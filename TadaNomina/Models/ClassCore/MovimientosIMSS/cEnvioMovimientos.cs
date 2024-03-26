@@ -1,7 +1,10 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Web;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.MovimientosIMSS;
@@ -313,7 +316,7 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
 
         public mRespuestaAfiliacion GetRespuestaMov(string RegistroPatronal, string dispmag)
         {
-
+            var response = new mRespuestaAfiliacion();
             var reg = GetInfoRP(RegistroPatronal);
             byte[] archivo;
             string certi = string.Empty;
@@ -342,13 +345,26 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                     regPatronal = reg.RegistroPatronal.ToString().Substring(0, 11),
                     dispmag = dispmag,
                 });
-                var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos");
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("content-type", "application/json");
-                request.AddParameter("application/json", json, ParameterType.RequestBody);
-                IRestResponse response = client.Execute(request);
-                var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<mRespuestaAfiliacion>(response.Content);
-                return responseDESERETI;
+                //var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos");
+                //var request = new RestRequest(Method.POST);
+                //request.AddHeader("content-type", "application/json");
+                //request.AddParameter("application/json", json, ParameterType.RequestBody);
+                //IRestResponse response = client.ExecuteAsync(request).Result;
+                //var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<mRespuestaAfiliacion>(response.Content);
+                //return responseDESERETI;
+
+                Uri servicio = new Uri("http://www.desereti.com/tada/services/afiliacion/movtos");
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+
+                using(HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromMilliseconds(900000);
+                    var respuesta = httpClient.PostAsync(servicio, contenido).Result;
+                    respuesta.EnsureSuccessStatusCode();
+                    var formatRespuesta = respuesta.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<mRespuestaAfiliacion>(formatRespuesta);
+                }
+                return response;
             }
             else
             {
@@ -360,13 +376,19 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                     regPatronal = reg.RegistroPatronal.ToString().Substring(0, 11),
                     dispmag = dispmag,
                 });
-                var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos");
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("content-type", "application/json");
-                request.AddParameter("application/json", json, ParameterType.RequestBody);
-                IRestResponse response = client.Execute(request);
-                var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<mRespuestaAfiliacion>(response.Content);
-                return responseDESERETI;
+
+                Uri servicio = new Uri("http://www.desereti.com/tada/services/afiliacion/movtos");
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromMilliseconds(900000);
+                    var respuesta = httpClient.PostAsync(servicio, contenido).Result;
+                    respuesta.EnsureSuccessStatusCode();
+                    var formatRespuesta = respuesta.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<mRespuestaAfiliacion>(formatRespuesta);
+                }
+                return response;
             }
         }
 
