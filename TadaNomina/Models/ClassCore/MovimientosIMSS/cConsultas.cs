@@ -1,7 +1,11 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
+using SW.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using TadaNomina.Models.DB;
@@ -22,6 +26,7 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
 
         public RespuestaLotesIMSS GetLotesByRegistroPatronal(int IdRegistroPatronal)
         {
+            var response = new RespuestaLotesIMSS();
             var reg = GetInfoRegistroPatronalById(IdRegistroPatronal);
             byte[] cer = System.IO.File.ReadAllBytes(reg.CertificadoIMSS);
             string certi = Convert.ToBase64String(cer);
@@ -39,13 +44,26 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                     regPatronal = reg.RegistroPatronal.ToString().Substring(0, 10),
                     lote = ""
                 });
-                var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos/lotes");
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("content-type", "application/json");
-                request.AddParameter("application/json", json, ParameterType.RequestBody);
-                IRestResponse response = client.Execute(request);
-                var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<RespuestaLotesIMSS>(response.Content);
-                return responseDESERETI;
+                //var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos/lotes");
+                //var request = new RestRequest(Method.POST);
+                //request.AddHeader("content-type", "application/json");
+                //request.AddParameter("application/json", json, ParameterType.RequestBody);
+                //IRestResponse response = client.Execute(request);
+                //var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<RespuestaLotesIMSS>(response.Content);
+                //return responseDESERETI;
+
+                Uri servicio = new Uri("http://www.desereti.com/tada/services/afiliacion/movtos/lotes");
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromMilliseconds(900000);
+                    var respuesta = httpClient.PostAsync(servicio, contenido).Result;
+                    respuesta.EnsureSuccessStatusCode();
+                    var formatRespuesta = respuesta.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<RespuestaLotesIMSS>(formatRespuesta);
+                }
+                return response;
             }
             else
             {
@@ -57,13 +75,27 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                     regPatronal = reg.RegistroPatronal.ToString().Substring(0, 10),
                     lote = ""
                 });
-                var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos/lotes");
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("content-type", "application/json");
-                request.AddParameter("application/json", json, ParameterType.RequestBody);
-                IRestResponse response = client.Execute(request);
-                var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<RespuestaLotesIMSS>(response.Content);
-                return responseDESERETI;
+
+                Uri servicio = new Uri("http://www.desereti.com/tada/services/afiliacion/movtos/lotes");
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+
+                //var client = new RestClient("http://www.desereti.com/tada/services/afiliacion/movtos/lotes");
+                //var request = new RestRequest(Method.POST);
+                //request.AddHeader("content-type", "application/json");
+                //request.AddParameter("application/json", json, ParameterType.RequestBody);
+                //IRestResponse response = client.Execute(request);
+                //var responseDESERETI = Newtonsoft.Json.JsonConvert.DeserializeObject<RespuestaLotesIMSS>(response.Content);
+                //return responseDESERETI;
+
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromMilliseconds(900000);
+                    var respuesta = httpClient.PostAsync(servicio, contenido).Result;
+                    respuesta.EnsureSuccessStatusCode();
+                    var formatRespuesta = respuesta.Content.ReadAsStringAsync().Result;
+                    response = JsonConvert.DeserializeObject<RespuestaLotesIMSS>(formatRespuesta);
+                }
+                return response;
             }
         }
 
