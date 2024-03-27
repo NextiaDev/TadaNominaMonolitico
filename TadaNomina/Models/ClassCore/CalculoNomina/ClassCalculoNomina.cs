@@ -463,7 +463,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Total_ER_Real = 0;
             nominaTrabajo.Total_DD_Real = 0;
 
-            if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)" || UnidadNegocio.ConfiguracionSueldos == "NetosPagar")
+            if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)" || UnidadNegocio.ConfiguracionSueldos == "NetosPagar") 
             {
                 nominaTrabajo.SueldoPagado_Real = 0;
                 nominaTrabajo.SueldoPagado_Real += SD_Real * nominaTrabajo.DiasTrabajados;
