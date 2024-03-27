@@ -293,8 +293,9 @@ namespace TadaNomina.Controllers.Administracion
         {
             List<SelectListItem> listConfiguracionSueldos = new List<SelectListItem>();
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Brutos", Value = "Brutos" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Neto a Pagar", Value = "NetosPagar" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Real)", Value = "Netos(Real)" });
-            listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos)", Value = "Netos(Impuestos)" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos)", Value = "Netos(Impuestos)" });            
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida)", Value = "Netos Tradicional(Piramida)" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida ART 93)", Value = "Netos Tradicional(Piramida ART 93)" });
             return listConfiguracionSueldos;
