@@ -83,5 +83,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> DiasMenosImss { get; set; }
         public string BanderaSindicalizados { get; set; }
         public string BanderaPrestacionesPatronEnteros { get; set; }
+        public string BanderaDiasNaturalesINFONAVIT { get; set; }
     }
 }
