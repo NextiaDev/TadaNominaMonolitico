@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -251,7 +252,7 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="SDI">Salario diario integrado</param>
         /// <param name="TipoNomina">Tipo de nomina</param>
         /// <param name="ffPeriodo">Dias del bimestre</param>
-        public void procesaCreditosInfonavit(vCreditoInfonavit credito, int IdPeriodoNomina, decimal UMI, decimal diasPeriodo, int IdConcepto, int IdUsuario, decimal SDI, string TipoNomina, DateTime ffPeriodo)
+        public void procesaCreditosInfonavit(vCreditoInfonavit credito, int IdPeriodoNomina, decimal UMI, decimal diasPeriodo, int IdConcepto, int IdUsuario, decimal SDI, string TipoNomina, DateTime ffPeriodo, int IdUnidadNegocio)
         {
             eliminaIncidenciasCredito(IdPeriodoNomina, IdConcepto, credito.IdCreditoInfonavit);
             decimal descuentoBimestral = 0;
@@ -269,13 +270,27 @@ namespace TadaNomina.Models.ClassCore
                     break;
                 case "Couta Fija":
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
-                    descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + 15;
-                    montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
+                    var UN = GetUnidadNegocio(IdUnidadNegocio);
+                    if (UN == "SI")
+                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad, TipoNomina);
+                    else
+                    {
+                        descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + 15;
+                        montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
+                    }
+                        
                     break;
                 case "Cuota Fija":
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
-                    descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + 15;
-                    montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
+                    var UNI = GetUnidadNegocio(IdUnidadNegocio);
+                    if (UNI == "SI")
+                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad, TipoNomina);
+                    else
+                    {
+                        descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + 15;
+                        montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
+                    }
+
                     break;
                 case "Porcentaje":
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * (decimal)credito.SDI) * 365.25M) + 93.75M) / 365) * diasPeriodo, 2);
@@ -376,6 +391,7 @@ namespace TadaNomina.Models.ClassCore
         private decimal CalculaDescuentoPorPeriodo(decimal pDescuentoBimestral, string tipoNomina)
         {
             decimal resultado = 0;
+
             // Calculo del decuento por periodo
             if (tipoNomina == "Mensual")
             {
@@ -412,6 +428,119 @@ namespace TadaNomina.Models.ClassCore
                 int bimestre = (int)entidad.Bimestres.Where(x => x.IdMes == mes).Select(x => x.Id_bimestre).FirstOrDefault();
                 resultado = (int)entidad.Bimestres.Where(x => x.Id_bimestre == bimestre).Sum(x => x.Dias);
             }
+
+            return resultado;
+        }
+
+        /// <summary>
+        ///     Método que obtiene la información de la unidad de negocio
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Id de la unidad de negocio</param>
+        /// <returns>Modelo con información de la unidad de negocio</returns>
+        public string GetUnidadNegocio(int IdUnidadNegocio)
+        {
+            Cat_UnidadNegocio cUN = new Cat_UnidadNegocio();
+            try
+            {
+                using (TadaNominaEntities ctx = new TadaNominaEntities())
+                {
+                    cUN = ctx.Cat_UnidadNegocio.Where(x => x.IdUnidadNegocio == IdUnidadNegocio).FirstOrDefault();
+                }
+
+                if (cUN != null)
+                    return cUN.BanderaDiasNaturalesINFONAVIT == "SI" ? "SI": "";
+                else
+                    return "";
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        ///     Método que regresa la cantidad de días
+        /// </summary>
+        /// <param name="ffPeriodo">Fecha final del periodo</param>
+        /// <returns>Monto a descontar en el periodo</returns>
+        public decimal CalculaDescuentoINFONAVITDiasNaturales(DateTime ffPeriodo, decimal CantidadUnidad, string tipoNomina)
+        {
+            decimal res = 0;
+            int diasNaturales = 0;
+
+            diasNaturales = ObtenDiasBimestre(ffPeriodo);
+
+            int mes = ffPeriodo.Month;
+            int anio = ffPeriodo.Year;
+
+            if(anio % 4 == 0 && mes == 2)
+                diasNaturales ++;
+
+            res = (CantidadUnidad * 2 + 15)/diasNaturales * CalculaDiasPeriodo(tipoNomina, ffPeriodo);
+            
+            return res;
+        }
+
+        /// <summary>
+        ///     Metodo que calcula los días que habrá en cada periodo
+        /// </summary>
+        /// <param name="TipoNomina">Periodicidad de la nómina</param>
+        /// <param name="ffPeriodo">Fecha final del periodo</param>
+        /// <returns>Cantidad de días del periodo</returns>
+        public int CalculaDiasPeriodo(string TipoNomina, DateTime ffPeriodo)
+        {
+            int diasPeriodo = 0;
+            switch (TipoNomina)
+            {
+                case "Mensual":
+                    diasPeriodo = GetDiasPeriodo(ffPeriodo);
+                    break;
+                case "Quincenal":
+                    int diasNaturales = GetDiasPeriodo(ffPeriodo);
+                    int diasFFPeriodo = ffPeriodo.Day;
+
+                    diasPeriodo = 15;
+                    if (diasFFPeriodo > 16)
+                    {
+                        if (diasNaturales == 31)
+                            diasPeriodo++;
+                        else
+                        {
+                            if(diasNaturales == 28)
+                                diasPeriodo -= 2;
+                            if(diasNaturales == 29)
+                                diasPeriodo -= 1;
+                        }
+                    }
+                    break;
+                case "Catorcenal":
+                    diasPeriodo = 14;
+                    break;
+                case "Semanal":
+                    diasPeriodo = 7;
+                    break;
+            }
+            return diasPeriodo;
+        }
+
+        /// <summary>
+        ///     Método que regresa los días naturales del mes
+        /// </summary>
+        /// <param name="ffPeriodo">Fecha final del periodo</param>
+        /// <returns>Días que contiene el mes</returns>
+        public int GetDiasPeriodo(DateTime ffPeriodo)
+        {
+            int resultado = 0;
+            int mes = ffPeriodo.Month;
+            int anio = ffPeriodo.Year;
+
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                resultado = (int)entidad.Bimestres.Where(x => x.IdMes == mes).Select(x => x.Dias).FirstOrDefault();
+            }
+
+            if (anio % 4 == 0 && mes == 2)
+                resultado++;
 
             return resultado;
         }

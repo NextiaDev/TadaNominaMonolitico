@@ -1181,7 +1181,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <param name="IdUsuario">Identificador del Usuario del sistema.</param>
         /// <param name="ClaveTipoNomina">Clave del catalogo del SAT que especifica el tipo de nómina.</param>
         /// <exception cref="Exception">Excepcion devuelta por el metodo en caso de un error.</exception>
-        public void ProcesaCredito(vCreditoInfonavit credito, int IdPeriodoNomina, decimal UMI, decimal diasPeriodo, int IdUsuario, string ClaveTipoNomina)
+        public void ProcesaCredito(vCreditoInfonavit credito, int IdPeriodoNomina, decimal UMI, decimal diasPeriodo, int IdUsuario, string ClaveTipoNomina, int IdUnidadNegocio)
         {
             montoCreditoInfonavit = 0;
             montoCreditoInfonavitEsq = 0;
@@ -1190,7 +1190,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 int IdConcepto = 0;
                 try { IdConcepto = (int)conceptosConfigurados.IdConceptoInfonavit; } catch { throw new Exception("Hay creditos INFONAVIT cargadas pero no se configuro ningun concepto. "); }
                 ClassInfonavit ci = new ClassInfonavit();
-                ci.procesaCreditosInfonavit(credito, IdPeriodoNomina, UMI, diasPeriodo, IdConcepto, IdUsuario, SDI, ClaveTipoNomina, Periodo.FechaFin);
+                ci.procesaCreditosInfonavit(credito, IdPeriodoNomina, UMI, diasPeriodo, IdConcepto, IdUsuario, SDI, ClaveTipoNomina, Periodo.FechaFin, IdUnidadNegocio);
 
                 montoCreditoInfonavit = ci.montoCredito;
                 montoCreditoInfonavitEsq = ci.montoCreditoEsq;
