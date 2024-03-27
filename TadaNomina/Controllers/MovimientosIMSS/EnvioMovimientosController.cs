@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TadaNomina.Models.ClassCore.MovimientosIMSS;
 using TadaNomina.Models.ViewModels.MovimientosIMSS;
+using TadaNomina.Models.ViewModels.Nominas;
 
 namespace TadaNomina.Controllers.MovimientosIMSS
 {
@@ -16,24 +17,31 @@ namespace TadaNomina.Controllers.MovimientosIMSS
         {
             int IdCliete = int.Parse(Session["sIdCliente"].ToString());
             cEnvioMovimientos cem = new cEnvioMovimientos();
-            var listado = cem.GetMovimientos(IdCliete);
+            var listado = cem.GetMovimientosCambios(IdCliete);
             ViewBag.Mensaje = mensaje;
             return View(listado);
         }
 
-        public ActionResult EnviarMov()
+        [HttpPost]
+        public JsonResult RecibirEmpleados(RecibirEmpleadoModel model)
         {
             int IdCliete = int.Parse(Session["sIdCliente"].ToString());
             cEnvioMovimientos cem = new cEnvioMovimientos();
-            var listado = cem.GetMovimientos(IdCliete);
-            string mensaje = cem.EnviarMov(listado);
-            if(mensaje==null)
+            var spresult = cem.GetMovimientos(IdCliete);
+
+            var listempleados = spresult.Where(x => model.idempleado.Contains(x.IdEmpleado)).ToList();
+            string mensaje = cem.EnviarMov(listempleados);
+            if (mensaje == null)
             {
-                return RedirectToAction("MovEnviados");
+
+                return Json("OK", JsonRequestBehavior.AllowGet);
+
+
             }
             else
             {
-                return RedirectToAction("Index", new {mensaje = mensaje});
+                return Json(mensaje, JsonRequestBehavior.AllowGet);
+
             }
         }
 

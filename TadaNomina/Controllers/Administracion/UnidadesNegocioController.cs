@@ -57,16 +57,13 @@ namespace TadaNomina.Controllers.Administracion
         }
 
         [HttpPost]
-        public JsonResult GuardarEspeciales(string SeptimoDia, string PrestacionesEntero, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin, string PS, string DE, string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, string ISRC, string FFD, string FEC, string FS, string FTM)
+        public JsonResult GuardarEspeciales(string SeptimoDia, string PrestacionesEntero, string CuotaSindical, string CargasSFaltas, string DiasEquiv, string CobroCops, string RetenciISRSMGV, string SubirArchivo, string GeneraIntegrado, string Isr74, string NCargaObrera, string NCargaPatronal, string FechaInicio, string FechaFin,  string CAA, string AEC, int? DImss, int? DImssB, string DaMas, string DaMenos, string DaMasF, string DaMenosF, string ISRM, string ISRC, string FFD, string FEC, string FS, string FTM)
         {
 
             int IdUnidadNegocio = 0;
             decimal isrms = 0;
             try { IdUnidadNegocio = (int)Session["sAsignada"]; } catch { IdUnidadNegocio = 0; }
             try { isrms = isrms = decimal.Parse(ISRC); } catch { isrms = 0; }
-
-
-
               ;
             try
             {
@@ -74,7 +71,7 @@ namespace TadaNomina.Controllers.Administracion
                 {
                     int idUsuario = (int)Session["sIdUsuario"];
                     ClassUnidadesNegocio clsUnidad = new ClassUnidadesNegocio();
-                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, SeptimoDia, PrestacionesEntero, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin, PS, DE, CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, isrms, FFD, FEC, FS, FTM, idUsuario);
+                    clsUnidad.UpdateUnidadNegocioEspeciales(IdUnidadNegocio, SeptimoDia, PrestacionesEntero, CuotaSindical, CargasSFaltas, DiasEquiv, CobroCops, RetenciISRSMGV, SubirArchivo, GeneraIntegrado, Isr74, NCargaObrera, NCargaPatronal, FechaInicio, FechaFin,  CAA, AEC, DImss, DImssB, DaMas, DaMenos, DaMasF, DaMenosF, ISRM, isrms, FFD, FEC, FS, FTM, idUsuario);
 
                     return Json("Exito", JsonRequestBehavior.AllowGet);
                 }

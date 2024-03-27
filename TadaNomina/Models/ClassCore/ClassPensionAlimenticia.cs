@@ -10,6 +10,22 @@ namespace TadaNomina.Models.ClassCore
 {
     public class ClassPensionAlimenticia
     {
+
+        /// <summary>
+        /// Método para listar a los empleados que dan pensión alimenticia.
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Recibe el parámetro de la unidad negocio.</param>
+        /// <returns>Regresa el listado de los empleados con pensión.</returns>
+        public List<BasePensionAlimenticia> getBasePensiones(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var pensiones = (from b in entidad.BasePensionAlimenticia.Where(x => x.idCliente == IdCliente && x.IdEstatus == 1) select b).ToList();
+
+                return pensiones;
+            }
+        }
+
         /// <summary>
         /// Método para listar a los empleados que dan pensión alimenticia.
         /// </summary>
@@ -41,6 +57,16 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
+        public BasePensionAlimenticia getPensionbase(int IdPensionAlimenticia)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var pensiones = (from b in entidad.BasePensionAlimenticia.Where(x => x.IdBasePensionAlimenticia == IdPensionAlimenticia) select b).FirstOrDefault();
+
+                return pensiones;
+            }
+        }
+
         /// <summary>
         /// Método para llenar la lista de las pensiones alimneticias utilizando el modelo de pension alimenticia.
         /// </summary>
@@ -69,7 +95,7 @@ namespace TadaNomina.Models.ClassCore
 
             return mpensiones;
         }
-        
+
         /// <summary>
         /// Método que muestra en pantalla los datos de la pensión alimenticia.
         /// </summary>
@@ -94,6 +120,26 @@ namespace TadaNomina.Models.ClassCore
 
             return mPension;
         }
+
+        public ModelBasePensionAlimenticia getModelBasePensionAlimenticiaId(int IdPensionAlimenticia)
+        {
+
+            var x = getPensionbase(IdPensionAlimenticia);
+            var mPension = new ModelBasePensionAlimenticia();
+
+            mPension.IdBasePensionAlimenticia = x.IdBasePensionAlimenticia;
+            mPension.Nombre = x.Nombre;
+            mPension.Descripcion = x.Descripcion;
+            mPension.Formula = x.Formula;
+            mPension.IdEstatus = x.IdEstatus;
+            if (x.IdEstatus == 1) { mPension.Estatus = true; } else { mPension.Estatus = false; }
+            mPension.fechaCaptura = x.FechaCaptura;
+
+
+
+            return mPension;
+        }
+
 
 
         /// <summary>
@@ -158,6 +204,26 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+
+        public void editPensionBase(ModelBasePensionAlimenticia inf, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var pension = (from b in entidad.BasePensionAlimenticia where b.IdBasePensionAlimenticia == inf.IdBasePensionAlimenticia select b).FirstOrDefault();
+
+                if (pension != null)
+                {
+                    pension.Nombre = inf.Nombre;
+                    pension.Descripcion = inf.Descripcion;
+                    pension.Formula = inf.Formula;
+                    pension.IdModifica = IdUsuario;
+                    pension.FechaModifica = DateTime.Now;
+                }
+
+                entidad.SaveChanges();
+            }
+        }
+
         /// <summary>
         /// Método para borrar el registro del empleado que está dando pensión alimenticia.
         /// </summary>
@@ -168,6 +234,25 @@ namespace TadaNomina.Models.ClassCore
             using (NominaEntities1 entidad = new NominaEntities1())
             {
                 var pension = (from b in entidad.PensionAlimenticia.Where(x => x.IdPensionAlimenticia == IdPensionAlimenticia) select b).FirstOrDefault();
+
+                if (pension != null)
+                {
+                    pension.IdEstatus = 2;
+                    pension.IdModifica = IdUsuario;
+                    pension.FechaModifica = DateTime.Now;
+
+                    entidad.SaveChanges();
+                }
+            }
+        }
+
+
+        /// <param name="IdUsuario">Recibe el parámetro del identificador del empleado</param>
+        public void DeletePensionBase(int IdPensionAlimenticia, int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var pension = (from b in entidad.BasePensionAlimenticia.Where(x => x.IdBasePensionAlimenticia == IdPensionAlimenticia) select b).FirstOrDefault();
 
                 if (pension != null)
                 {
@@ -198,6 +283,52 @@ namespace TadaNomina.Models.ClassCore
                     item.FechaModifica = DateTime.Now;
                 }
 
+                entidad.SaveChanges();
+            }
+        }
+
+
+
+        public ModelBasePensionAlimenticia FindListConceptos(int idcliente)
+        {
+            ClassConceptos classConceptos = new ClassConceptos();
+            List<SelectListItem> _TipoNomima = new List<SelectListItem>();
+            var tipoPeriodo = classConceptos.GetvConceptos(idcliente);
+            tipoPeriodo.ForEach(x => _TipoNomima.Add(new SelectListItem { Text = x.ClaveConcepto + '-' + x.Concepto, Value = x.IdConcepto.ToString() }));
+            ModelBasePensionAlimenticia model = new ModelBasePensionAlimenticia
+            {
+
+                LTipoNomina = _TipoNomima,
+            };
+            return model;
+        }
+
+        public ModelBasePensionAlimenticia FindListConceptosbase(int idcliente, ModelBasePensionAlimenticia model)
+        {
+            ClassConceptos classConceptos = new ClassConceptos();
+            List<SelectListItem> _TipoNomima = new List<SelectListItem>();
+            var tipoPeriodo = classConceptos.GetvConceptos(idcliente);
+            tipoPeriodo.ForEach(x => _TipoNomima.Add(new SelectListItem { Text = x.ClaveConcepto + '-' + x.Concepto, Value = x.IdConcepto.ToString() }));
+            model.LTipoNomina = _TipoNomima;
+            return model;
+        }
+
+        public void AddBasePension(ModelBasePensionAlimenticia model, int pIdCliente, int pIdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                BasePensionAlimenticia depto = new BasePensionAlimenticia
+                {
+                    Nombre = model.Nombre,
+                    Descripcion = model.Descripcion,
+                    Formula = model.Formula,
+                    idCliente = pIdCliente,
+                    IdEstatus = 1,
+                    FechaCaptura = DateTime.Now,
+                    IdCaptura = pIdUsuario
+                };
+
+                entidad.BasePensionAlimenticia.Add(depto);
                 entidad.SaveChanges();
             }
         }
