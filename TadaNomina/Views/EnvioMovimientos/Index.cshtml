@@ -1,4 +1,5 @@
-﻿@model List<TadaNomina.Models.DB.sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result>
+﻿@model List<TadaNomina.Models.ViewModels.Nominas.ModelMovimientosImss>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
@@ -22,7 +23,9 @@
     <div id="rutaPrincipal"></div>
 </div>
 
-<div id="page-content">
+@using (Html.BeginForm("Index", "EnvioMovimientos", FormMethod.Post))
+{
+
     <div class="panel">
         <div class="panel-body">
             @if (Model.Count > 0)
@@ -48,39 +51,75 @@
                             <th>Tipo movimiento</th>
                             <th>Fecha aplicaci&oacute;n</th>
                             <th>Motivo baja</th>
+                            <th>Aplica</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+
+                        @for (var i = 0; i < Model.Count; i++)
                         {
                             <tr>
-                                <td>@item.IdentificadorEmpleado</td>
-                                <td>@item.NombreEmpleado</td>
-                                <td>@item.Imss</td>
-                                <td>@item.Rfc</td>
-                                <td>@item.Puesto</td>
-                                <td>@item.SD</td>
-                                <td>@item.SDI</td>
-                                <td>@item.NombrePatrona</td>
-                                <td>@item.RegistroPatronal</td>
-                                <td>@item.TipoMovimiento</td>
-                                <td>@item.FechaAplicacionIMSS</td>
-                                @if (item.MotivoBaja.Length == 1)
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].IdentificadorEmpleado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].NombreEmpleado)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].Imss)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].Rfc)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].Puesto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].SD)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].SDI)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].NombrePatrona)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].RegistroPatronal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].TipoMovimiento)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => Model[i].FechaAplicacionIMSS)
+                                </td>
+                                @if (Model[i].MotivoBaja.Length == 1)
                                 {
-                                    <td>@item.MotivoBaja</td>
+                                    <td>@Model[i].MotivoBaja</td>
                                 }
                                 else
                                 {
                                     <td>NA</td>
-                                }
+                                }=
+                                <td>
+
+                                    @Html.CheckBoxFor(m => Model[i].Seleccionado, htmlAttributes: new { @class = "tabla-checkbox", @data_id_empleado = Model[i].IdEmpleado })
+                                </td>
+
                             </tr>
+
+
                         }
+
                     </tbody>
                 </table>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel-footer text-right">
-                            <a href="~/EnvioMovimientos/EnviarMov" class="btn btn-primary _Load">Enviar</a>
+                            <button class="btn btn-primary _Load" id="id_enviar" type="button">
+                                Enviar
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -98,6 +137,62 @@
             }
         </div>
     </div>
-</div>
+
+}
+
+
+
+@section scripts{
+    <script>
+
+        var idsEmpleadoarrays = [];
+
+
+        $(document).ready(function () {
+
+            $(".tabla-checkbox").on("change", function (e) {
+                var idempleado = $(e.target).attr("data-id-empleado");
+                if ($(e.target).is(":checked")) {
+                    idsEmpleadoarrays.push(idempleado);
+                }
+                else {
+                    var indice = idsEmpleadoarrays.indexOf(idempleado);
+                    if (indice > -1) {
+                        idsEmpleadoarrays.splice(indice, 1);
+                    }
+
+                }
+                console.log(idsEmpleadoarrays);
+            })
+
+            $("#id_enviar").on("click", function (e) {
+
+                var dataModel = { idempleado: idsEmpleadoarrays }
+                var urld = "@Url.Action("RecibirEmpleados", "EnvioMovimientos")";
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("RecibirEmpleados", "EnvioMovimientos")",
+                    data: JSON.stringify(dataModel),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+
+                        if (data == "OK") {
+                            window.location.href = '@Url.Action("MovEnviados", "EnvioMovimientos")';
+                        }
+                        else {
+
+                            $(location).attr('href', 'Index?mensaje=' + data);
+                        }
+
+
+                        console.log(data);
+                    }
+                })
+            })
+
+        });
+    </script>
+}
 
 
