@@ -8,6 +8,7 @@ using System.Text;
 using System.Web;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.MovimientosIMSS;
+using TadaNomina.Models.ViewModels.Nominas;
 
 namespace TadaNomina.Models.ClassCore.MovimientosIMSS
 {
@@ -25,6 +26,20 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                 return query;
             }
         }
+
+        public List<ModelMovimientosImss> GetMovimientosCambios(int IdCliente)
+        {
+            var f = DateTime.Now.ToShortDateString();
+            var fecha = DateTime.Parse(f);
+            var _fecha = fecha.ToString("yyyyMMdd");
+            using (TadaNominaEntities ctx = new TadaNominaEntities())
+            {
+                string consulta = "sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS " + IdCliente + ", '" + _fecha + "', '" + _fecha + "'";
+                var query = ctx.Database.SqlQuery<ModelMovimientosImss>(consulta).ToList();
+                return query;
+            }
+        }
+
 
         public string EnviarMov(List<sp_IMSS_MOVIMIENTOSIMSS_CLIENTES_NO_ADMINISTRADOS_Result> listado)
         {

@@ -1395,6 +1395,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelInfonavit.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelMaterias.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelMoverFiniquitos.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelMovimientosImss.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelNewSaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelNomina.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelNomina2.cs" />
