@@ -823,9 +823,10 @@ namespace TadaNomina.Models.ClassCore.RelojChecador
 
                 return responseDesObj;
             }
-            catch
+            catch(Exception ex)
             {
                 mResultEdit mre = new mResultEdit();
+                
                 return mre;
             }
         }

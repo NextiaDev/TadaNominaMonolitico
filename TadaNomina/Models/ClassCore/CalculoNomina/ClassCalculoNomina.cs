@@ -296,7 +296,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     if (datosEmpleados.IdEstatus == 1 || configuracionNominaEmpleado.IncidenciasAutomaticas == 1)
                     {
-                        ProcesaCredito(creditosInfonavit.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault(), IdPeriodoNomina, (decimal)SueldosMinimos.UnidadMixta, DiasTrabajados_IMSS, IdUsuario, datosEmpleados.TipoNomina);
+                        ProcesaCredito(creditosInfonavit.Where(x => x.IdEmpleado == IdEmpleado).FirstOrDefault(), IdPeriodoNomina, (decimal)SueldosMinimos.UnidadMixta, DiasTrabajados_IMSS, IdUsuario, datosEmpleados.TipoNomina, datosEmpleados.IdUnidadNegocio);
                         ProcesaCreditoFonacot(creditosFonacot.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, IdUsuario, datosEmpleados.TipoNomina);
                     }
                 }
@@ -395,7 +395,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             if (nominaTrabajo.Apoyo < 0)
                                 nominaTrabajo.Apoyo = 0;
                         }
-                        else if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)")
+                        else if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)" || UnidadNegocio.ConfiguracionSueldos == "NetosPagar")
                         {
                             nominaTrabajo.Apoyo += nominaTrabajo.SueldoPagado_Real - nominaTrabajo.SueldoPagado;
                             nominaTrabajo.Apoyo += nominaTrabajo.IMSS_Obrero;
@@ -438,12 +438,18 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.Apoyo -= (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "DD" && x.SumaNetoFinal == "SI").Select(X => X.Monto).Sum();
             }
 
+            if (UnidadNegocio.ConfiguracionSueldos == "NetosPagar" && item.NetoPagar != null && item.NetoPagar > 0)
+            {
+                nominaTrabajo.Apoyo -= (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.MontoEsquema).Sum();
+                nominaTrabajo.Apoyo += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.MontoEsquema).Sum();
+            }
+
             nominaTrabajo.ERS += nominaTrabajo.Apoyo;
             nominaTrabajo.ERS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.MontoEsquema).Sum();
             nominaTrabajo.ERS += percepcionesEspecialesEsquema;
             nominaTrabajo.DDS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.MontoEsquema).Sum();
             nominaTrabajo.DDS += montoCreditoInfonavitEsq;
-
+            
             nominaTrabajo.Netos = nominaTrabajo.ERS - nominaTrabajo.DDS;
             //CerosEnNegativos();
         }        
@@ -457,7 +463,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.Total_ER_Real = 0;
             nominaTrabajo.Total_DD_Real = 0;
 
-            if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)")
+            if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)" || UnidadNegocio.ConfiguracionSueldos == "NetosPagar") 
             {
                 nominaTrabajo.SueldoPagado_Real = 0;
                 nominaTrabajo.SueldoPagado_Real += SD_Real * nominaTrabajo.DiasTrabajados;

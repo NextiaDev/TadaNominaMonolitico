@@ -120,6 +120,10 @@
                             <td>
                                 <a href="@Url.Action("CargarSellos", new { Id = item.IdRegistroPatronal })" class="add-tooltip" title="Cargar archivos CSD"><span class="btn btn-primary btn-sm fa fa-upload"></span></a>
                                 <a href="@Url.Action("CargarFIEL", new { Id = item.IdRegistroPatronal })" class="add-tooltip" title="Cargar archivos FIEL"><span class="btn btn-primary btn-sm fa fa-upload"></span></a>
+                                @*@if (Session["sTipoUsuario"].ToString() == "System")
+                                {
+                                    <a href="@Url.Action("Desca", new { Id = item.IdRegistroPatronal })" class="add-tooltip" title="Cargar archivos CSD"><span class="btn btn-dark btn-sm fa fa-download"></span></a>
+                                }*@
 
                             </td>
                             <td>
@@ -127,6 +131,7 @@
                                 <a href="#" data-id="@item.IdRegistroPatronal" data-text="@item.NombrePatrona" class="add-tooltip cargaFIELPAC" title="Cargar archivos FIEL al PAC"><span class="btn btn-mint btn-sm fa fa-upload"></span></a>
 
                             </td>
+
                         </tr>
                     }
                 </tbody>
