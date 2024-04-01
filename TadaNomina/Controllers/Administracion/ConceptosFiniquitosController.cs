@@ -37,13 +37,15 @@ namespace TadaNomina.Controllers.Administracion
         {
             int IdCliente = 0;
             int IdUsuario = 0;
-            try { IdCliente = (int)Session["sIdCliente"]; IdUsuario = (int)Session["sIdUsuario"]; } catch (Exception ex) { throw new Exception(ex.Message, ex); }
+            int IdUnidadNegocio = 0;
+
+            try { IdCliente = (int)Session["sIdCliente"]; IdUsuario = (int)Session["sIdUsuario"]; IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; } catch (Exception ex) { throw new Exception(ex.Message, ex); }
 
             ClassConceptosFiniquitos cconceptos = new ClassConceptosFiniquitos();
             
             try
             {
-                cconceptos.GuardaConfiguracionConceptoFiniquito(model, IdUsuario);
+                cconceptos.GuardaConfiguracionConceptoFiniquito(model, IdUnidadNegocio, IdUsuario);
                 model = cconceptos.LLenaListasConceptosFinquitos(IdCliente);
                 
                 model.validacion = true;
