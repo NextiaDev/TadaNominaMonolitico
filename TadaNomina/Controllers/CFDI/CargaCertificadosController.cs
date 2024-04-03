@@ -1,4 +1,5 @@
-﻿using ServiceStack;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ using TadaNomina.Models.ClassCore;
 using TadaNomina.Models.ClassCore.TimbradoTP.CFDI40;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.CFDI;
+using TadaNomina.Services;
 using TadaNomina.Services.CFDI40;
 
 namespace TadaNomina.Controllers.CFDI
@@ -18,8 +20,9 @@ namespace TadaNomina.Controllers.CFDI
     public class CargaCertificadosController : BaseController
     {
         // GET: CargaCertificados
-        public ActionResult Index()
+        public ActionResult Index(string error)
         {
+            if (error != null && error != string.Empty) { ViewBag.Error = error; }
             int IdCliente = (int)Session["sIdCliente"];
             ClassRegistroPatronal clsRegistroPatronal = new ClassRegistroPatronal();
             return View(clsRegistroPatronal.GetRegistroPatronalByIdCliente(IdCliente));            
@@ -149,5 +152,25 @@ namespace TadaNomina.Controllers.CFDI
                 throw new Exception("No se pudo cargar el archivo: " + ruta + ", " + ex.Message);
             }
         }
+
+        public ActionResult DescargaCarpetaSellos(int IdRegistroPatronal)
+        {
+            try
+            {
+                string rutaPrincipal = @"D:\SistemaTada\Sellos\" + IdRegistroPatronal;
+                Statics.CreateZipFile(rutaPrincipal);
+
+                byte[] fileBytes = System.IO.File.ReadAllBytes(@"D:\SistemaTada\Sellos\" + IdRegistroPatronal + ".zip");
+                string fileName = IdRegistroPatronal + ".zip";
+
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", new { error = ex.Message });
+            }
+        }
+
+        
     }
 }

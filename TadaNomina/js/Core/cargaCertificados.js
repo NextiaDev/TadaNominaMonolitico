@@ -1,4 +1,4 @@
-﻿$(".cargaCSDPAC").click(function () {
+$(".cargaCSDPAC").click(function () {
     $("#hiddenIdEmpresaCSD").val($(this).attr('data-id'));
     $("#detalleEmpresa").text($(this).attr('data-text'));
     $("#modalCargaSCD").modal('show');
@@ -56,4 +56,11 @@ $("#_enviaFIELPAC").click(function () {
             mensajeAlerta("Atencion!", er, "warning", "jelly", "fadeOut", 2000);
         }
     });
+});
+
+$(document).ready(function () {
+  var mensaje = $("#_error").attr('val');
+  if (mensaje.length > 0) {
+    mensajeAlerta("Atencion!", mensaje, "warning", "jelly", "fadeOut", 10000);
+  }
 });

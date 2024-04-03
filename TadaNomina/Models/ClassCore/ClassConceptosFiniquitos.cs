@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Catalogos;
+using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore
 {
@@ -150,12 +151,14 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="model">ModelConceptosFiniquitos</param>
         /// <param name="IdUsuario">Identificador usuario</param>
-        public void GuardaConfiguracionConceptoFiniquito(ModelConceptosFiniquito model, int IdUsuario)
+        public void GuardaConfiguracionConceptoFiniquito(ModelConceptosFiniquito model,int idunidadnegocio, int IdUsuario)
         {
+
+
             if (!ValidaConfiguracionConceptoFiniquito(model.Id))
-                AddConfiguracionConceptoFiniquito(model, IdUsuario);
+                AddConfiguracionConceptoFiniquito(model, IdUsuario, idunidadnegocio);
             else
-                UpdateConfiguracionConceptoFiniquito(model, IdUsuario);
+                UpdateConfiguracionConceptoFiniquito(model, idunidadnegocio, IdUsuario);
         }
 
         /// <summary>
@@ -183,8 +186,14 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="model">ModelConceptosFiniquito</param>
         /// <param name="IdUsuario">Identificador del usuario</param>
-        public void AddConfiguracionConceptoFiniquito(ModelConceptosFiniquito model, int IdUsuario)
+        public void AddConfiguracionConceptoFiniquito(ModelConceptosFiniquito model, int IdUsuario, int idunidadN)
         {
+            if (model.IdConceptoSeptimoDia != null)
+            {
+                int Septimodia = (int)model.IdConceptoSeptimoDia;
+                UpdateConfiguracionSeptimoDia(idunidadN, Septimodia, IdUsuario);
+
+            }
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 ConfiguracionConceptosFiniquito cf = new ConfiguracionConceptosFiniquito() {
@@ -219,8 +228,16 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="model">ModelConceptosFiniquito</param>
         /// <param name="IdUsuario">Identificador del usuario</param>
-        public void UpdateConfiguracionConceptoFiniquito(ModelConceptosFiniquito model, int IdUsuario)
+        public void UpdateConfiguracionConceptoFiniquito(ModelConceptosFiniquito model,int idunidadnegocio, int IdUsuario)
         {
+            if (model.IdConceptoSeptimoDia != null)
+            {
+                int Septimodia = (int)model.IdConceptoSeptimoDia;
+               UpdateConfiguracionSeptimoDia(idunidadnegocio, Septimodia, IdUsuario);
+
+            }
+
+
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 var registro = (from b in entidad.ConfiguracionConceptosFiniquito.Where(x => x.IdConfiguracion == model.Id) select b).FirstOrDefault();
@@ -240,6 +257,20 @@ namespace TadaNomina.Models.ClassCore
                 registro.IdConceptoArt93Fraclll = model.IdConceptoArt93Fraclll;
                 registro.idConceptoSubsidioIncapacidad = model.IdConceptoSubAusentismo;
                 registro.idConceptoSeptimoDia= model.IdConceptoSeptimoDia;
+                entidad.SaveChanges();
+            }
+        }
+
+
+
+        public void UpdateConfiguracionSeptimoDia(int Unegocio, int Idconcepto , int IdUsuario)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var registro = (from b in entidad.Cat_UnidadNegocio.Where(x => x.IdUnidadNegocio == Unegocio) select b).FirstOrDefault();
+
+                registro.IdConceptoSeptimoDia = Idconcepto;
+
                 entidad.SaveChanges();
             }
         }
