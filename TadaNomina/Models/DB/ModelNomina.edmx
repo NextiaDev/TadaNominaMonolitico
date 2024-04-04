@@ -140,7 +140,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Bimestres' no tiene definida 
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="IdModificacion" Type="int" />
           <Property Name="FechaModificacion" Type="datetime" />
-        </EntityType>
+         </EntityType>
         <EntityType Name="Cat_HonorariosFacturas">
           <Key>
             <PropertyRef Name="IdFactura" />
@@ -2040,6 +2040,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
           <Parameter Name="IdCliente" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_ReporteByIdPeriodoNominaAcumulado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPeriodoNomina" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="NominaModelStoreContainer">
           <EntitySet Name="Ausentismos" EntityType="Self.Ausentismos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cat_Accesos_GeoVictoria" EntityType="Self.Cat_Accesos_GeoVictoria" Schema="dbo" store:Type="Tables" />
@@ -3206,6 +3209,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           </FunctionImport>
           <EntitySet Name="FactorIntegracion" EntityType="NominaModel.FactorIntegracion" />
           <EntitySet Name="vPrestacionesFactor" EntityType="NominaModel.vPrestacionesFactor" />
+          <FunctionImport Name="sp_ReporteByIdPeriodoNominaAcumulado" ReturnType="Collection(NominaModel.sp_ReporteByIdPeriodoNominaAcumulado_Result)">
+            <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Sueldos_Minimos">
           <Key>
@@ -4959,7 +4965,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
           <Property Name="IdModificacion" Type="Int32" />
           <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
-        </EntityType>
+           </EntityType>
         <EntityType Name="vPeriodoNomina">
           <Key>
             <PropertyRef Name="IdPeriodoNomina" />
@@ -5327,6 +5333,54 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="IdEstatusFactor" Type="Int32" />
           <Property Name="FechaInicioVigencia" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="sp_ReporteByIdPeriodoNominaAcumulado_Result">
+          <Property Type="String" Name="Departamento" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="SueldoBruto" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="ISR_RETENIDO" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="SUBSIDIO_AL_EMPLEO_PAGADO_AL_TRABAJADOR" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Vacaciones" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Prima_Vacacional" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="DEV_FONACOT" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Dia_Festivo" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Prima_Dominical" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Complemento_Sueldo" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Aguinaldo" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Cuotas_Obrera_IMSS" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="FONACOT" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="INFONAVIT" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Aportacion_Caja" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="SKANDIA" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Prestamo_Empresa" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Otras_Deducciones" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Pension" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Neto_a_Pagar" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Apoyo" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Apoyo_Vacaciones" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Apoyo_Prima_Vacacional" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Prima_Dominical1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Tiempo_Extra" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Complemento" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Comisiones" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Compensacion_Bono" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Bono_Lealtad" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Refiere_y_Gana" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Bono_Puntualidad" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Dia_Festivo1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Comp_S_Esq" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Apoyo_Bono_S_Esq" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Otras_Percepciones" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Prestamo_Empresa1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Aportacion_Caja1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Infonavit1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Fonacot1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Gafete" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Skandia1" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Camisas" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Estacionamiento" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Otras_Deducciones_D_" Nullable="false" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Neto_a_Pagar1" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="Neto_Total" Nullable="true" Precision="38" Scale="2" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7324,6 +7378,58 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_ReporteByIdPeriodoNominaAcumulado" FunctionName="NominaModel.Store.sp_ReporteByIdPeriodoNominaAcumulado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NominaModel.sp_ReporteByIdPeriodoNominaAcumulado_Result">
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="SueldoBruto" ColumnName="SueldoBruto" />
+                <ScalarProperty Name="ISR_RETENIDO" ColumnName="ISR_RETENIDO" />
+                <ScalarProperty Name="SUBSIDIO_AL_EMPLEO_PAGADO_AL_TRABAJADOR" ColumnName="SUBSIDIO_AL_EMPLEO_PAGADO_AL_TRABAJADOR" />
+                <ScalarProperty Name="Vacaciones" ColumnName="Vacaciones" />
+                <ScalarProperty Name="Prima_Vacacional" ColumnName="Prima_Vacacional" />
+                <ScalarProperty Name="DEV_FONACOT" ColumnName="DEV_FONACOT" />
+                <ScalarProperty Name="Dia_Festivo" ColumnName="Dia_Festivo" />
+                <ScalarProperty Name="Prima_Dominical" ColumnName="Prima_Dominical" />
+                <ScalarProperty Name="Complemento_Sueldo" ColumnName="Complemento_Sueldo" />
+                <ScalarProperty Name="Aguinaldo" ColumnName="Aguinaldo" />
+                <ScalarProperty Name="Cuotas_Obrera_IMSS" ColumnName="Cuotas_Obrera_IMSS" />
+                <ScalarProperty Name="FONACOT" ColumnName="FONACOT" />
+                <ScalarProperty Name="INFONAVIT" ColumnName="INFONAVIT" />
+                <ScalarProperty Name="Aportacion_Caja" ColumnName="Aportacion_Caja" />
+                <ScalarProperty Name="SKANDIA" ColumnName="SKANDIA" />
+                <ScalarProperty Name="Prestamo_Empresa" ColumnName="Prestamo_Empresa" />
+                <ScalarProperty Name="Otras_Deducciones" ColumnName="Otras_Deducciones" />
+                <ScalarProperty Name="Pension" ColumnName="Pension" />
+                <ScalarProperty Name="Neto_a_Pagar" ColumnName="Neto_a_Pagar" />
+                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
+                <ScalarProperty Name="Apoyo_Vacaciones" ColumnName="Apoyo_Vacaciones" />
+                <ScalarProperty Name="Apoyo_Prima_Vacacional" ColumnName="Apoyo_Prima_Vacacional" />
+                <ScalarProperty Name="Prima_Dominical1" ColumnName="Prima_Dominical1" />
+                <ScalarProperty Name="Tiempo_Extra" ColumnName="Tiempo_Extra" />
+                <ScalarProperty Name="Complemento" ColumnName="Complemento" />
+                <ScalarProperty Name="Comisiones" ColumnName="Comisiones" />
+                <ScalarProperty Name="Compensacion_Bono" ColumnName="Compensacion_Bono" />
+                <ScalarProperty Name="Bono_Lealtad" ColumnName="Bono_Lealtad" />
+                <ScalarProperty Name="Refiere_y_Gana" ColumnName="Refiere y Gana" />
+                <ScalarProperty Name="Bono_Puntualidad" ColumnName="Bono_Puntualidad" />
+                <ScalarProperty Name="Dia_Festivo1" ColumnName="Dia_Festivo1" />
+                <ScalarProperty Name="Comp_S_Esq" ColumnName="Comp_S_Esq" />
+                <ScalarProperty Name="Apoyo_Bono_S_Esq" ColumnName="Apoyo_Bono_S_Esq" />
+                <ScalarProperty Name="Otras_Percepciones" ColumnName="Otras_Percepciones" />
+                <ScalarProperty Name="Prestamo_Empresa1" ColumnName="Prestamo_Empresa1" />
+                <ScalarProperty Name="Aportacion_Caja1" ColumnName="Aportacion_Caja1" />
+                <ScalarProperty Name="Infonavit1" ColumnName="Infonavit1" />
+                <ScalarProperty Name="Fonacot1" ColumnName="Fonacot1" />
+                <ScalarProperty Name="Gafete" ColumnName="Gafete" />
+                <ScalarProperty Name="Skandia1" ColumnName="Skandia1" />
+                <ScalarProperty Name="Camisas" ColumnName="Camisas" />
+                <ScalarProperty Name="Estacionamiento" ColumnName="Estacionamiento" />
+                <ScalarProperty Name="Otras_Deducciones_D_" ColumnName="Otras_Deducciones_D " />
+                <ScalarProperty Name="Neto_a_Pagar1" ColumnName="Neto_a_Pagar1" />
+                <ScalarProperty Name="Neto_Total" ColumnName="Neto_Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

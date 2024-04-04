@@ -1,0 +1,52 @@
+﻿@model TadaNomina.Models.ViewModels.Reportes.ModelReporteByIdPeriodo
+
+@{
+    ViewBag.Title = "Reporte de Nómina por Periodo Acumulado";
+    Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+}
+
+<div id="page-head">
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Reporte de Nómina por Periodo Acumulado</h1>
+    </div>
+</div>
+
+<div id="page-content">
+    <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Llena los datos para obtener el reporte</h3>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm("DescargarRepByIdPeriodoAcumulado", "ReporteNomina"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        <hr />
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdPeriodoNomina, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.IdPeriodoNomina, Model.lPeriodos, "Elegir...", htmlAttributes: new { @class = "form-control", id = "IdPeriodoNomina" })
+                                @Html.ValidationMessageFor(model => model.IdPeriodoNomina, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <div class="text-right">
+                                <button type="submit" id="Descargar" class="btn btn-success btn-sm">Descargar</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

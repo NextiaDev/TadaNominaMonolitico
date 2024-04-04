@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -42,6 +43,24 @@ namespace TadaNomina.Models.ClassCore
         {
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        public static void CreateZipFile(string rutaFile)
+        {
+            try
+            {
+                using (Ionic.Zip.ZipFile zip = new Ionic.Zip.ZipFile())
+                {
+                    if (!Directory.Exists(rutaFile))
+                        throw new Exception("No se encuentra la carpeta especificada.");
+                    zip.AddDirectory(rutaFile);
+                    zip.Save(rutaFile + ".zip");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public static string DarFormatoClaveEmpleado(string ClaveEmpleado)
