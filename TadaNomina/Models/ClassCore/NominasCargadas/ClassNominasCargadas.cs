@@ -43,12 +43,13 @@ namespace TadaNomina.Models.ClassCore.NominasCargadas
             m.TotalEmpleadosCargados = dataNomina.Count();
             m.TotalSueldo = string.Format("{0:C2}", dataNomina.Select(x => x.SueldoPagado).Sum());
             m.TotalSubsidio = string.Format("{0:C2}", dataNomina.Select(x => x.SubsidioPagar).Sum());
-            m.TotalPercepciones = string.Format("{0:C2}", dataNomina.Select(x => x.ER).Sum());
+            m.TotalPercepciones= string.Format("{0:C2}", dataNomina.Select(x => x.ER).Sum());
             m.TotalISR = string.Format("{0:C2}", dataNomina.Select(x => x.ImpuestoRetener).Sum());
             m.TotalIMSS = string.Format("{0:C2}", dataNomina.Select(x => x.IMSS_Obrero).Sum());
             m.TotalDeducciones = string.Format("{0:C2}", dataNomina.Select(x => x.DD).Sum());
             m.Neto = string.Format("{0:C2}", dataNomina.Select(x => x.Neto).Sum());
             m.TotalISN = string.Format("{0:C2}", dataNomina.Select(x => x.ISN).Sum());
+            m.BaseGravada= string.Format("{0:C2}", dataNomina.Select(x => x.BaseGravada).Sum());
 
             return m;
         }
@@ -212,7 +213,7 @@ namespace TadaNomina.Models.ClassCore.NominasCargadas
             string[] campos = item.ToString().Split(',');
             List<string> conceptos = itemConcepto.ToString().Split(',').ToList();
             List<Mapeo> valores = new List<Mapeo>();
-            for (int i = 13; i < campos.Length; i++)
+            for (int i = 14; i < campos.Length; i++)
             {
                 valores.Add(new Mapeo { Campo = campos[i], Concepto = conceptos[i], Valor = campos[i] });
             }
@@ -237,7 +238,7 @@ namespace TadaNomina.Models.ClassCore.NominasCargadas
                     {
                         try { Monto = decimal.Parse(datos.Valor); } catch { Monto = 0; }
                         i.Monto = Monto;
-                        i.MontoEsquema = 0;
+                        i.MontoEsquema=0;
                     }
                     incidencias.Add(i);
                 }
@@ -266,20 +267,34 @@ namespace TadaNomina.Models.ClassCore.NominasCargadas
             {
                 using (NominaEntities1 entidad = new NominaEntities1())
                 {
-                    nt.IdEmpleado = IdEmpleado;
-                    try { nt.SueldoPagado = decimal.Parse(datos[5]); } catch { nt.SueldoPagado = 0; }
-                    try { nt.SubsidioPagar = decimal.Parse(datos[6]); } catch { nt.SubsidioPagar = 0; }
-                    try { nt.ER = decimal.Parse(datos[7]); } catch { nt.ER = 0; }
-                    try { nt.ImpuestoRetener = decimal.Parse(datos[8]); } catch { nt.ImpuestoRetener = 0; }
-                    try { nt.IMSS_Obrero = decimal.Parse(datos[9]); } catch { nt.IMSS_Obrero = 0; }
-                    try { nt.DD = decimal.Parse(datos[10]); } catch { nt.DD = 0; }
-                    try { nt.Neto = decimal.Parse(datos[11]); } catch { nt.Neto = 0; }
-                    try { nt.ISN = decimal.Parse(datos[12]); } catch { nt.ISN = 0; }
+                    nt.IdEmpleado=IdEmpleado;
+                    try { nt.SueldoPagado= decimal.Parse(datos[5]); } catch { nt.SueldoPagado=0; }
+                    try { nt.SubsidioPagar= decimal.Parse(datos[6]); } catch { nt.SubsidioPagar=0; }
+                    try { nt.ER= decimal.Parse(datos[7]); } catch { nt.ER=0; }
+                    try { nt.ImpuestoRetener= decimal.Parse(datos[8]); } catch { nt.ImpuestoRetener=0; }
+                    try { nt.IMSS_Obrero= decimal.Parse(datos[9]); } catch { nt.IMSS_Obrero = 0; }
+                    try { nt.DD= decimal.Parse(datos[10]); } catch { nt.DD= 0; }
+                    try { nt.Neto= decimal.Parse(datos[11]); } catch { nt.Neto= 0; }
+                    try { nt.ISN= decimal.Parse(datos[12]); } catch { nt.ISN= 0; }
+                    try { nt.BaseGravada= decimal.Parse(datos[13]); } catch { nt.BaseGravada= 0; }
+                    try { nt.BaseGravadaP= decimal.Parse(datos[13]); } catch { nt.BaseGravadaP= 0; }
 
-                    nt.IdPeriodoNomina = IdPeriodoNomina;
-                    nt.IdCaptura = IdUsuario;
-                    nt.FechaCaptura = DateTime.Now;
-                    nt.IdEstatus = 1;
+                    // Estos campos se insertan para que sean consideradas estas nominas para ajustes                    
+                    nt.ISR=nt.ImpuestoRetener;
+
+                    nt.Subsidio=nt.SubsidioPagar;
+
+                    if (nt.BaseGravada==0)
+                    {
+                        nt.BaseGravada= nt.ER;
+                        nt.BaseGravadaP=nt.ER;
+                    }
+
+
+                    nt.IdPeriodoNomina=IdPeriodoNomina;
+                    nt.IdCaptura= IdUsuario;
+                    nt.FechaCaptura= DateTime.Now;
+                    nt.IdEstatus=1;
 
                     entidad.NominaTrabajo.Add(nt);
                     entidad.SaveChanges();
@@ -292,46 +307,59 @@ namespace TadaNomina.Models.ClassCore.NominasCargadas
                 {
                     Empleados emp = new Empleados()
                     {
-                        IdUnidadNegocio = IdUnidadNegocio,
-                        ClaveEmpleado = datos[0],
-                        Rfc = datos[1],
-                        Nombre = datos[2],
-                        ApellidoPaterno = datos[3],
-                        ApellidoMaterno = datos[4],
-                        SDIMSS = decimal.Parse(datos[5]) / 15,
+                        IdUnidadNegocio=IdUnidadNegocio,
+                        ClaveEmpleado= datos[0],
+                        Rfc= datos[1],
+                        Nombre= datos[2],
+                        ApellidoPaterno= datos[3],
+                        ApellidoMaterno= datos[4],
+                        SDIMSS=decimal.Parse(datos[5]) / 15,
 
-                        IdEntidad = 0,
-                        Esquema = "100% TRADICIONAL",
-                        TipoContrato = "DETERMINADO",
+                        IdEntidad=0,
+                        Esquema="100% TRADICIONAL",
+                        TipoContrato="DETERMINADO",
 
-                        IdCaptura = IdUsuario,
-                        FechaCaptura = DateTime.Now,
-                        IdEstatus = 5,
+                        IdCaptura=IdUsuario,
+                        FechaCaptura= DateTime.Now,
+                        IdEstatus=5,
                     };
 
                     entidad.Empleados.Add(emp);
                     entidad.SaveChanges();
 
-                    _IdEmpleado = emp.IdEmpleado;
+                    _IdEmpleado=emp.IdEmpleado;
                 }
 
                 // Ahora con el nuevo valor del IdEmpleado gravamos el registro
                 using (NominaEntities1 entidad = new NominaEntities1())
                 {
-                    nt.IdEmpleado = _IdEmpleado;
-                    try { nt.SueldoPagado = decimal.Parse(datos[5]); } catch { nt.SueldoPagado = 0; }
-                    try { nt.SubsidioPagar = decimal.Parse(datos[6]); } catch { nt.SubsidioPagar = 0; }
-                    try { nt.ER = decimal.Parse(datos[7]); } catch { nt.ER = 0; }
-                    try { nt.ImpuestoRetener = decimal.Parse(datos[8]); } catch { nt.ImpuestoRetener = 0; }
-                    try { nt.IMSS_Obrero = decimal.Parse(datos[9]); } catch { nt.IMSS_Obrero = 0; }
-                    try { nt.DD = decimal.Parse(datos[10]); } catch { nt.DD = 0; }
-                    try { nt.Neto = decimal.Parse(datos[11]); } catch { nt.Neto = 0; }
-                    try { nt.ISN = decimal.Parse(datos[12]); } catch { nt.ISN = 0; }
+                    nt.IdEmpleado=_IdEmpleado;
+                    try { nt.SueldoPagado= decimal.Parse(datos[5]); } catch { nt.SueldoPagado=0; }
+                    try { nt.SubsidioPagar= decimal.Parse(datos[6]); } catch { nt.SubsidioPagar=0; }
+                    try { nt.ER= decimal.Parse(datos[7]); } catch { nt.ER=0; }
+                    try { nt.ImpuestoRetener= decimal.Parse(datos[8]); } catch { nt.ImpuestoRetener=0; }
+                    try { nt.IMSS_Obrero= decimal.Parse(datos[9]); } catch { nt.IMSS_Obrero = 0; }
+                    try { nt.DD= decimal.Parse(datos[10]); } catch { nt.DD= 0; }
+                    try { nt.Neto= decimal.Parse(datos[11]); } catch { nt.Neto= 0; }
+                    try { nt.ISN= decimal.Parse(datos[12]); } catch { nt.ISN= 0; }
+                    try { nt.BaseGravada= decimal.Parse(datos[13]); } catch { nt.BaseGravada= 0; }
+                    try { nt.BaseGravadaP= decimal.Parse(datos[13]); } catch { nt.BaseGravadaP= 0; }
 
-                    nt.IdPeriodoNomina = IdPeriodoNomina;
-                    nt.IdCaptura = IdUsuario;
-                    nt.FechaCaptura = DateTime.Now;
-                    nt.IdEstatus = 1;
+                    // Estos campos se insertan para que sean consideradas estas nominas para ajustes                    
+                    nt.ISR=nt.ImpuestoRetener;
+
+                    nt.Subsidio=nt.SubsidioPagar;
+
+                    if (nt.BaseGravada==0)
+                    {
+                        nt.BaseGravada= nt.ER;
+                        nt.BaseGravadaP=nt.ER;
+                    }
+
+                    nt.IdPeriodoNomina=IdPeriodoNomina;
+                    nt.IdCaptura= IdUsuario;
+                    nt.FechaCaptura= DateTime.Now;
+                    nt.IdEstatus=1;
 
                     entidad.NominaTrabajo.Add(nt);
                     entidad.SaveChanges();
