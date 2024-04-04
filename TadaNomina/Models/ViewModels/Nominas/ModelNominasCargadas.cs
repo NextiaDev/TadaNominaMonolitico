@@ -18,11 +18,11 @@ namespace TadaNomina.Models.ViewModels.Nominas
         [Display(Name = "Tipo de Periodo:")]
         public string TipoNomina { get; set; }
         [Display(Name = "Periodicidad de Pago:")]
-        public string Periodicidad { get; set; }
+        public string Periodicidad { get; set; }             
         public string FechaInicial { get; set; }
         [Display(Name = "Fecha Fin Periodo:")]
-        public string FechaFinal { get; set; }
-
+        public string FechaFinal { get; set; }       
+        
         [Display(Name = "Nombre de la Unidad de Negocio:")]
         public string UnidadNegocio { get; set; }
 
@@ -52,6 +52,9 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         [Display(Name = "Total de ISN:")]
         public string TotalISN { get; set; }
+
+        [Display(Name = "Base Gravada:")]
+        public string BaseGravada { get; set; }
 
 
         public bool validacion { get; set; }

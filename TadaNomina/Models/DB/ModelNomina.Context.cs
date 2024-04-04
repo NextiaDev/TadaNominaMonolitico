@@ -426,5 +426,14 @@ namespace TadaNomina.Models.DB
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RegresaAusentismos_Result>("sp_RegresaAusentismos", idPeriodoNominaParameter);
         }
+    
+        public virtual ObjectResult<sp_ReporteByIdPeriodoNominaAcumulado_Result> sp_ReporteByIdPeriodoNominaAcumulado(Nullable<int> idPeriodoNomina)
+        {
+            var idPeriodoNominaParameter = idPeriodoNomina.HasValue ?
+                new ObjectParameter("IdPeriodoNomina", idPeriodoNomina) :
+                new ObjectParameter("IdPeriodoNomina", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ReporteByIdPeriodoNominaAcumulado_Result>("sp_ReporteByIdPeriodoNominaAcumulado", idPeriodoNominaParameter);
+        }
     }
 }

@@ -94,11 +94,12 @@ namespace TadaNomina.Controllers.Nomina
         {
 
             TadaEmpleados entities = new TadaEmpleados();
-            var insi = (from b in entities.Cat_ConceptosNomina.Where(x => x.IdEstatus == 1 && x.IdCliente == idcliente && x.TipoEsquema != "Esquema" && x.TipoDato == "Pesos") select b).ToList();
+            var insi = (from b in entities.Cat_ConceptosNomina.Where(x => x.IdEstatus == 1 && x.IdCliente == idcliente && x.TipoEsquema!="Esquema" && x.TipoDato=="Pesos") select b).ToList();
 
             List<string> ListFirstRow = new List<string>();
             List<string> ListSecondRow = new List<string>();
 
+            ListFirstRow.Add(" ");
             ListFirstRow.Add(" ");
             ListFirstRow.Add(" ");
             ListFirstRow.Add(" ");
@@ -126,11 +127,13 @@ namespace TadaNomina.Controllers.Nomina
             ListSecondRow.Add("TotalDeducciones");
             ListSecondRow.Add("Neto");
             ListSecondRow.Add("ISN");
+            ListSecondRow.Add("BaseGravada");
+
 
             foreach (var item in insi)
             {
                 ListFirstRow.Add(item.IdConcepto.ToString());
-                ListSecondRow.Add(item.ClaveConcepto + "-" + item.Concepto);
+                ListSecondRow.Add(item.ClaveConcepto+"-"+item.Concepto);
             }
 
             using (XLWorkbook wb = new XLWorkbook())
@@ -141,7 +144,7 @@ namespace TadaNomina.Controllers.Nomina
                 {
                     xl.Cell(1, i).Value = column;
 
-                    if (i <= 13)
+                    if (i <= 14)
                     {
                         xl.Cell(1, i).Style.Fill.BackgroundColor = XLColor.Red;
                     }
@@ -159,7 +162,7 @@ namespace TadaNomina.Controllers.Nomina
                 foreach (string column in ListSecondRow)
                 {
                     xl.Cell(2, i).Value = column;
-                    if (i <= 13)
+                    if (i <= 14)
                     {
                         xl.Cell(2, i).Style.Fill.BackgroundColor = XLColor.Red;
 
@@ -234,15 +237,15 @@ namespace TadaNomina.Controllers.Nomina
                 ModelCargaLayoutNominas m = new ModelCargaLayoutNominas();
                 m.IdPeriodoNomina = model.IdPeriodoNomina;
                 m.TipoPeriodo = model.TipoPeriodo;
-                m.validacion = true;
-                m.Mensaje = "Se guardo correctamente la Nómina";
+                m.validacion=true;
+                m.Mensaje="Se guardo correctamente la Nómina";
 
                 return View(m);
             }
             catch (Exception ex)
             {
-                model.validacion = false;
-                model.Mensaje = "No se guardo correctamente la Nómina";
+                model.validacion=false;
+                model.Mensaje="No se guardo correctamente la Nómina";
                 return View(model);
             }
         }
