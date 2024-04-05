@@ -1614,5 +1614,45 @@ namespace TadaNomina.Controllers.Reportes
                 }
             }
         }
+
+
+        /// <summary>
+        /// Reporte de de nomina por periodo
+        /// </summary>
+        /// <param name="m">Tipo de reporte, timbrado o no timbrado por rango de fechas</param>
+        /// <returns>Reporte de de nomina por periodo</returns>
+
+        public ActionResult RepNominaByIdPeriodoNominaAcumulado()
+        {
+            cReportesNomina cReportes = new cReportesNomina();
+            ModelReporteByIdPeriodo model = cReportes.GetModelReporteByIdPeriodo((int)Session["sIdUnidadNegocio"]);
+
+            return View(model);
+        }
+
+
+        /// <summary>
+        /// Metodo para descargar el Excel del reporte contable por periodo de nomina
+        /// </summary>
+        /// <param name="model">Modelo que conetiene el Id del Periodo de NOmina</param>
+        /// <returns></returns>
+        public FileResult DescargarRepByIdPeriodoAcumulado(ModelReporteByIdPeriodo model)
+        {
+            cReportesNomina rnbyperiodo = new cReportesNomina();
+
+            string nombreArchivo = rnbyperiodo.RegresaNombreReporte(model.IdPeriodoNomina);
+            DataTable dt = rnbyperiodo.GetDataTableForReporteByIdPeriodoNomina(model.IdPeriodoNomina);
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt, "ReporteContable");
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+                }
+            }
+        }
+
     }
 }

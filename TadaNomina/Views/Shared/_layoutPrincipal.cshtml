@@ -661,7 +661,10 @@
                                                                 <li><a class="_Load" href="@Url.Action("HonorariosPeriodos", "Honorarios")">Archivos Honorarios</a></li>
                                                                 <li><a class="_Load" href="@Url.Action("ReportesHonorarios", "Honorarios")">Reporte Honorarios</a></li>
                                                                 <li><a class="_Load" href="@Url.Action("AusentimosReporte", "ReporteNomina")">Reporte Ausentimos</a></li>
-
+                                                                @if ((int)Session["sIdUnidadNegocio"] == 55)
+                                                                {
+                                                                    <li><a class="_Load" href="@Url.Action("RepNominaByIdPeriodoNominaAcumulado", "ReporteNomina")">Reporte Nómina por Periodo</a></li>
+                                                                }
                                                             </ul>
                                                         </li>
 
