@@ -14,6 +14,8 @@
 
 <div class="col-md-12">
     <div id="page-content">
+
+
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h3 class="panel-title">Caputar Datos.</h3>
@@ -58,6 +60,7 @@
                         </div>
                         <div class="col-md-1">
                             <span class="fa fa-info-circle fa-2x" id="infoEquivalencias"></span>
+                            
                         </div>
                     </div>
 
@@ -78,6 +81,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
 
@@ -118,11 +122,15 @@
 @section Scripts{
 
     <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/jquery.loading.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script>
         $("#infoEquivalencias").click(function () {
             $.ajax({
                 type: 'POST',
-                url: 'getPalabrasReservadas',
+                url: "@Url.Action("getPalabrasReservadas", "PensionAlimenticia")",
                 success: function (result) {
                     var table = "<div class='text-right'>";
                     table += "</div><br />";

@@ -59,6 +59,12 @@
                             @Html.DropDownListFor(model => model.TipoPension, Model.lTipo, "Elegir...", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.lTipo, "", new { @class = "text-danger" })
                         </div>
+
+                        @Html.LabelFor(model => model.lTipoBase, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.BaseCalculo, Model.lTipoBase, "Elegir...", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.lTipoBase, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                     <br />
                     <div class="form-group row m-b-15">
@@ -82,7 +88,9 @@
                             @Html.ValidationMessageFor(model => model.NombreBeneficiario, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <br />
+                    <br />
+                    <br />
                     <div class="form-group row m-b-15">
                         <div class="col-md-12">
                             @if (Model.Mensaje != null)
