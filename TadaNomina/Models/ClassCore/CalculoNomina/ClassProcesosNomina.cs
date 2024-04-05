@@ -1206,7 +1206,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <param name="totalPercepcionesEsq">Total de percepciones, estas se ocupan en el calculo</param>
         /// <param name="IdUsuario">Identificador del usuario del sistema</param>
         /// <exception cref="Exception">Excepcion devuelta por el metodo en caso de un error al procesar.</exception>
-        public void ProcesaPension(List<vPensionAlimenticia> pensionAlimenticia, int IdPeriodoNomina, decimal totalPercepciones, decimal totalPercepcionesEsq, int IdUsuario)
+        public void ProcesaPension(List<vIncidencias> incidenciasEmpleado, NominaTrabajo nom, vEmpleados datosEmpleados, List<vPensionAlimenticia> pensionAlimenticia, int IdPeriodoNomina, decimal totalPercepciones, decimal totalPercepcionesEsq, int IdUsuario, int idcliente)
         {
             try
             {
@@ -1220,7 +1220,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                     foreach (var item in pensionAlimenticia)
                     {
-                        ci.procesaPensionAlimenticia(item, IdPeriodoNomina, totalPercepciones, totalPercepcionesEsq, IdConcepto, IdUsuario);
+                        ci.procesaPensionAlimenticia(incidenciasEmpleado, nom, datosEmpleados, item, IdPeriodoNomina, totalPercepciones, totalPercepcionesEsq, IdConcepto, IdUsuario, idcliente);
 
                         montoPension = ci.montoPension;
                         montoPensionEsq = ci.montoPensionEsq;

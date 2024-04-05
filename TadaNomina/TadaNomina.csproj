@@ -605,7 +605,7 @@
       <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\BasePensionAlimenticia.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>ModelNomina.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Bimestres.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
