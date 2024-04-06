@@ -276,7 +276,7 @@ namespace TadaNomina.Services
         /// <param name="IdPeriodoNomina">Variable que contiene el id del periodo de nómina</param>
         /// <param name="IdRegistroPatronal">Variable que contiene el id del registro patronal</param>
         /// <returns></returns>
-        public List<mReporteCuentasWS> getReporteWS(string Token, string FechaInicio, string FechaFin, int IdPeriodoNomina, int? IdRegistroPatronal, string RFC)
+        public List<mReporteCuentasWS> getReporteWS(string Token, string FechaInicio, string FechaFin, int IdPeriodoNomina, int? IdRegistroPatronal, string RFC, int IdCliente)
         {
             try
             {
@@ -288,7 +288,8 @@ namespace TadaNomina.Services
                     FechaFin = FechaFin,
                     IdPeriodoNomina = IdPeriodoNomina,
                     IdRegistroPatronal = IdRegistroPatronal,
-                    RFC = RFC
+                    RFC = RFC, 
+                    IdCliente = IdCliente
                 };
 
                 var _datos = JsonConvert.SerializeObject(datos);
