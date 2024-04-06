@@ -46,16 +46,19 @@ namespace TadaNomina.Controllers.Contabilidad
             var cp = new ClassPeriodoNomina();
             var crp = new ClassRegistroPatronal();
             var sconta = new sContabilidad();
-            
+
             if (poliza.IdPoliza == null) { poliza.IdPoliza = 0; }
             var periodo = cp.GetvPeriodoNominasId(poliza.IdPeriodoNomina);
 
             poliza.lPeriodos = cp.GetSeleccionPeriodoAcumulado(idUnidadNegocio);
             poliza.lRegistros = crp.getSelectRegistroPC(idCliente);
 
-            // Si es Wingstop
-            if (idCliente == 6)
-                poliza.reporteWS = sconta.getReporteWS(token, periodo.FechaInicio.ToShortDateString(), periodo.FechaFin.ToShortDateString(), poliza.IdPeriodoNomina, poliza.IdRegistroPatronal, poliza.RFC);
+            //Lista de clientes para generar la póliza contable
+            int[] lstClientes = {6, 172, 282, 283, 284, 285, 286, 287};
+            
+            // Si es Wingstop o Grupo Marte
+            if (lstClientes.Contains(idCliente))
+                poliza.reporteWS = sconta.getReporteWS(token, periodo.FechaInicio.ToShortDateString(), periodo.FechaFin.ToShortDateString(), poliza.IdPeriodoNomina, poliza.IdRegistroPatronal, poliza.RFC, idCliente);
             // Cualquier otro cliente
             else
                 poliza.reporte = sconta.getReporte(token, idUnidadNegocio, poliza.IdPeriodoNomina, (int)poliza.IdPoliza);
