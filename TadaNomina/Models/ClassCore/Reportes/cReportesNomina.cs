@@ -1015,6 +1015,51 @@ namespace TadaNomina.Models.ClassCore.Reportes
             }
         }
 
+        /// <summary>
+        /// Metodo para obtener un modelo con un çombo con los periodos de nomina acumulados
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Id de la Unidad de Negocio</param>
+        /// <returns></returns>
+        public ModelReporteByIdPeriodo GetModelReporteByIdPeriodo(int IdUnidadNegocio)
+        {
+            ClassPeriodoNomina cperiodo = new ClassPeriodoNomina();
+            ModelReporteByIdPeriodo m = new ModelReporteByIdPeriodo();
+            List<SelectListItem> lperiodos = new List<SelectListItem>();
+            List<vPeriodoNomina> lvperiodos = cperiodo.GetvPeriodoNominasAcumuladas(IdUnidadNegocio)
+                .OrderByDescending(x => x.IdPeriodoNomina).Take(250).ToList();
+
+            lvperiodos.ForEach(x => { lperiodos.Add(new SelectListItem { Value = x.IdPeriodoNomina.ToString(), Text = x.Periodo }); });
+
+            m.lPeriodos = lperiodos;
+
+            return m;
+        }
+
+        public string RegresaNombreReporte(int IdPeriodoNomina)
+        {
+            string res = "ReporteNomina_P_";
+
+            return res += IdPeriodoNomina.ToString() + ".xlsx";
+        }
+
+        public DataTable GetDataTableForReporteByIdPeriodoNomina(int IdPeriodoNomina)
+        {
+            DataTable dt = new DataTable();
+            string sp = "sp_ReporteByIdPeriodoNominaAcumulado";
+            using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ModelNomina"].ConnectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(sp, con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("IdPeriodoNomina", SqlDbType.Int).Value = IdPeriodoNomina;
+                    dt.Load(cmd.ExecuteReader());
+                    con.Close();
+                }
+
+                return dt;
+            }
+        }
 
     }
 }
