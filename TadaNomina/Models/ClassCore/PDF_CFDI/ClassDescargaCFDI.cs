@@ -758,14 +758,11 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                 try
                 {
                     client.Send(msg);
-
                 }
                 catch (System.Net.Mail.SmtpException ex)
                 {
                     throw new Exception("El correo electronico no pudo llegar a su destino debido a: " + ex.Message, ex);
                 }
-
-
             }
 
             catch (Exception ex)
