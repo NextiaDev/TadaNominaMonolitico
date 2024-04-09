@@ -183,7 +183,7 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                 XmlNodeList listaDeducciones = xmlDoc.SelectNodes("//ab:Deduccion", nsmgr);
                 nodosOrdenados no = new nodosOrdenados();
 
-                row["DiasPago"] = xmlInput.Descendants(nomin + "Nomina").Attributes("NumDiasPagados").ToList()[0].Value;
+                try { row["DiasPago"] = xmlInput.Descendants(nomin + "Nomina").Attributes("NumDiasPagados").ToList()[0].Value; } catch { row["DiasPago"] = 0; }
 
                 foreach (var iper in no.ordenaNodosXML(listaPercepciones, "Percepciones"))
                 {
@@ -195,9 +195,9 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
 
                     decimal totalPercepcion = decimal.Parse(iper.ImporteExento) + decimal.Parse(iper.ImporteGravado);
                     row[iper.TipoConcepto + "-" + iper.Concepto] = totalPercepcion.ToString();
-                }                
+                }
 
-                row["TotalPercepciones"] = xmlInput.Descendants(nomin + "Nomina").Attributes("TotalPercepciones").ToList()[0].Value;
+                try { row["TotalPercepciones"] = xmlInput.Descendants(nomin + "Nomina").Attributes("TotalPercepciones").ToList()[0].Value; } catch { row["TotalPercepciones"] = 0; }
 
                 foreach (var iOtros in no.ordenaNodosXML(listaOtrosPagos, "OtrosPagos"))
                 {
@@ -210,8 +210,8 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                                         
                     row[iOtros.TipoConcepto + "-" + iOtros.Concepto] = totalOtros.ToString();
                 }
-                                
-                row["TotalOtrosPagos"] = xmlInput.Descendants(nomin + "Nomina").Attributes("TotalOtrosPagos").ToList()[0].Value;
+
+                try { row["TotalOtrosPagos"] = xmlInput.Descendants(nomin + "Nomina").Attributes("TotalOtrosPagos").ToList()[0].Value; } catch { row["TotalOtrosPagos"] = 0; }
 
                 foreach (var idec in no.ordenaNodosXML(listaDeducciones, "Deducciones"))
                 {
@@ -231,8 +231,8 @@ namespace TadaNomina.Models.ClassCore.PDF_CFDI
                                         
                     row[idec.TipoConcepto + "-" + idec.Concepto] = totalDeduccion.ToString();
                 }
-                               
-                row["TotalDeducciones"] = xmlInput.Descendants(nomin + "Nomina").Attributes("TotalDeducciones").ToList()[0].Value;   
+
+                try { row["TotalDeducciones"] = xmlInput.Descendants(nomin + "Nomina").Attributes("TotalDeducciones").ToList()[0].Value; } catch { row["TotalDeducciones"] = 0; }
 
                 tabla.Rows.Add(row);
             }
