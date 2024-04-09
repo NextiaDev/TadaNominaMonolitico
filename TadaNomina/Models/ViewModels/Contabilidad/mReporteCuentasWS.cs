@@ -18,5 +18,6 @@ namespace TadaNomina.Models.ViewModels.Contabilidad
         public string CentroCostos { get; set; }
         public string Descripcion { get; set; }
         public string suc { get; set; }
+        public string CC { get; set; }
     }
 }
