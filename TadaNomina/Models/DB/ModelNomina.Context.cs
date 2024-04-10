@@ -45,6 +45,7 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<RecibosEsquema> RecibosEsquema { get; set; }
         public virtual DbSet<vRecibosEsquema> vRecibosEsquema { get; set; }
         public virtual DbSet<RecuperacionIMSS> RecuperacionIMSS { get; set; }
+        public virtual DbSet<Incidencias_Consolidadas> Incidencias_Consolidadas { get; set; }
         public virtual DbSet<vNominaSelectFiniquito> vNominaSelectFiniquito { get; set; }
         public virtual DbSet<Cat_Accesos_GeoVictoria> Cat_Accesos_GeoVictoria { get; set; }
         public virtual DbSet<CreditosInfonavit> CreditosInfonavit { get; set; }
@@ -81,8 +82,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<NominaTrabajo> NominaTrabajo { get; set; }
         public virtual DbSet<FactorIntegracion> FactorIntegracion { get; set; }
         public virtual DbSet<vPrestacionesFactor> vPrestacionesFactor { get; set; }
-        public virtual DbSet<BasePensionAlimenticia> BasePensionAlimenticia { get; set; }
-        public virtual DbSet<Incidencias_Consolidadas> Incidencias_Consolidadas { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalDeducciones_Result> sp_ReciboTradicionalDeducciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {

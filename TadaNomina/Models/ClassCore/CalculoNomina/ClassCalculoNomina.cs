@@ -115,7 +115,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             {
                                 decimal? restaPension = incidenciasEmpleado.Where(x => x.IntegraPension == "NO").Select(x => x.Monto).Sum();
 
-                                ProcesaPension(incidenciasEmpleado, nominaTrabajo, item, pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - (nominaTrabajo.ImpuestoRetener ?? 0) - nominaTrabajo.IMSS_Obrero - restaPension), (decimal)nominaTrabajo.ERS, IdUsuario, UnidadNegocio.IdCliente);
+                                ProcesaPension(pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - (nominaTrabajo.ImpuestoRetener ?? 0) - nominaTrabajo.IMSS_Obrero - restaPension), (decimal)nominaTrabajo.ERS, IdUsuario);
                                 ProcesaSaldos(saldos.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdEmpleado, IdPeriodoNomina, IdUsuario);
                             }
                         }

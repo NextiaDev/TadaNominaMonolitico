@@ -22,16 +22,6 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string TipoPension { get; set; }
         [Display(Name = "Tipo")]
         public List<SelectListItem> lTipo { get; set; }
-
-
-        [Display(Name = "Base de Calculo")]
-
-        public int BaseCalculo { get; set; }
-
-        [Display(Name = "Base de Calculo")]
-        public List<SelectListItem> lTipoBase { get; set; }
-
-
         [Display(Name = "Valor")]
         public decimal? Valor { get; set; }
         [Display(Name = "ValorEsq")]

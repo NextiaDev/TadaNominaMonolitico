@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="633035ddd3684f968a237d84b7e62652" Name="Diagram1" ZoomLevel="85">
+      <Diagram DiagramId="633035ddd3684f968a237d84b7e62652" Name="Diagram1" ZoomLevel="116">
         <EntityTypeShape EntityType="NominaModel.Sueldos_Minimos" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="NominaModel.ImpuestoSat" Width="1.5" PointX="9.375" PointY="3.75" />
         <EntityTypeShape EntityType="NominaModel.SubsidioEmpleoSat" Width="1.5" PointX="9.375" PointY="7.75" />
@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="NominaModel.RecibosEsquema" Width="1.5" PointX="13.375" PointY="6.75" />
         <EntityTypeShape EntityType="NominaModel.vRecibosEsquema" Width="1.5" PointX="15.375" PointY="5.75" />
         <EntityTypeShape EntityType="NominaModel.RecuperacionIMSS" Width="1.5" PointX="0.75" PointY="25.75" />
+        <EntityTypeShape EntityType="NominaModel.Incidencias_Consolidadas" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="NominaModel.vNominaSelectFiniquito" Width="1.5" PointX="20.375" PointY="6.75" />
         <EntityTypeShape EntityType="NominaModel.Cat_Accesos_GeoVictoria" Width="1.5" PointX="0.75" PointY="16.75" />
         <EntityTypeShape EntityType="NominaModel.CreditosInfonavit" Width="1.5" PointX="5.375" PointY="0.75" />
@@ -59,8 +60,6 @@
         <EntityTypeShape EntityType="NominaModel.NominaTrabajo" Width="1.5" PointX="9.375" PointY="28.75" />
         <EntityTypeShape EntityType="NominaModel.FactorIntegracion" Width="1.5" PointX="23.75" PointY="15.75" />
         <EntityTypeShape EntityType="NominaModel.vPrestacionesFactor" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="NominaModel.BasePensionAlimenticia" Width="1.5" PointX="0.75" PointY="20.75" />
-        <EntityTypeShape EntityType="NominaModel.Incidencias_Consolidadas" Width="1.5" PointX="31.375" PointY="13.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

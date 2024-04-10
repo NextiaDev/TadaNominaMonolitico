@@ -16,16 +16,16 @@ namespace TadaNomina.Models.DB
     {
         public int IdDepartamento { get; set; }
         public Nullable<int> IdCliente { get; set; }
-        public Nullable<int> IdArea { get; set; }
         public string Clave { get; set; }
         public string Departamento { get; set; }
-        public Nullable<int> IdUnidadNegocio { get; set; }
-        public string ClaveRH { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModificacion { get; set; }
         public Nullable<System.DateTime> FechaModificacion { get; set; }
+        public Nullable<int> IdArea { get; set; }
+        public Nullable<int> IdUnidadNegocio { get; set; }
+        public string ClaveRH { get; set; }
         public Nullable<int> IdDeptoPadre { get; set; }
         public Nullable<int> IdTipoDepto { get; set; }
     }
