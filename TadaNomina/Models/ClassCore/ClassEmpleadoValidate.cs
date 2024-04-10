@@ -447,7 +447,7 @@ namespace TadaNomina.Models
             }
             // Se inhabilita validación de ClaveEmpleado para Grupo Marte para permitir autogeneración
             // en caso de campo vacio o nulo
-            if (idCliente != 172)
+            if (idCliente != 172 || idCliente != 286 || idCliente != 285 || idCliente != 287 || idCliente != 284 || idCliente != 282 || idCliente != 283)
             {
                 if (ValidateClaveEmpleado(row.Split(',')[5].Trim(), rowFile).Equals(Type.Error))
                 {
