@@ -543,7 +543,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         /// <param name="bandera20d">Variable que contiene </param>
         /// <param name="banderaPA">Variable que contiene </param>
         /// <param name="IdUsuario">Variable que contiene el id del usuario que está firmado en la sesión</param>
-        public void UpdateConfiguracionAvanzada(int IdConfiguracionFiniquito, bool banderaVac, bool banderaPV, bool banderaAgui, bool bandera90d, bool bandera20d, bool banderaPA, bool LiquidacionSDI, int IdUsuario)
+        public void UpdateConfiguracionAvanzada(int IdConfiguracionFiniquito, bool banderaVac, bool banderaPV, bool banderaAgui, bool bandera90d, bool bandera20d, bool banderaPA, bool LiquidacionSDI, bool ExentoProporcionalLiquidacion, int IdUsuario)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
@@ -558,6 +558,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                     if (bandera20d) { cf.Bandera20d = 1; } else { cf.Bandera20d = null; }
                     if (banderaPA) { cf.BanderaPA = 1; } else { cf.BanderaPA = null; }
                     if (LiquidacionSDI) { cf.LiquidacionSDI = 1; } else { cf.LiquidacionSDI = null; }
+                    if (ExentoProporcionalLiquidacion) { cf.BanderaExentoProporcionalLiquidacion = 1; } else { cf.BanderaExentoProporcionalLiquidacion = null; }
                     cf.IdModifica = IdUsuario;
                     cf.FechaModifica = DateTime.Now;
 

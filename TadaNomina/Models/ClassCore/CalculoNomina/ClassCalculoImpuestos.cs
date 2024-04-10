@@ -92,7 +92,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         }
 
         public void CalculaISRComplementoProyMensual()
-       {
+        {
             try
             {
                 nominaTrabajo.Subsidio = 0;
@@ -120,6 +120,37 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     nominaTrabajo.ISR = 0;
                     nominaTrabajo.ImpuestoRetener = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("Error al calcular el ISR L174 del empleado: " + IdEmpleado + " - " + ClaveEmpleado + ", ex: " + ex.Message);
+            }
+        }
+
+        public decimal CalculaISRComplementoProyMensual(decimal BaseGravada, DateTime FechaFin)
+        {
+            try
+            { 
+                if (BaseGravada > 0)
+                {
+                    var sueldoMensualFactor = SD_IMSS * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                    var sueldoMensual30 = SD_IMSS * 30;
+                    var ISR_SueldoBruto = CalculaISR((decimal)sueldoMensualFactor, Periodo.FechaFin, "05", false);
+                    var ISRDiasLaborados = (ISR_SueldoBruto / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;
+                    var importeComplemento = BaseGravada;
+                    var sueldoMensual30MasBrutoComplemento = sueldoMensual30 + importeComplemento;
+                    var sueldoMensual30MasBrutoComplementoFator = (sueldoMensual30MasBrutoComplemento / 30) * (UnidadNegocio.FactorDiasMesISR ?? 0);
+                    var ISRTotalFactor = CalculaISR(sueldoMensual30MasBrutoComplementoFator, Periodo.FechaFin, "05", false);
+                    var ISRTotal30 = (ISRTotalFactor / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;
+                    var IsrRet = Math.Round(ISRTotal30 - ISRDiasLaborados, 2);
+
+                    return IsrRet;                    
+                }
+                else
+                {
+                    return 0;
                 }
             }
             catch (Exception ex)

@@ -1755,7 +1755,7 @@ namespace TadaNomina.Models.ClassCore
                     {
                         // Se autogenera ClaveEmpleado para Grupo Marte
                         string claveEmpleado = empleado.ClaveEmpleado;
-                        if (idCliente == 172 && string.IsNullOrEmpty(claveEmpleado))
+                        if (idCliente == 172 || idCliente == 286 || idCliente == 285 || idCliente == 287 || idCliente == 284 || idCliente == 282 || idCliente == 283 && string.IsNullOrEmpty(claveEmpleado))
                         {
                             ClassNomina cN = new ClassNomina();
                             int? numClaveEmpleado = cN.GeneraClaveEmpleado(empleado.ApellidoPaterno, idUN);

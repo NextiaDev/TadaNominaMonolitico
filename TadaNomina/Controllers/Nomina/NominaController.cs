@@ -608,13 +608,13 @@ namespace TadaNomina.Controllers.Nomina
         /// <param name="LiquidacionSDI">Bandera para cambiar el salario con el que se procesa un finiquito.</param>
         /// <returns>Confirmación a la vista.</returns>
         [HttpPost]
-        public JsonResult GuardarConfAvanzada(int IdConfiguracionFiniquito, bool banderaVac, bool banderaPV, bool banderaAgui, bool bandera90d, bool bandera20d, bool banderaPA, bool LiquidacionSDI)
+        public JsonResult GuardarConfAvanzada(int IdConfiguracionFiniquito, bool banderaVac, bool banderaPV, bool banderaAgui, bool bandera90d, bool bandera20d, bool banderaPA, bool LiquidacionSDI, bool ExentoProporcionalLiquidacion)
         {
             try
             {                
                 ClassProcesosFiniquitos cpf = new ClassProcesosFiniquitos();
                 
-                cpf.UpdateConfiguracionAvanzada(IdConfiguracionFiniquito, banderaVac, banderaPV, banderaAgui, bandera90d, bandera20d, banderaPA, LiquidacionSDI, (int)Session["sIdUsuario"]);
+                cpf.UpdateConfiguracionAvanzada(IdConfiguracionFiniquito, banderaVac, banderaPV, banderaAgui, bandera90d, bandera20d, banderaPA, LiquidacionSDI, ExentoProporcionalLiquidacion, (int)Session["sIdUsuario"]);
                 return Json("Exito", JsonRequestBehavior.AllowGet);                
             }
             catch
