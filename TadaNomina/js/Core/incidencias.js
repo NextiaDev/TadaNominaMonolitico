@@ -1,4 +1,4 @@
-﻿
+
 $("#guardaConf").click(function () {
     var IdConfiguracionFiniquito = $("#guardaConf").attr("val");
     var banderaVac = $('#banderaVac').is(":checked");
@@ -9,12 +9,13 @@ $("#guardaConf").click(function () {
     var bandera20d = $('#bandera20d').is(":checked");
     var banderaPA = $('#banderaPA').is(":checked");
     var LiquidacionSDI = $("#LiquidacionSDI").is(":checked");
+  var ExentoProporcionalLiquidacion = $("#BanderaExentoLiquidacionProporcional").is(":checked");
 
     $.ajax({
         type: 'POST',
         url: 'GuardarConfAvanzada',
         dataType: 'json',
-        data: { IdConfiguracionFiniquito, banderaVac, banderaPV, banderaAgui, bandera90d, bandera20d, banderaPA, LiquidacionSDI },
+        data: { IdConfiguracionFiniquito, banderaVac, banderaPV, banderaAgui, bandera90d, bandera20d, banderaPA, LiquidacionSDI, ExentoProporcionalLiquidacion },
         success: function (data) {
             $('#configuracionAvanzada').modal('hide');
             if (data == "Exito") {

@@ -28,6 +28,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> Bandera20d { get; set; }
         public Nullable<int> BanderaPA { get; set; }
         public Nullable<int> LiquidacionSDI { get; set; }
+        public Nullable<int> BanderaExentoProporcionalLiquidacion { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }

@@ -62,5 +62,6 @@ namespace TadaNomina.Models.DB
         public string UUID { get; set; }
         public string RutaPDF { get; set; }
         public string RutaXML { get; set; }
+        public Nullable<System.DateTime> FechaModifica { get; set; }
     }
 }

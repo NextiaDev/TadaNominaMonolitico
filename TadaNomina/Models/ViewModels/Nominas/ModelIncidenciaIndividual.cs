@@ -135,6 +135,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public bool bandera20d { get; set; }
         public bool banderaPA { get; set; }
         public bool LiquidacionSDI { get; set; }
+        public bool BanderaExentoLiquidacionProporcional { get; set; }
         public int IdAguinaldoConfigurado { get; set; }
 
         [Display(Name = "Neto a Pagar:")]

@@ -77,7 +77,10 @@ namespace TadaNomina.Models.ClassCore
                 model.lempleadosNetos = empNetos;
                 model.EmpleadosSinSDI = empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).Count();
                 model.LEmpleadosSinSDI = new Dictionary<string, string>();
-                empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).ForEach(x => { model.LEmpleadosSinSDI.Add(x.ClaveEmpleado, x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre); });
+                empleados.Where(x => x.IdEstatus == 1 && (x.IdRegistroPatronal != null && x.IdRegistroPatronal != 0) && (x.SDIMSS != null && x.SDIMSS != 0) && (x.SDI == null || x.SDI == 0)).ForEach(x => 
+                { 
+                    model.LEmpleadosSinSDI.Add(x.ClaveEmpleado, x.ApellidoPaterno + " " + x.ApellidoMaterno + " " + x.Nombre); 
+                });
 
                 List<NominaTrabajo> dataNomina = GetDataNominaTrabajo(periodo.IdPeriodoNomina);
                 if (periodo.TipoNomina == "Finiquitos")
@@ -364,6 +367,7 @@ namespace TadaNomina.Models.ClassCore
                 try { if (conf.BanderaPA == 1) { model.banderaPA = true; } } catch { }
                 try { if (conf.BanderaLiquidacion == 1) { model.Liquidacion = true; } } catch { }
                 try { if (conf.LiquidacionSDI == 1) { model.LiquidacionSDI = true; } } catch { }
+                try { if (conf.BanderaExentoProporcionalLiquidacion == 1) { model.BanderaExentoLiquidacionProporcional = true; } } catch { }
             }
             
             return model;
