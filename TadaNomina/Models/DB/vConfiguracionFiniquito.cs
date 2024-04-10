@@ -51,5 +51,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdEstatusNomina { get; set; }
         public string Periodo { get; set; }
         public Nullable<int> LiquidacionSDI { get; set; }
+        public Nullable<int> BanderaExentoProporcionalLiquidacion { get; set; }
     }
 }

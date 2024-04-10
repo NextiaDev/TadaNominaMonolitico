@@ -577,15 +577,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                //int[] _clientes = { IdCliente, 0 };
-                //var _prestacion = (from b in entidad.vPrestacionesFactor.Where(x => x.IdEstatus == 1 && _clientes.Contains((int)x.IdCliente) 
-                //                   && x.FechaInicioVigencia == (from c in entidad.vPrestacionesFactor.Where(y => y.FechaInicioVigencia <= fechaFinPeriodo && y.IdEstatus == 1 && _clientes.Contains((int)x.IdCliente))
-                //                                                select c.FechaInicioVigencia).OrderByDescending(z => z).FirstOrDefault()) select b).ToList();
-
                 var consulta = @"select* from vPrestacionesFactor 
-                                 where IdEstatus = 1 and IdCliente in (0, " + IdCliente + @") and FechaInicioVigencia in (
+                                 where IdEstatus = 1 and IdEstatusFactor = 1 and IdCliente in (0, " + IdCliente + @") and FechaInicioVigencia in (
                                     select top 1 FechaInicioVigencia from vPrestacionesFactor 
-                                    where FechaInicioVigencia <= '" + fechaFinPeriodo.ToString("yyyyMMdd") + "' and IdEstatus = 1 and IdCliente in (0, " + IdCliente + ") order by 1 desc)";
+                                    where FechaInicioVigencia <= '" + fechaFinPeriodo.ToString("yyyyMMdd") + "' and IdEstatus = 1 and IdEstatusFactor = 1 and IdCliente in (0, " + IdCliente + ") order by 1 desc)";
 
                 var _prestacion = entidad.Database.SqlQuery<vPrestacionesFactor>(consulta).ToList();
 

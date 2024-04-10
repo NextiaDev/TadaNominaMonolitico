@@ -496,10 +496,10 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             decimal indemPA = 0;
             decimal TotalLiquidacion = 0;
             int? IdConceptoI90d = null;
-            int? IdConcepto20d = null;  
-            int? IdConceptoPA = null; 
+            int? IdConcepto20d = null;
+            int? IdConceptoPA = null;
             List<int?> idsLiquidacion = new List<int?>();
-            
+
             try { IdConceptoI90d = conceptosFiniquitos.IdConceptoIndem3M; idsLiquidacion.Add(IdConceptoI90d); } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
             try { IdConcepto20d = conceptosFiniquitos.IdConceptoIndem20D; idsLiquidacion.Add(IdConcepto20d); } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
             try { IdConceptoPA = conceptosFiniquitos.IdConceptoIndemPA; idsLiquidacion.Add(IdConceptoPA); } catch { throw new Exception("falta configurar conceptos de liquidacion."); }
@@ -507,9 +507,10 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             indem90d = (decimal)incidenciasEmpleado.Where(x => x.IdConcepto == IdConceptoI90d).Select(x => x.Monto).Sum();
             indem20d = (decimal)incidenciasEmpleado.Where(x => x.IdConcepto == IdConcepto20d).Select(x => x.Monto).Sum();
             indemPA = (decimal)incidenciasEmpleado.Where(x => x.IdConcepto == IdConceptoPA).Select(x => x.Monto).Sum();
+            decimal antiguedadAnios = calculaAntiguedadBanderaProporcional();
 
             TotalLiquidacion = indem90d + indem20d + indemPA;
-            decimal _ExentoTotal = ((decimal)SueldosMinimos.UMA * 90M) * (decimal)nominaTrabajo.Anios;
+            decimal _ExentoTotal = ((decimal)SueldosMinimos.UMA * 90M) * antiguedadAnios;
             decimal ExentoLiquidacion = 0;
             decimal GravadoLiquidacion = TotalLiquidacion;
 
@@ -526,8 +527,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
 
             nominaTrabajo.BaseGravadaLiquidacion = GravadoLiquidacion;
             nominaTrabajo.TotalLiquidacion = TotalLiquidacion;
-            nominaTrabajo.ExentoLiquidacion = ExentoLiquidacion;            
-            
+            nominaTrabajo.ExentoLiquidacion = ExentoLiquidacion;
+
             if ((indem90d > 0 && indem20d > 0 && indemPA > 0) || (indem90d > 0 && indem20d > 0) || (indem20d > 0 && indemPA > 0) || (indem90d > 0 && indemPA > 0))
             {
                 decimal SMO = SD_IMSS * 30;
@@ -539,6 +540,23 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 nominaTrabajo.ISRLiquidacion = CalculaISR((decimal)nominaTrabajo.BaseGravadaLiquidacion, Periodo.FechaFin, "05", false);
 
             updateExentosGravadosLiquidacion(idsLiquidacion.ToArray());
+        }
+
+        private decimal calculaAntiguedadBanderaProporcional()
+        {
+            decimal antiguedadAnios = (decimal)nominaTrabajo.Anios;
+
+            //badera de exento proporcional
+            if (configuracionFiniquito.BanderaExentoProporcionalLiquidacion == 1)
+            {
+                var parteEntera = Math.Truncate(antiguedadAnios);
+                var parteDecimal = antiguedadAnios - parteEntera;
+
+                if (parteDecimal <= 0.5M)
+                    antiguedadAnios = parteEntera;
+            }
+
+            return antiguedadAnios;
         }
 
         /// <summary>
