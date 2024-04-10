@@ -16,28 +16,43 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
     {
         public List<mMovimientosAfiliatorios> GetMovimientosByImss(string IMSS, int IdCliente)
         {
-            List<mMovimientosAfiliatorios> lista = new List<mMovimientosAfiliatorios>();
+            List< mMovimientosAfiliatorios> lista = new List<mMovimientosAfiliatorios>();
             var rp = GetNombrePatronas(IdCliente);
             using(TadaNominaEntities ctx = new TadaNominaEntities())
             {
-                var query = ctx.v_IMSS_MovimientosCESS.Where(p => p.Imss == IMSS && rp.Contains(p.RegistroPatronal)).ToList();
-                foreach(var item in query)
+                var query = (from a in ctx.v_IMSS_MovimientosCESS
+                                  where a.Imss == IMSS
+                                   && rp.Contains(a.RegistroPatronal)
+                                  select new
+                                  {
+                                      Lote = a.Lote,
+                                      NombrePatrona = a.NombrePatrona,
+                                      ActividadEconomica = a.ActividadEconomica,
+                                      ApellidoPaterno = a.ApellidoPaterno,
+                                      ApellidoMaterno = a.ApellidoMaterno,
+                                      Nombre = a.Nombre,
+                                      Imss = a.Imss,
+                                      FechaMovimiento = a.FechaMovimiento,
+                                      Movimiento = a.Movimiento,
+                                      FechaEnvio = a.FechaTransmision,
+                                      Origen = a.Origen
+                                  }).ToList();
+                query.ForEach(p =>
                 {
-                    mMovimientosAfiliatorios m = new mMovimientosAfiliatorios();
-                    m.Lote = item.Lote.ToString();
-                    m.NombrePatrona = item.NombrePatrona;
-                    m.ActividadEconomica = item.ActividadEconomica;
-                    m.ApellidoMaterno = item.ApellidoMaterno;
-                    m.ApellidoPaterno = item.ApellidoPaterno;
-                    m.Nombre = item.Nombre;
-                    m.Imss = item.Imss;
-                    m.FechaMovimiento = item.FechaMovimiento.ToString().Substring(0, 10);
-                    m.TipoMovimiento = item.Movimiento;
-                    m.FechaEnvio = item.FechaTransmision.ToString().Substring(0, 10);
-                    m.Origen = item.Origen;
-                    m.IdRegistroPatronal = GetIdRP(item.RegistroPatronal);
-                    lista.Add(m);
-                }
+                    mMovimientosAfiliatorios mma = new mMovimientosAfiliatorios();
+                    mma.Lote = p.Lote.ToString();
+                    mma.NombrePatrona = p.NombrePatrona;
+                    mma.ActividadEconomica = p.ActividadEconomica;
+                    mma.ApellidoMaterno = p.ApellidoMaterno;
+                    mma.ApellidoPaterno = p.ApellidoPaterno;
+                    mma.Nombre = p.Nombre;
+                    mma.Imss = p.Imss;
+                    mma.FechaMovimiento = p.FechaMovimiento.ToString().Substring(0, 10);
+                    mma.TipoMovimiento = p.Movimiento;
+                    mma.FechaEnvio = p.FechaEnvio.ToString().Substring(0, 10);
+                    mma.Origen = p.Origen;
+                    lista.Add(mma);
+                });
                 return lista;
             }
         }
