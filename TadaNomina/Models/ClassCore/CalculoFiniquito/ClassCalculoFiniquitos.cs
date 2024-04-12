@@ -245,8 +245,9 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 decimal Antiguedad = 0;
                 if (FechaIngreso != null)
                 {
+                    decimal diasAño = 365;
                     Decimal Dias = (FechaBaja.Subtract((DateTime)FechaIngreso).Days) + 1;
-                    Antiguedad = (Dias / 365);
+                    Antiguedad = (Dias / diasAño);
                 }
                 return Antiguedad;
             }
