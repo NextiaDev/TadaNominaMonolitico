@@ -150,7 +150,7 @@
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SAT.Services">
-      <HintPath>..\..\NubeHoy\LaNube\bin\SAT.Services.dll</HintPath>
+      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SAT.Services.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.5.10.4\lib\net45\ServiceStack.Text.dll</HintPath>
