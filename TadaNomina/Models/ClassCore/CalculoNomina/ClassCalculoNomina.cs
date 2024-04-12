@@ -239,6 +239,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }
 
                 //condigo para insertar incidencias que se calculan automaticamente
+                ConceptosFormulados(datosEmpleados, "IF");
                 ConceptosFormulados(datosEmpleados, "ER");
                 ProcesaIncidenciasMultiplicaDT();
                 nominaTrabajo.ER += montoIncidenciasMultiplicaDT;

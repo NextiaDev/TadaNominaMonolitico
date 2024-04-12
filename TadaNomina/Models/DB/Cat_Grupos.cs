@@ -16,9 +16,9 @@ namespace TadaNomina.Models.DB
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public int IdEstatus { get; set; }
-        public int IdCaptura { get; set; }
-        public System.DateTime FechaCaptura { get; set; }
+        public Nullable<int> IdEstatus { get; set; }
+        public Nullable<int> IdCaptura { get; set; }
+        public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
     }

@@ -64,5 +64,7 @@ namespace TadaNomina.Models.DB
         public string ConceptoArt93Fraclll { get; set; }
         public Nullable<int> IdConceptoSubsidioIncapacidad { get; set; }
         public Nullable<int> idConceptoSeptimoDia { get; set; }
+        public Nullable<int> IdConceptoDiasDevengadosFiniquitos { get; set; }
+        public string ClaveConceptoDiasDevengadosFiniquitos { get; set; }
     }
 }

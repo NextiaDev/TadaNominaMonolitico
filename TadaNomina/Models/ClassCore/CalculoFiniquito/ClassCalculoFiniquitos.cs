@@ -47,6 +47,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             {
                 nominaTrabajo = new NominaTrabajo();
                 IdEmpleado = item.IdEmpleado;
+                IdEntidadFederativa = item.IdEntidad;
                 IdPrestacionesEmpleado = item.IdPrestaciones;
                 SDI = GetSD(item.SDI);
                 SD_IMSS = GetSD(item.SDIMSS);
@@ -127,13 +128,18 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             nominaTrabajo.ER = (decimal)nominaTrabajo.SueldoPagado;
             nominaTrabajo.ER += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaT.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.Monto).Sum();
 
-            CalculaBaseGravadaLiquidacion();            
-            CalculaISR();
+            CalculaBaseGravadaLiquidacion();
+
+            if (UnidadNegocio.ISRProyeccionMensual == "S" && conceptosFiniquitos.IdConceptoDiasDevengadosFiniquitos != null && conceptosFiniquitos.IdConceptoDiasDevengadosFiniquitos != 0)
+                CalculaISRComplementoProyMensualFin();
+            else
+                CalculaISR();
+
             Calcula_Cuotas_Obreras(null);
 
 
-            nominaTrabajo.ER += nominaTrabajo.SubsidioPagar;
-            nominaTrabajo.ER += nominaTrabajo.ReintegroISR;
+            nominaTrabajo.ER += nominaTrabajo.SubsidioPagar ?? 0;
+            nominaTrabajo.ER += nominaTrabajo.ReintegroISR ?? 0;
 
             CalculaISN();
 
@@ -611,20 +617,29 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
         /// </summary>
         public new void CalculaISN()
         {
-            decimal porcentaje = 0;
-            decimal incidenciasNOISN = 0;
-            try { porcentaje = (decimal)listEntidades.Where(x => x.Id == (int)IdEntidadFederativa).Select(x => x.ISN).First() * 0.01M; } catch { }
-            if (porcentaje == 0) { try { porcentaje = (decimal)UnidadNegocio.PorcentajeISN * 0.01M; } catch { porcentaje = 0; } }
-
-            var reintISR = nominaTrabajo.ReintegroISR ?? 0;
-            incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
-            decimal totalPercepcionesSinSubsidio = (decimal)(nominaTrabajo.ER - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
-            nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje; 
-
-            if (Periodo.TipoNomina == "PTU")
+            try
             {
-                nominaTrabajo.ISN = 0;
+                decimal porcentaje = 0;
+                decimal incidenciasNOISN = 0;
+                int _IdEntidad = IdEntidadFederativa ?? throw new Exception("No se definio la entidad federativa del empleado.");
+                try { porcentaje = (decimal)listEntidades.Where(x => x.Id == _IdEntidad).Select(x => x.ISN).First() * 0.01M; } catch { }
+                if (porcentaje == 0) { try { porcentaje = (decimal)UnidadNegocio.PorcentajeISN * 0.01M; } catch { porcentaje = 0; } }
+
+                var reintISR = nominaTrabajo.ReintegroISR ?? 0;
+                incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
+                decimal totalPercepcionesSinSubsidio = (decimal)((nominaTrabajo.ER ?? 0) - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
+                nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje;
+
+                if (Periodo.TipoNomina == "PTU")
+                {
+                    nominaTrabajo.ISN = 0;
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception("No se pudo calcular el ISN." + ex.Message);
+            }
+            
         }
 
         /// <summary>

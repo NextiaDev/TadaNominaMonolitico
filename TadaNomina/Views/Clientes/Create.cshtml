@@ -74,10 +74,10 @@
                         <div class="col-md-4">
                             <input type="date" name="FechaInicioProduccion" class="form-control" />
                         </div>
-                        <label class="control-label col-md-2">PAC</label>
+                        @*<label class="control-label col-md-2">PAC</label>
                         <div class="col-md-4">
                             @Html.DropDownListFor(model => model.IdPAC, Model.selectPAC, htmlAttributes: new { @class = "form-control" })
-                        </div>
+                        </div>*@
                     </div>
 
                     @if (Session["sTipoUsuario"] != null)

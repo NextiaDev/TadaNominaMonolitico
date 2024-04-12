@@ -74,10 +74,10 @@
                             @*<input type="date" name="FechaInicioProduccion" class="form-control" />*@
                             @Html.TextBoxFor(model => model.FechaInicioProduccion, htmlAttributes: new {@class="form-control", @type = "date", @value = $"{Convert.ToDateTime(Model.FechaInicioProduccion).ToString("yyyy-MM-dd")}" })
                         </div>
-                        <label class="control-label col-md-2">PAC</label>
+                        @*<label class="control-label col-md-2">PAC</label>
                         <div class="col-md-4">
                             @Html.DropDownListFor(model => model.IdPAC, Model.selectPAC, htmlAttributes: new { @class = "form-control" })
-                        </div>
+                        </div>*@
                     </div>
                 </div>
                 <br />

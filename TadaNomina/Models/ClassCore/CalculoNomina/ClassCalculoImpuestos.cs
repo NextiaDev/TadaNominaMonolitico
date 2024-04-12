@@ -129,34 +129,39 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
         }
 
-        public decimal CalculaISRComplementoProyMensual(decimal BaseGravada, DateTime FechaFin)
+        public void CalculaISRComplementoProyMensualFin()
         {
             try
-            { 
-                if (BaseGravada > 0)
-                {
-                    var sueldoMensualFactor = SD_IMSS * (UnidadNegocio.FactorDiasMesISR ?? 0);
-                    var sueldoMensual30 = SD_IMSS * 30;
-                    var ISR_SueldoBruto = CalculaISR((decimal)sueldoMensualFactor, Periodo.FechaFin, "05", false);
-                    var ISRDiasLaborados = (ISR_SueldoBruto / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;
-                    var importeComplemento = BaseGravada;
-                    var sueldoMensual30MasBrutoComplemento = sueldoMensual30 + importeComplemento;
-                    var sueldoMensual30MasBrutoComplementoFator = (sueldoMensual30MasBrutoComplemento / 30) * (UnidadNegocio.FactorDiasMesISR ?? 0);
-                    var ISRTotalFactor = CalculaISR(sueldoMensual30MasBrutoComplementoFator, Periodo.FechaFin, "05", false);
-                    var ISRTotal30 = (ISRTotalFactor / (UnidadNegocio.FactorDiasMesISR ?? 1)) * 30;
-                    var IsrRet = Math.Round(ISRTotal30 - ISRDiasLaborados, 2);
+            {
+                nominaTrabajo.Subsidio = 0;
+                nominaTrabajo.SubsidioPagar = 0;
+                nominaTrabajo.BaseGravada = 0;
+                nominaTrabajo.ReintegroISR = 0;
+                nominaTrabajo.BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI" && x.ClaveGpo != "003").Select(x => x.Gravado).Sum();
+                nominaTrabajo.BaseGravada += nominaTrabajo.SueldoPagado;
 
-                    return IsrRet;                    
+                if (nominaTrabajo.BaseGravada > 0)
+                {
+                    var IdConceptoDiasDevengados = conceptosFiniquitos.IdConceptoDiasDevengadosFiniquitos;
+                    var DiasDevengados = incidenciasEmpleado.Where(x => x.TipoConcepto == "IF" && x.IdConcepto == IdConceptoDiasDevengados).Select(x => x.Cantidad).Sum() ?? 1;
+                    DiasDevengados = DiasDevengados == 0 ? 1 : DiasDevengados;
+                    decimal _baseGrav = ((decimal)nominaTrabajo.BaseGravada / DiasDevengados) * (decimal)UnidadNegocio.FactorDiasMesISR;
+                    var ISRCausado = CalculaISR(_baseGrav, Periodo.FechaFin, "05", false);
+                    var Isr = (ISRCausado / (UnidadNegocio.FactorDiasMesISR ?? 1)) * DiasDevengados;
+
+                    nominaTrabajo.ISR = Isr;
+                    nominaTrabajo.ImpuestoRetener = Isr;
                 }
                 else
                 {
-                    return 0;
+                    nominaTrabajo.ISR = 0;
+                    nominaTrabajo.ImpuestoRetener = 0;
                 }
             }
             catch (Exception ex)
             {
 
-                throw new Exception("Error al calcular el ISR L174 del empleado: " + IdEmpleado + " - " + ClaveEmpleado + ", ex: " + ex.Message);
+                throw new Exception("Error al calcular el ISR del empleado: " + IdEmpleado + " - " + ClaveEmpleado + ", ex: " + ex.Message);
             }
         }
 

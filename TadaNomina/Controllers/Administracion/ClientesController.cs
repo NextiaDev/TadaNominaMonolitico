@@ -65,6 +65,7 @@ namespace TadaNomina.Controllers.Administracion
                 {
                     var clsClientes = new sClientes();
                     string token = Session["sToken"].ToString();
+                    collection.IdPAC = 1;
                     clsClientes.AddCliente(collection, token, Usuario);
                     return RedirectToAction("Index");
                 }
@@ -107,6 +108,7 @@ namespace TadaNomina.Controllers.Administracion
                 {
                     var clsClientes = new sClientes();                    
                     string token = Session["sToken"].ToString();
+                    collection.IdPAC = 1;
                     clsClientes.UpdateCliente(collection, token);
                     return RedirectToAction("Index");
                 }
