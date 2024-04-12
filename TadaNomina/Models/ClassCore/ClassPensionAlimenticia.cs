@@ -106,6 +106,11 @@ namespace TadaNomina.Models.ClassCore
             var x = getPension(IdPensionAlimenticia);
             var mPension = new ModelPensionAlimenticia();
 
+            if (x.idBasePension == null)
+            {
+                x.idBasePension = 0;
+            }
+
             mPension.IdPensionAlimenticia = x.IdPensionAlimenticia;
             mPension.IdEmpleado = x.IdEmpleado;
             mPension.ClaveEmp = x.ClaveEmpleado;
@@ -117,7 +122,7 @@ namespace TadaNomina.Models.ClassCore
             mPension.IdEstatus = x.IdEstatus;
             if (x.IdEstatus == 1) { mPension.Estatus = true; } else { mPension.Estatus = false; }
             mPension.fechaCaptura = x.FechaCaptura;
-
+            mPension.BaseCalculo = (int)x.idBasePension;
             return mPension;
         }
 
@@ -155,6 +160,23 @@ namespace TadaNomina.Models.ClassCore
             return list;
         }
 
+        public List<SelectListItem> getBase(int idcliente)
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Value = "0", Text = "Elegir... " });
+
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var pensiones = (from b in entidad.BasePensionAlimenticia.Where(x => x.idCliente == idcliente && x.IdEstatus == 1) select b).ToList();
+
+                pensiones.ForEach(x => list.Add(new SelectListItem { Text = x.Nombre, Value = x.IdBasePensionAlimenticia.ToString() }));
+
+
+            }
+
+            return list;
+        }
+
         /// <summary>
         /// Método para agregar un empleado que va a dar pensión alimenticia.
         /// </summary>
@@ -172,6 +194,7 @@ namespace TadaNomina.Models.ClassCore
                 ci.NombreBeneficiario = inf.NombreBeneficiario;
                 ci.IdEstatus = 1;
                 ci.IdCaptura = IdUsuario;
+                ci.idBasePension = inf.BaseCalculo;
                 ci.FechaCaptura = DateTime.Now;
 
                 entidad.PensionAlimenticia.Add(ci);
@@ -198,6 +221,7 @@ namespace TadaNomina.Models.ClassCore
                     pension.NombreBeneficiario = inf.NombreBeneficiario;
                     pension.IdModifica = IdUsuario;
                     pension.FechaModifica = DateTime.Now;
+                    pension.idBasePension = inf.BaseCalculo;
                 }
 
                 entidad.SaveChanges();

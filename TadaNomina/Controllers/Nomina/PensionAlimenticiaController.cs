@@ -130,10 +130,20 @@ namespace TadaNomina.Controllers.Nomina
 
         public ActionResult Create()
         {
-            ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
-            var model = new ModelPensionAlimenticia();
-            model.lTipo = ci.getTipos();
-            return View(model);
+            try
+            {
+                ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
+                var model = new ModelPensionAlimenticia();
+                model.lTipo = ci.getTipos();
+                model.lTipoBase = ci.getBase((int)Session["sIdCliente"]);
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public ActionResult Edit(int id)
@@ -141,6 +151,8 @@ namespace TadaNomina.Controllers.Nomina
             ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
             var model = ci.getModelPensionAlimenticiaId(id);
             model.lTipo = ci.getTipos();
+            model.lTipoBase = ci.getBase((int)Session["sIdCliente"]);
+
             return View(model);
         }
 
@@ -149,6 +161,8 @@ namespace TadaNomina.Controllers.Nomina
         {
             ClassPensionAlimenticia ci = new ClassPensionAlimenticia();
             model.lTipo = ci.getTipos();
+            model.lTipoBase = ci.getBase((int)Session["sIdCliente"]);
+
             int IdUsuario = (int)Session["sIdUsuario"];
 
             try
@@ -185,6 +199,7 @@ namespace TadaNomina.Controllers.Nomina
                 {
                     ci.editPension(model, IdUsuario);
                     model.lTipo = ci.getTipos();
+                    model.lTipoBase = ci.getBase((int)Session["sIdCliente"]);
                     model.Validacion = true;
                     model.Mensaje = "Se guardo correctamente la información de la pensión!";
                 }

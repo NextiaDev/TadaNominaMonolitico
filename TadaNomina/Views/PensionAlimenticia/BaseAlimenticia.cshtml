@@ -9,7 +9,7 @@
 
 <div id="page-head">
     <div id="page-title">
-        <h1 class="page-header text-overflow">Base Pension </h1>
+        <h1 class="page-header text-overflow">Base Pensión </h1>
     </div>
     <div id="rutaPrincipal"></div>
 </div>
@@ -23,6 +23,8 @@
 
         <div class="panel-body">
             @Html.ActionLink(" Crear Nuevo Base", "CreateBasePension", null, new { @class = "btn btn-info btn-sm" })
+            @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-info btn-sm" })
+
             <br />
             <br />
             <table id="demo-dt-selection" class="table table-striped table-hover" cellpadding="0" width="100%">
