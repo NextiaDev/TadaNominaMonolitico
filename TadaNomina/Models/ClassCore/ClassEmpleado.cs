@@ -2990,7 +2990,7 @@ namespace TadaNomina.Models.ClassCore
             List<vEmpleados> list = new List<vEmpleados>();
             using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
             {
-                list = ctx.vEmpleados.Where(p => IdsEmpleados.Contains(p.IdEmpleado) && p.IdUnidadNegocio == IdUnidadNegocio).ToList();
+                list = ctx.vEmpleados.Where(p => IdsEmpleados.Contains(p.IdEmpleado) && p.IdUnidadNegocio == IdUnidadNegocio ).ToList();
             }
             return list;
         }
