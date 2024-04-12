@@ -57,7 +57,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
             {
                 Nomina infoNomina = listadoNom.Where(p => p.IdEmpleado == item.IdEmpleado).First();
                 ModelBancomer model = new ModelBancomer();
-                if (item.CuentaInterbancariaTrad != null)
+                if (item.CuentaInterbancariaTrad != null || string.IsNullOrEmpty(item.CuentaInterbancariaTrad))
                 {
                     if (tipoNomina == "Finiquitos")
                     {

@@ -68,6 +68,10 @@ namespace TadaNomina.Models.ViewModels.Catalogos
         public int? IdConceptoArt93Fraclll { get; set; }
         public List<SelectListItem> lConceptoArt93Fraclll { get; set; }
 
+        [Display(Name = "Concepto Días Devengados Finiquitos:")]
+        public int? IdConceptoDiasDevengadosFiniquitos { get; set; }
+        public List<SelectListItem> lDiasDevengados { get; set; }
+
 
         public bool validacion { get; set; }
         public string Mensaje { get; set; }
