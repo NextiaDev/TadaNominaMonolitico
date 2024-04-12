@@ -115,7 +115,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                             {
                                 decimal? restaPension = incidenciasEmpleado.Where(x => x.IntegraPension == "NO").Select(x => x.Monto).Sum();
 
-                                ProcesaPension(pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - (nominaTrabajo.ImpuestoRetener ?? 0) - nominaTrabajo.IMSS_Obrero - restaPension), (decimal)nominaTrabajo.ERS, IdUsuario);
+                                ProcesaPension(incidenciasEmpleado, nominaTrabajo, item, pensionAlimenticia.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdPeriodoNomina, (decimal)(nominaTrabajo.ER - (nominaTrabajo.ImpuestoRetener ?? 0) - nominaTrabajo.IMSS_Obrero - restaPension), (decimal)nominaTrabajo.ERS, IdUsuario, UnidadNegocio.IdCliente);
                                 ProcesaSaldos(saldos.Where(x => x.IdEmpleado == IdEmpleado).ToList(), IdEmpleado, IdPeriodoNomina, IdUsuario);
                             }
                         }
@@ -239,6 +239,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 }
 
                 //condigo para insertar incidencias que se calculan automaticamente
+                ConceptosFormulados(datosEmpleados, "IF");
                 ConceptosFormulados(datosEmpleados, "ER");
                 ProcesaIncidenciasMultiplicaDT();
                 nominaTrabajo.ER += montoIncidenciasMultiplicaDT;

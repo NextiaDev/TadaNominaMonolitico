@@ -205,7 +205,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var departaments = (from b in entity.Cat_Departamentos where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Departamento).ToList();
 
-                departaments.ForEach(x => { departamentos.Add(new SelectListItem { Text = x.Departamento.ToUpper(), Value = x.IdDepartamento.ToString() }); });
+                departaments.ForEach(x => { departamentos.Add(new SelectListItem { Text = (x.Departamento ?? "").ToUpper(), Value = x.IdDepartamento.ToString() }); });
             }
 
             return departamentos;
@@ -273,7 +273,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var p = (from b in entity.Cat_Puestos where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Puesto).ToList();
 
-                p.ForEach(x => { Puestos.Add(new SelectListItem { Text = x.Puesto.ToUpper(), Value = x.IdPuesto.ToString() }); });
+                p.ForEach(x => { Puestos.Add(new SelectListItem { Text = (x.Puesto ?? "").ToUpper(), Value = x.IdPuesto.ToString() }); });
             }
 
             return Puestos;
@@ -325,7 +325,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var p = (from b in entity.Cat_Sucursales where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Sucursal).ToList();
 
-                p.ForEach(x => { sucursales.Add(new SelectListItem { Text = x.Sucursal.ToUpper(), Value = x.IdSucursal.ToString() }); });
+                p.ForEach(x => { sucursales.Add(new SelectListItem { Text = (x.Sucursal ?? "").ToUpper(), Value = x.IdSucursal.ToString() }); });
             }
 
             return sucursales;
@@ -376,7 +376,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var cc = (from b in entity.Cat_CentroCostos where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.CentroCostos).ToList();
 
-                cc.ForEach(x => { CentrosCostos.Add(new SelectListItem { Text = x.CentroCostos.ToUpper(), Value = x.IdCentroCostos.ToString() }); });
+                cc.ForEach(x => { CentrosCostos.Add(new SelectListItem { Text = (x.CentroCostos ?? "").ToUpper(), Value = x.IdCentroCostos.ToString() }); });
             }
 
             return CentrosCostos;
@@ -460,7 +460,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var ef = (from b in entity.Cat_Areas where b.IdCliente == idCliente && b.IdEstatus == 1 select b).ToList();
 
-                ef.ForEach(x => { Area.Add(new SelectListItem { Text = x.Area.ToUpper(), Value = x.IdArea.ToString() }); });
+                ef.ForEach(x => { Area.Add(new SelectListItem { Text = (x.Area ?? "").ToUpper(), Value = x.IdArea.ToString() }); });
             }
 
             return Area;
@@ -510,7 +510,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var ef = (from b in entity.Sindicatos select b).ToList();
 
-                ef.ForEach(x => { sindi.Add(new SelectListItem { Text = x.NombreCorto.ToUpper(), Value = x.IdSindicato.ToString() }); });
+                ef.ForEach(x => { sindi.Add(new SelectListItem { Text = (x.NombreCorto ?? "").ToUpper(), Value = x.IdSindicato.ToString() }); });
             }
 
             return sindi;
@@ -546,10 +546,10 @@ namespace TadaNomina.Models.ClassCore
             using (TadaEmpleados entity = new TadaEmpleados())
             {
                 var rp = (from b in entity.Cat_RegistroPatronal where b.IdCliente == idCliente select b).ToList();
-                rp.ForEach(x => { RegistrosPatronales.Add(new SelectListItem { Text = x.NombrePatrona.ToUpper() + " - " + x.RegistroPatronal.ToUpper(), Value = x.IdRegistroPatronal.ToString() }); });
+                rp.ForEach(x => { RegistrosPatronales.Add(new SelectListItem { Text = (x.NombrePatrona ?? "").ToUpper() + " - " + (x.RegistroPatronal ?? "").ToUpper(), Value = x.IdRegistroPatronal.ToString() }); });
 
                 var es = (from b in entity.vClienteEmpresaEspecializada where b.IdCliente == idCliente select b).ToList();
-                es.ForEach(x => { RegistrosPatronales.Add(new SelectListItem { Text = x.NombrePatrona.ToUpper() + " - " + x.RegistroPatronal.ToUpper(), Value = x.IdRegistroPatronal.ToString() }); });
+                es.ForEach(x => { RegistrosPatronales.Add(new SelectListItem { Text = (x.NombrePatrona ?? "").ToUpper() + " - " + (x.RegistroPatronal ?? "").ToUpper(), Value = x.IdRegistroPatronal.ToString() }); });
             }
 
             return RegistrosPatronales;
@@ -567,7 +567,7 @@ namespace TadaNomina.Models.ClassCore
             using (TadaEmpleados entity = new TadaEmpleados())
             {
                 var pres = (from b in entity.Prestaciones.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b).ToList();
-                pres.ForEach(x => { Prestaciones.Add(new SelectListItem { Text = x.Descripcion.ToUpper(), Value = x.IdPrestaciones.ToString() }); });
+                pres.ForEach(x => { Prestaciones.Add(new SelectListItem { Text = (x.Descripcion ?? "").ToUpper(), Value = x.IdPrestaciones.ToString() }); });
             }
 
             return Prestaciones;
@@ -622,7 +622,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var Areas = (from b in entity.Cat_Areas where b.IdCliente == idCliente && b.IdEstatus == 1 select b).OrderBy(x => x.Area).ToList();
 
-                Areas.ForEach(x => { Are.Add(new SelectListItem { Text = x.Area.ToUpper(), Value = x.IdArea.ToString() }); });
+                Areas.ForEach(x => { Are.Add(new SelectListItem { Text = (x.Area ?? "").ToUpper(), Value = x.IdArea.ToString() }); });
             }
 
             return Are;
@@ -641,7 +641,7 @@ namespace TadaNomina.Models.ClassCore
             {
                 var Areas = (from b in entity.Sindicatos where b.IdEstatus == 1 select b).OrderBy(x => x.NombreCorto).ToList();
 
-                Areas.ForEach(x => { Sindicatos.Add(new SelectListItem { Text = x.NombreCorto.ToUpper() + " " + "Grupo" + x.Grupo, Value = x.IdSindicato.ToString() }); });
+                Areas.ForEach(x => { Sindicatos.Add(new SelectListItem { Text = (x.NombreCorto ?? "").ToUpper() + " " + "Grupo" + x.Grupo, Value = x.IdSindicato.ToString() }); });
             }
 
             return Sindicatos;
@@ -2990,7 +2990,7 @@ namespace TadaNomina.Models.ClassCore
             List<vEmpleados> list = new List<vEmpleados>();
             using (TadaEmpleadosEntities ctx = new TadaEmpleadosEntities())
             {
-                list = ctx.vEmpleados.Where(p => IdsEmpleados.Contains(p.IdEmpleado) && p.IdUnidadNegocio == IdUnidadNegocio).ToList();
+                list = ctx.vEmpleados.Where(p => IdsEmpleados.Contains(p.IdEmpleado) && p.IdUnidadNegocio == IdUnidadNegocio ).ToList();
             }
             return list;
         }

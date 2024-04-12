@@ -220,7 +220,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                             Cat_Bancos claveBanco = cb.GetDatosBanco(int.Parse(item3.IdBancoTrad.ToString()));
                             string textoempleado2 = string.Empty;
                             var InfoEmpleado = GetInfoEmpleado(item3.IdEmpleado);
-                            if (InfoEmpleado.CuentaInterbancariaTrad != null)
+                            if (InfoEmpleado.CuentaInterbancariaTrad != null || string.IsNullOrEmpty(InfoEmpleado.CuentaInterbancariaTrad))
                             {
                                 registro++;
                                 textoempleado2 += "2";
