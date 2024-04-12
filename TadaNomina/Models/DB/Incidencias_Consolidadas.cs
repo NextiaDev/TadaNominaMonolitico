@@ -37,6 +37,11 @@ namespace TadaNomina.Models.DB
         public Nullable<int> BanderaInfonavit { get; set; }
         public Nullable<int> BanderaFonacot { get; set; }
         public Nullable<int> BanderaPensionAlimenticia { get; set; }
+        public Nullable<int> IdEstatus { get; set; }
+        public Nullable<int> IdCaptura { get; set; }
+        public Nullable<System.DateTime> FechaCaptura { get; set; }
+        public Nullable<int> IdModifica { get; set; }
+        public Nullable<System.DateTime> FechaModifica { get; set; }
         public Nullable<int> BanderaChecadores { get; set; }
         public Nullable<int> BanderaVacaciones { get; set; }
         public Nullable<int> BanderaAdelantoPULPI { get; set; }
@@ -45,12 +50,8 @@ namespace TadaNomina.Models.DB
         public Nullable<int> BanderaBallistic { get; set; }
         public Nullable<int> BanderaSaldos { get; set; }
         public Nullable<int> BanderaCompensaciones { get; set; }
-        public Nullable<int> IdEstatus { get; set; }
-        public Nullable<int> IdCaptura { get; set; }
-        public Nullable<System.DateTime> FechaCaptura { get; set; }
-        public Nullable<int> IdModifica { get; set; }
-        public Nullable<System.DateTime> FechaModifica { get; set; }
         public string Origen { get; set; }
         public Nullable<int> BanderaIncidencia { get; set; }
+        public string FormulaEjecutada { get; set; }
     }
 }
