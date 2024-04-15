@@ -25,6 +25,7 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                                    && rp.Contains(a.RegistroPatronal)
                                   select new
                                   {
+                                      RegistroPatronal = a.RegistroPatronal,
                                       Lote = a.Lote,
                                       NombrePatrona = a.NombrePatrona,
                                       ActividadEconomica = a.ActividadEconomica,
@@ -40,6 +41,7 @@ namespace TadaNomina.Models.ClassCore.MovimientosIMSS
                 query.ForEach(p =>
                 {
                     mMovimientosAfiliatorios mma = new mMovimientosAfiliatorios();
+                    mma.IdRegistroPatronal = GetIdRP(p.RegistroPatronal);
                     mma.Lote = p.Lote.ToString();
                     mma.NombrePatrona = p.NombrePatrona;
                     mma.ActividadEconomica = p.ActividadEconomica;

@@ -314,7 +314,7 @@ namespace TadaNomina.Models.ClassCore
                 model.Neto = string.Format("{0:C2}", nom.Neto);
                 model.NetoS = string.Format("{0:C2}", nom.Netos);
                 model.NetoR = string.Format("{0:C2}", (nom.Netos + nom.Neto));
-                model.TotalRecibir = string.Format("{0:C2}", nom.Neto ?? 0 + nom.Netos ?? 0); 
+                model.TotalRecibir = string.Format("{0:C2}", (nom.Neto ?? 0) + (nom.Netos ?? 0)); 
 
                 try { model.ReciboTradicional.DiasLaborados = (decimal)nom.DiasTrabajados; } catch { model.ReciboTradicional.DiasLaborados = 0; }
                 try { model.ReciboTradicional.DiasVacaciones = (decimal)nom.Dias_Vacaciones; } catch { model.ReciboTradicional.DiasVacaciones = 0; }
