@@ -265,8 +265,14 @@ namespace TadaNomina.Models.ClassCore
             {
                 case "VSM":
                     //montoCredito = Math.Round(((((((decimal)credito.CantidadUnidad * UMI) * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
-                    descuentoBimestral = ((decimal)credito.CantidadUnidad * (decimal)UMI * 2) + 15;
-                    montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
+                    var cat_UN = GetUnidadNegocio(IdUnidadNegocio);
+                    if (cat_UN == "SI")
+                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad * (decimal)UMI, TipoNomina);
+                    else
+                    {
+                        descuentoBimestral = ((decimal)credito.CantidadUnidad * (decimal)UMI * 2) + 15;
+                        montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
+                    }
                     break;
                 case "Couta Fija":
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
@@ -473,7 +479,7 @@ namespace TadaNomina.Models.ClassCore
             int mes = ffPeriodo.Month;
             int anio = ffPeriodo.Year;
 
-            if(anio % 4 == 0 && mes == 2)
+            if(anio % 4 == 0 && (mes == 2 || mes == 1))
                 diasNaturales ++;
 
             res = (CantidadUnidad * 2 + 15)/diasNaturales * CalculaDiasPeriodo(tipoNomina, ffPeriodo);
