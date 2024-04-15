@@ -88,7 +88,7 @@ namespace TadaNomina.Models.ClassCore
             string Formula = string.Empty;
 
 
-            if (pension.idBasePension != null || string.IsNullOrEmpty(pension.idBasePension.ToString()))
+            if (pension.idBasePension != null && pension.idBasePension < 0)
             {
 
                 montoPension = 0;
