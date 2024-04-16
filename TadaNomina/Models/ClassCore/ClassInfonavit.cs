@@ -98,6 +98,7 @@ namespace TadaNomina.Models.ClassCore
             mCreditos.IdEstatus = x.IdEstatus;
             if (x.IdEstatus == 1) { mCreditos.Estatus = true; } else { mCreditos.Estatus = false; }
             mCreditos.fechaCaptura = x.FechaCaptura;
+            mCreditos.BanderaSeguroVivienda = x.BanderaSeguroVivienda == "NO" ? true : false;
 
             return mCreditos;
         }
@@ -160,6 +161,7 @@ namespace TadaNomina.Models.ClassCore
                 ci.Tipo = inf.Tipo;
                 ci.CantidadUnidad = inf.CantidadUnidad;
                 ci.PorcentajeTradicional = 100;  // valor por default
+                ci.BanderaSeguroVivienda = inf.BanderaSeguroVivienda == true ? "NO" : "SI";
                 ci.IdEstatus = 1;
                 ci.IdCaptura = IdUsuario;
                 ci.FechaCaptura = DateTime.Now;
@@ -219,7 +221,7 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdCreditoInfonavit">Identificador del credito</param>
         /// <param name="IdUsuario">Identificador del usuario</param>
         /// <param name="porcentaje">Nuevo porcentaje</param>
-        public void UpdatePorcentaje(int IdCreditoInfonavit, int IdUsuario, decimal porcentaje, decimal? cantidadUnidad)
+        public void UpdatePorcentaje(int IdCreditoInfonavit, int IdUsuario, decimal porcentaje, decimal? cantidadUnidad, bool banderaSeguroVivienda)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
@@ -232,6 +234,7 @@ namespace TadaNomina.Models.ClassCore
                     if(cantidadUnidad != null && cantidadUnidad > 0)
                         credito.CantidadUnidad = cantidadUnidad;
 
+                    credito.BanderaSeguroVivienda = banderaSeguroVivienda == true ? "NO" : "SI";
                     credito.IdModifica = IdUsuario;
                     credito.FechaModifica = DateTime.Now;
 
@@ -260,6 +263,10 @@ namespace TadaNomina.Models.ClassCore
 
             var ins = new Incidencias();
 
+            //En caso de que la bandera de seuro de vivienda sea "SI" se agregarán los 15 pesos
+            decimal seguroVivienda = 0;
+            seguroVivienda = credito.BanderaSeguroVivienda == "NO" ? 0 : 15;
+
             montoCredito = 0;
             switch (credito.Tipo)
             {
@@ -267,10 +274,10 @@ namespace TadaNomina.Models.ClassCore
                     //montoCredito = Math.Round(((((((decimal)credito.CantidadUnidad * UMI) * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
                     var cat_UN = GetUnidadNegocio(IdUnidadNegocio);
                     if (cat_UN == "SI")
-                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad * (decimal)UMI, TipoNomina);
+                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad * (decimal)UMI, TipoNomina, seguroVivienda);
                     else
                     {
-                        descuentoBimestral = ((decimal)credito.CantidadUnidad * (decimal)UMI * 2) + 15;
+                        descuentoBimestral = ((decimal)credito.CantidadUnidad * (decimal)UMI * 2) + seguroVivienda;
                         montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
                     }
                     break;
@@ -278,10 +285,10 @@ namespace TadaNomina.Models.ClassCore
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
                     var UN = GetUnidadNegocio(IdUnidadNegocio);
                     if (UN == "SI")
-                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad, TipoNomina);
+                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad, TipoNomina, seguroVivienda);
                     else
                     {
-                        descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + 15;
+                        descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + seguroVivienda;
                         montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
                     }
                         
@@ -290,10 +297,10 @@ namespace TadaNomina.Models.ClassCore
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * 2) + 15) * 6.25M) / 365) * diasPeriodo, 2);
                     var UNI = GetUnidadNegocio(IdUnidadNegocio);
                     if (UNI == "SI")
-                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad, TipoNomina);
+                        montoCredito = CalculaDescuentoINFONAVITDiasNaturales(ffPeriodo, (decimal)credito.CantidadUnidad, TipoNomina, seguroVivienda);
                     else
                     {
-                        descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + 15;
+                        descuentoBimestral = ((decimal)credito.CantidadUnidad * 2) + seguroVivienda;
                         montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
                     }
 
@@ -301,7 +308,7 @@ namespace TadaNomina.Models.ClassCore
                 case "Porcentaje":
                     //montoCredito = Math.Round((((((decimal)credito.CantidadUnidad * (decimal)credito.SDI) * 365.25M) + 93.75M) / 365) * diasPeriodo, 2);
                     DiasBimestre = ObtenDiasBimestre(ffPeriodo);
-                    descuentoBimestral = ((decimal)credito.CantidadUnidad * DiasBimestre * SDI) + 15;
+                    descuentoBimestral = ((decimal)credito.CantidadUnidad * DiasBimestre * SDI) + seguroVivienda;
                     montoCredito = CalculaDescuentoPorPeriodo(descuentoBimestral, TipoNomina);
                     break;
                 default:
@@ -469,7 +476,7 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="ffPeriodo">Fecha final del periodo</param>
         /// <returns>Monto a descontar en el periodo</returns>
-        public decimal CalculaDescuentoINFONAVITDiasNaturales(DateTime ffPeriodo, decimal CantidadUnidad, string tipoNomina)
+        public decimal CalculaDescuentoINFONAVITDiasNaturales(DateTime ffPeriodo, decimal CantidadUnidad, string tipoNomina, decimal seguroVivienda)
         {
             decimal res = 0;
             int diasNaturales = 0;
@@ -482,7 +489,7 @@ namespace TadaNomina.Models.ClassCore
             if(anio % 4 == 0 && (mes == 2 || mes == 1))
                 diasNaturales ++;
 
-            res = (CantidadUnidad * 2 + 15)/diasNaturales * CalculaDiasPeriodo(tipoNomina, ffPeriodo);
+            res = (CantidadUnidad * 2 + seguroVivienda)/diasNaturales * CalculaDiasPeriodo(tipoNomina, ffPeriodo);
             
             return res;
         }
