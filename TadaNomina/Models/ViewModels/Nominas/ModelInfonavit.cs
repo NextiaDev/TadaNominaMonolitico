@@ -36,5 +36,8 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public decimal PorcentajeTradicional { get; set; }
         public bool Validacion { get; set; }
         public string Mensaje { get; set; }
+
+        [Display(Name = "¿No cobrar el Seguro Vivienda?")]
+        public bool BanderaSeguroVivienda { get; set; }
     }
 }
