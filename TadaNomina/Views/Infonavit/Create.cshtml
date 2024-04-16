@@ -82,13 +82,18 @@
                                     @Html.ValidationMessageFor(model => model.NoCredito, "", new { @class = "text-danger" })
                                 </div>
 
-                                @*@Html.LabelFor(model => model.Estatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.BanderaSeguroVivienda, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-4">
-                                    <div class="checkbox">
-                                        @Html.EditorFor(model => model.Estatus)
-                                        @Html.ValidationMessageFor(model => model.Estatus, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
+                                    @Html.CheckBoxFor(model => model.BanderaSeguroVivienda, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.BanderaSeguroVivienda, "", new { @class = "text-danger" })
+                                </div>
+                                @*@Html.LabelFor(model => model.Estatus, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Estatus)
+                @Html.ValidationMessageFor(model => model.Estatus, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
                             </div>
                         </div>
                         <br />
