@@ -137,7 +137,6 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
 
             Calcula_Cuotas_Obreras(null);
 
-
             nominaTrabajo.ER += nominaTrabajo.SubsidioPagar ?? 0;
             nominaTrabajo.ER += nominaTrabajo.ReintegroISR ?? 0;
 

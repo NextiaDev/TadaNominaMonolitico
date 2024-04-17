@@ -95,10 +95,12 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
         /// <param name="MotivoCancelacion">Motivo por el cual se cancela el CFDI.</param>
         public void Cancelar40(Guid id, int IdUsuario, vTimbradoNomina item, string MotivoCancelacion)
         {
-            creaPfx(item.rutaCer, item.rutaKey, item.KeyPass.Trim(), item.PFXCancelacionTimbrado);
-            var rutabytesPfx = item.PFXCancelacionTimbrado;
-            var bytesPfx = File.ReadAllBytes(rutabytesPfx);
-            var respuesta = CancelarTimbrado40(item.RFC_Patronal, item.FolioUDDI, bytesPfx, item.KeyPass);
+            //creaPfx(item.rutaCer, item.rutaKey, item.KeyPass.Trim(), item.PFXCancelacionTimbrado);
+            //var rutabytesPfx = item.PFXCancelacionTimbrado;
+            //var bytesPfx = File.ReadAllBytes(rutabytesPfx);
+            var bytesCer = File.ReadAllBytes(item.rutaCer);
+            var bytesKey = File.ReadAllBytes(item.rutaKey);
+            var respuesta = CancelarTimbrado40(item.RFC_Patronal, item.FolioUDDI, bytesCer, bytesKey, item.KeyPass);
             
             var _codigoRespuesta = respuesta.Code;
             item.keyRespuesta = respuesta.Message;
@@ -172,6 +174,15 @@ namespace TadaNomina.Models.ClassCore.TimbradoTP.CFDI40
             ServiceReferenceTPCancelado31082023.Cancela4Client serviceCancel = new ServiceReferenceTPCancelado31082023.Cancela4Client();
 
             var response = serviceCancel.SolicitudCancelacion_02(rfc_Emisor, UUID, string.Empty, pfx, pass);
+
+            return response;
+        }
+        
+        public ServiceReferenceTPCancelacionSinPfx.ResponseCancel CancelarTimbrado40(string rfc_Emisor, string UUID, byte[] cer, byte[] key, string pass)
+        {
+            ServiceReferenceTPCancelacionSinPfx.CancelaCertClient serviceCancel = new ServiceReferenceTPCancelacionSinPfx.CancelaCertClient();
+
+            var response = serviceCancel.SolicitudCancelacion_02(rfc_Emisor, UUID, string.Empty, cer, key, pass);
 
             return response;
         }
