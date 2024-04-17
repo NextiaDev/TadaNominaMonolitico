@@ -51,6 +51,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtBanamex(int IdPeriodoNomina, int IdUnidadNegocio, string NumCliente, string ClvSucursal, string RefNum, string RefAlfaNum, string NombreEmpresa)
         {
+            Otros ot = new Otros();
+
             var listado = GetListaBanamex(IdPeriodoNomina, IdUnidadNegocio);
             var cuentaCargo = GetCuentaDispersion(listado[0].IdRegistroPatronal);
 
@@ -76,6 +78,9 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                 string tipotransf = item.IdBancoEmpleado == 1 ? "03" : "40";
                 string valAlfa = item.IdBancoEmpleado == 1 ? RefAlfaNum : "";
                 linea++;
+                item.Nombre = ot.RemueveAcentos(item.Nombre);
+                item.ApellidoPaterno = ot.RemueveAcentos(item.ApellidoPaterno);
+                item.ApellidoMaterno = ot.RemueveAcentos(item.ApellidoMaterno);
                 textoEmpleado2 = "3" + "0" + tipoDispersion + "01001" + RellenaCadenaCeros(item.NetoPagar, 19).Replace(".", "") + tipotransf + RellenaCadenaCeros(item.NumeroCuenta, 20).Replace(".", "") + RellenaCadenaCeros(RefNum, 7) + RellenaCadenaEspacios(valAlfa, 9) + RellenaCadenaEspacios(item.Nombre + "," + item.ApellidoPaterno + "/" + item.ApellidoMaterno, 195).Replace("Ñ", "@") + "0" + item.ClaveBanco + "00" + RellenaCadenaEspacios("", 152);
                 textoFinal += textoEmpleado2 + Environment.NewLine;
             }
