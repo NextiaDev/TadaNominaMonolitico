@@ -105,6 +105,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtBBVA(int IdPeriodoNomina, int IdUnidadNegocio)
         {
+            Otros ot = new Otros();
+
             var listado = GetListaBancomer(IdPeriodoNomina, IdUnidadNegocio);
             int registro = 0;
             string txtfinal = string.Empty;
@@ -118,6 +120,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                 textoempleado += ("99");
                 textoempleado += RellenaCadenaEspacios(item.NumeroCuenta, 20);
                 textoempleado += RellenaCadenaCeros(item.NetoPagar.Replace(".", ""), 15);
+                item.NombreCompleto =  ot.RemueveAcentos(item.NombreCompleto);
                 textoempleado += RellenaCadenaEspacios(item.NombreCompleto.Replace("Ñ", "N").Replace(".", " "), 40);
                 textoempleado += RellenaCadenaEspacios("012", 3);
                 textoempleado += RellenaCadenaEspacios("000", 3);
@@ -129,6 +132,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtBBVAInterbancario(int IdPeriodoNomina, int IdUnidadNegocio)
         {
+            Otros ot = new Otros();
+
             var listado = GetListaBancomerInterBancaria(IdPeriodoNomina, IdUnidadNegocio);
             string txtfinal = string.Empty;
             var cuentaDispersion = GetCuentaBancariaDispersion(listado[0].IdRegistroPatronal);
@@ -144,6 +149,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                 textoempleado += RellenaCadenaCeros(cuentaDispersion, 18);
                 textoempleado += ("MXP");
                 textoempleado += RellenaCadenaCeros(item.NetoPagar, 16);
+                item.NombreCompleto = ot.RemueveAcentos(item.NombreCompleto);
                 textoempleado += RellenaCadenaEspacios(item.NombreCompleto.Replace("Ñ", "N").Replace(".", " "), 28);
                 textoempleado += ("  40");
                 textoempleado += claveBanco.ClaveBanco;

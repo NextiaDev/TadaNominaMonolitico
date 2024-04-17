@@ -131,6 +131,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtSantander(int IdPeriodoNomina, int IdUnidadNegocio)
         {
+            Otros ot = new Otros();
+
             var listado = GetListaSantander(IdPeriodoNomina, IdUnidadNegocio);
             var cuentaCargo = GetCuentaBancariaDispersion(listado[0].IdRegistroPatronal);
 
@@ -144,6 +146,10 @@ namespace TadaNomina.Models.ClassCore.LayoutB
             foreach (var item in listado)
             {
                 registro++;
+                item.ApellidoPaterno = ot.RemueveAcentos(item.ApellidoPaterno);
+                item.ApellidoMaterno = ot.RemueveAcentos(item.ApellidoMaterno);
+                item.Nombre = ot.RemueveAcentos(item.Nombre);
+
                 textoempleado2 = "2" + RellenaCadenaCeros(registro.ToString(), 5) + RellenaCadenaEspacios("", 7) + RellenaCadenaEspacios(item.ApellidoPaterno.Replace("Ñ", "N"), 30) + RellenaCadenaEspacios(item.ApellidoMaterno.Replace("Ñ", "N"), 20) + RellenaCadenaEspacios(item.Nombre.Replace("Ñ", "N"), 30) + RellenaCadenaEspacios(item.NumeroCuenta, 16) + RellenaCadenaCeros(item.NetoPagar.ToString().Replace(".", ""), 18) + "01" + Environment.NewLine;
                 textoFinal += textoempleado2;
                 totalsalario = totalsalario + decimal.Parse(item.NetoPagar);
@@ -197,6 +203,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtSantanderInter(int IdPeriodoNomina, int IdUnidadNegocio)
         {
+            Otros ot = new Otros();
+
             ClassBancomer cb = new ClassBancomer();
             int registro = 1;
             string textoFinal = string.Empty;
@@ -225,6 +233,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                                 registro++;
                                 textoempleado2 += "2";
                                 textoempleado2 += RellenaCadenaCeros(registro.ToString(), 5);
+                                InfoEmpleado.NombreCompleto = ot.RemueveAcentos(InfoEmpleado.NombreCompleto);
                                 textoempleado2 += RellenaCadenaEspacios(InfoEmpleado.NombreCompleto.Replace("Ñ", "N"), 50);
                                 textoempleado2 += RellenaCadenaEspacios("40", 5);
                                 textoempleado2 += RellenaCadenaEspacios(InfoEmpleado.CuentaInterbancariaTrad, 20);
