@@ -67,11 +67,20 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                     {
                         model.NetoPagar = infoNomina.TotalEfectivo.ToString();
                     }
-                    model.NombreCompleto = item.NombreCompleto;
-                    model.NumeroCuenta = infoNomina.CuentaInterbancariaTrad;
-                    model.IdRegistroPatronal = (int)infoNomina.IdRegistroPatronal;
-                    model.ClaveBanco = (int)infoNomina.IdBancoTrad;
-                    listaBancomers.Add(model);
+                    try
+                    {
+                        try { model.NombreCompleto = item.NombreCompleto; }catch{ model.NombreCompleto = "SinNombre"; }
+                        try{model.NumeroCuenta = infoNomina.CuentaInterbancariaTrad;} catch { model.NumeroCuenta = "SinCuentaBancaria"; }
+                        try{model.IdRegistroPatronal = (int)item.IdRegistroPatronal;}catch { model.IdRegistroPatronal = 0; }
+                        try { model.ClaveBanco = (int)item.IdBancoTrad; } catch { model.ClaveBanco = 0; }
+                        listaBancomers.Add(model);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw;
+                    }
+                
                 }
             }
             return listaBancomers;
@@ -142,6 +151,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
             foreach (var item in listado)
             {
+
                 Cat_Bancos claveBanco = GetDatosBanco(item.ClaveBanco);
 
                 string textoempleado = string.Empty;
@@ -247,8 +257,17 @@ namespace TadaNomina.Models.ClassCore.LayoutB
             string cuentaDispersa = string.Empty;
             using (TadaNominaEntities ctx = new TadaNominaEntities())
             {
-                var query = ctx.Cat_RegistroPatronal.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).First();
-                cuentaDispersa = query.CuentaBancaria;
+                try
+                {
+                    var query = ctx.Cat_RegistroPatronal.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).First();
+                    cuentaDispersa = query.CuentaBancaria;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+        
             }
             return cuentaDispersa;
         }
