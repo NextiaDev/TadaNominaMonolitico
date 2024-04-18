@@ -2102,7 +2102,7 @@ namespace TadaNomina.Models.ClassCore
                 var ent = (from b in entidad.Cat_EntidadFederativa select b).ToList();
                 var are = (from b in entidad.Cat_Areas.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b).ToList();
                 var sin = (from b in entidad.Sindicatos.Where(x => x.IdEstatus == 1) select b).ToList();
-                var jor = (from b in entidad.Cat_Jornadas.Where(x => x.IdEstatus == 1) select b).ToList();
+                var jor = (from b in entidad.Cat_Jornadas.Where(x => x.IdEstatus == 1 && x.IdCliente == IdCliente) select b).ToList();
                 var hono = (from b in entidad.Cat_HonorariosFacturas.Where(x => x.IdCliente == IdCliente && x.IdEstatus == 1) select b).ToList();
                 var nac = GetNacionalidad();
 

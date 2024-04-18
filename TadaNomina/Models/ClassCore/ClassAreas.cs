@@ -21,6 +21,16 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+        public List<Cat_Areas> getAreas(int IdCliente)
+        {
+            using (TadaNominaEntities entidad = new TadaNominaEntities())
+            {
+                var list = (from b in entidad.Cat_Areas where b.IdCliente == IdCliente select b).ToList();
+
+                return list;
+            }
+        }
+
         public DataTable GetTableAreas()
         {
             DataTable dt = new DataTable();
