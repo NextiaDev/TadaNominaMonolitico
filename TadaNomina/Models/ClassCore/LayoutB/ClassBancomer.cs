@@ -67,11 +67,20 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                     {
                         model.NetoPagar = infoNomina.TotalEfectivo.ToString();
                     }
-                    model.NombreCompleto = item.NombreCompleto;
-                    model.NumeroCuenta = infoNomina.CuentaInterbancariaTrad;
-                    model.IdRegistroPatronal = (int)infoNomina.IdRegistroPatronal;
-                    model.ClaveBanco = (int)infoNomina.IdBancoTrad;
-                    listaBancomers.Add(model);
+                    try
+                    {
+                        try { model.NombreCompleto = item.NombreCompleto; }catch{ model.NombreCompleto = "SinNombre"; }
+                        try{model.NumeroCuenta = infoNomina.CuentaInterbancariaTrad;} catch { model.NumeroCuenta = "SinCuentaBancaria"; }
+                        try{model.IdRegistroPatronal = (int)item.IdRegistroPatronal;}catch { model.IdRegistroPatronal = 0; }
+                        try { model.ClaveBanco = (int)item.IdBancoTrad; } catch { model.ClaveBanco = 0; }
+                        listaBancomers.Add(model);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        throw;
+                    }
+                
                 }
             }
             return listaBancomers;
@@ -105,6 +114,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtBBVA(int IdPeriodoNomina, int IdUnidadNegocio)
         {
+            Otros ot = new Otros();
+
             var listado = GetListaBancomer(IdPeriodoNomina, IdUnidadNegocio);
             int registro = 0;
             string txtfinal = string.Empty;
@@ -118,6 +129,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                 textoempleado += ("99");
                 textoempleado += RellenaCadenaEspacios(item.NumeroCuenta, 20);
                 textoempleado += RellenaCadenaCeros(item.NetoPagar.Replace(".", ""), 15);
+                item.NombreCompleto =  ot.RemueveAcentos(item.NombreCompleto);
                 textoempleado += RellenaCadenaEspacios(item.NombreCompleto.Replace("Ñ", "N").Replace(".", " "), 40);
                 textoempleado += RellenaCadenaEspacios("012", 3);
                 textoempleado += RellenaCadenaEspacios("000", 3);
@@ -129,6 +141,8 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
         public string GeneraTxtBBVAInterbancario(int IdPeriodoNomina, int IdUnidadNegocio)
         {
+            Otros ot = new Otros();
+
             var listado = GetListaBancomerInterBancaria(IdPeriodoNomina, IdUnidadNegocio);
             string txtfinal = string.Empty;
             var cuentaDispersion = GetCuentaBancariaDispersion(listado[0].IdRegistroPatronal);
@@ -137,6 +151,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
 
             foreach (var item in listado)
             {
+
                 Cat_Bancos claveBanco = GetDatosBanco(item.ClaveBanco);
 
                 string textoempleado = string.Empty;
@@ -144,6 +159,7 @@ namespace TadaNomina.Models.ClassCore.LayoutB
                 textoempleado += RellenaCadenaCeros(cuentaDispersion, 18);
                 textoempleado += ("MXP");
                 textoempleado += RellenaCadenaCeros(item.NetoPagar, 16);
+                item.NombreCompleto = ot.RemueveAcentos(item.NombreCompleto);
                 textoempleado += RellenaCadenaEspacios(item.NombreCompleto.Replace("Ñ", "N").Replace(".", " "), 28);
                 textoempleado += ("  40");
                 textoempleado += claveBanco.ClaveBanco;
@@ -241,8 +257,17 @@ namespace TadaNomina.Models.ClassCore.LayoutB
             string cuentaDispersa = string.Empty;
             using (TadaNominaEntities ctx = new TadaNominaEntities())
             {
-                var query = ctx.Cat_RegistroPatronal.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).First();
-                cuentaDispersa = query.CuentaBancaria;
+                try
+                {
+                    var query = ctx.Cat_RegistroPatronal.Where(x => x.IdRegistroPatronal == IdRegistroPatronal).First();
+                    cuentaDispersa = query.CuentaBancaria;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+        
             }
             return cuentaDispersa;
         }

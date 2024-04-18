@@ -832,7 +832,7 @@ namespace TadaNomina.Controllers.Administracion
             if (tipo == "Are")
             {
                 ClassAreas ccc = new ClassAreas();
-                var cc = ccc.getAreas().Select(x => new { x.IdArea, x.Area });
+                var cc = ccc.getAreas(IdCliente).Select(x => new { x.IdArea, x.Area });
                 var jsonSerializer = new JavaScriptSerializer();
                 json = jsonSerializer.Serialize(cc);
             }
