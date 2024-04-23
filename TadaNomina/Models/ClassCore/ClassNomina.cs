@@ -755,14 +755,21 @@ namespace TadaNomina.Models.ClassCore
             using (TadaNominaEntities entidad = new TadaNominaEntities())
             {
                 if (string.IsNullOrEmpty(fechaReconocimientoAntiguedad))
-                {
-                    var query = (from b in entidad.FactorIntegracion
-                                 where b.IdPrestaciones == prestaciones && b.IdEstatus == 1
-                                 && b.FechaInicioVigencia == (entidad.FactorIntegracion.Where(y => y.FechaInicioVigencia <= DateTime.Now && y.IdEstatus == 1).Select(c=> c.FechaInicioVigencia).OrderByDescending(z=> z).FirstOrDefault())
-                                 orderby b.Limite_Inferior
-                                 select b).First();
+                {                   
+                    var consulta = @"select top 1 * from FactorIntegracion
+                                        where IdEstatus = 1 and IdPrestaciones = " + (IdPrestaciones ?? 1) + @"
+                                        order by Limite_Inferior asc, FechaInicioVigencia desc";
 
-                    _factorIntegracion = (decimal)query.FactorIntegracion1;
+                    var query = entidad.Database.SqlQuery<ModelFactorIntegracion>(consulta).FirstOrDefault();
+
+                    //se deja comentado codigo anterior para posteriormente borrarlo 22/04/2024
+                    //var query = (from b in entidad.FactorIntegracion
+                    //             where b.IdPrestaciones == prestaciones && b.IdEstatus == 1
+                    //             && b.FechaInicioVigencia == (entidad.FactorIntegracion.Where(y => y.FechaInicioVigencia <= DateTime.Now && y.IdEstatus == 1).Select(c=> c.FechaInicioVigencia).OrderByDescending(z=> z).FirstOrDefault())
+                    //             orderby b.Limite_Inferior
+                    //             select b).First();
+
+                    _factorIntegracion = query.FactorIntegracion ?? 1;
                 }
                 else
                 {
@@ -778,12 +785,20 @@ namespace TadaNomina.Models.ClassCore
 
                     using (TadaNominaEntities ctx = new TadaNominaEntities())
                     {
-                        var query = (from b in ctx.FactorIntegracion
-                                     where b.Limite_Superior >= AntAños && b.Limite_Inferior <= AntAños && b.IdPrestaciones == prestaciones && b.IdEstatus == 1
-                                     && b.FechaInicioVigencia == (ctx.FactorIntegracion.Where(y => y.FechaInicioVigencia <= DateTime.Now && y.IdEstatus == 1).Select(c => c.FechaInicioVigencia).OrderByDescending(z => z).FirstOrDefault())
-                                     select b).First();
+                        var consulta = @"select top 1 * from FactorIntegracion
+                                        where IdEstatus = 1 and IdPrestaciones = " + (IdPrestaciones ?? 1) + @"
+                                        and Limite_Inferior <= " + AntAños + @" and Limite_Superior >= " + AntAños + @"
+                                        order by Limite_Inferior asc, FechaInicioVigencia desc";
 
-                        _factorIntegracion = (decimal)query.FactorIntegracion1; 
+                        var query = entidad.Database.SqlQuery<ModelFactorIntegracion>(consulta).FirstOrDefault();
+
+                        //se deja comentado codigo anterior para posteriormente borrarlo 22/04/2024
+                        //var query = (from b in ctx.FactorIntegracion
+                        //             where b.Limite_Superior >= AntAños && b.Limite_Inferior <= AntAños && b.IdPrestaciones == prestaciones && b.IdEstatus == 1
+                        //             && b.FechaInicioVigencia == (ctx.FactorIntegracion.Where(y => y.FechaInicioVigencia <= DateTime.Now && y.IdEstatus == 1).Select(c => c.FechaInicioVigencia).OrderByDescending(z => z).FirstOrDefault())
+                        //             select b).First();
+
+                        _factorIntegracion = (decimal)query.FactorIntegracion; 
                     }
                 }
             }
