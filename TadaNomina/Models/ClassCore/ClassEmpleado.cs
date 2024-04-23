@@ -1799,7 +1799,7 @@ namespace TadaNomina.Models.ClassCore
                         emp.Calle = empleado.CalleFiscal;
                         emp.noExt = empleado.NumeroExtFiscal;
                         emp.noInt = empleado.NumeroIntFiscal;
-                        emp.CP = empleado.CodigoPostalFiscal;
+                        emp.CP = empleado.CodigoPostalFiscal.Replace(" ", "");
                         emp.Nacionalidad = empleado.Nacionalidad;
                         emp.IdArea = empleado.idArea;
                         emp.IdJornada = empleado.IdJornada;

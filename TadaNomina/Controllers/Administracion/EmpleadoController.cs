@@ -958,15 +958,15 @@ namespace TadaNomina.Controllers.Administracion
                             }
                             if (!string.IsNullOrEmpty(dr["[Rfc]"].ToString()))
                             {
-                                emp.Rfc = dr["[Rfc]"].ToString();
+                                emp.Rfc = dr["[Rfc]"].ToString().Replace(" ", "");
                             }
                             if (!string.IsNullOrEmpty(dr["[Curp]"].ToString()))
                             {
-                                emp.Curp = dr["[Curp]"].ToString();
+                                emp.Curp = dr["[Curp]"].ToString().Replace(" ", "");
                             }
                             if (!string.IsNullOrEmpty(dr["[NSS]"].ToString()))
                             {
-                                emp.Imss = dr["[NSS]"].ToString();
+                                emp.Imss = dr["[NSS]"].ToString().Replace(" ", "");
                             }
                             if (!string.IsNullOrEmpty(dr["[Sueldo_Diario_Base]"].ToString()))
                             {
@@ -1057,7 +1057,7 @@ namespace TadaNomina.Controllers.Administracion
                             }
                             if (!string.IsNullOrEmpty(dr["[CPFiscal]"].ToString()))
                             {
-                                emp.CP = dr["[CPFiscal]"].ToString();
+                                emp.CP = dr["[CPFiscal]"].ToString().Replace(" ", "");
                             }
                             if (!string.IsNullOrEmpty(dr["[IdPrestaciones]"].ToString()))
                             {
