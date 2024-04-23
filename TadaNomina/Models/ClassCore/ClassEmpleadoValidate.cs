@@ -142,9 +142,9 @@ namespace TadaNomina.Models
                             IdBancoTrad = IdBanco(row.Split(',')[15].Trim()),
                             CuentaBancariaTrad = Cuenta(row.Split(',')[16].Trim()),
                             CuentaInterbancariaTrad = Cuenta(row.Split(',')[17].Trim()),
-                            Curp = row.Split(',')[18].Trim().ToUpper(),
-                            Rfc = row.Split(',')[19].Trim().ToUpper(),
-                            Imss = Imss(row.Split(',')[20].Trim()),
+                            Curp = row.Split(',')[18].Trim().ToUpper().Replace(" ", ""),
+                            Rfc = row.Split(',')[19].Trim().ToUpper().Replace(" ", ""),
+                            Imss = Imss(row.Split(',')[20].Trim()).Replace(" ", ""),
                             CorreoElectronico = CorreoElectronico(row.Split(',')[21].Trim().ToLower()),
                             FechaReconocimientoAntiguedad = Fecha(row.Split(',')[22].Trim()),
                             FechaAltaIMSS = Fecha(row.Split(',')[23].Trim()),
@@ -162,7 +162,7 @@ namespace TadaNomina.Models
                             Calle = NulableString(row.Split(',')[31].Trim().ToUpper()),
                             NumeroExt = NulableString(row.Split(',')[32].Trim().ToUpper()),
                             NumeroInt = NulableString(row.Split(',')[33].Trim().ToUpper()),
-                            CodigoPostal = row.Split(',')[34].Trim(),
+                            CodigoPostal = row.Split(',')[34].Trim().Replace(" ", ""),
 
                             idArea = IdArea(row.Split(',')[35].Trim().ToUpper()),
                             Idsindicato = idSindicato(row.Split(',')[36].Trim().ToUpper()),
@@ -2602,7 +2602,7 @@ namespace TadaNomina.Models
         public Type ValidateMotivoBaja(string motivoBaja, RowFile rowFile)
         {
             ColumnFile columnFile = new ColumnFile { Column = 3 };
-
+            motivoBaja = motivoBaja.ToUpper();
             if (string.IsNullOrEmpty(motivoBaja))
             {
                 columnFile.Field = "Motivo Baja";

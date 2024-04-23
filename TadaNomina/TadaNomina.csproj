@@ -1396,6 +1396,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadoFiniquito.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadosNetos.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelErroresIncidencias.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelFactorIntegracion.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelFonacot.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelIncidenciaIndividual.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelIncidencias.cs" />
