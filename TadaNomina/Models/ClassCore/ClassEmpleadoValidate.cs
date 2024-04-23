@@ -2602,7 +2602,7 @@ namespace TadaNomina.Models
         public Type ValidateMotivoBaja(string motivoBaja, RowFile rowFile)
         {
             ColumnFile columnFile = new ColumnFile { Column = 3 };
-
+            motivoBaja = motivoBaja.ToUpper();
             if (string.IsNullOrEmpty(motivoBaja))
             {
                 columnFile.Field = "Motivo Baja";
