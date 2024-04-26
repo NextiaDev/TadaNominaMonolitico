@@ -623,6 +623,9 @@ namespace TadaNomina.Models.ClassCore
             if (cantidadAnt > 0)
                 i.Cantidad = cantidadAnt;
 
+            if ((vEmp.SD ?? 0) <= (vEmp.SDIMSS ?? 0))
+                i.MontoEsquema = 0;
+
             if (guardar)
             {
                 int IdIncidencia = AddIncidencias(i, IdUsuario);
