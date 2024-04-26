@@ -1,4 +1,4 @@
-﻿$(".modalAcumular").click(function () {
+$(".modalAcumular").click(function () {
     var periodo = $(this).attr('val')
     var idperiodo = $(this).attr('data-id')
     $("#idper").text(idperiodo);
@@ -49,8 +49,14 @@ $(".anchorDetail").click(function () {
             $("#_fechaFinal").text(data.FechaFin);
             $("#_tipoNomina").text(data.TipoNomina);
             $("#_AjusteImp").text(data.AjusteImpuestos);
-            $("#_pAjuste").text(data.PeriodosAjuste);
-            $("#_omitirDesc").text(data.OmitirDescuentosFijos);
+          $("#_pAjuste").text(data.PeriodosAjuste);
+
+          var omit = data.OmitirDescuentosFijos;
+          if (omit == "false") {
+            $("#_omitirDesc").text("NO");
+          } else {
+            $("#_omitirDesc").text("SI");
+          }
             $("#_fCreacion").text("");
             $("#_Observaciones").text(data.Observaciones);
             $('#modalDetail').modal('show');
@@ -121,7 +127,7 @@ $("#eliminarPeriodo").click(function () {
                 document.getElementById("detail" + IdPeriodoNomina).disabled = true;
                 $("#edit" + IdPeriodoNomina).attr("disabled", true);
                 document.getElementById("detail" + IdPeriodoNomina).disabled = true;
-                mensajeAlerta("Atencion!", "El periodo de nómina se elimino de forma correcta!", "success", "jelly", "fadeOut", 2500);
+                mensajeAlerta(" ", "El periodo de nómina se eliminó de forma correcta", "success", "jelly", "fadeOut", 2500);
             }
             else {
                 mensajeAlerta("Atencion!", data, "danger", "jelly", "fadeOut", 2500);

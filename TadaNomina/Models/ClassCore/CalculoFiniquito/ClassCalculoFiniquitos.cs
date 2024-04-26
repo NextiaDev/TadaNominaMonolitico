@@ -658,11 +658,8 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
 
             if (UnidadNegocio.FiniquitosExentoCompleto == "S")
                 cincidencias.NewIncindencia(IdPeriodoNomina, IdConcepto, IdEmpleado, Cantidad, CantidadEsquema, Monto, 0, null, null, null, null, 1, null, null, null, Porcentaje, SDCalculo, SDCalculoReal, IdUsuario);
-            else
-            {
+            else            
                 cincidencias.NewIncindencia(IdPeriodoNomina, IdConcepto, IdEmpleado, Cantidad, CantidadEsquema, Monto, 0, null, null, null, null, 1, null, null, FactorDiasTrabajadosEjercicio, Porcentaje, SDCalculo, SDCalculoReal, IdUsuario);
-
-            }
         }
 
         /// <summary>
