@@ -369,3 +369,4 @@ FodyWeavers.xsd
 azure-pipelines.yml
 /TadaNomina/Views/_ViewStart.cshtml
 /TadaNomina/Views/Shared/_Layout.cshtml
+/TadaNomina/Uploads
