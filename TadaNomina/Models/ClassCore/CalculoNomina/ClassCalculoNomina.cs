@@ -58,6 +58,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (_IdEmpledao != null)
                     empleadosProceso = empleadosProceso.Where(x => x.IdEmpleado == _IdEmpledao).ToList();
 
+                var IdsEmpleadosProceso = string.Join(",",empleadosProceso.Select(x => x.IdEmpleado).ToList());
+
                 //calculo de septimo día, se pone en esta pocición para que actue solo sobre los empleados que se van a procesar
                 if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null)
                     ProcesaIncidenciasSeptimoDia(empleadosProceso, _IdPeriodoNomina, (int)UnidadNegocio.IdConceptoSeptimoDia, IdUsuario);
@@ -196,9 +198,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     DiasTrabajados_IMSS = 0;
                 }
 
-                nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).Select(x => x.FactorIntegracion).FirstOrDefault() ?? 0;
+                nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).OrderByDescending(x=> x.FechaInicioVigencia).Select(x => x.FactorIntegracion).FirstOrDefault() ?? 0;
                 if (nominaTrabajo.FactorIntegracion == null)
-                    nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdCliente == 0).Select(x => x.FactorIntegracion).FirstOrDefault();
+                    nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdCliente == 0).OrderByDescending(x => x.FechaInicioVigencia).Select(x => x.FactorIntegracion).FirstOrDefault();
 
                 nominaTrabajo.FechaAltaIMSS = datosEmpleados.FechaAltaIMSS;
                 nominaTrabajo.FechaReconocimientoAntiguedad = datosEmpleados.FechaReconocimientoAntiguedad;

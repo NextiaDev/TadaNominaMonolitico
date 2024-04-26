@@ -216,16 +216,10 @@ namespace TadaNomina.Models.ClassCore
 
             var unidad = cs.getUnidadesnegocioId(Idunidad.Value);
 
-            if (unidad.BanderaPrestacionesPatronEnteros == "S")
-            {
-                factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior > Antiguedad && x.Limite_Inferior <= Antiguedad).FirstOrDefault();
-
-            }
-            else
-            {
-                factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad).FirstOrDefault();
-
-            }
+            if (unidad.BanderaPrestacionesPatronEnteros == "S")            
+                factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior > Antiguedad && x.Limite_Inferior <= Antiguedad).OrderByDescending(x => x.FechaInicioVigencia).FirstOrDefault();            
+            else            
+                factor = GetFactorIntegracion(IdPrestaciones).Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad).OrderByDescending(x => x.FechaInicioVigencia).FirstOrDefault();
 
             decimal _antiguedad = Math.Round(Antiguedad, 4);
 

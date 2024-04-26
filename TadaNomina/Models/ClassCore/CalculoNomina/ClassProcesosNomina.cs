@@ -578,9 +578,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             using (NominaEntities1 entidad = new NominaEntities1())
             {
                 var consulta = @"select* from vPrestacionesFactor 
-                                 where IdEstatus = 1 and IdEstatusFactor = 1 and IdCliente in (0, " + IdCliente + @") and FechaInicioVigencia in (
-                                    select top 1 FechaInicioVigencia from vPrestacionesFactor 
-                                    where FechaInicioVigencia <= '" + fechaFinPeriodo.ToString("yyyyMMdd") + "' and IdEstatus = 1 and IdEstatusFactor = 1 and IdCliente in (0, " + IdCliente + ") order by 1 desc)";
+                                 where IdEstatus = 1 and IdEstatusFactor = 1 and IdCliente in (0, " + IdCliente + @")";
+                
+                //and FechaInicioVigencia in (
+                //                    select top 1 FechaInicioVigencia from vPrestacionesFactor 
+                //                    where FechaInicioVigencia <= '" + fechaFinPeriodo.ToString("yyyyMMdd") + "' and IdEstatus = 1 and IdEstatusFactor = 1 and IdCliente in (0, " + IdCliente + ") order by 1 desc)";
 
                 var _prestacion = entidad.Database.SqlQuery<vPrestacionesFactor>(consulta).ToList();
 
@@ -1593,7 +1595,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 Antiguedad = Math.Round((Periodo.FechaFin.Subtract(_fechaReconocimientoAntiguedad).Days) / 365M, 4);
 
                 if (Antiguedad < 0) { throw new Exception("La antiguedad no puede ser negativa: " + Antiguedad); }
-                var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).First();
+                var _factor = prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado).OrderByDescending(x => x.FechaInicioVigencia).FirstOrDefault();
 
                 if (_factor != null)
                 {
@@ -1939,7 +1941,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             _fechaReconocimientoAntiguedad = GetFechaIngreso(FechaReconocimientoAntiguedad, FechaAltaIMSS, null);
             Antiguedad = Math.Round((Periodo.FechaFin.Subtract(_fechaReconocimientoAntiguedad).Days) / 365M, 4);
 
-            var _factor = (from b in prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado) select b).FirstOrDefault();
+            var _factor = prestaciones.Where(x => x.Limite_Superior >= Antiguedad && x.Limite_Inferior <= Antiguedad && x.IdPrestaciones == IdPrestacionesEmpleado).OrderByDescending(x => x.FechaInicioVigencia).FirstOrDefault();
             if (_factor != null)
             {
                 _SDI_Limite= Math.Round(SDIMSS_Actual*(decimal)_factor.FactorIntegracion,2);
