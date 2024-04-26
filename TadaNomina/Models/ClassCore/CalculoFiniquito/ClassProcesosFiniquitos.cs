@@ -923,7 +923,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 }
                 else
                 {
-                    return (decimal)(from b in prestaciones.Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad).OrderByDescending(x => x.FechaInicioVigencia) select b.Vacaciones).First();
+                    return (decimal)(from b in prestaciones.Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad && x.IdPrestaciones == 1).OrderByDescending(x => x.FechaInicioVigencia) select b.Vacaciones).First();
                 }
             }
             catch (Exception ex)
@@ -951,7 +951,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 }
                 else
                 {
-                   Dias = (decimal)(from b in prestaciones.Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad).OrderByDescending(x => x.FechaInicioVigencia) select b.PrimaVacacional).First();
+                   Dias = (decimal)(from b in prestaciones.Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad && x.IdPrestaciones == 1).OrderByDescending(x => x.FechaInicioVigencia) select b.PrimaVacacional).First();
                 }                
 
                 return Dias * .1M;
@@ -981,7 +981,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 }
                 else
                 {
-                    Dias = (decimal)(from b in prestaciones.Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad).OrderByDescending(x => x.FechaInicioVigencia) select b.Aguinaldo).First();
+                    Dias = (decimal)(from b in prestaciones.Where(x => x.Limite_Superior >= _antiguedad && x.Limite_Inferior <= _antiguedad && x.IdPrestaciones == 1).OrderByDescending(x => x.FechaInicioVigencia) select b.Aguinaldo).First();
                 }               
 
                 return Dias;
