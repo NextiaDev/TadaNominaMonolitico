@@ -208,7 +208,20 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 GetDiasTrabajados(_tipoEsquemaT);
 
                 nominaTrabajo.SueldoPagado = 0;
-                nominaTrabajo.SueldoPagado += (nominaTrabajo.DiasTrabajados + fraccionHorasMas - fraccionHorasMenos) * SD_IMSS;
+
+                if ((datosEmpleados.TipoContrato == "PRACTICANTE" && datosEmpleados.IdJornada != 0 && datosEmpleados.IdJornada != null))
+                {
+                    decimal sdHoras = (decimal)(datosEmpleados.SD / 8);
+                    decimal horas = obtenHorasJornadaLaboral((int)datosEmpleados.IdJornada);
+                    decimal SDRE = sdHoras * horas;
+                    nominaTrabajo.SueldoPagado = TipoNomina.DiasPago * SDRE;
+                }
+                else
+                {
+                    nominaTrabajo.SueldoPagado += (nominaTrabajo.DiasTrabajados + fraccionHorasMas - fraccionHorasMenos) * SD_IMSS;
+
+
+                }
                 nominaTrabajo.Sueldo_Vacaciones = nominaTrabajo.Dias_Vacaciones * SD_IMSS;
                 if (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) { nominaTrabajo.SueldoPagado = 0; }
 
@@ -1104,6 +1117,33 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (model.IdConcepto != 0)
                     cins.NewIncindencia(model, IdUsuario);
             }
-        }        
+        }
+
+
+        public decimal obtenHorasJornadaLaboral(int idjornada)
+        {
+            decimal idj = 0;
+            try
+            {
+                using (TadaNominaEntities db = new TadaNominaEntities())
+                {
+                    var jornada = (from b in db.Cat_Jornadas
+                                   where b.IdEstatus == 1 && b.IdJornada == idjornada
+                                   select b).FirstOrDefault();
+
+                    if (jornada != null)
+                    {
+                        idj = (decimal)jornada.Horas;
+
+                    }
+
+                }
+                return idj;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }
