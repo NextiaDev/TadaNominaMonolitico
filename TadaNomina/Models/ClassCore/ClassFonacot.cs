@@ -70,7 +70,7 @@ namespace TadaNomina.Models.ClassCore
                     CuotasPagadas = (decimal)x.CuotasPagadas,
                     RetencionMensual = (decimal)x.RetencionMensual,
                     IdEstatus = (int)x.IdEstatus,
-
+                    Activo = x.Activo == "NO" ? false : true,
                 }); ;
             });
 
@@ -99,6 +99,7 @@ namespace TadaNomina.Models.ClassCore
             model.CuotasPagadas = (decimal)creditoFonacot.CuotasPagadas;
             model.RFC = creditoFonacot.Rfc;
             model.IdEstatus = (int)creditoFonacot.IdEstatus;
+            model.Activo = creditoFonacot.Activo == "NO" ? false : true;
 
             return model;
         }
@@ -122,6 +123,7 @@ namespace TadaNomina.Models.ClassCore
                     credito.Plazos = m.Plazos;
                     credito.CuotasPagadas = m.CuotasPagadas;
                     credito.RetencionMensual = m.RetencionMensual;
+                    credito.Activo = m.Activo == true ? "SI" : "NO";
 
                     credito.IdEstatus = 1;
                     credito.FechaCaptura = DateTime.Now;
@@ -383,6 +385,7 @@ namespace TadaNomina.Models.ClassCore
 
                     if (fonacot != null)
                     {
+                        fonacot.Activo = inf.Activo == true ? "SI" : "NO";
 
                         fonacot.RetencionMensual = inf.RetencionMensual;
                         fonacot.IdModifica = IdUsuario;
@@ -398,6 +401,38 @@ namespace TadaNomina.Models.ClassCore
                 }
 
                
+            }
+        }
+
+        /// <summary>
+        ///     Método que modifica el estatus del crédito
+        /// </summary>
+        /// <param name="IdCredito">Id del crédito</param>
+        /// <param name="IdUsuario">Id del usuario</param>
+        /// <returns>Estatus del movimiento</returns>
+        public int CambiaEstatus(int IdCredito, int IdUsuario)
+        {
+            int res = 0;
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var credito = ctx.CreditosFonacot.Where(x => x.IdCreditoFonacot == IdCredito).FirstOrDefault();
+
+                    if (credito != null)
+                    {
+                        credito.Activo = credito.Activo == "NO" ? "SI" : "NO";
+                        credito.FechaModifica = DateTime.Now;
+                        credito.IdModifica = IdUsuario;
+
+                        res = ctx.SaveChanges();
+                    }
+                }
+                return res;
+            }
+            catch
+            {
+                return res;
             }
         }
     }

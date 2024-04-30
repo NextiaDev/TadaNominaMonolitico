@@ -39,6 +39,10 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public int IdEstatus { get; set; }
         public bool Validacion { get; set; }
         public string Mensaje { get; set; }
+
+        [Display(Name = "¿El crédito estará activo?")]
+        public bool Activo { get; set; }
+
     }
 
 }

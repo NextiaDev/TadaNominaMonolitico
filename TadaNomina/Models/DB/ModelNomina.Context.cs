@@ -47,7 +47,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<RecuperacionIMSS> RecuperacionIMSS { get; set; }
         public virtual DbSet<vNominaSelectFiniquito> vNominaSelectFiniquito { get; set; }
         public virtual DbSet<Cat_Accesos_GeoVictoria> Cat_Accesos_GeoVictoria { get; set; }
-        public virtual DbSet<CreditosInfonavit> CreditosInfonavit { get; set; }
         public virtual DbSet<vCreditoInfonavit> vCreditoInfonavit { get; set; }
         public virtual DbSet<vDesgloceVacaciones> vDesgloceVacaciones { get; set; }
         public virtual DbSet<NominaProvision> NominaProvision { get; set; }
@@ -82,6 +81,7 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<ConfiguracionFiniquito> ConfiguracionFiniquito { get; set; }
         public virtual DbSet<vConfiguracionFiniquito> vConfiguracionFiniquito { get; set; }
         public virtual DbSet<Incidencias_Consolidadas> Incidencias_Consolidadas { get; set; }
+        public virtual DbSet<CreditosInfonavit> CreditosInfonavit { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalDeducciones_Result> sp_ReciboTradicionalDeducciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {
@@ -343,15 +343,6 @@ namespace TadaNomina.Models.DB
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EmpleadosAjusteAnual_Result>("sp_EmpleadosAjusteAnual", idUnidadNegocioParameter, yearParameter);
         }
     
-        public virtual ObjectResult<sp_NOMINA_IncidenciasFijasAgrupadas_Result> sp_NOMINA_IncidenciasFijasAgrupadas(Nullable<int> idUnidadNegocio)
-        {
-            var idUnidadNegocioParameter = idUnidadNegocio.HasValue ?
-                new ObjectParameter("IdUnidadNegocio", idUnidadNegocio) :
-                new ObjectParameter("IdUnidadNegocio", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_NOMINA_IncidenciasFijasAgrupadas_Result>("sp_NOMINA_IncidenciasFijasAgrupadas", idUnidadNegocioParameter);
-        }
-    
         public virtual ObjectResult<sp_RegresaIncidenciasCalculoIndividual_Result> sp_RegresaIncidenciasCalculoIndividual(Nullable<int> idEmpleado, Nullable<int> idPeriodoNomina, Nullable<int> idCliente)
         {
             var idEmpleadoParameter = idEmpleado.HasValue ?
@@ -434,6 +425,15 @@ namespace TadaNomina.Models.DB
                 new ObjectParameter("IdPeriodoNomina", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ReporteByIdPeriodoNominaAcumulado_Result>("sp_ReporteByIdPeriodoNominaAcumulado", idPeriodoNominaParameter);
+        }
+    
+        public virtual ObjectResult<sp_NOMINA_IncidenciasFijasAgrupadas_Result> sp_NOMINA_IncidenciasFijasAgrupadas(Nullable<int> idUnidadNegocio)
+        {
+            var idUnidadNegocioParameter = idUnidadNegocio.HasValue ?
+                new ObjectParameter("IdUnidadNegocio", idUnidadNegocio) :
+                new ObjectParameter("IdUnidadNegocio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_NOMINA_IncidenciasFijasAgrupadas_Result>("sp_NOMINA_IncidenciasFijasAgrupadas", idUnidadNegocioParameter);
         }
     }
 }

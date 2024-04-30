@@ -27,6 +27,9 @@
                 <thead>
                     <tr>
 
+                        <th width="15">
+                            Activo
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.ClaveEmp)
                         </th>
@@ -42,7 +45,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.CantidadUnidad)
                         </th>
-
                         <th></th>
                     </tr>
                 </thead>
@@ -50,7 +52,16 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-
+                            <td align="center">
+                                @if (item.Activo == false)
+                                {
+                                    <input onclick="CambiaStatus(@item.IdCreditoInfonavit)" type="checkbox">
+                                }
+                                else
+                                {
+                                    <input onclick="CambiaStatus(@item.IdCreditoInfonavit)" type="checkbox" checked>
+                                }
+                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ClaveEmp)
                             </td>
@@ -187,5 +198,22 @@
             });
         });
 
+
+    function CambiaStatus(IdCredito) {
+        $.ajax({
+            type: 'POST',
+            url: 'Infonavit/CambiaStatusCredito',
+            data: { IdCredito: IdCredito },
+            datatype: 'json',
+            success: function (data) {
+                if (data == "OK") {
+                    alert("Se realizó el cambio.");
+                } else {
+                    alert("No se pudo realizar el cambio, favor de actualizar la ventara e intentarlo nuevamente");
+                }
+            }
+
+        });
+    }
 </script>
 

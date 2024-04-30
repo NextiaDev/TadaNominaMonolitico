@@ -89,7 +89,8 @@ namespace TadaNomina.Models.ClassCore
                     Valor = x.Valor,
                     ValorEsq = x.ValorEsq,
                     NombreBeneficiario = x.NombreBeneficiario,
-                    IdEstatus = x.IdEstatus
+                    IdEstatus = x.IdEstatus,
+                    Activo = x.Activo == "NO" ? false: true
                 });
             });
 
@@ -123,6 +124,7 @@ namespace TadaNomina.Models.ClassCore
             if (x.IdEstatus == 1) { mPension.Estatus = true; } else { mPension.Estatus = false; }
             mPension.fechaCaptura = x.FechaCaptura;
             mPension.BaseCalculo = (int)x.idBasePension;
+            mPension.Activo = x.Activo == "NO" ? false : true;
             return mPension;
         }
 
@@ -192,6 +194,7 @@ namespace TadaNomina.Models.ClassCore
                 ci.Valor = inf.Valor;
                 ci.ValorEsq = inf.ValorEsq;
                 ci.NombreBeneficiario = inf.NombreBeneficiario;
+                ci.Activo = inf.Activo == false ? "NO" : "SI";
                 ci.IdEstatus = 1;
                 ci.IdCaptura = IdUsuario;
                 ci.idBasePension = inf.BaseCalculo;
@@ -219,6 +222,7 @@ namespace TadaNomina.Models.ClassCore
                     pension.Valor = inf.Valor;
                     pension.ValorEsq = inf.ValorEsq;
                     pension.NombreBeneficiario = inf.NombreBeneficiario;
+                    pension.Activo = inf.Activo == true ? "SI" : "NO";
                     pension.IdModifica = IdUsuario;
                     pension.FechaModifica = DateTime.Now;
                     pension.idBasePension = inf.BaseCalculo;
@@ -354,6 +358,38 @@ namespace TadaNomina.Models.ClassCore
 
                 entidad.BasePensionAlimenticia.Add(depto);
                 entidad.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        ///     Método que modifica el estatus de la pensión alimenticia
+        /// </summary>
+        /// <param name="IdPension">Id de la pensión</param>
+        /// <param name="IdUsuario">Id del usuario</param>
+        /// <returns>Estatus del movimiento</returns>
+        public int CambiaEstatus(int IdPension, int IdUsuario)
+        {
+            int res = 0;
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var Pension = ctx.PensionAlimenticia.Where(x => x.IdPensionAlimenticia == IdPension).FirstOrDefault();
+
+                    if (Pension != null)
+                    {
+                        Pension.Activo = Pension.Activo == "NO" ? "SI" : "NO";
+                        Pension.FechaModifica = DateTime.Now;
+                        Pension.IdModifica = IdUsuario;
+
+                        res = ctx.SaveChanges();
+                    }
+                }
+                return res;
+            }
+            catch
+            {
+                return res;
             }
         }
     }

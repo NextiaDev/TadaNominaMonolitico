@@ -1253,7 +1253,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         public void GetCreditosFonacot(int IdUnidadNegocio)
         {
             ClassFonacot cf = new ClassFonacot();
-            creditosFonacot = cf.getCreditosFonacot(IdUnidadNegocio);
+            creditosFonacot = cf.getCreditosFonacot(IdUnidadNegocio).Where(x => x.Activo != "NO").ToList();
         }
 
         /// <summary>

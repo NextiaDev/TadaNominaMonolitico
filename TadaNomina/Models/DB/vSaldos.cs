@@ -44,5 +44,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> Indefinido { get; set; }
         public string Observaciones { get; set; }
         public int IdEstatusEmpleado { get; set; }
+        public string Activo { get; set; }
     }
 }

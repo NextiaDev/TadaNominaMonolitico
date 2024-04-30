@@ -24,6 +24,7 @@ namespace TadaNomina.Controllers.Nomina
             ClassInfonavit ci = new ClassInfonavit();
             var model = new ModelInfonavit();
             model.lTipo = ci.getTipos();
+            model.Activo = true;
             return View(model);
         }
 
@@ -112,11 +113,35 @@ namespace TadaNomina.Controllers.Nomina
             try
             {
                 ClassInfonavit ci = new ClassInfonavit();
-                ci.UpdatePorcentaje(model.IdCreditoInfonavit, (int)Session["sIdUsuario"], model.PorcentajeTradicional, model.CantidadUnidad, model.BanderaSeguroVivienda);
+                ci.UpdatePorcentaje(model.IdCreditoInfonavit, (int)Session["sIdUsuario"], model.PorcentajeTradicional, model.CantidadUnidad, model.BanderaSeguroVivienda, model.Activo);
             }
             catch { }
 
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        ///     Método que modifica el estado del crédito, en caso de que sea inactivo no se considerará en el cálculo de la nómina
+        /// </summary>
+        /// <param name="IdCredito">Id del crédito</param>
+        /// <returns>estatus del movimiento</returns>
+        [HttpPost]
+        public JsonResult CambiaStatusCredito(int IdCredito)
+        {
+            try
+            {
+                ClassInfonavit cI = new ClassInfonavit();
+                int IdUsuario = int.Parse(Session["sIdUsuario"].ToString());
+                var res = cI.CambiaEstatus(IdCredito, IdUsuario);
+                if(res == 1)
+                    return Json("OK", JsonRequestBehavior.AllowGet);
+                else
+                    return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
