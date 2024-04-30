@@ -528,7 +528,8 @@ namespace TadaNomina.Models.ClassCore
                 new SelectListItem() { Text = "INDETERMINADO", Value = "INDETERMINADO" },
                 new SelectListItem() { Text = "HONORARIOS", Value = "HONORARIOS" },
                 new SelectListItem() { Text = "SIN CONTRATO", Value = "SIN CONTRATO" },
-                new SelectListItem() { Text = "RESICO", Value = "RESICO" }
+                new SelectListItem() { Text = "RESICO", Value = "RESICO" },
+                new SelectListItem() { Text = "PRACTICANTE", Value = "PRACTICANTE" }
 
             };
             return TipoContrato;
