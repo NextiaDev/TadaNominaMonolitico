@@ -39,5 +39,8 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         [Display(Name = "¿No cobrar el Seguro Vivienda?")]
         public bool BanderaSeguroVivienda { get; set; }
+
+        [Display(Name ="¿El crédito estará activo?")]
+        public bool Activo { get; set; }
     }
 }

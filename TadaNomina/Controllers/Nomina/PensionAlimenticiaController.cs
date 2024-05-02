@@ -136,6 +136,7 @@ namespace TadaNomina.Controllers.Nomina
                 var model = new ModelPensionAlimenticia();
                 model.lTipo = ci.getTipos();
                 model.lTipoBase = ci.getBase((int)Session["sIdCliente"]);
+                model.Activo = true;
                 return View(model);
             }
             catch (Exception)
@@ -285,6 +286,31 @@ namespace TadaNomina.Controllers.Nomina
             catch { }
 
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        ///     Método que modifica el estado de la pensión alimenticia, en caso de que sea inactivo no se considerará en el cálculo de la nómina
+        /// </summary>
+        /// <param name="IdPension">Id de la pensión alimenticia</param>
+        /// <returns>Estatus del movimiento</returns>
+        [HttpPost]
+        public JsonResult CambiaStatusCredito(int IdPension)
+        {
+            try
+            {
+                int IdUsuario = int.Parse(Session["sIdUsuario"].ToString());
+
+                ClassPensionAlimenticia cPA = new ClassPensionAlimenticia();
+                var res = cPA.CambiaEstatus(IdPension, IdUsuario);
+                if (res == 1)
+                    return Json("OK", JsonRequestBehavior.AllowGet);
+                else
+                    return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

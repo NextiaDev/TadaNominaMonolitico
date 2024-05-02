@@ -23,6 +23,7 @@ namespace TadaNomina.Controllers.Nomina
         {
             ClassFonacot cf = new ClassFonacot();
             var model = new ModelFonacot();
+            model.Activo = true;
             return View(model);
         }
 
@@ -136,6 +137,31 @@ namespace TadaNomina.Controllers.Nomina
             catch { }
 
             return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
+        ///     Método que modifica el estdo del crédito, en caso de ser inactivo no se considerará en el cálculo de la nómina
+        /// </summary>
+        /// <param name="IdCredito">Id del crédito</param>
+        /// <returns>Estatus del movimiento</returns>
+        [HttpPost]
+        public JsonResult CambiaStatusCredito(int IdCredito)
+        {
+            try
+            {
+                ClassFonacot cI = new ClassFonacot();
+                int IdUsuario = int.Parse(Session["sIdUsuario"].ToString());
+                var res = cI.CambiaEstatus(IdCredito, IdUsuario);
+                if (res == 1)
+                    return Json("OK", JsonRequestBehavior.AllowGet);
+                else
+                    return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

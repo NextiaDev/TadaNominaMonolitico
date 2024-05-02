@@ -55,5 +55,6 @@ namespace TadaNomina.Models.DB
         public string Puesto { get; set; }
         public Nullable<decimal> PorcentajeTradicional { get; set; }
         public string BanderaSeguroVivienda { get; set; }
+        public string Activo { get; set; }
     }
 }

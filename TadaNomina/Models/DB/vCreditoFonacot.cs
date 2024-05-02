@@ -32,5 +32,6 @@ namespace TadaNomina.Models.DB
         public int IdUnidadNegocio { get; set; }
         public string UnidadNegocio { get; set; }
         public Nullable<int> IdEstatus { get; set; }
+        public string Activo { get; set; }
     }
 }

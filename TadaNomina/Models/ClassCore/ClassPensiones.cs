@@ -27,7 +27,7 @@ namespace TadaNomina.Models.ClassCore
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
-                var pensiones = (from b in entidad.vPensionAlimenticia.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1) select b).ToList();
+                var pensiones = (from b in entidad.vPensionAlimenticia.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1 && x.Activo != "NO") select b).ToList();
 
                 return pensiones;
             }

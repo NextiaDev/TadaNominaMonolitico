@@ -1,6 +1,8 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using DocumentFormat.OpenXml.Office2013.Drawing.Chart;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -70,7 +72,9 @@ namespace TadaNomina.Models.ClassCore
                     Tipo = x.Tipo,
                     NoCredito = x.NumeroCredito,
                     CantidadUnidad = x.CantidadUnidad,
-                    IdEstatus = x.IdEstatus
+                    IdEstatus = x.IdEstatus,
+                    Activo = x.Activo == "NO" ? false : true,
+                    
                 });
             });
 
@@ -99,6 +103,7 @@ namespace TadaNomina.Models.ClassCore
             if (x.IdEstatus == 1) { mCreditos.Estatus = true; } else { mCreditos.Estatus = false; }
             mCreditos.fechaCaptura = x.FechaCaptura;
             mCreditos.BanderaSeguroVivienda = x.BanderaSeguroVivienda == "NO" ? true : false;
+            mCreditos.Activo = x.Activo == "NO" ? false : true;
 
             return mCreditos;
         }
@@ -162,6 +167,7 @@ namespace TadaNomina.Models.ClassCore
                 ci.CantidadUnidad = inf.CantidadUnidad;
                 ci.PorcentajeTradicional = 100;  // valor por default
                 ci.BanderaSeguroVivienda = inf.BanderaSeguroVivienda == true ? "NO" : "SI";
+                ci.Activo = inf.Activo == true ? "SI": "NO";
                 ci.IdEstatus = 1;
                 ci.IdCaptura = IdUsuario;
                 ci.FechaCaptura = DateTime.Now;
@@ -221,7 +227,7 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdCreditoInfonavit">Identificador del credito</param>
         /// <param name="IdUsuario">Identificador del usuario</param>
         /// <param name="porcentaje">Nuevo porcentaje</param>
-        public void UpdatePorcentaje(int IdCreditoInfonavit, int IdUsuario, decimal porcentaje, decimal? cantidadUnidad, bool banderaSeguroVivienda)
+        public void UpdatePorcentaje(int IdCreditoInfonavit, int IdUsuario, decimal porcentaje, decimal? cantidadUnidad, bool banderaSeguroVivienda, bool CreditoActivo)
         {
             using (NominaEntities1 entidad = new NominaEntities1())
             {
@@ -233,6 +239,7 @@ namespace TadaNomina.Models.ClassCore
                     
                     if(cantidadUnidad != null && cantidadUnidad > 0)
                         credito.CantidadUnidad = cantidadUnidad;
+                    credito.Activo = CreditoActivo == true ? "SI" : "NO";
 
                     credito.BanderaSeguroVivienda = banderaSeguroVivienda == true ? "NO" : "SI";
                     credito.IdModifica = IdUsuario;
@@ -556,6 +563,38 @@ namespace TadaNomina.Models.ClassCore
                 resultado++;
 
             return resultado;
+        }
+
+        /// <summary>
+        ///     Método que modifica el estatus del crédito 
+        /// </summary>
+        /// <param name="IdCredito">Id del crédito</param>
+        /// <param name="IdUsuario">Id del usuario</param>
+        /// <returns>Estatus del movimiento</returns>
+        public int CambiaEstatus(int IdCredito, int IdUsuario)
+        {
+            int res = 0;
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var credito = ctx.CreditosInfonavit.Where(x => x.IdCreditoInfonavit == IdCredito).FirstOrDefault();
+
+                    if(credito != null)
+                    {
+                        credito.Activo = credito.Activo == "NO" ? "SI" : "NO";
+                        credito.FechaModifica = DateTime.Now;
+                        credito.IdModifica = IdUsuario;
+
+                        res = ctx.SaveChanges();
+                    }
+                }
+                return res;
+            }
+            catch
+            {
+                return res;
+            }
         }
     }
 }

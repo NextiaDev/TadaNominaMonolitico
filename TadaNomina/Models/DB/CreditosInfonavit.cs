@@ -22,11 +22,12 @@ namespace TadaNomina.Models.DB
         public string FechaAplicacion { get; set; }
         public string CartaRetencion { get; set; }
         public Nullable<decimal> PorcentajeTradicional { get; set; }
+        public string BanderaSeguroVivienda { get; set; }
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<int> IdModifica { get; set; }
         public Nullable<System.DateTime> FechaModifica { get; set; }
-        public string BanderaSeguroVivienda { get; set; }
+        public string Activo { get; set; }
     }
 }

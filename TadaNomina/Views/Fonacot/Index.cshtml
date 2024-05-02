@@ -26,6 +26,10 @@
             <table id="demo-dt-selection" class="table table-striped table-hover table-sm" width="100%">
                 <thead>
                     <tr>
+
+                        <th>
+                            Activo
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.ClaveEmp)
                         </th>
@@ -55,6 +59,16 @@
                     {
                         <tr>
                             <td>
+                                @if (item.Activo == false)
+                                {
+                                    <input onclick="CambiaStatus(@item.IdCreditoFonacot)" type="checkbox">
+                                }
+                                else
+                                {
+                                    <input onclick="CambiaStatus(@item.IdCreditoFonacot)" type="checkbox" checked>
+                                }
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.ClaveEmp)
                             </td>
                             <td>
@@ -72,9 +86,6 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.RetencionMensual)
                             </td>
-                          
-
-
                             <td>
                                 @Html.ActionLink(" ", "Edit", new { id = item.IdCreditoFonacot }, new { @class = "btn btn-primary btn-sm fa fa-edit" }) |
                                 <a href="#" class="anchorDetail" data-id="@item.IdCreditoFonacot" rel="tooltip" , title="Detalle"><span class="btn btn-primary btn-sm fa fa-search"></span></a> |

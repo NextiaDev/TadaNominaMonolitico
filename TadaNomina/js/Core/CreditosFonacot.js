@@ -81,3 +81,20 @@ $(function () {
         $('#myModal').modal('hide');
     });
 });
+
+function CambiaStatus(IdCredito) {
+    $.ajax({
+        type: 'POST',
+        url: 'Fonacot/CambiaStatusCredito',
+        data: { IdCredito: IdCredito },
+        datatype: 'json',
+        success: function (data) {
+            if (data == "OK") {
+                alert("Se realizó el cambio.");
+            } else {
+                alert("No se pudo realizar el cambio, favor de actualizar la ventara e intentarlo nuevamente");
+            }
+        }
+
+    });
+}
