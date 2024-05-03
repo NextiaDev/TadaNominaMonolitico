@@ -31,7 +31,6 @@ namespace TadaNomina.Models.ClassCore
             using (NominaEntities1 entidad = new NominaEntities1())
             {
                 var creditos = (from b in entidad.vCreditoInfonavit.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1) select b).ToList();
-
                 return creditos;
             }
         }

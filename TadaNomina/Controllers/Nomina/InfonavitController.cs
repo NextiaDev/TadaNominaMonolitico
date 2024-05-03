@@ -25,6 +25,7 @@ namespace TadaNomina.Controllers.Nomina
             var model = new ModelInfonavit();
             model.lTipo = ci.getTipos();
             model.Activo = true;
+
             return View(model);
         }
 
