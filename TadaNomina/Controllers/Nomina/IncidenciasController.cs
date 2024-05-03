@@ -14,6 +14,7 @@ using TadaNomina.Models.ViewModels.Reportes;
 using TadaNomina.Models.ViewModels.RelojChecador;
 using TadaNomina.Models.ClassCore.RelojChecador;
 using System.Threading.Tasks;
+using System.IO.Compression;
 
 namespace TadaNomina.Controllers.Nomina
 {
@@ -249,18 +250,240 @@ namespace TadaNomina.Controllers.Nomina
             return View(modelo);
         }
 
-        public FileResult Excel()
+        public ActionResult ExcelUno()
         {
-            int IdCliente = (int)Session["sIdCliente"];
+            try
+            {
+                // Rutas de los archivos que deseas guardar
+                string archivo1Path = ObtenerRutaArchivo1();
+                string archivo2Path = ObtenerRutaArchivo2();
 
-            int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
-            ClassEmpleado initEmpleado = new ClassEmpleado();
 
-            var arch = initEmpleado.ExcelIncidencias(IdUnidadNegocio, IdCliente);
+                string carpetaTemporal = Server.MapPath("~/ArchivosTemporales");
 
-            return File(arch, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Empleados.xlsx");
+                // Si la carpeta temporal existe, la borramos para empezar desde cero
+                if (Directory.Exists(carpetaTemporal))
+                {
+                    Directory.Delete(carpetaTemporal, true);
+                }
+
+                // Creamos la carpeta temporal
+                Directory.CreateDirectory(carpetaTemporal);
+
+
+
+                // Copiar los archivos a la carpeta temporal
+                string nombreArchivo1 = Path.GetFileName(archivo1Path);
+                string nombreArchivo2 = Path.GetFileName(archivo2Path);
+
+                string archivoTemporal1 = Path.Combine(carpetaTemporal, nombreArchivo1);
+                string archivoTemporal2 = Path.Combine(carpetaTemporal, nombreArchivo2);
+
+                System.IO.File.Copy(archivo1Path, archivoTemporal1);
+                System.IO.File.Copy(archivo2Path, archivoTemporal2);
+
+                // Ruta del archivo ZIP de salida
+                string rutaArchivoZip = @"C:\TadaNomina\TemporalesZip.zip";
+
+                if (System.IO.File.Exists(rutaArchivoZip))
+                {
+                    System.IO.File.Delete(rutaArchivoZip);
+                }
+
+
+                // Crear el archivo ZIP a partir de la carpeta temporal
+                ZipFile.CreateFromDirectory(carpetaTemporal, rutaArchivoZip);
+
+                // Leer el archivo ZIP y devolverlo como una descarga al cliente
+                byte[] contenidoArchivoZip = System.IO.File.ReadAllBytes(rutaArchivoZip);
+                return File(contenidoArchivoZip, "application/zip", "ArchivosComprimidos.zip");
+            }
+            catch (Exception ex)
+            {
+                // Manejar errores
+                return Content("Ocurrió un error al generar el archivo ZIP: " + ex.Message);
+            }
         }
 
+        private string ObtenerRutaArchivo1()
+        {
+            // Lógica para obtener la ruta del archivo 1
+            return Server.MapPath("~/Formatos/FormatoIncidencias.xlsx");
+        }
+
+        private string ObtenerRutaArchivo2()
+        {
+            int IdCliente = 0;
+            int IdUnidadNegocio = 0;
+
+            if (Session["sIdCliente"] != null && Session["sIdUnidadNegocio"] != null)
+            {
+                IdCliente = (int)Session["sIdCliente"];
+                IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+
+                // Crear instancia de la clase Empleado
+                ClassEmpleado empleado = new ClassEmpleado();
+
+                // Obtener archivo de Excel
+                byte[] fileBytes = empleado.ExcelIncidenciasFormatoDos(IdUnidadNegocio, IdCliente);
+
+                string ruta = @"C:\TadaNomina\Reportes\";
+
+                // Ruta del directorio en el servidor donde se guardarán los archivos de Excel
+                string excelDirectoryPath = ruta;
+
+                // Verificar si el directorio existe, si no, crearlo
+                if (!Directory.Exists(excelDirectoryPath))
+                {
+                    Directory.CreateDirectory(excelDirectoryPath);
+                }
+
+                try
+                {
+                    // Nombre del archivo
+                    string fileName = "Conceptos.xlsx";
+
+                    // Ruta completa del archivo de Excel
+                    string excelFilePath = Path.Combine(excelDirectoryPath, fileName);
+
+                    // Guardar archivo en la ruta especificada
+                    System.IO.File.WriteAllBytes(excelFilePath, fileBytes);
+
+                    // Retornar la ruta completa del archivo
+                    return excelFilePath;
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier excepción que pueda ocurrir durante la escritura del archivo
+                    // Aquí puedes registrar el error, mostrar un mensaje de error al usuario, etc.
+                    // Por ejemplo:
+                    // LogError(ex);
+                    // MostrarMensajeError("Error al guardar el archivo.");
+                    throw new Exception("Error al guardar el archivo.", ex);
+                }
+            }
+            else
+            {
+                // Manejar el caso donde las sesiones no contienen los valores esperados
+                // Puedes lanzar una excepción, devolver una ruta predeterminada, etc.
+                throw new Exception("No se encontraron los valores necesarios en la sesión.");
+            }
+        }
+
+
+        private string ObtenerRutaArchivo3()
+        {
+            int IdCliente = 0;
+            int IdUnidadNegocio = 0;
+
+            if (Session["sIdCliente"] != null && Session["sIdUnidadNegocio"] != null)
+            {
+                IdCliente = (int)Session["sIdCliente"];
+                IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+
+                // Crear instancia de la clase Empleado
+                ClassEmpleado empleado = new ClassEmpleado();
+
+                // Obtener archivo de Excel
+                byte[] fileBytes = empleado.ExcelIncidencias(IdUnidadNegocio, IdCliente);
+
+                string ruta = @"C:\TadaNomina\Reportes\";
+
+                // Ruta del directorio en el servidor donde se guardarán los archivos de Excel
+                string excelDirectoryPath = ruta;
+
+                // Verificar si el directorio existe, si no, crearlo
+                if (!Directory.Exists(excelDirectoryPath))
+                {
+                    Directory.CreateDirectory(excelDirectoryPath);
+                }
+
+                try
+                {
+                    // Nombre del archivo
+                    string fileName = "Conceptos" + IdUnidadNegocio + ".xlsx";
+
+                    // Ruta completa del archivo de Excel
+                    string excelFilePath = Path.Combine(excelDirectoryPath, fileName);
+
+                    // Guardar archivo en la ruta especificada
+                    System.IO.File.WriteAllBytes(excelFilePath, fileBytes);
+
+                    // Retornar la ruta completa del archivo
+                    return excelFilePath;
+                }
+                catch (Exception ex)
+                {
+                    // Manejar cualquier excepción que pueda ocurrir durante la escritura del archivo
+                    // Aquí puedes registrar el error, mostrar un mensaje de error al usuario, etc.
+                    // Por ejemplo:
+                    // LogError(ex);
+                    // MostrarMensajeError("Error al guardar el archivo.");
+                    throw new Exception("Error al guardar el archivo.", ex);
+                }
+            }
+            else
+            {
+                // Manejar el caso donde las sesiones no contienen los valores esperados
+                // Puedes lanzar una excepción, devolver una ruta predeterminada, etc.
+                throw new Exception("No se encontraron los valores necesarios en la sesión.");
+            }
+        }
+
+        public ActionResult Excel()
+        {
+            try
+            {
+                // Rutas de los archivos que deseas guardar
+                string archivo1Path = ObtenerRutaArchivo3();
+                string archivo2Path = ObtenerRutaArchivo2();
+
+
+                string carpetaTemporal = Server.MapPath("~/ArchivosTemporales");
+
+                // Si la carpeta temporal existe, la borramos para empezar desde cero
+                if (Directory.Exists(carpetaTemporal))
+                {
+                    Directory.Delete(carpetaTemporal, true);
+                }
+
+                // Creamos la carpeta temporal
+                Directory.CreateDirectory(carpetaTemporal);
+
+
+
+                // Copiar los archivos a la carpeta temporal
+                string nombreArchivo1 = Path.GetFileName(archivo1Path);
+                string nombreArchivo2 = Path.GetFileName(archivo2Path);
+
+                string archivoTemporal1 = Path.Combine(carpetaTemporal, nombreArchivo1);
+                string archivoTemporal2 = Path.Combine(carpetaTemporal, nombreArchivo2);
+
+                System.IO.File.Copy(archivo1Path, archivoTemporal1);
+                System.IO.File.Copy(archivo2Path, archivoTemporal2);
+
+                // Ruta del archivo ZIP de salida
+                string rutaArchivoZip = @"C:\TadaNomina\TemporalesZip.zip";
+
+                if (System.IO.File.Exists(rutaArchivoZip))
+                {
+                    System.IO.File.Delete(rutaArchivoZip);
+                }
+
+
+                // Crear el archivo ZIP a partir de la carpeta temporal
+                ZipFile.CreateFromDirectory(carpetaTemporal, rutaArchivoZip);
+
+                // Leer el archivo ZIP y devolverlo como una descarga al cliente
+                byte[] contenidoArchivoZip = System.IO.File.ReadAllBytes(rutaArchivoZip);
+                return File(contenidoArchivoZip, "application/zip", "ArchivosComprimidos.zip");
+            }
+            catch (Exception ex)
+            {
+                // Manejar errores
+                return Content("Ocurrió un error al generar el archivo ZIP: " + ex.Message);
+            }
+        }
         [HttpPost]
         public ActionResult CreateLayout(ModelIncidencias model)
         {
