@@ -291,6 +291,7 @@ namespace TadaNomina.Controllers.Administracion
         /// <returns>Regresa la vista con la lista de configuración de sueldos.</returns>
         private static List<SelectListItem> LlenaListConfiguracionSueldos()
         {
+            //se debe sacar esta lista a una tabla de DB
             List<SelectListItem> listConfiguracionSueldos = new List<SelectListItem>();
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Brutos", Value = "Brutos" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Neto a Pagar", Value = "NetosPagar" });
@@ -298,6 +299,7 @@ namespace TadaNomina.Controllers.Administracion
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos(Impuestos)", Value = "Netos(Impuestos)" });            
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida)", Value = "Netos Tradicional(Piramida)" });
             listConfiguracionSueldos.Add(new SelectListItem { Text = "Netos Tradicional(Piramida ART 93)", Value = "Netos Tradicional(Piramida ART 93)" });
+            listConfiguracionSueldos.Add(new SelectListItem { Text = "Real-Tradicional", Value = "Real-Tradicional" });
             return listConfiguracionSueldos;
         }
     }
