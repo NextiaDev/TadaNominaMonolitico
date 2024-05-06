@@ -3188,5 +3188,85 @@ namespace TadaNomina.Models.ClassCore
                 );
             return emp.FirstOrDefault();
         }
+
+
+        // Metodo que generqa Conceoptos
+        public byte[] ExcelIncidenciasFormatoDos(int idunidadnegocio, int idcliente)
+        {
+
+            TadaEmpleados entities = new TadaEmpleados();
+
+            var insi = (from b in entities.Cat_ConceptosNomina.Where(x => x.IdEstatus == 1 && x.IdCliente == idcliente) select b).ToList();
+
+            List<string> ListFirstRow = new List<string>();
+            List<string> ListSecondRow = new List<string>();
+
+
+
+            foreach (var item in insi)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+
+                    if (i == 0)
+                    {
+                        ListFirstRow.Add(item.IdConcepto.ToString() + "-" + "T");
+                        ListSecondRow.Add(item.Concepto + " " + "Tradicional");
+
+                    }
+                    else
+                    {
+                        ListFirstRow.Add(item.IdConcepto.ToString() + "-" + "S");
+                        ListSecondRow.Add(item.Concepto + " " + "Esquema");
+
+                    }
+
+
+
+
+                }
+
+            }
+
+            List<TadaNomina.Models.ClassCore.Excel> ListDatos = new List<Excel>();
+
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                var xl = wb.Worksheets.Add("Incidencias");
+                int i = 1;
+                foreach (string column in ListFirstRow)
+                {
+                    xl.Cell(1, i).Value = column;
+                    xl.Cell(1, i).Style.Fill.BackgroundColor = XLColor.BlueBell;
+                    
+                    xl.Cell(1, i).Style.Font.FontColor = XLColor.White;
+                    xl.Cell(1, i).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                    i++;
+                }
+
+                i = 1;
+                foreach (string column in ListSecondRow)
+                {
+                    xl.Cell(2, i).Value = column;
+            
+                        xl.Cell(2, i).Style.Fill.BackgroundColor = XLColor.BlueBell;
+                    
+                    xl.Cell(2, i).Style.Font.FontColor = XLColor.White;
+                    xl.Cell(2, i).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    i++;
+                }
+
+                xl.Cell(3, 1).InsertData(ListDatos);
+
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return stream.ToArray();
+                }
+            }
+        }
     }
 }

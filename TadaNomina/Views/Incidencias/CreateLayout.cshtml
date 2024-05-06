@@ -32,19 +32,17 @@
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            @Html.Label("Formato 1:", new { @class = "control-label col-md-2" })
-                            <a href="~/Formatos/FormatoIncidencias.xlsx" download="FormatoAltas">
-                                <span class="btn btn-info">Descargar</span>
-                            </a>
+                    <div class="form-group">
+                        @Html.Label("Formato 1:", new { @class = "control-label col-md-2" })
+                        <input type="button" onclick="location.href='@Url.Action("ExcelUno", "Incidencias")'" value="Descargar" class="btn btn-info" />
 
-                        </div>
-                        <div class="form-group">
+                    </div>
+                    <div class="form-group">
 
-                            @Html.Label("Formato 2:", new { @class = "control-label col-md-2" })
-                            <input type="button" onclick="location.href='@Url.Action("Excel", "Incidencias")'" value="Descargar" class="btn btn-info" />
+                        @Html.Label("Formato 2:", new { @class = "control-label col-md-2" })
+                        <input type="button" onclick="location.href='@Url.Action("Excel", "Incidencias")'" value="Descargar" class="btn btn-info" />
 
-                        </div>
+                    </div>
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.idFormato, htmlAttributes: new { @class = "control-label col-md-2" })
