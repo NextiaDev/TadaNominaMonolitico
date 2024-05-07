@@ -53,6 +53,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 ListImpuestos_Ajuste = ListImpuestos_Anterior;
         }
 
+        public void CalculaISR_Real()
+        {
+            decimal BaseGravada = 0;
+            BaseGravada += nominaTrabajo.SueldoPagado_Real ?? 0;            
+            BaseGravada += nominaTrabajo.Subsidio_Real ?? 0;
+            BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI").Select(x => x.Gravado).Sum() ?? 0;
+        }
+
         public void CalculaISRAguinaldoL174()
         {
             try

@@ -441,7 +441,7 @@ namespace TadaNomina.Models.ClassCore
             if (guardar)
             {
                 int IdIncidencia = AddIncidencias(i, IdUsuario);
-                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0 && periodo.TipoNomina == "Nomina")
                     IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
             }
         }
@@ -629,7 +629,7 @@ namespace TadaNomina.Models.ClassCore
             if (guardar)
             {
                 int IdIncidencia = AddIncidencias(i, IdUsuario);
-                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0 && periodo.TipoNomina == "Nomina")
                     IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
             }
         }
@@ -764,10 +764,15 @@ namespace TadaNomina.Models.ClassCore
                 if (cantidadAnt > 0)
                     i.Cantidad = cantidadAnt;
 
+                if (montoReal > 0)
+                { 
+                    
+                }
+
                 if (guardar)
                 {
                     int IdIncidencia = AddIncidencias(i, IdUsuario);
-                    if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                    if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0 && periodo.TipoNomina == "Nomina")
                         IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
                 }
             }
@@ -913,7 +918,7 @@ namespace TadaNomina.Models.ClassCore
             if (guardar)
             {
                 int IdIncidencia = AddIncidencias(i, IdUsuario);
-                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0)
+                if (concepto.CreaConceptoAdicional == "SI" && concepto.IdConceptoAdicional != null && concepto.IdConceptoAdicional != 0 && periodo.TipoNomina == "Nomina")
                     IncindenciaSecundaria(i, IdIncidencia, (int)concepto.IdConceptoAdicional, IdUsuario);
             }
         }

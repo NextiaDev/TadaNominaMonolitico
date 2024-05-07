@@ -516,7 +516,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             decimal antiguedadAnios = calculaAntiguedadBanderaProporcional();
 
             TotalLiquidacion = indem90d + indem20d + indemPA;
-            decimal _ExentoTotal = ((decimal)SueldosMinimos.UMA * 90M) * antiguedadAnios;
+            decimal _ExentoTotal = ((decimal)(SueldosMinimos.UMA ?? throw new Exception("No se encontraron datos de la UMA")) * 90M) * antiguedadAnios;
             decimal ExentoLiquidacion = 0;
             decimal GravadoLiquidacion = TotalLiquidacion;
 
