@@ -14,6 +14,9 @@ using TadaNomina.Models.ViewModels.Reportes;
 using TadaNomina.Models.ViewModels.RelojChecador;
 using TadaNomina.Models.ClassCore.RelojChecador;
 using System.Threading.Tasks;
+using TadaNomina.Models.ViewModels.Catalogos;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace TadaNomina.Controllers.Nomina
 {
@@ -248,6 +251,97 @@ namespace TadaNomina.Controllers.Nomina
             modelo.TipoPeriodo = TipoPeriodo;
             return View(modelo);
         }
+
+        public ActionResult GenerarExcel()
+        {
+            int IdCliente = (int)Session["sIdCliente"];
+
+
+            var listaConsulta = new List<ModelConceptosReport>(); // Cambia "Consulta" por el tipo real de tu consulta
+            using (TadaEmpleados entidad = new TadaEmpleados())
+            {
+                var dd = (from b in entidad.Cat_ConceptosNomina
+                          where b.IdEstatus == 1 && b.IdCliente == IdCliente
+                          select new ModelConceptosReport
+                          {
+                              ClaveConcepto = b.ClaveConcepto,
+                              Concepto = b.Concepto,
+                              TipoConcepto = b.TipoConcepto == "DD" ? "Deducción" : (b.TipoConcepto == "ER" ? "Percepcion" : "Informativo"),
+                              TipoDato = b.TipoDato == "Porcentaje" ? "Porcentaje" : (b.TipoDato == "Pesos" ? "Pesos" : "Cantidades"),
+                          }).ToList();
+
+                listaConsulta.AddRange(dd);
+
+            }
+
+
+
+            // Crear el archivo de Excel
+            OfficeOpenXml.ExcelPackage excelPackage = new OfficeOpenXml.ExcelPackage();
+
+            // Agregar la primera hoja
+            OfficeOpenXml.ExcelWorksheet worksheet1 = excelPackage.Workbook.Worksheets.Add("Hoja1");
+
+            var headerRange = worksheet1.Cells["A1:H1"];
+            headerRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            headerRange.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
+
+
+
+            // Agregar encabezados a la primera hoja
+            worksheet1.Cells[1, 1].Value = "ClaveEmpleado";
+            worksheet1.Cells[1, 2].Value = "ClaveConcepto";
+            worksheet1.Cells[1, 3].Value = "Cantidad";
+            worksheet1.Cells[1, 4].Value = "MontoTradicional";
+            worksheet1.Cells[1, 5].Value = "MontoEsquema";
+            worksheet1.Cells[1, 6].Value = "FechaInicio";
+            worksheet1.Cells[1, 7].Value = "FechaFin";
+            worksheet1.Cells[1, 8].Value = "Folio";
+
+            // Agregar datos a la primera hoja
+            // Esto es un ejemplo, deberías reemplazar estos datos con los tuyos
+            // Puedes obtener los datos de tu base de datos u otra fuente de datos
+            var listaDatos = new List<Cat_ConceptosNomina>(); // Cambia "Datos" por el tipo real de tus datos
+
+
+
+            ExcelWorksheet worksheet2 = excelPackage.Workbook.Worksheets.Add("Hoja2");
+
+
+
+            var headerRange2 = worksheet2.Cells["A1:D1"];
+            headerRange2.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            headerRange2.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
+
+
+            worksheet2.Cells[1, 1].Value = "ClaveConcepto";
+            worksheet2.Cells[1, 2].Value = "Concepto";
+            worksheet2.Cells[1, 3].Value = "TipoConcepto";
+            worksheet2.Cells[1, 4].Value = "TipoDato";
+
+
+            for (int i = 0; i < listaConsulta.Count; i++)
+            {
+
+
+                worksheet2.Cells[i + 2, 1].Value = listaConsulta[i].ClaveConcepto;
+                worksheet2.Cells[i + 2, 2].Value = listaConsulta[i].Concepto;
+                worksheet2.Cells[i + 2, 3].Value = listaConsulta[i].TipoConcepto;
+                worksheet2.Cells[i + 2, 4].Value = listaConsulta[i].TipoDato;
+
+            }
+            // Guardar el archivo Excel en una memoria temporal
+            MemoryStream memoryStream = new MemoryStream();
+            excelPackage.SaveAs(memoryStream);
+            memoryStream.Position = 0;
+
+            // Establecer el tipo de contenido y el nombre del archivo
+            memoryStream.Position = 0;
+            return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Incidencias.xlsx");
+        }
+
+
+
 
         public FileResult Excel()
         {
