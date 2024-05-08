@@ -48,7 +48,7 @@ namespace TadaNomina.Controllers.Nomina
                     int IdUsuario = (int)Session["sIdUsuario"];
                     collection.IdUnidadNegocio = IdUnidadNegocio;
                     collection.IdCliente_PTU = IdCliente_PTU;
-                    if (DateTime.Parse(collection.FechaFin) < DateTime.Parse(collection.FechaInicio)) { throw new Exception("Las fecha final no puede ser menor a la fecha inicial."); }
+                    if (DateTime.Parse(collection.FechaFin) < DateTime.Parse(collection.FechaInicio)) { throw new Exception("La fecha final no puede ser menor a la fecha inicial."); }
 
                     // Validamos si existen pendientes por timbrar
                     if (cperiodos.ValidaTimbrado(IdUnidadNegocio) > 0)
@@ -80,7 +80,7 @@ namespace TadaNomina.Controllers.Nomina
                 ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio);
 
                 model.Validacion = false;
-                model.Mensaje = "Error: " + ex.Message;
+                model.Mensaje = "ERROR: " + ex.Message;
                 return View(model);
             }
         }
