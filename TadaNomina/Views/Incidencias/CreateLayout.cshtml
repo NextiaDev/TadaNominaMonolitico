@@ -32,13 +32,12 @@
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            @Html.Label("Formato 1:", new { @class = "control-label col-md-2" })
-                            <a href="~/Formatos/FormatoIncidencias.xlsx" download="FormatoAltas">
-                                <span class="btn btn-info">Descargar</span>
-                            </a>
+                    <div class="form-group">
+                        @Html.Label("Formato 1:", new { @class = "control-label col-md-2" })
+                        <input type="button" onclick="location.href='@Url.Action("GenerarExcel", "Incidencias")'" value="Descargar" class="btn btn-info" />
 
-                        </div>
+
+                    </div>
                         <div class="form-group">
 
                             @Html.Label("Formato 2:", new { @class = "control-label col-md-2" })
