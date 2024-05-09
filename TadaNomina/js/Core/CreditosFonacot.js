@@ -90,11 +90,11 @@ function CambiaStatus(IdCredito) {
         datatype: 'json',
         success: function (data) {
             if (data == "OK") {
-                alert("Se realizó el cambio.");
-            } else {
-                alert("No se pudo realizar el cambio, favor de actualizar la ventara e intentarlo nuevamente");
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
+            }
+            else {
+                mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
             }
         }
-
     });
 }

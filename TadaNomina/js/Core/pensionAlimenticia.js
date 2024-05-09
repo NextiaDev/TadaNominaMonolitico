@@ -67,8 +67,7 @@ function CambiaStatus(IdPension) {
         datatype: 'json',
         success: function (data) {
             if (data == "OK") {
-                mensajeAlerta("Atencion!", "Se suspendio correctamente el saldo.", "mint", "bounce", "fadeOut", 2000);
-                setTimeout(redirigir, 2500);
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
             }
             else {
                 mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
