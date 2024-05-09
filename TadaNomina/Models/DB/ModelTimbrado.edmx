@@ -17,7 +17,7 @@
           <Property Name="ClaveSAT" Type="nvarchar" MaxLength="10" />
           <Property Name="Concepto" Type="nvarchar" MaxLength="150" />
           <Property Name="Informacion" Type="text" />
-          <Property Name="TipoConcepto" Type="nchar" MaxLength="2" />
+          <Property Name="TipoConcepto" Type="nvarchar" MaxLength="4" />
           <Property Name="TipoDato" Type="nvarchar" MaxLength="50" />
           <Property Name="TipoEsquema" Type="nvarchar" MaxLength="50" />
           <Property Name="CalculaMontos" Type="nchar" MaxLength="2" />
@@ -251,7 +251,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidencias_Consolidadas' no
           <Property Name="ClaveSAT" Type="nvarchar" MaxLength="10" />
           <Property Name="Concepto" Type="nvarchar" MaxLength="150" />
           <Property Name="Informacion" Type="text" />
-          <Property Name="TipoConcepto" Type="nchar" MaxLength="2" />
+          <Property Name="TipoConcepto" Type="nvarchar" MaxLength="4" />
           <Property Name="TipoDato" Type="nvarchar" MaxLength="50" />
           <Property Name="Integrable" Type="nchar" MaxLength="2" />
           <Property Name="IntegraSDI" Type="nchar" MaxLength="2" />
@@ -281,6 +281,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vIncidencias_Consolidadas' no
           <Property Name="CalculoAutomatico" Type="nvarchar" MaxLength="2" />
           <Property Name="Orden" Type="int" />
           <Property Name="Formula" Type="nvarchar(max)" />
+          <Property Name="CantidadReal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MontoReal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ExentoReal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GravadoReal" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTimbradoNomina' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -297,6 +301,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTimbradoNomina' no tiene def
             <PropertyRef Name="ApellidoPaterno" />
             <PropertyRef Name="Periodo" />
             <PropertyRef Name="TipoNomina" />
+            <PropertyRef Name="IdEntidad" />
           </Key>
           <Property Name="IdTimbradoNomina" Type="int" Nullable="false" />
           <Property Name="IdPeriodoNomina" Type="int" />
@@ -362,6 +367,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vTimbradoNomina' no tiene def
           <Property Name="idSincatosClientes" Type="int" />
           <Property Name="BanderaSindicalizados" Type="nvarchar" MaxLength="2" />
           <Property Name="IdGrupo" Type="int" />
+          <Property Name="IdEntidad" Type="int" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -496,7 +502,11 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
     [vIncidencias_Consolidadas].[IntegraISN] AS [IntegraISN], 
     [vIncidencias_Consolidadas].[CalculoAutomatico] AS [CalculoAutomatico], 
     [vIncidencias_Consolidadas].[Orden] AS [Orden], 
-    [vIncidencias_Consolidadas].[Formula] AS [Formula]
+    [vIncidencias_Consolidadas].[Formula] AS [Formula], 
+    [vIncidencias_Consolidadas].[CantidadReal] AS [CantidadReal], 
+    [vIncidencias_Consolidadas].[MontoReal] AS [MontoReal], 
+    [vIncidencias_Consolidadas].[ExentoReal] AS [ExentoReal], 
+    [vIncidencias_Consolidadas].[GravadoReal] AS [GravadoReal]
     FROM [dbo].[vIncidencias_Consolidadas] AS [vIncidencias_Consolidadas]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vTimbradoNomina" EntityType="Self.vTimbradoNomina" store:Type="Views" store:Schema="dbo">
@@ -564,7 +574,8 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
     [vTimbradoNomina].[SD] AS [SD], 
     [vTimbradoNomina].[idSincatosClientes] AS [idSincatosClientes], 
     [vTimbradoNomina].[BanderaSindicalizados] AS [BanderaSindicalizados], 
-    [vTimbradoNomina].[IdGrupo] AS [IdGrupo]
+    [vTimbradoNomina].[IdGrupo] AS [IdGrupo], 
+    [vTimbradoNomina].[IdEntidad] AS [IdEntidad]
     FROM [dbo].[vTimbradoNomina] AS [vTimbradoNomina]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vXmlNomina" EntityType="Self.vXmlNomina" store:Type="Views" store:Schema="dbo">
@@ -685,7 +696,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="TipoConcepto" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TipoEsquema" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CalculaMontos" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
@@ -774,7 +785,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="ClaveSAT" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Concepto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="TipoConcepto" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="TipoConcepto" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="TipoDato" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Integrable" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
           <Property Name="IntegraSDI" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
@@ -804,6 +815,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="CalculoAutomatico" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="Orden" Type="Int32" />
           <Property Name="Formula" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CantidadReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MontoReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ExentoReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GravadoReal" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <ComplexType Name="sp_InformacionXML_Nomina1_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="152" />
@@ -1181,6 +1196,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
             <PropertyRef Name="ApellidoPaterno" />
             <PropertyRef Name="Periodo" />
             <PropertyRef Name="TipoNomina" />
+            <PropertyRef Name="IdEntidad" />
           </Key>
           <Property Name="IdTimbradoNomina" Type="Int32" Nullable="false" />
           <Property Name="IdPeriodoNomina" Type="Int32" />
@@ -1246,6 +1262,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <Property Name="idSincatosClientes" Type="Int32" />
           <Property Name="BanderaSindicalizados" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="IdGrupo" Type="Int32" />
+          <Property Name="IdEntidad" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1341,6 +1358,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="vIncidencias_Consolidadas">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.vIncidencias_Consolidadas">
               <MappingFragment StoreEntitySet="vIncidencias_Consolidadas">
+                <ScalarProperty Name="GravadoReal" ColumnName="GravadoReal" />
+                <ScalarProperty Name="ExentoReal" ColumnName="ExentoReal" />
+                <ScalarProperty Name="MontoReal" ColumnName="MontoReal" />
+                <ScalarProperty Name="CantidadReal" ColumnName="CantidadReal" />
                 <ScalarProperty Name="Formula" ColumnName="Formula" />
                 <ScalarProperty Name="Orden" ColumnName="Orden" />
                 <ScalarProperty Name="CalculoAutomatico" ColumnName="CalculoAutomatico" />
@@ -1745,6 +1766,7 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vXmlNomina' no tiene definida
           <EntitySetMapping Name="vTimbradoNomina">
             <EntityTypeMapping TypeName="TadaNominaTimbrado.vTimbradoNomina">
               <MappingFragment StoreEntitySet="vTimbradoNomina">
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
                 <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
                 <ScalarProperty Name="BanderaSindicalizados" ColumnName="BanderaSindicalizados" />
                 <ScalarProperty Name="idSincatosClientes" ColumnName="idSincatosClientes" />

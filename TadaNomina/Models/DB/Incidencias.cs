@@ -26,6 +26,10 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> MontoEsquema { get; set; }
         public Nullable<decimal> ExentoEsquema { get; set; }
         public Nullable<decimal> GravadoEsquema { get; set; }
+        public Nullable<decimal> CantidadReal { get; set; }
+        public Nullable<decimal> MontoReal { get; set; }
+        public Nullable<decimal> ExentoReal { get; set; }
+        public Nullable<decimal> GravadoReal { get; set; }
         public Nullable<System.DateTime> FechaInicio { get; set; }
         public Nullable<System.DateTime> FechaFin { get; set; }
         public string Folio { get; set; }

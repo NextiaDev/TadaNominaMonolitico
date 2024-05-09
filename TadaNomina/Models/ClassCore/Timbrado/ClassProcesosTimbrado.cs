@@ -252,6 +252,17 @@ namespace TadaNomina.Models.ClassCore.Timbrado
             }
         }
 
+        public List<vTimbradoNomina> GetvTimbradosPeriodo()
+        {
+            using (TadaTimbradoEntities entidad = new TadaTimbradoEntities())
+            {                
+                var consulta = "select * from vTimbradoNomina where IdRegistroPatronal in (43, 44, 38, 40, 42, 41) and FechaCaptura between '2023-01-01' and '2023-08-31' and IdEstatus = 1 order by Rfc_Patronal, IdEntidad desc";
+                var timbrado = entidad.Database.SqlQuery<vTimbradoNomina>(consulta).ToList();
+
+                return timbrado;
+            }
+        }
+
         /// <summary>
         /// Metodo para obtener la lista de errores generados al timbrar por un determinado periodo de nómina
         /// </summary>

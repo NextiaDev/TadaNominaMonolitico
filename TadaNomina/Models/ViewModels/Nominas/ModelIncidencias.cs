@@ -51,6 +51,10 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public decimal? ExentoEsquema { get; set; }
         [Display(Name = "Gravado Esq:")]
         public decimal? GravadoEsquema { get; set; }
+        public decimal? CantidadReal { get; set; }
+        public decimal? MontoReal { get; set; }
+        public decimal? ExentoReal { get; set; }
+        public decimal? GravadoReal { get; set; }
         [Display(Name = "Fecha Inicio:")]
         public DateTime? FechaIncio { get; set; }
         [Display(Name = "Fecha Fin:")]

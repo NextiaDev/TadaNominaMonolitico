@@ -169,6 +169,9 @@ namespace TadaNomina.Models.ClassCore
                 try { ins.MontoEsquema = Math.Round((decimal)i.MontoEsquema, 2); } catch { ins.MontoEsquema = 0; }
                  try {   ins.ExentoEsquema = Math.Round((decimal)i.ExentoEsquema, 2); } catch { ins.ExentoEsquema = 0; }
                 try { ins.GravadoEsquema = Math.Round((decimal)i.GravadoEsquema, 2); } catch { ins.GravadoEsquema = 0; }
+                ins.MontoReal = Math.Round((i.MontoReal ?? 0), 2);
+                ins.ExentoReal = Math.Round((i.ExentoReal ?? 0), 2);
+                ins.GravadoReal = Math.Round((i.GravadoReal ?? 0), 2);
                 ins.FechaInicio = i.FechaIncio;
                 ins.FechaFin = i.FechaFinal;
                 ins.Folio = i.Folio;
@@ -438,6 +441,14 @@ namespace TadaNomina.Models.ClassCore
             if (cantidadAnt > 0)
                 i.Cantidad = cantidadAnt;
 
+            if (montoReal > 0)
+            {
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                i.MontoReal = montoReal;
+                i.ExentoReal = Exento;
+                i.GravadoReal = Gravado;
+            }
+
             if (guardar)
             {
                 int IdIncidencia = AddIncidencias(i, IdUsuario);
@@ -626,6 +637,14 @@ namespace TadaNomina.Models.ClassCore
             if ((vEmp.SD ?? 0) <= (vEmp.SDIMSS ?? 0))
                 i.MontoEsquema = 0;
 
+            if (montoReal > 0)
+            {
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                i.MontoReal = montoReal;
+                i.ExentoReal = Exento;
+                i.GravadoReal = Gravado;
+            }
+
             if (guardar)
             {
                 int IdIncidencia = AddIncidencias(i, IdUsuario);
@@ -765,8 +784,11 @@ namespace TadaNomina.Models.ClassCore
                     i.Cantidad = cantidadAnt;
 
                 if (montoReal > 0)
-                { 
-                    
+                {
+                    ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                    i.MontoReal = montoReal;
+                    i.ExentoReal = Exento;
+                    i.GravadoReal = Gravado;
                 }
 
                 if (guardar)
@@ -914,6 +936,14 @@ namespace TadaNomina.Models.ClassCore
 
             if (cantidadAnt > 0)
                 i.Cantidad = cantidadAnt;
+
+            if (montoReal > 0)
+            {
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                i.MontoReal = montoReal;
+                i.ExentoReal = Exento;
+                i.GravadoReal = Gravado;
+            }
 
             if (guardar)
             {
@@ -1112,6 +1142,14 @@ namespace TadaNomina.Models.ClassCore
 
             if (cantidadAnt > 0)
                 i.Cantidad = cantidadAnt;
+
+            if (montoReal > 0)
+            {
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                i.MontoReal = montoReal;
+                i.ExentoReal = Exento;
+                i.GravadoReal = Gravado;
+            }
 
             if (guardar)
             {

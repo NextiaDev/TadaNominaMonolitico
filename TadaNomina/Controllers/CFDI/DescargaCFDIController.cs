@@ -1,10 +1,14 @@
 ﻿using ClosedXML.Excel;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-
+using TadaNomina.Models.ClassCore;
 using TadaNomina.Models.ClassCore.PDF_CFDI;
+using TadaNomina.Models.ClassCore.Timbrado;
+using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.CFDI;
 
 namespace TadaNomina.Controllers.CFDI
@@ -34,6 +38,33 @@ namespace TadaNomina.Controllers.CFDI
             ClassDescargaCFDI cDescarga = new ClassDescargaCFDI();
             ModelDescargaCFDI modelo = cDescarga.GetModel(IdUnidad);
             ViewBag.IdPeriodoNomina = model.IdPeriodoNomina;
+
+            ///condigo para borrar. Descarga separado por patrona y por entidad.
+            //string path = "C://Timbrado/";
+            //ClassProcesosTimbrado cpt = new ClassProcesosTimbrado();
+            //CrearXML cxml = new CrearXML();
+            //ClassEntidadFederativa ce = new ClassEntidadFederativa();
+
+            //var list = cpt.GetvTimbradosPeriodo();
+
+            //if (!Directory.Exists(path))            
+            //    Directory.CreateDirectory(path);
+
+            //List<Cat_EntidadFederativa> listaEntidades = ce.getEntidades();
+            
+            //foreach (var i in list)
+            //{
+            //    var entidad = listaEntidades.Where(x => x.Id == i.IdEntidad).Select(x=> x.Nombre).FirstOrDefault() ?? "";
+
+            //    if (!Directory.Exists(path + "/" + i.RFC_Patronal))
+            //        Directory.CreateDirectory(path + "/" + i.RFC_Patronal);
+
+            //    if (!Directory.Exists(path + "/" + i.RFC_Patronal + "/" + entidad))
+            //        Directory.CreateDirectory(path + "/" + i.RFC_Patronal + "/" + entidad);
+
+            //    cxml.crearXML(i.CFDI_Timbrado, path + "/" + i.RFC_Patronal + "/" + entidad + "/" + i.IdPeriodoNomina + "_" + i.IdEmpleado + "_" + i.RFC + ".xml");
+            //}
+
             try
             {
                 ClassDescargaCFDI cd = new ClassDescargaCFDI();
@@ -50,8 +81,6 @@ namespace TadaNomina.Controllers.CFDI
                         cd.GetZipCC(model.IdPeriodoNomina, model.TipoArchivo, IdCliente);
                         break;
                 }
-                                
-                
             
                 modelo.validacion = true;
                 modelo.Mensaje = "Los archivos se generaron de forma correcta.";
