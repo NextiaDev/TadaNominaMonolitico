@@ -48,7 +48,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.RetencionMensual)
                         </th>
-                      
+
 
 
                         <th></th>
@@ -59,14 +59,20 @@
                     {
                         <tr>
                             <td>
-                                @if (item.Activo == false)
-                                {
-                                    <input onclick="CambiaStatus(@item.IdCreditoFonacot)" type="checkbox">
-                                }
-                                else
-                                {
-                                    <input onclick="CambiaStatus(@item.IdCreditoFonacot)" type="checkbox" checked>
-                                }
+                                <div class="col-md-4">
+                                    <div class="box-inline mar-rgt">
+                                        @if (item.Activo == false)
+                                        {
+                                            <input id="demo-panel-w-switch-@item.IdCreditoFonacot" class="toggle-switch" type="checkbox" onclick="CambiaStatus(@item.IdCreditoFonacot)">
+                                            <label for="demo-panel-w-switch-@item.IdCreditoFonacot"></label>
+                                        }
+                                        else
+                                        {
+                                            <input id="demo-panel-w-switch-@item.IdCreditoFonacot" class="toggle-switch" type="checkbox" checked onclick="CambiaStatus(@item.IdCreditoFonacot)">
+                                            <label for="demo-panel-w-switch-@item.IdCreditoFonacot"></label>
+                                        }
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ClaveEmp)
@@ -110,5 +116,7 @@
 </div>
 
 @section Scripts{
+    <script src="~/js/Core/mensajes.js"></script>
+    <script src="~/js/Core/default.js"></script>
     <script src="~/js/Core/CreditosFonacot.js"></script>
 }

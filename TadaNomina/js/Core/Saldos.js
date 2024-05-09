@@ -335,7 +335,6 @@ function ActivarSaldo(id, saldo) {
             dataType: 'json',
             data: { idSaldo: saldo },
             success: function (data) {
-
                 if (data == "OK") {
                     mensajeAlerta("Atencion!", "Se activo correctamente el saldo.", "mint", "bounce", "fadeOut", 2000);
                     setTimeout(redirigir, 2500);
