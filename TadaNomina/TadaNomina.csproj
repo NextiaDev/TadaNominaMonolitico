@@ -1392,6 +1392,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelBusquedaEmpleado.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelCargaLayoutNominas.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelConfEmpleadoHoras.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelCreatePeriodoNomina.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelDiasTrabajadosAguinaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadoFiniquito.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadosNetos.cs" />

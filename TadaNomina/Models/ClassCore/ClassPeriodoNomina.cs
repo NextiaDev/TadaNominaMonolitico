@@ -276,40 +276,41 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="IdUsuario">Recibe el identificador del usuario.</param>
         public void AddPeriodoNomina(ModelPeriodoNomina modelo, string token)
         {
-            string servicio = "/api/PeriodosNomina/CreatePeriodoNomina";
-            Uri apiUrl = new Uri(_urlApiNom + servicio);
+            string servicio = "/api/PeriodosNomina/CreatePeriodoNomina"; //Servicio de la API
+            Uri apiUrl = new Uri(_urlApiNom + servicio); //URL de la API
 
-            var request = new
-            {
-                idUnidadNegocio = (int)modelo.IdUnidadNegocio,
-                periodo = (string)modelo.Periodo,
-                fechaInicio = (string)modelo.FechaInicio,
-                fechaFin = (string)modelo.FechaFin,
-                ajusteImpuestos = (string)modelo.AjusteImpuestos,
-                idsPeriodosAjuste = modelo.IdsPeriodosAjuste != null ? (string)modelo.IdsPeriodosAjuste : null,
-                observaciones = modelo.Observaciones != null ? (string)modelo.Observaciones : null,
-                tipoNomina = (string)modelo.TipoNomina,
-                tablaIDiaria = (bool)modelo.TablaIDiaria,
-                ajusteAnual = (bool)modelo.AjusteAnual,
-                omitirDescuentosFijos = (bool)modelo.OmitirDescuentosFijos,
-                idClientePTU = (int?)modelo.IdCliente_PTU,
-                idRegistroPatronalPTU = (int?)modelo.IdRegistroPatronal_PTU,
-                montoPTU = (decimal?)modelo.Monto_PTU,
-                anioPTU = (int?)modelo.Año_PTU,
-                calculoPatronaPtu = (bool?)modelo.CalculoPatronaPtu,
-                fechaInicioChecador = modelo.FechaInicioChecador != null ? (string)modelo.FechaInicioChecador : null,
-                fechaFinChecador = modelo.FechaFinChecador != null ? (string)modelo.FechaFinChecador : null
-            };
+            //Se crea el objeto de la petición
+            var request = new ModelCreatePeriodoNomina
+            (
+                (int)modelo.IdUnidadNegocio, //Identificador de la unidad de negocio
+                (string)modelo.Periodo, //Periodo de la nómina
+                DateTime.Parse(modelo.FechaInicio), //Fecha de inicio del periodo
+                DateTime.Parse(modelo.FechaFin), //Fecha de fin del periodo
+                (string)modelo.AjusteImpuestos, //Ajuste de impuestos
+                modelo.IdsPeriodosAjuste != null ? (string)modelo.IdsPeriodosAjuste : null, //Ids de los periodos de ajuste
+                modelo.Observaciones != null ? (string)modelo.Observaciones : null, //Observaciones
+                (string)modelo.TipoNomina, //Tipo de nómina
+                (bool)modelo.TablaIDiaria, //Tabla I Diaria
+                (bool)modelo.AjusteAnual, //Ajuste anual
+                (bool)modelo.OmitirDescuentosFijos, //Omitir descuentos fijos
+                (int?)modelo.IdCliente_PTU, //Id del cliente PTU
+                (int?)modelo.IdRegistroPatronal_PTU, //Id del registro patronal PTU
+                (decimal?)modelo.Monto_PTU, // Monto de la PTU
+                (int?)modelo.Año_PTU, //Año de la PTU
+                (bool?)modelo.CalculoPatronaPtu, // Cálculo de la patrona PTU
+                modelo.FechaInicioChecador != null ? (string)modelo.FechaInicioChecador : null, //Fecha de inicio del checador
+                modelo.FechaFinChecador != null ? (string)modelo.FechaFinChecador : null //Fecha de fin del checador
+            );
 
-            var json = JsonConvert.SerializeObject(request);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(request); //Se serializa el objeto de la petición a JSON
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json"); //Se convierte a contenido JSON para la petición POST
 
-            _httpClient.DefaultRequestHeaders.Authorization = null;
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            _httpClient.DefaultRequestHeaders.Authorization = null; //Se limpia la autorización por si se tiene alguna configurada previamente en el cliente HTTP
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token); //Se agrega la autorización con el token JWT en el cliente HTTP
 
-            var response = _httpClient.PostAsync(apiUrl, content).Result;
+            var response = _httpClient.PostAsync(apiUrl, content).Result; //Se ejecuta la petición POST a la API con el contenido JSON de la petición y se obtiene la respuesta
 
-            response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode(); // Se verifica que la respuesta sea exitosa (200)
         }
 
         /// <summary>

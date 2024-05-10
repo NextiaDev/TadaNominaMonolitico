@@ -12,8 +12,7 @@ using TadaNomina.Models.ViewModels.Nominas;
 namespace TadaNomina.Controllers.Nomina
 {
     public class PeriodosController : BaseController
-    {
-        // GET: Periodos
+    {    
         public ActionResult Index()
         {
             int IdUnidadNegocio = 0;
@@ -35,54 +34,59 @@ namespace TadaNomina.Controllers.Nomina
             return View(model);
         }
 
+        /// <summary>
+        /// Método para crear un periodo de nómina en la base de datos
+        /// </summary>
+        /// <param name="collection">Modelo de la vista</param>
+        /// <returns>Redirección a la vista de periodos de nómina</returns>
         [HttpPost]
         public ActionResult Create(ModelPeriodoNomina collection)
         {
-            try
+            try // Iniciamos el control de excepciones
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid) // Validamos si el modelo es válido
                 {
-                    ClassPeriodoNomina cperiodos = new ClassPeriodoNomina();
-                    int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
-                    int IdCliente_PTU = (int)Session["sIdCliente"];
-                    int IdUsuario = (int)Session["sIdUsuario"];
-                    string token = (string)Session["sToken"];
-                    collection.IdUnidadNegocio = IdUnidadNegocio;
-                    collection.IdCliente_PTU = IdCliente_PTU;
-                    if (DateTime.Parse(collection.FechaFin) < DateTime.Parse(collection.FechaInicio)) { throw new Exception("Las fecha final no puede ser menor a la fecha inicial."); }
+                    ClassPeriodoNomina cperiodos = new ClassPeriodoNomina(); // Instanciamos la clase de periodos de nómina
+                    int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; // Obtenemos el identificador de la unidad de negocio del usuario
+                    int IdCliente_PTU = (int)Session["sIdCliente"]; // Obtenemos el identificador del cliente PTU del usuario
+                    int IdUsuario = (int)Session["sIdUsuario"]; // Obtenemos el identificador del usuario
+                    string token = (string)Session["sToken"]; // Obtenemos el token del usuario
+                    collection.IdUnidadNegocio = IdUnidadNegocio; // Asignamos el identificador de la unidad de negocio al modelo
+                    collection.IdCliente_PTU = IdCliente_PTU; // Asignamos el identificador del cliente PTU al modelo
+                    if (DateTime.Parse(collection.FechaFin) < DateTime.Parse(collection.FechaInicio)) { throw new Exception("Las fecha final no puede ser menor a la fecha inicial."); } // Validamos que la fecha final no sea menor a la fecha inicial
 
                     // Validamos si existen pendientes por timbrar
                     if (cperiodos.ValidaTimbrado(IdUnidadNegocio) > 0)
                     {
-                        ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio);
-                        model.Validacion = false;
-                        model.Mensaje = "Existen periodos de nómina con recibos pendientes por timbrar, favor de validar!";
-                        return View(model);
+                        ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio); // Obtenemos los periodos de nómina de la unidad de negocio del usuario
+                        model.Validacion = false; // Asignamos el valor de falso a la validación del modelo de la vista de periodos de nómina 
+                        model.Mensaje = "Existen periodos de nómina con recibos pendientes por timbrar, favor de validar!"; // Asignamos el mensaje de error al modelo de la vista de periodos de nómina 
+                        return View(model); // Retornamos la vista de periodos de nómina con el modelo de la vista de periodos de nómina
                     }
 
-                    cperiodos.AddPeriodoNomina(collection, token);
+                    cperiodos.AddPeriodoNomina(collection, token); // Agregamos el periodo de nómina a la base de datos con el modelo de la vista de periodos de nómina y el token del usuario
 
-                    return RedirectToAction("Index", "Periodos");
+                    return RedirectToAction("Index", "Periodos"); // Redireccionamos a la vista de periodos de nómina
                 }
-                else
+                else // Si el modelo no es válido
                 {
-                    int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
-                    ClassPeriodoNomina cperiodos = new ClassPeriodoNomina();
-                    ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio);
-                    model.Validacion = false;
-                    model.Mensaje = "Faltan datos por capturar, favor de validar!";
-                    return View(model);
+                    int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; // Obtenemos el identificador de la unidad de negocio del usuario 
+                    ClassPeriodoNomina cperiodos = new ClassPeriodoNomina(); // Instanciamos la clase de periodos de nómina
+                    ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio); // Obtenemos los periodos de nómina de la unidad de negocio del usuario
+                    model.Validacion = false; // Asignamos el valor de falso a la validación del modelo de la vista de periodos de nómina
+                    model.Mensaje = "Faltan datos por capturar, favor de validar!"; // Asignamos el mensaje de error al modelo de la vista de periodos de nómina
+                    return View(model); // Retornamos la vista de periodos de nómina con el modelo de la vista de periodos de nómina
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) // Capturamos la excepción
             {
-                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
-                ClassPeriodoNomina cperiodos = new ClassPeriodoNomina();
-                ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio);
+                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"]; // Obtenemos el identificador de la unidad de negocio del usuario
+                ClassPeriodoNomina cperiodos = new ClassPeriodoNomina(); // Instanciamos la clase de periodos de nómina 
+                ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio); // Obtenemos los periodos de nómina de la unidad de negocio del usuario
 
-                model.Validacion = false;
-                model.Mensaje = "Error: " + ex.Message;
-                return View(model);
+                model.Validacion = false; // Asignamos el valor de falso a la validación del modelo de la vista de periodos de nómina
+                model.Mensaje = "Error: " + ex.Message; // Asignamos el mensaje de error al modelo de la vista de periodos de nómina
+                return View(model); // Retornamos la vista de periodos de nómina con el modelo de la vista de periodos de nómina
             }
         }
 

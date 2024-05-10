@@ -14,8 +14,8 @@ namespace TadaNomina.Services
 
 
         public static string ruaWC = ConfigurationManager.AppSettings.Get("API_Connection");
-        //public static string servidor = ruaWC;
-        public static string servidor = "http://localhost:25677";
+        public static string servidor = ruaWC;
+        //public static string servidor = "http://localhost:25677";
 
         public static string ruaWCC = ConfigurationManager.AppSettings.Get("API_ConnectionCont");
         public static string ServidorContabilidad = ruaWCC;
