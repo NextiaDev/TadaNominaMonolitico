@@ -496,14 +496,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     //total de percepciones
                     nominaTrabajo.Total_ER_Real = 0;
                     nominaTrabajo.Total_ER_Real += nominaTrabajo.SueldoPagado_Real;
-                    nominaTrabajo.Total_ER_Real += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER").Select(X => X.Monto + X.MontoEsquema).Sum();
 
-                    //Base gravada e ISR
-                    nominaTrabajo.Base_Gravada_Real = 0;
-                    nominaTrabajo.ISR_Real = 0;
+                    nominaTrabajo.Total_ER_Real += UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional" ? 
+                        (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER").Select(X => X.MontoReal).Sum()
+                        : (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER").Select(X => X.Monto + X.MontoEsquema).Sum();
 
-                    //subsidio al empleo
-                    nominaTrabajo.Subsidio_Real = 0;
+                    //Base gravada e ISR / Subsidio al empleo                    
+                    CalculaISR_Real();                                        
                     nominaTrabajo.Total_ER_Real += nominaTrabajo.Subsidio_Real;
 
                     //cuotas obrero patronales
@@ -513,7 +512,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     //total de deducciones
                     nominaTrabajo.Total_DD_Real = 0;
                     nominaTrabajo.Total_DD_Real += nominaTrabajo.ISR_Real + nominaTrabajo.IMSS_Obrero_Real;
-                    nominaTrabajo.Total_DD_Real += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "DD").Select(X => X.Monto + X.MontoEsquema).Sum();
+                    nominaTrabajo.Total_DD_Real += UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional" ?
+                        (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "DD").Select(X => X.MontoReal).Sum()
+                        : (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "DD").Select(X => X.Monto + X.MontoEsquema).Sum();
 
                     //netos reales
                     nominaTrabajo.Neto_Real = 0;

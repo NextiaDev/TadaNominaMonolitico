@@ -93,7 +93,7 @@ namespace TadaNomina.Controllers.Nomina
                 modelo = classNomina.GetModelProcesaNominaGeneral(classPeriodoNomina.GetvPeriodoNominasId(model.IdPeriodoNomina));
 
                 modelo.validacion = true;
-                modelo.Mensaje = "La nomina se proceso de manera correcta, se procesaron " + cCalculo.contador + " empleados";
+                modelo.Mensaje = "La nómina se procesó de manera correcta. Se procesaron " + cCalculo.contador + " empleados";
             }
             catch (Exception ex)
             {

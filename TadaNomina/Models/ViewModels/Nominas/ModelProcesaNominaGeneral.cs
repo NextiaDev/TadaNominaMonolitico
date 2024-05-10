@@ -24,7 +24,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public decimal PorcentajeISN { get; set; }
         [Display(Name = "Se procesa con ajuste de impuestos:")]
         public string AjusteImpuestos { get; set; }
-        [Display(Name = "Periodos con los que ajusta:")]
+        [Display(Name = "Periodos con los que se ajusta:")]
         public string PeriodoAjuste { get; set; }
         [Display(Name = "Fecha Inicio Periodo:")]
         public string FechaInicial { get; set; }

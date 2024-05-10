@@ -53,12 +53,29 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 ListImpuestos_Ajuste = ListImpuestos_Anterior;
         }
 
+        /// <summary>
+        /// Metodo que calcula el ISR para los clientes que procesan nómina real.
+        /// </summary>
         public void CalculaISR_Real()
         {
+            nominaTrabajo.Base_Gravada_Real = 0;
+            nominaTrabajo.Subsidio_Real = 0;
+            nominaTrabajo.ISR_Real = 0;
             decimal BaseGravada = 0;
-            BaseGravada += nominaTrabajo.SueldoPagado_Real ?? 0;            
-            BaseGravada += nominaTrabajo.Subsidio_Real ?? 0;
-            BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI").Select(x => x.Gravado).Sum() ?? 0;
+
+            if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
+            {
+                BaseGravada += nominaTrabajo.SueldoPagado_Real ?? 0;
+                BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI").Select(x => x.GravadoReal).Sum() ?? 0;
+                nominaTrabajo.Base_Gravada_Real = BaseGravada;
+
+                var isrReal = CalculaISR(BaseGravada, Periodo.FechaFin, true);
+
+                if (isrReal >= 0)
+                    nominaTrabajo.ISR_Real = isrReal;
+                else
+                    nominaTrabajo.Subsidio_Real = Math.Abs(isrReal);
+            }
         }
 
         public void CalculaISRAguinaldoL174()
@@ -409,20 +426,17 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 if (Periodo.AjusteDeImpuestos == "NO")
                 {
-                    CalculoSubsidio();
+                    CalculoSubsidio(null);
                 }
                 else
                 {
                     var _listaNomAjuste = ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault();
 
-                    if (_listaNomAjuste != null && !AjusteAnual)
-                    {
-                        CalculoSubsidio_Ajuste();
-                    }
-                    else
-                    {
-                        CalculoSubsidio();
-                    }
+                    if (_listaNomAjuste != null && !AjusteAnual)                    
+                        CalculoSubsidio(true);                    
+                    else                    
+                        CalculoSubsidio(null);
+                    
                 }
             }
 
@@ -446,18 +460,38 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <summary>
         /// Metodo que obtiene el subsidio al empleo causado.
         /// </summary>
-        private void CalculoSubsidio()
+        private void CalculoSubsidio(bool? ajuste)
         {
-            var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
+            nominaTrabajo.Subsidio = 0;
 
-            if (query == null || AjusteAnual)
-                CreditoSalario = 0;
-            else
-                CreditoSalario = query.CreditoSalario;
+            //condigo a borrar.
+            //var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
 
-            nominaTrabajo.Subsidio = CreditoSalario;
+            //if (query == null || AjusteAnual)
+            //    CreditoSalario = 0;
+            //else
+            //    CreditoSalario = query.CreditoSalario;
+
+            var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
+            var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
+            var valorTopeMensual = umaMensual * porcentaje;
+            var valorTopexDia = valorTopeMensual / 30.40M;
+            var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
+
+            if(nominaTrabajo.BaseGravada <= topeParaSubsidio)
+            {
+                var subsidio = valorTopexDia * TipoNomina.DiasPago;
+                nominaTrabajo.Subsidio += subsidio;
+            } 
+            
+            if ((ajuste ?? false))
+            {
+                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
+                nominaTrabajo.Subsidio += queryAjuste;
+            }
         }
 
+        ///Condigo a borrar
         /// <summary>
         /// Mentodo que obtiene el subsido al empleo causado cuando hay ajuste de impuestos.
         /// </summary>
@@ -487,17 +521,18 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.ImpuestoRetener = 0;
 
             decimal resultset = 0;
-            resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
+            resultset = (decimal)nominaTrabajo.ISR - (nominaTrabajo.Subsidio ?? 0);
                         
             if (resultset < 0)
             {
-                nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
+                //nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
+                nominaTrabajo.SubsidioPagar = 0;
                 nominaTrabajo.ImpuestoRetener = 0;
             }
             else
             {
                 nominaTrabajo.SubsidioPagar = 0;
-                nominaTrabajo.ImpuestoRetener = resultset;
+                nominaTrabajo.ImpuestoRetener = Math.Round(resultset, 2);
             }
 
 

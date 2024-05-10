@@ -90,5 +90,9 @@ namespace TadaNomina.Models.DB
         public string CalculoAutomatico { get; set; }
         public Nullable<int> Orden { get; set; }
         public string Formula { get; set; }
+        public Nullable<decimal> CantidadReal { get; set; }
+        public Nullable<decimal> MontoReal { get; set; }
+        public Nullable<decimal> ExentoReal { get; set; }
+        public Nullable<decimal> GravadoReal { get; set; }
     }
 }

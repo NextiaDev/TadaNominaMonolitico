@@ -19,6 +19,8 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> SalarioMinimoGeneral { get; set; }
         public Nullable<decimal> UMA { get; set; }
         public Nullable<decimal> UnidadMixta { get; set; }
+        public Nullable<decimal> PorcentajeSubsidio { get; set; }
+        public Nullable<decimal> TopeSubsidio { get; set; }
         public Nullable<System.DateTime> FechaInicio { get; set; }
     }
 }

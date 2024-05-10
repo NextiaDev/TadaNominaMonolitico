@@ -27,7 +27,6 @@ namespace TadaNomina.Models.DB
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Sueldos_Minimos> Sueldos_Minimos { get; set; }
         public virtual DbSet<ImpuestoSat> ImpuestoSat { get; set; }
         public virtual DbSet<SubsidioEmpleoSat> SubsidioEmpleoSat { get; set; }
         public virtual DbSet<ImpuestosIMSS> ImpuestosIMSS { get; set; }
@@ -68,9 +67,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vHonorarios> vHonorarios { get; set; }
         public virtual DbSet<Ausentismos> Ausentismos { get; set; }
         public virtual DbSet<vConceptos> vConceptos { get; set; }
-        public virtual DbSet<vIncidencias> vIncidencias { get; set; }
-        public virtual DbSet<vIncidencias_Consolidadas> vIncidencias_Consolidadas { get; set; }
-        public virtual DbSet<Incidencias> Incidencias { get; set; }
         public virtual DbSet<Cat_TipoPeriodo> Cat_TipoPeriodo { get; set; }
         public virtual DbSet<Cat_Departamentos> Cat_Departamentos { get; set; }
         public virtual DbSet<vPeriodoNomina> vPeriodoNomina { get; set; }
@@ -80,8 +76,12 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vPrestacionesFactor> vPrestacionesFactor { get; set; }
         public virtual DbSet<ConfiguracionFiniquito> ConfiguracionFiniquito { get; set; }
         public virtual DbSet<vConfiguracionFiniquito> vConfiguracionFiniquito { get; set; }
-        public virtual DbSet<Incidencias_Consolidadas> Incidencias_Consolidadas { get; set; }
         public virtual DbSet<CreditosInfonavit> CreditosInfonavit { get; set; }
+        public virtual DbSet<Incidencias> Incidencias { get; set; }
+        public virtual DbSet<Incidencias_Consolidadas> Incidencias_Consolidadas { get; set; }
+        public virtual DbSet<vIncidencias> vIncidencias { get; set; }
+        public virtual DbSet<vIncidencias_Consolidadas> vIncidencias_Consolidadas { get; set; }
+        public virtual DbSet<Sueldos_Minimos> Sueldos_Minimos { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalDeducciones_Result> sp_ReciboTradicionalDeducciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {
