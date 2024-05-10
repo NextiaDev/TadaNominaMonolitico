@@ -4573,6 +4573,7 @@
     <Content Include="js\MovimientosIMSS\MovimientosAfiliatorios.js" />
     <Content Include="js\nifty.js" />
     <Content Include="js\nifty.min.js" />
+    <Content Include="js\PeriodoNomina\CreatePeriodo.js" />
     <Content Include="js\Procesando.js" />
     <Content Include="Models\DB\ModelAcceso.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

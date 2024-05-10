@@ -1,18 +1,30 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows.Input;
 using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Nominas;
+using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore
 {
     public class ClassPeriodoNomina
     {
+        private readonly HttpClient _httpClient;
+        private readonly string _urlApiNom;
+
+        public ClassPeriodoNomina()
+        {
+            _httpClient = new HttpClient();
+            _urlApiNom = sStatics.servidor;
+        }
+
         /// <summary>
         /// Método que lista los periodos de nómina por unidad de negocio que estén activas y ordenadas por el periodo de nómina en forma descendente.
         /// </summary>
@@ -262,62 +274,42 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="modelo">Recibe el modelo del periodo de nómina.</param>
         /// <param name="IdUsuario">Recibe el identificador del usuario.</param>
-        public void AddPeriodoNomina(ModelPeriodoNomina modelo, int IdUsuario)
+        public void AddPeriodoNomina(ModelPeriodoNomina modelo, string token)
         {
-            using (NominaEntities1 entidad = new NominaEntities1())
+            string servicio = "/api/PeriodosNomina/CreatePeriodoNomina";
+            Uri apiUrl = new Uri(_urlApiNom + servicio);
+
+            var request = new
             {
-                PeriodoNomina periodoNomina = new PeriodoNomina();
+                idUnidadNegocio = (int)modelo.IdUnidadNegocio,
+                periodo = (string)modelo.Periodo,
+                fechaInicio = (string)modelo.FechaInicio,
+                fechaFin = (string)modelo.FechaFin,
+                ajusteImpuestos = (string)modelo.AjusteImpuestos,
+                idsPeriodosAjuste = modelo.IdsPeriodosAjuste != null ? (string)modelo.IdsPeriodosAjuste : null,
+                observaciones = modelo.Observaciones != null ? (string)modelo.Observaciones : null,
+                tipoNomina = (string)modelo.TipoNomina,
+                tablaIDiaria = (bool)modelo.TablaIDiaria,
+                ajusteAnual = (bool)modelo.AjusteAnual,
+                omitirDescuentosFijos = (bool)modelo.OmitirDescuentosFijos,
+                idClientePTU = (int?)modelo.IdCliente_PTU,
+                idRegistroPatronalPTU = (int?)modelo.IdRegistroPatronal_PTU,
+                montoPTU = (decimal?)modelo.Monto_PTU,
+                anioPTU = (int?)modelo.Año_PTU,
+                calculoPatronaPtu = (bool?)modelo.CalculoPatronaPtu,
+                fechaInicioChecador = modelo.FechaInicioChecador != null ? (string)modelo.FechaInicioChecador : null,
+                fechaFinChecador = modelo.FechaFinChecador != null ? (string)modelo.FechaFinChecador : null
+            };
 
-                periodoNomina.IdUnidadNegocio = modelo.IdUnidadNegocio;
-                periodoNomina.Periodo = modelo.Periodo;
-                periodoNomina.FechaInicio = DateTime.Parse(modelo.FechaInicio);
-                periodoNomina.FechaFin = DateTime.Parse(modelo.FechaFin);
-                periodoNomina.AjusteDeImpuestos = modelo.AjusteImpuestos;
-                periodoNomina.SeAjustaraConPeriodo = modelo.IdsPeriodosAjuste + "0";
-                periodoNomina.Observaciones = modelo.Observaciones;
-                periodoNomina.NominaTimbrada = "NO";
-                periodoNomina.RecibosComplemento = "NO";
-                periodoNomina.TipoNomina = modelo.TipoNomina;
-                if (modelo.AjusteAnual)
-                    periodoNomina.AjusteAnual = "S";
-                else
-                    periodoNomina.AjusteAnual = "N";
-                
-                if (modelo.TablaIDiaria)
-                    periodoNomina.TablaDiaria = "S";
-                else
-                    periodoNomina.TablaDiaria = "N";
+            var json = JsonConvert.SerializeObject(request);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                if (modelo.OmitirDescuentosFijos)
-                    periodoNomina.DescuentosFijos = "NO";
-                else
-                    periodoNomina.DescuentosFijos = "SI";
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-                periodoNomina.NuevaIncidencia = 0;
-                periodoNomina.TotalEmpleados = 0;
-                periodoNomina.TotalISR = 0;
-                periodoNomina.TotalIMSSObrero = 0;
-                periodoNomina.TotalIMSSPatronal = 0;
-                periodoNomina.TotalISN = 0;
-                periodoNomina.ImporteNeto = 0;
-                periodoNomina.IdEstatus = 1;
-                periodoNomina.IdCaptura = IdUsuario;
-                periodoNomina.FechaCaptura = DateTime.Now;
+            var response = _httpClient.PostAsync(apiUrl, content).Result;
 
-                try { periodoNomina.FechaInicioChecador = DateTime.Parse(modelo.FechaInicioChecador); } catch { }
-                try { periodoNomina.FechaFinChecador = DateTime.Parse(modelo.FechaFinChecador); } catch { }
-
-                if (modelo.TipoNomina == "PTU")
-                {
-                    periodoNomina.IdCliente_PTU = modelo.IdCliente_PTU;
-                    periodoNomina.IdRegistroPatronal_PTU = modelo.IdRegistroPatronal_PTU;
-                    periodoNomina.Monto_PTU = modelo.Monto_PTU;
-                    periodoNomina.Año_PTU = modelo.Año_PTU;
-                }
-
-                entidad.PeriodoNomina.Add(periodoNomina);
-                entidad.SaveChanges();
-            }
+            response.EnsureSuccessStatusCode();
         }
 
         /// <summary>
