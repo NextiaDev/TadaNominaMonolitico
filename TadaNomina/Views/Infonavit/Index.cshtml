@@ -21,6 +21,8 @@
         </div>
         <div class="panel-body">
             @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <button type="button" class="btn btn-info btn-sm" onclick="ModalDesactivarCreditos(1)">Activa créditos</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="ModalDesactivarCreditos(2)">Desactiva créditos</button>
             <br /><br />
 
             <table id="demo-dt-selection" class="table table-hover table-sm">
@@ -98,6 +100,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="modDesactivaCreditos" tabindex="-1" role="dialog" aria-labelledby="MovementModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TituloModal"></h5>
+            </div>
+            <hr />
+            <div class="modal-body">
+                <label id="EtiquetaModal"></label>
+                <input id="TipoMovimiento" type="hidden" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary _Load" type="button" onclick="MovimientoCreditos()">Aceptar</button>
+                <button class="btn btn-danger" type="button" onclick="CierraModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id='myModal' class='modal fade'>
     <div class="modal-dialog">
         <div class="modal-content">
@@ -109,6 +131,7 @@
 
 <script src="~/js/Core/mensajes.js"></script>
 <script src="~/js/Core/default.js"></script>
+<script src="~/js/Core/creditosInfonavit.js"></script>
 
 <script>
         var TeamDetailPostBackURL = "@Url.Action("Details", "Infonavit")";
@@ -204,23 +227,5 @@
                 $('#myModal').modal('hide');
             });
         });
-
-
-    function CambiaStatus(IdCredito) {
-        $.ajax({
-            type: 'POST',
-            url: 'Infonavit/CambiaStatusCredito',
-            data: { IdCredito: IdCredito },
-            datatype: 'json',
-            success: function (data) {
-                if (data == "OK") {
-                    mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
-                }
-                else {
-                    mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
-                }
-            }
-        });
-    }
 </script>
 

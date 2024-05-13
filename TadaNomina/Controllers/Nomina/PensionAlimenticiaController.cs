@@ -312,5 +312,26 @@ namespace TadaNomina.Controllers.Nomina
                 return Json("ERROR", JsonRequestBehavior.AllowGet);
             }
         }
+
+        /// <summary>
+        ///     Método que desactiva todos los créditos INFONAVIT
+        /// </summary>
+        /// <returns>Respuesta del movimiento</returns>
+        [HttpPost]
+        public JsonResult DesactivaPension(int tipoMov)
+        {
+            try
+            {
+                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+                int IdUsuario = (int)Session["sIdUsuario"];
+                ClassPensionAlimenticia cPA = new ClassPensionAlimenticia();
+                var res = cPA.DesactivaPension(IdUnidadNegocio, IdUsuario, tipoMov);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

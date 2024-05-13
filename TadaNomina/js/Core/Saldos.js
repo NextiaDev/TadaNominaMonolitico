@@ -399,3 +399,52 @@ $("#_eliminarS").click(function () {
 
     });
 });
+
+
+function ModalDesactivarCreditos(tipoMovimiento, IdConcepto) {
+    $("#modDesactivaCreditos").modal('show');
+    $("#TipoMovimiento").val(tipoMovimiento);
+    $("#IdConceptoMov").val(IdConcepto);
+
+    if (tipoMovimiento == 1) {
+        $("#TituloModal").text('Activar saldos');
+        $("#EtiquetaModal").text('¿Estás seguro que quieres activar todos los saldos?');
+    } else {
+        $("#TituloModal").text('Desactivar saldos');
+        $("#EtiquetaModal").text('¿Estás seguro que quieres desactivar todos los saldos?');
+    }
+}
+
+function MovimientoCreditos() {
+    const tipoMov = $("#TipoMovimiento").val();
+    const IdConcepto = $("#IdConceptoMov").val();
+
+    $.ajax({
+        type: 'POST',
+        url: 'DesactivaSaldos',
+        data: { tipoMov: tipoMov, IdConcepto: IdConcepto },
+        datatype: 'json',
+        success: function (data) {
+            if (data == "OK") {
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2500);
+            }
+            else {
+                mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2500);
+            }
+        }
+    });
+}
+
+function CierraModal() {
+    $("#modDesactivaCreditos").modal('hide');
+    $("#TipoMovimiento").val(null);
+    $("#TituloModal").text('');
+    $("#EtiquetaModal").text('');
+    $("#IdConceptoMov").text('');
+}

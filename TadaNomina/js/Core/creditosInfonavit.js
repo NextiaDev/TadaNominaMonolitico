@@ -1,60 +1,44 @@
-﻿$(function () {
-    $(".anchorDetail").click(function () {
-        debugger;
-        var $buttonClicked = $(this);
-        var id = $buttonClicked.attr('data-id');
-        var options = { "backdrop": "static", keyboard: true };
-        
-        $.ajax({
-            type: "GET",
-            url: 'Infonavit/Details',
-            contentType: "application/json; charset=utf-8",
-            data: { id },
-            datatype: "json",
-            success: function (data) {
-                
-                $('#myModalContent').html(data);
-                $('#myModal').modal(options);
-                $('#myModal').modal('show');
+﻿
+function ModalDesactivarCreditos(tipoMovimiento) {
+    $("#modDesactivaCreditos").modal('show');
+    $("#TipoMovimiento").val(tipoMovimiento);
 
-            },
-            error: function () {
-                alert("Dynamic content load failed.");
+    if (tipoMovimiento == 1) {
+        $("#TituloModal").text('Activar créditos');
+        $("#EtiquetaModal").text('¿Estás seguro que quieres activar todos los créditos?');
+    } else {
+        $("#TituloModal").text('Desactivar créditos');
+        $("#EtiquetaModal").text('¿Estás seguro que quieres desactivar todos los créditos?');
+    }
+}
+
+function MovimientoCreditos() {
+    const tipoMov = $("#TipoMovimiento").val();
+    $.ajax({
+        type: 'POST',
+        url: 'Infonavit/Desactivacreditos',
+        data: { tipoMov: tipoMov },
+        datatype: 'json',
+        success: function (data) {
+            if (data == "OK") {
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2500);
             }
-        });
-    });
-
-    $("#closbtn").click(function () {
-        $('#myModal').modal('hide');
-    });
-});
-
-$(function () {
-    $(".anchorDelete").click(function () {
-        debugger;
-        var $buttonClicked = $(this);
-        var id = $buttonClicked.attr('data-id');
-        var options = { "backdrop": "static", keyboard: true };
-        $.ajax({
-            type: "GET",
-            url: 'Infonavit/Delete',
-            contentType: "application/json; charset=utf-8",
-            data: { id },
-            datatype: "json",
-            success: function (data) {
-               
-                $('#myModalContent').html(data);
-                $('#myModal').modal(options);
-                $('#myModal').modal('show');
-
-            },
-            error: function () {
-                alert("Dynamic content load failed.");
+            else {
+                mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2500);
             }
-        });
+        }
     });
+}
 
-    $("#closbtn").click(function () {
-        $('#myModal').modal('hide');
-    });
-});
+function CierraModal() {
+    $("#modDesactivaCreditos").modal('hide');
+    $("#TipoMovimiento").val(null);
+    $("#TituloModal").text('');
+    $("#EtiquetaModal").text('');
+}

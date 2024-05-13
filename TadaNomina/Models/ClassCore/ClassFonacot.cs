@@ -435,5 +435,44 @@ namespace TadaNomina.Models.ClassCore
                 return res;
             }
         }
+
+        /// <summary>
+        ///     Método que activa o desactiva todos los créditos FONACOT
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Id de la unidad de negocio</param>
+        /// <param name="IdModifica">Id del usuario que realiza el movimiento</param>
+        /// <param name="tipoMov">Tipo del movimiento 1.-Activar 2.- desactivar</param>
+        /// <returns>Respuesta del movimiento</returns>
+        public string Desactivacreditos(int IdUnidadNegocio, int IdModifica, int tipoMov)
+        {
+            string res = "";
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var lstIdCreditos = ctx.vCreditoFonacot.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1).Select(x => x.IdCreditoFonacot).ToList();
+                    var creditos = ctx.CreditosFonacot.Where(x => lstIdCreditos.Contains(x.IdCreditoFonacot)).ToList();
+
+                    if (creditos != null && creditos.Count > 0)
+                    {
+                        foreach (var item in creditos)
+                        {
+                            item.Activo = tipoMov == 1 ? "SI": "NO";
+                            item.IdModifica = IdModifica;
+                            item.FechaModifica = DateTime.Now;
+                        }
+                        ctx.SaveChanges();
+                        return "OK";
+                    }
+                    else
+                        res = "No se encontró ningún registro";
+                }
+            }
+            catch(Exception ex)
+            {
+                res = "ERROR: " + ex.Message;
+            }
+            return res;
+        }
     }
 }
