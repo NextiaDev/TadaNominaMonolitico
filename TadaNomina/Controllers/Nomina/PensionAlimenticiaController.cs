@@ -314,7 +314,7 @@ namespace TadaNomina.Controllers.Nomina
         }
 
         /// <summary>
-        ///     Método que desactiva todos los créditos INFONAVIT
+        ///     Método que desactiva todas las pensiones alimenticias
         /// </summary>
         /// <returns>Respuesta del movimiento</returns>
         [HttpPost]
