@@ -163,5 +163,26 @@ namespace TadaNomina.Controllers.Nomina
                 return Json("ERROR", JsonRequestBehavior.AllowGet);
             }
         }
+
+        /// <summary>
+        ///     Método que desactiva todos los créditos FONACOT
+        /// </summary>
+        /// <returns>Respuesta del movimiento</returns>
+        [HttpPost]
+        public JsonResult Desactivacreditos(int tipoMov)
+        {
+            try
+            {
+                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+                int IdUsuario = (int)Session["sIdUsuario"];
+                ClassFonacot cF = new ClassFonacot();
+                var res = cF.Desactivacreditos(IdUnidadNegocio, IdUsuario, tipoMov);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

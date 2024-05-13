@@ -1155,7 +1155,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         public void GetCreditos(int IdUnidadNegocio)
         {
             ClassInfonavit ci = new ClassInfonavit();
-            creditosInfonavit = ci.getCreditos(IdUnidadNegocio);
+            creditosInfonavit = ci.getCreditos(IdUnidadNegocio).Where(x => x.Activo != "NO").ToList();
         }
 
         /// <summary>

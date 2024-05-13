@@ -144,5 +144,26 @@ namespace TadaNomina.Controllers.Nomina
                 return Json("ERROR", JsonRequestBehavior.AllowGet);
             }
         }
+
+        /// <summary>
+        ///     Método que desactiva todos los créditos INFONAVIT
+        /// </summary>
+        /// <returns>Respuesta del movimiento</returns>
+        [HttpPost]
+        public JsonResult Desactivacreditos(int tipoMov)
+        {
+            try
+            {
+                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+                int IdUsuario = (int)Session["sIdUsuario"];
+                ClassInfonavit cI = new ClassInfonavit();
+                var res = cI.Desactivacreditos(IdUnidadNegocio, IdUsuario, tipoMov);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
