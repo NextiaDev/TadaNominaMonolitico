@@ -60,9 +60,9 @@ namespace TadaNomina.Controllers.Nomina
         {
             ClassSaldos cl = new ClassSaldos();
 
-
             try
             {
+                ViewBag.IdConcepto = IdConcepto;
                  var lis = cl.getSaldosList(IdConcepto, (int)Session["sIdUnidadNegocio"]);
                 return View(lis);
             }
@@ -236,5 +236,25 @@ namespace TadaNomina.Controllers.Nomina
             }
         }
 
+        /// <summary>
+        ///     Método que desactiva todos los saldos
+        /// </summary>
+        /// <returns>Respuesta del movimiento</returns>
+        [HttpPost]
+        public JsonResult DesactivaSaldos(int tipoMov, int IdConcepto)
+        {
+            try
+            {
+                int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+                int IdUsuario = (int)Session["sIdUsuario"];
+                ClassSaldos cS = new ClassSaldos();
+                var res = cS.DesactivaSaldos(IdUnidadNegocio, IdUsuario, tipoMov, IdConcepto);
+                return Json(res, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
