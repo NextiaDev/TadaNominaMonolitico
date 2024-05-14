@@ -28,15 +28,17 @@
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Archivo, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Archivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-7">
 
-                                @Html.TextBoxFor(model => model.Archivo, new { type = "file", @class = "inputfile" })
-                                @Html.ValidationMessageFor(model => model.Archivo, "", new { @class = "text-danger" })
-                            </div>
+                            @Html.TextBoxFor(model => model.Archivo, new { type = "file", @class = "inputfile" })
+                            @Html.ValidationMessageFor(model => model.Archivo, "", new { @class = "text-danger" })
                         </div>
-
+                        <div class="col-md-3">
+                            <a class="btn btn-success" href="~/Formatos/ActualizacionSDI.xlsx"> Descargar formato</a>
+                        </div> 
+                    </div>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-9">
