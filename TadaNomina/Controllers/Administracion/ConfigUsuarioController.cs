@@ -43,7 +43,7 @@ namespace TadaNomina.Controllers.Administracion
             return RedirectToAction("Index", result);
         }
 
-        private MResultCRUD EditUsuario(MaddUsuario request)
+        public MResultCRUD EditUsuario(MaddUsuario request)
         {
             string token = Session["sToken"].ToString();
             CConfigUsuario configuser = new CConfigUsuario();
