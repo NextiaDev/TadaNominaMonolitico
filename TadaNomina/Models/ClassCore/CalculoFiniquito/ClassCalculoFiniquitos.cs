@@ -177,8 +177,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 
                 nominaTrabajo.Apoyo += nominaTrabajo.DiasTrabajados * SD_Esquema;
                 decimal apoyoVacacional = (decimal)nominaTrabajo.Dias_Vacaciones * SD_Esquema;
-                nominaTrabajo.ERS += apoyoVacacional;
-                
+                nominaTrabajo.ERS += apoyoVacacional;                
 
                 nominaTrabajo.ERS += nominaTrabajo.Apoyo;
                 nominaTrabajo.ERS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.ClaveGpo != "002").Select(X => X.MontoEsquema).Sum();
@@ -628,10 +627,14 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 var reintISR = nominaTrabajo.ReintegroISR ?? 0;
                 incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
                 decimal totalPercepcionesSinSubsidio = (decimal)((nominaTrabajo.ER ?? 0) - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
+                nominaTrabajo.BaseISN = totalPercepcionesSinSubsidio;
+                nominaTrabajo.Porcentaje = porcentaje;
                 nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje;
 
                 if (Periodo.TipoNomina == "PTU")
                 {
+                    nominaTrabajo.BaseISN = 0;
+                    nominaTrabajo.Porcentaje = 0;
                     nominaTrabajo.ISN = 0;
                 }
             }

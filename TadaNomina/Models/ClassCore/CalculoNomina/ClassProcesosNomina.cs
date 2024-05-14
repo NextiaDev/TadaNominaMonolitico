@@ -1105,12 +1105,33 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
             incidenciasNOISN += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "OTRO" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
             decimal totalPercepcionesSinSubsidio = (decimal)(nominaTrabajo.ER - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
+            nominaTrabajo.BaseISN = totalPercepcionesSinSubsidio;
+            nominaTrabajo.Porcentaje = porcentaje;
             nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje;
-
 
             if (Periodo.TipoNomina == "PTU")
             {
+                nominaTrabajo.BaseISN = 0;
+                nominaTrabajo.Porcentaje = 0;
                 nominaTrabajo.ISN = 0;
+            }
+        }
+
+        public void CalculaISN_Real()
+        {
+            decimal porcentaje = 0;
+            decimal incidenciasNOISN = 0;
+            try { porcentaje = (decimal)listEntidades.Where(x => x.Id == (int)IdEntidadFederativa).Select(x => x.ISN).First() * 0.01M; } catch { }
+            if (porcentaje == 0) { try { porcentaje = (decimal)UnidadNegocio.PorcentajeISN * 0.01M; } catch { porcentaje = 0; } }
+                        
+            incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.MontoReal).Sum();
+            incidenciasNOISN += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "OTRO" && x.IntegraISN == "NO").Select(X => X.MontoReal).Sum();
+            decimal totalPercepcionesSinSubsidio = (decimal)(nominaTrabajo.Total_ER_Real  - incidenciasNOISN);          
+            nominaTrabajo.ISN_Real = totalPercepcionesSinSubsidio * porcentaje;
+
+            if (Periodo.TipoNomina == "PTU")
+            {               
+                nominaTrabajo.ISN_Real = 0;
             }
         }
 

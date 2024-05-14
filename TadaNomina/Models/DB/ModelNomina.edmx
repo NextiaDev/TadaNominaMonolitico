@@ -617,6 +617,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Bimestres' no tiene definida 
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="TotalOtrasPercepciones" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BaseISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="NominaProvision">
           <Key>
@@ -744,6 +747,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.Bimestres' no tiene definida 
           <Property Name="IdCaptura" Type="int" />
           <Property Name="FechaCaptura" Type="datetime" />
           <Property Name="TotalOtrasPercepciones" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BaseISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="PensionAlimenticia">
           <Key>
@@ -1641,6 +1647,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vNomina' no tiene definida ni
           <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
+          <Property Name="BaseISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vNominaSelectFiniquito' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -1790,6 +1799,9 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vNominaTrabajo' no tiene defi
           <Property Name="Curp" Type="nvarchar" MaxLength="18" />
           <Property Name="Rfc" Type="nvarchar" MaxLength="13" />
           <Property Name="Imss" Type="nvarchar" MaxLength="11" />
+          <Property Name="BaseISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'TadaNomina.dbo.vPensionAlimenticia' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -2795,7 +2807,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
     [vNomina].[ClaveEmpleado] AS [ClaveEmpleado], 
     [vNomina].[Nombre] AS [Nombre], 
     [vNomina].[ApellidoPaterno] AS [ApellidoPaterno], 
-    [vNomina].[ApellidoMaterno] AS [ApellidoMaterno]
+    [vNomina].[ApellidoMaterno] AS [ApellidoMaterno], 
+    [vNomina].[BaseISN] AS [BaseISN], 
+    [vNomina].[PorcentajeISN] AS [PorcentajeISN], 
+    [vNomina].[ISN_Real] AS [ISN_Real]
     FROM [dbo].[vNomina] AS [vNomina]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vNominaSelectFiniquito" EntityType="Self.vNominaSelectFiniquito" store:Type="Views" store:Schema="dbo">
@@ -2927,7 +2942,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
     [vNominaTrabajo].[ApellidoMaterno] AS [ApellidoMaterno], 
     [vNominaTrabajo].[Curp] AS [Curp], 
     [vNominaTrabajo].[Rfc] AS [Rfc], 
-    [vNominaTrabajo].[Imss] AS [Imss]
+    [vNominaTrabajo].[Imss] AS [Imss], 
+    [vNominaTrabajo].[BaseISN] AS [BaseISN], 
+    [vNominaTrabajo].[PorcentajeISN] AS [PorcentajeISN], 
+    [vNominaTrabajo].[ISN_Real] AS [ISN_Real]
     FROM [dbo].[vNominaTrabajo] AS [vNominaTrabajo]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vPensionAlimenticia" EntityType="Self.vPensionAlimenticia" store:Type="Views" store:Schema="dbo">
@@ -3200,7 +3218,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="vCreditoInfonavit" EntityType="NominaModel.vCreditoInfonavit" />
           <EntitySet Name="vDesgloceVacaciones" EntityType="NominaModel.vDesgloceVacaciones" />
           <EntitySet Name="NominaProvision" EntityType="NominaModel.NominaProvision" />
-          <EntitySet Name="vNominaTrabajo" EntityType="NominaModel.vNominaTrabajo" />
           <FunctionImport Name="sp_Crea_Pass_LaNube">
           <Parameter Name="IdEmpleado" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -3211,7 +3228,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
             <Parameter Name="IdUnidadNegocio" Mode="In" Type="Int32" />
             <Parameter Name="year" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="vNomina" EntityType="NominaModel.vNomina" />
           <EntitySet Name="Cat_Jornadas" EntityType="NominaModel.Cat_Jornadas" />
           <EntitySet Name="FactoresCyV_IMSS" EntityType="NominaModel.FactoresCyV_IMSS" />
           <EntitySet Name="PeriodoNomina" EntityType="NominaModel.PeriodoNomina" />
@@ -3233,8 +3249,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="Cat_TipoPeriodo" EntityType="NominaModel.Cat_TipoPeriodo" />
           <EntitySet Name="Cat_Departamentos" EntityType="NominaModel.Cat_Departamentos" />
           <EntitySet Name="vPeriodoNomina" EntityType="NominaModel.vPeriodoNomina" />
-          <EntitySet Name="Nomina" EntityType="NominaModel.Nomina" />
-          <EntitySet Name="NominaTrabajo" EntityType="NominaModel.NominaTrabajo" />
           <FunctionImport Name="sp_Premios_Compensaciones" ReturnType="Collection(NominaModel.sp_Premios_Compensaciones_Result)">
             <Parameter Name="IdUnidadnegocio" Mode="In" Type="Int32" />
             <Parameter Name="IdPeriodoNomina" Mode="In" Type="Int32" />
@@ -3267,6 +3281,10 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <EntitySet Name="vIncidencias" EntityType="NominaModel.vIncidencias" />
           <EntitySet Name="vIncidencias_Consolidadas" EntityType="NominaModel.vIncidencias_Consolidadas" />
           <EntitySet Name="Sueldos_Minimos" EntityType="NominaModel.Sueldos_Minimos" />
+          <EntitySet Name="Nomina" EntityType="NominaModel.Nomina" />
+          <EntitySet Name="NominaTrabajo" EntityType="NominaModel.NominaTrabajo" />
+          <EntitySet Name="vNomina" EntityType="NominaModel.vNomina" />
+          <EntitySet Name="vNominaTrabajo" EntityType="NominaModel.vNominaTrabajo" />
         </EntityContainer>
         <EntityType Name="ImpuestoSat">
           <Key>
@@ -3863,123 +3881,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="IdCaptura" Type="Int32" />
           <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
         </EntityType>
-        <EntityType Name="vNominaTrabajo">
-          <Key>
-            <PropertyRef Name="IdEmpleado" />
-            <PropertyRef Name="IdPeriodoNomina" />
-            <PropertyRef Name="ClaveEmpleado" />
-            <PropertyRef Name="Nombre" />
-            <PropertyRef Name="ApellidoPaterno" />
-          </Key>
-          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="IdSindicato" Type="Int32" />
-          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="IdEntidad" Type="Int32" />
-          <Property Name="IdCentroCostos" Type="Int32" />
-          <Property Name="IdDepartamento" Type="Int32" />
-          <Property Name="IdPuesto" Type="Int32" />
-          <Property Name="IdSucursal" Type="Int32" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="IdBancoTrad" Type="Int32" />
-          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
-          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
-          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
-          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
-          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
-          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BanderaFiniquitos" Type="Int32" />
-          <Property Name="IdFacturasContabilidad" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
-          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="AdelantoNomina">
           <Key>
             <PropertyRef Name="IdAdelantoNomina" />
@@ -4081,126 +3982,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Type="Int32" Name="PeridosCliente" Nullable="false" />
           <Property Type="Int32" Name="TotalPeriodos" Nullable="true" />
         </ComplexType>
-        <EntityType Name="vNomina">
-          <Key>
-            <PropertyRef Name="IdNomina" />
-            <PropertyRef Name="IdEmpleado" />
-            <PropertyRef Name="IdPeriodoNomina" />
-            <PropertyRef Name="ClaveEmpleado" />
-            <PropertyRef Name="Nombre" />
-            <PropertyRef Name="ApellidoPaterno" />
-          </Key>
-          <Property Name="IdNomina" Type="Int32" Nullable="false" />
-          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="IdSindicato" Type="Int32" />
-          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="IdEntidad" Type="Int32" />
-          <Property Name="IdCentroCostos" Type="Int32" />
-          <Property Name="IdDepartamento" Type="Int32" />
-          <Property Name="IdPuesto" Type="Int32" />
-          <Property Name="IdSucursal" Type="Int32" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="IdBancoTrad" Type="Int32" />
-          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
-          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
-          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
-          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
-          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
-          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BanderaFiniquitos" Type="Int32" />
-          <Property Name="IdFacturasContabilidad" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
-          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
-          <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="SDI_Liquidacion" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         <EntityType Name="Cat_Jornadas">
           <Key>
             <PropertyRef Name="IdJornada" />
@@ -4763,226 +4544,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="BanderaNoPA" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Name="ConfiguracionSueldos" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Nomina">
-          <Key>
-            <PropertyRef Name="IdNomina" />
-          </Key>
-          <Property Name="IdNomina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="IdSindicato" Type="Int32" />
-          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="IdEntidad" Type="Int32" />
-          <Property Name="IdCentroCostos" Type="Int32" />
-          <Property Name="IdDepartamento" Type="Int32" />
-          <Property Name="IdPuesto" Type="Int32" />
-          <Property Name="IdSucursal" Type="Int32" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="IdBancoTrad" Type="Int32" />
-          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
-          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
-          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
-          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ExentoLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDI_Liquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
-          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
-          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BanderaFiniquitos" Type="Int32" />
-          <Property Name="IdFacturasContabilidad" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <EntityType Name="NominaTrabajo">
-          <Key>
-            <PropertyRef Name="IdEmpleado" />
-            <PropertyRef Name="IdPeriodoNomina" />
-          </Key>
-          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
-          <Property Name="IdRegistroPatronal" Type="Int32" />
-          <Property Name="IdSindicato" Type="Int32" />
-          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="IdEntidad" Type="Int32" />
-          <Property Name="IdCentroCostos" Type="Int32" />
-          <Property Name="IdDepartamento" Type="Int32" />
-          <Property Name="IdPuesto" Type="Int32" />
-          <Property Name="IdSucursal" Type="Int32" />
-          <Property Name="IdArea" Type="Int32" />
-          <Property Name="IdBancoTrad" Type="Int32" />
-          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
-          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
-          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
-          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ExentoLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDI_Liquidacion" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
-          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
-          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="BanderaFiniquitos" Type="Int32" />
-          <Property Name="IdFacturasContabilidad" Type="Int32" />
-          <Property Name="IdEstatus" Type="Int32" />
-          <Property Name="IdCaptura" Type="Int32" />
-          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
-          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         <ComplexType Name="sp_Premios_Compensaciones_Result">
           <Property Type="Decimal" Name="SumaGravado" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="SumaExento" Nullable="true" Precision="18" Scale="2" />
@@ -5470,6 +5031,475 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
           <Property Name="PorcentajeSubsidio" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="TopeSubsidio" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="FechaInicio" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Nomina">
+          <Key>
+            <PropertyRef Name="IdNomina" />
+          </Key>
+          <Property Name="IdNomina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="IdEntidad" Type="Int32" />
+          <Property Name="IdCentroCostos" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="IdPuesto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdBancoTrad" Type="Int32" />
+          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ExentoLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Liquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
+          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
+          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BanderaFiniquitos" Type="Int32" />
+          <Property Name="IdFacturasContabilidad" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="NominaTrabajo">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+            <PropertyRef Name="IdPeriodoNomina" />
+          </Key>
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="IdEntidad" Type="Int32" />
+          <Property Name="IdCentroCostos" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="IdPuesto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdBancoTrad" Type="Int32" />
+          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ExentoLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Liquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
+          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
+          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BanderaFiniquitos" Type="Int32" />
+          <Property Name="IdFacturasContabilidad" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="vNomina">
+          <Key>
+            <PropertyRef Name="IdNomina" />
+            <PropertyRef Name="IdEmpleado" />
+            <PropertyRef Name="IdPeriodoNomina" />
+            <PropertyRef Name="ClaveEmpleado" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="ApellidoPaterno" />
+          </Key>
+          <Property Name="IdNomina" Type="Int32" Nullable="false" />
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="IdEntidad" Type="Int32" />
+          <Property Name="IdCentroCostos" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="IdPuesto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdBancoTrad" Type="Int32" />
+          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Liquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
+          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
+          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BanderaFiniquitos" Type="Int32" />
+          <Property Name="IdFacturasContabilidad" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BaseISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="vNominaTrabajo">
+          <Key>
+            <PropertyRef Name="IdEmpleado" />
+            <PropertyRef Name="IdPeriodoNomina" />
+            <PropertyRef Name="ClaveEmpleado" />
+            <PropertyRef Name="Nombre" />
+            <PropertyRef Name="ApellidoPaterno" />
+          </Key>
+          <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
+          <Property Name="IdPeriodoNomina" Type="Int32" Nullable="false" />
+          <Property Name="IdRegistroPatronal" Type="Int32" />
+          <Property Name="IdSindicato" Type="Int32" />
+          <Property Name="RiesgoTrabajo" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="IdEntidad" Type="Int32" />
+          <Property Name="IdCentroCostos" Type="Int32" />
+          <Property Name="IdDepartamento" Type="Int32" />
+          <Property Name="IdPuesto" Type="Int32" />
+          <Property Name="IdSucursal" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdBancoTrad" Type="Int32" />
+          <Property Name="CuentaBancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CuentaInterbancariaTrad" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="FechaAltaIMSS" Type="DateTime" Precision="0" />
+          <Property Name="FechaReconocimientoAntiguedad" Type="DateTime" Precision="0" />
+          <Property Name="FechaBaja" Type="DateTime" Precision="0" />
+          <Property Name="AjusteImpuesto" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="DiasTrabajados" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Faltas" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Incapacidades" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoDiario" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoDiarioReal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SueldoPagado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Apoyo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravada" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BaseGravadaLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISRLiquidacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LimiteInferior" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiferenciaLimite" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Porcentaje" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeCalculado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CuotaFija" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ImpuestoRetener" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubsidioPagar" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReintegroISR" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Anios" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FactorIntegracion" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SDI" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SDI_Proyeccion_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Dias_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Obrera" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestaciones_Dinero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cuota_Fija_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Excedente_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Dinero_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Gastos_Med_Pension_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Riesgo_Trabajo_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Invalidez_Vida_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Prestamo_Especie" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Retiro" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cesantia_Vejez_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="INFONAVIT_Patronal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ER" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DD" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEfectivo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ERS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DDS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Netos" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_Patron" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Honorario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalCosteo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SueldoPagado_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Sueldo_Vacaciones_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_ER_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Total_DD_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Neto_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISR_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Subsidio_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Obrero_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IMSS_Patronal_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Base_Gravada_Real" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosIMSS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AniosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiasTrabajadosReal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Beneficiario" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IVAEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HonorarioEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SubtotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalEsq" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FechaEmisionFiniquito" Type="DateTime" Precision="3" />
+          <Property Name="FechaCobroCheque" Type="DateTime" Precision="3" />
+          <Property Name="NumeroCheque" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BanderaFiniquitos" Type="Int32" />
+          <Property Name="IdFacturasContabilidad" Type="Int32" />
+          <Property Name="IdEstatus" Type="Int32" />
+          <Property Name="IdCaptura" Type="Int32" />
+          <Property Name="FechaCaptura" Type="DateTime" Precision="3" />
+          <Property Name="TotalOtrasPercepciones" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ClaveEmpleado" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Curp" Type="String" MaxLength="18" FixedLength="false" Unicode="true" />
+          <Property Name="Rfc" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+          <Property Name="Imss" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="BaseISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PorcentajeISN" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ISN_Real" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -5992,120 +6022,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vNominaTrabajo">
-            <EntityTypeMapping TypeName="NominaModel.vNominaTrabajo">
-              <MappingFragment StoreEntitySet="vNominaTrabajo">
-                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
-                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
-                <ScalarProperty Name="Imss" ColumnName="Imss" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="Curp" ColumnName="Curp" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
-                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
-                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
-                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
-                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
-                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
-                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
-                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
-                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
-                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
-                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
-                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
-                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
-                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
-                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
-                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
-                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
-                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
-                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
-                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
-                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
-                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
-                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
-                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
-                <ScalarProperty Name="IVA" ColumnName="IVA" />
-                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
-                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
-                <ScalarProperty Name="Netos" ColumnName="Netos" />
-                <ScalarProperty Name="DDS" ColumnName="DDS" />
-                <ScalarProperty Name="ERS" ColumnName="ERS" />
-                <ScalarProperty Name="Neto" ColumnName="Neto" />
-                <ScalarProperty Name="DD" ColumnName="DD" />
-                <ScalarProperty Name="ER" ColumnName="ER" />
-                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
-                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
-                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
-                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
-                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
-                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
-                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
-                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
-                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
-                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
-                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
-                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
-                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
-                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
-                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
-                <ScalarProperty Name="ISN" ColumnName="ISN" />
-                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
-                <ScalarProperty Name="Anios" ColumnName="Anios" />
-                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
-                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
-                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
-                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
-                <ScalarProperty Name="ISR" ColumnName="ISR" />
-                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
-                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
-                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
-                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
-                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
-                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
-                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
-                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
-                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
-                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
-                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
-                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
-                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
-                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
-                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
-                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
-                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
-                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
-                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
-                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
-                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
-                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
-                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
-                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AdelantoNomina">
             <EntityTypeMapping TypeName="NominaModel.AdelantoNomina">
               <MappingFragment StoreEntitySet="AdelantoNomina">
@@ -6191,122 +6107,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
                 <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
                 <ScalarProperty Name="IdPeriodo" ColumnName="IdPeriodo" />
                 <ScalarProperty Name="IdConceptoPiramido" ColumnName="IdConceptoPiramido" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vNomina">
-            <EntityTypeMapping TypeName="NominaModel.vNomina">
-              <MappingFragment StoreEntitySet="vNomina">
-                <ScalarProperty Name="SDI_Liquidacion" ColumnName="SDI_Liquidacion" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
-                <ScalarProperty Name="Imss" ColumnName="Imss" />
-                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
-                <ScalarProperty Name="Curp" ColumnName="Curp" />
-                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
-                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
-                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
-                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
-                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
-                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
-                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
-                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
-                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
-                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
-                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
-                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
-                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
-                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
-                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
-                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
-                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
-                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
-                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
-                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
-                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
-                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
-                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
-                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
-                <ScalarProperty Name="IVA" ColumnName="IVA" />
-                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
-                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
-                <ScalarProperty Name="Netos" ColumnName="Netos" />
-                <ScalarProperty Name="DDS" ColumnName="DDS" />
-                <ScalarProperty Name="ERS" ColumnName="ERS" />
-                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
-                <ScalarProperty Name="Neto" ColumnName="Neto" />
-                <ScalarProperty Name="DD" ColumnName="DD" />
-                <ScalarProperty Name="ER" ColumnName="ER" />
-                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
-                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
-                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
-                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
-                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
-                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
-                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
-                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
-                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
-                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
-                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
-                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
-                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
-                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
-                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
-                <ScalarProperty Name="ISN" ColumnName="ISN" />
-                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
-                <ScalarProperty Name="Anios" ColumnName="Anios" />
-                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
-                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
-                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
-                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
-                <ScalarProperty Name="ISR" ColumnName="ISR" />
-                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
-                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
-                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
-                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
-                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
-                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
-                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
-                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
-                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
-                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
-                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
-                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
-                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
-                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
-                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
-                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
-                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
-                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
-                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
-                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
-                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
-                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
-                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
-                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -6843,227 +6643,6 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Nomina">
-            <EntityTypeMapping TypeName="NominaModel.Nomina">
-              <MappingFragment StoreEntitySet="Nomina">
-                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
-                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
-                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
-                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
-                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
-                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
-                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
-                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
-                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
-                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
-                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
-                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
-                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
-                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
-                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
-                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
-                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
-                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
-                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
-                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
-                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
-                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
-                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
-                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
-                <ScalarProperty Name="IVA" ColumnName="IVA" />
-                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
-                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
-                <ScalarProperty Name="Netos" ColumnName="Netos" />
-                <ScalarProperty Name="DDS" ColumnName="DDS" />
-                <ScalarProperty Name="ERS" ColumnName="ERS" />
-                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
-                <ScalarProperty Name="Neto" ColumnName="Neto" />
-                <ScalarProperty Name="DD" ColumnName="DD" />
-                <ScalarProperty Name="ER" ColumnName="ER" />
-                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
-                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
-                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
-                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
-                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
-                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
-                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
-                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
-                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
-                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
-                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
-                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
-                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
-                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
-                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
-                <ScalarProperty Name="ISN" ColumnName="ISN" />
-                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
-                <ScalarProperty Name="Anios" ColumnName="Anios" />
-                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
-                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
-                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
-                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
-                <ScalarProperty Name="ISR" ColumnName="ISR" />
-                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
-                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
-                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
-                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
-                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
-                <ScalarProperty Name="SDI_Liquidacion" ColumnName="SDI_Liquidacion" />
-                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
-                <ScalarProperty Name="ExentoLiquidacion" ColumnName="ExentoLiquidacion" />
-                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
-                <ScalarProperty Name="TotalLiquidacion" ColumnName="TotalLiquidacion" />
-                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
-                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
-                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
-                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
-                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
-                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
-                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
-                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
-                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
-                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
-                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
-                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
-                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
-                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
-                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
-                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
-                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NominaTrabajo">
-            <EntityTypeMapping TypeName="NominaModel.NominaTrabajo">
-              <MappingFragment StoreEntitySet="NominaTrabajo">
-                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
-                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
-                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
-                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
-                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
-                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
-                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
-                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
-                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
-                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
-                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
-                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
-                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
-                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
-                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
-                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
-                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
-                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
-                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
-                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
-                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
-                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
-                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
-                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
-                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
-                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
-                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
-                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
-                <ScalarProperty Name="IVA" ColumnName="IVA" />
-                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
-                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
-                <ScalarProperty Name="Netos" ColumnName="Netos" />
-                <ScalarProperty Name="DDS" ColumnName="DDS" />
-                <ScalarProperty Name="ERS" ColumnName="ERS" />
-                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
-                <ScalarProperty Name="Neto" ColumnName="Neto" />
-                <ScalarProperty Name="DD" ColumnName="DD" />
-                <ScalarProperty Name="ER" ColumnName="ER" />
-                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
-                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
-                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
-                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
-                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
-                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
-                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
-                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
-                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
-                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
-                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
-                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
-                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
-                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
-                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
-                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
-                <ScalarProperty Name="ISN" ColumnName="ISN" />
-                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
-                <ScalarProperty Name="SDI" ColumnName="SDI" />
-                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
-                <ScalarProperty Name="Anios" ColumnName="Anios" />
-                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
-                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
-                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
-                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
-                <ScalarProperty Name="ISR" ColumnName="ISR" />
-                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
-                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
-                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
-                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
-                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
-                <ScalarProperty Name="SDI_Liquidacion" ColumnName="SDI_Liquidacion" />
-                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
-                <ScalarProperty Name="ExentoLiquidacion" ColumnName="ExentoLiquidacion" />
-                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
-                <ScalarProperty Name="TotalLiquidacion" ColumnName="TotalLiquidacion" />
-                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
-                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
-                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
-                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
-                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
-                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
-                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
-                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
-                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
-                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
-                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
-                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
-                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
-                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
-                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
-                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
-                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
-                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
-                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
-                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
-                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
-                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
-                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
-                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
-                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
-                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_Premios_Compensaciones" FunctionName="NominaModel.Store.sp_Premios_Compensaciones">
             <ResultMapping>
               <ComplexTypeMapping TypeName="NominaModel.sp_Premios_Compensaciones_Result">
@@ -7562,6 +7141,469 @@ advertencia 6002: La tabla o vista 'TadaNomina.dbo.vSaldos' no tiene definida ni
                 <ScalarProperty Name="SalarioMinimoGeneral" ColumnName="SalarioMinimoGeneral" />
                 <ScalarProperty Name="Ano" ColumnName="Ano" />
                 <ScalarProperty Name="IdSueldoMinimo" ColumnName="IdSueldoMinimo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nomina">
+            <EntityTypeMapping TypeName="NominaModel.Nomina">
+              <MappingFragment StoreEntitySet="Nomina">
+                <ScalarProperty Name="ISN_Real" ColumnName="ISN_Real" />
+                <ScalarProperty Name="PorcentajeISN" ColumnName="PorcentajeISN" />
+                <ScalarProperty Name="BaseISN" ColumnName="BaseISN" />
+                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
+                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
+                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
+                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
+                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
+                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
+                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
+                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
+                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
+                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
+                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
+                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
+                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
+                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
+                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
+                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
+                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
+                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
+                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
+                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
+                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
+                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
+                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
+                <ScalarProperty Name="Netos" ColumnName="Netos" />
+                <ScalarProperty Name="DDS" ColumnName="DDS" />
+                <ScalarProperty Name="ERS" ColumnName="ERS" />
+                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
+                <ScalarProperty Name="Neto" ColumnName="Neto" />
+                <ScalarProperty Name="DD" ColumnName="DD" />
+                <ScalarProperty Name="ER" ColumnName="ER" />
+                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
+                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
+                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
+                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
+                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
+                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
+                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
+                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
+                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
+                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
+                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
+                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
+                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
+                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
+                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
+                <ScalarProperty Name="ISN" ColumnName="ISN" />
+                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
+                <ScalarProperty Name="SDI" ColumnName="SDI" />
+                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
+                <ScalarProperty Name="Anios" ColumnName="Anios" />
+                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
+                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
+                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
+                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
+                <ScalarProperty Name="ISR" ColumnName="ISR" />
+                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
+                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
+                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
+                <ScalarProperty Name="SDI_Liquidacion" ColumnName="SDI_Liquidacion" />
+                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
+                <ScalarProperty Name="ExentoLiquidacion" ColumnName="ExentoLiquidacion" />
+                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
+                <ScalarProperty Name="TotalLiquidacion" ColumnName="TotalLiquidacion" />
+                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
+                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
+                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
+                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
+                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
+                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
+                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
+                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
+                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
+                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
+                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
+                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
+                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
+                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
+                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NominaTrabajo">
+            <EntityTypeMapping TypeName="NominaModel.NominaTrabajo">
+              <MappingFragment StoreEntitySet="NominaTrabajo">
+                <ScalarProperty Name="ISN_Real" ColumnName="ISN_Real" />
+                <ScalarProperty Name="PorcentajeISN" ColumnName="PorcentajeISN" />
+                <ScalarProperty Name="BaseISN" ColumnName="BaseISN" />
+                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
+                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
+                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
+                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
+                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
+                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
+                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
+                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
+                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
+                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
+                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
+                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
+                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
+                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
+                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
+                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
+                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
+                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
+                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
+                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
+                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
+                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
+                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
+                <ScalarProperty Name="Netos" ColumnName="Netos" />
+                <ScalarProperty Name="DDS" ColumnName="DDS" />
+                <ScalarProperty Name="ERS" ColumnName="ERS" />
+                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
+                <ScalarProperty Name="Neto" ColumnName="Neto" />
+                <ScalarProperty Name="DD" ColumnName="DD" />
+                <ScalarProperty Name="ER" ColumnName="ER" />
+                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
+                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
+                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
+                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
+                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
+                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
+                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
+                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
+                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
+                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
+                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
+                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
+                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
+                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
+                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
+                <ScalarProperty Name="ISN" ColumnName="ISN" />
+                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
+                <ScalarProperty Name="SDI" ColumnName="SDI" />
+                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
+                <ScalarProperty Name="Anios" ColumnName="Anios" />
+                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
+                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
+                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
+                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
+                <ScalarProperty Name="ISR" ColumnName="ISR" />
+                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
+                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
+                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
+                <ScalarProperty Name="SDI_Liquidacion" ColumnName="SDI_Liquidacion" />
+                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
+                <ScalarProperty Name="ExentoLiquidacion" ColumnName="ExentoLiquidacion" />
+                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
+                <ScalarProperty Name="TotalLiquidacion" ColumnName="TotalLiquidacion" />
+                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
+                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
+                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
+                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
+                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
+                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
+                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
+                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
+                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
+                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
+                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
+                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
+                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
+                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
+                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vNomina">
+            <EntityTypeMapping TypeName="NominaModel.vNomina">
+              <MappingFragment StoreEntitySet="vNomina">
+                <ScalarProperty Name="ISN_Real" ColumnName="ISN_Real" />
+                <ScalarProperty Name="PorcentajeISN" ColumnName="PorcentajeISN" />
+                <ScalarProperty Name="BaseISN" ColumnName="BaseISN" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
+                <ScalarProperty Name="Imss" ColumnName="Imss" />
+                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
+                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
+                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
+                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
+                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
+                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
+                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
+                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
+                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
+                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
+                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
+                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
+                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
+                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
+                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
+                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
+                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
+                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
+                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
+                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
+                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
+                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
+                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
+                <ScalarProperty Name="Netos" ColumnName="Netos" />
+                <ScalarProperty Name="DDS" ColumnName="DDS" />
+                <ScalarProperty Name="ERS" ColumnName="ERS" />
+                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
+                <ScalarProperty Name="Neto" ColumnName="Neto" />
+                <ScalarProperty Name="DD" ColumnName="DD" />
+                <ScalarProperty Name="ER" ColumnName="ER" />
+                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
+                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
+                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
+                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
+                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
+                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
+                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
+                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
+                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
+                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
+                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
+                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
+                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
+                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
+                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
+                <ScalarProperty Name="ISN" ColumnName="ISN" />
+                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
+                <ScalarProperty Name="SDI" ColumnName="SDI" />
+                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
+                <ScalarProperty Name="Anios" ColumnName="Anios" />
+                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
+                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
+                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
+                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
+                <ScalarProperty Name="ISR" ColumnName="ISR" />
+                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
+                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
+                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
+                <ScalarProperty Name="SDI_Liquidacion" ColumnName="SDI_Liquidacion" />
+                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
+                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
+                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
+                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
+                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
+                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
+                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
+                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
+                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
+                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
+                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
+                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
+                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
+                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
+                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
+                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
+                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vNominaTrabajo">
+            <EntityTypeMapping TypeName="NominaModel.vNominaTrabajo">
+              <MappingFragment StoreEntitySet="vNominaTrabajo">
+                <ScalarProperty Name="ISN_Real" ColumnName="ISN_Real" />
+                <ScalarProperty Name="PorcentajeISN" ColumnName="PorcentajeISN" />
+                <ScalarProperty Name="BaseISN" ColumnName="BaseISN" />
+                <ScalarProperty Name="Imss" ColumnName="Imss" />
+                <ScalarProperty Name="Rfc" ColumnName="Rfc" />
+                <ScalarProperty Name="Curp" ColumnName="Curp" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ClaveEmpleado" ColumnName="ClaveEmpleado" />
+                <ScalarProperty Name="TotalOtrasPercepciones" ColumnName="TotalOtrasPercepciones" />
+                <ScalarProperty Name="FechaCaptura" ColumnName="FechaCaptura" />
+                <ScalarProperty Name="IdCaptura" ColumnName="IdCaptura" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="IdFacturasContabilidad" ColumnName="IdFacturasContabilidad" />
+                <ScalarProperty Name="BanderaFiniquitos" ColumnName="BanderaFiniquitos" />
+                <ScalarProperty Name="NumeroCheque" ColumnName="NumeroCheque" />
+                <ScalarProperty Name="FechaCobroCheque" ColumnName="FechaCobroCheque" />
+                <ScalarProperty Name="FechaEmisionFiniquito" ColumnName="FechaEmisionFiniquito" />
+                <ScalarProperty Name="TotalEsq" ColumnName="TotalEsq" />
+                <ScalarProperty Name="SubtotalEsq" ColumnName="SubtotalEsq" />
+                <ScalarProperty Name="HonorarioEsq" ColumnName="HonorarioEsq" />
+                <ScalarProperty Name="IVAEsq" ColumnName="IVAEsq" />
+                <ScalarProperty Name="Beneficiario" ColumnName="Beneficiario" />
+                <ScalarProperty Name="DiasTrabajadosReal" ColumnName="DiasTrabajadosReal" />
+                <ScalarProperty Name="AniosReal" ColumnName="AniosReal" />
+                <ScalarProperty Name="DiasTrabajadosIMSS" ColumnName="DiasTrabajadosIMSS" />
+                <ScalarProperty Name="Base_Gravada_Real" ColumnName="Base_Gravada_Real" />
+                <ScalarProperty Name="IMSS_Patronal_Real" ColumnName="IMSS_Patronal_Real" />
+                <ScalarProperty Name="IMSS_Obrero_Real" ColumnName="IMSS_Obrero_Real" />
+                <ScalarProperty Name="Subsidio_Real" ColumnName="Subsidio_Real" />
+                <ScalarProperty Name="ISR_Real" ColumnName="ISR_Real" />
+                <ScalarProperty Name="Neto_Real" ColumnName="Neto_Real" />
+                <ScalarProperty Name="Total_DD_Real" ColumnName="Total_DD_Real" />
+                <ScalarProperty Name="Total_ER_Real" ColumnName="Total_ER_Real" />
+                <ScalarProperty Name="Sueldo_Vacaciones_Real" ColumnName="Sueldo_Vacaciones_Real" />
+                <ScalarProperty Name="SueldoPagado_Real" ColumnName="SueldoPagado_Real" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="TotalCosteo" ColumnName="TotalCosteo" />
+                <ScalarProperty Name="Honorario" ColumnName="Honorario" />
+                <ScalarProperty Name="IVA" ColumnName="IVA" />
+                <ScalarProperty Name="Total_Patron" ColumnName="Total_Patron" />
+                <ScalarProperty Name="IMSS_Obrero" ColumnName="IMSS_Obrero" />
+                <ScalarProperty Name="Netos" ColumnName="Netos" />
+                <ScalarProperty Name="DDS" ColumnName="DDS" />
+                <ScalarProperty Name="ERS" ColumnName="ERS" />
+                <ScalarProperty Name="TotalEfectivo" ColumnName="TotalEfectivo" />
+                <ScalarProperty Name="Neto" ColumnName="Neto" />
+                <ScalarProperty Name="DD" ColumnName="DD" />
+                <ScalarProperty Name="ER" ColumnName="ER" />
+                <ScalarProperty Name="INFONAVIT_Patronal" ColumnName="INFONAVIT_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez_Patronal" ColumnName="Cesantia_Vejez_Patronal" />
+                <ScalarProperty Name="Retiro" ColumnName="Retiro" />
+                <ScalarProperty Name="Prestamo_Especie" ColumnName="Prestamo_Especie" />
+                <ScalarProperty Name="Invalidez_Vida_Patronal" ColumnName="Invalidez_Vida_Patronal" />
+                <ScalarProperty Name="Riesgo_Trabajo_Patronal" ColumnName="Riesgo_Trabajo_Patronal" />
+                <ScalarProperty Name="Gastos_Med_Pension_Patronal" ColumnName="Gastos_Med_Pension_Patronal" />
+                <ScalarProperty Name="Prestamo_Dinero_Patronal" ColumnName="Prestamo_Dinero_Patronal" />
+                <ScalarProperty Name="Excedente_Patronal" ColumnName="Excedente_Patronal" />
+                <ScalarProperty Name="Cuota_Fija_Patronal" ColumnName="Cuota_Fija_Patronal" />
+                <ScalarProperty Name="Cesantia_Vejez" ColumnName="Cesantia_Vejez" />
+                <ScalarProperty Name="Invalidez_Vida" ColumnName="Invalidez_Vida" />
+                <ScalarProperty Name="Gastos_Med_Pension" ColumnName="Gastos_Med_Pension" />
+                <ScalarProperty Name="Prestaciones_Dinero" ColumnName="Prestaciones_Dinero" />
+                <ScalarProperty Name="Excedente_Obrera" ColumnName="Excedente_Obrera" />
+                <ScalarProperty Name="Sueldo_Vacaciones" ColumnName="Sueldo_Vacaciones" />
+                <ScalarProperty Name="Dias_Vacaciones" ColumnName="Dias_Vacaciones" />
+                <ScalarProperty Name="ISN" ColumnName="ISN" />
+                <ScalarProperty Name="SDI_Proyeccion_Real" ColumnName="SDI_Proyeccion_Real" />
+                <ScalarProperty Name="SDI" ColumnName="SDI" />
+                <ScalarProperty Name="FactorIntegracion" ColumnName="FactorIntegracion" />
+                <ScalarProperty Name="Anios" ColumnName="Anios" />
+                <ScalarProperty Name="ReintegroISR" ColumnName="ReintegroISR" />
+                <ScalarProperty Name="SubsidioPagar" ColumnName="SubsidioPagar" />
+                <ScalarProperty Name="ImpuestoRetener" ColumnName="ImpuestoRetener" />
+                <ScalarProperty Name="Subsidio" ColumnName="Subsidio" />
+                <ScalarProperty Name="ISR" ColumnName="ISR" />
+                <ScalarProperty Name="CuotaFija" ColumnName="CuotaFija" />
+                <ScalarProperty Name="PorcentajeCalculado" ColumnName="PorcentajeCalculado" />
+                <ScalarProperty Name="Porcentaje" ColumnName="Porcentaje" />
+                <ScalarProperty Name="DiferenciaLimite" ColumnName="DiferenciaLimite" />
+                <ScalarProperty Name="LimiteInferior" ColumnName="LimiteInferior" />
+                <ScalarProperty Name="ISRLiquidacion" ColumnName="ISRLiquidacion" />
+                <ScalarProperty Name="BaseGravadaLiquidacion" ColumnName="BaseGravadaLiquidacion" />
+                <ScalarProperty Name="BaseGravadaP" ColumnName="BaseGravadaP" />
+                <ScalarProperty Name="BaseGravada" ColumnName="BaseGravada" />
+                <ScalarProperty Name="Apoyo" ColumnName="Apoyo" />
+                <ScalarProperty Name="SueldoPagado" ColumnName="SueldoPagado" />
+                <ScalarProperty Name="SueldoDiarioReal" ColumnName="SueldoDiarioReal" />
+                <ScalarProperty Name="SueldoDiario" ColumnName="SueldoDiario" />
+                <ScalarProperty Name="Incapacidades" ColumnName="Incapacidades" />
+                <ScalarProperty Name="Faltas" ColumnName="Faltas" />
+                <ScalarProperty Name="DiasTrabajados" ColumnName="DiasTrabajados" />
+                <ScalarProperty Name="AjusteImpuesto" ColumnName="AjusteImpuesto" />
+                <ScalarProperty Name="FechaBaja" ColumnName="FechaBaja" />
+                <ScalarProperty Name="FechaReconocimientoAntiguedad" ColumnName="FechaReconocimientoAntiguedad" />
+                <ScalarProperty Name="FechaAltaIMSS" ColumnName="FechaAltaIMSS" />
+                <ScalarProperty Name="CuentaInterbancariaTrad" ColumnName="CuentaInterbancariaTrad" />
+                <ScalarProperty Name="CuentaBancariaTrad" ColumnName="CuentaBancariaTrad" />
+                <ScalarProperty Name="IdBancoTrad" ColumnName="IdBancoTrad" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="IdCentroCostos" ColumnName="IdCentroCostos" />
+                <ScalarProperty Name="IdEntidad" ColumnName="IdEntidad" />
+                <ScalarProperty Name="RiesgoTrabajo" ColumnName="RiesgoTrabajo" />
+                <ScalarProperty Name="IdSindicato" ColumnName="IdSindicato" />
+                <ScalarProperty Name="IdRegistroPatronal" ColumnName="IdRegistroPatronal" />
+                <ScalarProperty Name="IdPeriodoNomina" ColumnName="IdPeriodoNomina" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

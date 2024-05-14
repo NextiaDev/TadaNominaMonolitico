@@ -119,5 +119,8 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
         public Nullable<decimal> TotalOtrasPercepciones { get; set; }
+        public Nullable<decimal> BaseISN { get; set; }
+        public Nullable<decimal> PorcentajeISN { get; set; }
+        public Nullable<decimal> ISN_Real { get; set; }
     }
 }

@@ -27,11 +27,9 @@
         <EntityTypeShape EntityType="NominaModel.vCreditoInfonavit" Width="1.5" PointX="15.375" PointY="11.75" />
         <EntityTypeShape EntityType="NominaModel.vDesgloceVacaciones" Width="1.5" PointX="24.375" PointY="0.75" />
         <EntityTypeShape EntityType="NominaModel.NominaProvision" Width="1.5" PointX="25.375" PointY="4.75" />
-        <EntityTypeShape EntityType="NominaModel.vNominaTrabajo" Width="1.5" PointX="19.375" PointY="26.75" />
         <EntityTypeShape EntityType="NominaModel.AdelantoNomina" Width="1.5" PointX="22.375" PointY="4.75" />
         <EntityTypeShape EntityType="NominaModel.ConceptosPiramidados" Width="1.5" PointX="26.375" PointY="8.75" />
         <EntityTypeShape EntityType="NominaModel.vConceptosPiramidados" Width="1.5" PointX="26.375" PointY="14.75" />
-        <EntityTypeShape EntityType="NominaModel.vNomina" Width="1.5" PointX="25.375" PointY="22.75" />
         <EntityTypeShape EntityType="NominaModel.Cat_Jornadas" Width="1.5" PointX="7.375" PointY="28.75" />
         <EntityTypeShape EntityType="NominaModel.FactoresCyV_IMSS" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="NominaModel.PeriodoNomina" Width="1.5" PointX="13.375" PointY="21.75" />
@@ -48,8 +46,6 @@
         <EntityTypeShape EntityType="NominaModel.Cat_TipoPeriodo" Width="1.5" PointX="5.375" PointY="23.75" />
         <EntityTypeShape EntityType="NominaModel.Cat_Departamentos" Width="1.5" PointX="23.375" PointY="10.75" />
         <EntityTypeShape EntityType="NominaModel.vPeriodoNomina" Width="1.5" PointX="31.375" PointY="0.75" />
-        <EntityTypeShape EntityType="NominaModel.Nomina" Width="1.5" PointX="15.375" PointY="26.75" />
-        <EntityTypeShape EntityType="NominaModel.NominaTrabajo" Width="1.5" PointX="9.375" PointY="28.75" />
         <EntityTypeShape EntityType="NominaModel.FactorIntegracion" Width="1.5" PointX="23.75" PointY="15.75" />
         <EntityTypeShape EntityType="NominaModel.vPrestacionesFactor" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="NominaModel.ConfiguracionFiniquito" Width="1.5" PointX="11.375" PointY="0.75" />
@@ -60,6 +56,10 @@
         <EntityTypeShape EntityType="NominaModel.vIncidencias" Width="1.5" PointX="27.375" PointY="29.75" />
         <EntityTypeShape EntityType="NominaModel.vIncidencias_Consolidadas" Width="1.5" PointX="11.375" PointY="32.75" />
         <EntityTypeShape EntityType="NominaModel.Sueldos_Minimos" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="NominaModel.Nomina" Width="1.5" PointX="17.375" PointY="17.75" />
+        <EntityTypeShape EntityType="NominaModel.NominaTrabajo" Width="1.5" PointX="23.375" PointY="21.75" />
+        <EntityTypeShape EntityType="NominaModel.vNomina" Width="1.5" PointX="7.375" PointY="32.75" />
+        <EntityTypeShape EntityType="NominaModel.vNominaTrabajo" Width="1.5" PointX="13.375" PointY="32.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -49,11 +49,9 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vCreditoInfonavit> vCreditoInfonavit { get; set; }
         public virtual DbSet<vDesgloceVacaciones> vDesgloceVacaciones { get; set; }
         public virtual DbSet<NominaProvision> NominaProvision { get; set; }
-        public virtual DbSet<vNominaTrabajo> vNominaTrabajo { get; set; }
         public virtual DbSet<AdelantoNomina> AdelantoNomina { get; set; }
         public virtual DbSet<ConceptosPiramidados> ConceptosPiramidados { get; set; }
         public virtual DbSet<vConceptosPiramidados> vConceptosPiramidados { get; set; }
-        public virtual DbSet<vNomina> vNomina { get; set; }
         public virtual DbSet<Cat_Jornadas> Cat_Jornadas { get; set; }
         public virtual DbSet<FactoresCyV_IMSS> FactoresCyV_IMSS { get; set; }
         public virtual DbSet<PeriodoNomina> PeriodoNomina { get; set; }
@@ -70,8 +68,6 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<Cat_TipoPeriodo> Cat_TipoPeriodo { get; set; }
         public virtual DbSet<Cat_Departamentos> Cat_Departamentos { get; set; }
         public virtual DbSet<vPeriodoNomina> vPeriodoNomina { get; set; }
-        public virtual DbSet<Nomina> Nomina { get; set; }
-        public virtual DbSet<NominaTrabajo> NominaTrabajo { get; set; }
         public virtual DbSet<FactorIntegracion> FactorIntegracion { get; set; }
         public virtual DbSet<vPrestacionesFactor> vPrestacionesFactor { get; set; }
         public virtual DbSet<ConfiguracionFiniquito> ConfiguracionFiniquito { get; set; }
@@ -82,6 +78,10 @@ namespace TadaNomina.Models.DB
         public virtual DbSet<vIncidencias> vIncidencias { get; set; }
         public virtual DbSet<vIncidencias_Consolidadas> vIncidencias_Consolidadas { get; set; }
         public virtual DbSet<Sueldos_Minimos> Sueldos_Minimos { get; set; }
+        public virtual DbSet<Nomina> Nomina { get; set; }
+        public virtual DbSet<NominaTrabajo> NominaTrabajo { get; set; }
+        public virtual DbSet<vNomina> vNomina { get; set; }
+        public virtual DbSet<vNominaTrabajo> vNominaTrabajo { get; set; }
     
         public virtual ObjectResult<sp_ReciboTradicionalDeducciones_Result> sp_ReciboTradicionalDeducciones(Nullable<int> idPeriodo, Nullable<int> idEmpleado)
         {

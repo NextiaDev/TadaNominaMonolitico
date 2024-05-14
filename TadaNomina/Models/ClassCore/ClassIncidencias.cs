@@ -385,7 +385,7 @@ namespace TadaNomina.Models.ClassCore
                         if (concepto.CalculaMontos == "SI")
                         {
                             ObtenMontos(concepto, vEmp, i, null, null);
-                            ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS);
+                            ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS, null);
 
                             i.Monto = montoTradicional;
                             i.MontoEsquema = montoEsquema;
@@ -402,7 +402,7 @@ namespace TadaNomina.Models.ClassCore
                     if (i.Monto > 0)
                     {
                         montoTradicional = i.Monto;
-                        ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS);
+                        ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS, null);
                         guardar = true;
                     }
 
@@ -418,6 +418,7 @@ namespace TadaNomina.Models.ClassCore
                         }
                         guardar = true;
                     }
+                    montoReal = i.Monto + (i.MontoEsquema ?? 0);
                     break;
                 default:
                     break;
@@ -443,7 +444,7 @@ namespace TadaNomina.Models.ClassCore
 
             if (montoReal > 0)
             {
-                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD, "REAL");
                 i.MontoReal = montoReal;
                 i.ExentoReal = Exento;
                 i.GravadoReal = Gravado;
@@ -577,7 +578,7 @@ namespace TadaNomina.Models.ClassCore
                         if (concepto.CalculaMontos == "SI")
                         {
                             ObtenMontos(concepto, vEmp, Cantidad, CantidadEsquema, Porcentaje, SDCalculo, SDCalculoReal);
-                            ObtenExentosGravados(concepto, periodo.FechaFin, FactorDiasTrabajadosPeriodo, Cantidad, vEmp.SDIMSS);
+                            ObtenExentosGravados(concepto, periodo.FechaFin, FactorDiasTrabajadosPeriodo, Cantidad, vEmp.SDIMSS, null);
                             if (Porcentaje != null && Porcentaje > 0) { i.Cantidad = Cantidad * (decimal)Porcentaje; i.CantidadEsq = CantidadEsquema * (decimal)Porcentaje; }                            
                             i.Monto = montoTradicional;
                             i.MontoEsquema = montoEsquema;
@@ -595,7 +596,7 @@ namespace TadaNomina.Models.ClassCore
                     {
                         i.Monto = Monto;
                         montoTradicional = Monto;
-                        ObtenExentosGravados(concepto, periodo.FechaFin, FactorDiasTrabajadosPeriodo, null, vEmp.SDIMSS);
+                        ObtenExentosGravados(concepto, periodo.FechaFin, FactorDiasTrabajadosPeriodo, null, vEmp.SDIMSS, null);
                         guardar = true;
                     }
 
@@ -611,6 +612,8 @@ namespace TadaNomina.Models.ClassCore
                         }
                         guardar = true;
                     }
+
+                    montoReal = i.Monto + (i.MontoEsquema ?? 0);
                     break;
                 default:
                     break;
@@ -639,7 +642,7 @@ namespace TadaNomina.Models.ClassCore
 
             if (montoReal > 0)
             {
-                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD, "REAL");
                 i.MontoReal = montoReal;
                 i.ExentoReal = Exento;
                 i.GravadoReal = Gravado;
@@ -741,7 +744,7 @@ namespace TadaNomina.Models.ClassCore
                             if (concepto.CalculaMontos == "SI")
                             {
                                 ObtenMontos(concepto, vEmp, i, null, null);
-                                ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS);
+                                ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS, null);
 
                                 i.Monto = montoTradicional;
                                 i.MontoEsquema = montoEsquema;
@@ -754,10 +757,11 @@ namespace TadaNomina.Models.ClassCore
                         break;
                     case "Pesos":
                         try { montoEsquema = (decimal)i.MontoEsquema; } catch { montoEsquema = 0; }
+                        montoReal = i.Monto + (i.MontoEsquema ?? 0);
                         if (i.Monto > 0 || montoEsquema > 0)
                         {
                             montoTradicional = i.Monto;                            
-                            ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS);
+                            ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS, null);
                             guardar = true;
                         }
                         break;
@@ -785,7 +789,7 @@ namespace TadaNomina.Models.ClassCore
 
                 if (montoReal > 0)
                 {
-                    ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                    ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD, "REAL");
                     i.MontoReal = montoReal;
                     i.ExentoReal = Exento;
                     i.GravadoReal = Gravado;
@@ -801,7 +805,7 @@ namespace TadaNomina.Models.ClassCore
         }
 
         /// <summary>
-        /// Metodo para agregar incidencias de manera paraetrizada para el proceso particular de vacaciones solictadas
+        /// Metodo para agregar incidencias de manera parametrizada para el proceso particular de vacaciones solictadas
         /// </summary>
         /// <param name="IdPeriodoNomina">Id del periodo que se esta calculando</param>
         /// <param name="IdConcepto">id del concepto de vacaciones asigndao al cliente</param>
@@ -903,7 +907,7 @@ namespace TadaNomina.Models.ClassCore
                         if (concepto.CalculaMontos == "SI")
                         {
                             ObtenMontos(concepto, vEmp, i, null, null);
-                            ObtenExentosGravados(concepto, periodo.FechaFin, null, Cantidad, vEmp.SDIMSS);
+                            ObtenExentosGravados(concepto, periodo.FechaFin, null, Cantidad, vEmp.SDIMSS, null);
 
                             i.Monto = montoTradicional;
                             i.MontoEsquema = montoEsquema;
@@ -939,7 +943,7 @@ namespace TadaNomina.Models.ClassCore
 
             if (montoReal > 0)
             {
-                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD, "REAL");
                 i.MontoReal = montoReal;
                 i.ExentoReal = Exento;
                 i.GravadoReal = Gravado;
@@ -1087,7 +1091,7 @@ namespace TadaNomina.Models.ClassCore
                         if (concepto.CalculaMontos == "SI")
                         {
                             ObtenMontos(concepto, vEmp, i, null, null);
-                            ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS);
+                            ObtenExentosGravados(concepto, periodo.FechaFin, null, i.Cantidad, vEmp.SDIMSS, null);
 
                             i.Monto = montoTradicional;
                             i.MontoEsquema = montoEsquema;
@@ -1104,7 +1108,7 @@ namespace TadaNomina.Models.ClassCore
                     if (i.Monto > 0)
                     {
                         montoTradicional = i.Monto;
-                        ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS);
+                        ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SDIMSS, null);
                         guardar = true;
                     }
 
@@ -1120,6 +1124,7 @@ namespace TadaNomina.Models.ClassCore
                         }
                         guardar = true;
                     }
+                    montoReal = i.Monto + (i.MontoEsquema ?? 0);
                     break;
                 default:
                     break;
@@ -1145,7 +1150,7 @@ namespace TadaNomina.Models.ClassCore
 
             if (montoReal > 0)
             {
-                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD);
+                ObtenExentosGravados(concepto, periodo.FechaFin, null, null, vEmp.SD, "REAL");
                 i.MontoReal = montoReal;
                 i.ExentoReal = Exento;
                 i.GravadoReal = Gravado;
@@ -1174,7 +1179,7 @@ namespace TadaNomina.Models.ClassCore
                 {
                     ClassConceptos cconceptos = new ClassConceptos();
                     try { montoTradicional = (decimal)registro.Monto; } catch { montoTradicional = 0; }
-                    ObtenExentosGravados(cconceptos.GetvConcepto((int)registro.IdConcepto), FechaFinPeriodo, FactorDiasTrabajadosEjercicio, registro.Cantidad, SDIMSS);
+                    ObtenExentosGravados(cconceptos.GetvConcepto((int)registro.IdConcepto), FechaFinPeriodo, FactorDiasTrabajadosEjercicio, registro.Cantidad, SDIMSS, null);
 
                     registro.Exento = Exento;
                     registro.Gravado = Gravado;
@@ -1202,7 +1207,7 @@ namespace TadaNomina.Models.ClassCore
                     registro.Monto = Monto;
                     ClassConceptos cconceptos = new ClassConceptos();
                     montoTradicional = Monto;
-                    ObtenExentosGravados(cconceptos.GetvConcepto((int)registro.IdConcepto), FechaFinPeriodo, FactorDiasTrabajadosEjercicio, registro.Cantidad, SDIMSS);
+                    ObtenExentosGravados(cconceptos.GetvConcepto((int)registro.IdConcepto), FechaFinPeriodo, FactorDiasTrabajadosEjercicio, registro.Cantidad, SDIMSS, null);
 
                     registro.Exento = Exento;
                     registro.Gravado = Gravado;
@@ -1386,10 +1391,13 @@ namespace TadaNomina.Models.ClassCore
         /// <param name="concepto">Información del concepto de nómina</param>
         /// <param name="fechaFinPeriodo">Fecha din del periodeo de nómina</param>
         /// <param name="FactorDiasTrabajadosEjercicio">Valor proporcional de los dias trabajados durante el periodo por el empleado siendo 1 por los trabajar todos los días del periodo</param>
-        private void ObtenExentosGravados(vConceptos concepto, DateTime fechaFinPeriodo, decimal? FactorDiasTrabajadosEjercicio, decimal? Cantidad, decimal? SDIMSS)
+        private void ObtenExentosGravados(vConceptos concepto, DateTime fechaFinPeriodo, decimal? FactorDiasTrabajadosEjercicio, decimal? Cantidad, decimal? SDIMSS, string tipo)
         {
             try
             {
+                if (tipo == "REAL")
+                    montoTradicional = montoReal;
+
                 if (concepto.TipoConcepto != "DD")
                 {
                     if (concepto.Exenta == "SI")
