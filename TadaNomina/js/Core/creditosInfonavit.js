@@ -1,4 +1,21 @@
 ﻿
+function CambiaStatus(IdCredito) {
+    $.ajax({
+        type: 'POST',
+        url: 'Infonavit/CambiaStatusCredito',
+        data: { IdCredito: IdCredito },
+        datatype: 'json',
+        success: function (data) { 
+            if (data == "OK") {
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
+            }
+            else {
+                mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
+            }
+        }
+    });
+}
+
 function ModalDesactivarCreditos(tipoMovimiento) {
     $("#modDesactivaCreditos").modal('show');
     $("#TipoMovimiento").val(tipoMovimiento);
