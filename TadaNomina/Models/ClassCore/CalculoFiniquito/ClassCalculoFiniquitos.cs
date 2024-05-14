@@ -628,13 +628,13 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
                 decimal totalPercepcionesSinSubsidio = (decimal)((nominaTrabajo.ER ?? 0) - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
                 nominaTrabajo.BaseISN = totalPercepcionesSinSubsidio;
-                nominaTrabajo.Porcentaje = porcentaje;
+                nominaTrabajo.PorcentajeISN = porcentaje;
                 nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje;
 
                 if (Periodo.TipoNomina == "PTU")
                 {
                     nominaTrabajo.BaseISN = 0;
-                    nominaTrabajo.Porcentaje = 0;
+                    nominaTrabajo.PorcentajeISN = 0;
                     nominaTrabajo.ISN = 0;
                 }
             }
