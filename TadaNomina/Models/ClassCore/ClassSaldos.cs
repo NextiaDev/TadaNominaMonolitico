@@ -341,5 +341,45 @@ namespace TadaNomina.Models.ClassCore
                     .FirstOrDefault();
             }
         }
+
+        /// <summary>
+        ///     Método que activa o desactiva todos los saldos
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Id de la unidad de negocio</param>
+        /// <param name="IdModifica">Id del usuario que realiza el movimiento</param>
+        /// <param name="tipoMov">Tipo de movimiento 1.- Activar 2.- desactivar</param>
+        /// <param name="IdConcepto">Id del concepto</param>
+        /// <returns>respuesta del servidor</returns>
+        public string DesactivaSaldos(int IdUnidadNegocio, int IdModifica, int tipoMov, int IdConcepto)
+        {
+            string res = "";
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var lstIdCreditos = getSaldosList(IdConcepto, IdUnidadNegocio).Select(x => x.IdSaldo);
+                    var creditos = ctx.Saldos.Where(x => lstIdCreditos.Contains(x.IdSaldo)).ToList();
+
+                    if (creditos != null && creditos.Count > 0)
+                    {
+                        foreach (var item in creditos)
+                        {
+                            item.IdEstatus = tipoMov == 1 ? 1 : 2;
+                            item.IdModifica = IdModifica;
+                            item.FechaModifica = DateTime.Now;
+                        }
+                        ctx.SaveChanges();
+                        return "OK";
+                    }
+                    else
+                        res = "No se encontró ningún registro";
+                }
+            }
+            catch (Exception ex)
+            {
+                res = "ERROR: " + ex.Message;
+            }
+            return res;
+        }
     }
 }

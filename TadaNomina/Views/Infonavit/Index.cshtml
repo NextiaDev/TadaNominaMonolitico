@@ -21,6 +21,8 @@
         </div>
         <div class="panel-body">
             @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            <button type="button" class="btn btn-info btn-sm" onclick="ModalDesactivarCreditos(1)">Activa créditos</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="ModalDesactivarCreditos(2)">Desactiva créditos</button>
             <br /><br />
 
             <table id="demo-dt-selection" class="table table-hover table-sm">
@@ -53,14 +55,20 @@
                     {
                         <tr>
                             <td align="center">
-                                @if (item.Activo == false)
-                                {
-                                    <input onclick="CambiaStatus(@item.IdCreditoInfonavit)" type="checkbox">
-                                }
-                                else
-                                {
-                                    <input onclick="CambiaStatus(@item.IdCreditoInfonavit)" type="checkbox" checked>
-                                }
+                                <div class="col-md-4">
+                                    <div class="box-inline mar-rgt">
+                                        @if (item.Activo == false)
+                                        {
+                                            <input id="demo-panel-w-switch-@item.IdCreditoInfonavit" class="toggle-switch" type="checkbox" onclick="CambiaStatus(@item.IdCreditoInfonavit)">
+                                            <label for="demo-panel-w-switch-@item.IdCreditoInfonavit"></label>
+                                        }
+                                        else
+                                        {
+                                            <input id="demo-panel-w-switch-@item.IdCreditoInfonavit" class="toggle-switch" type="checkbox" checked onclick="CambiaStatus(@item.IdCreditoInfonavit)">
+                                            <label for="demo-panel-w-switch-@item.IdCreditoInfonavit"></label>
+                                        }
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ClaveEmp)
@@ -92,6 +100,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="modDesactivaCreditos" tabindex="-1" role="dialog" aria-labelledby="MovementModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TituloModal"></h5>
+            </div>
+            <hr />
+            <div class="modal-body">
+                <label id="EtiquetaModal"></label>
+                <input id="TipoMovimiento" type="hidden" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary _Load" type="button" onclick="MovimientoCreditos()">Aceptar</button>
+                <button class="btn btn-danger" type="button" onclick="CierraModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id='myModal' class='modal fade'>
     <div class="modal-dialog">
         <div class="modal-content">
@@ -101,8 +129,10 @@
 </div>
 
 
+<script src="~/js/Core/mensajes.js"></script>
+<script src="~/js/Core/default.js"></script>
+<script src="~/js/Core/creditosInfonavit.js"></script>
 
-    
 <script>
         var TeamDetailPostBackURL = "@Url.Action("Details", "Infonavit")";
         $(function () {
@@ -197,23 +227,5 @@
                 $('#myModal').modal('hide');
             });
         });
-
-
-    function CambiaStatus(IdCredito) {
-        $.ajax({
-            type: 'POST',
-            url: 'Infonavit/CambiaStatusCredito',
-            data: { IdCredito: IdCredito },
-            datatype: 'json',
-            success: function (data) {
-                if (data == "OK") {
-                    alert("Se realizó el cambio.");
-                } else {
-                    alert("No se pudo realizar el cambio, favor de actualizar la ventara e intentarlo nuevamente");
-                }
-            }
-
-        });
-    }
 </script>
 

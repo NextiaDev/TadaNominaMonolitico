@@ -67,11 +67,56 @@ function CambiaStatus(IdPension) {
         datatype: 'json',
         success: function (data) {
             if (data == "OK") {
-                alert("Se realizó el cambio.");
-            } else {
-                alert("No se pudo realizar el cambio, favor de actualizar la ventara e intentarlo nuevamente");
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
+            }
+            else {
+                mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
             }
         }
-
     });
+}
+
+    
+function ModalDesactivarCreditos(tipoMovimiento) {
+    $("#modDesactivaCreditos").modal('show');
+    $("#TipoMovimiento").val(tipoMovimiento);
+
+    if (tipoMovimiento == 1) {
+        $("#TituloModal").text('Activar pensiones');
+        $("#EtiquetaModal").text('¿Estás seguro que quieres activar todas las pensiones?');
+    } else {
+        $("#TituloModal").text('Desactivar pensiones');
+        $("#EtiquetaModal").text('¿Estás seguro que quieres desactivar todas las pensiones?');
+    }
+}
+
+function MovimientoCreditos() {
+    const tipoMov = $("#TipoMovimiento").val();
+    $.ajax({
+        type: 'POST',
+        url: 'PensionAlimenticia/DesactivaPension',
+        data: { tipoMov: tipoMov },
+        datatype: 'json',
+        success: function (data) {
+            if (data == "OK") {
+                mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2500);
+            }
+            else {
+                mensajeAlerta("Atencion!", data, "danger", "bounce", "fadeOut", 2100);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2500);
+            }
+        }
+    });
+}
+
+function CierraModal() {
+    $("#modDesactivaCreditos").modal('hide');
+    $("#TipoMovimiento").val(null);
+    $("#TituloModal").text('');
+    $("#EtiquetaModal").text('');
 }

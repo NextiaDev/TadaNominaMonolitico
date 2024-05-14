@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "IndexConceptos";
     Layout = "~/Views/Shared/_layoutPrincipal.cshtml";
+    int IdConcepto = ViewBag.IdConcepto;
 }
 
 
@@ -16,7 +17,8 @@
 
             <a href="@Url.Action("Index")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
             @*<a href="#" class="btn btn-dark btn-sm" role="button" aria-pressed="true" data-id="@ViewBag.IdConcepto" id="_cambiaFormulaGral"><span class="fa fa-superscript"></span>  Formula General</a>*@
-
+            <button type="button" class="btn btn-info btn-sm" onclick="ModalDesactivarCreditos(1, @IdConcepto)">Activa créditos</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="ModalDesactivarCreditos(2, @IdConcepto)">Desactiva créditos</button>
             <br />
             <br />
 
@@ -43,8 +45,8 @@
                                 @Html.DisplayNameFor(model => model.DescuentoPeriodo)
                             </th>
                             @*<th>
-                                    @Html.DisplayNameFor(model => model.numeroPeriodos)
-                                </th>*@
+                            @Html.DisplayNameFor(model => model.numeroPeriodos)
+                        </th>*@
                             <th width="7%">
                                 Empleado
                             </th>
@@ -312,6 +314,25 @@
     </div>
 </div>
 
+<div class="modal fade" id="modDesactivaCreditos" tabindex="-1" role="dialog" aria-labelledby="MovementModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TituloModal"></h5>
+            </div>
+            <hr />
+            <div class="modal-body">
+                <label id="EtiquetaModal"></label>
+                <input id="TipoMovimiento" type="hidden" />
+                <input id="IdConceptoMov" type="hidden" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary _Load" type="button" onclick="MovimientoCreditos()">Aceptar</button>
+                <button class="btn btn-danger" type="button" onclick="CierraModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script src="~/js/Core/mensajes.js"></script>

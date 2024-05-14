@@ -392,5 +392,44 @@ namespace TadaNomina.Models.ClassCore
                 return res;
             }
         }
+
+        /// <summary>
+        ///     Método que activa o desactiva todas las pensiones alimenticias
+        /// </summary>
+        /// <param name="IdUnidadNegocio">Id de la unidad de negocio</param>
+        /// <param name="IdModifica">Id del usuario que realiza el movimiento</param>
+        /// <param name="tipoMov">Tipo del movimiento 1.-Activar 2.- desactivar</param>
+        /// <returns>Respuesta del movimiento</returns>
+        public string DesactivaPension(int IdUnidadNegocio, int IdModifica, int tipoMov)
+        {
+            string res = "";
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var lstIdCreditos = ctx.vPensionAlimenticia.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.IdEstatus == 1).Select(x => x.IdPensionAlimenticia).ToList();
+                    var creditos = ctx.PensionAlimenticia.Where(x => lstIdCreditos.Contains(x.IdPensionAlimenticia)).ToList();
+
+                    if (creditos != null && creditos.Count > 0)
+                    {
+                        foreach (var item in creditos)
+                        {
+                            item.Activo = tipoMov == 1 ? "SI" : "NO";
+                            item.IdModifica = IdModifica;
+                            item.FechaModifica = DateTime.Now;
+                        }
+                        ctx.SaveChanges();
+                        return "OK";
+                    }
+                    else
+                        res = "No se encontró ningún registro";
+                }
+            }
+            catch (Exception ex)
+            {
+                res = "ERROR: " + ex.Message;
+            }
+            return res;
+        }
     }
 }
