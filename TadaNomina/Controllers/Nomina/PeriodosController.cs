@@ -84,15 +84,9 @@ namespace TadaNomina.Controllers.Nomina
                 ClassPeriodoNomina cperiodos = new ClassPeriodoNomina(); // Instanciamos la clase de periodos de nómina 
                 ModelPeriodoNomina model = cperiodos.FindListPeriodos(IdUnidadNegocio); // Obtenemos los periodos de nómina de la unidad de negocio del usuario
 
-<<<<<<< HEAD
                 model.Validacion = false; // Asignamos el valor de falso a la validación del modelo de la vista de periodos de nómina
                 model.Mensaje = "Error: " + ex.Message; // Asignamos el mensaje de error al modelo de la vista de periodos de nómina
                 return View(model); // Retornamos la vista de periodos de nómina con el modelo de la vista de periodos de nómina
-=======
-                model.Validacion = false;
-                model.Mensaje = "ERROR: " + ex.Message;
-                return View(model);
->>>>>>> master
             }
         }
 
