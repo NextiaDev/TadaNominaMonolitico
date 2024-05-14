@@ -325,6 +325,7 @@ namespace TadaNomina.Models.ClassCore
                 try { model.ReciboTradicional.TotalPatron = (decimal)nom.Total_Patron; } catch { model.ReciboTradicional.TotalPatron = 0; }
                 model.ReciboReal.SDI = nom.SDI_Proyeccion_Real ?? 0;
                 model.ReciboReal.TotalPatron = nom.IMSS_Patronal_Real ?? 0;
+                model.ReciboReal.ISN = nom.ISN_Real ?? 0;
             }
             else
             {

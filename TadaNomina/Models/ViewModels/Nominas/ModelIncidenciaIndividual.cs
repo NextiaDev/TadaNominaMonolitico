@@ -75,10 +75,12 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
     public class ModelReciboReal
     {
-        public decimal SDI = 0;
-        [Display(Name = "Carga Patronal:")]
+        public decimal SDI { get; set; } = 0;
 
-        public decimal TotalPatron = 0;
+        [Display(Name = "Carga Patronal:")]
+        public decimal TotalPatron { get; set; } = 0;
+                
+        public decimal ISN { get; set; } = 0;
         public List<sp_ReciboRealPercepciones_Result> IncidenciasReciboReal { get; set; }
         public List<sp_ReciboRealDeducciones_Result> IncidenciasReciboDecReal { get; set; }
     }

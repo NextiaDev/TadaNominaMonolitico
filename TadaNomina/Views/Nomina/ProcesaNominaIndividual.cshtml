@@ -902,6 +902,15 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(x => x.ReciboReal.ISN)
+                    </div>
+                    <div class="col-md-8">
+                        @(string.Format("{0:C2}", Model.ReciboReal.ISN))
+                    </div>
+                </div>
+
                 <hr />
                 <h5>Percepciones</h5>
                 <table class="table table-bordered table-striped table-hover table-condensed">

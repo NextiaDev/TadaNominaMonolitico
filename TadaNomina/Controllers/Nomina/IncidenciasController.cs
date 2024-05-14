@@ -51,6 +51,8 @@ namespace TadaNomina.Controllers.Nomina
 
             PeriodoNomina periodo = cPeriodos.GetPeriodo(pIdPeriodoNomina);
 
+            ViewBag.NombrePeriodo = periodo.Periodo;
+
             if (periodo.TipoNomina == "Nomina")
             {
                 ViewBag.TipoNomina = "OK";
