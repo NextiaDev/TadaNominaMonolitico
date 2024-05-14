@@ -5,7 +5,7 @@ function CambiaStatus(IdCredito) {
         url: 'Infonavit/CambiaStatusCredito',
         data: { IdCredito: IdCredito },
         datatype: 'json',
-        success: function (data) {
+        success: function (data) { 
             if (data == "OK") {
                 mensajeAlerta("Atencion!", "Movimiento realizado correctamente.", "mint", "bounce", "fadeOut", 2000);
             }
