@@ -127,7 +127,7 @@ $("#eliminarPeriodo").click(function () {
                 document.getElementById("detail" + IdPeriodoNomina).disabled = true;
                 $("#edit" + IdPeriodoNomina).attr("disabled", true);
                 document.getElementById("detail" + IdPeriodoNomina).disabled = true;
-                mensajeAlerta(" ", "El periodo de nómina se eliminó de forma correcta", "success", "jelly", "fadeOut", 2500);
+              mensajeAlerta(" ", "El periodo de nómina se eliminó correctamente.", "success", "jelly", "fadeOut", 2500);
             }
             else {
                 mensajeAlerta("Atencion!", data, "danger", "jelly", "fadeOut", 2500);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels;
+using TadaNomina.Models.ViewModels.Catalogos;
 
 namespace TadaNomina.Models.ClassCore.CalculoNomina
 {
@@ -51,6 +52,26 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             if (ListImpuestos_Anterior != null)
                 ListImpuestos_Ajuste = ListImpuestos_Anterior;
+        }
+
+        /// <summary>
+        /// Metodo que calcula el ISR para los clientes que procesan nómina real.
+        /// </summary>
+        public void CalculaISR_Real()
+        {   
+            decimal BaseGravada = 0;
+
+            if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
+            {
+                BaseGravada += nominaTrabajo.SueldoPagado_Real ?? 0;
+                BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI").Select(x => x.GravadoReal).Sum() ?? 0;
+                nominaTrabajo.Base_Gravada_Real = BaseGravada;
+
+                var isrReal = CalculaISR(BaseGravada, Periodo.FechaFin, true);
+
+                if (isrReal >= 0)
+                    nominaTrabajo.ISR_Real = isrReal;
+            }
         }
 
         public void CalculaISRAguinaldoL174()
@@ -401,20 +422,17 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 if (Periodo.AjusteDeImpuestos == "NO")
                 {
-                    CalculoSubsidio();
+                    CalculoSubsidio(null);
                 }
                 else
                 {
                     var _listaNomAjuste = ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault();
 
-                    if (_listaNomAjuste != null && !AjusteAnual)
-                    {
-                        CalculoSubsidio_Ajuste();
-                    }
-                    else
-                    {
-                        CalculoSubsidio();
-                    }
+                    if (_listaNomAjuste != null && !AjusteAnual)                    
+                        CalculoSubsidio(true);                    
+                    else                    
+                        CalculoSubsidio(null);
+                    
                 }
             }
 
@@ -438,18 +456,38 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// <summary>
         /// Metodo que obtiene el subsidio al empleo causado.
         /// </summary>
-        private void CalculoSubsidio()
+        private void CalculoSubsidio(bool? ajuste)
         {
-            var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
+            nominaTrabajo.Subsidio = 0;
 
-            if (query == null || AjusteAnual)
-                CreditoSalario = 0;
-            else
-                CreditoSalario = query.CreditoSalario;
+            //condigo a borrar.
+            //var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
 
-            nominaTrabajo.Subsidio = CreditoSalario;
+            //if (query == null || AjusteAnual)
+            //    CreditoSalario = 0;
+            //else
+            //    CreditoSalario = query.CreditoSalario;
+
+            var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
+            var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
+            var valorTopeMensual = umaMensual * porcentaje;
+            var valorTopexDia = valorTopeMensual / 30.40M;
+            var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
+
+            if(nominaTrabajo.BaseGravada <= topeParaSubsidio)
+            {
+                var subsidio = valorTopexDia * TipoNomina.DiasPago;
+                nominaTrabajo.Subsidio += subsidio;
+            } 
+            
+            if ((ajuste ?? false))
+            {
+                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
+                nominaTrabajo.Subsidio += queryAjuste;
+            }
         }
 
+        ///Condigo a borrar
         /// <summary>
         /// Mentodo que obtiene el subsido al empleo causado cuando hay ajuste de impuestos.
         /// </summary>
@@ -479,17 +517,18 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             nominaTrabajo.ImpuestoRetener = 0;
 
             decimal resultset = 0;
-            resultset = (decimal)nominaTrabajo.ISR - CreditoSalario;
+            resultset = (decimal)nominaTrabajo.ISR - (nominaTrabajo.Subsidio ?? 0);
                         
             if (resultset < 0)
             {
-                nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
+                //nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
+                nominaTrabajo.SubsidioPagar = 0;
                 nominaTrabajo.ImpuestoRetener = 0;
             }
             else
             {
                 nominaTrabajo.SubsidioPagar = 0;
-                nominaTrabajo.ImpuestoRetener = resultset;
+                nominaTrabajo.ImpuestoRetener = Math.Round(resultset, 2);
             }
 
 
@@ -913,6 +952,176 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             {
                 SinCargarObreroPatronal();
             }
+        }
+
+        /// <summary>
+        /// Metodo para calcular las Cargas Sociales reales que corresponden al trabajador.
+        /// </summary>
+        protected void Calcula_Cuotas_Obreras_Real()
+        {
+            decimal SDI_Real = SD_Real * (nominaTrabajo.FactorIntegracion ?? 1);
+            nominaTrabajo.SDI_Proyeccion_Real = SDI_Real;
+
+            foreach (var item in ListImpuestosIMSS.Where(c => c.TipoCuota == "Obrera"))
+            {
+                switch (item.Descripcion)
+                {
+                    #region Obrera
+                    case "EXCEDENTE OBRERA":
+
+                        if (SDI_Real < (UMA * 3))
+                        {
+                            nominaTrabajo.IMSS_Obrero_Real += 0;
+                        }
+                        else
+                        {
+                            decimal op1 = SDI_Real - (UMA * 3);
+                            decimal op2 = op1 * decimal.Parse(item.Porcentaje.ToString());
+                            decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS + Dias_Faltados)) / 100, 2);
+
+                            nominaTrabajo.IMSS_Obrero_Real += Math.Round(op3, 2);
+                        }
+
+                        break;
+
+                    case "PRESTACIONES DINERO":
+
+                        decimal _PrestacionDinero = (DiasTrabajados_IMSS + Dias_Faltados);
+                        nominaTrabajo.IMSS_Obrero_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _PrestacionDinero) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "GASTOS MED. PENSION":
+
+                        decimal _GMP = (DiasTrabajados_IMSS + Dias_Faltados); ;
+                        nominaTrabajo.IMSS_Obrero_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _GMP) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "INVALIDEZ Y VIDA":
+
+                        decimal _InvalidezVida = DiasTrabajados_IMSS;
+                        nominaTrabajo.IMSS_Obrero_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _InvalidezVida) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "CESANTIA Y VEJEZ":
+
+                        decimal _CesantiaVejez = DiasTrabajados_IMSS;
+                        nominaTrabajo.IMSS_Obrero_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _CesantiaVejez) * (decimal)item.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+                        #endregion
+                }
+            }
+
+
+            decimal DiasTrabajados_IMSS_Patronal = DiasTrabajados_IMSS;
+
+            foreach (var item2 in ListImpuestosIMSS.Where(c => c.TipoCuota == "Patronal"))
+            {
+                switch (item2.Descripcion)
+                {
+                    #region Patronal
+                    case "CUOTA FIJA":
+
+                        decimal _CuotaFija = (DiasTrabajados_IMSS_Patronal + Dias_Faltados);
+
+                        if (SDI_Real == 0)
+                        {
+                            nominaTrabajo.IMSS_Patronal_Real += 0;
+                        }
+                        else
+                        {
+                            nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(UMA, 2) * _CuotaFija) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        }
+
+                        break;
+
+                    case "EXCEDENTE PATRONAL":
+
+                        if (SDI_Real < (UMA * 3))
+                        {
+                            nominaTrabajo.IMSS_Patronal_Real += 0;
+                        }
+                        else
+                        {
+                            decimal op1 = 0;
+                            op1 = SDI_Real - (UMA * 3);
+                            decimal op2 = decimal.Round(op1, 2) * decimal.Round(decimal.Parse(item2.Porcentaje.ToString()), 3);
+                            decimal op3 = decimal.Round((op2 * (DiasTrabajados_IMSS_Patronal + Dias_Faltados)) / 100, 2);
+
+                            nominaTrabajo.IMSS_Patronal_Real += Math.Round(op3, 2);
+                        }
+
+                        break;
+
+                    case "PREST. DINERO":
+
+                        decimal _PrestDinero = (DiasTrabajados_IMSS_Patronal + Dias_Faltados);
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _PrestDinero) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "GASTOS MED. PENSION":
+
+                        decimal _GastosMed = (DiasTrabajados_IMSS_Patronal + Dias_Faltados); ;
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _GastosMed) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "RIESGO DE TRABAJO":
+
+                        decimal _RiesgoT = DiasTrabajados_IMSS_Patronal;
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * Porcentaje_Riesgo_Trabajo_Patronal) * _RiesgoT) / (decimal)100, 2), 2);
+                        break;
+
+                    case "INVALIDEZ Y VIDA":
+
+                        decimal _InvalidezVida = DiasTrabajados_IMSS_Patronal;
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _InvalidezVida) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "GUARD. PREST EN ESPECIE":
+
+                        decimal _Guarderia = DiasTrabajados_IMSS_Patronal;
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _Guarderia) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "RETIRO":
+                        decimal _Retiro = (DiasTrabajados_IMSS_Patronal + Incapacidades);
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _Retiro) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+
+                    case "CESANTIA Y VEJEZ":
+                        decimal _CesantiaVejez = DiasTrabajados_IMSS_Patronal;
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _CesantiaVejez) * CalculaPorcentajeCyV_IMSS(SDI)) / (decimal)100, 2), 2);
+                        break;
+
+                    case "INFONAVIT":
+                        decimal _Infonavit = (DiasTrabajados_IMSS_Patronal + Incapacidades);
+                        nominaTrabajo.IMSS_Patronal_Real += Math.Round(decimal.Round(((decimal.Round(SDI_Real, 2) * _Infonavit) * (decimal)item2.Porcentaje) / (decimal)100, 2), 2);
+                        break;
+                        #endregion
+                }
+            }
+
+            string[] gpos = { "500", "501" };
+            var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema)).Sum(x => x.Cantidad);
+
+            decimal diasPago_ = (int)TipoNomina.DiasPago;
+            if (Periodo.TablaDiaria == "S" || diasPago_ == 0)
+                diasPago_ = Periodo.FechaFin.Subtract(Periodo.FechaInicio).Days + 1;
+
+            if (SD_Real <= Sueldo_Minimo || (configuracionNominaEmpleado.SupenderSueldoTradicional == 1) || (configuracionNominaEmpleado.DiasCargaSocial > 0 && nominaTrabajo.DiasTrabajados < 1) || faltasIncapacidades >= diasPago_)
+            {
+                if (UnidadNegocio.CobraCOPS_Empleado_SMGV != "S")
+                {
+                    nominaTrabajo.IMSS_Patronal_Real += nominaTrabajo.IMSS_Obrero_Real;
+                    nominaTrabajo.IMSS_Obrero_Real = 0;                    
+                }
+            }            
+
+            // Para que las nominas de PTU no calculen COPS
+            if (Periodo.TipoNomina == "PTU")
+            {
+                nominaTrabajo.IMSS_Obrero_Real = 0;
+                nominaTrabajo.IMSS_Patronal_Real = 0;
+            }            
         }
 
         /// <summary>

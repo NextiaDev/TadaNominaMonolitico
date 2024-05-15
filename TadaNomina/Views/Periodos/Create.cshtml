@@ -26,139 +26,146 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="form-horizontal">
+            <div class="form-horizontal">
 
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <br />
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                                @Html.ValidationMessageFor(model => model.Periodo, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Periodo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Periodo, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.Periodo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.DropDownListFor(model => model.TipoNomina, Model.LTipoNomina, "Elegir...", htmlAttributes: new { @class = "form-control", id= "TipoNomina" })
-                                @Html.ValidationMessageFor(model => model.TipoNomina, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TipoNomina, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.TipoNomina, Model.LTipoNomina, "Elegir...", htmlAttributes: new { @class = "form-control", id = "TipoNomina" })
+                        @Html.ValidationMessageFor(model => model.TipoNomina, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "calendar form-control", @autocomplete = "off" } })
-                                @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
-                            </div>
-                            @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "calendar form-control", @autocomplete = "off" } })
-                                @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
-                            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "calendar form-control", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.FechaFin, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "calendar form-control", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @if (Session["sRelojChecador"].ToString() == "SI")
+                {
+                    <div class="form-group" id="rc" hidden>
+                        @Html.LabelFor(model => model.FechaInicioChecador, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.FechaInicioChecador, new { htmlAttributes = new { @class = "calendar form-control required", @autocomplete = "off", id = "FechaInicioC" } })
+                            @Html.ValidationMessageFor(model => model.FechaInicioChecador, "", new { @class = "text-danger" })
                         </div>
-                        @if (Session["sRelojChecador"].ToString() == "SI")
-                        {
-                            <div class="form-group" id="rc" hidden>
-                                @Html.LabelFor(model => model.FechaInicioChecador, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => model.FechaInicioChecador, new { htmlAttributes = new { @class = "calendar form-control required", @autocomplete = "off", id = "FechaInicioC" } })
-                                    @Html.ValidationMessageFor(model => model.FechaInicioChecador, "", new { @class = "text-danger" })
-                                </div>
-                                @Html.LabelFor(model => model.FechaFinChecador, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-4">
-                                    @Html.EditorFor(model => model.FechaFinChecador, new { htmlAttributes = new { @class = "calendar form-control required", @autocomplete = "off", id = "FechaFinC" } })
-                                    @Html.ValidationMessageFor(model => model.FechaFinChecador, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        }
-                        <br />
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.AjusteImpuestos, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(model => model.AjusteImpuestos, Model.LAjuste, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.AjusteImpuestos, "", new { @class = "text-danger" })
-                            </div>
-                            <div id="AjusteAnualc" style="display: none;">
-                                @Html.LabelFor(model => model.AjusteAnual, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.CheckBoxFor(model => model.AjusteAnual)
-                                </div>
-
-                            </div>
-
-                            <div  id="TablaDiaria_">
-                                @Html.LabelFor(model => model.TablaIDiaria, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-2">
-                                    @Html.CheckBoxFor(model => model.TablaIDiaria)
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.PeriodoAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.DropDownListFor(model => model.PeriodoAjuste, Model.LPAjuste, "Elegir...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.PeriodoAjuste, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col-md-6">
-                                <input value="Limpiar" type="button" id="btnLimpiar" class="btn btn-default" rel="tooltip" title="Limpiar controles de ajuste." />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.IdsPeriodosAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.IdsPeriodosAjuste, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                @Html.ValidationMessageFor(model => model.IdsPeriodosAjuste, "", new { @class = "text-danger" })
-                            </div>
-                            @Html.LabelFor(model => model.PeriodosAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.PeriodosAjuste, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
-                                @Html.ValidationMessageFor(model => model.PeriodosAjuste, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-group" id="PtuRegP" style="display: none;">
-                            @Html.LabelFor(model => model.IdRegistroPatronal_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-6">
-                                @Html.DropDownListFor(model => model.IdRegistroPatronal_PTU, Model.listRegistrosPatronalesCliente, "Elegir..", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.IdRegistroPatronal_PTU, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-group" id="fechasPtu" style="display: none;">
-                            @Html.LabelFor(model => model.Monto_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.EditorFor(model => model.Monto_PTU, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Monto_PTU, "", new { @class = "text-danger" })
-                            </div>
-                            @Html.LabelFor(model => model.Año_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-2">
-                                @Html.EditorFor(model => model.Año_PTU, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Año_PTU, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
-                                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.OmitirDescuentosFijos, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.CheckBoxFor(model => model.OmitirDescuentosFijos)
-                            </div>
+                        @Html.LabelFor(model => model.FechaFinChecador, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.FechaFinChecador, new { htmlAttributes = new { @class = "calendar form-control required", @autocomplete = "off", id = "FechaFinC" } })
+                            @Html.ValidationMessageFor(model => model.FechaFinChecador, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                }
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AjusteImpuestos, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.AjusteImpuestos, Model.LAjuste, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.AjusteImpuestos, "", new { @class = "text-danger" })
+                    </div>
+                    <div id="AjusteAnualc" style="display: none;">
+                        @Html.LabelFor(model => model.AjusteAnual, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.CheckBoxFor(model => model.AjusteAnual)
+                        </div>
+
+                    </div>
+
+                    <div id="TablaDiaria_">
+                        @Html.LabelFor(model => model.TablaIDiaria, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.CheckBoxFor(model => model.TablaIDiaria)
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PeriodoAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(model => model.PeriodoAjuste, Model.LPAjuste, "Elegir...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PeriodoAjuste, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        <input value="Limpiar" type="button" id="btnLimpiar" class="btn btn-default" rel="tooltip" title="Limpiar controles de ajuste." />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdsPeriodosAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.IdsPeriodosAjuste, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.IdsPeriodosAjuste, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.PeriodosAjuste, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.PeriodosAjuste, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
+                        @Html.ValidationMessageFor(model => model.PeriodosAjuste, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group" id="PtuRegP" style="display: none;">
+                    @Html.LabelFor(model => model.IdRegistroPatronal_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.IdRegistroPatronal_PTU, Model.listRegistrosPatronalesCliente, "Elegir..", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.IdRegistroPatronal_PTU, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group" id="tipocalculoPtu" style="display: none;">
+                    <label class="control-label col-md-4">Calculo patrona <em>(Seleccione si el c&aacute;lculo es realizado por la empresa patrona.)</em></label>
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(model => model.CalculoPatronaPtu)
+                    </div>
+                </div>
+                <br />
+                <div class="form-group" id="fechasPtu" style="display: none;">
+                    @Html.LabelFor(model => model.Monto_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Monto_PTU, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Monto_PTU, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Año_PTU, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Año_PTU, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Año_PTU, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OmitirDescuentosFijos, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.OmitirDescuentosFijos)
+                    </div>
+                </div>
+            </div>
                     <br />
                     <div class="form-group">
                         <div class="col-md-12">
@@ -194,145 +201,6 @@
     </div>
 </div>
 
-<script type="text/javascript">
-
-    $(function () {
-        $("#TipoNomina").change(function () {
-            elementdos = document.getElementById("fechasPtu");
-            elementdosds = document.getElementById("PtuRegP");
-
-            var Tipo = $("#TipoNomina").val();
-            if (Tipo == "PTU") {
-                elementdos.style.display = 'block';
-                elementdosds.style.display = 'block';
-            }
-            else {
-                elementdos.style.display = 'none';
-                elementdosds.style.display = 'none';
-
-            }
-
-
-
-
-            console.log(PTU);
-        });
-    });
-
-
-    $(function () {
-        $("#AjusteImpuestos").change(function () {
-            var Ajuste = $("#AjusteImpuestos").val();
-            element = document.getElementById("AjusteAnualc");
-            tabla = document.getElementById("TablaDiaria");
-
-
-            if (Ajuste == "SI") {
-                element.style.display = 'block';
-                tabla.style.display = 'none';
-
-
-            }
-            else {
-                element.style.display = 'none';
-                tabla.style.display = 'block';
-
-
-            }
-
-
-            console.log(Ajuste);
-        });
-    });
-
-
-
-    $(function () {
-        $("#PeriodoAjuste").change(function () {
-            var Periodos = $("#PeriodoAjuste").val() + ",";
-            var valorActual = $("#IdsPeriodosAjuste").val();
-            var valorFinal = valorActual + Periodos;
-
-            var PeriodosDesc = $("#PeriodoAjuste option:selected").text() + ",";
-            var valorActualDesc = $("#PeriodosAjuste").val();
-            var valorFinalDesc = PeriodosDesc + valorActualDesc;
-
-            $("#IdsPeriodosAjuste").val(valorFinal);
-            $("#PeriodosAjuste").val(valorFinalDesc);
-        });
-    });
-
-    $(function () {
-        $("#btnLimpiar").click(function () {
-            $("#IdsPeriodosAjuste").val("");
-            $("#PeriodosAjuste").val("");
-        });
-    });
-
-    $('#TipoNomina').change(function () {
-        if ($('#TipoNomina').val() == "Nomina") {
-            $('#rc').removeAttr('hidden');
-            $('#rc').show();
-        }
-        else {
-            $('#FechaInicioC').val('');
-            $('#FechaFinC').val('');
-            $('#rc').hide();
-            $('#rc').attr('hidden', 'hidden');
-        }
-    });
-
-    function ValidaFechas() {
-        var inicio = $("#FechaInicioC").val();
-        var fin = $("#FechaFinC").val();
-        var r = 0;
-        //Fecha fin individual por D,M,A
-        var diaF = fin.substring(0, 2);
-        var mesF = fin.substring(3, 5);
-        var anioF = fin.substring(6, 10);
-
-        //Fecha inicio individual por D,M,A
-        var diaI = inicio.substring(0, 2);
-        var mesI = inicio.substring(3, 5);
-        var anioI = inicio.substring(6, 10);
-
-        //Valida años
-        if (anioF < anioI) {
-            alert("Fecha de inicio debe ser menor a la fecha final");
-            r = 1;
-        }
-        else if (anioF > anioI) {
-        }
-        else if (anioF = anioI) {
-            //Valida meses
-            if (mesF < mesI) {
-                alert("Fecha de inicio debe ser menor a la fecha final");
-                r = 1;
-            }
-            //Valida dias
-            if (mesF == mesI && diaF < diaI) {
-                alert("Fecha de inicio debe ser menor a la fecha final");
-                r = 1;
-            }
-            //Valor a regresar 1 = inconsistencia, 0 = ok
-        }
-
-        return r;
-    }
-
-    $('#FechaFinC').change(function () {
-        var r = ValidaFechas();
-        console.log(r)
-        if (r == 1) {
-            $('#FechaFinC').val("");
-        }
-    })
-
-    $('#FechaInicioC').change(function () {
-        var r = ValidaFechas();
-        console.log(r)
-        if (r == 1) {
-            $('#FechaInicioC').val("");
-        }
-    })
-</script>
+@section Scripts {
+    <script src="~/js/PeriodoNomina/CreatePeriodo.js"></script>
+}

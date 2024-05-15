@@ -1,18 +1,30 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows.Input;
 using TadaNomina.Models.ClassCore.Timbrado;
 using TadaNomina.Models.DB;
 using TadaNomina.Models.ViewModels.Nominas;
+using TadaNomina.Services;
 
 namespace TadaNomina.Models.ClassCore
 {
     public class ClassPeriodoNomina
     {
+        private readonly HttpClient _httpClient;
+        private readonly string _urlApiNom;
+
+        public ClassPeriodoNomina()
+        {
+            _httpClient = new HttpClient();
+            _urlApiNom = sStatics.servidor;
+        }
+
         /// <summary>
         /// Método que lista los periodos de nómina por unidad de negocio que estén activas y ordenadas por el periodo de nómina en forma descendente.
         /// </summary>
@@ -262,62 +274,43 @@ namespace TadaNomina.Models.ClassCore
         /// </summary>
         /// <param name="modelo">Recibe el modelo del periodo de nómina.</param>
         /// <param name="IdUsuario">Recibe el identificador del usuario.</param>
-        public void AddPeriodoNomina(ModelPeriodoNomina modelo, int IdUsuario)
+        public void AddPeriodoNomina(ModelPeriodoNomina modelo, string token)
         {
-            using (NominaEntities1 entidad = new NominaEntities1())
-            {
-                PeriodoNomina periodoNomina = new PeriodoNomina();
+            string servicio = "/api/PeriodosNomina/CreatePeriodoNomina"; //Servicio de la API
+            Uri apiUrl = new Uri(_urlApiNom + servicio); //URL de la API
 
-                periodoNomina.IdUnidadNegocio = modelo.IdUnidadNegocio;
-                periodoNomina.Periodo = modelo.Periodo;
-                periodoNomina.FechaInicio = DateTime.Parse(modelo.FechaInicio);
-                periodoNomina.FechaFin = DateTime.Parse(modelo.FechaFin);
-                periodoNomina.AjusteDeImpuestos = modelo.AjusteImpuestos;
-                periodoNomina.SeAjustaraConPeriodo = modelo.IdsPeriodosAjuste + "0";
-                periodoNomina.Observaciones = modelo.Observaciones;
-                periodoNomina.NominaTimbrada = "NO";
-                periodoNomina.RecibosComplemento = "NO";
-                periodoNomina.TipoNomina = modelo.TipoNomina;
-                if (modelo.AjusteAnual)
-                    periodoNomina.AjusteAnual = "S";
-                else
-                    periodoNomina.AjusteAnual = "N";
-                
-                if (modelo.TablaIDiaria)
-                    periodoNomina.TablaDiaria = "S";
-                else
-                    periodoNomina.TablaDiaria = "N";
+            //Se crea el objeto de la petición
+            var request = new ModelCreatePeriodoNomina
+            (
+                (int)modelo.IdUnidadNegocio, //Identificador de la unidad de negocio
+                (string)modelo.Periodo, //Periodo de la nómina
+                DateTime.Parse(modelo.FechaInicio), //Fecha de inicio del periodo
+                DateTime.Parse(modelo.FechaFin), //Fecha de fin del periodo
+                (string)modelo.AjusteImpuestos, //Ajuste de impuestos
+                modelo.IdsPeriodosAjuste != null ? (string)modelo.IdsPeriodosAjuste : null, //Ids de los periodos de ajuste
+                modelo.Observaciones != null ? (string)modelo.Observaciones : null, //Observaciones
+                (string)modelo.TipoNomina, //Tipo de nómina
+                (bool)modelo.TablaIDiaria, //Tabla I Diaria
+                (bool)modelo.AjusteAnual, //Ajuste anual
+                (bool)modelo.OmitirDescuentosFijos, //Omitir descuentos fijos
+                (int?)modelo.IdCliente_PTU, //Id del cliente PTU
+                (int?)modelo.IdRegistroPatronal_PTU, //Id del registro patronal PTU
+                (decimal?)modelo.Monto_PTU, // Monto de la PTU
+                (int?)modelo.Año_PTU, //Año de la PTU
+                (bool?)modelo.CalculoPatronaPtu, // Cálculo de la patrona PTU
+                modelo.FechaInicioChecador != null ? (string)modelo.FechaInicioChecador : null, //Fecha de inicio del checador
+                modelo.FechaFinChecador != null ? (string)modelo.FechaFinChecador : null //Fecha de fin del checador
+            );
 
-                if (modelo.OmitirDescuentosFijos)
-                    periodoNomina.DescuentosFijos = "NO";
-                else
-                    periodoNomina.DescuentosFijos = "SI";
+            var json = JsonConvert.SerializeObject(request); //Se serializa el objeto de la petición a JSON
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json"); //Se convierte a contenido JSON para la petición POST
 
-                periodoNomina.NuevaIncidencia = 0;
-                periodoNomina.TotalEmpleados = 0;
-                periodoNomina.TotalISR = 0;
-                periodoNomina.TotalIMSSObrero = 0;
-                periodoNomina.TotalIMSSPatronal = 0;
-                periodoNomina.TotalISN = 0;
-                periodoNomina.ImporteNeto = 0;
-                periodoNomina.IdEstatus = 1;
-                periodoNomina.IdCaptura = IdUsuario;
-                periodoNomina.FechaCaptura = DateTime.Now;
+            _httpClient.DefaultRequestHeaders.Authorization = null; //Se limpia la autorización por si se tiene alguna configurada previamente en el cliente HTTP
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token); //Se agrega la autorización con el token JWT en el cliente HTTP
 
-                try { periodoNomina.FechaInicioChecador = DateTime.Parse(modelo.FechaInicioChecador); } catch { }
-                try { periodoNomina.FechaFinChecador = DateTime.Parse(modelo.FechaFinChecador); } catch { }
+            var response = _httpClient.PostAsync(apiUrl, content).Result; //Se ejecuta la petición POST a la API con el contenido JSON de la petición y se obtiene la respuesta
 
-                if (modelo.TipoNomina == "PTU")
-                {
-                    periodoNomina.IdCliente_PTU = modelo.IdCliente_PTU;
-                    periodoNomina.IdRegistroPatronal_PTU = modelo.IdRegistroPatronal_PTU;
-                    periodoNomina.Monto_PTU = modelo.Monto_PTU;
-                    periodoNomina.Año_PTU = modelo.Año_PTU;
-                }
-
-                entidad.PeriodoNomina.Add(periodoNomina);
-                entidad.SaveChanges();
-            }
+            response.EnsureSuccessStatusCode(); // Se verifica que la respuesta sea exitosa (200)
         }
 
         /// <summary>

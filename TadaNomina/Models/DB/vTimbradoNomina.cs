@@ -78,5 +78,6 @@ namespace TadaNomina.Models.DB
         public Nullable<int> idSincatosClientes { get; set; }
         public string BanderaSindicalizados { get; set; }
         public Nullable<int> IdGrupo { get; set; }
+        public int IdEntidad { get; set; }
     }
 }

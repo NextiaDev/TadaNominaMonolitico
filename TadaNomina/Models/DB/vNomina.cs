@@ -44,6 +44,7 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> BaseGravadaP { get; set; }
         public Nullable<decimal> BaseGravadaLiquidacion { get; set; }
         public Nullable<decimal> ISRLiquidacion { get; set; }
+        public Nullable<decimal> SDI_Liquidacion { get; set; }
         public Nullable<decimal> LimiteInferior { get; set; }
         public Nullable<decimal> DiferenciaLimite { get; set; }
         public Nullable<decimal> Porcentaje { get; set; }
@@ -123,6 +124,8 @@ namespace TadaNomina.Models.DB
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public Nullable<decimal> SDI_Liquidacion { get; set; }
+        public Nullable<decimal> BaseISN { get; set; }
+        public Nullable<decimal> PorcentajeISN { get; set; }
+        public Nullable<decimal> ISN_Real { get; set; }
     }
 }

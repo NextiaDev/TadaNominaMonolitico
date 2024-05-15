@@ -885,6 +885,32 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(x => x.ReciboReal.SDI)
+                    </div>
+                    <div class="col-md-8">
+                        @(string.Format("{0:C2}", Model.ReciboReal.SDI))
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(x => x.ReciboReal.TotalPatron)
+                    </div>
+                    <div class="col-md-8">
+                        @(string.Format("{0:C2}", Model.ReciboReal.TotalPatron))
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(x => x.ReciboReal.ISN)
+                    </div>
+                    <div class="col-md-8">
+                        @(string.Format("{0:C2}", Model.ReciboReal.ISN))
+                    </div>
+                </div>
+
                 <hr />
                 <h5>Percepciones</h5>
                 <table class="table table-bordered table-striped table-hover table-condensed">
@@ -926,7 +952,7 @@
                             <td colspan="2">
                                 <strong>Total de Percepciones</strong>
                             </td>
-                           
+
 
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.ERR)</strong>
@@ -976,7 +1002,7 @@
                             <td colspan="2">
                                 <strong>Total de Deducciones</strong>
                             </td>
-                           
+
 
                             <td class="text-right">
                                 <strong> @Html.DisplayFor(modelItem => modelItem.DDR)</strong>

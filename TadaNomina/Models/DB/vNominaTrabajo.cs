@@ -78,6 +78,7 @@ namespace TadaNomina.Models.DB
         public Nullable<decimal> ER { get; set; }
         public Nullable<decimal> DD { get; set; }
         public Nullable<decimal> Neto { get; set; }
+        public Nullable<decimal> TotalEfectivo { get; set; }
         public Nullable<decimal> ERS { get; set; }
         public Nullable<decimal> DDS { get; set; }
         public Nullable<decimal> Netos { get; set; }
@@ -113,6 +114,7 @@ namespace TadaNomina.Models.DB
         public Nullable<int> IdEstatus { get; set; }
         public Nullable<int> IdCaptura { get; set; }
         public Nullable<System.DateTime> FechaCaptura { get; set; }
+        public Nullable<decimal> TotalOtrasPercepciones { get; set; }
         public string ClaveEmpleado { get; set; }
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
@@ -120,7 +122,8 @@ namespace TadaNomina.Models.DB
         public string Curp { get; set; }
         public string Rfc { get; set; }
         public string Imss { get; set; }
-        public Nullable<decimal> TotalEfectivo { get; set; }
-        public Nullable<decimal> TotalOtrasPercepciones { get; set; }
+        public Nullable<decimal> BaseISN { get; set; }
+        public Nullable<decimal> PorcentajeISN { get; set; }
+        public Nullable<decimal> ISN_Real { get; set; }
     }
 }

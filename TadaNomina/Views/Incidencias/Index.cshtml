@@ -21,7 +21,7 @@
 <div id="page-content">
     <div class="panel">
         <div class="panel-heading">
-            <h3 class="panel-title">Incidencias para el periodo.</h3>
+            <h3 class="panel-title">Incidencias para el periodo <strong>@ViewBag.NombrePeriodo</strong>.</h3>
         </div>
 
         <div class="panel-body">
@@ -40,16 +40,19 @@
                 </div>
             }
             <br />
-            @Html.ActionLink(" Nueva", "Create", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina }, new { @class = "btn btn-primary btn-sm _Load" })
-            @Html.ActionLink(" carga Layout", "CreateLayout", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, TipoPeriodo = ViewBag.TipoPeriodo }, new { @class = "btn btn-dark btn-sm _Load" })
-            @Html.ActionLink("PreNomina", "Index", "IncidenciasPrenomina", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, TipoPeriodo = ViewBag.TipoPeriodo }, new { @class="btn btn-primary btn-sm _Load"})
-            <button class="btn btn-success btn-sm" onclick="generaReporte(@ViewBag.pIdPeriodoNomina)"> Descargar</button>
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAll">Elminar Todas</button>
+            <a href="@Url.Action("Create", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina })" class="btn btn-primary btn-sm _Load"><span class="fa fa-plus"></span> Nueva</a>            
+            <a href="@Url.Action("CreateLayout", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, TipoPeriodo = ViewBag.TipoPeriodo })" class="btn btn-dark btn-sm _Load"><span class="fa fa-file-excel-o"></span> Carga Layout</a>
+            <a href="@Url.Action("Index", "IncidenciasPrenomina", new { pIdPeriodoNomina = ViewBag.pIdPeriodoNomina, TipoPeriodo = ViewBag.TipoPeriodo })" class="btn btn-primary btn-sm _Load"><span class="fa fa-list"></span> Pre Nómina</a>
+            
+            <button class="btn btn-success btn-sm" onclick="generaReporte(@ViewBag.pIdPeriodoNomina)"><span class="fa fa-file-excel-o"></span> Descargar</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAll"><span class="fa fa-trash"></span> Elminar Todas</button>
             @if (Session["sRelojChecador"].ToString() == "SI" && bandera == "OK")
             {
-                @Html.ActionLink(" Checador", "Checador", new { pIdPer = TadaNomina.Models.ClassCore.Statics.Encriptar(periodo.ToString()) }, new { @class = "btn btn-mint btn-sm _Load" })
+                <a href="@Url.Action("Checador", new { pIdPer = TadaNomina.Models.ClassCore.Statics.Encriptar(periodo.ToString()) })" class="btn btn-mint btn-sm _Load"><span class="fa fa-id-badge"></span> Checador</a>
+                
             }
-            @Html.ActionLink(" Regresar", "SelecionaPeriodo", null, new { @class = "btn btn-info btn-sm _Back" })
+            <a href="@Url.Action("SelecionaPeriodo")" class="btn btn-info btn-sm _Back"><span class="fa fa-arrow-left"></span> Regresar</a>
+            
             <br /><br />
             @if (Model.Incidencias.Count() > 0)
             {
@@ -154,17 +157,19 @@
                     <button type="button" class="close" data-dismiss="modal"><i class="pci-cross pci-circle"></i></button>
                     <h4 class="modal-title">Eliminar todas las incidencias.</h4>
                 </div>
-                <div class="modal-body">
-                    Esta Seguro que desea eliminar todas las Incidencias para este periodo?
+                <div class="modal-body">                    
+                    ¿Está segura/o que desea eliminar todas las incidencias de este periodo <strong>@ViewBag.NombrePeriodo</strong>?
                     <br /><br />
-                    <div class="row">
-                        <div class="col-md-4">
-                            Concepto:
+                        Para eliminar sólo las incidencias pertenecientes a un concepto, selecciona de cuál concepto deseas eliminar todas las incidencias registradas:                        
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                Concepto:
+                            </div>
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(concepto => Model.IdConcepto, Model.LConcepto, "Elegir...", new { @class = "form-control" })
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                            @Html.DropDownListFor(concepto => Model.IdConcepto, Model.LConcepto, "Elegir...", new { @class = "form-control" })
-                        </div>
-                    </div>
                 </div>
 
                 <div class="modal-footer">

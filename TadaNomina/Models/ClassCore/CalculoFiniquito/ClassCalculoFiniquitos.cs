@@ -177,8 +177,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 
                 nominaTrabajo.Apoyo += nominaTrabajo.DiasTrabajados * SD_Esquema;
                 decimal apoyoVacacional = (decimal)nominaTrabajo.Dias_Vacaciones * SD_Esquema;
-                nominaTrabajo.ERS += apoyoVacacional;
-                
+                nominaTrabajo.ERS += apoyoVacacional;                
 
                 nominaTrabajo.ERS += nominaTrabajo.Apoyo;
                 nominaTrabajo.ERS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER" && x.ClaveGpo != "002").Select(X => X.MontoEsquema).Sum();
@@ -516,7 +515,7 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
             decimal antiguedadAnios = calculaAntiguedadBanderaProporcional();
 
             TotalLiquidacion = indem90d + indem20d + indemPA;
-            decimal _ExentoTotal = ((decimal)SueldosMinimos.UMA * 90M) * antiguedadAnios;
+            decimal _ExentoTotal = ((decimal)(SueldosMinimos.UMA ?? throw new Exception("No se encontraron datos de la UMA")) * 90M) * antiguedadAnios;
             decimal ExentoLiquidacion = 0;
             decimal GravadoLiquidacion = TotalLiquidacion;
 
@@ -628,10 +627,14 @@ namespace TadaNomina.Models.ClassCore.CalculoFiniquito
                 var reintISR = nominaTrabajo.ReintegroISR ?? 0;
                 incidenciasNOISN = (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.IntegraISN == "NO").Select(X => X.Monto).Sum();
                 decimal totalPercepcionesSinSubsidio = (decimal)((nominaTrabajo.ER ?? 0) - (nominaTrabajo.SubsidioPagar + reintISR) - incidenciasNOISN);
+                nominaTrabajo.BaseISN = totalPercepcionesSinSubsidio;
+                nominaTrabajo.PorcentajeISN = porcentaje;
                 nominaTrabajo.ISN = totalPercepcionesSinSubsidio * porcentaje;
 
                 if (Periodo.TipoNomina == "PTU")
                 {
+                    nominaTrabajo.BaseISN = 0;
+                    nominaTrabajo.PorcentajeISN = 0;
                     nominaTrabajo.ISN = 0;
                 }
             }

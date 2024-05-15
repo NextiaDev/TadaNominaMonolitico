@@ -307,13 +307,13 @@ namespace TadaNomina.Models.ClassCore
             {
                 model.ER = string.Format("{0:C2}", nom.ER);
                 model.ERS = string.Format("{0:C2}", nom.ERS);
-                model.ERR = string.Format("{0:C2}", (nom.ER + nom.ERS));
+                model.ERR = string.Format("{0:C2}", (nom.Total_ER_Real));
                 model.DD = string.Format("{0:C2}", nom.DD);
                 model.DDS = string.Format("{0:C2}", nom.DDS);
-                model.DDR = string.Format("{0:C2}", (nom.DDS + nom.DD));
+                model.DDR = string.Format("{0:C2}", (nom.Total_DD_Real));
                 model.Neto = string.Format("{0:C2}", nom.Neto);
                 model.NetoS = string.Format("{0:C2}", nom.Netos);
-                model.NetoR = string.Format("{0:C2}", (nom.Netos + nom.Neto));
+                model.NetoR = string.Format("{0:C2}", (nom.Neto_Real));
                 model.TotalRecibir = string.Format("{0:C2}", (nom.Neto ?? 0) + (nom.Netos ?? 0)); 
 
                 try { model.ReciboTradicional.DiasLaborados = (decimal)nom.DiasTrabajados; } catch { model.ReciboTradicional.DiasLaborados = 0; }
@@ -323,6 +323,9 @@ namespace TadaNomina.Models.ClassCore
                 try { model.ReciboTradicional.DiasLaborados = (decimal)nom.DiasTrabajados; } catch { model.ReciboTradicional.DiasLaborados = 0; }
                 try { model.ReciboTradicional.BaseGravada = (decimal)nom.BaseGravada; } catch { model.ReciboTradicional.BaseGravada = 0; }
                 try { model.ReciboTradicional.TotalPatron = (decimal)nom.Total_Patron; } catch { model.ReciboTradicional.TotalPatron = 0; }
+                model.ReciboReal.SDI = nom.SDI_Proyeccion_Real ?? 0;
+                model.ReciboReal.TotalPatron = nom.IMSS_Patronal_Real ?? 0;
+                model.ReciboReal.ISN = nom.ISN_Real ?? 0;
             }
             else
             {
@@ -349,7 +352,7 @@ namespace TadaNomina.Models.ClassCore
             model.ReciboEsquema.IncidenciasReciboDecEsquema = GetIncidenciasReciboDeducEsquema(pIdEmpleado, pIdPeriodoNomina);
             model.ReciboReal.IncidenciasReciboReal = GetIncidenciasReciboReal(pIdEmpleado, pIdPeriodoNomina);
             model.ReciboReal.IncidenciasReciboDecReal = GetIncidenciasReciboDeducReal(pIdEmpleado, pIdPeriodoNomina);
-
+            
             if (TipoNomina == "Finiquitos")
             {
                 model.ListIncidencias = GetIncidenciasIndividuales(pIdEmpleado, pIdPeriodoNomina, IdCliente);

@@ -91,6 +91,15 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=7.1.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.7.1.2\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.1.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.6.1.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
@@ -137,6 +146,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.0\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -146,6 +158,7 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="RestSharp, Version=106.13.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -161,6 +174,9 @@
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -184,8 +200,8 @@
     <Reference Include="System.Linq.Dynamic.Core, Version=1.3.7.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Dynamic.Core.1.3.7\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -644,7 +660,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_ConceptosNomina.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Departamentos.cs">
       <DependentUpon>ModelNomina.tt</DependentUpon>
@@ -677,7 +693,7 @@
       <DependentUpon>ModelCatalogos.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_RegistroPatronal.cs">
-      <DependentUpon>ModelCatalogos.tt</DependentUpon>
+      <DependentUpon>ModelTimbrado.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\Cat_Reportes.cs">
       <DependentUpon>ModelReport.tt</DependentUpon>
@@ -1392,6 +1408,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelBusquedaEmpleado.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelCargaLayoutNominas.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelConfEmpleadoHoras.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelCreatePeriodoNomina.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelDiasTrabajadosAguinaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadoFiniquito.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadosNetos.cs" />
@@ -1436,6 +1453,7 @@
     <Compile Include="Models\ViewModels\RelojChecador\TimeOffModel.cs" />
     <Compile Include="Models\ViewModels\RelojChecador\TokenGeoVictoria.cs" />
     <Compile Include="Models\ViewModels\RelojChecador\UserModel.cs" />
+    <Compile Include="Models\ViewModels\Reportes\ModelConceptosReport.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelReportesDirectivos.cs" />
     <Compile Include="Models\ViewModels\Reportes\ClassReportesNomina.cs" />
     <Compile Include="Models\ViewModels\Reportes\ModelAnalitica.cs" />
@@ -4573,6 +4591,7 @@
     <Content Include="js\MovimientosIMSS\MovimientosAfiliatorios.js" />
     <Content Include="js\nifty.js" />
     <Content Include="js\nifty.min.js" />
+    <Content Include="js\PeriodoNomina\CreatePeriodo.js" />
     <Content Include="js\Procesando.js" />
     <Content Include="Models\DB\ModelAcceso.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

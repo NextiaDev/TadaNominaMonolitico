@@ -135,14 +135,14 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                         if (UnidadNegocio.CalculaProvision == "S" && Periodo.TipoNomina == "Nomina")
                         {
-                            ProcesaProvision(nominaTrabajo.DiasTrabajados, IdPrestacionesEmpleado, item.FechaReconocimientoAntiguedad, item.FechaAltaIMSS, (decimal)UnidadNegocio.FactorDiasProvision);
+                            ProcesaProvision(nominaTrabajo.DiasTrabajados, IdPrestacionesEmpleado, item.FechaReconocimientoAntiguedad, item.FechaAltaIMSS, (decimal)(UnidadNegocio.FactorDiasProvision ?? throw new Exception("No se encontro el factor para calcular la provisión.")));
                         }
 
                         contador++;
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Fallo al procesar nomina tradicional del empleado: " + item.IdEmpleado + " - " + item.ClaveEmpleado + " - " + item.NombreCompleto + ". cont: " + contador + "." + ex.Message);
+                        throw new Exception("Fallo al procesar nomina del empleado: " + item.IdEmpleado + " - " + item.ClaveEmpleado + " - " + item.NombreCompleto + ". cont: " + contador + "." + ex.Message);
                     }
 
                 }
@@ -198,7 +198,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     DiasTrabajados_IMSS = 0;
                 }
 
-                nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).OrderByDescending(x=> x.FechaInicioVigencia).Select(x => x.FactorIntegracion).FirstOrDefault() ?? 0;
+                nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdPrestaciones == datosEmpleados.IdPrestaciones).OrderByDescending(x=> x.FechaInicioVigencia).Select(x => x.FactorIntegracion).FirstOrDefault();
                 if (nominaTrabajo.FactorIntegracion == null)
                     nominaTrabajo.FactorIntegracion = prestaciones.Where(x => x.IdCliente == 0).OrderByDescending(x => x.FechaInicioVigencia).Select(x => x.FactorIntegracion).FirstOrDefault();
 
@@ -460,13 +460,16 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 nominaTrabajo.Apoyo += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.MontoEsquema).Sum();
             }
 
+            if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
+                nominaTrabajo.Apoyo = nominaTrabajo.Neto_Real - nominaTrabajo.Neto;
+
             nominaTrabajo.ERS += nominaTrabajo.Apoyo;
             nominaTrabajo.ERS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.MontoEsquema).Sum();
             nominaTrabajo.ERS += percepcionesEspecialesEsquema;
             nominaTrabajo.DDS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.MontoEsquema).Sum();
             nominaTrabajo.DDS += montoCreditoInfonavitEsq;
             
-            nominaTrabajo.Netos = nominaTrabajo.ERS - nominaTrabajo.DDS;
+            nominaTrabajo.Netos = nominaTrabajo.ERS - nominaTrabajo.DDS;            
             //CerosEnNegativos();
         }        
 
@@ -475,25 +478,66 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         private void Procesa_Nomina_Real()
         {
-            nominaTrabajo.SueldoPagado_Real = 0;
-            nominaTrabajo.Total_ER_Real = 0;
-            nominaTrabajo.Total_DD_Real = 0;
-
-            if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)" || UnidadNegocio.ConfiguracionSueldos == "NetosPagar") 
+            try
             {
                 nominaTrabajo.SueldoPagado_Real = 0;
-                nominaTrabajo.SueldoPagado_Real += SD_Real * nominaTrabajo.DiasTrabajados;
-
                 nominaTrabajo.Total_ER_Real = 0;
-                nominaTrabajo.Total_ER_Real += SD_Real * nominaTrabajo.SueldoPagado_Real;
-                nominaTrabajo.Total_ER_Real += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER").Select(X => X.Monto + X.MontoEsquema).Sum();                
-
                 nominaTrabajo.Total_DD_Real = 0;
-                nominaTrabajo.Total_DD_Real += (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "DD").Select(X => X.Monto + X.MontoEsquema).Sum();
-                
-                nominaTrabajo.Neto_Real = 0;
-                nominaTrabajo.Neto_Real += nominaTrabajo.Total_ER_Real - nominaTrabajo.Total_ER_Real;
+
+                if (UnidadNegocio.ConfiguracionSueldos == "Netos(Real)" || UnidadNegocio.ConfiguracionSueldos == "NetosPagar" || UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
+                {
+                    nominaTrabajo.AniosReal = nominaTrabajo.Anios;
+
+                    //calcula sueldos
+                    nominaTrabajo.SueldoPagado_Real = 0;
+                    nominaTrabajo.SueldoPagado_Real += SD_Real * nominaTrabajo.DiasTrabajados;
+
+                    //calcula vacaciones
+                    nominaTrabajo.Sueldo_Vacaciones_Real = 0;
+                    nominaTrabajo.Sueldo_Vacaciones_Real = nominaTrabajo.Dias_Vacaciones * SD_Real;
+
+                    //total de percepciones
+                    nominaTrabajo.Total_ER_Real = 0;
+                    nominaTrabajo.Total_ER_Real += nominaTrabajo.SueldoPagado_Real;
+
+                    nominaTrabajo.Total_ER_Real += UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional" ?
+                        (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER").Select(X => X.MontoReal).Sum()
+                        : (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "ER").Select(X => X.Monto + X.MontoEsquema).Sum();
+
+                    //Base gravada e ISR / Subsidio al empleo
+                    nominaTrabajo.Base_Gravada_Real = 0;
+                    nominaTrabajo.Subsidio_Real = 0;
+                    nominaTrabajo.ISR_Real = 0;
+
+                    if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")                    
+                        CalculaISR_Real();
+                    
+                    //cuotas obrero patronales
+                    nominaTrabajo.IMSS_Obrero_Real = 0;
+                    nominaTrabajo.IMSS_Patronal_Real = 0;
+
+                    if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
+                        Calcula_Cuotas_Obreras_Real();
+
+                    //total de deducciones
+                    nominaTrabajo.Total_DD_Real = 0;
+                    nominaTrabajo.Total_DD_Real += nominaTrabajo.ISR_Real + nominaTrabajo.IMSS_Obrero_Real;
+                    nominaTrabajo.Total_DD_Real += UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional" ?
+                        (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "DD").Select(X => X.MontoReal).Sum()
+                        : (decimal)incidenciasEmpleado.Where(x => x.TipoConcepto == "DD").Select(X => X.Monto + X.MontoEsquema).Sum();
+
+                    //netos reales
+                    nominaTrabajo.Neto_Real = 0;
+                    nominaTrabajo.Neto_Real += nominaTrabajo.Total_ER_Real - nominaTrabajo.Total_DD_Real;
+
+                    CalculaISN_Real();
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception("Fallo al calcular la nómina real del empleado:" + IdEmpleado + " - " + ClaveEmpleado + " - " + ". " + ex.Message);
+            }
+           
         }
 
         /// <summary>
@@ -1118,7 +1162,6 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     cins.NewIncindencia(model, IdUsuario);
             }
         }
-
 
         public decimal obtenHorasJornadaLaboral(int idjornada)
         {

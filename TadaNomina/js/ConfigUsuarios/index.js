@@ -46,7 +46,7 @@ function setvaluetextboxTipo(idinput) {
     document.getElementById(idinput).value = valorinpd;
 }
 
-function EditarUser(idUsuario, Nombre, apellidoPat, apellidoMat, correo, usuario, clientes, unidades, accesnomina, rhcloud, imss, contabilidad, tesoreria) {
+function EditarUser(idUsuario, Nombre, apellidoPat, apellidoMat, correo, usuario, clientes, unidades, accesnomina, rhcloud, imss, contabilidad, tesoreria, tipo) {
     inpiduser.value = idUsuario;
     inputnombre.value = Nombre;
     inputappat.value = apellidoPat;
@@ -80,6 +80,16 @@ function EditarUser(idUsuario, Nombre, apellidoPat, apellidoMat, correo, usuario
                 document.getElementById(`inpun-${idunidad}`).setAttribute('checked', 'true');
             }
         }
+    }
+
+    let tipoUsuaroAdmin = document.getElementById('_tipoUser'); 
+    if (tipo == "Administrador") {
+        tipoUsuaroAdmin.setAttribute('checked', 'true');
+        tipoUsuaroAdmin.value = true;
+    }
+    else {
+        tipoUsuaroAdmin.removeAttribute('checked');
+        tipoUsuaroAdmin.value = false;
     }
 
     var inptmodnom = document.getElementById('mod-Nom');
