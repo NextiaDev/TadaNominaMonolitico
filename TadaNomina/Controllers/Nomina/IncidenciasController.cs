@@ -344,7 +344,17 @@ namespace TadaNomina.Controllers.Nomina
         }
 
 
+        public FileResult Excel()
+        {
+            int IdCliente = (int)Session["sIdCliente"];
 
+            int IdUnidadNegocio = (int)Session["sIdUnidadNegocio"];
+            ClassEmpleado initEmpleado = new ClassEmpleado();
+
+            var arch = initEmpleado.ExcelIncidencias(IdUnidadNegocio, IdCliente);
+
+            return File(arch, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Empleados.xlsx");
+        }
 
         //public FileResult Excel()
         //{
