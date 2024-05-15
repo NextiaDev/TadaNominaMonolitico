@@ -1408,6 +1408,7 @@
     <Compile Include="Models\ViewModels\Nominas\ModelBusquedaEmpleado.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelCargaLayoutNominas.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelConfEmpleadoHoras.cs" />
+    <Compile Include="Models\ViewModels\Nominas\ModelCreatePeriodoNomina.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelDiasTrabajadosAguinaldo.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadoFiniquito.cs" />
     <Compile Include="Models\ViewModels\Nominas\ModelEmpleadosNetos.cs" />
@@ -4590,6 +4591,7 @@
     <Content Include="js\MovimientosIMSS\MovimientosAfiliatorios.js" />
     <Content Include="js\nifty.js" />
     <Content Include="js\nifty.min.js" />
+    <Content Include="js\PeriodoNomina\CreatePeriodo.js" />
     <Content Include="js\Procesando.js" />
     <Content Include="Models\DB\ModelAcceso.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
