@@ -326,6 +326,7 @@ namespace TadaNomina.Models.ClassCore
                 model.ReciboReal.SDI = nom.SDI_Proyeccion_Real ?? 0;
                 model.ReciboReal.TotalPatron = nom.IMSS_Patronal_Real ?? 0;
                 model.ReciboReal.ISN = nom.ISN_Real ?? 0;
+                model.ReciboReal.BaseGravada = nom.Base_Gravada_Real ?? 0;
             }
             else
             {
