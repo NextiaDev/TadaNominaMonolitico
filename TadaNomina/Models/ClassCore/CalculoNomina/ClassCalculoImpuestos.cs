@@ -460,30 +460,38 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.Subsidio = 0;
 
-            //condigo a borrar.
-            //var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
-
-            //if (query == null || AjusteAnual)
-            //    CreditoSalario = 0;
-            //else
-            //    CreditoSalario = query.CreditoSalario;
-
-            var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
-            var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
-            var valorTopeMensual = umaMensual * porcentaje;
-            var valorTopexDia = valorTopeMensual / 30.40M;
-            var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
-
-            if(nominaTrabajo.BaseGravada <= topeParaSubsidio)
+            //subsidio antes de 1ro de mayo.
+            if (Periodo.FechaFin < DateTime.Parse("01/05/2024"))
             {
-                var subsidio = valorTopexDia * TipoNomina.DiasPago;
-                nominaTrabajo.Subsidio += subsidio;
-            } 
-            
-            if ((ajuste ?? false))
+                var query = ListSubsidio.Where(b => b.LimiteSuperior >= nominaTrabajo.BaseGravada && b.LimiteInferior <= nominaTrabajo.BaseGravada).FirstOrDefault();
+
+                if (query == null || AjusteAnual)
+                    nominaTrabajo.Subsidio = 0;
+                else
+                    nominaTrabajo.Subsidio = query.CreditoSalario;
+
+                if (ajuste ?? false)
+                    CalculoSubsidio_Ajuste();
+            }
+            else
             {
-                var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
-                nominaTrabajo.Subsidio += queryAjuste;
+                var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
+                var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
+                var valorTopeMensual = umaMensual * porcentaje;
+                var valorTopexDia = valorTopeMensual / 30.40M;
+                var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
+
+                if (nominaTrabajo.BaseGravada <= topeParaSubsidio)
+                {
+                    var subsidio = valorTopexDia * TipoNomina.DiasPago;
+                    nominaTrabajo.Subsidio += subsidio;
+                }
+
+                if ((ajuste ?? false))
+                {
+                    var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
+                    nominaTrabajo.Subsidio += queryAjuste;
+                }
             }
         }
 
@@ -521,8 +529,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                         
             if (resultset < 0)
             {
-                //nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
-                nominaTrabajo.SubsidioPagar = 0;
+                if(Periodo.FechaFin < DateTime.Parse("01/05/2024"))
+                    nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
+                else
+                    nominaTrabajo.SubsidioPagar = 0;
+
                 nominaTrabajo.ImpuestoRetener = 0;
             }
             else
