@@ -162,6 +162,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         public bool validacion { get; set; }
         public string Mensaje { get; set; }
+        public int EmpleadoTotalNegativo { get; set; }
     }  
 
 }
