@@ -212,6 +212,12 @@
                                     </div>
                                 }
                             }
+                            @if (Model.EmpleadosNetosNegativos.Count > 0)
+                            {
+                                <div class="alert alert-warning">
+                                    <b>¡ATENCIÓN! SE IDENTIFICARON @Model.EmpleadosNetosNegativos.Count EMPLEADO(S) CON CÁLCULO NEGATIVO, FAVOR DE VERIFICAR REPORTES.</b>
+                                </div>
+                            }
                         </div>
                     </div>
                     <br />

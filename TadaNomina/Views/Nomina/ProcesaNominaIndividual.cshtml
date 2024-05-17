@@ -200,6 +200,12 @@
                             </div>
                         }
                     }
+                    @if (Model.EmpleadoTotalNegativo == 1)
+                    {
+                        <div class="alert alert-warning">
+                            <b>¡ATENCIÓN! SE IDENTIFICÓ QUE EL EMPLEADO CUENTA CON CÁLCULO NEGATIVO, FAVOR DE VERIFICAR REPORTES.</b>
+                        </div>
+                    }
                 </div>
             </div>
             <br />
