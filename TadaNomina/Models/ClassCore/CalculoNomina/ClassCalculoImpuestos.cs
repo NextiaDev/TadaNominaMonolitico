@@ -478,12 +478,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
                 var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
                 var valorTopeMensual = umaMensual * porcentaje;
+                //// checar los dias de pago para sacar el valor por dia
                 var valorTopexDia = valorTopeMensual / 30.40M;
                 var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
 
                 if (nominaTrabajo.BaseGravada <= topeParaSubsidio)
                 {
-                    var subsidio = valorTopexDia * TipoNomina.DiasPago;
+                    var subsidio = valorTopexDia * DiasPago;
                     nominaTrabajo.Subsidio += subsidio;
                 }
 
