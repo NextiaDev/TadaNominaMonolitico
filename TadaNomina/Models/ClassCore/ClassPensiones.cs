@@ -10,9 +10,7 @@ using System.Linq.Dynamic.Core;
 namespace TadaNomina.Models.ClassCore
 {
     public class ClassPensiones : ClassProcesosNomina
-    {
-
-        internal List<vConceptos> conceptosNominaFormula;
+    {   
         internal List<FormulasEquivalencias> tablaEquivalencias;
         internal List<vIncidencias> incidenciasEmpleado;
         public decimal montoPension { get; set; }
@@ -77,9 +75,7 @@ namespace TadaNomina.Models.ClassCore
 
         public void procesaPensionAlimenticia(List<vIncidencias> incidenciasEmpleado, NominaTrabajo nom, vEmpleados datosEmpleados, vPensionAlimenticia pension, int IdPeriodoNomina, decimal TotalPercepciones, decimal TotalPercepcionesEsquema, int IdConcepto, int IdUsuario, int idcliente)
         {
-            ExpressionContext context = new ExpressionContext();
-
-            GetListConceptosNominaFormula(idcliente);
+            ExpressionContext context = new ExpressionContext();                        
             ClassCalculoNomina cl = new ClassCalculoNomina();
             var ins = new Incidencias();
             var conce = new vIncidencias();
@@ -88,7 +84,7 @@ namespace TadaNomina.Models.ClassCore
             string Formula = string.Empty;
 
 
-            if (pension.idBasePension != null && pension.idBasePension < 0)
+            if (pension.idBasePension > 0 )
             {
 
                 montoPension = 0;
@@ -97,8 +93,8 @@ namespace TadaNomina.Models.ClassCore
 
                 bases = BasePension((int)pension.idBasePension);
                 bases.Formula.Replace(" ", "").Replace("\n", "").Replace("\r", "").Split(';').ToList();
-                Formula = GetFormulaConceptosNominaIncidencias(bases.Formula);
-                Formula = GetFormulaTablaEquivalencias(nom, datosEmpleados, IdConcepto, bases.Formula, idcliente);
+                Formula = GetFormulaConceptosNominaIncidencias(bases.Formula, incidenciasEmpleado);
+                Formula = GetFormulaTablaEquivalencias(nom, datosEmpleados, IdConcepto, Formula, idcliente);
                 Formula = Formula.Replace("VALOR_CONDICION", (valorCalculo ?? 0).ToString());
 
                 IDynamicExpression e = context.CompileDynamic(Formula);
@@ -273,35 +269,26 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
-        private string GetFormulaConceptosNominaIncidencias(string Formula)
+        private string GetFormulaConceptosNominaIncidencias(string Formula, List<vIncidencias> incidenciasEmpleado)
         {
-            try
+            decimal monto = 0;
+                       
+            foreach (var item in incidenciasEmpleado)
             {
-                foreach (var lc in conceptosNominaFormula)
+                var claveConcepto = "\"" + item.ClaveConcepto.Trim().ToUpper() + "\"";
+                if (Formula.Contains(claveConcepto))
                 {
-                    decimal monto = 0;
+                    //Se agrega una condiciones para calcular monto
+                    if (item.TipoDato == "Cantidades")
+                        monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == item.ClaveConcepto).Select(x => x.Cantidad).Sum() ?? 0;
+                    else
+                        monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == item.ClaveConcepto).Select(x => x.Monto).Sum() ?? 0;
 
-                    var claveConcepto = "\"" + lc.ClaveConcepto.Trim().ToUpper() + "\"";
-                    if (Formula.Contains(claveConcepto))
-                    {
-
-                        //Se agrega una condiciones para calcular monto
-                        if (lc.TipoDato == "Cantidades")
-                            monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).Select(x => x.Cantidad).Sum() ?? 0;
-                        else
-                            monto = incidenciasEmpleado.Where(x => x.ClaveConcepto == lc.ClaveConcepto).Select(x => x.Monto).Sum() ?? 0;
-
-                        Formula = Formula.Replace(claveConcepto, monto.ToString());
-                    }
+                    Formula = Formula.Replace(claveConcepto, monto.ToString());
                 }
-
-                return Formula;
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
+            return Formula;
 
         }
 
@@ -323,26 +310,7 @@ namespace TadaNomina.Models.ClassCore
             }
 
         }
-
-
-        private void GetListConceptosNominaFormula(int idCliente)
-        {
-            try
-            {
-                using (TadaNominaEntities entidad = new TadaNominaEntities())
-                {
-                    conceptosNominaFormula = entidad.vConceptos.Where(x => x.IdCliente == idCliente && x.IdEstatus == 1).ToList();
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-
+        
         /// <summary>
         /// Método que elimina una incidencia en la pensión.
         /// </summary>
