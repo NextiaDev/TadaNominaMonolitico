@@ -79,7 +79,10 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         [Display(Name = "Carga Patronal:")]
         public decimal TotalPatron { get; set; } = 0;
-                
+
+        [Display(Name = "Base Gravada:")]
+        public decimal BaseGravada { get; set; } = 0;
+
         public decimal ISN { get; set; } = 0;
         public List<sp_ReciboRealPercepciones_Result> IncidenciasReciboReal { get; set; }
         public List<sp_ReciboRealDeducciones_Result> IncidenciasReciboDecReal { get; set; }
@@ -159,6 +162,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
 
         public bool validacion { get; set; }
         public string Mensaje { get; set; }
+        public int EmpleadoTotalNegativo { get; set; }
     }  
 
 }

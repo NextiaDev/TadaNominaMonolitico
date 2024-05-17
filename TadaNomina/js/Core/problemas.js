@@ -65,7 +65,7 @@ function borraLocalStorage() {
 
 $(document).ready(function () {
     // Set idle time
-    $(document).idleTimer(300000);
+    $(document).idleTimer(295000);
 });
 
 $(document).on("idle.idleTimer", function (event, elem, obj) {

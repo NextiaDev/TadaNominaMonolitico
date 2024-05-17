@@ -40,7 +40,8 @@ namespace TadaNomina.Models.ClassCore
             model.Periodicidad = periodo.Periodicidad;
             model.AJusteAnual = periodo.AjusteAnual;
             model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
-            
+            model.EmpleadosNetosNegativos = periodo != null ? GetEmpleadosSaldoNegativo(periodo.IdPeriodoNomina) : null;
+
             try { model.PorcentajeISN = (decimal)periodo.PorcentajeISN; } catch { model.PorcentajeISN = 0; }
 
             if (periodo.TipoNomina == "Aguinaldo")
@@ -287,6 +288,7 @@ namespace TadaNomina.Models.ClassCore
             try { model.FechaReconocimientoAntiguedad = empleado.FechaReconocimientoAntiguedad.Value.ToShortDateString(); } catch { model.FechaReconocimientoAntiguedad = ""; }
             model.IdEstatus = empleado.IdEstatus;
             model.ConfiguracionSueldos = periodo.ConfiguracionSueldos;
+            model.EmpleadoTotalNegativo = GetEmpleadosSaldoNegativo(pIdPeriodoNomina).Contains(model.IdEmpleado) ? 1 : 0;
 
             model.ReciboTradicional = new ModelReciboTradicional();
             model.ReciboEsquema = new ModelReciboEsquema();
@@ -326,6 +328,7 @@ namespace TadaNomina.Models.ClassCore
                 model.ReciboReal.SDI = nom.SDI_Proyeccion_Real ?? 0;
                 model.ReciboReal.TotalPatron = nom.IMSS_Patronal_Real ?? 0;
                 model.ReciboReal.ISN = nom.ISN_Real ?? 0;
+                model.ReciboReal.BaseGravada = nom.Base_Gravada_Real ?? 0;
             }
             else
             {
@@ -1025,6 +1028,28 @@ namespace TadaNomina.Models.ClassCore
             }
             else
                 return null;
+        }
+
+        /// <summary>
+        ///     Método que obtiene a los empleados con cálculos negativos 
+        /// </summary>
+        /// <param name="IdPeriodoNomina">Id del periodo de nómina</param>
+        /// <returns>Lista con los ids de los empleados con cálculo negativo</returns>
+        public List<int> GetEmpleadosSaldoNegativo(int IdPeriodoNomina)
+        {
+            List<int> list = new List<int>();
+            try
+            {
+                using (NominaEntities1 ctx = new NominaEntities1())
+                {
+                    var res = ctx.NominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodoNomina).ToList();
+                    list = res.Where(x => x.Netos < 0 || x.Neto < 0 || x.TotalEfectivo < 0 || (x.Netos + x.Neto) < 0).Select(x => x.IdEmpleado).ToList();
+                }
+            }
+            catch
+            {
+            }
+            return list;
         }
     }
 }

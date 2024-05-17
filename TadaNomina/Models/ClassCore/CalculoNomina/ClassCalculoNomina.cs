@@ -461,13 +461,18 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             }
 
             if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
+            {
                 nominaTrabajo.Apoyo = nominaTrabajo.Neto_Real - nominaTrabajo.Neto;
-
-            nominaTrabajo.ERS += nominaTrabajo.Apoyo;
-            nominaTrabajo.ERS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.MontoEsquema).Sum();
-            nominaTrabajo.ERS += percepcionesEspecialesEsquema;
-            nominaTrabajo.DDS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.MontoEsquema).Sum();
-            nominaTrabajo.DDS += montoCreditoInfonavitEsq;
+                nominaTrabajo.ERS += nominaTrabajo.Apoyo;
+            }
+            else
+            {
+                nominaTrabajo.ERS += nominaTrabajo.Apoyo;
+                nominaTrabajo.ERS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "ER").Select(X => X.MontoEsquema).Sum();
+                nominaTrabajo.ERS += percepcionesEspecialesEsquema;
+                nominaTrabajo.DDS += (decimal)incidenciasEmpleado.Where(x => _tipoEsquemaS.Contains(x.TipoEsquema) && x.TipoConcepto == "DD").Select(X => X.MontoEsquema).Sum();
+                nominaTrabajo.DDS += montoCreditoInfonavitEsq;
+            }
             
             nominaTrabajo.Netos = nominaTrabajo.ERS - nominaTrabajo.DDS;            
             //CerosEnNegativos();

@@ -44,7 +44,7 @@
                 @Html.LabelFor(model => model.claveEmpleado, htmlAttributes: new { @class = "control-label col-md-3" })
             <div class="col-md-3">
                 @if (Session["sTipoUsuario"].ToString() == "System")
-                {                    
+                {
                     @Model.claveEmpleado <b>(</b> @Model.IdEmpleado <b>)</b>
                 }
                 else
@@ -200,6 +200,12 @@
                             </div>
                         }
                     }
+                    @if (Model.EmpleadoTotalNegativo == 1)
+                    {
+                        <div class="alert alert-warning">
+                            <b>¡ATENCIÓN! SE IDENTIFICÓ QUE EL EMPLEADO CUENTA CON CÁLCULO NEGATIVO, FAVOR DE VERIFICAR REPORTES.</b>
+                        </div>
+                    }
                 </div>
             </div>
             <br />
@@ -348,7 +354,7 @@
 
 
         </div>
-            }
+                        }
 
         </div>
     </div>
@@ -908,6 +914,15 @@
                     </div>
                     <div class="col-md-8">
                         @(string.Format("{0:C2}", Model.ReciboReal.ISN))
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.LabelFor(x => x.ReciboReal.BaseGravada)
+                    </div>
+                    <div class="col-md-8">
+                        @(string.Format("{0:C2}", Model.ReciboReal.BaseGravada))
                     </div>
                 </div>
 

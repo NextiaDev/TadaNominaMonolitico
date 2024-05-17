@@ -64,7 +64,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
             if (UnidadNegocio.ConfiguracionSueldos == "Real-Tradicional")
             {
                 BaseGravada += nominaTrabajo.SueldoPagado_Real ?? 0;
-                BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && _tipoEsquemaT.Contains(x.TipoEsquema) && x.Integrable == "SI").Select(x => x.GravadoReal).Sum() ?? 0;
+                BaseGravada += incidenciasEmpleado.Where(x => x.TipoConcepto == "ER" && x.Integrable == "SI").Select(x => x.GravadoReal).Sum() ?? 0;
                 nominaTrabajo.Base_Gravada_Real = BaseGravada;
 
                 var isrReal = CalculaISR(BaseGravada, Periodo.FechaFin, true);
@@ -478,12 +478,13 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
                 var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
                 var valorTopeMensual = umaMensual * porcentaje;
+                //// checar los dias de pago para sacar el valor por dia
                 var valorTopexDia = valorTopeMensual / 30.40M;
                 var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
 
                 if (nominaTrabajo.BaseGravada <= topeParaSubsidio)
                 {
-                    var subsidio = valorTopexDia * TipoNomina.DiasPago;
+                    var subsidio = valorTopexDia * DiasPago;
                     nominaTrabajo.Subsidio += subsidio;
                 }
 
@@ -970,7 +971,8 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         /// </summary>
         protected void Calcula_Cuotas_Obreras_Real()
         {
-            decimal SDI_Real = SD_Real * (nominaTrabajo.FactorIntegracion ?? 1);
+            decimal _sdireal = SD_Real * (nominaTrabajo.FactorIntegracion ?? 1);
+            decimal SDI_Real = _sdireal < SDI ? SDI : _sdireal;
             nominaTrabajo.SDI_Proyeccion_Real = SDI_Real;
 
             foreach (var item in ListImpuestosIMSS.Where(c => c.TipoCuota == "Obrera"))
@@ -1295,18 +1297,37 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 if (CalculaSubsidio)
                 {
-                    var query = (from b in ListSubsidio_Auxiliar.Where(b => b.LimiteSuperior >= BaseGravada && b.LimiteInferior <= BaseGravada) select b).FirstOrDefault();
-
-                    if (query == null)
+                    if (Periodo.FechaFin < DateTime.Parse("01/05/2024"))
                     {
-                        CreditoSalario = 0;
+                        var query = (from b in ListSubsidio_Auxiliar.Where(b => b.LimiteSuperior >= BaseGravada && b.LimiteInferior <= BaseGravada) select b).FirstOrDefault();
+
+                        if (query == null)
+                        {
+                            CreditoSalario = 0;
+                        }
+                        else
+                        {
+                            CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
+                        }
+
+                        Subsidio = CreditoSalario;
                     }
                     else
                     {
-                        CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
+                        var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
+                        var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
+                        var valorTopeMensual = umaMensual * porcentaje;
+                        //// checar los dias de pago para sacar el valor por dia
+                        var valorTopexDia = valorTopeMensual / 30.40M;
+                        var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
+
+                        if (BaseGravada <= topeParaSubsidio)
+                        {
+                            CreditoSalario = valorTopexDia * DiasPago;
+                            Subsidio += CreditoSalario;
+                        }
                     }
 
-                    Subsidio = CreditoSalario;
                 }
 
                 result = ISR - CreditoSalario;
@@ -1354,7 +1375,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 decimal resultset = (DiferenciaLimite * Porcentaje) / 100;
                 PorcentajeCalculado = decimal.Round(resultset, 2);
 
-                ISR = CuotaFija + PorcentajeCalculado;
+                ISR = Math.Round(CuotaFija + PorcentajeCalculado, 2);
 
                 if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
                 {
@@ -1371,18 +1392,36 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 if (CalculaSubsidio)
                 {
-                    var query = (from b in ListSubsidio.Where(b => b.LimiteSuperior >= BaseGravada && b.LimiteInferior <= BaseGravada) select b).FirstOrDefault();
-
-                    if (query == null)
+                    if (Periodo.FechaFin < DateTime.Parse("01/05/2024"))
                     {
-                        CreditoSalario = 0;
+                        var query = (from b in ListSubsidio.Where(b => b.LimiteSuperior >= BaseGravada && b.LimiteInferior <= BaseGravada) select b).FirstOrDefault();
+
+                        if (query == null)
+                        {
+                            CreditoSalario = 0;
+                        }
+                        else
+                        {
+                            CreditoSalario = Math.Round(decimal.Parse(query.CreditoSalario.ToString()), 2);
+                        }
+
+                        Subsidio = CreditoSalario;
                     }
                     else
                     {
-                        CreditoSalario = decimal.Parse(query.CreditoSalario.ToString());
-                    }
+                        var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
+                        var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
+                        var valorTopeMensual = umaMensual * porcentaje;
+                        //// checar los dias de pago para sacar el valor por dia
+                        var valorTopexDia = valorTopeMensual / 30.40M;
+                        var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
 
-                    Subsidio = CreditoSalario;
+                        if (BaseGravada <= topeParaSubsidio)
+                        {
+                            CreditoSalario = Math.Round(valorTopexDia * DiasPago, 2);
+                            Subsidio += CreditoSalario;
+                        }                        
+                    }
                 }
 
                 result = ISR - CreditoSalario;
@@ -1390,6 +1429,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
             return result;
         }
+
         /// <summary>
         /// Metodo para obtener el Identificador del tipo de nómina que se esta calculando.
         /// </summary>
