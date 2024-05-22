@@ -85,6 +85,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal int IdEstatus;
         internal string EsquemaPago;
         internal decimal DiasPago;
+        internal decimal DiasPagoCalculoSubsidio;
         internal decimal DiasMenosPorAlta;
         internal decimal DiasMasPorAlta;
         internal decimal CreditoSalario;
