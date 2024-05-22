@@ -61,6 +61,7 @@ namespace TadaNomina.Controllers
             var accion = filterContext.ActionDescriptor.ActionName;
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
+            var HostName = filterContext.HttpContext.Request.UserHostName;
             var model = filterContext.Controller.ViewData;
             var viewbag = filterContext.Controller.ViewBag;
             
@@ -69,7 +70,7 @@ namespace TadaNomina.Controllers
             try { mensaje += viewbag.GetViewDataInfo("Mensaje").Value; } catch { }
             
             if (Session["sLogin"] != null)
-                generaLog("Normal", controlador, accion, method, mensaje, IP);
+                generaLog("Normal", controlador, accion, method, mensaje, IP + "; " + HostName);
             else
                 generaLogSinDatosSession("Error", "No se encontraron datos de sesión.", IP);
 
@@ -83,9 +84,10 @@ namespace TadaNomina.Controllers
             var accion = filterContext.RouteData.Values["action"] as string;
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
-            
-            if(Session["sLogin"] != null)
-                generaLog("Error", controlador, accion, method, error, IP);
+            var HostName = filterContext.HttpContext.Request.UserHostName;
+
+            if (Session["sLogin"] != null)
+                generaLog("Error", controlador, accion, method, error, IP + "; " + HostName);
             else
                 generaLogSinDatosSession("Error", error, IP);
 
