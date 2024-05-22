@@ -102,7 +102,7 @@ namespace TadaNomina.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.mensaje_ = "Error de acceso: " + ex.Message + " datos(" + login.username + "," + login.password + ")";
+                ViewBag.mensaje_ = "Error de acceso: " + ex.Message + " datos(" + login.username + ")";
                 ViewBag.Mensaje = "Datos no validos: " + ex.Message;                
             }            
 
