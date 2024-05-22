@@ -322,10 +322,9 @@ namespace TadaNomina.Models.ClassCore
 
                 if (incidencias != null)
                 {
+                    CreditosFonacot credito = new CreditosFonacot();
                     foreach (var item in incidencias)
                     {
-                        CreditosFonacot credito = new CreditosFonacot();
-
                         credito = (from b in entidad.CreditosFonacot
                                    where b.IdCreditoFonacot == item.BanderaFonacot
                                    select b).FirstOrDefault();

@@ -65,7 +65,8 @@ function borraLocalStorage() {
 
 $(document).ready(function () {
     // Set idle time
-    $(document).idleTimer(295000);
+    //$(document).idleTimer(295000);
+    $(document).idleTimer(240000);
 });
 
 $(document).on("idle.idleTimer", function (event, elem, obj) {
@@ -87,6 +88,7 @@ $(document).on("active.idleTimer", function (event, elem, obj, triggerevent) {
     $.ajax({
         type: 'POST',
         url: rutaValida,
+       async: false,
         success: function (result) {
             if (result == "Ok") {
                 $("#statusUsuario").removeClass('badge badge-warning');
@@ -95,8 +97,8 @@ $(document).on("active.idleTimer", function (event, elem, obj, triggerevent) {
                 mensajeAlertaSesion("fa fa-smile-o fa-2x", "Sesión", "¡Se ha detectado actividad dentro del sistema!", "success", "fadeIn", "fadeOut", 2500);
             }
             else {
-                $("#statusUsuario").removeClass('badge badge-success');
-                $("#statusUsuario").addClass('badge badge-warning');
+              $("#statusUsuario").removeClass('badge badge-success');
+              $("#statusUsuario").addClass('badge badge-warning');
 
                 mensajeAlertaSesion("fa fa-frown-o fa-2x", "Sesión", "La sesión ha caducado, sera redireccionado a la pantalla de login.", "danger", "fadeIn", "fadeOut", 2500);
                 setTimeout(redirigir, 2700);
@@ -134,13 +136,3 @@ function redirigir() {
     window.location.href = rutaLogin;
 }
 
-//function cerrarSesionesServer() {
-//  var rutaValida = $("#rutaCerrarSesion").attr('data-id');
-//  $.ajax({
-//    ype: 'POST',
-//    url: rutaValida,
-//    success: function () {
-
-//    }
-//  });
-//}

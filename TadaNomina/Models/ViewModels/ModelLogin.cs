@@ -14,5 +14,6 @@ namespace TadaNomina.Models.ViewModels
         [Required]
         [DataType(DataType.Password)]
         public string password { get; set; }
+        public string mensaje { get; set; }
     }
 }

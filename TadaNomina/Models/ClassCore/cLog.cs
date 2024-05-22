@@ -8,33 +8,19 @@ namespace TadaNomina.Models.ClassCore
 {
     public class cLog
     {
-        private string Path = @"C:\TadaNomina\LogsFRONT\";
+        private string Path = @"D:\TadaNomina\Logs\";
 
-        public void AddOtroLog(string sLog, string path, string nombre)
-        {
-            Path += path;
-            CreateDirectory();            
-            string cadena = "";
-
-            cadena += "> " + DateTime.Now + " | " + sLog + Environment.NewLine;
-
-            StreamWriter sw = new StreamWriter(Path + @"\" + nombre, true); ;
-            sw.Write(cadena);
-            sw.Close();
-        }
-
-        public void Add(string sLog, string path)
-        {
-            Path += path;
+        public void Add(string sLog, string nameFile)
+        {            
             CreateDirectory();
-            string nombre = GetNameFile();
             string cadena = "";
 
             cadena += "> " + DateTime.Now + " | " + sLog + Environment.NewLine;
 
-            StreamWriter sw = new StreamWriter(Path + @"\" + nombre, true);
+            StreamWriter sw = new StreamWriter(Path + nameFile, true);            
             sw.Write(cadena);
             sw.Close();
+            
         }
 
         public string getLog(DateTime fecha)
@@ -77,7 +63,6 @@ namespace TadaNomina.Models.ClassCore
                 throw new Exception(ex.Message);
 
             }
-        }        
-
+        }   
     }
 }

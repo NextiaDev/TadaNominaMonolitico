@@ -85,15 +85,6 @@ namespace TadaNomina.Models.ClassCore
             return Clave;
         }
 
-        public static void generaLog(int IdPeriodo, int IdUsuario, string Linea, string Modulo)
-        {
-            string path = Modulo;
-            string nombre = "Periodo_" + IdPeriodo + "_IdUsuario_" + IdUsuario + ".txt";
-            cLog oLog = new cLog();            
-
-            oLog.AddOtroLog(Linea, path, nombre);
-        }
-
         public static string ServidorGeoVictoriaToken = "https://customerapi.geovictoria.com";
         public static string ServidorGeoVictoriaOauth = "https://apiv3.geovictoria.com";
         public static string ServidorGeoVictoriaTokenTest = "https://customerapi-sandbox.geovictoria.com/";

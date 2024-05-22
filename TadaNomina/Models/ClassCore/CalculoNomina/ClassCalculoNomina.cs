@@ -64,8 +64,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (UnidadNegocio.SeptimoDia == "S" && UnidadNegocio.IdConceptoSeptimoDia != null)
                     ProcesaIncidenciasSeptimoDia(empleadosProceso, _IdPeriodoNomina, (int)UnidadNegocio.IdConceptoSeptimoDia, IdUsuario);
 
-                try { GetIncidencias(_IdPeriodoNomina); }
-                catch (Exception ex) { Statics.generaLog(IdPeriodoNomina, IdUsuario, "Fallo al llenar las listas con los datos necesarios: " + ex.Message, "Nomina"); }
+                GetIncidencias(_IdPeriodoNomina);               
 
                 if (Periodo.TipoNomina == "Aguinaldo")
                 {

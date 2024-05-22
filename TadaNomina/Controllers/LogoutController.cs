@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TadaNomina.Controllers
 {
-    public class LogoutController : Controller
+    public class LogoutController : BaseController
     {
         // GET: Logout
         public ActionResult Index()

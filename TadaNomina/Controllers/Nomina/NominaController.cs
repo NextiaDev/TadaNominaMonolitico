@@ -93,12 +93,12 @@ namespace TadaNomina.Controllers.Nomina
                 modelo = classNomina.GetModelProcesaNominaGeneral(classPeriodoNomina.GetvPeriodoNominasId(model.IdPeriodoNomina));
 
                 modelo.validacion = true;
-                modelo.Mensaje = "La nómina se procesó de manera correcta. Se procesaron " + cCalculo.contador + " empleados";
+                modelo.Mensaje = "La nómina se procesó de manera correcta. Se procesaron " + cCalculo.contador + " empleados, en el periodo: " + modelo.Periodo;
             }
             catch (Exception ex)
             {
                 modelo.validacion = false;
-                modelo.Mensaje = "No se pudo procesar la nomina, error: " + ex.Message;
+                modelo.Mensaje = "No se pudo procesar la nomina del periodo: " + modelo.Periodo + ", error: " + ex.Message;
             }
 
             return View(modelo);
@@ -239,20 +239,23 @@ namespace TadaNomina.Controllers.Nomina
         {
             ClassNomina classNomina = new ClassNomina();
             int IdUsuario = (int)Session["sIdUsuario"];
-
+                        
             ModelNominaIndividual modelo;
+            modelo = classNomina.GetModelNominaIndividual(model.IdEmpleado, model.IdPeriodoNomina, "Nomina");
 
             try
             {
                 classNomina.Proceso_Nomina_Individual(model, IdUsuario);
-                modelo = classNomina.GetModelNominaIndividual(model.IdEmpleado, model.IdPeriodoNomina, "Nomina");                                
-                return RedirectToAction("ProcesaNominaIndividual", new { model.IdEmpleado, model.IdPeriodoNomina });
+                
+                modelo.validacion = true;
+                modelo.Mensaje = "Se proceso correctamente el cálculo del empleado: " + modelo.claveEmpleado + " - " + modelo.NombreCompletoEmpleado;
+                //return RedirectToAction("ProcesaNominaIndividual", new { model.IdEmpleado, model.IdPeriodoNomina });
+                return View(modelo);
             }
             catch (Exception ex)
-            {
-                modelo = classNomina.GetModelNominaIndividual(model.IdEmpleado, model.IdPeriodoNomina, "Nomina");
+            {               
                 modelo.validacion = false;
-                modelo.Mensaje = "No se pudo procesar el calculo, error: " + ex.Message;
+                modelo.Mensaje = "No se pudo procesar el calculo del empleado: " + modelo.claveEmpleado + " - " + modelo.NombreCompletoEmpleado + ", error: " + ex.Message;
                 return View(modelo);
             }            
         }
