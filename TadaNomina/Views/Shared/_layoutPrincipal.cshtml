@@ -92,6 +92,7 @@
         <div id="rutaHome" data-id="@Url.Action("Index", "Index")"></div>
         <div id="rutaLogin" data-id="@Url.Action("Index", "Login")"></div>
         <div id="rutaValidaSesion" data-id="@Url.Action("ValidaSession", "Base")"></div>
+        <div id="rutaLog" data-id="@Url.Action("GuardaLogSinSession", "Base")"></div>
         <div id="rutaCerrarSesion" data-id="@Url.Action("CerrarSession", "Base")"></div>
 
 
@@ -979,8 +980,6 @@
                                                     </a>
                                                 </li>
 
-
-
                                             </ul>
                                         </li>
 
@@ -1079,11 +1078,11 @@
                                                             Datos de Conexión
                                                         </a>
                                                     </li>
-                                                    <li class="_subMenu" data-menu="Soporte" data-text="Logs">
+                                                    @*<li class="_subMenu" data-menu="Soporte" data-text="Logs">
                                                         <a class="_Load" href="@Url.Action("Index", "Logs")">
                                                             Logs
                                                         </a>
-                                                    </li>
+                                                    </li>*@
 
                                                 }
 

@@ -877,5 +877,63 @@ namespace TadaNomina.Models.ClassCore
             }
         }
 
+        /// <summary>
+        /// Se valida que los totales de nómina e incidencias antes de cerrar el periodo
+        /// </summary>
+        /// <param name="IdPeriodo">Identificador del periodo a validar</param>
+        public List<string> ValidaTotales(int IdPeriodo)
+        {
+            List<string> diferencias = new List<string>();
+            var nomina = GetNominaTrabajoValidacion(IdPeriodo);
+            var incidencias = GetIncidenciasValidacion(IdPeriodo);
+
+            foreach (var item in nomina)
+            {
+                decimal? incidenciasER = incidencias.Where(x => x.IdEmpleado == item.IdEmpleado && x.TipoConcepto == "ER" && x.Monto != 0).Select(s=> s.Monto).Sum();
+                incidenciasER += incidencias.Where(x => x.IdEmpleado == item.IdEmpleado && x.TipoConcepto == "OTRO" && x.Monto != 0).Select(s=> s.Monto).Sum();
+                decimal nominaER = (item.SueldoPagado ?? 0) + (item.SubsidioPagar ?? 0) + (item.ReintegroISR ?? 0);
+
+                decimal ER = (incidenciasER ?? 0) + nominaER;
+
+                if (ER != item.ER)
+                    diferencias.Add(item.ClaveEmpleado + "-" + item.ApellidoPaterno + " " + item.ApellidoMaterno + " " + item.Nombre + " - Diferencia Total Percepciones: " + string.Format("{0:C2}", item.ER - ER));
+
+                decimal? incidenciasDD = incidencias.Where(x => x.IdEmpleado == item.IdEmpleado && x.TipoConcepto == "DD" && x.Monto != 0).Select(s => s.Monto).Sum();
+                decimal nominaDD = (item.ImpuestoRetener ?? 0) + (item.IMSS_Obrero ?? 0);
+
+                decimal DD = (incidenciasDD ?? 0) + nominaDD;
+
+                if (DD != item.DD)
+                    diferencias.Add(item.ClaveEmpleado + "-" + item.Nombre + " - Diferencia Total Deducciones: " + string.Format("{0:C2}", item.DD - DD));
+            }
+
+            return diferencias;
+        }
+
+        /// <summary>
+        /// Obtiene los datos del periodo de nomina para validar antes de acumualar
+        /// </summary>
+        /// <param name="IdPeriodo">Identificador del periodo de nómina.</param>
+        /// <returns></returns>
+        public List<vNominaTrabajo> GetNominaTrabajoValidacion(int IdPeriodo)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                return entidad.vNominaTrabajo.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Obtiene los datos de incidencias para validar antes de timbrar.
+        /// </summary>
+        /// <param name="IdPeriodo">Identificador del periodo de nómina.</param>
+        /// <returns></returns>
+        public List<vIncidencias> GetIncidenciasValidacion(int IdPeriodo)
+        {
+            using (NominaEntities1 entidad = new NominaEntities1())
+            {
+                return entidad.vIncidencias.Where(x => x.IdPeriodoNomina == IdPeriodo && x.IdEstatus == 1).ToList();
+            }
+        }
     }
 }

@@ -260,7 +260,7 @@
                                             <p href="#" class="btn btn-default btn-sm"> <span class="fa fa-remove"></span></p>
                                             <p href="#" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-ban-circle"></span></p>
                                             <p href="#" class="btn btn-default btn-sm"> <span class="glyphicon glyphicon-folder-close"></span></p>
-                                            @if (Session["sTipoUsuario"].ToString() == "System")
+                                            @if (Session["sTipoUsuario"].ToString() == "System" || Session["sTipoUsuario"].ToString() == "Administrador")
                                             {
                                                 @Html.ActionLink(" ", "Abrir", new { IdEmpleado = Model.empleados[i].IdEmpleado, pIdPeriodoNomina = Model.empleados[i].IdPeriodoNomina }, new { @class = "bnt btn-warning btn-sm glyphicon glyphicon-folder-open _Load", @rel = "tooltip", @title = "Abrir" })
                                             }

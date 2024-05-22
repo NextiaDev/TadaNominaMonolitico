@@ -165,6 +165,25 @@ namespace TadaNomina.Controllers.Nomina
         }
 
         [HttpPost]
+        public JsonResult ValidaTotales(int Id)
+        {
+            try
+            {
+                ClassPeriodoNomina cp = new ClassPeriodoNomina();
+                var list = cp.ValidaTotales(Id);
+                string result = string.Join("<br />", list);
+                if (list.Count > 0)
+                    throw new Exception("No se puede acumular el periodo porque hay diferencias en los totales de los siguientes empleados: <br /><br />" + result + "<br /><br />Algunas incidencias no se reflejaron en los totales, vuelva a procesar para corregir este detalle.");                
+
+                return Json(new { estatus = "Ok" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { estatus = "Error", mensaje = ex.Message });
+            }
+        }
+
+        [HttpPost]
         public JsonResult AcumularNomina(int IdPeriodoNomina, DateTime FechaDispersion)
         {
             try

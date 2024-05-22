@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr.Runtime.Misc;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -7,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using TadaNomina.Models.ClassCore;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TadaNomina.Controllers
 {
@@ -16,6 +18,8 @@ namespace TadaNomina.Controllers
         {
             if (Session["sNombre"] == null)
             {
+                var IP = filterContext.HttpContext.Request.UserHostAddress;
+                generaLogSinDatosSession("Error", "Caduco la sesión", IP);
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                 {
                     controller = "Login",
@@ -57,11 +61,17 @@ namespace TadaNomina.Controllers
             var accion = filterContext.ActionDescriptor.ActionName;
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
+            var model = filterContext.Controller.ViewData;
+            var viewbag = filterContext.Controller.ViewBag;
+            
             string mensaje = string.Empty;
-            mensaje += ViewBag.mensaje ?? "N/A";
-            mensaje += mensaje == "N/A" ? "N/A" : ViewBag.Mensaje ?? "N/A";
-
-            //generaLog("Normal", controlador, accion, method, mensaje, IP);
+            try { mensaje += model.GetViewDataInfo("Mensaje").Value; } catch { }
+            try { mensaje += viewbag.GetViewDataInfo("Mensaje").Value; } catch { }
+            
+            if (Session["sLogin"] != null)
+                generaLog("Normal", controlador, accion, method, mensaje, IP);
+            else
+                generaLogSinDatosSession("Error", "No se encontraron datos de sesión.", IP);
 
             base.OnActionExecuted(filterContext);
         }
@@ -74,19 +84,30 @@ namespace TadaNomina.Controllers
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
             
-            //generaLog("Error", controlador, accion, method, error, IP);
+            if(Session["sLogin"] != null)
+                generaLog("Error", controlador, accion, method, error, IP);
+            else
+                generaLogSinDatosSession("Error", error, IP);
+
             base.OnException(filterContext);
         }
 
         private void generaLog(string estatus, string controlador, string accion, string method, string error, string ip)
-        {
-            string path = DateTime.Now.ToLongDateString();
+        {   
+            string path = Session["sLogin"].ToString() + ".txt";
             cLog oLog = new cLog();            
             var cliente = Session["sCliente"] != null ? Session["sCliente"].ToString() : "N/A";
             var nomina = Session["sNomina"] != null ? Session["sNomina"].ToString() : "N/A";
 
-            oLog.Add("Estatus:" + estatus + " | Usuario: ID:" + Session["sIdUsuario"] + " Nombre:" + Session["sNombre"] + " | Cliente: " + cliente 
+            oLog.Add("Estatus:" + estatus + " | Usuario: " + Session["sLogin"] + " ID:" + Session["sIdUsuario"] + " Nombre:" + Session["sNombre"] + " | Cliente: " + cliente 
                 + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error, path);
+        }
+
+        private void generaLogSinDatosSession(string estatus, string error, string ip)
+        {
+            string path = "sinSession.txt";
+            cLog oLog = new cLog();           
+            oLog.Add("Estatus:" + estatus + " | Usuario:  ID:  Nombre: | Cliente: - Nomina:  | Ruta:  - | IP: " + ip + " | Mensaje: " + error, path);
         }
 
         public JsonResult ValidaSession()
@@ -98,13 +119,9 @@ namespace TadaNomina.Controllers
             if (idusuario != 0)
                 return Json("Ok");
             else
+            {                
                 return Json("Error");
-        }
-
-        public JsonResult CerrarSession()
-        {
-            Session.Abandon();
-            return Json("Ok");
+            }
         }
     }
 }

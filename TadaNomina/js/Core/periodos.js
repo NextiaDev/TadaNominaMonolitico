@@ -1,9 +1,26 @@
 $(".modalAcumular").click(function () {
     var periodo = $(this).attr('val')
     var idperiodo = $(this).attr('data-id')
-    $("#idper").text(idperiodo);
-    $("#info").text(periodo);
-    $('#modalAcumularPeriodo').modal('show');
+  $.showLoading();
+  $.ajax({
+    type: 'POST',
+    url: 'Periodos/ValidaTotales',
+    dataType: 'json',
+    data: { Id: idperiodo },
+    success: function (res) {
+      $.hideLoading();
+      if (res.estatus == "Ok") {        
+        $("#idper").text(idperiodo);
+        $("#info").text(periodo);
+        $('#modalAcumularPeriodo').modal('show');
+      }
+      else {
+        mensajeAlerta("", res.mensaje, "danger", "jelly", "fadeOut", 0);
+      }
+    }
+  });
+    
+    
 });
 
 $("#acumularPeriodo").click(function () {

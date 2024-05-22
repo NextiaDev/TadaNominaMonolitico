@@ -4,6 +4,9 @@ using TadaNomina.Services;
 using System.Linq;
 using System;
 using TadaNomina.Models.ClassCore;
+using Antlr.Runtime.Misc;
+using RestSharp.Extensions;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace TadaNomina.Controllers
 {
@@ -15,10 +18,14 @@ namespace TadaNomina.Controllers
             var accion = filterContext.ActionDescriptor.ActionName;
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
+                        
+            //datos ingresados pro el usuario
+            string user = string.Empty;            
+            try { user = filterContext.HttpContext.Request.Form.GetValues("username").FirstOrDefault(); } catch { }            
             string mensaje;
-            mensaje = ViewBag.mensaje_ ?? "N/A";
+            mensaje = ViewBag.mensaje_;
 
-            generaLog("Normal", controlador, accion, method, mensaje, IP);
+            generaLog("Normal", controlador, accion, method, mensaje, IP, user);
 
             base.OnActionExecuted(filterContext);
         }
@@ -31,20 +38,28 @@ namespace TadaNomina.Controllers
             var method = filterContext.HttpContext.Request.HttpMethod;
             var IP = filterContext.HttpContext.Request.UserHostAddress;
 
-            generaLog("Error", controlador, accion, method, error, IP);
+            //datos ingresados pro el usuario
+            string user = string.Empty;
+            try { user = filterContext.HttpContext.Request.Form.GetValues("username").FirstOrDefault(); } catch { }
+
+            generaLog("Error", controlador, accion, method, error, IP, user);
 
             base.OnException(filterContext);
         }
 
-        private void generaLog(string estatus, string controlador, string accion, string method, string error, string ip)
+        private void generaLog(string estatus, string controlador, string accion, string method, string error, string ip, string usuario)
         {
-            string path = DateTime.Now.ToLongDateString();
+            string nameFile = "accesos.txt";
+
+            if(error != null)
+                nameFile = "accesosErrores.txt";
+
             cLog oLog = new cLog();
             var cliente = Session["sCliente"] != null ? Session["sCliente"].ToString() : "N/A";
             var nomina = Session["sNomina"] != null ? Session["sNomina"].ToString() : "N/A";
 
-            oLog.Add("Estatus:" + estatus + " | Usuario: ID:" + Session["sIdUsuario"] + " Nombre:" + Session["sNombre"] + " | Cliente: " + cliente
-                + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error, path);
+            oLog.Add("Estatus:" + estatus + " | Usuario: " + usuario + " ID:" + Session["sIdUsuario"] + " Nombre:" + Session["sNombre"] + " | Cliente: " + cliente
+                + " - Nomina: " + nomina + " | Ruta: " + controlador + "/" + accion + " - " + method + " | IP: " + ip + " | Mensaje: " + error, nameFile);
         }
              
         public ActionResult Index(string Usuario, string contraseña)
@@ -70,7 +85,7 @@ namespace TadaNomina.Controllers
                         {
                             if (model.Modulo.Contains("NOMINA") )
                             {
-                                CreaVariablesSession(model);
+                                CreaVariablesSession(model);                                
                                 return RedirectToAction("Index", "Default");
                             }
                             else
@@ -83,13 +98,13 @@ namespace TadaNomina.Controllers
                         throw new Exception("No se encontro infomracion para este usuario.");
                 }
                 else
-                    throw new Exception("Faltan datos por capturar.");
+                    throw new Exception("Faltan datos por capturar.");               
             }
             catch (Exception ex)
             {
                 ViewBag.mensaje_ = "Error de acceso: " + ex.Message + " datos(" + login.username + "," + login.password + ")";
                 ViewBag.Mensaje = "Datos no validos: " + ex.Message;                
-            }
+            }            
 
             return View();
         }
