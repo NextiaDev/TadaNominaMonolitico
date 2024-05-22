@@ -484,7 +484,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 if (nominaTrabajo.BaseGravada <= topeParaSubsidio)
                 {
-                    var subsidio = valorTopexDia * DiasPago;
+                    var subsidio = valorTopexDia * DiasPagoCalculoSubsidio;
                     nominaTrabajo.Subsidio += subsidio;
                 }
 

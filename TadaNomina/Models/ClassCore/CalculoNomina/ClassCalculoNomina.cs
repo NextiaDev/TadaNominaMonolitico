@@ -188,6 +188,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     DiasTrabajados_IMSS = DiasPago;
                 }
 
+                DiasPagoCalculoSubsidio = DiasPago;
                 DiasPago += DiasMasPorAlta;
                 DiasPago -= DiasMenosPorAlta;
 
