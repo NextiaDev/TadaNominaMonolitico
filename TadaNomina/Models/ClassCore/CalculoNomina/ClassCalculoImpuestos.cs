@@ -492,6 +492,9 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 {
                     var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
                     nominaTrabajo.Subsidio += queryAjuste;
+
+                    if(nominaTrabajo.Subsidio <= valorTopeMensual && nominaTrabajo.BaseGravada <= topeParaSubsidio)
+                        nominaTrabajo.Subsidio = valorTopeMensual - queryAjuste;
                 }
             }
         }
