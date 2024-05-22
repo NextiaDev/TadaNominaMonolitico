@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using TadaNomina.Models.ClassCore;
 
+
 namespace TadaNomina.Controllers
 {
     public class LogsController : BaseController
@@ -37,12 +38,11 @@ namespace TadaNomina.Controllers
         {
             try
             {
-                if (_date == null) { throw new Exception("Debe capturar una fecha para poder descargar los Logs"); }
-                cLog cr = new cLog();
-                var result = cr.getLogBytes((DateTime)_date);
-                var _date_ = (DateTime)_date;
-                var name = "log_" + _date_.Year + "_" + _date_.Month + "_" + _date_.Day + ".txt";
-                return File(result, "text/plain", name);
+                
+                cLog cr = new cLog();                
+                Statics.CreateZipFile(Statics.rutaGralArchivos + "Logs");
+                var result = System.IO.File.ReadAllBytes(Statics.rutaGralArchivos + "Logs.zip");
+                return File(result, "text/plain", Statics.rutaGralArchivos + "Logs.zip");
             }
             catch (Exception)
             {
