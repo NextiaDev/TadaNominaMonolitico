@@ -43,9 +43,13 @@
                             <th>
                                 F.Final
                             </th>
-                        
 
-                            <th></th>
+                            <th>
+                               Estatus
+                            </th>
+                            <th>
+
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,14 +73,32 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.FechaFin)
                                 </td>
-                              
+                                @if (item.IdEstatus == 1)
+                                {
+                                    <td>
+                                        <span class="badge badge-primary">Abierto</span>
+                                    </td>
+                                }
+                                @if (item.IdEstatus == 2)
+                                {
+                                    <td>
+                                        <span class="badge badge-warning">Eliminado</span>
+                                    </td>
+                                }
+                                @if (item.IdEstatus == 3)
+                                {
+                                    <td>
+                                        <span class="badge badge-success">Concluio</span>
+                                    </td>
+                                }
+
 
                                 <td>
-                                  
-                                        @Html.ActionLink(" ", "HonorariosUser", new { Periodo = item.IdPeriodoNomina }, new { @class = "btn btn-primary btn-sm fa fa-list _Load", @rel = "tooltip", @title = "Editar", @id = string.Concat("edit", item.IdPeriodoNomina) })
-                                   
+
+                                    @Html.ActionLink(" ", "HonorariosUser", new { Periodo = item.IdPeriodoNomina }, new { @class = "btn btn-primary btn-sm fa fa-list _Load", @rel = "tooltip", @title = "Editar", @id = string.Concat("edit", item.IdPeriodoNomina) })
+
                                 </td>
-                       
+
                             </tr>
 
                         }

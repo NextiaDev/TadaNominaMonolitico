@@ -81,6 +81,7 @@ namespace TadaNomina.Models.ViewModels.Nominas
         public string FechaDispersion_ {  get; set; }
         public bool CalculoPatronaPtu { get; set; }
 
+        public int IdEstatus { get; set; }
         public bool Validacion { get; set; }
         public string Mensaje { get; set; }
     }
