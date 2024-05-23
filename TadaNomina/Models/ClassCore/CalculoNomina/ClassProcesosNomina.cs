@@ -119,6 +119,10 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         internal decimal? percepcionesEspecialesGravado;
         internal decimal? percepcionesEspecialesEsquema;        
         internal decimal? baseMostrar;        
+        internal decimal? ISR_Mensual_Ajuste;        
+        internal decimal? ISR_Mensual_Ajuste_Anterior;        
+        internal decimal? valorTopeMensualSubsidio;        
+        internal decimal? SubsidioAnterioAjuster;        
         internal int? IdPrestacionesEmpleado;
         internal DateTime _fechaBaja;
         internal DateTime _fechaReconocimientoAntiguedad;

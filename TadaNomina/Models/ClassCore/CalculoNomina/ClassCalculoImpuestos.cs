@@ -376,8 +376,11 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.ReintegroISR = 0;
             nominaTrabajo.ISR = 0;
+            ISR_Mensual_Ajuste = 0;
+            ISR_Mensual_Ajuste_Anterior = 0;
 
             nominaTrabajo.ISR = nominaTrabajo.CuotaFija + nominaTrabajo.PorcentajeCalculado;
+            ISR_Mensual_Ajuste = nominaTrabajo.ISR;
 
             //se obtiene el ISR mensualizado cuando hay proyeccion mensual
             if (UnidadNegocio.ISRProyeccionMensual == "S" && Periodo.TipoNomina == "Nomina")
@@ -398,6 +401,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if (ListNominaAjuste.Where(b => b.Rfc == RFC).FirstOrDefault() != null)
                 {
                     var _isr = (from b in ListNominaAjuste.Where(b => b.Rfc == RFC) select b.ImpuestoRetener).Sum();
+                    ISR_Mensual_Ajuste_Anterior = _isr;
                     nominaTrabajo.ISR = nominaTrabajo.ISR - _isr;
 
                     if (nominaTrabajo.ISR < 0)
@@ -459,6 +463,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         private void CalculoSubsidio(bool? ajuste)
         {
             nominaTrabajo.Subsidio = 0;
+            valorTopeMensualSubsidio = 0;
 
             //subsidio antes de 1ro de mayo.
             if (Periodo.FechaFin < DateTime.Parse("01/05/2024"))
@@ -478,6 +483,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 var umaMensual = (SueldosMinimos.UMA ?? 0) * 30.40M;
                 var porcentaje = ((SueldosMinimos.PorcentajeSubsidio ?? 0) * 0.01M);
                 var valorTopeMensual = umaMensual * porcentaje;
+                valorTopeMensualSubsidio = valorTopeMensual;
                 //// checar los dias de pago para sacar el valor por dia
                 var valorTopexDia = valorTopeMensual / 30.40M;
                 var topeParaSubsidio = SueldosMinimos.TopeSubsidio ?? 0;
@@ -527,16 +533,29 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
         {
             nominaTrabajo.SubsidioPagar = 0;
             nominaTrabajo.ImpuestoRetener = 0;
+            nominaTrabajo.ReintegroISR = 0;
 
             decimal resultset = 0;
             resultset = (decimal)nominaTrabajo.ISR - (nominaTrabajo.Subsidio ?? 0);
                         
             if (resultset < 0)
             {
-                if(Periodo.FechaFin < DateTime.Parse("01/05/2024"))
+                if (Periodo.FechaFin < DateTime.Parse("01/05/2024"))
                     nominaTrabajo.SubsidioPagar = Math.Abs(resultset);
                 else
+                {   
+                    var isrMensual = ISR_Mensual_Ajuste - valorTopeMensualSubsidio;
+                    if (isrMensual < 0)  
+                        isrMensual = 0; 
+
+                    var dif = isrMensual - ISR_Mensual_Ajuste_Anterior;
+
+                    if(dif < 0)
+                        nominaTrabajo.ReintegroISR = Math.Round(Math.Abs((dif ?? 0)), 2);
+                    
+
                     nominaTrabajo.SubsidioPagar = 0;
+                }
 
                 nominaTrabajo.ImpuestoRetener = 0;
             }

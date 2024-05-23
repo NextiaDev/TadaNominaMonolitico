@@ -241,12 +241,13 @@ namespace TadaNomina.Controllers.Nomina
             int IdUsuario = (int)Session["sIdUsuario"];
                         
             ModelNominaIndividual modelo;
-            modelo = classNomina.GetModelNominaIndividual(model.IdEmpleado, model.IdPeriodoNomina, "Nomina");
+            modelo = model;
 
             try
             {
                 classNomina.Proceso_Nomina_Individual(model, IdUsuario);
-                
+                modelo = classNomina.GetModelNominaIndividual(model.IdEmpleado, model.IdPeriodoNomina, "Nomina");
+
                 modelo.validacion = true;
                 modelo.Mensaje = "Se proceso correctamente el cálculo del empleado: " + modelo.claveEmpleado + " - " + modelo.NombreCompletoEmpleado;
                 //return RedirectToAction("ProcesaNominaIndividual", new { model.IdEmpleado, model.IdPeriodoNomina });
