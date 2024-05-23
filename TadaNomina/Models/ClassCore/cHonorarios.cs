@@ -12,6 +12,10 @@ namespace TadaNomina.Models.ClassCore
 
         public void DeleteHonorarios(int idHonorario, string Observaciones, int idUsuario)
         {
+            bool Valida = false;
+
+            string Message = string.Empty, Titulo = string.Empty, Correo = string.Empty, Modulo = string.Empty, rutaCorreo = string.Empty, correosCCO = string.Empty;
+
             using (NominaEntities1 entidad = new NominaEntities1())
             {
                 var query = (from b in entidad.Honorarios.Where(x => x.IdHonorarios == idHonorario) select b).FirstOrDefault();
@@ -22,6 +26,43 @@ namespace TadaNomina.Models.ClassCore
                 query.FechaModifica = DateTime.Now;
 
                 entidad.SaveChanges();
+
+
+
+                try
+                {
+                    var obtenrid = getHonorariosporUsuario(idHonorario);
+                    string obtener = ObtenCorreoEmpleados(obtenrid.IdEmpleado);
+                    Message = "Estimad@ ha sido eliminado su Honorario" + Observaciones;
+                    Titulo = "Honorario Eliminado";
+                    Correo = obtener;
+                    Modulo = "Honorarios";
+                    EnviarCorreo(Message, Titulo, Correo, Modulo, Valida);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                try
+                {
+                    var obtenercorreoUsuario = ObtenCorreoUsuarios(idUsuario);
+                    Message = "Estimad@ Elimino el Honorario  con el id " + idHonorario;
+                    Titulo = "Honorario Eliminado";
+                    Correo = obtenercorreoUsuario;
+                    Modulo = "Honorarios";
+                    EnviarCorreo(Message, Titulo, Correo, Modulo, Valida);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+       
+
+
 
             }
 
@@ -234,6 +275,16 @@ namespace TadaNomina.Models.ClassCore
         }
 
 
+        private string ObtenCorreoUsuarios(int idusuario)
+        {
+            TadaAccesoEntities context = new TadaAccesoEntities();
+
+            var CorreoEmpleado = (from b in context.Usuarios.Where(x => x.IdUsuario == idusuario) select b.Correo).FirstOrDefault();
+
+            return CorreoEmpleado;
+        }
+
+
         public void EnviarCorreo(string Message, string Titulo, string Correo, string Modulo, bool Valida)
         {
             bool Val = Valida;
@@ -247,10 +298,7 @@ namespace TadaNomina.Models.ClassCore
                 msg.To.Clear();
                 msg.To.Add(Correo);
 
-
-
                 Val = true;
-
                 msg.From = new MailAddress(Send.Credentials, Modulo, System.Text.Encoding.UTF8);
                 msg.Subject = Titulo;
                 msg.SubjectEncoding = System.Text.Encoding.UTF8;
