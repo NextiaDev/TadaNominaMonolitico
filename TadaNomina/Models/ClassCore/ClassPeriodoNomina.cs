@@ -858,6 +858,7 @@ namespace TadaNomina.Models.ClassCore
                     IdsPeriodosAjuste = x.SeAjustaraConPeriodo,
                     Observaciones = x.Observaciones,
                     ValidacionAcumulaPeriodo = x.ValidacionAcumulaPeriodo,
+                    IdEstatus = x.IdEstatus,
                     idsValidacion = x.IdsValidacionAcumulaPeriodo != null && x.IdsValidacionAcumulaPeriodo.Length > 0 ? x.IdsValidacionAcumulaPeriodo.Split(',').ToArray() : new string[0]
                 }); ;
             });
@@ -871,7 +872,7 @@ namespace TadaNomina.Models.ClassCore
             using (NominaEntities1 entidad = new NominaEntities1())
             {
 
-                var periodos = from b in entidad.vPeriodoNomina.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.TipoNomina == "Honorarios" && x.IdEstatus == 1 && x.TipoNomina != "Especial") select b;
+                var periodos = from b in entidad.vPeriodoNomina.Where(x => x.IdUnidadNegocio == IdUnidadNegocio && x.TipoNomina == "Honorarios" ) select b;
 
                 return periodos.ToList();
             }

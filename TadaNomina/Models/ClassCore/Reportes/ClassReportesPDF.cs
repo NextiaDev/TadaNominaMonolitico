@@ -32,422 +32,179 @@ namespace TadaNomina.Models.ClassCore.Reportes
         /// <param name="periodo">Periodo de nomina</param>
         public void CrearPdf(string ruta, List<vIncidencias_Consolidadas> incidencias, List<sp_PDFSunset1_Result> datos, PeriodoNomina periodo)
         {
-            // Creamos el documento con el tamaño de página tradicional
             Document doc = new Document(PageSize.A4, 10f, 10f, 140f, 10f);
-            // Indicamos donde vamos a guardar el documento
             PdfWriter writer = PdfWriter.GetInstance(doc, new System.IO.FileStream(ruta, System.IO.FileMode.Create));
-
-            // Para el encabezado
-            BaseFont bfTimesEncabezado = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
-            Font fontEncabezado = new Font(bfTimesEncabezado, 8);
-
-            // Para titulos pequeños
-            BaseFont bfTimesTitulo = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
-            Font fontTitulo = new Font(bfTimesTitulo, 7);
-            //fontEncabezado.Color = BaseColor.GRAY;
-            // Para el cuerpo del recibo
-            BaseFont bfTimesCuerpo = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, false);
-            Font fontCuerpo = new Font(bfTimesCuerpo, 7);
-
-
-            //writer.PageEvent = new HeaderFooter();
             writer.PageEvent = new ITextEvents();
-            // Abrimos el archivo
             doc.Open();
 
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    Paragraph para = new Paragraph("Hello world. Checking Header Footer", new Font(Font.FontFamily.HELVETICA, 22));
-            //    para.Alignment = Element.ALIGN_CENTER;
-            //    doc.Add(para);
-            //    doc.NewPage();
-            //}
+            Font fontEncabezado = new Font(BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false), 8);
+            Font fontTitulo = new Font(BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false), 7);
+            Font fontCuerpo = new Font(BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, false), 7);
 
-
-            PdfPTable table = new PdfPTable(10);
-            table.WidthPercentage = 100f;
-
-            string[] valor = { "Tradicional", "Mixto" };
-
-
+            PdfPTable table = new PdfPTable(10) { WidthPercentage = 100f };
 
             string puesto = String.Empty;
-            int primerPuesto = 1;
             foreach (var item in datos)
             {
+                var _ins = incidencias.Where(x => x.IdEmpleado == item.IdEmpleado && x.Monto > 0 && x.IdEstatus == 1 && new string[] { "Tradicional", "Mixto" }.Contains(x.TipoEsquema)).ToList();
 
-
-
-                var _ins = incidencias.Where(x => x.IdEmpleado == item.IdEmpleado && x.Monto > 0 && x.IdEstatus == 1 && valor.Contains(x.TipoEsquema)).ToList();
-
-                if (primerPuesto == 1)
+                if (puesto != item.Puesto)
                 {
+                    AgregarCelda(fontEncabezado, table, puesto ?? "No contiene este dato", 10, 1);
                     puesto = item.Puesto;
-                    AgregarCelda(fontEncabezado, table, puesto, 10, 1);
-                    primerPuesto = 0;
-                }
-                else
-                {
-                    if (!(puesto ?? "").Equals(item.Puesto.ToString()))
-                    {
-                        AgregarCelda(fontEncabezado, table, puesto, 10, 1);
-                        puesto = item.Puesto.ToString();
-                    }
                 }
 
-                AgregarCelda(fontEncabezado, table, " * RAZON SOCIAL : " + item.NombrePatrona, 7, 1);
-                AgregarCelda(fontEncabezado, table, " R.F.C. : " + item.RFCPATRONA, 3, 1);
-
-
-
+                AgregarCelda(fontEncabezado, table, $" * RAZON SOCIAL : {item.NombrePatrona ?? "No contiene este dato"}", 7, 1);
+                AgregarCelda(fontEncabezado, table, $" R.F.C. : {item.RFCPATRONA ?? "No contiene este dato"}", 3, 1);
                 AgregarCelda(fontEncabezado, table, item.ClaveEmpleado.ToString().PadLeft(8, '0'), 1, 1);
-                AgregarCelda(fontEncabezado, table, item.Rfc.ToString(), 2, 1);
-                AgregarCelda(fontEncabezado, table, item.Imss, 1, 1);
-                AgregarCelda(fontEncabezado, table, item.Curp.ToString(), 2, 1);
-                AgregarCelda(fontEncabezado, table, item.Nombre.ToString(), 3, 1);
-                AgregarCelda(fontEncabezado, table, item.FechaAltaIMSS.Value.ToShortDateString(), 1, 1);
-                string depto = " ";
-                if (item.Departamento != null) { depto = item.Departamento; }
-                AgregarCelda(fontEncabezado, table, depto, 2, 1);
-                AgregarCelda(fontEncabezado, table, item.Puesto ?? "", 3, 1);
-                AgregarCelda(fontEncabezado, table, item.sueldoDiario.ToString(), 3, 1);
-                AgregarCelda(fontEncabezado, table, item.SDI.ToString(), 2, 1);
+                AgregarCelda(fontEncabezado, table, item.Rfc ?? "No contiene este dato", 2, 1);
+                AgregarCelda(fontEncabezado, table, item.Imss ?? "No contiene este dato", 1, 1);
+                AgregarCelda(fontEncabezado, table, item.Curp ?? "No contiene este dato", 2, 1);
+                AgregarCelda(fontEncabezado, table, item.Nombre ?? "No contiene este dato", 3, 1);
+                AgregarCelda(fontEncabezado, table, item.FechaAltaIMSS?.ToShortDateString() ?? "No contiene este dato", 1, 1);
+                AgregarCelda(fontEncabezado, table, item.Departamento ?? "No contiene este dato", 2, 1);
+                AgregarCelda(fontEncabezado, table, item.Puesto ?? "No contiene este dato", 3, 1);
+                AgregarCelda(fontEncabezado, table, item.sueldoDiario?.ToString("C2") ?? "No contiene este dato", 3, 1);
+                AgregarCelda(fontEncabezado, table, item.SDI?.ToString("C2") ?? "No contiene este dato", 2, 1);
 
+                // Percepciones y Deducciones
                 AgregarCelda(fontEncabezado, table, " -  Percepciones y Deducciones ", 10, 1);
 
-                PdfPTable tablePercep = new PdfPTable(5);
-                tablePercep.WidthPercentage = 100f;
+                PdfPTable tablePercep = new PdfPTable(5) { WidthPercentage = 100f };
+                string fechaDispersion = periodo.FechaDispersion?.ToShortDateString() ?? "No contiene este dato";
 
-                //Percepciones
-                string fechaDispersion = " ";
+                AgregarCelda(fontEncabezado, tablePercep, "400 SUELDO", 3, 1);
+                AgregarCelda(fontEncabezado, tablePercep, fechaDispersion, 1, 1);
+                AgregarCelda(fontEncabezado, tablePercep, item.SueldoPagado?.ToString("C2") ?? "No contiene este dato", 1, 1);
 
-                //
-                if (periodo.FechaDispersion != null)
+                AgregarCelda(fontEncabezado, tablePercep, "402 SUBSIDIO EMPLEO PAGADO", 3, 1);
+                AgregarCelda(fontEncabezado, tablePercep, fechaDispersion, 1, 1);
+                AgregarCelda(fontEncabezado, tablePercep, item.SubsidioPagar?.ToString("C2") ?? "No contiene este dato", 1, 1);
+
+                foreach (var ins in _ins.Where(x => x.TipoConcepto == "ER" && x.Monto > 0))
                 {
-                    fechaDispersion = periodo.FechaDispersion.Value.ToShortDateString();
-                    AgregarCelda(fontEncabezado, tablePercep, "400 SUELDO", 3, 1);
-                    AgregarCelda(fontEncabezado, tablePercep, fechaDispersion, 1, 1); //fecha de pago
-                    AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", item.SueldoPagado), 1, 1);
-                }
-                else
-                {
-                    AgregarCelda(fontEncabezado, tablePercep, "400 SUELDO", 4, 1);
-                    AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", item.SueldoPagado), 1, 1);
-                }
-
-                if (periodo.FechaDispersion != null)
-                {
-                    AgregarCelda(fontEncabezado, tablePercep, "402 SUBSIDIO EMPLEO PAGADO", 3, 1);
-                    AgregarCelda(fontEncabezado, tablePercep, fechaDispersion, 1, 1);
-                    AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", item.SubsidioPagar), 1, 1);
-                }
-                else
-                {
-                    AgregarCelda(fontEncabezado, tablePercep, "402 SUBSIDIO EMPLEO PAGADO", 4, 1);
-                    AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", item.SubsidioPagar), 1, 1);
-                }
-
-
-                //fecha de pago
-
-
-
-                var insper = _ins.Where(x => x.TipoConcepto == "ER" && x.Monto > 0).ToList();
-                foreach (var ins in insper)
-                {
-                    //if (ins.Cantidad > 0)
-                    //{
-                    //    AgregarCelda(fontEncabezado, tablePercep, ins.ClaveConcepto + " " + ins.Concepto, 4, 1);//clave concepto
-                    //    AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", ins.Cantidad), 1, 1); //revisar como lo mandan(Concepto)
-                    //}
-                    //else
-                    //{
-
-                    AgregarCelda(fontEncabezado, tablePercep, ins.ClaveConcepto + " " + ins.Concepto, 4, 1);//clave concepto
+                    AgregarCelda(fontEncabezado, tablePercep, $"{ins.ClaveConcepto} {ins.Concepto}", 4, 1);
                     AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", ins.Monto), 1, 1); //revis
-                    //}
 
                 }
 
                 AgregarCelda(fontEncabezado, tablePercep, "Percepciones: ", 4, 3);
-                AgregarCelda(fontEncabezado, tablePercep, string.Format("{0:C2}", item.ER), 1, 1);
+                AgregarCelda(fontEncabezado, tablePercep, item.ER?.ToString("C2") ?? "No contiene este dato", 1, 1);
 
-                PdfPTable tableDeduc = new PdfPTable(5);
-                tableDeduc.WidthPercentage = 100f;
-                //For de Deducciones.
+                PdfPTable tableDeduc = new PdfPTable(5) { WidthPercentage = 100f };
                 AgregarCelda(fontEncabezado, tableDeduc, "601 IMSS", 4, 1);
-                AgregarCelda(fontEncabezado, tableDeduc, string.Format("{0:C2}", item.IMSS_Obrero), 1, 1);
-                AgregarCelda(fontEncabezado, tableDeduc, " ISR", 4, 1);
-                AgregarCelda(fontEncabezado, tableDeduc, string.Format("{0:C2}", item.ISR), 1, 1);
+                AgregarCelda(fontEncabezado, tableDeduc, item.IMSS_Obrero?.ToString("C2") ?? "No contiene este dato", 1, 1);
+                AgregarCelda(fontEncabezado, tableDeduc, "ISR", 4, 1);
+                AgregarCelda(fontEncabezado, tableDeduc, item.ISR?.ToString("C2") ?? "No contiene este dato", 1, 1);
 
-
-                string[] valord = { "Tradicional", "Mixto" };
-                var insdeduc = _ins.Where(x => x.TipoConcepto == "DD" && x.Monto >= 0).ToList();
-                foreach (var ins in insdeduc)
+                foreach (var ins in _ins.Where(x => x.TipoConcepto == "DD" && x.Monto >= 0))
                 {
-                    //if (ins.Cantidad > 0)
-                    //{
-                    //    AgregarCelda(fontEncabezado, tableDeduc, ins.ClaveConcepto + " " + ins.Concepto, 4, 1);//clave concepto
-                    //    AgregarCelda(fontEncabezado, tableDeduc, string.Format("{0:C2}", ins.Cantidad), 1, 1); //rev
-
-                    //}
-                    //else
-                    //{
-                    AgregarCelda(fontEncabezado, tableDeduc, ins.ClaveConcepto + " " + ins.Concepto, 4, 1);//clave concepto
+                    AgregarCelda(fontEncabezado, tableDeduc, $"{ins.ClaveConcepto} {ins.Concepto}", 4, 1);
                     AgregarCelda(fontEncabezado, tableDeduc, string.Format("{0:C2}", ins.Monto), 1, 1); //revis
-
-
-
                 }
 
                 AgregarCelda(fontEncabezado, tableDeduc, "Deducciones: ", 4, 3);
-                AgregarCelda(fontEncabezado, tableDeduc, string.Format("{0:C2}", item.DD).ToString(), 1, 1);
+                AgregarCelda(fontEncabezado, tableDeduc, item.DD?.ToString("C2") ?? "No contiene este dato", 1, 1);
                 AgregarCelda(fontEncabezado, tableDeduc, "Total de Pago: ", 4, 3);
-                AgregarCelda(fontEncabezado, tableDeduc, string.Format("{0:C2}", item.Neto), 1, 1);
+                AgregarCelda(fontEncabezado, tableDeduc, item.Neto?.ToString("C2") ?? "No contiene este dato", 1, 1);
 
-
-                PdfPCell columas = new PdfPCell(tablePercep);
-                columas.Colspan = 5;
-                columas.Padding = 0f;
-                columas.Border = 0;
+                PdfPCell columas = new PdfPCell(tablePercep) { Colspan = 5, Padding = 0f, Border = 0 };
                 table.AddCell(columas);
-
-                columas = new PdfPCell(tableDeduc);
-                columas.Colspan = 5;
-                columas.Padding = 0f;
-                columas.Border = 0;
+                columas = new PdfPCell(tableDeduc) { Colspan = 5, Padding = 0f, Border = 0 };
                 table.AddCell(columas);
             }
 
-            //Final de PDF
-            //            Totales Generales por Conceptos Concepto Descripción                      Dato Percepción             Deducción Gravados              Exento ________________________________________________________________________________________________________________________________ 400 SUELDO 1800.0 $357,500.00 $357,500.00 $0.00 402 SUBSIDIO EMPLEO PAGA 0.00 $8,330.24 $0.00 $0.00 601 IMSS 0.00 $10,911.05 $0.00 $0.00 602 IMPUESTO RETENIDO 0.00 $23,639.84 $0.00 $0.00 605 FALTA 3.00 $399.00 -$399.00 $0.00 607 INCAP ACC TRAYECTO 15.00 $2,000.00 -$2,000.00 $0.00 612 CREDITO INFONAVIT 0.00 $40,163.79 $0.00 $0.00 630 CRED FONACOT 1 0.00 $1,668.65 $0.00 $0.00
-            //Total de Percepciones: $365,830.24 Total de Deducciones: $78,782.33 <<<<<< Total Neto General: >>>>>> $287,047.91 $355,101.00 $0.00 <<<<<< Total de Trabajadores: >>>>>> 120
-            PdfPCell DatosEmpresa = new PdfPCell(new Phrase("", fontEncabezado));
-            DatosEmpresa.Colspan = 8;
-            DatosEmpresa.BorderWidthBottom = 0;
-            DatosEmpresa.BorderWidthLeft = 0;
-            DatosEmpresa.BorderWidthTop = 0.1F;
-            DatosEmpresa.BorderWidthRight = 0;
-            table.AddCell(DatosEmpresa);
-            DatosEmpresa = new PdfPCell(new Phrase("", fontEncabezado));
-            DatosEmpresa.Colspan = 8;
-            DatosEmpresa.BorderWidthBottom = 0;
-            DatosEmpresa.BorderWidthLeft = 0;
-            DatosEmpresa.BorderWidthTop = 0.1F;
-            DatosEmpresa.BorderWidthRight = 0;
-            table.AddCell(DatosEmpresa);
+            // Agregar totales por conceptos
+            AgregarTotalesPorConceptos(fontEncabezado, table, incidencias, datos);
 
-
-            PdfPTable totales = new PdfPTable(7);
-            totales.WidthPercentage = 100f;
-            AgregarCelda(fontEncabezado, totales, " Totales Por Centro de Trabajo ", 10, 2);
-            //AgregarCelda(fontEncabezado, totales, "1 : CENTRO PENSION ISSSTE", 10, 1);
-
-            AgregarCelda(fontEncabezado, totales, "Concepto", 1, 2);
-            AgregarCelda(fontEncabezado, totales, "Descripción", 1, 2);
-            AgregarCelda(fontEncabezado, totales, "Dato", 1, 2);
-            AgregarCelda(fontEncabezado, totales, "Percepción", 1, 2);
-            AgregarCelda(fontEncabezado, totales, "Deducción", 1, 2);
-            AgregarCelda(fontEncabezado, totales, "Gravados", 1, 2);
-            AgregarCelda(fontEncabezado, totales, "Exento ", 1, 2);
-
-            //FIJO SUELDO
-            AgregarCelda(fontEncabezado, totales, "400", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "Sueldo", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "", 1, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.SueldoPagado).ToString(), 1, 1);
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.SueldoPagado).ToString(), 1, 1); //Gravados
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)
-
-            //FIJO SUBSIDIO EMPLEO PAGA 
-            AgregarCelda(fontEncabezado, totales, "402", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "SUBSIDIO EMPLEO PAGA", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "0.00", 1, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.SubsidioPagar).ToString(), 1, 1);
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1); //Gravados
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)
-
-            AgregarCelda(fontEncabezado, totales, "602", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "Impuesto Retenido", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "0.00", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "0.00", 1, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.ImpuestoRetener).ToString(), 1, 1);
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)
-
-
-            AgregarCelda(fontEncabezado, totales, "601", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "IMSS", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "0.00", 1, 1);
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)    
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.IMSS_Obrero).ToString(), 1, 1);
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)            
-            AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);//EXENTo de la primera fila(SUELDO)
-
-            //Aqui va incidencias
-            var listaClaveConcepto = (from a in incidencias
-                                      where a.TipoConcepto == "ER" || a.TipoConcepto == "DD"
-                                      group a by new
-                                      {
-                                          a.ClaveConcepto,
-                                          a.Concepto,
-                                          a.TipoConcepto
-
-                                      } into b
-                                      select new { b.Key.ClaveConcepto, b.Key.Concepto, b.Key.TipoConcepto }).ToList();
-
-            foreach (var clave in listaClaveConcepto)
-            {
-
-                var Cantidad = incidencias.Where(n => n.ClaveConcepto == clave.ClaveConcepto && n.TipoConcepto == clave.TipoConcepto).Sum(m => m.Cantidad);
-                var Monto = incidencias.Where(n => n.ClaveConcepto == clave.ClaveConcepto && n.TipoConcepto == clave.TipoConcepto).Sum(m => m.Monto);
-                var ER = incidencias.Where(n => n.ClaveConcepto == clave.ClaveConcepto && n.TipoConcepto == clave.TipoConcepto).Sum(m => m.Monto);
-                var DD = incidencias.Where(n => n.ClaveConcepto == clave.ClaveConcepto && n.TipoConcepto == clave.TipoConcepto).Sum(m => m.Monto);
-                var Gravado = incidencias.Where(n => n.ClaveConcepto == clave.ClaveConcepto && n.TipoConcepto == clave.TipoConcepto).Sum(m => m.Gravado);
-                var Excento = incidencias.Where(n => n.ClaveConcepto == clave.ClaveConcepto && n.TipoConcepto == clave.TipoConcepto).Sum(m => m.Exento);
-
-
-
-
-
-
-
-
-                if (clave.TipoConcepto == "ER")
-                {
-                    AgregarCelda(fontEncabezado, totales, clave.ClaveConcepto, 1, 1);
-                    AgregarCelda(fontEncabezado, totales, clave.Concepto, 1, 1);
-                    AgregarCelda(fontEncabezado, totales, "0.00", 1, 1);
-                    AgregarCelda(fontEncabezado, totales, ER == 0 ? "$0.00" : string.Format("{0:C2}", ER), 1, 1);
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                }
-
-                else if (clave.TipoConcepto == "DD")
-                {
-                    AgregarCelda(fontEncabezado, totales, clave.ClaveConcepto, 1, 1);
-                    AgregarCelda(fontEncabezado, totales, clave.Concepto, 1, 1);
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                    AgregarCelda(fontEncabezado, totales, DD == 0 ? "$0.00" : string.Format("{0:C2}", DD), 1, 1);
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-
-                }
-
-
-                if (Gravado > 0 && Excento > 0)
-                {
-                    AgregarCelda(fontEncabezado, totales, Gravado == 0 ? "$0.00" : string.Format("{0:C2}", Gravado), 1, 1);
-                    AgregarCelda(fontEncabezado, totales, Excento == 0 ? "$0.00" : string.Format("{0:C2}", Excento), 1, 1);
-
-                }
-                else if (Gravado > 0 && Excento == 0)
-                {
-
-                    AgregarCelda(fontEncabezado, totales, Gravado == 0 ? "$0.00" : string.Format("{0:C2}", Gravado), 1, 1);
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                }
-                else if (Gravado == 0 && Excento > 0)
-                {
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                    AgregarCelda(fontEncabezado, totales, Excento == 0 ? "$0.00" : string.Format("{0:C2}", Excento), 1, 1);
-
-                }
-                else
-                {
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-
-                }
-
-
-                //if (PercepcionIncidencia > 0)
-                //{
-                //    AgregarCelda(fontEncabezado, totales, string.Format("{0:C2}", PercepcionIncidencia), 1, 1);
-                //}
-                //else
-                //{
-                //    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                //}
-                //if (DeduccionIncidencia > 0)
-                //{
-                //    AgregarCelda(fontEncabezado, totales, string.Format("{0:C2}", DeduccionIncidencia), 1, 1);
-                //}
-                //else
-                //{
-                //    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                //}
-
-                //if (ExcentoIncidencia > 0)
-                //{
-                //    AgregarCelda(fontEncabezado, totales, string.Format("{0:C2}", ExcentoIncidencia), 1, 1);
-                //}
-                //else
-                //{
-                //    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                //}
-
-                //if (ExcentoIncidencia > 0)
-                //{
-                //    AgregarCelda(fontEncabezado, totales, string.Format("{0:C2}", ExcentoIncidencia), 1, 1);
-                //}
-                //else
-                //{
-                //    AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                //}
-                //AgregarCelda(fontEncabezado, totales, "$0.00", 1, 1);
-                //AgregarCelda(fontEncabezado, totales, CantidadIncidenciaER == null ? "$0.00" : string.Format("{0:C2}", CantidadIncidenciaER), 1, 1);
-
-            }
-
-            PdfPCell DatosEmpresauno = new PdfPCell(new Phrase("", fontEncabezado));
-            DatosEmpresauno.Colspan = 8;
-            DatosEmpresauno.BorderWidthBottom = 0;
-            DatosEmpresauno.BorderWidthLeft = 0;
-            DatosEmpresauno.BorderWidthTop = 0.1F;
-            DatosEmpresauno.BorderWidthRight = 0;
-            table.AddCell(DatosEmpresa);
-            DatosEmpresauno = new PdfPCell(new Phrase("", fontEncabezado));
-            DatosEmpresauno.Colspan = 8;
-            DatosEmpresauno.BorderWidthBottom = 0;
-            DatosEmpresauno.BorderWidthLeft = 0;
-            DatosEmpresauno.BorderWidthTop = 0.1F;
-            DatosEmpresauno.BorderWidthRight = 0;
-            table.AddCell(DatosEmpresa);
-
-
-
-            //TOTALES GENERALES
-            AgregarCelda(fontEncabezado, totales, "Total de Percepciones:", 1, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.ER).ToString(), 6, 1);
-
-            AgregarCelda(fontEncabezado, totales, "Total de Deducciones:", 1, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.DD).ToString(), 6, 1);
-            // <<<<<< Total Neto General: >>>>>> 
-            AgregarCelda(fontEncabezado, totales, "<<<<<< Total Neto General: >>>>>> ", 6, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Sum(x => x.Neto).ToString(), 1, 1);
-
-            AgregarCelda(fontEncabezado, totales, " <<<<<< Total de Trabajadores: >>>>>>  ", 6, 1);
-            AgregarCelda(fontEncabezado, totales, datos.Count().ToString(), 1, 1);
-
-
-
-            PdfPCell colum = new PdfPCell(totales);
-            colum.Colspan = 10;
-            colum.Padding = 0f;
-            colum.Border = 0;
-            table.AddCell(colum);
+            // Agregar totales generales
+            AgregarTotalesGenerales(fontEncabezado, table, datos);
 
             doc.Add(table);
-            doc.NewPage();
-            //FINALIZAMOS EL DOCUEMNTO
             doc.Close();
-
-            writer.Close();
-
         }
 
 
+        private void AgregarTotalesPorConceptos(Font font, PdfPTable table, List<vIncidencias_Consolidadas> incidencias, List<sp_PDFSunset1_Result> datos)
+        {
+            PdfPTable totales = new PdfPTable(7) { WidthPercentage = 100f };
+            AgregarCelda(font, totales, " Totales Por Centro de Trabajo ", 10, 2);
+            AgregarCelda(font, totales, "Concepto", 1, 2);
+            AgregarCelda(font, totales, "Descripción", 1, 2);
+            AgregarCelda(font, totales, "Dato", 1, 2);
+            AgregarCelda(font, totales, "Percepción", 1, 2);
+            AgregarCelda(font, totales, "Deducción", 1, 2);
+            AgregarCelda(font, totales, "Gravados", 1, 2);
+            AgregarCelda(font, totales, "Exento ", 1, 2);
+
+            // Agregar filas de totales
+            var listaClaveConcepto = incidencias
+                .Where(a => a.TipoConcepto == "ER" || a.TipoConcepto == "DD")
+                .GroupBy(a => a.Concepto)
+                .Select(g => g.First())
+                .OrderBy(a => a.Concepto)
+                .ToList();
+
+            foreach (var concepto in listaClaveConcepto)
+            {
+                decimal? sumaMonto = incidencias.Where(a => a.Concepto == concepto.Concepto && a.TipoConcepto == concepto.TipoConcepto).Sum(a => a.Monto);
+                decimal? sumaGravados = incidencias.Where(a => a.Concepto == concepto.Concepto && a.TipoConcepto == concepto.TipoConcepto).Sum(a => a.Gravado);
+                decimal? sumaExento = incidencias.Where(a => a.Concepto == concepto.Concepto && a.TipoConcepto == concepto.TipoConcepto).Sum(a => a.Exento);
+
+                AgregarCelda(font, totales, concepto.ClaveConcepto, 1, 1);
+                AgregarCelda(font, totales, concepto.Concepto, 1, 1);
+                AgregarCelda(font, totales, "", 1, 1);
+
+                if (concepto.TipoConcepto == "ER")
+                {
+                    AgregarCelda(font, totales, sumaMonto?.ToString("C2") ?? "0", 1, 1);
+                    AgregarCelda(font, totales, "", 1, 1);
+                }
+                else
+                {
+                    AgregarCelda(font, totales, "", 1, 1);
+                    AgregarCelda(font, totales, sumaMonto?.ToString("C2") ?? "0", 1, 1);
+                }
+
+                AgregarCelda(font, totales, sumaGravados?.ToString("C2") ?? "0", 1, 1);
+                AgregarCelda(font, totales, sumaExento?.ToString("C2") ?? "0", 1, 1);
+            }
+
+            // Agregar totales generales al final
+            AgregarCelda(font, totales, "Totales:", 3, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.ER)?.ToString("C2") ?? "0", 1, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.DD)?.ToString("C2") ?? "0", 1, 1);
+            AgregarCelda(font, totales, incidencias.Sum(a => a.Gravado)?.ToString("C2") ?? "0", 1, 1);
+            AgregarCelda(font, totales, incidencias.Sum(a => a.Exento)?.ToString("C2") ?? "0", 1, 1);
+
+            table.AddCell(new PdfPCell(totales) { Colspan = 10, Padding = 0f, Border = 0 });
+        }
+
+
+        private void AgregarTotalesGenerales(Font font, PdfPTable table, List<sp_PDFSunset1_Result> datos)
+        {
+            PdfPTable totales = new PdfPTable(5) { WidthPercentage = 100f };
+            AgregarCelda(font, totales, " Totales Generales ", 10, 1);
+            AgregarCelda(font, totales, "Dato", 3, 1);
+            AgregarCelda(font, totales, "Cantidad", 1, 1);
+
+            AgregarCelda(font, totales, "Sueldos Pagados", 3, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.SueldoPagado)?.ToString("C2") ?? "0", 1, 1);
+
+            AgregarCelda(font, totales, "Subsisdio al Empleo Pagado", 3, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.SubsidioPagar)?.ToString("C2") ?? "0", 1, 1);
+
+            AgregarCelda(font, totales, "Percepciones", 3, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.ER)?.ToString("C2") ?? "0", 1, 1);
+
+            AgregarCelda(font, totales, "Deducciones", 3, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.DD)?.ToString("C2") ?? "0", 1, 1);
+
+            AgregarCelda(font, totales, "Neto Pagado", 3, 1);
+            AgregarCelda(font, totales, datos.Sum(a => a.Neto)?.ToString("C2") ?? "0", 1, 1);
+
+            table.AddCell(new PdfPCell(totales) { Colspan = 10, Padding = 0f, Border = 0 });
+        }
 
         /// <summary>
         /// Metodo para pintar celdas en un PDF
