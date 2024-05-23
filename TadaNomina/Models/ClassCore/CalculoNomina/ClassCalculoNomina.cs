@@ -211,10 +211,23 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
 
                 if ((datosEmpleados.TipoContrato == "PRACTICANTE" && datosEmpleados.IdJornada != 0 && datosEmpleados.IdJornada != null))
                 {
+
                     decimal sdHoras = (decimal)(datosEmpleados.SD / 8);
                     decimal horas = obtenHorasJornadaLaboral((int)datosEmpleados.IdJornada);
                     decimal SDRE = sdHoras * horas;
-                    nominaTrabajo.SueldoPagado = TipoNomina.DiasPago * SDRE;
+
+                    if (UnidadNegocio.SeptimoDia == "S")
+                    {
+                        nominaTrabajo.SueldoPagado = (DiasPago - 1) * SDRE;
+
+                    }
+                    else
+                    {
+                        nominaTrabajo.SueldoPagado = DiasPago * SDRE;
+
+                    }
+
+
                 }
                 else
                 {

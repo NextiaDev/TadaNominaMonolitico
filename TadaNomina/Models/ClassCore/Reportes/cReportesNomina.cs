@@ -110,30 +110,38 @@ namespace TadaNomina.Models.ClassCore.Reportes
         public List<ModelReporteNomina> GetListaPeriodosAcumuladosActivos(int IdUnidadNegocio)
         {
             List<ModelReporteNomina> resultado = new List<ModelReporteNomina>();
-
-            using (NominaEntities1 entidad = new NominaEntities1())
+            try
             {
-                int[] status = { 1, 2 };
-                var periodos = (from b in entidad.vPeriodoNomina
-                                where b.IdUnidadNegocio == IdUnidadNegocio && status.Contains((int)b.IdEstatus) && b.TipoNomina == "Nomina"
-                                orderby b.FechaFin descending
-                                select b);
-
-                foreach (var item in periodos)
+                using (NominaEntities1 entidad = new NominaEntities1())
                 {
-                    ModelReporteNomina reporteNomina = new ModelReporteNomina()
-                    {
-                        Id = item.IdPeriodoNomina,
-                        Periodo = item.Periodo,
-                        FechaInicio = item.FechaInicio.ToShortDateString(),
-                        FechaFin = item.FechaFin.ToShortDateString(),
-                        Cliente = item.Cliente,
-                        UnidadNegocio = item.UnidadNegocio
-                    };
+                    int[] status = { 1, 2 };
+                    var periodos = (from b in entidad.vPeriodoNomina
+                                    where b.IdUnidadNegocio == IdUnidadNegocio && status.Contains((int)b.IdEstatus) && b.TipoNomina == "Nomina"
+                                    orderby b.FechaFin descending
+                                    select b);
 
-                    resultado.Add(reporteNomina);
+                    foreach (var item in periodos)
+                    {
+                        ModelReporteNomina reporteNomina = new ModelReporteNomina()
+                        {
+                            Id = item.IdPeriodoNomina,
+                            Periodo = item.Periodo,
+                            FechaInicio = item.FechaInicio.ToShortDateString(),
+                            FechaFin = item.FechaFin.ToShortDateString(),
+                            Cliente = item.Cliente,
+                            UnidadNegocio = item.UnidadNegocio
+                        };
+
+                        resultado.Add(reporteNomina);
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
 
             return resultado;
         }
