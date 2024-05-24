@@ -950,7 +950,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     }
 
                     string[] gpos = { "500", "501" };
-                    var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema)).Sum(x => x.Cantidad);
+                    var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema) && x.CalculoDiasHoras != "Horas").Sum(x => x.Cantidad);
 
                     decimal diasPago_ = (int)TipoNomina.DiasPago;
                     if (Periodo.TablaDiaria == "S" || diasPago_ == 0)
