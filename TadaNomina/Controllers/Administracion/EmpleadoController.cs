@@ -811,7 +811,7 @@ namespace TadaNomina.Controllers.Administracion
             if (tipo == "regPat")
             {
                 ClassEmpleado ccc = new ClassEmpleado();
-                var cc = ccc.ObtenerRPByIdCliente(IdCliente).Select(x => new { x.IdRegistroPatronal, x.NombrePatrona });
+                var cc = ccc.ObtenerRPByIdCliente(IdCliente).Select(x => new { x.IdRegistroPatronal, x.NombrePatrona, x.RegistroPatronal });
                 var jsonSerializer = new JavaScriptSerializer();
                 json = jsonSerializer.Serialize(cc);
             }

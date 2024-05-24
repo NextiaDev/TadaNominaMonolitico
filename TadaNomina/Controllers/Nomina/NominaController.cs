@@ -219,13 +219,14 @@ namespace TadaNomina.Controllers.Nomina
         /// <param name="IdEmpleado">Identificador del empleado a procesar</param>
         /// <param name="IdPeriodoNomina">Identificador del periodo de nómina.</param>
         /// <returns></returns>
-        public ActionResult ProcesaNominaIndividual(int IdEmpleado, int IdPeriodoNomina)
+        public ActionResult ProcesaNominaIndividual(int IdEmpleado, int IdPeriodoNomina, string Mensaje, bool? validacion)
         {
             ClassNomina classNomina = new ClassNomina();
             int IdUsuario = (int)Session["sIdUsuario"];
 
             var modelo = classNomina.GetModelNominaIndividual(IdEmpleado, IdPeriodoNomina, "Nomina");
-
+            modelo.validacion = validacion ?? false;
+            modelo.Mensaje = Mensaje;
             return View("ProcesaNominaIndividual", modelo);
         }
 
@@ -248,10 +249,10 @@ namespace TadaNomina.Controllers.Nomina
                 classNomina.Proceso_Nomina_Individual(model, IdUsuario);
                 modelo = classNomina.GetModelNominaIndividual(model.IdEmpleado, model.IdPeriodoNomina, "Nomina");
 
-                modelo.validacion = true;
-                modelo.Mensaje = "Se proceso correctamente el cálculo del empleado: " + modelo.claveEmpleado + " - " + modelo.NombreCompletoEmpleado;
-                //return RedirectToAction("ProcesaNominaIndividual", new { model.IdEmpleado, model.IdPeriodoNomina });
-                return View(modelo);
+                var validacion = true;
+                var Mensaje = "Se proceso correctamente el cálculo del empleado: " + modelo.claveEmpleado + " - " + modelo.NombreCompletoEmpleado;
+                return RedirectToAction("ProcesaNominaIndividual", new { model.IdEmpleado, model.IdPeriodoNomina, Mensaje, validacion });
+                //return View(modelo);
             }
             catch (Exception ex)
             {               

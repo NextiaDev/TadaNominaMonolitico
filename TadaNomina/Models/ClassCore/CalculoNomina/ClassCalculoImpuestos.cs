@@ -497,10 +497,12 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                 if ((ajuste ?? false))
                 {
                     var queryAjuste = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
-                    nominaTrabajo.Subsidio += queryAjuste;
-
-                    if(nominaTrabajo.Subsidio <= valorTopeMensual && nominaTrabajo.BaseGravada <= topeParaSubsidio)
-                        nominaTrabajo.Subsidio = valorTopeMensual - queryAjuste;
+                    if (nominaTrabajo.Subsidio <= valorTopeMensual && nominaTrabajo.BaseGravada <= topeParaSubsidio)
+                    {
+                        var queryAjuste1 = (from b in ListNominaAjuste.Where(b => b.IdEmpleado == IdEmpleado) select b.Subsidio).Sum();
+                        nominaTrabajo.Subsidio += queryAjuste1;
+                        nominaTrabajo.Subsidio = valorTopeMensual - queryAjuste1;
+                    }
                 }
             }
         }
@@ -948,7 +950,7 @@ namespace TadaNomina.Models.ClassCore.CalculoNomina
                     }
 
                     string[] gpos = { "500", "501" };
-                    var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema)).Sum(x => x.Cantidad);
+                    var faltasIncapacidades = incidenciasEmpleado.Where(x => gpos.Contains(x.ClaveGpo) && _tipoEsquemaT.Contains(x.TipoEsquema) && x.CalculoDiasHoras != "Horas").Sum(x => x.Cantidad);
 
                     decimal diasPago_ = (int)TipoNomina.DiasPago;
                     if (Periodo.TablaDiaria == "S" || diasPago_ == 0)
