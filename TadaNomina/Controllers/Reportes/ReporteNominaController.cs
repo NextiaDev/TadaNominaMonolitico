@@ -67,7 +67,7 @@ namespace TadaNomina.Controllers.Reportes
                     }
                 }
                 else
-                {
+                { 
                     using (XLWorkbook wb = new XLWorkbook())
                     {
                         try
