@@ -1,7 +1,10 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using SpreadsheetLight;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -1069,5 +1072,105 @@ namespace TadaNomina.Models.ClassCore.Reportes
             }
         }
 
+        /// <summary>
+        ///     Método que genera un excel con la información del reporte de nómina
+        /// </summary>
+        /// <param name="DatosBD">Tabla con datos del reporte</param>
+        /// <returns>Arreglo de bytes del archivo</returns>
+        public byte[] DatosNegativos(DataTable DatosBD)
+        {
+            DataTable dt2 = new DataTable();
+            List<int> lstCols = new List<int>();
+            List<int> lstRows = new List<int>();
+
+
+            using (SLDocument sl = new SLDocument())
+            {
+
+                SLTable tbl = sl.CreateTable("A1", GetTangoTabla(DatosBD.Columns.Count, DatosBD.Rows.Count));
+                tbl.SetTableStyle(SLTableStyleTypeValues.Medium2);
+                sl.InsertTable(tbl);
+
+                // Crear encabezados en el archivo Excel
+                for (int i = 0; i < DatosBD.Columns.Count; i++)
+                {
+                    dt2.Columns.Add(DatosBD.Columns[i].ColumnName);
+                    if (DatosBD.Columns[i].ColumnName == "Neto" || DatosBD.Columns[i].ColumnName == "Netos" || DatosBD.Columns[i].ColumnName == "TotalEfectivo")
+                        lstCols.Add(i);
+
+                    string name = DatosBD.Columns[i].ColumnName;
+                    sl.SetCellValue(1, i + 1, name); // Establecer el encabezado
+                }
+
+                // Crear el estilo para valores negativos
+                SLStyle negativeStyle = sl.CreateStyle();
+                negativeStyle.Fill.SetPattern(PatternValues.Solid, System.Drawing.Color.Red, System.Drawing.Color.DarkSalmon);
+
+                // Llenar los datos y calcular los totales
+                for (int i = 0; i < DatosBD.Rows.Count; i++)
+                {
+                    for (int j = 0; j < DatosBD.Columns.Count; j++)
+                    {
+                        string rowValue = DatosBD.Rows[i].ItemArray[j].ToString();
+                        try
+                        {
+                            decimal valor = decimal.Parse(rowValue);
+                            //Si la cifra es decimal y negativa la pintará de rojo
+                            if (lstCols.Contains(j) && valor < 0)
+                            {
+                                //sl.SetCellStyle(i + 2, j + 1, negativeStyle);
+                                //sl.SetRowStyle(i + 2, negativeStyle);
+                                lstRows.Add(i + 2);
+                                sl.SetCellValue(i + 2, j + 1, valor);
+                            }
+                            else
+                            {
+                                sl.SetCellValue(i + 2, j + 1, valor);
+                            }
+                        }
+                        catch
+                        {
+                            sl.SetCellValue(i + 2, j + 1, DatosBD.Rows[i].ItemArray[j].ToString());
+                        }
+                    }
+                }
+                foreach (var item in lstRows)
+                {
+                    for (int j = 0; j < DatosBD.Columns.Count; j++)
+                    {
+                        sl.SetCellStyle(item, j + 1, negativeStyle);
+                    }
+                }
+                // Guardar el archivo Excel en memoria
+                var stream = new MemoryStream();
+                sl.SaveAs(stream);
+
+                byte[] byteArray = stream.ToArray();
+                stream.Close();
+
+                // Devolver el archivo Excel como una descarga
+                return byteArray;
+            }
+        }
+
+        /// <summary>
+        ///     Método que obtiene la columna correspondiente a la cantidad de celdas que se le indique
+        /// </summary>
+        /// <param name="columnas">Número de columnas</param>
+        /// <param name="filas">Npumero de filas</param>
+        /// <returns>Columna y fila para determinar el tamaño de una tabla</returns>
+        public string GetTangoTabla(int columnas, int filas)
+        {
+            string columnName = string.Empty;
+            filas += 1;
+            while (columnas > 0)
+            {
+                int modulo = (columnas - 1) % 26;
+                columnName = Convert.ToChar('A' + modulo) + columnName;
+                columnas = (columnas - modulo) / 26;
+            }
+            columnName = columnName + filas.ToString();
+            return columnName;
+        }
     }
 }

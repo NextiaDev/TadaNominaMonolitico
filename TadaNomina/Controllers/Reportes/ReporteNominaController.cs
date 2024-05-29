@@ -67,14 +67,26 @@ namespace TadaNomina.Controllers.Reportes
                     }
                 }
                 else
-                {
+                { 
                     using (XLWorkbook wb = new XLWorkbook())
                     {
-                        wb.Worksheets.Add(dt, "Grid");
-                        using (MemoryStream stream = new MemoryStream())
+                        try
                         {
-                            wb.SaveAs(stream);
-                            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                            cReportesNomina crn = new cReportesNomina();
+                            byte[] dt2 = crn.DatosNegativos(dt);
+                            using (MemoryStream stream = new MemoryStream())
+                            {
+                                return File(dt2, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                            }
+                        }
+                        catch
+                        {
+                            wb.Worksheets.Add(dt, "Grid");
+                            using (MemoryStream stream = new MemoryStream())
+                            {
+                                wb.SaveAs(stream);
+                                return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                            }
                         }
                     }
                 }
