@@ -1372,6 +1372,7 @@
     <Compile Include="Models\ViewModels\Facturacion\ModelV_SaldosClientes.cs" />
     <Compile Include="Models\ViewModels\Facturacion\mResultCosteo.cs" />
     <Compile Include="Models\ViewModels\Facturacion\SumaSaldos.cs" />
+    <Compile Include="Models\ViewModels\Fonacot\CsvRecord.cs" />
     <Compile Include="Models\ViewModels\Herramientas\mCambioUnidad.cs" />
     <Compile Include="Models\ViewModels\Herramientas\mMigracionRP.cs" />
     <Compile Include="Models\ViewModels\Inicio\ModelSelecionarNomina.cs" />
@@ -6785,6 +6786,7 @@
     </Content>
     <Content Include="Formatos\Marcas.xlsx" />
     <Content Include="Formatos\ActualizacionSDI.xlsx" />
+    <Content Include="Formatos\Fonacot.xlsx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -7165,6 +7167,9 @@
     <Content Include="Views\PensionAlimenticia\EditBase.cshtml" />
     <Content Include="Views\Fonacot\Edit.cshtml" />
     <Content Include="Views\ReporteNomina\RepNominaByIdPeriodoNominaAcumulado.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Fonacot\CreateLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
