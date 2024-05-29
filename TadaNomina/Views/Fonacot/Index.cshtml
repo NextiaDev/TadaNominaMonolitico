@@ -21,6 +21,8 @@
         </div>
         <div class="panel-body">
             @Html.ActionLink(" Crear Nuevo", "Create", null, new { @class = "btn btn-info btn-sm _Load" })
+            @Html.ActionLink("Carga Layout", "CreateLayout", null, new { @class = "btn btn-dark btn-sm _Load" })
+
             <button type="button" class="btn btn-info btn-sm" onclick="ModalDesactivarCreditos(1)">Activa créditos</button>
             <button type="button" class="btn btn-danger btn-sm" onclick="ModalDesactivarCreditos(2)">Desactiva créditos</button>
             <br /><br />
