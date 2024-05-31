@@ -1095,7 +1095,7 @@ namespace TadaNomina.Models.ClassCore.Reportes
                 for (int i = 0; i < DatosBD.Columns.Count; i++)
                 {
                     dt2.Columns.Add(DatosBD.Columns[i].ColumnName);
-                    if (DatosBD.Columns[i].ColumnName == "Neto" || DatosBD.Columns[i].ColumnName == "Netos" || DatosBD.Columns[i].ColumnName == "TotalEfectivo")
+                    if (DatosBD.Columns[i].ColumnName == "Neto" || DatosBD.Columns[i].ColumnName == "NETOS" || DatosBD.Columns[i].ColumnName == "TotalEfectivo")
                         lstCols.Add(i);
 
                     string name = DatosBD.Columns[i].ColumnName;
