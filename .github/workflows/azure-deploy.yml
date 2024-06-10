@@ -26,7 +26,7 @@ jobs:
       - name: Setup Nuget
         uses: nuget/setup-nuget@v2
         with:
-          nuget-version: '3.3.0'
+          nuget-version: 'latest'
 
       - name: Cache dependencies
         id: cache
