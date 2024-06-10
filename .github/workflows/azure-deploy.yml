@@ -1,0 +1,36 @@
+name: Build and Deploy - Nomina Monolitico Azure
+
+env:
+  AZURE_WEBAPP_NAME: "monolito-nomina"
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+
+on:
+  push:
+    branches: [ "azure-deploy" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-2019
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build and publish
+        run: msbuild TadaNomina/TadaNomina.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
