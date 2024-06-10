@@ -27,18 +27,23 @@ jobs:
         uses: nuget/setup-nuget@v2
 
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v2
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: nuget restore TadaNomina\TadaNomina.sln
         
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Build and publish
-        run: msbuild  TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=true
+        run: msbuild TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=true
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
