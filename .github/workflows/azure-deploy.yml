@@ -23,9 +23,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
 
-      - name: Add nuget.org as nuget package source
-        run: dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
-
+      - name: Setup nuget v2
+        uses: nuget/setup-nuget@v2
+        
       - name: Restore dependencies
         run: nuget restore TadaNomina\TadaNomina.sln
         
