@@ -22,23 +22,19 @@ jobs:
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
+
+      - name: Restore dependencies
+        run: nuget restore D:\a\TadaNomina\TadaNomina.sln
         
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-
       - name: Build and publish
-        run: msbuild TadaNomina/TadaNomina.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
+        run: msbuild  D:\a\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=true
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          path: D:\a\TadaNomina\TadaNomina\bin\Release
