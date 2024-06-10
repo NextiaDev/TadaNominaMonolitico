@@ -24,13 +24,13 @@ jobs:
         uses: actions/setup-dotnet@v3
 
       - name: Restore dependencies
-        run: nuget restore D:\a\TadaNomina\TadaNomina.sln
+        run: nuget restore TadaNomina\TadaNomina.sln
         
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Build and publish
-        run: msbuild  D:\a\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=true
+        run: msbuild  TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=true
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
