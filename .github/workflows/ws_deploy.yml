@@ -16,6 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Add nuget source
+        run: nuget sources Add -Name LocalPackages -Source C:\TadaNomina\NuPkg\
+
       - name: Restore root dependencies
         run: nuget restore
     
