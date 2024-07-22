@@ -24,13 +24,13 @@ jobs:
     
       - name: Restore child dependencies
         run: |
-            cd TadaNomina
+            cd .\TadaNomina
             nuget restore
 
       - name: Restore missing files
         run: |
-            echo "" > Views/_ViewStart.cshtml
-            echo "" > Views/Shared/_Layout.cshtml
+            echo "" > .\Views\_ViewStart.cshtml
+            echo "" > .\Views\Shared\_Layout.cshtml
             copy ${{ secrets.ROOT_FILES }}\Web.config .
             mkdir .\Properties\PublishProfiles
             Xcopy ${{ secrets.ROOT_FILES }}\PublishProfiles  .\Properties\PublishProfiles /E /H /C /I
