@@ -33,33 +33,11 @@ jobs:
             Xcopy C:\actions-runner\_work\_TadaFiles\PublishProfiles  .\TadaNomina\Properties\PublishProfiles /E /H /C /I
 
       - name: Stop to IIS
-        run: |
-          if ((Get-WebSiteState -Name tadanomina).Value -eq "Started")
-          {
-              Stop-WebSite -Name tadanomina
-              echo "Stopped Website tadanomina"
-          }
-          if ((Get-WebAppPoolState -Name Tadanomina).Value -eq "Started")
-          {
-              Stop-WebAppPool -Name Tadanomina
-              echo "Stopped Application Pool Tadanomina"
-          }
+        run: 
       
       - name: Build and publish
-        run: msbuild .\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
-      
-      - name: Start  IIS
         run: |
-          if ((Get-WebSiteState -Name tadanomina).Value -eq "Stopped")
-          {
-              Start-WebSite -Name tadanomina
-              echo "Started Website tadanomina"
-          }
-          if ((Get-WebAppPoolState -Name Tadanomina).Value -eq "Stopped")
-          {
-              Start-WebAppPool -Name Tadanomina
-              echo "Started Application Pool Tadanomina"
-          }
-          
-          if ($lastexitcode -lt 8) { $global:lastexitcode = 0 }
+            iisreset /stop
+            msbuild .\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
+            iisreset /start
 
