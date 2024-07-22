@@ -1,0 +1,73 @@
+name: Build and Deploy - TadaNomina Monolitico on IIS Windows Server
+
+on:
+  push:
+    branches: [ "ws-deploy" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+
+      - name: Setup Nuget
+        uses: nuget/setup-nuget@v2
+        with:
+          nuget-version: 'latest'
+
+      - name: Restore root dependencies
+        run: nuget restore TadaNomina.sln
+    
+      - name: Restore child dependencies
+        run: |
+            cd TadaNomina
+            nuget restore
+
+      - name: Restore missing files
+        run: |
+            echo "" > Views/_ViewStart.cshtml
+            echo "" > Views/Shared/_Layout.cshtml
+            copy ${{ secrets.ROOT_FILES }}\Web.config .
+            mkdir .\Properties\PublishProfiles
+            Xcopy ${{ secrets.ROOT_FILES }}\PublishProfiles  .\Properties\PublishProfiles /E /H /C /I
+
+      - name: Stop to IIS
+        run: |
+          if ((Get-WebSiteState -Name tadanomina).Value -eq "Started")
+          {
+              Stop-WebSite -Name tadanomina
+              echo "Stopped Website tadanomina"
+          }
+          if ((Get-WebAppPoolState -Name Tadanomina).Value -eq "Started")
+          {
+              Stop-WebAppPool -Name Tadanomina
+              echo "Stopped Application Pool Tadanomina"
+          }
+      
+      - name: Build and publish
+        run: msbuild TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
+      
+      - name: Start  IIS
+        run: |
+          if ((Get-WebSiteState -Name tadanomina).Value -eq "Stopped")
+          {
+              Start-WebSite -Name tadanomina
+              echo "Started Website tadanomina"
+          }
+          if ((Get-WebAppPoolState -Name Tadanomina).Value -eq "Stopped")
+          {
+              Start-WebAppPool -Name Tadanomina
+              echo "Started Application Pool Tadanomina"
+          }
+          
+          if ($lastexitcode -lt 8) { $global:lastexitcode = 0 }
+      
