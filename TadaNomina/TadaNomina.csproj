@@ -65,7 +65,7 @@
       <HintPath>..\packages\Core.Sat.1.0.88\lib\net45\Core.Sat.dll</HintPath>
     </Reference>
     <Reference Include="Core.Sat.Cancelacion">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Core.Sat.Cancelacion.dll</HintPath>
+      <HintPath>C:\TadaNomina\Referencias\Core.Sat.Cancelacion.dll</HintPath>
     </Reference>
     <Reference Include="Core.Sat.Utils, Version=1.0.24.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Core.Sat.Utils.1.0.24\lib\net45\Core.Sat.Utils.dll</HintPath>
@@ -111,10 +111,10 @@
       <HintPath>..\packages\Flee.2.0.0\lib\netstandard2.0\Flee.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\Ionic.Zip.dll</HintPath>
+      <HintPath>C:\TadaNomina\Referencias\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\itextsharp.dll</HintPath>
+      <HintPath>C:\TadaNomina\Referencias\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -164,7 +164,7 @@
       <HintPath>..\packages\RestSharp.106.13.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SAT.Services">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SAT.Services.dll</HintPath>
+      <HintPath>C:\TadaNomina\Referencias\SAT.Services.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.5.10.4\lib\net45\ServiceStack.Text.dll</HintPath>
@@ -173,7 +173,7 @@
       <HintPath>..\packages\SpreadsheetLight.3.5.0\lib\netstandard2.0\SpreadsheetLight.dll</HintPath>
     </Reference>
     <Reference Include="SW-sdk">
-      <HintPath>\\172.17.0.4\Repositorio TI\Paquetes TadaNomina\Referencias\SW-sdk.dll</HintPath>
+      <HintPath>C:\TadaNomina\Referencias\SW-sdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">

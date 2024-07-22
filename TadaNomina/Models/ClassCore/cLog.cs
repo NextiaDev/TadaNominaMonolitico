@@ -8,7 +8,7 @@ namespace TadaNomina.Models.ClassCore
 {
     public class cLog
     {
-        private string Path = @"D:\TadaNomina\Logs\";
+        private string Path = @"C:\TadaNomina\Logs\";
 
         public void Add(string sLog, string nameFile)
         {            
