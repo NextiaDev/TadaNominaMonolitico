@@ -32,9 +32,7 @@ jobs:
             mkdir .\TadaNomina\Properties\PublishProfiles
             Xcopy C:\actions-runner\_work\_TadaFiles\PublishProfiles  .\TadaNomina\Properties\PublishProfiles /E /H /C /I
 
-      - name: Stop to IIS
-        run: 
-      
+    
       - name: Build and publish
         run: |
             iisreset /stop
