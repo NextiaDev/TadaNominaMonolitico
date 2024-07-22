@@ -32,10 +32,16 @@ jobs:
             mkdir .\TadaNomina\Properties\PublishProfiles
             Xcopy C:\actions-runner\_work\_TadaFiles\PublishProfiles  .\TadaNomina\Properties\PublishProfiles /E /H /C /I
 
-    
-      - name: Build and publish
+      - name: Stop IIS
         run: |
-            iisreset /stop
-            msbuild .\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
-            iisreset /start
+            Start-Process -FilePath "iisreset" -ArgumentList "/stop" -Verb RunAs
+        shell: powershell
+
+      - name: Build and publish
+        run: msbuild .\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
+        
+      - name: Start IIS
+        run: |
+            Start-Process -FilePath "iisreset" -ArgumentList "/start" -Verb RunAs
+        shell: powershell
 
