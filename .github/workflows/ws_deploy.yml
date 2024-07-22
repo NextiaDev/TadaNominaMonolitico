@@ -16,16 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-
-      - name: Setup Nuget
-        uses: nuget/setup-nuget@v2
-        with:
-          nuget-version: 'latest'
-
       - name: Restore root dependencies
-        run: nuget restore TadaNomina.sln
+        run: nuget restore
     
       - name: Restore child dependencies
         run: |
