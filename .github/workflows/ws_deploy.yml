@@ -26,6 +26,7 @@ jobs:
 
       - name: Restore missing files
         run: |
+            dir
             copy C:\actions-runner\_work\_TadaFiles\_ViewStart.cshtml .\Views\
             copy C:\actions-runner\_work\_TadaFiles\_Layout.cshtml .\Views\Shared\
             copy C:\actions-runner\_work\_TadaFiles\Web.config .
