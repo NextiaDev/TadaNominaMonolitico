@@ -26,12 +26,11 @@ jobs:
 
       - name: Restore missing files
         run: |
-            dir
-            copy C:\actions-runner\_work\_TadaFiles\_ViewStart.cshtml .\Views\
-            copy C:\actions-runner\_work\_TadaFiles\_Layout.cshtml .\Views\Shared\
-            copy C:\actions-runner\_work\_TadaFiles\Web.config .
-            mkdir .\Properties\PublishProfiles
-            Xcopy C:\actions-runner\_work\_TadaFiles\PublishProfiles  .\Properties\PublishProfiles /E /H /C /I
+            copy C:\actions-runner\_work\_TadaFiles\_ViewStart.cshtml .\TadaNomina\Views\
+            copy C:\actions-runner\_work\_TadaFiles\_Layout.cshtml .\TadaNomina\Views\Shared\
+            copy C:\actions-runner\_work\_TadaFiles\Web.config .\TadaNomina\
+            mkdir .\TadaNomina\Properties\PublishProfiles
+            Xcopy C:\actions-runner\_work\_TadaFiles\PublishProfiles  .\TadaNomina\Properties\PublishProfiles /E /H /C /I
 
       - name: Stop to IIS
         run: |
@@ -47,7 +46,7 @@ jobs:
           }
       
       - name: Build and publish
-        run: msbuild TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
+        run: msbuild .\TadaNomina\TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
       
       - name: Start  IIS
         run: |
