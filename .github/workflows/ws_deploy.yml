@@ -1,4 +1,4 @@
-name: Build and Deploy - Nomina Monolitico on Windows Server
+name: Build and Deploy - TadaNomina Monolitico on IIS Windows Server
 
 on:
   push:
