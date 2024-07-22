@@ -17,22 +17,26 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Restore root dependencies
+        shell: pwsh
         run: nuget restore
     
       - name: Restore child dependencies
+        shell: pwsh
         run: |
             cd .\TadaNomina
             nuget restore
 
       - name: Restore missing files
+        shell: pwsh
         run: |
-            copy ${{ secrets.ROOT_FILES }}\_ViewStart.cshtml .\Views\
-            copy ${{ secrets.ROOT_FILES }}\_Layout.cshtml .\Views\Shared\
-            copy ${{ secrets.ROOT_FILES }}\Web.config .
+            copy C:\actions-runner\_work\_TadaFiles\_ViewStart.cshtml .\Views\
+            copy C:\actions-runner\_work\_TadaFiles\_Layout.cshtml .\Views\Shared\
+            copy C:\actions-runner\_work\_TadaFiles\Web.config .
             mkdir .\Properties\PublishProfiles
-            Xcopy ${{ secrets.ROOT_FILES }}\PublishProfiles  .\Properties\PublishProfiles /E /H /C /I
+            Xcopy C:\actions-runner\_work\_TadaFiles\PublishProfiles  .\Properties\PublishProfiles /E /H /C /I
 
       - name: Stop to IIS
+        shell: pwsh
         run: |
           if ((Get-WebSiteState -Name tadanomina).Value -eq "Started")
           {
@@ -46,9 +50,11 @@ jobs:
           }
       
       - name: Build and publish
+        shell: pwsh
         run: msbuild TadaNomina.sln /p:Configuration=Release /p:DeployOnBuild=True /p:PublishProfile=FolderProfile
       
       - name: Start  IIS
+        shell: pwsh
         run: |
           if ((Get-WebSiteState -Name tadanomina).Value -eq "Stopped")
           {
