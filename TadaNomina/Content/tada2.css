@@ -1,0 +1,22 @@
+﻿/* Para el espacio ocupado por el menú lateral */
+
+@media (min-width: 992px) {
+    #container.mainnav-lg #footer, #container.mainnav-lg #content-container {
+        padding-left: 0px;
+    }
+}
+
+/* Para el espacio ocupado por el header */
+
+@media (min-width: 768px) {
+    #content-container {
+        padding-top: 0px;
+    }
+}
+
+#content-container {
+    position: relative;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: #ecf0f5;
+}

@@ -72,9 +72,6 @@
     <!--Bootstrap Datepicker [ OPTIONAL ]-->
     <link href="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
 
-    <!-- Toastr style -->
-    @*<link href="~/plugins/toastr/toastr.min.css" rel="stylesheet">*@
-
     <!--Animate.css [ OPTIONAL ]-->
     <link href="~/plugins/animate-css/animate.min.css" rel="stylesheet">
 
@@ -82,7 +79,7 @@
     <link href="~/css/loading.css" rel="stylesheet" />
 
     @RenderSection("Styles", false)
-
+    <link href="~/Content/tada2.css" rel="stylesheet" />
 </head>
 <body onunload="cerrarSesionesServer()">
 
@@ -97,8 +94,8 @@
 
 
         <div id="container">
-            <!--NAVBAR-->
-            <!--===================================================-->
+            @*
+
             <header id="navbar">
                 <div id="navbar-container" class="boxed">
 
@@ -127,17 +124,6 @@
                                     <i class="demo-pli-list-view"></i>
                                 </a>
                             </li>
-                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                            <!--End Navigation toogle button-->
-                            <!--Search-->
-                            <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                            @*<li>
-                                <div class="alert alert-danger custom-alert" style="display: none">
-
-                                    Your time is up. But you can move your mouse and get back to app.
-
-                                </div>
-                            </li>*@
                         </ul>
 
 
@@ -148,23 +134,8 @@
                             <li>
 
                                 <a href="#" class="text-right">
-                                    @*<div class="ic-user pull-right">*@
                                     <o class="text-bold">@ViewBag.NombreUsuario</o><br />
                                     <span class="mnp-desc">@ViewBag.CorreoUsuario</span>
-
-                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                                    <!--You can use an image instead of an icon.-->
-                                    <!--<img class="img-circle img-user media-object" src="~/img/profile-photos/1.png" alt="Profile Picture">-->
-                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                                    @*<span class="fa fa-ellipsis-v"></span>&nbsp;
-
-
-                                    </div>*@
-
-                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                                    <!--You can also display a user name in the navbar.-->
-                                    <!--<div class="username hidden-xs">Aaron Chavez</div>-->
-                                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                                 </a>
 
                             </li>
@@ -207,8 +178,8 @@
 
                 </div>
             </header>
-            <!--===================================================-->
-            <!--END NAVBAR-->
+            
+            *@
 
             <div class="boxed">
 
@@ -226,7 +197,7 @@
                     <!--End page content-->
 
                 </div>
-
+                @*
                 <nav id="mainnav-container">
                     <div id="mainnav">
                         <!--OPTIONAL : ADD YOUR LOGO TO THE NAVIGATION-->
@@ -503,16 +474,6 @@
                                                         {
                                                             if (Session["sTipoUsuario"].ToString() == "System")
                                                             {
-                                                                @*<li class="_subMenu" data-menu="Facturación" data-text="Facturadoras">
-                                                                    <a class="_Load" href="@Url.Action("Index", "Facturadoras")">
-                                                                        Facturadoras
-                                                                    </a>
-                                                                </li>
-                                                                <li class="_subMenu" data-menu="Facturación" data-text="Conceptos Facturación">
-                                                                    <a class="_Load" href="@Url.Action("Index", "ConceptosFacturacion")">
-                                                                        Conceptos Facturación
-                                                                    </a>
-                                                                </li>*@
                                                                 <li class="_subMenu" data-menu="Facturación" data-text="Razón Social">
                                                                     <a href="@Url.Action("Index", "ClienteRazonSocialFacturacion")">
                                                                         Razón Social
@@ -712,8 +673,6 @@
                                                                 <li><a class="_Load" href="@Url.Action("SaldosPorCliente", "ReporteNomina")">Consulta de saldos</a></li>
                                                             </ul>
                                                         </li>
-
-                                                        @* Para controlar el acceso a los reportes de Analitica *@
 
                                                         @if (Session["sTipoUsuario"].ToString() == "System")
                                                         {
@@ -1101,7 +1060,7 @@
                 </nav>
                 <!--===================================================-->
                 <!--END MAIN NAVIGATION-->
-
+                *@
             </div>
 
 
@@ -1166,10 +1125,8 @@
                 </div>
             </div>
 
-            <!--===================================================-->
-            <!--END MODALES-->
-            <!-- FOOTER -->
-            <!--===================================================-->
+            @*
+
             <footer id="footer">
 
                 <!-- Visible when footer positions are fixed -->
@@ -1217,10 +1174,9 @@
                 <p class="pad-lft">&#0169; @ViewBag.AñoActual Powered by - TADÁ</p>
 
             </footer>
-            <!--===================================================-->
-            <!-- END FOOTER -->
-            <!-- SCROLL PAGE BUTTON -->
-            <!--===================================================-->
+            
+            *@
+
             <button class="scroll-top btn">
                 <i class="pci-chevron chevron-up"></i>
             </button>
@@ -1275,9 +1231,6 @@
     <!--Bootstrap Datepicker [ OPTIONAL ]-->
     <script src="~/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 
-    <!--Form Component [ SAMPLE ]-->
-    @*<script src="~/js/demo/form-component.js"></script>*@
-
     <!--Bootbox Modals [ OPTIONAL ]-->
     <script src="~/plugins/bootbox/bootbox.min.js"></script>
 
@@ -1296,19 +1249,9 @@
 
     <!-- Idle Timer plugin -->
     <script src="~/plugins/idle-timer/idle-timer.min.js"></script>
-
-    <!-- Toastr script -->
-    @*<script src="~/plugins/toastr/toastr.min.js"></script>*@
        
     <!--Reportar Problemas-->
     <script src="~/js/Core/problemas.js"></script>
-
-
-    <!--Reportes [ SAMPLE ]-->
-    @*<script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
-        <script src="/signalr/hubs"></script>
-        <script src="~/js/chat.js"></script>*@
-
 
     @RenderSection("scripts", required: false)
 
